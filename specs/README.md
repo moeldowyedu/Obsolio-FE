@@ -96,7 +96,47 @@ Backend technical specifications including:
 - GuzzleHTTP
 - Monolog
 
-### 6. Deployment Guide
+### 6. N8n Cloud Integration
+
+#### [N8n Cloud Setup Guide](./architecture/N8N_CLOUD_SETUP.md)
+Complete guide for N8n Cloud integration:
+- N8n Cloud instance configuration (`iti-genai.app.n8n.cloud`)
+- API key authentication setup
+- 6 specialized AI agent workflows
+- Webhook configuration and security
+- Backend integration with N8nService
+- Environment variables setup
+- Testing and troubleshooting
+
+#### [N8n Workflow Templates](./architecture/N8N_WORKFLOW_TEMPLATES.md)
+Ready-to-import workflow templates:
+- Video & Audio Analysis workflow (JSON)
+- Document Review workflow structure
+- Source Code Assessment workflow
+- Custom Evaluation workflow
+- Report Generation workflow
+- Consistency Check workflow
+- Common functions (HMAC, Error Handling)
+- Testing payloads and examples
+
+#### [N8n Integration Architecture](./architecture/N8N_INTEGRATION.md)
+Technical architecture documentation:
+- Webhook-based processing flow
+- Agent specifications and I/O formats
+- Security implementation (HMAC signatures)
+- Error handling and retry logic
+- Performance monitoring
+- Cost estimation
+
+**Key Features:**
+- External managed N8n Cloud service
+- 6 specialized AI evaluation agents
+- Webhook-based asynchronous processing
+- HMAC-SHA256 authentication
+- Automatic retry with exponential backoff
+- Real-time progress tracking
+
+### 7. Deployment Guide
 
 #### [Setup & Deployment](./DEPLOYMENT_GUIDE.md)
 Complete deployment documentation including:
