@@ -150,9 +150,9 @@ const DashboardPage = () => {
 
   const quickActions = [
     {
-      title: 'New Evaluation',
-      description: 'Start a new AI-powered evaluation',
-      icon: 'add_circle',
+      title: 'Hire new Aasim',
+      description: 'Your AI Judge Agent',
+      icon: 'psychology',
       color: 'primary',
       link: '/agent-select',
       shortcut: 'N'
@@ -201,10 +201,13 @@ const DashboardPage = () => {
             <div className="mt-4 md:mt-0">
               <Link
                 to="/agent-select"
-                className="glass-btn-primary px-6 py-3 rounded-xl font-semibold inline-flex items-center shadow-lg"
+                className="glass-btn-primary px-6 py-3 rounded-xl font-semibold inline-flex flex-col items-center shadow-lg"
               >
-                <span className="material-icons mr-2">add</span>
-                New Evaluation
+                <div className="flex items-center mb-1">
+                  <span className="material-icons mr-2">psychology</span>
+                  <span>Hire new Aasim</span>
+                </div>
+                <span className="text-xs font-normal opacity-90">Your AI Judge Agent</span>
               </Link>
             </div>
           </div>
