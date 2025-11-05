@@ -9,9 +9,9 @@ const HomePage = () => {
       description: 'Evaluate presentations, pitches, and interviews with advanced AI analysis of visual and audio content.',
     },
     {
-      icon: 'description',
-      title: 'Document Review',
-      description: 'Process and analyze PDF and Word documents with intelligent text understanding and content evaluation.',
+      icon: 'image',
+      title: 'Documents and Images Review',
+      description: 'Process and analyze PDF, Word documents, and images with intelligent content understanding and visual recognition.',
     },
     {
       icon: 'code',
@@ -195,6 +195,49 @@ const HomePage = () => {
         </div>
       </section>
 
+      {/* Visual Showcase Section */}
+      <section className="py-20 px-6 bg-gradient-to-b from-transparent to-primary-50/30">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 text-gray-900 text-shadow">
+              Powered by Advanced AI
+            </h2>
+            <p className="text-xl text-gray-600">
+              Multi-modal analysis with state-of-the-art technology
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Video/Audio Visual */}
+            <div className="glass-card-hover rounded-3xl p-8">
+              <div className="bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-2xl p-12 mb-6 flex items-center justify-center">
+                <span className="material-icons text-8xl text-purple-600">videocam</span>
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">Video & Audio</h3>
+              <p className="text-gray-600">Analyze presentations, speeches, and interviews</p>
+            </div>
+
+            {/* Document/Image Visual */}
+            <div className="glass-card-hover rounded-3xl p-8">
+              <div className="bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-2xl p-12 mb-6 flex items-center justify-center">
+                <span className="material-icons text-8xl text-blue-600">image</span>
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">Documents & Images</h3>
+              <p className="text-gray-600">Review PDFs, Word files, and visual content</p>
+            </div>
+
+            {/* Code Visual */}
+            <div className="glass-card-hover rounded-3xl p-8">
+              <div className="bg-gradient-to-br from-green-500/20 to-emerald-500/20 rounded-2xl p-12 mb-6 flex items-center justify-center">
+                <span className="material-icons text-8xl text-green-600">code</span>
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">Source Code</h3>
+              <p className="text-gray-600">Assess code quality and best practices</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Report Preview Section */}
       <section id="report" className="py-20 px-6">
         <div className="max-w-5xl mx-auto">
@@ -253,6 +296,190 @@ const HomePage = () => {
         </div>
       </section>
 
+      {/* Pricing Section */}
+      <section id="pricing" className="py-20 px-6 bg-gradient-to-b from-primary-50/30 to-transparent">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 text-gray-900 text-shadow">
+              Simple, Transparent Pricing
+            </h2>
+            <p className="text-xl text-gray-600">
+              Choose the plan that fits your evaluation needs
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {/* Free Plan */}
+            <div className="glass-card-hover rounded-3xl p-8 border-2 border-transparent hover:border-primary-300 transition-all">
+              <div className="text-center mb-6">
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-gray-400/30 to-gray-500/30 mb-4">
+                  <span className="material-icons text-4xl text-gray-700">account_circle</span>
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">Free</h3>
+                <div className="mb-4">
+                  <span className="text-4xl font-bold text-gray-900">$5</span>
+                  <span className="text-gray-600 ml-2">credit balance</span>
+                </div>
+              </div>
+              <ul className="space-y-3 mb-8 text-gray-700">
+                <li className="flex items-start">
+                  <span className="material-icons text-green-600 text-sm mr-2 mt-1">check_circle</span>
+                  <span className="text-sm">5 evaluations</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="material-icons text-green-600 text-sm mr-2 mt-1">check_circle</span>
+                  <span className="text-sm">All AI agents</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="material-icons text-green-600 text-sm mr-2 mt-1">check_circle</span>
+                  <span className="text-sm">Basic reports</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="material-icons text-green-600 text-sm mr-2 mt-1">check_circle</span>
+                  <span className="text-sm">Email support</span>
+                </li>
+              </ul>
+              <Link
+                to="/register"
+                className="w-full block text-center glass-btn-secondary rounded-xl px-6 py-3 font-semibold"
+              >
+                Get Started
+              </Link>
+            </div>
+
+            {/* Small Business Plan */}
+            <div className="glass-card-hover rounded-3xl p-8 border-2 border-primary-400 relative">
+              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                <span className="bg-gradient-to-r from-primary-500 to-primary-600 text-white px-4 py-1 rounded-full text-xs font-semibold">
+                  POPULAR
+                </span>
+              </div>
+              <div className="text-center mb-6">
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-primary-400/30 to-primary-500/30 mb-4">
+                  <span className="material-icons text-4xl text-primary-700">business</span>
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">Small Business</h3>
+                <div className="mb-4">
+                  <span className="text-4xl font-bold text-gray-900">$100</span>
+                  <span className="text-gray-600 ml-2">/month</span>
+                </div>
+              </div>
+              <ul className="space-y-3 mb-8 text-gray-700">
+                <li className="flex items-start">
+                  <span className="material-icons text-green-600 text-sm mr-2 mt-1">check_circle</span>
+                  <span className="text-sm">100 evaluations/month</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="material-icons text-green-600 text-sm mr-2 mt-1">check_circle</span>
+                  <span className="text-sm">All AI agents</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="material-icons text-green-600 text-sm mr-2 mt-1">check_circle</span>
+                  <span className="text-sm">Detailed reports</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="material-icons text-green-600 text-sm mr-2 mt-1">check_circle</span>
+                  <span className="text-sm">Custom criteria</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="material-icons text-green-600 text-sm mr-2 mt-1">check_circle</span>
+                  <span className="text-sm">Priority support</span>
+                </li>
+              </ul>
+              <Link
+                to="/register"
+                className="w-full block text-center glass-btn-primary rounded-xl px-6 py-3 font-semibold glow"
+              >
+                Get Started
+              </Link>
+            </div>
+
+            {/* Medium Plan */}
+            <div className="glass-card-hover rounded-3xl p-8 border-2 border-transparent hover:border-primary-300 transition-all">
+              <div className="text-center mb-6">
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-400/30 to-blue-500/30 mb-4">
+                  <span className="material-icons text-4xl text-blue-700">domain</span>
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">Medium</h3>
+                <div className="mb-4">
+                  <span className="text-4xl font-bold text-gray-900">$250</span>
+                  <span className="text-gray-600 ml-2">/month</span>
+                </div>
+              </div>
+              <ul className="space-y-3 mb-8 text-gray-700">
+                <li className="flex items-start">
+                  <span className="material-icons text-green-600 text-sm mr-2 mt-1">check_circle</span>
+                  <span className="text-sm">300 evaluations/month</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="material-icons text-green-600 text-sm mr-2 mt-1">check_circle</span>
+                  <span className="text-sm">All AI agents</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="material-icons text-green-600 text-sm mr-2 mt-1">check_circle</span>
+                  <span className="text-sm">Advanced analytics</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="material-icons text-green-600 text-sm mr-2 mt-1">check_circle</span>
+                  <span className="text-sm">API access</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="material-icons text-green-600 text-sm mr-2 mt-1">check_circle</span>
+                  <span className="text-sm">Dedicated support</span>
+                </li>
+              </ul>
+              <Link
+                to="/register"
+                className="w-full block text-center glass-btn-secondary rounded-xl px-6 py-3 font-semibold"
+              >
+                Get Started
+              </Link>
+            </div>
+
+            {/* Enterprise Plan */}
+            <div className="glass-card-hover rounded-3xl p-8 border-2 border-transparent hover:border-primary-300 transition-all bg-gradient-to-br from-purple-50/50 to-primary-50/50">
+              <div className="text-center mb-6">
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-400/30 to-purple-500/30 mb-4">
+                  <span className="material-icons text-4xl text-purple-700">corporate_fare</span>
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">Enterprise</h3>
+                <div className="mb-4">
+                  <span className="text-3xl font-bold text-gray-900">Contact Us</span>
+                </div>
+              </div>
+              <ul className="space-y-3 mb-8 text-gray-700">
+                <li className="flex items-start">
+                  <span className="material-icons text-green-600 text-sm mr-2 mt-1">check_circle</span>
+                  <span className="text-sm">Unlimited evaluations</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="material-icons text-green-600 text-sm mr-2 mt-1">check_circle</span>
+                  <span className="text-sm">Custom AI models</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="material-icons text-green-600 text-sm mr-2 mt-1">check_circle</span>
+                  <span className="text-sm">White-label options</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="material-icons text-green-600 text-sm mr-2 mt-1">check_circle</span>
+                  <span className="text-sm">SLA guarantee</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="material-icons text-green-600 text-sm mr-2 mt-1">check_circle</span>
+                  <span className="text-sm">24/7 premium support</span>
+                </li>
+              </ul>
+              <Link
+                to="/register"
+                className="w-full block text-center glass-btn-secondary rounded-xl px-6 py-3 font-semibold"
+              >
+                Get Started
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* CTA Section */}
       <section className="py-20 px-6">
         <div className="max-w-4xl mx-auto">
@@ -268,8 +495,8 @@ const HomePage = () => {
               <Link to="/register" className="glass-btn-primary rounded-full px-8 py-4 text-lg glow">
                 Get Started with Aasim
               </Link>
-              <a href="#" className="glass-btn-secondary rounded-full px-8 py-4 text-lg">
-                Schedule a Demo
+              <a href="#pricing" className="glass-btn-secondary rounded-full px-8 py-4 text-lg">
+                View Pricing
               </a>
             </div>
           </div>
