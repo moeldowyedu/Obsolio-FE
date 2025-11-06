@@ -21,6 +21,7 @@ export const translations = {
     heroDescription2: 'No human feelings. Just pure objectivity.',
     startFreeTrial: 'Start Free Trial',
     viewPricing: 'View Pricing',
+    bookDemo: 'Book Your Demo Session',
 
     // Why Aasim Section
     whyAasimTitle: 'Why Aasim is Perfect',
@@ -90,6 +91,14 @@ export const translations = {
     agent6Feature4: 'Transparent process',
 
     customization: 'Customize agents based on your country, industry, or upload your own training data for specialized evaluations.',
+
+    // Testimonials Section
+    testimonialsTitle: 'What Our Clients Say',
+    testimonialsSubtitle: 'Trusted by leading organizations and professionals worldwide',
+    testimonial1Quote: 'Aasim has transformed how we evaluate student projects at ITI. The precision and consistency of AI-powered assessments have significantly improved our educational outcomes while reducing evaluation time by 70%.',
+    testimonial2Quote: 'As a startup founder, Aasim\'s code review agents have been invaluable. We\'ve maintained high code quality standards without the overhead of hiring additional senior developers. It\'s like having an expert reviewer available 24/7.',
+    testimonial3Quote: 'The precision and objectivity of Aasim\'s evaluations have helped us scale our competition platform globally. We can now handle thousands of submissions with consistent, fair assessments that participants trust.',
+    testimonial4Quote: 'Aasim\'s document review capabilities have streamlined our compliance processes. What used to take days now happens in hours, with greater accuracy and detailed reports that our legal team relies on.',
 
     // Industries Section
     industriesTitle: 'Industries We Serve',
@@ -169,6 +178,7 @@ export const translations = {
     heroDescription2: 'Sin sentimientos humanos. Solo objetividad pura.',
     startFreeTrial: 'Iniciar Prueba Gratis',
     viewPricing: 'Ver Precios',
+    bookDemo: 'Reserva tu Sesión de Demostración',
 
     // Why Aasim Section
     whyAasimTitle: 'Por Qué Aasim es Perfecto',
@@ -238,6 +248,14 @@ export const translations = {
     agent6Feature4: 'Proceso transparente',
 
     customization: 'Personaliza agentes según tu país, industria, o sube tus propios datos de entrenamiento para evaluaciones especializadas.',
+
+    // Testimonials Section
+    testimonialsTitle: 'Lo Que Dicen Nuestros Clientes',
+    testimonialsSubtitle: 'Confiado por organizaciones y profesionales líderes en todo el mundo',
+    testimonial1Quote: 'Aasim ha transformado cómo evaluamos proyectos estudiantiles en ITI. La precisión y consistencia de las evaluaciones impulsadas por IA han mejorado significativamente nuestros resultados educativos mientras reducen el tiempo de evaluación en un 70%.',
+    testimonial2Quote: 'Como fundador de startup, los agentes de revisión de código de Aasim han sido invaluables. Hemos mantenido altos estándares de calidad de código sin el costo de contratar desarrolladores senior adicionales. Es como tener un revisor experto disponible 24/7.',
+    testimonial3Quote: 'La precisión y objetividad de las evaluaciones de Aasim nos han ayudado a escalar nuestra plataforma de competencias globalmente. Ahora podemos manejar miles de envíos con evaluaciones consistentes y justas en las que los participantes confían.',
+    testimonial4Quote: 'Las capacidades de revisión de documentos de Aasim han optimizado nuestros procesos de cumplimiento. Lo que solía tomar días ahora sucede en horas, con mayor precisión y informes detallados en los que nuestro equipo legal confía.',
 
     // Industries Section
     industriesTitle: 'Industrias que Servimos',
@@ -317,6 +335,7 @@ export const translations = {
     heroDescription2: 'بدون تحيز، بدون مشاعر. موضوعية كاملة في كل تقييم.',
     startFreeTrial: 'جرّب مجاناً',
     viewPricing: 'الأسعار',
+    bookDemo: 'احجز جلسة عرض تجريبي',
 
     // Why Aasim Section
     whyAasimTitle: 'ليه عاصم هو الحل الأمثل؟',
@@ -386,6 +405,14 @@ export const translations = {
     agent6Feature4: 'شفافية كاملة',
 
     customization: 'خصص المساعدين الأذكياء حسب بلدك أو مجال عملك، أو ارفع بياناتك الخاصة للتدريب المتخصص.',
+
+    // Testimonials Section
+    testimonialsTitle: 'آراء عملائنا',
+    testimonialsSubtitle: 'موثوق به من قبل مؤسسات ومهنيين رائدين في جميع أنحاء العالم',
+    testimonial1Quote: 'عاصم غيّر تماماً طريقة تقييمنا لمشاريع الطلاب في ITI. الدقة والاتساق في التقييمات المدعومة بالذكاء الاصطناعي حسّنت بشكل كبير نتائجنا التعليمية مع تقليل وقت التقييم بنسبة 70%.',
+    testimonial2Quote: 'كمؤسس شركة ناشئة، كانت مساعدات مراجعة الكود من عاصم لا تقدر بثمن. حافظنا على معايير عالية لجودة الكود بدون تكلفة توظيف مطورين كبار إضافيين. إنه مثل وجود مراجع خبير متاح 24/7.',
+    testimonial3Quote: 'الدقة والموضوعية في تقييمات عاصم ساعدتنا في توسيع منصة المسابقات عالمياً. يمكننا الآن التعامل مع آلاف الطلبات مع تقييمات متسقة وعادلة يثق بها المشاركون.',
+    testimonial4Quote: 'قدرات مراجعة المستندات من عاصم بسّطت عمليات الامتثال لدينا. ما كان يستغرق أياماً يحدث الآن في ساعات، مع دقة أكبر وتقارير مفصلة يعتمد عليها فريقنا القانوني.',
 
     // Industries Section
     industriesTitle: 'المجالات اللي بنخدمها',

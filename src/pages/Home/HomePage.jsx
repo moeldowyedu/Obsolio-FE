@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import MainLayout from '../../components/layout/MainLayout'
 import { useLanguage } from '../../contexts/LanguageContext'
@@ -6,6 +7,46 @@ import { translations } from '../../translations'
 const HomePage = () => {
   const { language } = useLanguage()
   const t = translations[language]
+  const [currentTestimonial, setCurrentTestimonial] = useState(0)
+
+  const testimonials = [
+    {
+      quote: t.testimonial1Quote || "Aasim has transformed how we evaluate student projects at ITI. The precision and consistency of AI-powered assessments have significantly improved our educational outcomes while reducing evaluation time by 70%.",
+      name: "Dr. Heba Salah",
+      position: "ITI Chairwoman",
+      image: "https://i.pravatar.cc/150?img=47", // Placeholder - replace with actual image
+      rating: 5
+    },
+    {
+      quote: t.testimonial2Quote || "As a startup founder, Aasim's code review agents have been invaluable. We've maintained high code quality standards without the overhead of hiring additional senior developers. It's like having an expert reviewer available 24/7.",
+      name: "Ahmed El-Sayed",
+      position: "CTO, TechStart Egypt",
+      image: "https://i.pravatar.cc/150?img=12",
+      rating: 5
+    },
+    {
+      quote: t.testimonial3Quote || "The precision and objectivity of Aasim's evaluations have helped us scale our competition platform globally. We can now handle thousands of submissions with consistent, fair assessments that participants trust.",
+      name: "Sarah Martinez",
+      position: "Competition Director, Global Hackathon Network",
+      image: "https://i.pravatar.cc/150?img=45",
+      rating: 5
+    },
+    {
+      quote: t.testimonial4Quote || "Aasim's document review capabilities have streamlined our compliance processes. What used to take days now happens in hours, with greater accuracy and detailed reports that our legal team relies on.",
+      name: "Michael Chen",
+      position: "Head of Compliance, FinTech Solutions",
+      image: "https://i.pravatar.cc/150?img=33",
+      rating: 5
+    }
+  ]
+
+  const nextTestimonial = () => {
+    setCurrentTestimonial((prev) => (prev + 1) % testimonials.length)
+  }
+
+  const prevTestimonial = () => {
+    setCurrentTestimonial((prev) => (prev - 1 + testimonials.length) % testimonials.length)
+  }
 
   const industries = [
     { name: t.education, icon: 'school' },
@@ -92,6 +133,14 @@ const HomePage = () => {
             <a href="#pricing" className="glass-btn-secondary rounded-full px-10 py-4 text-lg">
               {t.viewPricing}
             </a>
+            <a
+              href="https://calendly.com/aasim-demo"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="glass-btn-secondary rounded-full px-10 py-4 text-lg border-2 border-primary-500 hover:bg-primary-50 transition-all"
+            >
+              {t.bookDemo}
+            </a>
           </div>
         </div>
       </section>
@@ -139,6 +188,87 @@ const HomePage = () => {
                 <p className="text-xl font-semibold text-primary-600">{t.objectiveBased}</p>
                 <p className="text-lg">{t.consistentSubmissions}</p>
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section className="py-20 px-6 bg-gradient-to-b from-purple-50 to-white">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-center text-gray-900 font-heading">
+            {t.testimonialsTitle || "What Our Clients Say"}
+          </h2>
+          <p className="text-xl text-gray-600 text-center mb-16 max-w-3xl mx-auto">
+            {t.testimonialsSubtitle || "Trusted by leading organizations and professionals worldwide"}
+          </p>
+
+          <div className="relative">
+            {/* Testimonial Card */}
+            <div className="glass-card rounded-3xl p-8 md:p-12 max-w-4xl mx-auto">
+              <div className="flex flex-col items-center text-center">
+                {/* Quote Icon */}
+                <div className="text-6xl text-primary-400 mb-6">"</div>
+
+                {/* Quote Text */}
+                <p className="text-xl md:text-2xl text-gray-800 mb-8 leading-relaxed italic">
+                  {testimonials[currentTestimonial].quote}
+                </p>
+
+                {/* Rating */}
+                <div className="flex items-center mb-6">
+                  {[...Array(testimonials[currentTestimonial].rating)].map((_, i) => (
+                    <span key={i} className="material-icons text-yellow-400 text-3xl">star</span>
+                  ))}
+                </div>
+
+                {/* Person Info */}
+                <div className="flex flex-col items-center">
+                  <img
+                    src={testimonials[currentTestimonial].image}
+                    alt={testimonials[currentTestimonial].name}
+                    className="w-20 h-20 rounded-full mb-4 border-4 border-primary-200"
+                  />
+                  <h4 className="text-xl font-bold text-gray-900">
+                    {testimonials[currentTestimonial].name}
+                  </h4>
+                  <p className="text-gray-600 font-medium">
+                    {testimonials[currentTestimonial].position}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Navigation Arrows */}
+            <button
+              onClick={prevTestimonial}
+              className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 md:-translate-x-12 glass-card w-12 h-12 rounded-full flex items-center justify-center hover:bg-white/90 transition-all shadow-lg"
+              aria-label="Previous testimonial"
+            >
+              <span className="material-icons text-primary-600">chevron_left</span>
+            </button>
+            <button
+              onClick={nextTestimonial}
+              className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 md:translate-x-12 glass-card w-12 h-12 rounded-full flex items-center justify-center hover:bg-white/90 transition-all shadow-lg"
+              aria-label="Next testimonial"
+            >
+              <span className="material-icons text-primary-600">chevron_right</span>
+            </button>
+
+            {/* Dots Indicator */}
+            <div className="flex justify-center mt-8 space-x-2">
+              {testimonials.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentTestimonial(index)}
+                  className={`w-3 h-3 rounded-full transition-all ${
+                    index === currentTestimonial
+                      ? 'bg-primary-600 w-8'
+                      : 'bg-gray-300 hover:bg-gray-400'
+                  }`}
+                  aria-label={`Go to testimonial ${index + 1}`}
+                />
+              ))}
             </div>
           </div>
         </div>
