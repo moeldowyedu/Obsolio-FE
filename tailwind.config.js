@@ -39,9 +39,9 @@ export default {
         }
       },
       fontFamily: {
-        sans: ['Inter', 'SF Pro', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
-        heading: ['Poppins', 'Inter', 'sans-serif'],
-        arabic: ['Tajawal', 'Inter', 'sans-serif'],
+        sans: ['Work Sans', 'SF Pro', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+        heading: ['Montserrat', 'Work Sans', 'sans-serif'],
+        arabic: ['Tajawal', 'sans-serif'],
       },
       backdropBlur: {
         xs: '2px',

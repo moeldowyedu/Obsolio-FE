@@ -23,9 +23,9 @@ export const LanguageProvider = ({ children }) => {
     document.documentElement.dir = language === 'ar' ? 'rtl' : 'ltr'
     // Update font family based on language
     if (language === 'ar') {
-      document.documentElement.style.fontFamily = 'Tajawal, Inter, sans-serif'
+      document.documentElement.style.fontFamily = 'Tajawal, sans-serif'
     } else {
-      document.documentElement.style.fontFamily = 'Inter, sans-serif'
+      document.documentElement.style.fontFamily = 'Work Sans, sans-serif'
     }
   }, [language])
 
