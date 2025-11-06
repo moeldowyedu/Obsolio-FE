@@ -15,7 +15,7 @@ export const translations = {
 
     // Hero Section
     heroTitle: 'AASIM',
-    heroSubtitle: 'Your AI Judge Agent',
+    heroSubtitle: 'Your Precision AI Agent',
     heroBenefits: 'Effortless • Unbiased • Cost-Effective',
     heroDescription: 'Save 80% of your budget and 90% of your time with AI-powered evaluation.',
     heroDescription2: 'No human feelings. Just pure objectivity.',
@@ -25,7 +25,7 @@ export const translations = {
     // Why Aasim Section
     whyAasimTitle: 'Why Aasim is Perfect',
     saveYourBudget: 'Save Your Budget',
-    humanJudges: 'Human judges: $50-200+/hour',
+    humanJudges: 'Human evaluators: $50-200+/hour',
     aasimPrice: 'Aasim: $1/evaluation',
     costReduction: '80% cost reduction',
     saveYourTime: 'Save Your Time',
@@ -38,11 +38,11 @@ export const translations = {
     consistentSubmissions: 'Consistent across all submissions',
 
     // AI Agents Section
-    aiAgentsTitle: 'Select Your AI Agent',
+    aiAgentsTitle: 'Select Your Precision AI Agent',
     aiAgentsSubtitle: 'Choose the specialized agent that matches your evaluation needs. Select one or multiple agents, and customize them for your specific requirements.',
 
     // Agent 1
-    agent1Title: 'Video & Audio Analysis',
+    agent1Title: 'Precision Video & Audio Analysis',
     agent1Description: 'Evaluate presentations, pitches, interviews, and recorded content with advanced AI analysis.',
     agent1Feature1: 'Speech analysis',
     agent1Feature2: 'Visual assessment',
@@ -50,7 +50,7 @@ export const translations = {
     agent1Feature4: 'Presentation skills',
 
     // Agent 2
-    agent2Title: 'Documents and Images Review',
+    agent2Title: 'Precision Document & Image Review',
     agent2Description: 'Analyze documents (PDF, Word) and images (JPG, PNG) with AI-powered content understanding.',
     agent2Feature1: 'Document analysis',
     agent2Feature2: 'Image recognition',
@@ -58,7 +58,7 @@ export const translations = {
     agent2Feature4: 'Multi-file support',
 
     // Agent 3
-    agent3Title: 'Source Code Assessment',
+    agent3Title: 'Precision Code Assessment',
     agent3Description: 'Review programming projects, code quality, structure, and best practices across multiple languages.',
     agent3Feature1: 'Code quality',
     agent3Feature2: 'Best practices',
@@ -104,8 +104,8 @@ export const translations = {
 
     // Industry Disclaimers
     industriesDisclaimersTitle: 'Important Notice',
-    lawDisclaimer: '⚖️ Law: Aasim is not a replacement for judges or lawyers. We only provide legal analysis and advisory support.',
-    healthcareDisclaimer: '🏥 Healthcare: Aasim is not a replacement for doctors and does not provide medical prescriptions. All analysis and recommendations must be reviewed with your healthcare provider.',
+    lawDisclaimer: '⚖️ Law: Aasim is not a replacement for legal professionals. We only provide legal analysis and advisory support.',
+    healthcareDisclaimer: '🏥 Healthcare: Aasim is not a replacement for medical professionals and does not provide medical prescriptions. All analysis and recommendations must be reviewed with your healthcare provider.',
 
     // Human in the Loop Section
     humanLoopTitle: 'Worried about AI? We get it.',
@@ -119,7 +119,7 @@ export const translations = {
 
     // Pricing Section
     pricingTitle: 'Pricing',
-    pricingSubtitle: 'See how much you\'ll save compared to human judges',
+    pricingSubtitle: 'See how much you\'ll save compared to human evaluators',
     smallBusiness: 'Small Business',
     perMonth: '/mo',
     vsHiring: 'vs. hiring humans:',
@@ -163,7 +163,7 @@ export const translations = {
 
     // Hero Section
     heroTitle: 'AASIM',
-    heroSubtitle: 'Tu Agente Juez de IA',
+    heroSubtitle: 'Tu Agente de Precisión de IA',
     heroBenefits: 'Sin Esfuerzo • Imparcial • Rentable',
     heroDescription: 'Ahorra el 80% de tu presupuesto y el 90% de tu tiempo con evaluación impulsada por IA.',
     heroDescription2: 'Sin sentimientos humanos. Solo objetividad pura.',
@@ -173,7 +173,7 @@ export const translations = {
     // Why Aasim Section
     whyAasimTitle: 'Por Qué Aasim es Perfecto',
     saveYourBudget: 'Ahorra tu Presupuesto',
-    humanJudges: 'Jueces humanos: $50-200+/hora',
+    humanJudges: 'Evaluadores humanos: $50-200+/hora',
     aasimPrice: 'Aasim: $1/evaluación',
     costReduction: '80% reducción de costos',
     saveYourTime: 'Ahorra tu Tiempo',
@@ -186,11 +186,11 @@ export const translations = {
     consistentSubmissions: 'Consistente en todos los envíos',
 
     // AI Agents Section
-    aiAgentsTitle: 'Selecciona tu Agente de IA',
+    aiAgentsTitle: 'Selecciona tu Agente de Precisión de IA',
     aiAgentsSubtitle: 'Elige el agente especializado que se adapte a tus necesidades de evaluación. Selecciona uno o múltiples agentes y personalízalos según tus requisitos específicos.',
 
     // Agent 1
-    agent1Title: 'Análisis de Video y Audio',
+    agent1Title: 'Análisis de Precisión de Video y Audio',
     agent1Description: 'Evalúa presentaciones, pitches, entrevistas y contenido grabado con análisis avanzado de IA.',
     agent1Feature1: 'Análisis de voz',
     agent1Feature2: 'Evaluación visual',
@@ -198,7 +198,7 @@ export const translations = {
     agent1Feature4: 'Habilidades de presentación',
 
     // Agent 2
-    agent2Title: 'Revisión de Documentos e Imágenes',
+    agent2Title: 'Revisión de Precisión de Documentos e Imágenes',
     agent2Description: 'Analiza documentos (PDF, Word) e imágenes (JPG, PNG) con comprensión de contenido impulsada por IA.',
     agent2Feature1: 'Análisis de documentos',
     agent2Feature2: 'Reconocimiento de imágenes',
@@ -206,7 +206,7 @@ export const translations = {
     agent2Feature4: 'Soporte multi-archivo',
 
     // Agent 3
-    agent3Title: 'Evaluación de Código Fuente',
+    agent3Title: 'Evaluación de Precisión de Código',
     agent3Description: 'Revisa proyectos de programación, calidad de código, estructura y mejores prácticas en múltiples lenguajes.',
     agent3Feature1: 'Calidad del código',
     agent3Feature2: 'Mejores prácticas',
@@ -252,8 +252,8 @@ export const translations = {
 
     // Industry Disclaimers
     industriesDisclaimersTitle: 'Aviso Importante',
-    lawDisclaimer: '⚖️ Derecho: Aasim no es un reemplazo de jueces o abogados. Solo proporcionamos análisis y asesoramiento legal de apoyo.',
-    healthcareDisclaimer: '🏥 Salud: Aasim no es un reemplazo de médicos y no proporciona recetas médicas. Todo análisis y recomendación debe ser revisado con su proveedor de salud.',
+    lawDisclaimer: '⚖️ Derecho: Aasim no es un reemplazo de profesionales legales. Solo proporcionamos análisis y asesoramiento legal de apoyo.',
+    healthcareDisclaimer: '🏥 Salud: Aasim no es un reemplazo de profesionales médicos y no proporciona recetas médicas. Todo análisis y recomendación debe ser revisado con su proveedor de salud.',
 
     // Human in the Loop Section
     humanLoopTitle: '¿Preocupado por la IA? Lo entendemos.',
@@ -267,7 +267,7 @@ export const translations = {
 
     // Pricing Section
     pricingTitle: 'Precios',
-    pricingSubtitle: 'Ve cuánto ahorrarás comparado con jueces humanos',
+    pricingSubtitle: 'Ve cuánto ahorrarás comparado con evaluadores humanos',
     smallBusiness: 'Pequeño Negocio',
     perMonth: '/mes',
     vsHiring: 'vs. contratar humanos:',
@@ -311,7 +311,7 @@ export const translations = {
 
     // Hero Section
     heroTitle: 'عاصم',
-    heroSubtitle: 'مساعدك الذكي للتقييم والمراجعة',
+    heroSubtitle: 'مساعدك الذكي الدقيق للتقييم',
     heroBenefits: 'سريع • محايد • موفّر',
     heroDescription: 'وفّر 80% من ميزانيتك و 90% من وقتك باستخدام التقييم الذكي المدعوم بالذكاء الاصطناعي.',
     heroDescription2: 'بدون تحيز، بدون مشاعر. موضوعية كاملة في كل تقييم.',
@@ -321,7 +321,7 @@ export const translations = {
     // Why Aasim Section
     whyAasimTitle: 'ليه عاصم هو الحل الأمثل؟',
     saveYourBudget: 'وفّر فلوسك',
-    humanJudges: 'المراجعين البشريين: 50-200 دولار/ساعة',
+    humanJudges: 'المقيّمين البشريين: 50-200 دولار/ساعة',
     aasimPrice: 'عاصم: 1 دولار/تقييم',
     costReduction: 'توفير 80% من التكلفة',
     saveYourTime: 'وفّر وقتك',
@@ -334,11 +334,11 @@ export const translations = {
     consistentSubmissions: 'نفس المعايير لكل الطلبات',
 
     // AI Agents Section
-    aiAgentsTitle: 'اختر المساعد الذكي المناسب',
+    aiAgentsTitle: 'اختر مساعدك الذكي الدقيق',
     aiAgentsSubtitle: 'اختر المساعد المتخصص اللي يناسب احتياجاتك. ممكن تختار واحد أو أكتر، وتخصصه حسب متطلباتك الخاصة.',
 
     // Agent 1
-    agent1Title: 'تحليل الفيديوهات والتسجيلات الصوتية',
+    agent1Title: 'تحليل دقيق للفيديوهات والتسجيلات الصوتية',
     agent1Description: 'راجع العروض التقديمية، المقابلات، والمحتوى المسجل بتحليل ذكي متقدم.',
     agent1Feature1: 'تحليل الكلام والنطق',
     agent1Feature2: 'التقييم البصري',
@@ -346,7 +346,7 @@ export const translations = {
     agent1Feature4: 'مهارات العرض والتقديم',
 
     // Agent 2
-    agent2Title: 'مراجعة المستندات والصور',
+    agent2Title: 'مراجعة دقيقة للمستندات والصور',
     agent2Description: 'حلل المستندات (PDF، Word) والصور (JPG، PNG) بفهم ذكي للمحتوى.',
     agent2Feature1: 'تحليل المستندات',
     agent2Feature2: 'التعرف على الصور',
@@ -354,7 +354,7 @@ export const translations = {
     agent2Feature4: 'دعم ملفات متعددة',
 
     // Agent 3
-    agent3Title: 'تقييم الأكواد البرمجية',
+    agent3Title: 'تقييم دقيق للأكواد البرمجية',
     agent3Description: 'راجع المشاريع البرمجية وجودة الكود وأفضل الممارسات في كل لغات البرمجة.',
     agent3Feature1: 'جودة الكود',
     agent3Feature2: 'أفضل الممارسات',
@@ -400,8 +400,8 @@ export const translations = {
 
     // Industry Disclaimers
     industriesDisclaimersTitle: 'تنويه هام',
-    lawDisclaimer: '⚖️ القانون: عاصم لا يمثل بديلاً عن القضاة أو المحامين. نحن نقدم فقط تحليل واستشارات قانونية مساعدة.',
-    healthcareDisclaimer: '🏥 الرعاية الصحية: عاصم ليس بديلاً عن الطبيب ولا يقدم وصفات علاجية. كل التحليلات والاستشارات يجب مراجعتها مع طبيبك المختص.',
+    lawDisclaimer: '⚖️ القانون: عاصم لا يمثل بديلاً عن المهنيين القانونيين. نحن نقدم فقط تحليل واستشارات قانونية مساعدة.',
+    healthcareDisclaimer: '🏥 الرعاية الصحية: عاصم ليس بديلاً عن المهنيين الطبيين ولا يقدم وصفات علاجية. كل التحليلات والاستشارات يجب مراجعتها مع طبيبك المختص.',
 
     // Human in the Loop Section
     humanLoopTitle: 'قلقان من الاعتماد الكامل على الذكاء الاصطناعي؟',
@@ -415,7 +415,7 @@ export const translations = {
 
     // Pricing Section
     pricingTitle: 'الأسعار',
-    pricingSubtitle: 'شوف هتوفر قد إيه مقارنة بالمراجعين البشريين',
+    pricingSubtitle: 'شوف هتوفر قد إيه مقارنة بالمقيّمين البشريين',
     smallBusiness: 'الأعمال الصغيرة',
     perMonth: '/شهر',
     vsHiring: 'مقارنة بتوظيف بشر:',
