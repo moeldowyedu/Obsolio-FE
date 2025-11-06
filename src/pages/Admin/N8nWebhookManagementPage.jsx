@@ -1,7 +1,11 @@
 import { useState } from 'react'
 import MainLayout from '../../components/layout/MainLayout'
+import { useLanguage } from '../../contexts/LanguageContext'
+import { translations } from '../../translations'
 
 const N8nWebhookManagementPage = () => {
+  const { language } = useLanguage()
+  const t = translations[language]
   const [webhooks, setWebhooks] = useState([
     {
       id: 1,
@@ -224,8 +228,8 @@ const N8nWebhookManagementPage = () => {
       <div className="py-6">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">N8N Webhook Management</h1>
-          <p className="text-gray-600">Manage webhook integrations and connect AI agents to n8n workflows</p>
+          <h1 className="text-4xl font-bold text-gray-900 mb-2">{t.webhookManagementTitle}</h1>
+          <p className="text-gray-600">{t.webhookManagementDesc}</p>
         </div>
 
         {/* Tabs */}
@@ -241,7 +245,7 @@ const N8nWebhookManagementPage = () => {
             >
               <span className="flex items-center">
                 <span className="material-icons mr-2">webhook</span>
-                Webhooks
+                {t.webhooksTab}
               </span>
             </button>
             <button
@@ -254,7 +258,7 @@ const N8nWebhookManagementPage = () => {
             >
               <span className="flex items-center">
                 <span className="material-icons mr-2">history</span>
-                Execution Logs
+                {t.executionLogsTab}
               </span>
             </button>
           </div>
@@ -269,11 +273,11 @@ const N8nWebhookManagementPage = () => {
                 <div className="flex items-center justify-between mb-2">
                   <span className="material-icons text-3xl text-blue-600">webhook</span>
                   <span className="text-xs font-semibold text-green-600 bg-green-100 px-2 py-1 rounded-full">
-                    Active
+                    {t.activeOption}
                   </span>
                 </div>
                 <h3 className="text-3xl font-bold text-gray-900">{webhooks.filter(w => w.status === 'active').length}</h3>
-                <p className="text-gray-600 text-sm">Active Webhooks</p>
+                <p className="text-gray-600 text-sm">{t.activeWebhooksLabel}</p>
               </div>
 
               <div className="glass-card rounded-2xl p-6">
@@ -281,7 +285,7 @@ const N8nWebhookManagementPage = () => {
                   <span className="material-icons text-3xl text-purple-600">play_arrow</span>
                 </div>
                 <h3 className="text-3xl font-bold text-gray-900">{webhooks.reduce((sum, w) => sum + w.executions, 0)}</h3>
-                <p className="text-gray-600 text-sm">Total Executions</p>
+                <p className="text-gray-600 text-sm">{t.totalExecutionsLabel}</p>
               </div>
 
               <div className="glass-card rounded-2xl p-6">
@@ -291,7 +295,7 @@ const N8nWebhookManagementPage = () => {
                 <h3 className="text-3xl font-bold text-gray-900">
                   {(webhooks.reduce((sum, w) => sum + w.successRate, 0) / webhooks.length).toFixed(1)}%
                 </h3>
-                <p className="text-gray-600 text-sm">Avg Success Rate</p>
+                <p className="text-gray-600 text-sm">{t.avgSuccessRateLabel}</p>
               </div>
 
               <div className="glass-card rounded-2xl p-6">
@@ -299,7 +303,7 @@ const N8nWebhookManagementPage = () => {
                   <span className="material-icons text-3xl text-orange-600">psychology</span>
                 </div>
                 <h3 className="text-3xl font-bold text-gray-900">{availableAgents.length}</h3>
-                <p className="text-gray-600 text-sm">Available Agents</p>
+                <p className="text-gray-600 text-sm">{t.availableAgentsLabel}</p>
               </div>
             </div>
 
@@ -312,14 +316,14 @@ const N8nWebhookManagementPage = () => {
                   </span>
                   <input
                     type="text"
-                    placeholder="Search webhooks..."
+                    placeholder={t.searchWebhooksPlaceholder}
                     className="glass-input pl-10 pr-4 py-2 rounded-xl"
                   />
                 </div>
                 <select className="glass-input px-4 py-2 rounded-xl">
-                  <option>All Status</option>
-                  <option>Active</option>
-                  <option>Paused</option>
+                  <option>{t.allStatusOption2}</option>
+                  <option>{t.activeOption}</option>
+                  <option>{t.pausedOption}</option>
                 </select>
               </div>
               <button
@@ -327,7 +331,7 @@ const N8nWebhookManagementPage = () => {
                 className="glass-btn-primary px-6 py-3 rounded-xl font-semibold inline-flex items-center"
               >
                 <span className="material-icons mr-2">add</span>
-                Create Webhook
+                {t.createWebhookButton}
               </button>
             </div>
 
@@ -338,28 +342,28 @@ const N8nWebhookManagementPage = () => {
                   <thead>
                     <tr className="border-b border-gray-200">
                       <th className="text-left py-4 px-4 text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                        Webhook Name
+                        {t.tableHeaderWebhookName}
                       </th>
                       <th className="text-left py-4 px-4 text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                        Status
+                        {t.tableHeaderStatus2}
                       </th>
                       <th className="text-left py-4 px-4 text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                        Connected Agents
+                        {t.tableHeaderConnectedAgents}
                       </th>
                       <th className="text-left py-4 px-4 text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                        Trigger
+                        {t.tableHeaderTrigger}
                       </th>
                       <th className="text-left py-4 px-4 text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                        Executions
+                        {t.tableHeaderExecutions}
                       </th>
                       <th className="text-left py-4 px-4 text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                        Success Rate
+                        {t.tableHeaderSuccessRate}
                       </th>
                       <th className="text-left py-4 px-4 text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                        Last Executed
+                        {t.tableHeaderLastExecuted}
                       </th>
                       <th className="text-center py-4 px-4 text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                        Actions
+                        {t.tableHeaderActions2}
                       </th>
                     </tr>
                   </thead>
@@ -381,7 +385,7 @@ const N8nWebhookManagementPage = () => {
                             <span className="material-icons text-xs mr-1">
                               {webhook.status === 'active' ? 'check_circle' : 'pause_circle'}
                             </span>
-                            {webhook.status === 'active' ? 'Active' : 'Paused'}
+                            {webhook.status === 'active' ? t.activeOption : t.pausedOption}
                           </span>
                         </td>
                         <td className="py-4 px-4">
@@ -472,9 +476,9 @@ const N8nWebhookManagementPage = () => {
         {activeTab === 'logs' && (
           <div className="glass-card rounded-2xl p-6">
             <div className="mb-6 flex items-center justify-between">
-              <h2 className="text-2xl font-bold text-gray-900">Execution Logs</h2>
+              <h2 className="text-2xl font-bold text-gray-900">{t.executionLogsTitle}</h2>
               <select className="glass-input px-4 py-2 rounded-xl">
-                <option>All Webhooks</option>
+                <option>{t.allWebhooksOption}</option>
                 {webhooks.map(w => (
                   <option key={w.id}>{w.name}</option>
                 ))}
@@ -539,7 +543,7 @@ const N8nWebhookManagementPage = () => {
             <div className="bg-white rounded-3xl p-8 max-w-4xl w-full max-h-[90vh] overflow-y-auto">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-3xl font-bold text-gray-900">
-                  {editingWebhook ? 'Edit Webhook' : 'Create New Webhook'}
+                  {editingWebhook ? t.editWebhookTitle : t.createNewWebhookTitle}
                 </h2>
                 <button
                   onClick={() => setShowModal(false)}
@@ -552,35 +556,35 @@ const N8nWebhookManagementPage = () => {
               <div className="space-y-6">
                 {/* Basic Information */}
                 <div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-4">Basic Information</h3>
+                  <h3 className="text-xl font-bold text-gray-900 mb-4">{t.basicInformationSection}</h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-sm font-semibold text-gray-700 mb-2">
-                        Webhook Name *
+                        {t.webhookNameLabel}
                       </label>
                       <input
                         type="text"
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                         className="glass-input w-full px-4 py-2 rounded-xl"
-                        placeholder="e.g., Code Review Pipeline"
+                        placeholder={t.webhookNamePlaceholder}
                       />
                     </div>
                     <div>
                       <label className="block text-sm font-semibold text-gray-700 mb-2">
-                        Trigger Event *
+                        {t.triggerEventLabel}
                       </label>
                       <select
                         value={formData.trigger}
                         onChange={(e) => setFormData({ ...formData, trigger: e.target.value })}
                         className="glass-input w-full px-4 py-2 rounded-xl"
                       >
-                        <option value="on_submission">On Submission</option>
-                        <option value="on_completion">On Completion</option>
-                        <option value="on_approval">On Approval</option>
-                        <option value="on_rejection">On Rejection</option>
-                        <option value="scheduled">Scheduled</option>
-                        <option value="manual">Manual</option>
+                        <option value="on_submission">{t.onSubmissionOption}</option>
+                        <option value="on_completion">{t.onCompletionOption}</option>
+                        <option value="on_approval">{t.onApprovalOption}</option>
+                        <option value="on_rejection">{t.onRejectionOption}</option>
+                        <option value="scheduled">{t.scheduledOption}</option>
+                        <option value="manual">{t.manualOption}</option>
                       </select>
                     </div>
                   </div>
@@ -589,47 +593,47 @@ const N8nWebhookManagementPage = () => {
                 {/* Webhook URL */}
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    N8N Webhook URL *
+                    {t.n8nWebhookUrlLabel}
                   </label>
                   <input
                     type="url"
                     value={formData.url}
                     onChange={(e) => setFormData({ ...formData, url: e.target.value })}
                     className="glass-input w-full px-4 py-2 rounded-xl"
-                    placeholder="https://your-n8n-instance.com/webhook/your-webhook-id"
+                    placeholder={t.n8nWebhookUrlPlaceholder}
                   />
                 </div>
 
                 {/* Authentication */}
                 <div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-4">Authentication</h3>
+                  <h3 className="text-xl font-bold text-gray-900 mb-4">{t.authenticationSection}</h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-sm font-semibold text-gray-700 mb-2">
-                        Authentication Type
+                        {t.authenticationTypeLabel}
                       </label>
                       <select
                         value={formData.authentication}
                         onChange={(e) => setFormData({ ...formData, authentication: e.target.value })}
                         className="glass-input w-full px-4 py-2 rounded-xl"
                       >
-                        <option value="none">None</option>
-                        <option value="api_key">API Key</option>
-                        <option value="basic">Basic Auth</option>
-                        <option value="bearer">Bearer Token</option>
+                        <option value="none">{t.noneOption}</option>
+                        <option value="api_key">{t.apiKeyOption}</option>
+                        <option value="basic">{t.basicAuthOption}</option>
+                        <option value="bearer">{t.bearerTokenOption}</option>
                       </select>
                     </div>
                     {formData.authentication === 'api_key' && (
                       <div>
                         <label className="block text-sm font-semibold text-gray-700 mb-2">
-                          API Key
+                          {t.apiKeyLabel2}
                         </label>
                         <input
                           type="password"
                           value={formData.apiKey}
                           onChange={(e) => setFormData({ ...formData, apiKey: e.target.value })}
                           className="glass-input w-full px-4 py-2 rounded-xl"
-                          placeholder="Enter API key"
+                          placeholder={t.enterApiKeyPlaceholder}
                         />
                       </div>
                     )}
@@ -637,26 +641,26 @@ const N8nWebhookManagementPage = () => {
                       <>
                         <div>
                           <label className="block text-sm font-semibold text-gray-700 mb-2">
-                            Username
+                            {t.usernameLabel}
                           </label>
                           <input
                             type="text"
                             value={formData.username}
                             onChange={(e) => setFormData({ ...formData, username: e.target.value })}
                             className="glass-input w-full px-4 py-2 rounded-xl"
-                            placeholder="Username"
+                            placeholder={t.usernamePlaceholder}
                           />
                         </div>
                         <div>
                           <label className="block text-sm font-semibold text-gray-700 mb-2">
-                            Password
+                            {t.passwordLabel}
                           </label>
                           <input
                             type="password"
                             value={formData.password}
                             onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                             className="glass-input w-full px-4 py-2 rounded-xl"
-                            placeholder="Password"
+                            placeholder={t.passwordPlaceholder}
                           />
                         </div>
                       </>
@@ -666,9 +670,9 @@ const N8nWebhookManagementPage = () => {
 
                 {/* Connected Agents */}
                 <div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-4">Connected AI Agents</h3>
+                  <h3 className="text-xl font-bold text-gray-900 mb-4">{t.connectedAiAgentsTitle}</h3>
                   <p className="text-gray-600 text-sm mb-4">
-                    Select which agents should trigger this webhook when they complete evaluations
+                    {t.agentSelectionDesc}
                   </p>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                     {availableAgents.map((agent) => (
@@ -701,11 +705,11 @@ const N8nWebhookManagementPage = () => {
 
                 {/* Advanced Settings */}
                 <div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-4">Advanced Settings</h3>
+                  <h3 className="text-xl font-bold text-gray-900 mb-4">{t.advancedSettingsSection}</h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-sm font-semibold text-gray-700 mb-2">
-                        Retry Attempts
+                        {t.retryAttemptsLabel}
                       </label>
                       <input
                         type="number"
@@ -718,7 +722,7 @@ const N8nWebhookManagementPage = () => {
                     </div>
                     <div>
                       <label className="block text-sm font-semibold text-gray-700 mb-2">
-                        Timeout (seconds)
+                        {t.timeoutLabel}
                       </label>
                       <input
                         type="number"
@@ -734,7 +738,7 @@ const N8nWebhookManagementPage = () => {
 
                 {/* Custom Headers */}
                 <div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-4">Custom Headers</h3>
+                  <h3 className="text-xl font-bold text-gray-900 mb-4">{t.customHeadersSection}</h3>
                   <div className="space-y-3">
                     {formData.headers.map((header, index) => (
                       <div key={index} className="flex items-center space-x-3">
@@ -743,14 +747,14 @@ const N8nWebhookManagementPage = () => {
                           value={header.key}
                           onChange={(e) => updateHeader(index, 'key', e.target.value)}
                           className="glass-input flex-1 px-4 py-2 rounded-xl"
-                          placeholder="Header name"
+                          placeholder={t.headerNamePlaceholder}
                         />
                         <input
                           type="text"
                           value={header.value}
                           onChange={(e) => updateHeader(index, 'value', e.target.value)}
                           className="glass-input flex-1 px-4 py-2 rounded-xl"
-                          placeholder="Header value"
+                          placeholder={t.headerValuePlaceholder}
                         />
                         <button
                           onClick={() => removeHeader(index)}
@@ -765,14 +769,14 @@ const N8nWebhookManagementPage = () => {
                       className="text-primary-600 hover:text-primary-700 font-semibold text-sm flex items-center"
                     >
                       <span className="material-icons mr-1 text-sm">add</span>
-                      Add Header
+                      {t.addHeaderButton}
                     </button>
                   </div>
                 </div>
 
                 {/* Notifications */}
                 <div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-4">Notifications</h3>
+                  <h3 className="text-xl font-bold text-gray-900 mb-4">{t.notificationsSection}</h3>
                   <label className="flex items-center space-x-3 mb-4">
                     <input
                       type="checkbox"
@@ -780,19 +784,19 @@ const N8nWebhookManagementPage = () => {
                       onChange={(e) => setFormData({ ...formData, notifyOnFailure: e.target.checked })}
                       className="w-5 h-5 text-primary-600 rounded focus:ring-primary-500"
                     />
-                    <span className="text-gray-700">Notify on webhook failure</span>
+                    <span className="text-gray-700">{t.notifyOnFailureLabel}</span>
                   </label>
                   {formData.notifyOnFailure && (
                     <div>
                       <label className="block text-sm font-semibold text-gray-700 mb-2">
-                        Notification Email
+                        {t.notificationEmailLabel}
                       </label>
                       <input
                         type="email"
                         value={formData.notifyEmail}
                         onChange={(e) => setFormData({ ...formData, notifyEmail: e.target.value })}
                         className="glass-input w-full px-4 py-2 rounded-xl"
-                        placeholder="admin@example.com"
+                        placeholder={t.adminEmailPlaceholder}
                       />
                     </div>
                   )}
@@ -805,13 +809,13 @@ const N8nWebhookManagementPage = () => {
                   onClick={() => setShowModal(false)}
                   className="glass-btn-secondary px-6 py-3 rounded-xl font-semibold"
                 >
-                  Cancel
+                  {t.cancelButton2}
                 </button>
                 <button
                   onClick={handleSaveWebhook}
                   className="glass-btn-primary px-6 py-3 rounded-xl font-semibold"
                 >
-                  {editingWebhook ? 'Update Webhook' : 'Create Webhook'}
+                  {editingWebhook ? t.updateWebhookButton : t.createWebhookButton2}
                 </button>
               </div>
             </div>

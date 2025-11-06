@@ -1,8 +1,12 @@
 import { useState } from 'react'
 import MainLayout from '../../components/layout/MainLayout'
 import { Link } from 'react-router-dom'
+import { useLanguage } from '../../contexts/LanguageContext'
+import { translations } from '../../translations'
 
 const AdminDashboardPage = () => {
+  const { language } = useLanguage()
+  const t = translations[language]
   const [selectedPeriod, setSelectedPeriod] = useState('7days')
 
   const systemStats = [
@@ -128,8 +132,8 @@ const AdminDashboardPage = () => {
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
           <div>
-            <h1 className="text-4xl font-bold text-gray-900 mb-2 font-heading">Admin Dashboard</h1>
-            <p className="text-gray-600">System overview and management</p>
+            <h1 className="text-4xl font-bold text-gray-900 mb-2 font-heading">{t.adminDashboardTitle}</h1>
+            <p className="text-gray-600">{t.adminDashboardDesc}</p>
           </div>
           <div className="mt-4 md:mt-0">
             <select
@@ -137,10 +141,10 @@ const AdminDashboardPage = () => {
               onChange={(e) => setSelectedPeriod(e.target.value)}
               className="glass-input px-4 py-2 rounded-xl font-semibold"
             >
-              <option value="24hours">Last 24 Hours</option>
-              <option value="7days">Last 7 Days</option>
-              <option value="30days">Last 30 Days</option>
-              <option value="90days">Last 90 Days</option>
+              <option value="24hours">{t.last24HoursOption}</option>
+              <option value="7days">{t.last7DaysOption2}</option>
+              <option value="30days">{t.last30DaysOption2}</option>
+              <option value="90days">{t.last90DaysOption2}</option>
             </select>
           </div>
         </div>
@@ -173,7 +177,7 @@ const AdminDashboardPage = () => {
         <div className="glass-card rounded-2xl p-6 mb-8">
           <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
             <span className="material-icons text-green-600 mr-2">attach_money</span>
-            Revenue Overview
+            {t.revenueOverviewTitle}
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             {revenueStats.map((stat, index) => (
@@ -195,9 +199,9 @@ const AdminDashboardPage = () => {
           <div className="lg:col-span-2">
             <div className="glass-card rounded-2xl p-6">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold text-gray-900">Recent Activity</h2>
+                <h2 className="text-2xl font-bold text-gray-900">{t.recentActivityTitle}</h2>
                 <Link to="/admin/users" className="text-primary-600 hover:text-primary-700 font-semibold text-sm">
-                  View All
+                  {t.viewAllLink}
                 </Link>
               </div>
               <div className="space-y-4">
@@ -223,7 +227,7 @@ const AdminDashboardPage = () => {
           {/* Industry Breakdown */}
           <div className="lg:col-span-1">
             <div className="glass-card rounded-2xl p-6">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Industry Breakdown</h2>
+              <h2 className="text-2xl font-bold text-gray-900 mb-6">{t.industryBreakdownTitle}</h2>
               <div className="space-y-4">
                 {industryBreakdown.map((industry, index) => (
                   <div key={index}>
@@ -248,21 +252,21 @@ const AdminDashboardPage = () => {
         {/* Top Users */}
         <div className="glass-card rounded-2xl p-6 mb-8">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold text-gray-900">Top Users</h2>
+            <h2 className="text-2xl font-bold text-gray-900">{t.topUsersTitle}</h2>
             <Link to="/admin/users" className="text-primary-600 hover:text-primary-700 font-semibold text-sm">
-              Manage Users
+              {t.manageUsersLink}
             </Link>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead className="bg-gray-50/80">
                 <tr>
-                  <th className="text-left py-3 px-4 text-xs font-bold text-gray-700 uppercase">User</th>
-                  <th className="text-left py-3 px-4 text-xs font-bold text-gray-700 uppercase">Email</th>
-                  <th className="text-left py-3 px-4 text-xs font-bold text-gray-700 uppercase">Submissions</th>
-                  <th className="text-left py-3 px-4 text-xs font-bold text-gray-700 uppercase">Avg. Score</th>
-                  <th className="text-left py-3 px-4 text-xs font-bold text-gray-700 uppercase">Status</th>
-                  <th className="text-right py-3 px-4 text-xs font-bold text-gray-700 uppercase">Actions</th>
+                  <th className="text-left py-3 px-4 text-xs font-bold text-gray-700 uppercase">{t.tableHeaderUser}</th>
+                  <th className="text-left py-3 px-4 text-xs font-bold text-gray-700 uppercase">{t.tableHeaderEmail}</th>
+                  <th className="text-left py-3 px-4 text-xs font-bold text-gray-700 uppercase">{t.tableHeaderSubmissions}</th>
+                  <th className="text-left py-3 px-4 text-xs font-bold text-gray-700 uppercase">{t.tableHeaderAvgScore}</th>
+                  <th className="text-left py-3 px-4 text-xs font-bold text-gray-700 uppercase">{t.tableHeaderStatus}</th>
+                  <th className="text-right py-3 px-4 text-xs font-bold text-gray-700 uppercase">{t.tableHeaderActions}</th>
                 </tr>
               </thead>
               <tbody>
@@ -292,7 +296,7 @@ const AdminDashboardPage = () => {
                     </td>
                     <td className="py-4 px-4 text-right">
                       <button className="text-primary-600 hover:text-primary-700 font-semibold text-sm">
-                        View Details
+                        {t.viewDetailsButton}
                       </button>
                     </td>
                   </tr>
@@ -306,7 +310,7 @@ const AdminDashboardPage = () => {
         <div className="glass-card rounded-2xl p-6">
           <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
             <span className="material-icons text-blue-600 mr-2">monitor_heart</span>
-            System Health
+            {t.systemHealthTitle}
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {systemHealth.map((service, index) => (
@@ -317,7 +321,7 @@ const AdminDashboardPage = () => {
                 </div>
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Status:</span>
+                    <span className="text-gray-600">{t.statusLabel}</span>
                     <span className={`font-semibold capitalize ${
                       service.status === 'healthy' ? 'text-green-600' : 'text-yellow-600'
                     }`}>
@@ -325,11 +329,11 @@ const AdminDashboardPage = () => {
                     </span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Uptime:</span>
+                    <span className="text-gray-600">{t.uptimeLabel}</span>
                     <span className="font-semibold text-gray-900">{service.uptime}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Response:</span>
+                    <span className="text-gray-600">{t.responseLabel}</span>
                     <span className="font-semibold text-gray-900">{service.responseTime}</span>
                   </div>
                 </div>
@@ -345,32 +349,32 @@ const AdminDashboardPage = () => {
             className="glass-card-hover rounded-2xl p-6 group"
           >
             <span className="material-icons text-4xl text-primary-600 mb-3">people</span>
-            <h3 className="text-xl font-bold text-gray-900 mb-2">Manage Users</h3>
-            <p className="text-gray-600 text-sm">View and manage user accounts</p>
+            <h3 className="text-xl font-bold text-gray-900 mb-2">{t.manageUsersCard}</h3>
+            <p className="text-gray-600 text-sm">{t.manageUsersCardDesc}</p>
           </Link>
           <Link
             to="/admin/analytics"
             className="glass-card-hover rounded-2xl p-6 group"
           >
             <span className="material-icons text-4xl text-green-600 mb-3">analytics</span>
-            <h3 className="text-xl font-bold text-gray-900 mb-2">View Analytics</h3>
-            <p className="text-gray-600 text-sm">Detailed platform analytics and insights</p>
+            <h3 className="text-xl font-bold text-gray-900 mb-2">{t.viewAnalyticsCard}</h3>
+            <p className="text-gray-600 text-sm">{t.viewAnalyticsCardDesc}</p>
           </Link>
           <Link
             to="/admin/webhooks"
             className="glass-card-hover rounded-2xl p-6 group"
           >
             <span className="material-icons text-4xl text-orange-600 mb-3">webhook</span>
-            <h3 className="text-xl font-bold text-gray-900 mb-2">N8N Webhooks</h3>
-            <p className="text-gray-600 text-sm">Manage n8n webhook integrations</p>
+            <h3 className="text-xl font-bold text-gray-900 mb-2">{t.webhooksTab}</h3>
+            <p className="text-gray-600 text-sm">{t.webhooksCardDesc}</p>
           </Link>
           <Link
             to="/criteria"
             className="glass-card-hover rounded-2xl p-6 group"
           >
             <span className="material-icons text-4xl text-purple-600 mb-3">tune</span>
-            <h3 className="text-xl font-bold text-gray-900 mb-2">Manage Criteria</h3>
-            <p className="text-gray-600 text-sm">Configure evaluation rubrics</p>
+            <h3 className="text-xl font-bold text-gray-900 mb-2">{t.criteria}</h3>
+            <p className="text-gray-600 text-sm">{t.manageCriteriaCardDesc}</p>
           </Link>
         </div>
       </div>

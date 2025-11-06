@@ -2,9 +2,13 @@ import { useState } from 'react'
 import MainLayout from '../../components/layout/MainLayout'
 import { useParams, Link } from 'react-router-dom'
 import toast from 'react-hot-toast'
+import { useLanguage } from '../../contexts/LanguageContext'
+import { translations } from '../../translations'
 
 const AgentConfigurationPage = () => {
   const { agentId } = useParams()
+  const { language } = useLanguage()
+  const t = translations[language]
   const [activeTab, setActiveTab] = useState('deployment')
 
   const [config, setConfig] = useState({
@@ -86,9 +90,9 @@ const AgentConfigurationPage = () => {
 
   const tabs = [
     { id: 'deployment', label: 'Deployment', icon: 'rocket_launch' },
-    { id: 'criteria', label: 'Evaluation Criteria', icon: 'tune' },
+    { id: 'criteria', label: t.evaluationCriteriaTitle, icon: 'tune' },
     { id: 'integration', label: 'Integration', icon: 'integration_instructions' },
-    { id: 'notifications', label: 'Notifications', icon: 'notifications' },
+    { id: 'notifications', label: t.notifications, icon: 'notifications' },
   ]
 
   return (
@@ -98,7 +102,7 @@ const AgentConfigurationPage = () => {
         <div className="mb-8">
           <Link to="/marketplace" className="text-primary-600 hover:text-primary-700 font-semibold mb-4 inline-flex items-center">
             <span className="material-icons text-sm mr-1">arrow_back</span>
-            Back to Marketplace
+            {t.backToMarketplaceLink}
           </Link>
           <div className="flex items-center justify-between mt-4">
             <div className="flex items-center">
@@ -116,14 +120,14 @@ const AgentConfigurationPage = () => {
                 className="glass-btn-secondary rounded-xl px-6 py-3 font-semibold inline-flex items-center"
               >
                 <span className="material-icons mr-2">save</span>
-                Save Config
+                {t.saveConfigButton}
               </button>
               <button
                 onClick={handleActivateAgent}
                 className="glass-btn-primary rounded-xl px-6 py-3 font-semibold inline-flex items-center glow"
               >
                 <span className="material-icons mr-2">play_arrow</span>
-                Activate Agent
+                {t.activateAgentButton}
               </button>
             </div>
           </div>
@@ -154,7 +158,7 @@ const AgentConfigurationPage = () => {
           {/* Deployment Mode */}
           {activeTab === 'deployment' && (
             <div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Choose Deployment Mode</h2>
+              <h2 className="text-2xl font-bold text-gray-900 mb-6">{t.chooseDeploymentModeTitle}</h2>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                 {/* One-Time Run */}
@@ -169,12 +173,12 @@ const AgentConfigurationPage = () => {
                   <div className="w-14 h-14 rounded-xl bg-green-100 flex items-center justify-center mb-4">
                     <span className="material-icons text-3xl text-green-600">play_arrow</span>
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">One-Time Run</h3>
-                  <p className="text-gray-700 text-sm mb-4">Execute the agent on-demand whenever you need</p>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">{t.oneTimeRunTitle2}</h3>
+                  <p className="text-gray-700 text-sm mb-4">{t.oneTimeRunDesc2}</p>
                   <ul className="space-y-1 text-sm text-gray-600">
-                    <li>• Manual trigger</li>
-                    <li>• Instant execution</li>
-                    <li>• Pay per use</li>
+                    <li>• {t.manualTrigger}</li>
+                    <li>• {t.instantExecution2}</li>
+                    <li>• {t.payPerUse2}</li>
                   </ul>
                 </div>
 
@@ -190,12 +194,12 @@ const AgentConfigurationPage = () => {
                   <div className="w-14 h-14 rounded-xl bg-primary-100 flex items-center justify-center mb-4">
                     <span className="material-icons text-3xl text-primary-600">schedule</span>
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">Custom Schedule</h3>
-                  <p className="text-gray-700 text-sm mb-4">Automated recurring execution on your schedule</p>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">{t.customScheduleTitle3}</h3>
+                  <p className="text-gray-700 text-sm mb-4">{t.customScheduleDesc3}</p>
                   <ul className="space-y-1 text-sm text-gray-600">
-                    <li>• Automated workflow</li>
-                    <li>• Flexible timing</li>
-                    <li>• Set and forget</li>
+                    <li>• {t.automatedWorkflow}</li>
+                    <li>• {t.flexibleTiming2}</li>
+                    <li>• {t.setAndForget2}</li>
                   </ul>
                 </div>
 
@@ -211,12 +215,12 @@ const AgentConfigurationPage = () => {
                   <div className="w-14 h-14 rounded-xl bg-purple-100 flex items-center justify-center mb-4">
                     <span className="material-icons text-3xl text-purple-600">code</span>
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">API Integration</h3>
-                  <p className="text-gray-700 text-sm mb-4">Embed into your website or application</p>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">{t.apiIntegrationTitle}</h3>
+                  <p className="text-gray-700 text-sm mb-4">{t.apiIntegrationDesc}</p>
                   <ul className="space-y-1 text-sm text-gray-600">
-                    <li>• REST API access</li>
-                    <li>• Webhook support</li>
-                    <li>• Real-time results</li>
+                    <li>• {t.restApiAccess}</li>
+                    <li>• {t.webhookSupport2}</li>
+                    <li>• {t.realTimeResults}</li>
                   </ul>
                 </div>
               </div>
@@ -224,11 +228,11 @@ const AgentConfigurationPage = () => {
               {/* Schedule Configuration */}
               {config.deploymentMode === 'scheduled' && (
                 <div className="glass-card rounded-2xl p-6 bg-primary-50/50">
-                  <h3 className="text-xl font-bold text-gray-900 mb-6">Schedule Configuration</h3>
+                  <h3 className="text-xl font-bold text-gray-900 mb-6">{t.scheduleConfigTitle}</h3>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                     <div>
-                      <label className="block text-sm font-semibold text-gray-800 mb-2">Frequency</label>
+                      <label className="block text-sm font-semibold text-gray-800 mb-2">{t.frequencyLabel}</label>
                       <select
                         value={config.schedule.frequency}
                         onChange={(e) => setConfig({
@@ -243,7 +247,7 @@ const AgentConfigurationPage = () => {
                       </select>
                     </div>
                     <div>
-                      <label className="block text-sm font-semibold text-gray-800 mb-2">Execution Time</label>
+                      <label className="block text-sm font-semibold text-gray-800 mb-2">{t.executionTimeLabel}</label>
                       <input
                         type="time"
                         value={config.schedule.time}
@@ -258,7 +262,7 @@ const AgentConfigurationPage = () => {
 
                   {config.schedule.frequency === 'weekly' && (
                     <div>
-                      <label className="block text-sm font-semibold text-gray-800 mb-3">Select Days</label>
+                      <label className="block text-sm font-semibold text-gray-800 mb-3">{t.selectDaysLabel}</label>
                       <div className="grid grid-cols-7 gap-2">
                         {weekDays.map(day => (
                           <button
@@ -282,16 +286,16 @@ const AgentConfigurationPage = () => {
               {/* Integration Info */}
               {config.deploymentMode === 'integrated' && (
                 <div className="glass-card rounded-2xl p-6 bg-purple-50/50">
-                  <h3 className="text-xl font-bold text-gray-900 mb-4">Integration Setup</h3>
+                  <h3 className="text-xl font-bold text-gray-900 mb-4">{t.integrationSetupTitle}</h3>
                   <p className="text-gray-700 mb-6">
-                    Configure API integration settings in the Integration tab to connect this agent to your application.
+                    {t.integrationSetupDesc}
                   </p>
                   <button
                     onClick={() => setActiveTab('integration')}
                     className="glass-btn-primary rounded-xl px-6 py-3 font-semibold inline-flex items-center"
                   >
                     <span className="material-icons mr-2">settings</span>
-                    Configure Integration
+                    {t.configureIntegrationButton}
                   </button>
                 </div>
               )}
@@ -301,7 +305,7 @@ const AgentConfigurationPage = () => {
           {/* Evaluation Criteria */}
           {activeTab === 'criteria' && (
             <div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Evaluation Criteria</h2>
+              <h2 className="text-2xl font-bold text-gray-900 mb-6">{t.evaluationCriteriaTitle}</h2>
 
               <div className="mb-6">
                 <label className="flex items-center space-x-3 cursor-pointer">
@@ -314,13 +318,13 @@ const AgentConfigurationPage = () => {
                     })}
                     className="w-5 h-5 text-primary-600 rounded focus:ring-primary-500"
                   />
-                  <span className="text-gray-800 font-semibold">Use default evaluation criteria</span>
+                  <span className="text-gray-800 font-semibold">{t.useDefaultCriteriaCheckbox}</span>
                 </label>
               </div>
 
               {!config.criteria.useDefault && (
                 <div className="space-y-6">
-                  <p className="text-gray-600">Customize the weight of each criterion (total must equal 100%)</p>
+                  <p className="text-gray-600">{t.customizeCriteriaDesc}</p>
                   {Object.entries(config.criteria.customWeights).map(([key, value]) => (
                     <div key={key}>
                       <div className="flex items-center justify-between mb-2">
@@ -358,7 +362,7 @@ const AgentConfigurationPage = () => {
                     <p className="text-sm text-gray-700">
                       Total: <strong>{Object.values(config.criteria.customWeights).reduce((a, b) => a + b, 0)}%</strong>
                       {Object.values(config.criteria.customWeights).reduce((a, b) => a + b, 0) !== 100 && (
-                        <span className="text-red-600 ml-2">⚠️ Must equal 100%</span>
+                        <span className="text-red-600 ml-2">{t.mustEqual100Percent}</span>
                       )}
                     </p>
                   </div>
@@ -370,11 +374,11 @@ const AgentConfigurationPage = () => {
           {/* Integration */}
           {activeTab === 'integration' && (
             <div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">API Integration</h2>
+              <h2 className="text-2xl font-bold text-gray-900 mb-6">{t.apiIntegrationTitle2}</h2>
 
               <div className="space-y-6">
                 <div>
-                  <label className="block text-sm font-semibold text-gray-800 mb-2">Webhook URL</label>
+                  <label className="block text-sm font-semibold text-gray-800 mb-2">{t.webhookUrlLabel}</label>
                   <input
                     type="url"
                     value={config.integration.webhookUrl}
@@ -382,20 +386,20 @@ const AgentConfigurationPage = () => {
                       ...config,
                       integration: { ...config.integration, webhookUrl: e.target.value }
                     })}
-                    placeholder="https://your-domain.com/webhook"
+                    placeholder={t.webhookUrlPlaceholder}
                     className="glass-input w-full"
                   />
-                  <p className="text-sm text-gray-600 mt-1">We'll send evaluation results to this URL</p>
+                  <p className="text-sm text-gray-600 mt-1">{t.webhookUrlHelp}</p>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-gray-800 mb-2">API Key</label>
+                  <label className="block text-sm font-semibold text-gray-800 mb-2">{t.apiKeyLabel}</label>
                   <div className="flex space-x-2">
                     <input
                       type="text"
                       value={config.integration.apiKey}
                       readOnly
-                      placeholder="Click generate to create an API key"
+                      placeholder={t.generateApiKeyPlaceholder}
                       className="glass-input flex-1"
                     />
                     <button
@@ -409,7 +413,7 @@ const AgentConfigurationPage = () => {
                       }}
                       className="glass-btn-primary rounded-xl px-6 py-2 font-semibold whitespace-nowrap"
                     >
-                      Generate Key
+                      {t.generateKeyButton}
                     </button>
                   </div>
                 </div>
@@ -425,7 +429,7 @@ const AgentConfigurationPage = () => {
                       })}
                       className="w-5 h-5 text-primary-600 rounded focus:ring-primary-500"
                     />
-                    <span className="text-gray-800 font-semibold">Auto-submit evaluations to webhook</span>
+                    <span className="text-gray-800 font-semibold">{t.autoSubmitCheckbox}</span>
                   </label>
                 </div>
 
@@ -434,7 +438,7 @@ const AgentConfigurationPage = () => {
                   className="inline-block glass-btn-secondary rounded-xl px-6 py-3 font-semibold mt-4"
                 >
                   <span className="material-icons text-sm mr-2">code</span>
-                  View Integration Docs & Code Examples
+                  {t.viewIntegrationDocsLink}
                 </Link>
               </div>
             </div>
@@ -443,7 +447,7 @@ const AgentConfigurationPage = () => {
           {/* Notifications */}
           {activeTab === 'notifications' && (
             <div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Notification Preferences</h2>
+              <h2 className="text-2xl font-bold text-gray-900 mb-6">{t.notificationPreferencesTitle}</h2>
 
               <div className="space-y-6">
                 <div className="glass-card rounded-2xl p-6">
@@ -451,8 +455,8 @@ const AgentConfigurationPage = () => {
                     <div className="flex items-center">
                       <span className="material-icons text-blue-600 text-2xl mr-3">email</span>
                       <div>
-                        <h3 className="font-semibold text-gray-900">Email Notifications</h3>
-                        <p className="text-sm text-gray-600">Receive updates via email</p>
+                        <h3 className="font-semibold text-gray-900">{t.emailNotificationsLabel}</h3>
+                        <p className="text-sm text-gray-600">{t.emailNotificationsDesc}</p>
                       </div>
                     </div>
                     <button
@@ -476,8 +480,8 @@ const AgentConfigurationPage = () => {
                     <div className="flex items-center">
                       <span className="material-icons text-purple-600 text-2xl mr-3">chat</span>
                       <div>
-                        <h3 className="font-semibold text-gray-900">Slack Notifications</h3>
-                        <p className="text-sm text-gray-600">Post updates to Slack channel</p>
+                        <h3 className="font-semibold text-gray-900">{t.slackNotificationsLabel}</h3>
+                        <p className="text-sm text-gray-600">{t.slackNotificationsDesc}</p>
                       </div>
                     </div>
                     <button
@@ -501,8 +505,8 @@ const AgentConfigurationPage = () => {
                     <div className="flex items-center">
                       <span className="material-icons text-green-600 text-2xl mr-3">webhook</span>
                       <div>
-                        <h3 className="font-semibold text-gray-900">Webhook Notifications</h3>
-                        <p className="text-sm text-gray-600">Send to custom webhook endpoint</p>
+                        <h3 className="font-semibold text-gray-900">{t.webhookNotificationsLabel}</h3>
+                        <p className="text-sm text-gray-600">{t.webhookNotificationsDesc}</p>
                       </div>
                     </div>
                     <button

@@ -1,8 +1,12 @@
 import { useState } from 'react'
 import MainLayout from '../../components/layout/MainLayout'
 import toast from 'react-hot-toast'
+import { useLanguage } from '../../contexts/LanguageContext'
+import { translations } from '../../translations'
 
 const UserManagementPage = () => {
+  const { language } = useLanguage()
+  const t = translations[language]
   const [searchQuery, setSearchQuery] = useState('')
   const [filterRole, setFilterRole] = useState('all')
   const [filterStatus, setFilterStatus] = useState('all')
@@ -80,18 +84,18 @@ const UserManagementPage = () => {
 
   const handleSuspendUser = (userId) => {
     setUsers(prev => prev.map(u => u.id === userId ? { ...u, status: 'suspended' } : u))
-    toast.success('User suspended successfully')
+    toast.success(t.userSuspendedSuccess)
   }
 
   const handleActivateUser = (userId) => {
     setUsers(prev => prev.map(u => u.id === userId ? { ...u, status: 'active' } : u))
-    toast.success('User activated successfully')
+    toast.success(t.userActivatedSuccess)
   }
 
   const handleDeleteUser = (userId) => {
-    if (window.confirm('Are you sure you want to delete this user?')) {
+    if (window.confirm(t.deleteUserConfirmation)) {
       setUsers(prev => prev.filter(u => u.id !== userId))
-      toast.success('User deleted successfully')
+      toast.success(t.userDeletedSuccess)
     }
   }
 
@@ -111,10 +115,10 @@ const UserManagementPage = () => {
   }
 
   const stats = [
-    { label: 'Total Users', value: users.length, icon: 'people', color: 'blue' },
-    { label: 'Active Users', value: users.filter(u => u.status === 'active').length, icon: 'check_circle', color: 'green' },
-    { label: 'Premium Users', value: users.filter(u => u.plan === 'Premium').length, icon: 'star', color: 'yellow' },
-    { label: 'Suspended', value: users.filter(u => u.status === 'suspended').length, icon: 'block', color: 'red' },
+    { label: t.totalUsersLabel, value: users.length, icon: 'people', color: 'blue' },
+    { label: t.activeUsersLabel, value: users.filter(u => u.status === 'active').length, icon: 'check_circle', color: 'green' },
+    { label: t.premiumUsersLabel, value: users.filter(u => u.plan === 'Premium').length, icon: 'star', color: 'yellow' },
+    { label: t.suspendedLabel, value: users.filter(u => u.status === 'suspended').length, icon: 'block', color: 'red' },
   ]
 
   return (
@@ -123,12 +127,12 @@ const UserManagementPage = () => {
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
           <div>
-            <h1 className="text-4xl font-bold text-gray-900 mb-2 font-heading">User Management</h1>
-            <p className="text-gray-600">Manage and monitor user accounts</p>
+            <h1 className="text-4xl font-bold text-gray-900 mb-2 font-heading">{t.userManagementTitle}</h1>
+            <p className="text-gray-600">{t.userManagementDesc}</p>
           </div>
           <button className="glass-btn-primary rounded-xl px-6 py-3 font-semibold inline-flex items-center mt-4 md:mt-0">
             <span className="material-icons mr-2">person_add</span>
-            Add New User
+            {t.addNewUserButton}
           </button>
         </div>
 
@@ -153,7 +157,7 @@ const UserManagementPage = () => {
                 <span className="material-icons absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">search</span>
                 <input
                   type="text"
-                  placeholder="Search users..."
+                  placeholder={t.searchUsersPlaceholder}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="glass-input w-full pl-10"
@@ -165,19 +169,19 @@ const UserManagementPage = () => {
               onChange={(e) => setFilterRole(e.target.value)}
               className="glass-input"
             >
-              <option value="all">All Roles</option>
-              <option value="user">User</option>
-              <option value="admin">Admin</option>
+              <option value="all">{t.allRolesOption}</option>
+              <option value="user">{t.userRoleOption}</option>
+              <option value="admin">{t.adminRoleOption}</option>
             </select>
             <select
               value={filterStatus}
               onChange={(e) => setFilterStatus(e.target.value)}
               className="glass-input"
             >
-              <option value="all">All Status</option>
-              <option value="active">Active</option>
-              <option value="suspended">Suspended</option>
-              <option value="pending">Pending</option>
+              <option value="all">{t.allStatusOption}</option>
+              <option value="active">{t.activeStatusOption}</option>
+              <option value="suspended">{t.suspendedStatusOption}</option>
+              <option value="pending">{t.pendingStatusOption}</option>
             </select>
           </div>
         </div>
@@ -188,20 +192,20 @@ const UserManagementPage = () => {
             <table className="w-full">
               <thead className="bg-gray-50/80">
                 <tr>
-                  <th className="text-left py-4 px-6 text-xs font-bold text-gray-700 uppercase">User</th>
-                  <th className="text-left py-4 px-6 text-xs font-bold text-gray-700 uppercase">Role</th>
-                  <th className="text-left py-4 px-6 text-xs font-bold text-gray-700 uppercase">Plan</th>
-                  <th className="text-left py-4 px-6 text-xs font-bold text-gray-700 uppercase">Status</th>
-                  <th className="text-left py-4 px-6 text-xs font-bold text-gray-700 uppercase">Submissions</th>
-                  <th className="text-left py-4 px-6 text-xs font-bold text-gray-700 uppercase">Avg Score</th>
-                  <th className="text-right py-4 px-6 text-xs font-bold text-gray-700 uppercase">Actions</th>
+                  <th className="text-left py-4 px-6 text-xs font-bold text-gray-700 uppercase">{t.tableHeaderUser}</th>
+                  <th className="text-left py-4 px-6 text-xs font-bold text-gray-700 uppercase">{t.tableHeaderRole}</th>
+                  <th className="text-left py-4 px-6 text-xs font-bold text-gray-700 uppercase">{t.tableHeaderPlan}</th>
+                  <th className="text-left py-4 px-6 text-xs font-bold text-gray-700 uppercase">{t.tableHeaderStatus}</th>
+                  <th className="text-left py-4 px-6 text-xs font-bold text-gray-700 uppercase">{t.tableHeaderSubmissions}</th>
+                  <th className="text-left py-4 px-6 text-xs font-bold text-gray-700 uppercase">{t.tableHeaderAvgScore}</th>
+                  <th className="text-right py-4 px-6 text-xs font-bold text-gray-700 uppercase">{t.tableHeaderActions}</th>
                 </tr>
               </thead>
               <tbody>
                 {filteredUsers.length === 0 ? (
                   <tr>
                     <td colSpan="7" className="py-12 text-center text-gray-500">
-                      No users found
+                      {t.noUsersFoundMessage}
                     </td>
                   </tr>
                 ) : (

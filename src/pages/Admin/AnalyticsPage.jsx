@@ -1,13 +1,17 @@
 import { useState } from 'react'
 import MainLayout from '../../components/layout/MainLayout'
+import { useLanguage } from '../../contexts/LanguageContext'
+import { translations } from '../../translations'
 
 const AnalyticsPage = () => {
+  const { language } = useLanguage()
+  const t = translations[language]
   const [selectedPeriod, setSelectedPeriod] = useState('30days')
   const [selectedMetric, setSelectedMetric] = useState('submissions')
 
   const overviewStats = [
     {
-      label: 'Total Revenue',
+      label: t.totalRevenueLabel,
       value: '$87,540',
       change: '+22.5%',
       trend: 'up',
@@ -15,7 +19,7 @@ const AnalyticsPage = () => {
       color: 'green'
     },
     {
-      label: 'New Users',
+      label: t.newUsersLabel,
       value: '1,247',
       change: '+18.2%',
       trend: 'up',
@@ -23,7 +27,7 @@ const AnalyticsPage = () => {
       color: 'blue'
     },
     {
-      label: 'Active Sessions',
+      label: t.activeSessionsLabel,
       value: '3,842',
       change: '+12.8%',
       trend: 'up',
@@ -31,7 +35,7 @@ const AnalyticsPage = () => {
       color: 'purple'
     },
     {
-      label: 'Conversion Rate',
+      label: t.conversionRateLabel,
       value: '4.8%',
       change: '+0.9%',
       trend: 'up',
@@ -41,18 +45,18 @@ const AnalyticsPage = () => {
   ]
 
   const topIndustries = [
-    { name: 'Technology', submissions: 2845, revenue: '$28,450', growth: '+15%' },
-    { name: 'Education', submissions: 1892, revenue: '$18,920', growth: '+22%' },
-    { name: 'Business', submissions: 1567, revenue: '$15,670', growth: '+8%' },
-    { name: 'Healthcare', submissions: 1234, revenue: '$12,340', growth: '+19%' },
-    { name: 'Law', submissions: 918, revenue: '$9,180', growth: '+12%' },
+    { name: t.technologyIndustry, submissions: 2845, revenue: '$28,450', growth: '+15%' },
+    { name: t.educationIndustry, submissions: 1892, revenue: '$18,920', growth: '+22%' },
+    { name: t.businessIndustry, submissions: 1567, revenue: '$15,670', growth: '+8%' },
+    { name: t.healthcareIndustry, submissions: 1234, revenue: '$12,340', growth: '+19%' },
+    { name: t.lawIndustry, submissions: 918, revenue: '$9,180', growth: '+12%' },
   ]
 
   const agentPerformance = [
-    { name: 'Source Code Assessment', usage: 3245, avgScore: 87, satisfaction: 4.6 },
-    { name: 'Documents and Images Review', usage: 2856, avgScore: 89, satisfaction: 4.7 },
-    { name: 'Video & Audio Analysis', usage: 1432, avgScore: 85, satisfaction: 4.5 },
-    { name: 'Custom Evaluation Criteria', usage: 923, avgScore: 91, satisfaction: 4.8 },
+    { name: t.agent3Title, usage: 3245, avgScore: 87, satisfaction: 4.6 },
+    { name: t.agent2Title, usage: 2856, avgScore: 89, satisfaction: 4.7 },
+    { name: t.agent1Title, usage: 1432, avgScore: 85, satisfaction: 4.5 },
+    { name: t.agent4Title, usage: 923, avgScore: 91, satisfaction: 4.8 },
   ]
 
   const userEngagementData = [
@@ -77,8 +81,8 @@ const AnalyticsPage = () => {
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
           <div>
-            <h1 className="text-4xl font-bold text-gray-900 mb-2 font-heading">Analytics Dashboard</h1>
-            <p className="text-gray-600">Platform performance and insights</p>
+            <h1 className="text-4xl font-bold text-gray-900 mb-2 font-heading">{t.analyticsDashboardTitle}</h1>
+            <p className="text-gray-600">{t.analyticsDashboardDesc}</p>
           </div>
           <div className="mt-4 md:mt-0 flex space-x-3">
             <select
@@ -86,14 +90,14 @@ const AnalyticsPage = () => {
               onChange={(e) => setSelectedPeriod(e.target.value)}
               className="glass-input px-4 py-2 rounded-xl font-semibold"
             >
-              <option value="7days">Last 7 Days</option>
-              <option value="30days">Last 30 Days</option>
-              <option value="90days">Last 90 Days</option>
-              <option value="year">Last Year</option>
+              <option value="7days">{t.last7DaysOption}</option>
+              <option value="30days">{t.last30DaysOption}</option>
+              <option value="90days">{t.last90DaysOption}</option>
+              <option value="year">{t.lastYearOption}</option>
             </select>
             <button className="glass-btn-primary rounded-xl px-6 py-3 font-semibold inline-flex items-center">
               <span className="material-icons mr-2">download</span>
-              Export Report
+              {t.exportReportButton}
             </button>
           </div>
         </div>
@@ -119,7 +123,7 @@ const AnalyticsPage = () => {
         {/* User Engagement Chart */}
         <div className="glass-card rounded-2xl p-6 mb-8">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold text-gray-900">User Engagement Trends</h2>
+            <h2 className="text-2xl font-bold text-gray-900">{t.userEngagementTrendsTitle}</h2>
             <div className="flex space-x-2">
               {['submissions', 'users', 'revenue'].map((metric) => (
                 <button
@@ -157,7 +161,7 @@ const AnalyticsPage = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
           {/* Top Industries */}
           <div className="glass-card rounded-2xl p-6">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Top Industries</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">{t.topIndustriesTitle}</h2>
             <div className="space-y-4">
               {topIndustries.map((industry, index) => (
                 <div key={index} className="flex items-center justify-between pb-4 border-b border-gray-100 last:border-0">
@@ -167,7 +171,7 @@ const AnalyticsPage = () => {
                       <span className="text-sm font-bold text-gray-900">{industry.revenue}</span>
                     </div>
                     <div className="flex items-center justify-between text-sm text-gray-600">
-                      <span>{industry.submissions} submissions</span>
+                      <span>{industry.submissions} {t.submissionsLabel}</span>
                       <span className="text-green-600 font-semibold">{industry.growth}</span>
                     </div>
                   </div>
@@ -178,7 +182,7 @@ const AnalyticsPage = () => {
 
           {/* Revenue Breakdown */}
           <div className="glass-card rounded-2xl p-6">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Revenue Breakdown</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">{t.revenueBreakdownTitle}</h2>
             <div className="space-y-6">
               {revenueBreakdown.map((item, index) => (
                 <div key={index}>
@@ -192,13 +196,13 @@ const AnalyticsPage = () => {
                       style={{ width: `${item.percentage}%` }}
                     />
                   </div>
-                  <div className="text-xs text-gray-500 mt-1">{item.percentage}% of total revenue</div>
+                  <div className="text-xs text-gray-500 mt-1">{item.percentage}{t.percentOfTotalRevenue}</div>
                 </div>
               ))}
             </div>
             <div className="mt-6 pt-6 border-t border-gray-200">
               <div className="flex items-center justify-between">
-                <span className="font-semibold text-gray-900">Total Revenue</span>
+                <span className="font-semibold text-gray-900">{t.totalRevenueLabel2}</span>
                 <span className="text-2xl font-bold text-primary-600">
                   ${revenueBreakdown.reduce((sum, item) => sum + item.amount, 0).toLocaleString()}
                 </span>
@@ -209,16 +213,16 @@ const AnalyticsPage = () => {
 
         {/* Agent Performance */}
         <div className="glass-card rounded-2xl p-6 mb-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">AI Agent Performance</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-6">{t.aiAgentPerformanceTitle}</h2>
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead className="bg-gray-50/80">
                 <tr>
-                  <th className="text-left py-3 px-4 text-xs font-bold text-gray-700 uppercase">Agent</th>
-                  <th className="text-left py-3 px-4 text-xs font-bold text-gray-700 uppercase">Usage Count</th>
-                  <th className="text-left py-3 px-4 text-xs font-bold text-gray-700 uppercase">Avg. Score</th>
-                  <th className="text-left py-3 px-4 text-xs font-bold text-gray-700 uppercase">Satisfaction</th>
-                  <th className="text-left py-3 px-4 text-xs font-bold text-gray-700 uppercase">Performance</th>
+                  <th className="text-left py-3 px-4 text-xs font-bold text-gray-700 uppercase">{t.tableHeaderAgent}</th>
+                  <th className="text-left py-3 px-4 text-xs font-bold text-gray-700 uppercase">{t.tableHeaderUsageCount}</th>
+                  <th className="text-left py-3 px-4 text-xs font-bold text-gray-700 uppercase">{t.tableHeaderAvgScore}</th>
+                  <th className="text-left py-3 px-4 text-xs font-bold text-gray-700 uppercase">{t.tableHeaderSatisfaction}</th>
+                  <th className="text-left py-3 px-4 text-xs font-bold text-gray-700 uppercase">{t.tableHeaderPerformance}</th>
                 </tr>
               </thead>
               <tbody>
@@ -233,14 +237,14 @@ const AnalyticsPage = () => {
                     <td className="py-4 px-4">
                       <div className="flex items-center">
                         <div className="text-primary-600 font-bold">{agent.avgScore}</div>
-                        <div className="text-gray-500 text-sm ml-1">/100</div>
+                        <div className="text-gray-500 text-sm ml-1">{t.outOfHundred}</div>
                       </div>
                     </td>
                     <td className="py-4 px-4">
                       <div className="flex items-center">
                         <span className="material-icons text-yellow-500 text-sm mr-1">star</span>
                         <span className="font-semibold text-gray-900">{agent.satisfaction}</span>
-                        <span className="text-gray-500 text-sm ml-1">/5</span>
+                        <span className="text-gray-500 text-sm ml-1">{t.outOfFive}</span>
                       </div>
                     </td>
                     <td className="py-4 px-4">
@@ -262,23 +266,23 @@ const AnalyticsPage = () => {
         <div className="glass-card rounded-2xl p-6">
           <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
             <span className="material-icons text-primary-600 mr-2">insights</span>
-            Key Insights
+            {t.keyInsightsTitle}
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="glass-card rounded-xl p-4 bg-gradient-to-br from-green-50 to-white">
               <span className="material-icons text-green-600 text-3xl mb-3">trending_up</span>
-              <h3 className="font-bold text-gray-900 mb-2">Growing Revenue</h3>
-              <p className="text-sm text-gray-700">Monthly revenue increased by 22.5% compared to last month, driven by premium subscriptions.</p>
+              <h3 className="font-bold text-gray-900 mb-2">{t.growingRevenueTitle}</h3>
+              <p className="text-sm text-gray-700">{t.growingRevenueDesc}</p>
             </div>
             <div className="glass-card rounded-xl p-4 bg-gradient-to-br from-blue-50 to-white">
               <span className="material-icons text-blue-600 text-3xl mb-3">people</span>
-              <h3 className="font-bold text-gray-900 mb-2">User Growth</h3>
-              <p className="text-sm text-gray-700">New user registrations up 18.2%. Education and Technology sectors show highest growth.</p>
+              <h3 className="font-bold text-gray-900 mb-2">{t.userGrowthTitle}</h3>
+              <p className="text-sm text-gray-700">{t.userGrowthDesc}</p>
             </div>
             <div className="glass-card rounded-xl p-4 bg-gradient-to-br from-purple-50 to-white">
               <span className="material-icons text-purple-600 text-3xl mb-3">psychology</span>
-              <h3 className="font-bold text-gray-900 mb-2">AI Performance</h3>
-              <p className="text-sm text-gray-700">Custom Evaluation agent shows highest satisfaction rating at 4.8/5 with 91 avg. score.</p>
+              <h3 className="font-bold text-gray-900 mb-2">{t.aiPerformanceTitle}</h3>
+              <p className="text-sm text-gray-700">{t.aiPerformanceDesc}</p>
             </div>
           </div>
         </div>

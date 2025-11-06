@@ -1,8 +1,12 @@
 import { useState } from 'react'
 import MainLayout from '../../components/layout/MainLayout'
 import toast from 'react-hot-toast'
+import { useLanguage } from '../../contexts/LanguageContext'
+import { translations } from '../../translations'
 
 const MultiAgentOrchestratorPage = () => {
+  const { language } = useLanguage()
+  const t = translations[language]
   const [workflowName, setWorkflowName] = useState('My Workflow')
   const [selectedAgents, setSelectedAgents] = useState([])
   const [workflowMode, setWorkflowMode] = useState('sequential')
@@ -84,9 +88,9 @@ const MultiAgentOrchestratorPage = () => {
       <div className="py-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-5xl font-bold text-gray-900 mb-4 font-heading">Multi-Agent Orchestrator</h1>
+          <h1 className="text-5xl font-bold text-gray-900 mb-4 font-heading">{t.multiAgentOrchestratorTitle}</h1>
           <p className="text-xl text-gray-600">
-            Create intelligent workflows by combining multiple AI agents
+            {t.multiAgentOrchestratorDesc}
           </p>
         </div>
 
@@ -94,30 +98,30 @@ const MultiAgentOrchestratorPage = () => {
           {/* Workflow Builder */}
           <div className="lg:col-span-2">
             <div className="glass-card rounded-3xl p-8 mb-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Workflow Builder</h2>
+              <h2 className="text-2xl font-bold text-gray-900 mb-6">{t.workflowBuilderTitle}</h2>
 
               {/* Workflow Name and Mode */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                 <div>
-                  <label className="block text-sm font-semibold text-gray-800 mb-2">Workflow Name</label>
+                  <label className="block text-sm font-semibold text-gray-800 mb-2">{t.workflowNameLabel}</label>
                   <input
                     type="text"
                     value={workflowName}
                     onChange={(e) => setWorkflowName(e.target.value)}
                     className="glass-input w-full"
-                    placeholder="Enter workflow name"
+                    placeholder={t.workflowNamePlaceholder}
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold text-gray-800 mb-2">Execution Mode</label>
+                  <label className="block text-sm font-semibold text-gray-800 mb-2">{t.executionModeLabel}</label>
                   <select
                     value={workflowMode}
                     onChange={(e) => setWorkflowMode(e.target.value)}
                     className="glass-input w-full"
                   >
-                    <option value="sequential">Sequential (One by One)</option>
-                    <option value="parallel">Parallel (All at Once)</option>
-                    <option value="conditional">Conditional (Rules Based)</option>
+                    <option value="sequential">{t.sequentialOption}</option>
+                    <option value="parallel">{t.parallelOption}</option>
+                    <option value="conditional">{t.conditionalOption}</option>
                   </select>
                 </div>
               </div>
@@ -128,14 +132,14 @@ const MultiAgentOrchestratorPage = () => {
                   <span className="material-icons text-blue-600 mr-2">info</span>
                   <div>
                     <h4 className="font-semibold text-gray-900 mb-1">
-                      {workflowMode === 'sequential' ? 'Sequential Execution' :
-                       workflowMode === 'parallel' ? 'Parallel Execution' :
-                       'Conditional Execution'}
+                      {workflowMode === 'sequential' ? t.sequentialExecution :
+                       workflowMode === 'parallel' ? t.parallelExecutionTitle :
+                       t.conditionalExecution}
                     </h4>
                     <p className="text-sm text-gray-700">
-                      {workflowMode === 'sequential' ? 'Agents process submissions one after another. Output from one agent becomes input for the next.' :
-                       workflowMode === 'parallel' ? 'All agents process the submission simultaneously for faster results.' :
-                       'Agents execute based on conditions and rules you define (coming soon).'}
+                      {workflowMode === 'sequential' ? t.sequentialExecDesc :
+                       workflowMode === 'parallel' ? t.parallelExecDesc :
+                       t.conditionalExecDesc}
                     </p>
                   </div>
                 </div>
@@ -143,12 +147,12 @@ const MultiAgentOrchestratorPage = () => {
 
               {/* Agent Workflow */}
               <div className="mb-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">Workflow Steps ({selectedAgents.length} agents)</h3>
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">{t.workflowStepsTitle} ({selectedAgents.length} {t.agentsLabel})</h3>
                 {selectedAgents.length === 0 ? (
                   <div className="text-center py-12 border-2 border-dashed border-gray-300 rounded-2xl">
                     <span className="material-icons text-6xl text-gray-300 mb-4">hub</span>
-                    <p className="text-gray-600">No agents added yet</p>
-                    <p className="text-sm text-gray-500 mt-2">Add agents from the library on the right</p>
+                    <p className="text-gray-600">{t.noAgentsAddedMessage}</p>
+                    <p className="text-sm text-gray-500 mt-2">{t.addAgentsHint}</p>
                   </div>
                 ) : (
                   <div className="space-y-3">
@@ -161,7 +165,7 @@ const MultiAgentOrchestratorPage = () => {
                             </div>
                             <div className="flex-1">
                               <h4 className="font-semibold text-gray-900">{agent.name}</h4>
-                              <p className="text-sm text-gray-600">Step {index + 1} of {selectedAgents.length}</p>
+                              <p className="text-sm text-gray-600">{t.stepIndicator} {index + 1} of {selectedAgents.length}</p>
                             </div>
                           </div>
 
@@ -206,17 +210,17 @@ const MultiAgentOrchestratorPage = () => {
                   className="flex-1 glass-btn-primary rounded-xl py-3 font-semibold inline-flex items-center justify-center"
                 >
                   <span className="material-icons mr-2">save</span>
-                  Save Workflow
+                  {t.saveWorkflowButton}
                 </button>
                 <button className="glass-btn-secondary rounded-xl px-6 py-3 font-semibold">
-                  Test Run
+                  {t.testRunButton}
                 </button>
               </div>
             </div>
 
             {/* Existing Workflows */}
             <div className="glass-card rounded-3xl p-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Your Workflows</h2>
+              <h2 className="text-2xl font-bold text-gray-900 mb-6">{t.yourWorkflowsTitle}</h2>
               <div className="space-y-4">
                 {workflows.map((workflow) => (
                   <div key={workflow.id} className="glass-card rounded-xl p-4 flex items-center justify-between">
@@ -227,7 +231,7 @@ const MultiAgentOrchestratorPage = () => {
                       <div>
                         <h4 className="font-semibold text-gray-900">{workflow.name}</h4>
                         <p className="text-sm text-gray-600">
-                          {workflow.agents} agents • {workflow.mode} • {workflow.runs} runs
+                          {workflow.agents} {t.agentsLabel} • {workflow.mode} • {workflow.runs} {t.runsLabel}
                         </p>
                       </div>
                     </div>
@@ -235,7 +239,7 @@ const MultiAgentOrchestratorPage = () => {
                       <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
                         workflow.status === 'active' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
                       }`}>
-                        {workflow.status}
+                        {workflow.status === 'active' ? t.activeStatus : t.pausedStatus}
                       </span>
                       <button className="p-2 text-gray-600 hover:bg-gray-100 rounded-lg">
                         <span className="material-icons text-sm">edit</span>
@@ -250,8 +254,8 @@ const MultiAgentOrchestratorPage = () => {
           {/* Agent Library */}
           <div className="lg:col-span-1">
             <div className="glass-card rounded-3xl p-6 sticky top-24">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Agent Library</h2>
-              <p className="text-sm text-gray-600 mb-6">Click to add agents to your workflow</p>
+              <h2 className="text-2xl font-bold text-gray-900 mb-6">{t.agentLibraryTitle}</h2>
+              <p className="text-sm text-gray-600 mb-6">{t.addAgentsHint2}</p>
               <div className="space-y-3">
                 {availableAgents.map((agent) => (
                   <button
@@ -266,7 +270,7 @@ const MultiAgentOrchestratorPage = () => {
                       <div className="flex-1">
                         <h4 className="font-semibold text-gray-900">{agent.name}</h4>
                         {selectedAgents.find(a => a.id === agent.id) && (
-                          <span className="text-xs text-green-600 font-semibold">✓ Added</span>
+                          <span className="text-xs text-green-600 font-semibold">{t.addedIndicator}</span>
                         )}
                       </div>
                       <span className="material-icons text-gray-400">add</span>
