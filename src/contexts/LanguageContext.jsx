@@ -25,7 +25,8 @@ export const LanguageProvider = ({ children }) => {
     if (language === 'ar') {
       document.documentElement.style.fontFamily = 'Tajawal, sans-serif'
     } else {
-      document.documentElement.style.fontFamily = 'Work Sans, sans-serif'
+      // Use Quicksand for English and Spanish
+      document.documentElement.style.fontFamily = 'Quicksand, sans-serif'
     }
   }, [language])
 

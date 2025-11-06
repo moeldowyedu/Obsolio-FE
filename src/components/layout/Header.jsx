@@ -15,9 +15,9 @@ const Header = () => {
   const [agentsMenuOpen, setAgentsMenuOpen] = useState(false)
 
   const languages = [
-    { code: 'en', name: 'English', flag: '🇺🇸' },
-    { code: 'es', name: 'Español', flag: '🇪🇸' },
-    { code: 'ar', name: 'العربية', flag: '🇸🇦' },
+    { code: 'en', name: 'English', flag: 'us' },
+    { code: 'es', name: 'Español', flag: 'es' },
+    { code: 'ar', name: 'العربية', flag: 'eg' },
   ]
 
   const handleLogout = () => {
@@ -63,7 +63,11 @@ const Header = () => {
                     onClick={() => setLanguageMenuOpen(!languageMenuOpen)}
                     className="flex items-center space-x-2 text-gray-700 hover:text-primary-600 transition-colors"
                   >
-                    <span className="text-xl">{languages.find(l => l.code === language)?.flag}</span>
+                    <img
+                      src={`https://flagcdn.com/24x18/${languages.find(l => l.code === language)?.flag}.png`}
+                      alt={languages.find(l => l.code === language)?.name}
+                      className="w-6 h-4.5 object-cover rounded"
+                    />
                     <span className="material-icons text-sm">expand_more</span>
                   </button>
                   {languageMenuOpen && (
@@ -79,7 +83,11 @@ const Header = () => {
                             language === lang.code ? 'bg-white/50' : ''
                           }`}
                         >
-                          <span className="text-xl">{lang.flag}</span>
+                          <img
+                            src={`https://flagcdn.com/24x18/${lang.flag}.png`}
+                            alt={lang.name}
+                            className="w-6 h-4.5 object-cover rounded"
+                          />
                           <span>{lang.name}</span>
                         </button>
                       ))}
@@ -173,7 +181,11 @@ const Header = () => {
                     onClick={() => setLanguageMenuOpen(!languageMenuOpen)}
                     className="flex items-center space-x-2 text-gray-700 hover:text-primary-600 transition-colors"
                   >
-                    <span className="text-xl">{languages.find(l => l.code === language)?.flag}</span>
+                    <img
+                      src={`https://flagcdn.com/24x18/${languages.find(l => l.code === language)?.flag}.png`}
+                      alt={languages.find(l => l.code === language)?.name}
+                      className="w-6 h-4.5 object-cover rounded"
+                    />
                     <span className="material-icons text-sm">expand_more</span>
                   </button>
                   {languageMenuOpen && (
@@ -189,7 +201,11 @@ const Header = () => {
                             language === lang.code ? 'bg-white/50' : ''
                           }`}
                         >
-                          <span className="text-xl">{lang.flag}</span>
+                          <img
+                            src={`https://flagcdn.com/24x18/${lang.flag}.png`}
+                            alt={lang.name}
+                            className="w-6 h-4.5 object-cover rounded"
+                          />
                           <span>{lang.name}</span>
                         </button>
                       ))}

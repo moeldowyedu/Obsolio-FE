@@ -39,8 +39,9 @@ export default {
         }
       },
       fontFamily: {
-        sans: ['Orbitron', 'Inter', 'SF Pro', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
-        heading: ['Orbitron', 'sans-serif'],
+        sans: ['Quicksand', 'SF Pro', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+        heading: ['Quicksand', 'Montserrat', 'sans-serif'],
+        arabic: ['Tajawal', 'sans-serif'],
       },
       backdropBlur: {
         xs: '2px',
