@@ -18,6 +18,7 @@ import NotificationsPage from './pages/Profile/NotificationsPage'
 import AdminDashboardPage from './pages/Admin/AdminDashboardPage'
 import UserManagementPage from './pages/Admin/UserManagementPage'
 import AnalyticsPage from './pages/Admin/AnalyticsPage'
+import N8nWebhookManagementPage from './pages/Admin/N8nWebhookManagementPage'
 import AgentMarketplacePage from './pages/Marketplace/AgentMarketplacePage'
 import MultiAgentOrchestratorPage from './pages/Orchestrator/MultiAgentOrchestratorPage'
 import AgentSchedulerPage from './pages/Scheduler/AgentSchedulerPage'
@@ -184,6 +185,14 @@ function App() {
           element={
             <ProtectedRoute requireAdmin>
               <AnalyticsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/webhooks"
+          element={
+            <ProtectedRoute requireAdmin>
+              <N8nWebhookManagementPage />
             </ProtectedRoute>
           }
         />

@@ -339,7 +339,7 @@ const AdminDashboardPage = () => {
         </div>
 
         {/* Quick Actions */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-8">
           <Link
             to="/admin/users"
             className="glass-card-hover rounded-2xl p-6 group"
@@ -355,6 +355,14 @@ const AdminDashboardPage = () => {
             <span className="material-icons text-4xl text-green-600 mb-3">analytics</span>
             <h3 className="text-xl font-bold text-gray-900 mb-2">View Analytics</h3>
             <p className="text-gray-600 text-sm">Detailed platform analytics and insights</p>
+          </Link>
+          <Link
+            to="/admin/webhooks"
+            className="glass-card-hover rounded-2xl p-6 group"
+          >
+            <span className="material-icons text-4xl text-orange-600 mb-3">webhook</span>
+            <h3 className="text-xl font-bold text-gray-900 mb-2">N8N Webhooks</h3>
+            <p className="text-gray-600 text-sm">Manage n8n webhook integrations</p>
           </Link>
           <Link
             to="/criteria"
