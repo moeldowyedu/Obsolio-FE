@@ -1,8 +1,12 @@
 import { useState } from 'react'
 import MainLayout from '../../components/layout/MainLayout'
 import toast from 'react-hot-toast'
+import { useLanguage } from '../../contexts/LanguageContext'
+import { translations } from '../../translations'
 
 const AgentSchedulerPage = () => {
+  const { language } = useLanguage()
+  const t = translations[language]
   const [currentDate, setCurrentDate] = useState(new Date())
   const [viewMode, setViewMode] = useState('week') // week or month
   const [scheduledAgents, setScheduledAgents] = useState([
@@ -94,17 +98,17 @@ const AgentSchedulerPage = () => {
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-5xl font-bold text-gray-900 mb-4 font-heading">Agent Scheduler</h1>
-            <p className="text-xl text-gray-600">Schedule and automate your AI agents with drag & drop</p>
+            <h1 className="text-5xl font-bold text-gray-900 mb-4 font-heading">{t.agentSchedulerTitle}</h1>
+            <p className="text-xl text-gray-600">{t.agentSchedulerDesc}</p>
           </div>
           <div className="flex space-x-3">
             <button className="glass-btn-secondary rounded-xl px-6 py-3 font-semibold inline-flex items-center">
               <span className="material-icons mr-2">today</span>
-              Today
+              {t.todayButton}
             </button>
             <button className="glass-btn-primary rounded-xl px-6 py-3 font-semibold inline-flex items-center">
               <span className="material-icons mr-2">add</span>
-              New Schedule
+              {t.newScheduleButton}
             </button>
           </div>
         </div>
@@ -121,7 +125,7 @@ const AgentSchedulerPage = () => {
                     viewMode === 'week' ? 'bg-primary-600 text-white' : 'text-gray-700 hover:bg-gray-100'
                   }`}
                 >
-                  Week View
+                  {t.weekViewOption}
                 </button>
                 <button
                   onClick={() => setViewMode('month')}
@@ -129,7 +133,7 @@ const AgentSchedulerPage = () => {
                     viewMode === 'month' ? 'bg-primary-600 text-white' : 'text-gray-700 hover:bg-gray-100'
                   }`}
                 >
-                  Month View
+                  {t.monthViewOption}
                 </button>
               </div>
               <div className="text-xl font-bold text-gray-900">
@@ -163,7 +167,7 @@ const AgentSchedulerPage = () => {
                       {getSchedulesForDay(index).length === 0 ? (
                         <div className="text-center py-12">
                           <span className="material-icons text-3xl text-gray-300 mb-2">add_circle</span>
-                          <p className="text-xs text-gray-500">Drop agent here</p>
+                          <p className="text-xs text-gray-500">{t.dropAgentHint}</p>
                         </div>
                       ) : (
                         <div className="space-y-2">
@@ -200,7 +204,7 @@ const AgentSchedulerPage = () => {
                 <div className="flex items-center">
                   <span className="material-icons text-blue-600 mr-2">info</span>
                   <p className="text-sm text-gray-700">
-                    <strong>Tip:</strong> Drag agents from the sidebar onto any day. Click a scheduled agent to edit its timing and recurrence.
+                    {t.dragDropTip}
                   </p>
                 </div>
               </div>
@@ -211,8 +215,8 @@ const AgentSchedulerPage = () => {
           <div className="lg:col-span-1">
             {/* Available Agents */}
             <div className="glass-card rounded-3xl p-6 mb-6 sticky top-24">
-              <h2 className="text-xl font-bold text-gray-900 mb-4">Available Agents</h2>
-              <p className="text-sm text-gray-600 mb-4">Drag agents to schedule</p>
+              <h2 className="text-xl font-bold text-gray-900 mb-4">{t.availableAgentsTitle}</h2>
+              <p className="text-sm text-gray-600 mb-4">{t.dragToScheduleHint}</p>
               <div className="space-y-3">
                 {availableAgents.map((agent) => (
                   <div
@@ -241,7 +245,7 @@ const AgentSchedulerPage = () => {
             {selectedSchedule && (
               <div className="glass-card rounded-3xl p-6">
                 <div className="flex items-center justify-between mb-4">
-                  <h2 className="text-xl font-bold text-gray-900">Edit Schedule</h2>
+                  <h2 className="text-xl font-bold text-gray-900">{t.editScheduleTitle}</h2>
                   <button
                     onClick={() => setSelectedSchedule(null)}
                     className="text-gray-600 hover:text-gray-900"
@@ -264,7 +268,7 @@ const AgentSchedulerPage = () => {
 
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-sm font-semibold text-gray-800 mb-2">Start Time</label>
+                    <label className="block text-sm font-semibold text-gray-800 mb-2">{t.startTimeLabel}</label>
                     <select
                       value={selectedSchedule.startTime}
                       onChange={(e) => handleUpdateSchedule(selectedSchedule.id, { startTime: e.target.value })}
@@ -277,7 +281,7 @@ const AgentSchedulerPage = () => {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-gray-800 mb-2">End Time</label>
+                    <label className="block text-sm font-semibold text-gray-800 mb-2">{t.endTimeLabel}</label>
                     <select
                       value={selectedSchedule.endTime}
                       onChange={(e) => handleUpdateSchedule(selectedSchedule.id, { endTime: e.target.value })}
@@ -290,7 +294,7 @@ const AgentSchedulerPage = () => {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-gray-800 mb-2">Frequency</label>
+                    <label className="block text-sm font-semibold text-gray-800 mb-2">{t.frequencyLabel2}</label>
                     <select
                       value={selectedSchedule.recurring}
                       onChange={(e) => handleUpdateSchedule(selectedSchedule.id, { recurring: e.target.value })}
@@ -307,7 +311,7 @@ const AgentSchedulerPage = () => {
                     className="w-full glass-btn-secondary rounded-xl py-2 text-red-600 font-semibold hover:bg-red-50"
                   >
                     <span className="material-icons text-sm mr-1">delete</span>
-                    Remove Schedule
+                    {t.removeScheduleButton}
                   </button>
                 </div>
               </div>

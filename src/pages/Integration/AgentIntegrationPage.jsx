@@ -1,8 +1,12 @@
 import { useState } from 'react'
 import MainLayout from '../../components/layout/MainLayout'
 import toast from 'react-hot-toast'
+import { useLanguage } from '../../contexts/LanguageContext'
+import { translations } from '../../translations'
 
 const AgentIntegrationPage = () => {
+  const { language } = useLanguage()
+  const t = translations[language]
   const [activeTab, setActiveTab] = useState('overview')
   const [selectedLanguage, setSelectedLanguage] = useState('javascript')
   const [apiKey, setApiKey] = useState('aasim_sk_live_1234567890abcdef')
@@ -17,12 +21,12 @@ const AgentIntegrationPage = () => {
   }, null, 2))
 
   const tabs = [
-    { id: 'overview', label: 'Overview', icon: 'dashboard' },
-    { id: 'rest-api', label: 'REST API', icon: 'api' },
-    { id: 'webhooks', label: 'Webhooks', icon: 'webhook' },
-    { id: 'sdk', label: 'SDKs', icon: 'code' },
-    { id: 'examples', label: 'Examples', icon: 'integration_instructions' },
-    { id: 'testing', label: 'Testing', icon: 'bug_report' },
+    { id: 'overview', label: t.gettingStartedTitle, icon: 'dashboard' },
+    { id: 'rest-api', label: t.restApiTitle, icon: 'api' },
+    { id: 'webhooks', label: t.webhooksTitle, icon: 'webhook' },
+    { id: 'sdk', label: t.officialSdksTitle, icon: 'code' },
+    { id: 'examples', label: t.integrationExamplesTitle, icon: 'integration_instructions' },
+    { id: 'testing', label: t.apiTestingToolTitle, icon: 'bug_report' },
   ]
 
   const languages = [
@@ -277,9 +281,9 @@ try {
       <div className="py-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2 font-heading">API & Integration</h1>
+          <h1 className="text-4xl font-bold text-gray-900 mb-2 font-heading">{t.apiIntegrationPageTitle}</h1>
           <p className="text-gray-600">
-            Integrate Aasim AI Agents into your applications, websites, and workflows
+            {t.apiIntegrationPageDesc}
           </p>
         </div>
 
@@ -311,9 +315,9 @@ try {
           {activeTab === 'overview' && (
             <div className="space-y-6">
               <div className="glass-card rounded-2xl p-8">
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">Getting Started</h2>
+                <h2 className="text-2xl font-bold text-gray-900 mb-4">{t.gettingStartedTitle}</h2>
                 <p className="text-gray-700 mb-6">
-                  Aasim provides multiple ways to integrate AI-powered evaluations into your applications:
+                  {t.gettingStartedDesc}
                 </p>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -321,9 +325,9 @@ try {
                     <div className="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center mb-4">
                       <span className="material-icons text-blue-600">api</span>
                     </div>
-                    <h3 className="text-lg font-bold text-gray-900 mb-2">REST API</h3>
+                    <h3 className="text-lg font-bold text-gray-900 mb-2">{t.restApiTitle}</h3>
                     <p className="text-sm text-gray-600">
-                      Direct HTTP API for maximum flexibility and control
+                      {t.restApiDesc}
                     </p>
                   </div>
 
@@ -331,9 +335,9 @@ try {
                     <div className="w-12 h-12 rounded-xl bg-green-100 flex items-center justify-center mb-4">
                       <span className="material-icons text-green-600">code</span>
                     </div>
-                    <h3 className="text-lg font-bold text-gray-900 mb-2">Official SDKs</h3>
+                    <h3 className="text-lg font-bold text-gray-900 mb-2">{t.officialSdksTitle}</h3>
                     <p className="text-sm text-gray-600">
-                      Native libraries for JavaScript, Python, PHP, and more
+                      {t.officialSdksDesc}
                     </p>
                   </div>
 
@@ -341,9 +345,9 @@ try {
                     <div className="w-12 h-12 rounded-xl bg-purple-100 flex items-center justify-center mb-4">
                       <span className="material-icons text-purple-600">webhook</span>
                     </div>
-                    <h3 className="text-lg font-bold text-gray-900 mb-2">Webhooks</h3>
+                    <h3 className="text-lg font-bold text-gray-900 mb-2">{t.webhooksTitle}</h3>
                     <p className="text-sm text-gray-600">
-                      Real-time notifications for evaluation events
+                      {t.webhooksDesc}
                     </p>
                   </div>
 
@@ -351,9 +355,9 @@ try {
                     <div className="w-12 h-12 rounded-xl bg-orange-100 flex items-center justify-center mb-4">
                       <span className="material-icons text-orange-600">widgets</span>
                     </div>
-                    <h3 className="text-lg font-bold text-gray-900 mb-2">Embed Widget</h3>
+                    <h3 className="text-lg font-bold text-gray-900 mb-2">{t.embedWidgetTitle}</h3>
                     <p className="text-sm text-gray-600">
-                      Drop-in widget for quick website integration
+                      {t.embedWidgetDesc}
                     </p>
                   </div>
                 </div>
@@ -361,9 +365,9 @@ try {
 
               {/* API Key Management */}
               <div className="glass-card rounded-2xl p-8">
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">API Key Management</h2>
+                <h2 className="text-2xl font-bold text-gray-900 mb-4">{t.apiKeyManagementTitle}</h2>
                 <p className="text-gray-600 mb-6">
-                  Your API key is used to authenticate requests to the Aasim API. Keep it secure and never share it publicly.
+                  {t.apiKeyManagementDesc}
                 </p>
 
                 <div className="flex items-center space-x-4">
@@ -390,7 +394,7 @@ try {
                   <div className="flex items-start">
                     <span className="material-icons text-yellow-600 mr-2">warning</span>
                     <div className="text-sm text-yellow-800">
-                      <strong>Security Note:</strong> Keep your API keys secure. Do not expose them in client-side code or public repositories.
+                      {t.securityNote}
                     </div>
                   </div>
                 </div>
@@ -398,7 +402,7 @@ try {
 
               {/* Quick Start */}
               <div className="glass-card rounded-2xl p-8">
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">Quick Start</h2>
+                <h2 className="text-2xl font-bold text-gray-900 mb-4">{t.quickStartTitle}</h2>
 
                 <div className="space-y-4">
                   <div className="flex items-start">
@@ -406,8 +410,8 @@ try {
                       1
                     </div>
                     <div>
-                      <h4 className="font-bold text-gray-900 mb-1">Get your API key</h4>
-                      <p className="text-sm text-gray-600">Copy your API key from above or generate a new one</p>
+                      <h4 className="font-bold text-gray-900 mb-1">{t.step1Description}</h4>
+                      <p className="text-sm text-gray-600">{t.step1Description}</p>
                     </div>
                   </div>
 
@@ -416,8 +420,8 @@ try {
                       2
                     </div>
                     <div>
-                      <h4 className="font-bold text-gray-900 mb-1">Choose your integration method</h4>
-                      <p className="text-sm text-gray-600">Select REST API, SDK, or webhooks based on your needs</p>
+                      <h4 className="font-bold text-gray-900 mb-1">{t.step2Description}</h4>
+                      <p className="text-sm text-gray-600">{t.step2Description}</p>
                     </div>
                   </div>
 
@@ -426,8 +430,8 @@ try {
                       3
                     </div>
                     <div>
-                      <h4 className="font-bold text-gray-900 mb-1">Make your first API call</h4>
-                      <p className="text-sm text-gray-600">Test with our examples and start evaluating content</p>
+                      <h4 className="font-bold text-gray-900 mb-1">{t.step3Description}</h4>
+                      <p className="text-sm text-gray-600">{t.step3Description}</p>
                     </div>
                   </div>
 
@@ -436,8 +440,8 @@ try {
                       4
                     </div>
                     <div>
-                      <h4 className="font-bold text-gray-900 mb-1">Set up webhooks (optional)</h4>
-                      <p className="text-sm text-gray-600">Receive real-time notifications for evaluation events</p>
+                      <h4 className="font-bold text-gray-900 mb-1">{t.step4Description}</h4>
+                      <p className="text-sm text-gray-600">{t.step4Description}</p>
                     </div>
                   </div>
                 </div>
@@ -449,9 +453,9 @@ try {
           {activeTab === 'rest-api' && (
             <div className="space-y-6">
               <div className="glass-card rounded-2xl p-8">
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">REST API Endpoints</h2>
+                <h2 className="text-2xl font-bold text-gray-900 mb-4">{t.restApiEndpointsTitle}</h2>
                 <p className="text-gray-600 mb-6">
-                  Base URL: <code className="bg-gray-100 px-2 py-1 rounded">https://api.aasim.ai</code>
+                  {t.baseUrl}
                 </p>
 
                 <div className="space-y-3">
@@ -473,11 +477,11 @@ try {
 
               {/* Request/Response Example */}
               <div className="glass-card rounded-2xl p-8">
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">Request & Response</h2>
+                <h2 className="text-2xl font-bold text-gray-900 mb-4">{t.requestResponseTitle}</h2>
 
                 <div className="space-y-4">
                   <div>
-                    <h3 className="font-bold text-gray-900 mb-2">Example Request</h3>
+                    <h3 className="font-bold text-gray-900 mb-2">{t.exampleRequest}</h3>
                     <div className="relative">
                       <pre className="bg-gray-900 text-gray-100 p-4 rounded-xl overflow-x-auto text-sm">
 {`POST /v1/evaluations
@@ -504,7 +508,7 @@ Content-Type: application/json
                   </div>
 
                   <div>
-                    <h3 className="font-bold text-gray-900 mb-2">Example Response</h3>
+                    <h3 className="font-bold text-gray-900 mb-2">{t.exampleResponse}</h3>
                     <div className="relative">
                       <pre className="bg-gray-900 text-gray-100 p-4 rounded-xl overflow-x-auto text-sm">
 {`HTTP/1.1 200 OK
@@ -559,9 +563,9 @@ Content-Type: application/json
           {activeTab === 'webhooks' && (
             <div className="space-y-6">
               <div className="glass-card rounded-2xl p-8">
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">Webhook Events</h2>
+                <h2 className="text-2xl font-bold text-gray-900 mb-4">{t.webhookEventsTitle}</h2>
                 <p className="text-gray-600 mb-6">
-                  Receive real-time notifications when events occur in your Aasim account
+                  {t.webhookEventsDesc}
                 </p>
 
                 <div className="space-y-3">
@@ -581,22 +585,22 @@ Content-Type: application/json
 
               {/* Webhook Configuration */}
               <div className="glass-card rounded-2xl p-8">
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">Configure Webhook</h2>
+                <h2 className="text-2xl font-bold text-gray-900 mb-4">{t.configureWebhookTitle}</h2>
 
                 <div className="space-y-4">
                   <div>
                     <label className="block text-sm font-semibold text-gray-900 mb-2">
-                      Webhook URL
+                      {t.webhookUrlLabel2}
                     </label>
                     <input
                       type="url"
                       value={webhookUrl}
                       onChange={(e) => setWebhookUrl(e.target.value)}
-                      placeholder="https://your-domain.com/webhooks/aasim"
+                      placeholder={t.webhookUrlPlaceholder2}
                       className="glass-input w-full"
                     />
                     <p className="text-xs text-gray-600 mt-1">
-                      Events will be sent as POST requests to this URL
+                      {t.webhookUrlDesc}
                     </p>
                   </div>
 
@@ -606,11 +610,11 @@ Content-Type: application/json
                       className="glass-btn-secondary rounded-xl px-6 py-3 font-semibold"
                     >
                       <span className="material-icons text-sm mr-2">bug_report</span>
-                      Test Webhook
+                      {t.testWebhookButton}
                     </button>
                     <button className="glass-btn-primary rounded-xl px-6 py-3 font-semibold">
                       <span className="material-icons text-sm mr-2">save</span>
-                      Save Configuration
+                      {t.saveConfigButton2}
                     </button>
                   </div>
                 </div>
@@ -618,7 +622,7 @@ Content-Type: application/json
 
               {/* Webhook Payload Example */}
               <div className="glass-card rounded-2xl p-8">
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">Webhook Payload Example</h2>
+                <h2 className="text-2xl font-bold text-gray-900 mb-4">{t.webhookPayloadTitle}</h2>
 
                 <div className="relative">
                   <pre className="bg-gray-900 text-gray-100 p-4 rounded-xl overflow-x-auto text-sm">
@@ -656,7 +660,7 @@ X-Aasim-Signature: sha256=abc123...
                   <div className="flex items-start">
                     <span className="material-icons text-blue-600 mr-2">info</span>
                     <div className="text-sm text-blue-800">
-                      <strong>Signature Verification:</strong> Verify the X-Aasim-Signature header to ensure the webhook came from Aasim. Use your webhook secret to validate the HMAC signature.
+                      {t.signatureVerificationNote}
                     </div>
                   </div>
                 </div>
@@ -668,9 +672,9 @@ X-Aasim-Signature: sha256=abc123...
           {activeTab === 'sdk' && (
             <div className="space-y-6">
               <div className="glass-card rounded-2xl p-8">
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">Official SDKs</h2>
+                <h2 className="text-2xl font-bold text-gray-900 mb-4">{t.officialSdksSection}</h2>
                 <p className="text-gray-600 mb-6">
-                  Use our official SDKs for a better development experience
+                  {t.officialSdksDesc2}
                 </p>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -680,7 +684,7 @@ X-Aasim-Signature: sha256=abc123...
                         <span className="material-icons text-yellow-600">javascript</span>
                       </div>
                       <div>
-                        <h3 className="text-lg font-bold text-gray-900">JavaScript / Node.js</h3>
+                        <h3 className="text-lg font-bold text-gray-900">{t.jsNodejsTitle}</h3>
                         <code className="text-xs text-gray-600">@aasim/sdk</code>
                       </div>
                     </div>
@@ -688,7 +692,7 @@ X-Aasim-Signature: sha256=abc123...
                       npm install @aasim/sdk
                     </div>
                     <a href="https://github.com/aasim/sdk-js" className="text-primary-600 hover:text-primary-700 text-sm font-semibold flex items-center">
-                      View Documentation
+                      {t.viewDocumentationLink}
                       <span className="material-icons text-sm ml-1">arrow_forward</span>
                     </a>
                   </div>
@@ -699,7 +703,7 @@ X-Aasim-Signature: sha256=abc123...
                         <span className="material-icons text-blue-600">code</span>
                       </div>
                       <div>
-                        <h3 className="text-lg font-bold text-gray-900">Python</h3>
+                        <h3 className="text-lg font-bold text-gray-900">{t.pythonTitle}</h3>
                         <code className="text-xs text-gray-600">aasim</code>
                       </div>
                     </div>
@@ -707,7 +711,7 @@ X-Aasim-Signature: sha256=abc123...
                       pip install aasim
                     </div>
                     <a href="https://github.com/aasim/sdk-python" className="text-primary-600 hover:text-primary-700 text-sm font-semibold flex items-center">
-                      View Documentation
+                      {t.viewDocumentationLink}
                       <span className="material-icons text-sm ml-1">arrow_forward</span>
                     </a>
                   </div>
@@ -718,7 +722,7 @@ X-Aasim-Signature: sha256=abc123...
                         <span className="material-icons text-purple-600">code</span>
                       </div>
                       <div>
-                        <h3 className="text-lg font-bold text-gray-900">PHP</h3>
+                        <h3 className="text-lg font-bold text-gray-900">{t.phpTitle}</h3>
                         <code className="text-xs text-gray-600">aasim/sdk</code>
                       </div>
                     </div>
@@ -726,7 +730,7 @@ X-Aasim-Signature: sha256=abc123...
                       composer require aasim/sdk
                     </div>
                     <a href="https://github.com/aasim/sdk-php" className="text-primary-600 hover:text-primary-700 text-sm font-semibold flex items-center">
-                      View Documentation
+                      {t.viewDocumentationLink}
                       <span className="material-icons text-sm ml-1">arrow_forward</span>
                     </a>
                   </div>
@@ -737,7 +741,7 @@ X-Aasim-Signature: sha256=abc123...
                         <span className="material-icons text-red-600">code</span>
                       </div>
                       <div>
-                        <h3 className="text-lg font-bold text-gray-900">Ruby</h3>
+                        <h3 className="text-lg font-bold text-gray-900">{t.rubyTitle}</h3>
                         <code className="text-xs text-gray-600">aasim-ruby</code>
                       </div>
                     </div>
@@ -745,7 +749,7 @@ X-Aasim-Signature: sha256=abc123...
                       gem install aasim
                     </div>
                     <a href="https://github.com/aasim/sdk-ruby" className="text-primary-600 hover:text-primary-700 text-sm font-semibold flex items-center">
-                      View Documentation
+                      {t.viewDocumentationLink}
                       <span className="material-icons text-sm ml-1">arrow_forward</span>
                     </a>
                   </div>
@@ -755,7 +759,7 @@ X-Aasim-Signature: sha256=abc123...
               {/* Code Examples */}
               <div className="glass-card rounded-2xl p-8">
                 <div className="flex items-center justify-between mb-6">
-                  <h2 className="text-2xl font-bold text-gray-900">Code Examples</h2>
+                  <h2 className="text-2xl font-bold text-gray-900">{t.codeExamplesTitle}</h2>
                   <div className="flex space-x-2">
                     {languages.map((lang) => (
                       <button
@@ -792,9 +796,9 @@ X-Aasim-Signature: sha256=abc123...
           {activeTab === 'examples' && (
             <div className="space-y-6">
               <div className="glass-card rounded-2xl p-8">
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">Integration Examples</h2>
+                <h2 className="text-2xl font-bold text-gray-900 mb-4">{t.integrationExamplesTitle}</h2>
                 <p className="text-gray-600 mb-6">
-                  Real-world examples of integrating Aasim into your applications
+                  {t.integrationExamplesDesc}
                 </p>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -802,12 +806,12 @@ X-Aasim-Signature: sha256=abc123...
                     <div className="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center mb-4">
                       <span className="material-icons text-blue-600">cloud_upload</span>
                     </div>
-                    <h3 className="text-lg font-bold text-gray-900 mb-2">File Upload Integration</h3>
+                    <h3 className="text-lg font-bold text-gray-900 mb-2">{t.fileUploadIntegrationTitle}</h3>
                     <p className="text-sm text-gray-600 mb-4">
-                      Automatically evaluate files when users upload them to your platform
+                      {t.fileUploadIntegrationDesc}
                     </p>
                     <button className="text-primary-600 hover:text-primary-700 text-sm font-semibold flex items-center">
-                      View Example
+                      {t.viewExampleLink}
                       <span className="material-icons text-sm ml-1">arrow_forward</span>
                     </button>
                   </div>
@@ -816,12 +820,12 @@ X-Aasim-Signature: sha256=abc123...
                     <div className="w-12 h-12 rounded-xl bg-green-100 flex items-center justify-center mb-4">
                       <span className="material-icons text-green-600">school</span>
                     </div>
-                    <h3 className="text-lg font-bold text-gray-900 mb-2">LMS Integration</h3>
+                    <h3 className="text-lg font-bold text-gray-900 mb-2">{t.lmsIntegrationTitle}</h3>
                     <p className="text-sm text-gray-600 mb-4">
-                      Integrate with learning management systems for assignment grading
+                      {t.lmsIntegrationDesc}
                     </p>
                     <button className="text-primary-600 hover:text-primary-700 text-sm font-semibold flex items-center">
-                      View Example
+                      {t.viewExampleLink2}
                       <span className="material-icons text-sm ml-1">arrow_forward</span>
                     </button>
                   </div>
@@ -830,12 +834,12 @@ X-Aasim-Signature: sha256=abc123...
                     <div className="w-12 h-12 rounded-xl bg-purple-100 flex items-center justify-center mb-4">
                       <span className="material-icons text-purple-600">git_commit</span>
                     </div>
-                    <h3 className="text-lg font-bold text-gray-900 mb-2">CI/CD Pipeline</h3>
+                    <h3 className="text-lg font-bold text-gray-900 mb-2">{t.cicdPipelineTitle}</h3>
                     <p className="text-sm text-gray-600 mb-4">
-                      Add code quality checks to your continuous integration workflow
+                      {t.cicdPipelineDesc}
                     </p>
                     <button className="text-primary-600 hover:text-primary-700 text-sm font-semibold flex items-center">
-                      View Example
+                      {t.viewExampleLink3}
                       <span className="material-icons text-sm ml-1">arrow_forward</span>
                     </button>
                   </div>
@@ -844,12 +848,12 @@ X-Aasim-Signature: sha256=abc123...
                     <div className="w-12 h-12 rounded-xl bg-orange-100 flex items-center justify-center mb-4">
                       <span className="material-icons text-orange-600">widgets</span>
                     </div>
-                    <h3 className="text-lg font-bold text-gray-900 mb-2">Embed Widget</h3>
+                    <h3 className="text-lg font-bold text-gray-900 mb-2">{t.embedWidgetTitle2}</h3>
                     <p className="text-sm text-gray-600 mb-4">
-                      Add a simple widget to your website for instant evaluations
+                      {t.embedWidgetDesc2}
                     </p>
                     <button className="text-primary-600 hover:text-primary-700 text-sm font-semibold flex items-center">
-                      View Example
+                      {t.viewExampleLink4}
                       <span className="material-icons text-sm ml-1">arrow_forward</span>
                     </button>
                   </div>
@@ -858,9 +862,9 @@ X-Aasim-Signature: sha256=abc123...
 
               {/* Embed Widget Example */}
               <div className="glass-card rounded-2xl p-8">
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">Embed Widget Code</h2>
+                <h2 className="text-2xl font-bold text-gray-900 mb-4">{t.embedWidgetCodeTitle}</h2>
                 <p className="text-gray-600 mb-6">
-                  Add this snippet to your website to embed the Aasim evaluation widget
+                  {t.embedWidgetCodeDesc}
                 </p>
 
                 <div className="relative">
@@ -897,22 +901,22 @@ X-Aasim-Signature: sha256=abc123...
           {activeTab === 'testing' && (
             <div className="space-y-6">
               <div className="glass-card rounded-2xl p-8">
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">API Testing Tool</h2>
+                <h2 className="text-2xl font-bold text-gray-900 mb-4">{t.apiTestingToolTitle}</h2>
                 <p className="text-gray-600 mb-6">
-                  Test your API integration with a live request
+                  {t.apiTestingToolDesc}
                 </p>
 
                 <div className="space-y-4">
                   <div>
                     <label className="block text-sm font-semibold text-gray-900 mb-2">
-                      Test Payload
+                      {t.testPayloadLabel}
                     </label>
                     <textarea
                       value={testPayload}
                       onChange={(e) => setTestPayload(e.target.value)}
                       rows={12}
                       className="glass-input w-full font-mono text-sm"
-                      placeholder="Enter your test JSON payload"
+                      placeholder={t.testPayloadPlaceholder}
                     />
                   </div>
 
@@ -921,30 +925,30 @@ X-Aasim-Signature: sha256=abc123...
                     className="glass-btn-primary rounded-xl px-6 py-3 font-semibold glow"
                   >
                     <span className="material-icons text-sm mr-2">send</span>
-                    Send Test Request
+                    {t.sendTestRequestButton}
                   </button>
                 </div>
               </div>
 
               {/* Rate Limits */}
               <div className="glass-card rounded-2xl p-8">
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">Rate Limits</h2>
+                <h2 className="text-2xl font-bold text-gray-900 mb-4">{t.rateLimitsTitle}</h2>
                 <p className="text-gray-600 mb-6">
-                  API rate limits ensure fair usage across all users
+                  {t.rateLimitsDesc}
                 </p>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   <div className="glass-card rounded-xl p-6 text-center">
                     <div className="text-4xl font-bold text-primary-600 mb-2">100</div>
-                    <div className="text-sm text-gray-600">Requests per minute</div>
+                    <div className="text-sm text-gray-600">{t.requestsPerMinute}</div>
                   </div>
                   <div className="glass-card rounded-xl p-6 text-center">
                     <div className="text-4xl font-bold text-primary-600 mb-2">10,000</div>
-                    <div className="text-sm text-gray-600">Requests per day</div>
+                    <div className="text-sm text-gray-600">{t.requestsPerDay}</div>
                   </div>
                   <div className="glass-card rounded-xl p-6 text-center">
                     <div className="text-4xl font-bold text-primary-600 mb-2">5 MB</div>
-                    <div className="text-sm text-gray-600">Max payload size</div>
+                    <div className="text-sm text-gray-600">{t.maxPayloadSize}</div>
                   </div>
                 </div>
 
@@ -952,7 +956,7 @@ X-Aasim-Signature: sha256=abc123...
                   <div className="flex items-start">
                     <span className="material-icons text-blue-600 mr-2">info</span>
                     <div className="text-sm text-blue-800">
-                      <strong>Need higher limits?</strong> Contact our sales team to discuss enterprise plans with custom rate limits and dedicated support.
+                      {t.higherLimitsNote}
                     </div>
                   </div>
                 </div>
@@ -960,37 +964,37 @@ X-Aasim-Signature: sha256=abc123...
 
               {/* Error Codes */}
               <div className="glass-card rounded-2xl p-8">
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">Common Error Codes</h2>
+                <h2 className="text-2xl font-bold text-gray-900 mb-4">{t.errorCodesTitle}</h2>
 
                 <div className="space-y-3">
                   <div className="glass-card rounded-xl p-4">
                     <div className="flex items-center justify-between">
                       <code className="font-mono text-sm font-bold text-gray-900">401 Unauthorized</code>
-                      <p className="text-sm text-gray-600">Invalid or missing API key</p>
+                      <p className="text-sm text-gray-600">{t.error401Desc}</p>
                     </div>
                   </div>
                   <div className="glass-card rounded-xl p-4">
                     <div className="flex items-center justify-between">
                       <code className="font-mono text-sm font-bold text-gray-900">429 Too Many Requests</code>
-                      <p className="text-sm text-gray-600">Rate limit exceeded</p>
+                      <p className="text-sm text-gray-600">{t.error429Desc}</p>
                     </div>
                   </div>
                   <div className="glass-card rounded-xl p-4">
                     <div className="flex items-center justify-between">
                       <code className="font-mono text-sm font-bold text-gray-900">400 Bad Request</code>
-                      <p className="text-sm text-gray-600">Invalid request payload</p>
+                      <p className="text-sm text-gray-600">{t.error400Desc}</p>
                     </div>
                   </div>
                   <div className="glass-card rounded-xl p-4">
                     <div className="flex items-center justify-between">
                       <code className="font-mono text-sm font-bold text-gray-900">404 Not Found</code>
-                      <p className="text-sm text-gray-600">Resource not found</p>
+                      <p className="text-sm text-gray-600">{t.error404Desc}</p>
                     </div>
                   </div>
                   <div className="glass-card rounded-xl p-4">
                     <div className="flex items-center justify-between">
                       <code className="font-mono text-sm font-bold text-gray-900">500 Internal Server Error</code>
-                      <p className="text-sm text-gray-600">Server error, please try again</p>
+                      <p className="text-sm text-gray-600">{t.error500Desc}</p>
                     </div>
                   </div>
                 </div>

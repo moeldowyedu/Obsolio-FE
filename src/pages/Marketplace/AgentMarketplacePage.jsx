@@ -2,9 +2,13 @@ import { useState } from 'react'
 import MainLayout from '../../components/layout/MainLayout'
 import { Link, useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
+import { useLanguage } from '../../contexts/LanguageContext'
+import { translations } from '../../translations'
 
 const AgentMarketplacePage = () => {
   const navigate = useNavigate()
+  const { language } = useLanguage()
+  const t = translations[language]
   const [searchQuery, setSearchQuery] = useState('')
   const [filterCategory, setFilterCategory] = useState('all')
   const [selectedAgent, setSelectedAgent] = useState(null)
@@ -143,9 +147,9 @@ const AgentMarketplacePage = () => {
       <div className="py-8">
         {/* Header */}
         <div className="mb-8 text-center">
-          <h1 className="text-5xl font-bold text-gray-900 mb-4 font-heading">AI Agent Marketplace</h1>
+          <h1 className="text-5xl font-bold text-gray-900 mb-4 font-heading">{t.agentMarketplaceTitle}</h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Browse and hire specialized Precision AI Agents trained for specific industries and tasks
+            {t.agentMarketplaceDesc}
           </p>
         </div>
 
@@ -158,7 +162,7 @@ const AgentMarketplacePage = () => {
                   <span className="material-icons absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">search</span>
                   <input
                     type="text"
-                    placeholder="Search agents by name or capability..."
+                    placeholder={t.searchAgentPlaceholder}
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     className="glass-input w-full pl-12 py-3 text-lg"
@@ -172,7 +176,7 @@ const AgentMarketplacePage = () => {
               >
                 {categories.map(cat => (
                   <option key={cat} value={cat}>
-                    {cat === 'all' ? 'All Categories' : cat}
+                    {cat === 'all' ? t.allCategoriesOption : cat}
                   </option>
                 ))}
               </select>
@@ -195,7 +199,7 @@ const AgentMarketplacePage = () => {
                   </div>
                   <div className="text-right">
                     <div className="text-2xl font-bold text-gray-900">${agent.price}</div>
-                    <div className="text-xs text-gray-600">/month</div>
+                    <div className="text-xs text-gray-600">{t.perMonthLabel}</div>
                   </div>
                 </div>
 
@@ -210,7 +214,7 @@ const AgentMarketplacePage = () => {
                     <span className="text-gray-600 text-sm ml-1">({agent.reviews})</span>
                   </div>
                   <div className="ml-auto text-xs text-gray-600">
-                    {agent.evaluations.toLocaleString()} evaluations
+                    {agent.evaluations.toLocaleString()} {t.evaluationsLabel}
                   </div>
                 </div>
 
@@ -226,7 +230,7 @@ const AgentMarketplacePage = () => {
 
                 {/* Hire Button */}
                 <button className="w-full glass-btn-primary rounded-xl py-3 font-semibold group-hover:shadow-lg transition-all">
-                  Hire Agent
+                  {t.hireAgentButton}
                 </button>
               </div>
             ))}
@@ -258,7 +262,7 @@ const AgentMarketplacePage = () => {
               <p className="text-gray-700 mb-6">{selectedAgent.description}</p>
 
               <div className="mb-6">
-                <h3 className="text-xl font-bold text-gray-900 mb-4">Key Features</h3>
+                <h3 className="text-xl font-bold text-gray-900 mb-4">{t.keyFeaturesTitle}</h3>
                 <div className="grid grid-cols-2 gap-3">
                   {selectedAgent.features.map((feature, index) => (
                     <div key={index} className="flex items-center glass-card rounded-xl p-3">
@@ -271,40 +275,40 @@ const AgentMarketplacePage = () => {
 
               <div className="grid grid-cols-2 gap-4 mb-6 p-4 bg-gray-50 rounded-2xl">
                 <div>
-                  <div className="text-sm text-gray-600 mb-1">Rating</div>
+                  <div className="text-sm text-gray-600 mb-1">{t.ratingLabel}</div>
                   <div className="flex items-center">
                     <span className="material-icons text-yellow-500">star</span>
                     <span className="font-bold text-gray-900 ml-1">{selectedAgent.rating}/5</span>
                   </div>
                 </div>
                 <div>
-                  <div className="text-sm text-gray-600 mb-1">Reviews</div>
+                  <div className="text-sm text-gray-600 mb-1">{t.reviewsLabel}</div>
                   <div className="font-bold text-gray-900">{selectedAgent.reviews}</div>
                 </div>
                 <div>
-                  <div className="text-sm text-gray-600 mb-1">Evaluations</div>
+                  <div className="text-sm text-gray-600 mb-1">{t.evaluationsLabel2}</div>
                   <div className="font-bold text-gray-900">{selectedAgent.evaluations.toLocaleString()}</div>
                 </div>
                 <div>
-                  <div className="text-sm text-gray-600 mb-1">Price</div>
-                  <div className="font-bold text-gray-900">${selectedAgent.price}/month</div>
+                  <div className="text-sm text-gray-600 mb-1">{t.priceLabel}</div>
+                  <div className="font-bold text-gray-900">${selectedAgent.price}{t.perMonthLabel}</div>
                 </div>
               </div>
 
               <div className="bg-primary-50 border-2 border-primary-200 rounded-2xl p-6 mb-6">
-                <h3 className="text-lg font-bold text-gray-900 mb-3">What happens next?</h3>
+                <h3 className="text-lg font-bold text-gray-900 mb-3">{t.whatHappensNextTitle}</h3>
                 <ul className="space-y-2 text-gray-700">
                   <li className="flex items-start">
                     <span className="material-icons text-primary-600 text-sm mr-2 mt-0.5">check</span>
-                    <span>Configure your agent's behavior and criteria</span>
+                    <span>{t.step1ConfigureAgent}</span>
                   </li>
                   <li className="flex items-start">
                     <span className="material-icons text-primary-600 text-sm mr-2 mt-0.5">check</span>
-                    <span>Set up one-time run, custom schedule, or integration</span>
+                    <span>{t.step2SetupMode}</span>
                   </li>
                   <li className="flex items-start">
                     <span className="material-icons text-primary-600 text-sm mr-2 mt-0.5">check</span>
-                    <span>Start evaluating with your dedicated AI agent</span>
+                    <span>{t.step3StartEvaluating}</span>
                   </li>
                 </ul>
               </div>
@@ -314,13 +318,13 @@ const AgentMarketplacePage = () => {
                   onClick={() => setSelectedAgent(null)}
                   className="flex-1 glass-btn-secondary rounded-xl py-3 font-semibold"
                 >
-                  Cancel
+                  {t.cancelButton}
                 </button>
                 <button
                   onClick={confirmHiring}
                   className="flex-1 glass-btn-primary rounded-xl py-3 font-semibold glow"
                 >
-                  Hire Agent - ${selectedAgent.price}/month
+                  {t.hireAgentWithPrice}{selectedAgent.price}{t.perMonthLabel}
                 </button>
               </div>
             </div>
