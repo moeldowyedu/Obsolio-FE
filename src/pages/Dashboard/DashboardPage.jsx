@@ -158,10 +158,34 @@ const DashboardPage = () => {
       shortcut: 'N'
     },
     {
+      title: 'Agent Marketplace',
+      description: 'Browse specialized AI agents',
+      icon: 'store',
+      color: 'blue',
+      link: '/marketplace',
+      shortcut: 'M'
+    },
+    {
+      title: 'Orchestrator',
+      description: 'Create multi-agent workflows',
+      icon: 'account_tree',
+      color: 'purple',
+      link: '/orchestrator',
+      shortcut: 'O'
+    },
+    {
+      title: 'Scheduler',
+      description: 'Automate agent execution',
+      icon: 'event',
+      color: 'green',
+      link: '/scheduler',
+      shortcut: 'S'
+    },
+    {
       title: 'View Reports',
       description: 'Access detailed evaluation reports',
       icon: 'assessment',
-      color: 'blue',
+      color: 'orange',
       link: '/submissions',
       shortcut: 'R'
     },
@@ -169,15 +193,23 @@ const DashboardPage = () => {
       title: 'Manage Criteria',
       description: 'Configure evaluation parameters',
       icon: 'tune',
-      color: 'purple',
+      color: 'pink',
       link: '/criteria',
       shortcut: 'C'
+    },
+    {
+      title: 'API Integration',
+      description: 'Connect your applications',
+      icon: 'code',
+      color: 'indigo',
+      link: '/integration',
+      shortcut: 'I'
     },
     {
       title: 'Analytics',
       description: 'View performance insights',
       icon: 'analytics',
-      color: 'green',
+      color: 'teal',
       link: '/admin/analytics',
       shortcut: 'A'
     },

@@ -12,6 +12,7 @@ const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [userMenuOpen, setUserMenuOpen] = useState(false)
   const [languageMenuOpen, setLanguageMenuOpen] = useState(false)
+  const [agentsMenuOpen, setAgentsMenuOpen] = useState(false)
 
   const languages = [
     { code: 'en', name: 'English', flag: '🇺🇸' },
@@ -101,6 +102,62 @@ const Header = () => {
                 <Link to="/submissions" className="text-gray-700 hover:text-primary-600 transition-colors font-medium">
                   {t.submissions}
                 </Link>
+
+                {/* AI Agents Dropdown */}
+                <div className="relative">
+                  <button
+                    onClick={() => setAgentsMenuOpen(!agentsMenuOpen)}
+                    className="flex items-center space-x-1 text-gray-700 hover:text-primary-600 transition-colors font-medium"
+                  >
+                    <span>AI Agents</span>
+                    <span className="material-icons text-sm">expand_more</span>
+                  </button>
+                  {agentsMenuOpen && (
+                    <div className="absolute left-0 mt-2 w-56 glass-card rounded-xl overflow-hidden shadow-2xl">
+                      <Link
+                        to="/marketplace"
+                        className="block px-4 py-3 text-gray-700 hover:bg-white/50 transition-colors"
+                        onClick={() => setAgentsMenuOpen(false)}
+                      >
+                        <div className="flex items-center space-x-2">
+                          <span className="material-icons text-sm text-blue-600">store</span>
+                          <span>Marketplace</span>
+                        </div>
+                      </Link>
+                      <Link
+                        to="/orchestrator"
+                        className="block px-4 py-3 text-gray-700 hover:bg-white/50 transition-colors"
+                        onClick={() => setAgentsMenuOpen(false)}
+                      >
+                        <div className="flex items-center space-x-2">
+                          <span className="material-icons text-sm text-purple-600">account_tree</span>
+                          <span>Orchestrator</span>
+                        </div>
+                      </Link>
+                      <Link
+                        to="/scheduler"
+                        className="block px-4 py-3 text-gray-700 hover:bg-white/50 transition-colors"
+                        onClick={() => setAgentsMenuOpen(false)}
+                      >
+                        <div className="flex items-center space-x-2">
+                          <span className="material-icons text-sm text-green-600">event</span>
+                          <span>Scheduler</span>
+                        </div>
+                      </Link>
+                      <Link
+                        to="/integration"
+                        className="block px-4 py-3 text-gray-700 hover:bg-white/50 transition-colors border-t border-gray-200"
+                        onClick={() => setAgentsMenuOpen(false)}
+                      >
+                        <div className="flex items-center space-x-2">
+                          <span className="material-icons text-sm text-orange-600">code</span>
+                          <span>API & Integration</span>
+                        </div>
+                      </Link>
+                    </div>
+                  )}
+                </div>
+
                 <Link to="/criteria" className="text-gray-700 hover:text-primary-600 transition-colors font-medium">
                   {t.criteria}
                 </Link>
@@ -257,9 +314,47 @@ const Header = () => {
                 >
                   Submissions
                 </Link>
+
+                {/* AI Agents Section */}
+                <div className="border-t border-gray-200 pt-3">
+                  <div className="text-xs font-bold text-gray-500 mb-2 px-2">AI AGENTS</div>
+                  <Link
+                    to="/marketplace"
+                    className="text-gray-700 hover:text-primary-600 transition-colors py-2 flex items-center space-x-2"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    <span className="material-icons text-sm text-blue-600">store</span>
+                    <span>Marketplace</span>
+                  </Link>
+                  <Link
+                    to="/orchestrator"
+                    className="text-gray-700 hover:text-primary-600 transition-colors py-2 flex items-center space-x-2"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    <span className="material-icons text-sm text-purple-600">account_tree</span>
+                    <span>Orchestrator</span>
+                  </Link>
+                  <Link
+                    to="/scheduler"
+                    className="text-gray-700 hover:text-primary-600 transition-colors py-2 flex items-center space-x-2"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    <span className="material-icons text-sm text-green-600">event</span>
+                    <span>Scheduler</span>
+                  </Link>
+                  <Link
+                    to="/integration"
+                    className="text-gray-700 hover:text-primary-600 transition-colors py-2 flex items-center space-x-2"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    <span className="material-icons text-sm text-orange-600">code</span>
+                    <span>API & Integration</span>
+                  </Link>
+                </div>
+
                 <Link
                   to="/criteria"
-                  className="text-gray-700 hover:text-primary-600 transition-colors py-2"
+                  className="text-gray-700 hover:text-primary-600 transition-colors py-2 border-t border-gray-200 pt-3"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   Criteria
@@ -275,7 +370,7 @@ const Header = () => {
                 )}
                 <Link
                   to="/profile"
-                  className="text-gray-700 hover:text-primary-600 transition-colors py-2"
+                  className="text-gray-700 hover:text-primary-600 transition-colors py-2 border-t border-gray-200 pt-3"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   Profile
@@ -289,7 +384,7 @@ const Header = () => {
                 </Link>
                 <button
                   onClick={handleLogout}
-                  className="text-left text-gray-700 hover:text-primary-600 transition-colors py-2"
+                  className="text-left text-gray-700 hover:text-primary-600 transition-colors py-2 border-t border-gray-200 pt-3"
                 >
                   Logout
                 </button>

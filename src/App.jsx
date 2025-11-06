@@ -18,6 +18,11 @@ import NotificationsPage from './pages/Profile/NotificationsPage'
 import AdminDashboardPage from './pages/Admin/AdminDashboardPage'
 import UserManagementPage from './pages/Admin/UserManagementPage'
 import AnalyticsPage from './pages/Admin/AnalyticsPage'
+import AgentMarketplacePage from './pages/Marketplace/AgentMarketplacePage'
+import MultiAgentOrchestratorPage from './pages/Orchestrator/MultiAgentOrchestratorPage'
+import AgentSchedulerPage from './pages/Scheduler/AgentSchedulerPage'
+import AgentConfigurationPage from './pages/Agent/AgentConfigurationPage'
+import AgentIntegrationPage from './pages/Integration/AgentIntegrationPage'
 import NotFoundPage from './pages/NotFoundPage'
 import ProtectedRoute from './router/ProtectedRoute'
 
@@ -111,6 +116,48 @@ function App() {
           element={
             <ProtectedRoute>
               <NotificationsPage />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Agent Management Routes */}
+        <Route
+          path="/marketplace"
+          element={
+            <ProtectedRoute>
+              <AgentMarketplacePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/agent/configure/:agentId"
+          element={
+            <ProtectedRoute>
+              <AgentConfigurationPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/orchestrator"
+          element={
+            <ProtectedRoute>
+              <MultiAgentOrchestratorPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/scheduler"
+          element={
+            <ProtectedRoute>
+              <AgentSchedulerPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/integration"
+          element={
+            <ProtectedRoute>
+              <AgentIntegrationPage />
             </ProtectedRoute>
           }
         />

@@ -261,6 +261,298 @@ const HomePage = () => {
         </div>
       </section>
 
+      {/* Hire Single AI Judge Agent */}
+      <section className="py-20 px-6 bg-gradient-to-b from-white to-blue-50">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900 font-heading">
+              Hire Your Personal AI Judge Agent
+            </h2>
+            <p className="text-xl text-gray-700 max-w-3xl mx-auto">
+              Deploy specialized AI agents that work exclusively for you. Each agent is trained for specific tasks and industries.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+            <div className="glass-card rounded-3xl p-8 hover:shadow-2xl transition-all">
+              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center mb-6">
+                <span className="material-icons text-4xl text-white">person</span>
+              </div>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">Dedicated Agent</h3>
+              <p className="text-gray-700 mb-6">Your agent works 24/7 exclusively on your tasks with consistent quality</p>
+              <Link to="/marketplace" className="text-primary-600 font-semibold flex items-center hover:text-primary-700">
+                Browse Agents
+                <span className="material-icons ml-1 text-sm">arrow_forward</span>
+              </Link>
+            </div>
+
+            <div className="glass-card rounded-3xl p-8 hover:shadow-2xl transition-all">
+              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center mb-6">
+                <span className="material-icons text-4xl text-white">settings</span>
+              </div>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">Custom Configuration</h3>
+              <p className="text-gray-700 mb-6">Tailor the agent's behavior, criteria, and workflow to match your needs</p>
+              <Link to="/marketplace" className="text-primary-600 font-semibold flex items-center hover:text-primary-700">
+                Customize Agent
+                <span className="material-icons ml-1 text-sm">arrow_forward</span>
+              </Link>
+            </div>
+
+            <div className="glass-card rounded-3xl p-8 hover:shadow-2xl transition-all">
+              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-green-500 to-green-600 flex items-center justify-center mb-6">
+                <span className="material-icons text-4xl text-white">integration_instructions</span>
+              </div>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">Easy Integration</h3>
+              <p className="text-gray-700 mb-6">Integrate your agent into your website, app, or workflow with simple APIs</p>
+              <Link to="/marketplace" className="text-primary-600 font-semibold flex items-center hover:text-primary-700">
+                Learn More
+                <span className="material-icons ml-1 text-sm">arrow_forward</span>
+              </Link>
+            </div>
+          </div>
+
+          <div className="text-center">
+            <Link to="/marketplace" className="glass-btn-primary rounded-full px-12 py-4 text-lg glow inline-flex items-center">
+              <span className="material-icons mr-2">shopping_cart</span>
+              Explore Agent Marketplace
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Multi-Agent Orchestration */}
+      <section className="py-20 px-6 bg-gradient-to-b from-blue-50 to-purple-50">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900 font-heading">
+              Orchestrate Multiple AI Agents
+            </h2>
+            <p className="text-xl text-gray-700 max-w-3xl mx-auto">
+              Combine the power of multiple specialized agents to handle complex workflows and evaluations
+            </p>
+          </div>
+
+          <div className="glass-card rounded-3xl p-8 mb-12">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+              <div>
+                <h3 className="text-3xl font-bold text-gray-900 mb-6">Build Intelligent Workflows</h3>
+                <ul className="space-y-4">
+                  <li className="flex items-start">
+                    <div className="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center mr-4 flex-shrink-0">
+                      <span className="material-icons text-blue-600">layers</span>
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-gray-900 mb-1">Sequential Processing</h4>
+                      <p className="text-gray-700">Chain agents to process submissions step-by-step</p>
+                    </div>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="w-12 h-12 rounded-xl bg-purple-100 flex items-center justify-center mr-4 flex-shrink-0">
+                      <span className="material-icons text-purple-600">account_tree</span>
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-gray-900 mb-1">Parallel Execution</h4>
+                      <p className="text-gray-700">Run multiple agents simultaneously for faster results</p>
+                    </div>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="w-12 h-12 rounded-xl bg-green-100 flex items-center justify-center mr-4 flex-shrink-0">
+                      <span className="material-icons text-green-600">rule</span>
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-gray-900 mb-1">Conditional Logic</h4>
+                      <p className="text-gray-700">Route submissions based on criteria and scores</p>
+                    </div>
+                  </li>
+                </ul>
+                <Link to="/orchestrator" className="mt-8 inline-block glass-btn-primary rounded-xl px-8 py-3 font-semibold">
+                  Build Your Workflow
+                </Link>
+              </div>
+              <div className="glass-card rounded-2xl p-6 bg-gradient-to-br from-white to-purple-50">
+                <div className="text-center py-12">
+                  <span className="material-icons text-9xl text-primary-600 mb-4">hub</span>
+                  <p className="text-gray-700 text-lg">Visual Workflow Builder</p>
+                  <p className="text-gray-600 text-sm mt-2">Drag & Drop Interface</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Scheduling & Automation */}
+      <section className="py-20 px-6 bg-gradient-to-b from-purple-50 to-white">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900 font-heading">
+              Schedule & Automate Your AI Agents
+            </h2>
+            <p className="text-xl text-gray-700 max-w-3xl mx-auto">
+              Set up automated workflows with flexible scheduling - hourly, daily, weekly, monthly, or yearly
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+            <div className="glass-card rounded-2xl p-6 text-center">
+              <span className="material-icons text-5xl text-blue-600 mb-4">schedule</span>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">Hourly Tasks</h3>
+              <p className="text-gray-700 text-sm">Run agents every hour for real-time processing</p>
+            </div>
+            <div className="glass-card rounded-2xl p-6 text-center">
+              <span className="material-icons text-5xl text-green-600 mb-4">today</span>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">Daily Reports</h3>
+              <p className="text-gray-700 text-sm">Generate evaluations at set times each day</p>
+            </div>
+            <div className="glass-card rounded-2xl p-6 text-center">
+              <span className="material-icons text-5xl text-purple-600 mb-4">date_range</span>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">Weekly Batches</h3>
+              <p className="text-gray-700 text-sm">Process submissions weekly on specific days</p>
+            </div>
+            <div className="glass-card rounded-2xl p-6 text-center">
+              <span className="material-icons text-5xl text-orange-600 mb-4">event</span>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">Custom Schedule</h3>
+              <p className="text-gray-700 text-sm">Create complex scheduling patterns</p>
+            </div>
+          </div>
+
+          <div className="glass-card rounded-3xl p-8 bg-gradient-to-r from-primary-50 to-purple-50">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+              <div>
+                <h3 className="text-3xl font-bold text-gray-900 mb-4">Visual Calendar Interface</h3>
+                <ul className="space-y-3 text-gray-700">
+                  <li className="flex items-center">
+                    <span className="material-icons text-primary-600 mr-2">drag_indicator</span>
+                    <span>Drag and drop agents onto calendar</span>
+                  </li>
+                  <li className="flex items-center">
+                    <span className="material-icons text-primary-600 mr-2">open_in_full</span>
+                    <span>Expand or shrink agent work duration</span>
+                  </li>
+                  <li className="flex items-center">
+                    <span className="material-icons text-primary-600 mr-2">sync</span>
+                    <span>Recurring schedules made easy</span>
+                  </li>
+                  <li className="flex items-center">
+                    <span className="material-icons text-primary-600 mr-2">notifications</span>
+                    <span>Get notified when agents complete tasks</span>
+                  </li>
+                </ul>
+              </div>
+              <div className="glass-card rounded-2xl p-6 bg-white">
+                <div className="text-center py-12">
+                  <span className="material-icons text-9xl text-purple-600 mb-4">calendar_month</span>
+                  <p className="text-gray-700 text-lg font-semibold">Interactive Calendar</p>
+                  <p className="text-gray-600 text-sm mt-2">Drag, Drop & Schedule</p>
+                </div>
+              </div>
+            </div>
+            <div className="mt-8 text-center">
+              <Link to="/scheduler" className="glass-btn-primary rounded-full px-12 py-4 text-lg glow inline-flex items-center">
+                <span className="material-icons mr-2">calendar_today</span>
+                Open Scheduler
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Integration Options */}
+      <section className="py-20 px-6 bg-gradient-to-b from-white to-primary-50">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900 font-heading">
+              Flexible Deployment Options
+            </h2>
+            <p className="text-xl text-gray-700 max-w-3xl mx-auto">
+              Choose how you want to use your AI agents - one-time runs, custom schedules, or seamless integration
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+            <div className="glass-card rounded-3xl p-8">
+              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-green-500 to-green-600 flex items-center justify-center mb-6">
+                <span className="material-icons text-4xl text-white">play_arrow</span>
+              </div>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">One-Time Run</h3>
+              <p className="text-gray-700 mb-6">Execute agents on-demand for immediate evaluation tasks without recurring schedules</p>
+              <ul className="space-y-2 text-gray-700 text-sm">
+                <li className="flex items-center">
+                  <span className="material-icons text-green-600 text-sm mr-2">check</span>
+                  <span>Instant execution</span>
+                </li>
+                <li className="flex items-center">
+                  <span className="material-icons text-green-600 text-sm mr-2">check</span>
+                  <span>Pay per use</span>
+                </li>
+                <li className="flex items-center">
+                  <span className="material-icons text-green-600 text-sm mr-2">check</span>
+                  <span>No commitment</span>
+                </li>
+              </ul>
+            </div>
+
+            <div className="glass-card rounded-3xl p-8 border-2 border-primary-400">
+              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary-500 to-primary-600 flex items-center justify-center mb-6">
+                <span className="material-icons text-4xl text-white">schedule</span>
+              </div>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">Custom Schedule</h3>
+              <p className="text-gray-700 mb-6">Set up recurring workflows that run automatically on your preferred schedule</p>
+              <ul className="space-y-2 text-gray-700 text-sm">
+                <li className="flex items-center">
+                  <span className="material-icons text-primary-600 text-sm mr-2">check</span>
+                  <span>Automated workflows</span>
+                </li>
+                <li className="flex items-center">
+                  <span className="material-icons text-primary-600 text-sm mr-2">check</span>
+                  <span>Flexible timing</span>
+                </li>
+                <li className="flex items-center">
+                  <span className="material-icons text-primary-600 text-sm mr-2">check</span>
+                  <span>Set and forget</span>
+                </li>
+              </ul>
+            </div>
+
+            <div className="glass-card rounded-3xl p-8">
+              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center mb-6">
+                <span className="material-icons text-4xl text-white">code</span>
+              </div>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">Website Integration</h3>
+              <p className="text-gray-700 mb-6">Embed agents directly into your website or app with simple API integration</p>
+              <ul className="space-y-2 text-gray-700 text-sm">
+                <li className="flex items-center">
+                  <span className="material-icons text-purple-600 text-sm mr-2">check</span>
+                  <span>REST API</span>
+                </li>
+                <li className="flex items-center">
+                  <span className="material-icons text-purple-600 text-sm mr-2">check</span>
+                  <span>Webhook support</span>
+                </li>
+                <li className="flex items-center">
+                  <span className="material-icons text-purple-600 text-sm mr-2">check</span>
+                  <span>Code examples</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="text-center">
+            <p className="text-gray-600 mb-6">Get started with your preferred deployment method</p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link to="/marketplace" className="glass-btn-primary rounded-xl px-8 py-3 font-semibold inline-flex items-center justify-center">
+                <span className="material-icons mr-2">shopping_cart</span>
+                Hire an Agent
+              </Link>
+              <Link to="/integration" className="glass-btn-secondary rounded-xl px-8 py-3 font-semibold inline-flex items-center justify-center">
+                <span className="material-icons mr-2">integration_instructions</span>
+                View Integration Docs
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Pricing Section */}
       <section id="pricing" className="py-20 px-6">
         <div className="max-w-6xl mx-auto">
