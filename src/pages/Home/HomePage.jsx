@@ -261,12 +261,12 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* Hire Single AI Judge Agent */}
+      {/* Hire Single Precision AI Agent */}
       <section className="py-20 px-6 bg-gradient-to-b from-white to-blue-50">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900 font-heading">
-              Hire Your Personal AI Judge Agent
+              Hire Your Personal Precision AI Agent
             </h2>
             <p className="text-xl text-gray-700 max-w-3xl mx-auto">
               Deploy specialized AI agents that work exclusively for you. Each agent is trained for specific tasks and industries.

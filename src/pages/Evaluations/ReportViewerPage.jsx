@@ -134,7 +134,7 @@ const ReportViewerPage = () => {
 
     conclusion: 'This submission represents high-quality work that meets professional standards. The implementation demonstrates strong technical skills, attention to detail, and adherence to best practices. With the recommended enhancements, this project would achieve exceptional status. The code is ready for production deployment with minimal modifications required.',
 
-    evaluator: 'Aasim AI Judge Agent v2.0',
+    evaluator: 'Aasim Precision AI Agent v2.0',
     reportVersion: '1.0',
   }
 
@@ -364,7 +364,7 @@ const ReportViewerPage = () => {
               </div>
               <div className="text-right">
                 <p>Generated on: {report.generatedDate}</p>
-                <p className="text-xs mt-1">© 2025 Aasim - AI Judge Agent Platform</p>
+                <p className="text-xs mt-1">© 2025 Aasim - Precision AI Agent Platform</p>
               </div>
             </div>
           </div>

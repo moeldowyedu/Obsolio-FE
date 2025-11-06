@@ -38,7 +38,7 @@ const AgentConfigurationPage = () => {
   // Mock agent data
   const agent = {
     id: agentId,
-    name: 'Code Quality Judge',
+    name: 'Precision Code Analyzer',
     icon: 'code',
     color: 'blue',
     description: 'Expert at evaluating source code quality, best practices, and architecture',

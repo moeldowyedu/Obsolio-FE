@@ -12,7 +12,7 @@ const AgentMarketplacePage = () => {
   const agents = [
     {
       id: 'code-judge',
-      name: 'Code Quality Judge',
+      name: 'Precision Code Analyzer',
       category: 'Technology',
       icon: 'code',
       description: 'Expert at evaluating source code quality, best practices, and architecture patterns',
@@ -25,7 +25,7 @@ const AgentMarketplacePage = () => {
     },
     {
       id: 'essay-judge',
-      name: 'Essay & Writing Judge',
+      name: 'Precision Writing Analyzer',
       category: 'Education',
       icon: 'edit',
       description: 'Specialized in evaluating essays, academic papers, and written content',
@@ -51,7 +51,7 @@ const AgentMarketplacePage = () => {
     },
     {
       id: 'video-judge',
-      name: 'Video Presentation Judge',
+      name: 'Precision Video Analyzer',
       category: 'Communications',
       icon: 'videocam',
       description: 'Evaluates presentations, pitches, and video content for effectiveness',
@@ -77,7 +77,7 @@ const AgentMarketplacePage = () => {
     },
     {
       id: 'design-judge',
-      name: 'Design Portfolio Judge',
+      name: 'Precision Design Analyzer',
       category: 'Creative',
       icon: 'palette',
       description: 'Evaluates design work, portfolios, and creative projects',
@@ -103,7 +103,7 @@ const AgentMarketplacePage = () => {
     },
     {
       id: 'research-judge',
-      name: 'Research Paper Judge',
+      name: 'Precision Research Analyzer',
       category: 'Academic',
       icon: 'science',
       description: 'Expert review of research papers, methodology, and scientific findings',
@@ -145,7 +145,7 @@ const AgentMarketplacePage = () => {
         <div className="mb-8 text-center">
           <h1 className="text-5xl font-bold text-gray-900 mb-4 font-heading">AI Agent Marketplace</h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Browse and hire specialized AI Judge Agents trained for specific industries and tasks
+            Browse and hire specialized Precision AI Agents trained for specific industries and tasks
           </p>
         </div>
 

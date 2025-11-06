@@ -8,7 +8,7 @@ const MultiAgentOrchestratorPage = () => {
   const [workflowMode, setWorkflowMode] = useState('sequential')
 
   const availableAgents = [
-    { id: 'code-judge', name: 'Code Quality Judge', icon: 'code', color: 'blue' },
+    { id: 'code-judge', name: 'Precision Code Analyzer', icon: 'code', color: 'blue' },
     { id: 'security-judge', name: 'Security Auditor', icon: 'security', color: 'red' },
     { id: 'performance-judge', name: 'Performance Analyzer', icon: 'speed', color: 'green' },
     { id: 'doc-judge', name: 'Documentation Reviewer', icon: 'description', color: 'purple' },

@@ -14,7 +14,7 @@ const Footer = () => {
               <span className="text-xl font-bold text-gray-900 text-shadow">Aasim</span>
             </div>
             <p className="text-gray-600 text-sm">
-              The AI Judge Agent for comprehensive content evaluation and assessment.
+              The Precision AI Agent for comprehensive content evaluation and assessment.
             </p>
           </div>
 

@@ -151,7 +151,7 @@ const DashboardPage = () => {
   const quickActions = [
     {
       title: 'Hire new Aasim',
-      description: 'Your AI Judge Agent',
+      description: 'Your Precision AI Agent',
       icon: 'psychology',
       color: 'primary',
       link: '/agent-select',
@@ -239,7 +239,7 @@ const DashboardPage = () => {
                   <span className="material-icons mr-2">psychology</span>
                   <span>Hire new Aasim</span>
                 </div>
-                <span className="text-xs font-normal opacity-90">Your AI Judge Agent</span>
+                <span className="text-xs font-normal opacity-90">Your Precision AI Agent</span>
               </Link>
             </div>
           </div>

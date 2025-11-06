@@ -9,7 +9,7 @@ const AgentSchedulerPage = () => {
     {
       id: 1,
       agentId: 'code-judge',
-      agentName: 'Code Quality Judge',
+      agentName: 'Precision Code Analyzer',
       icon: 'code',
       color: 'blue',
       day: 1, // Monday
@@ -35,11 +35,11 @@ const AgentSchedulerPage = () => {
   const [selectedSchedule, setSelectedSchedule] = useState(null)
 
   const availableAgents = [
-    { id: 'code-judge', name: 'Code Quality Judge', icon: 'code', color: 'blue' },
-    { id: 'essay-judge', name: 'Essay Judge', icon: 'edit', color: 'green' },
+    { id: 'code-judge', name: 'Precision Code Analyzer', icon: 'code', color: 'blue' },
+    { id: 'essay-judge', name: 'Precision Writing Analyzer', icon: 'edit', color: 'green' },
     { id: 'legal-judge', name: 'Legal Reviewer', icon: 'gavel', color: 'purple' },
-    { id: 'video-judge', name: 'Video Analyst', icon: 'videocam', color: 'red' },
-    { id: 'design-judge', name: 'Design Evaluator', icon: 'palette', color: 'pink' },
+    { id: 'video-judge', name: 'Precision Video Analyzer', icon: 'videocam', color: 'red' },
+    { id: 'design-judge', name: 'Precision Design Analyzer', icon: 'palette', color: 'pink' },
   ]
 
   const frequencies = [
