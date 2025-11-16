@@ -41,6 +41,9 @@ import WebEnginePage from './pages/Engines/WebEnginePage'
 import BillingPage from './pages/Billing/BillingPage'
 import HITLQueuePage from './pages/HITL/HITLQueuePage'
 import HITLActivityPage from './pages/HITL/HITLActivityPage'
+import WorkflowListPage from './pages/Workflow/WorkflowListPage'
+import WorkflowBuilderPage from './pages/Workflow/WorkflowBuilderPage'
+import WorkflowExecutionPage from './pages/Workflow/WorkflowExecutionPage'
 import NotFoundPage from './pages/NotFoundPage'
 import ProtectedRoute from './router/ProtectedRoute'
 
@@ -309,6 +312,32 @@ function App() {
           element={
             <ProtectedRoute>
               <HITLActivityPage />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Workflow Routes */}
+        <Route
+          path="/workflows"
+          element={
+            <ProtectedRoute>
+              <WorkflowListPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/workflows/builder"
+          element={
+            <ProtectedRoute>
+              <WorkflowBuilderPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/workflows/:workflowId/executions/:executionId"
+          element={
+            <ProtectedRoute>
+              <WorkflowExecutionPage />
             </ProtectedRoute>
           }
         />
