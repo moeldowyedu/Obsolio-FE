@@ -44,6 +44,10 @@ import HITLActivityPage from './pages/HITL/HITLActivityPage'
 import WorkflowListPage from './pages/Workflow/WorkflowListPage'
 import WorkflowBuilderPage from './pages/Workflow/WorkflowBuilderPage'
 import WorkflowExecutionPage from './pages/Workflow/WorkflowExecutionPage'
+import APIKeysPage from './pages/Developer/APIKeysPage'
+import WebhooksPage from './pages/Developer/WebhooksPage'
+import IntegrationsPage from './pages/Developer/IntegrationsPage'
+import DeveloperDocsPage from './pages/Developer/DeveloperDocsPage'
 import NotFoundPage from './pages/NotFoundPage'
 import ProtectedRoute from './router/ProtectedRoute'
 
@@ -338,6 +342,40 @@ function App() {
           element={
             <ProtectedRoute>
               <WorkflowExecutionPage />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Developer Routes */}
+        <Route
+          path="/developer/api-keys"
+          element={
+            <ProtectedRoute>
+              <APIKeysPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/developer/webhooks"
+          element={
+            <ProtectedRoute>
+              <WebhooksPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/developer/integrations"
+          element={
+            <ProtectedRoute>
+              <IntegrationsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/developer/docs"
+          element={
+            <ProtectedRoute>
+              <DeveloperDocsPage />
             </ProtectedRoute>
           }
         />
