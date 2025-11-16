@@ -2,6 +2,8 @@ import { useState } from 'react';
 import ModeSelector from '../../components/hitl/ModeSelector';
 import Card from '../../components/common/Card/Card';
 import Button from '../../components/common/Button/Button';
+import { HITL_MODES } from '../../utils/constants';
+import { formatNumber } from '../../utils/formatters';
 
 const OversightModesPage = () => {
   const [selectedMode, setSelectedMode] = useState('threshold');
@@ -91,7 +93,7 @@ const OversightModesPage = () => {
     <div className="p-6 space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold text-gray-900">Human-in-the-Loop Oversight Modes</h1>
+        <h1 className="text-3xl font-bold font-heading text-gray-900">Human-in-the-Loop Oversight Modes</h1>
         <p className="text-gray-600 mt-2">
           Configure AI oversight levels to balance automation with human control
         </p>
@@ -99,7 +101,7 @@ const OversightModesPage = () => {
 
       {/* Mode Selector */}
       <div>
-        <h2 className="text-xl font-semibold text-gray-900 mb-4">Select Oversight Mode</h2>
+        <h2 className="text-xl font-semibold font-heading text-gray-900 mb-4">Select Oversight Mode</h2>
         <ModeSelector
           selectedMode={selectedMode}
           onSelectMode={setSelectedMode}
@@ -109,8 +111,8 @@ const OversightModesPage = () => {
       {/* Mode Details */}
       {currentModeInfo && (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <Card>
-            <h3 className="text-lg font-semibold text-gray-900 mb-3">
+          <Card className="hover:shadow-lg transition-shadow">
+            <h3 className="text-lg font-semibold font-heading text-gray-900 mb-3">
               {currentModeInfo.title}
             </h3>
             <p className="text-gray-600 mb-4">{currentModeInfo.description}</p>
@@ -121,7 +123,7 @@ const OversightModesPage = () => {
                 <ul className="space-y-1">
                   {currentModeInfo.useCases.map((useCase, index) => (
                     <li key={index} className="flex items-start gap-2 text-sm text-gray-600">
-                      <span className="text-green-500 mt-1">✓</span>
+                      <span className="text-secondary-500 mt-1">✓</span>
                       <span>{useCase}</span>
                     </li>
                   ))}
@@ -143,8 +145,8 @@ const OversightModesPage = () => {
           </Card>
 
           {/* Configuration Panel */}
-          <Card>
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">
+          <Card className="hover:shadow-lg transition-shadow">
+            <h3 className="text-lg font-semibold font-heading text-gray-900 mb-4">
               Configuration
             </h3>
 
@@ -221,21 +223,21 @@ const OversightModesPage = () => {
 
       {/* Statistics */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <Card>
+        <Card className="hover:shadow-lg transition-shadow">
           <p className="text-sm text-gray-600 mb-1">Total Decisions Today</p>
-          <p className="text-3xl font-bold text-gray-900">12,450</p>
+          <p className="text-3xl font-bold text-gray-900">{formatNumber(12450)}</p>
         </Card>
-        <Card>
+        <Card className="hover:shadow-lg transition-shadow">
           <p className="text-sm text-gray-600 mb-1">Auto-Approved</p>
-          <p className="text-3xl font-bold text-green-600">10,234</p>
+          <p className="text-3xl font-bold text-secondary-500">{formatNumber(10234)}</p>
         </Card>
-        <Card>
+        <Card className="hover:shadow-lg transition-shadow">
           <p className="text-sm text-gray-600 mb-1">Pending Review</p>
-          <p className="text-3xl font-bold text-yellow-600">1,890</p>
+          <p className="text-3xl font-bold text-yellow-600">{formatNumber(1890)}</p>
         </Card>
-        <Card>
+        <Card className="hover:shadow-lg transition-shadow">
           <p className="text-sm text-gray-600 mb-1">Human Interventions</p>
-          <p className="text-3xl font-bold text-blue-600">326</p>
+          <p className="text-3xl font-bold text-primary-500">{formatNumber(326)}</p>
         </Card>
       </div>
     </div>
