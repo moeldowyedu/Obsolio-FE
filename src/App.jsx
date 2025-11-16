@@ -21,6 +21,7 @@ import UserManagementPage from './pages/Admin/UserManagementPage'
 import AnalyticsPage from './pages/Admin/AnalyticsPage'
 import N8nWebhookManagementPage from './pages/Admin/N8nWebhookManagementPage'
 import AgentMarketplacePage from './pages/Marketplace/AgentMarketplacePage'
+import AgentDetailPage from './pages/Marketplace/AgentDetailPage'
 import MultiAgentOrchestratorPage from './pages/Orchestrator/MultiAgentOrchestratorPage'
 import AgentSchedulerPage from './pages/Scheduler/AgentSchedulerPage'
 import AgentConfigurationPage from './pages/Agent/AgentConfigurationPage'
@@ -212,6 +213,14 @@ function App() {
           element={
             <ProtectedRoute>
               <AgentMarketplacePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/marketplace/:agentId"
+          element={
+            <ProtectedRoute>
+              <AgentDetailPage />
             </ProtectedRoute>
           }
         />
