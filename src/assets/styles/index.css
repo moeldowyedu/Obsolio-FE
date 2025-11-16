@@ -116,7 +116,7 @@
 
   /* Gradient text with purple */
   .gradient-text {
-    @apply bg-gradient-to-r from-primary-600 via-primary-500 to-accent-600;
+    @apply bg-gradient-to-r from-primary-600 via-primary-500 to-purple-600;
     @apply bg-clip-text text-transparent;
   }
 
@@ -275,7 +275,7 @@
   }
 
   .progress-bar-fill {
-    @apply h-full bg-gradient-to-r from-primary-500 to-accent-500;
+    @apply h-full bg-gradient-to-r from-primary-500 to-purple-500;
     @apply transition-all duration-300;
   }
 
