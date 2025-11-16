@@ -1,148 +1,121 @@
-import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import MainLayout from '../../components/layout/MainLayout'
-import { useAuthStore } from '../../store/authStore'
-import toast from 'react-hot-toast'
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import MainLayout from '../../components/layout/MainLayout';
+import { useAuthStore } from '../../store/authStore';
+import { Button, Input, Card } from '../../components/common';
+import toast from 'react-hot-toast';
 
 const LoginPage = () => {
-  const navigate = useNavigate()
-  const { login } = useAuthStore()
+  const navigate = useNavigate();
+  const { login, isLoading, error, clearError } = useAuthStore();
   const [formData, setFormData] = useState({
     email: '',
     password: '',
-  })
-  const [isLoading, setIsLoading] = useState(false)
+  });
 
   const handleChange = (e) => {
+    clearError();
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
-    })
-  }
+    });
+  };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    setIsLoading(true)
+    e.preventDefault();
 
-    // Simulate API call
-    setTimeout(() => {
-      // Mock login - replace with actual API call
-      // Check if email is admin email
-      const isAdmin = formData.email.toLowerCase().includes('admin') || formData.email === 'admin@aasim.ai'
-
-      const mockUser = {
-        id: isAdmin ? 999 : 1,
-        name: isAdmin ? 'Admin User' : 'John Doe',
-        email: formData.email,
-        role: isAdmin ? 'admin' : 'user',
-      }
-      const mockToken = 'mock-jwt-token-123456789'
-
-      login(mockUser, mockToken)
-      toast.success('Login successful!')
+    try {
+      const data = await login(formData);
+      toast.success('Login successful!');
 
       // Redirect based on role
-      if (isAdmin) {
-        navigate('/admin')
+      if (data.user.role === 'admin') {
+        navigate('/admin');
       } else {
-        navigate('/dashboard')
+        navigate('/dashboard');
       }
-
-      setIsLoading(false)
-    }, 1000)
-  }
+    } catch (err) {
+      toast.error(error || 'Login failed. Please try again.');
+    }
+  };
 
   return (
     <MainLayout showFooter={false}>
-      <div className="min-h-[80vh] flex items-center justify-center px-6">
+      <div className="min-h-[80vh] flex items-center justify-center px-6 py-12">
         <div className="w-full max-w-md">
-          <div className="glass-card rounded-3xl p-8 md:p-10">
+          <Card padding="lg">
             <div className="text-center mb-8">
-              <h1 className="text-4xl font-bold text-gray-900 mb-2">Welcome Back</h1>
-              <p className="text-gray-600">Sign in to continue to Aasim</p>
+              <h1 className="text-4xl font-heading font-bold text-gray-900 mb-2">Welcome Back</h1>
+              <p className="text-gray-600">Sign in to continue to Aasim AI</p>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-800 mb-2">
-                  Email Address
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  className="glass-input w-full"
-                  placeholder="you@example.com"
-                  required
-                />
-              </div>
+            <form onSubmit={handleSubmit} className="space-y-5">
+              <Input
+                label="Email Address"
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="you@example.com"
+                fullWidth
+                required
+                error={error && 'Please check your credentials'}
+              />
 
-              <div>
-                <label htmlFor="password" className="block text-sm font-medium text-gray-800 mb-2">
-                  Password
-                </label>
-                <input
-                  type="password"
-                  id="password"
-                  name="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  className="glass-input w-full"
-                  placeholder="••••••••"
-                  required
-                />
-              </div>
+              <Input
+                label="Password"
+                type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                placeholder="••••••••"
+                fullWidth
+                required
+              />
 
               <div className="flex items-center justify-between">
-                <label className="flex items-center">
+                <label className="flex items-center cursor-pointer">
                   <input
                     type="checkbox"
-                    className="w-4 h-4 rounded border-gray-300 bg-white text-primary-600 focus:ring-primary-500"
+                    className="w-4 h-4 rounded border-gray-300 text-primary-500 focus:ring-primary-500"
                   />
                   <span className="ml-2 text-sm text-gray-600">Remember me</span>
                 </label>
-                <Link to="/forgot-password" className="text-sm text-primary-600 hover:text-primary-700 font-medium">
+                <Link
+                  to="/forgot-password"
+                  className="text-sm text-primary-500 hover:text-primary-600 font-medium"
+                >
                   Forgot password?
                 </Link>
               </div>
 
-              <button
+              <Button
                 type="submit"
+                variant="primary"
+                fullWidth
+                loading={isLoading}
                 disabled={isLoading}
-                className="w-full glass-btn-primary rounded-xl py-3 font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {isLoading ? (
-                  <div className="flex items-center justify-center">
-                    <div className="spinner w-5 h-5 mr-2"></div>
-                    Signing in...
-                  </div>
-                ) : (
-                  'Sign In'
-                )}
-              </button>
+                Sign In
+              </Button>
             </form>
 
             <div className="mt-6 text-center">
               <p className="text-gray-600">
                 Don't have an account?{' '}
-                <Link to="/register" className="text-primary-600 hover:text-primary-700 font-semibold">
+                <Link
+                  to="/register"
+                  className="text-primary-500 hover:text-primary-600 font-semibold"
+                >
                   Sign up
                 </Link>
               </p>
             </div>
-
-            <div className="mt-4 p-4 bg-blue-50 rounded-xl border border-blue-200">
-              <p className="text-xs text-gray-700 text-center">
-                <span className="font-semibold">💡 Demo Mode:</span> Use any email with "admin" in it (e.g., <span className="font-mono">admin@aasim.ai</span>) to log in as admin.
-              </p>
-            </div>
-          </div>
+          </Card>
         </div>
       </div>
     </MainLayout>
-  )
-}
+  );
+};
 
-export default LoginPage
+export default LoginPage;

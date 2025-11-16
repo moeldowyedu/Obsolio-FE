@@ -1,159 +1,138 @@
-import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import MainLayout from '../../components/layout/MainLayout'
-import { useAuthStore } from '../../store/authStore'
-import toast from 'react-hot-toast'
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import MainLayout from '../../components/layout/MainLayout';
+import { useAuthStore } from '../../store/authStore';
+import { Button, Input, Card } from '../../components/common';
+import toast from 'react-hot-toast';
 
 const RegisterPage = () => {
-  const navigate = useNavigate()
-  const { login } = useAuthStore()
+  const navigate = useNavigate();
+  const { register, login, isLoading, error, clearError } = useAuthStore();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     password: '',
     confirmPassword: '',
-  })
-  const [isLoading, setIsLoading] = useState(false)
+  });
+  const [passwordError, setPasswordError] = useState('');
 
   const handleChange = (e) => {
+    clearError();
+    setPasswordError('');
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
-    })
-  }
+    });
+  };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
     if (formData.password !== formData.confirmPassword) {
-      toast.error('Passwords do not match')
-      return
+      setPasswordError('Passwords do not match');
+      toast.error('Passwords do not match');
+      return;
     }
 
-    setIsLoading(true)
-
-    // Simulate API call
-    setTimeout(() => {
-      const mockUser = {
-        id: 1,
+    try {
+      await register({
         name: formData.name,
         email: formData.email,
-        role: 'user',
-      }
-      const mockToken = 'mock-jwt-token-123456789'
+        password: formData.password,
+      });
 
-      login(mockUser, mockToken)
-      toast.success('Registration successful!')
-      navigate('/dashboard')
-      setIsLoading(false)
-    }, 1000)
-  }
+      toast.success('Registration successful! Please log in.');
+      navigate('/login');
+    } catch (err) {
+      toast.error(error || 'Registration failed. Please try again.');
+    }
+  };
 
   return (
     <MainLayout showFooter={false}>
       <div className="min-h-[80vh] flex items-center justify-center px-6 py-12">
         <div className="w-full max-w-md">
-          <div className="glass-card rounded-3xl p-8 md:p-10">
+          <Card padding="lg">
             <div className="text-center mb-8">
-              <h1 className="text-4xl font-bold text-gray-900 mb-2">Create Account</h1>
-              <p className="text-gray-600">Get started with Aasim today</p>
+              <h1 className="text-4xl font-heading font-bold text-gray-900 mb-2">Create Account</h1>
+              <p className="text-gray-600">Get started with Aasim AI</p>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-800 mb-2">
-                  Full Name
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  className="glass-input w-full"
-                  placeholder="John Doe"
-                  required
-                />
-              </div>
+            <form onSubmit={handleSubmit} className="space-y-5">
+              <Input
+                label="Full Name"
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                placeholder="John Doe"
+                fullWidth
+                required
+              />
 
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-800 mb-2">
-                  Email Address
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  className="glass-input w-full"
-                  placeholder="you@example.com"
-                  required
-                />
-              </div>
+              <Input
+                label="Email Address"
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="you@example.com"
+                fullWidth
+                required
+                error={error && 'Please check your information'}
+              />
 
-              <div>
-                <label htmlFor="password" className="block text-sm font-medium text-gray-800 mb-2">
-                  Password
-                </label>
-                <input
-                  type="password"
-                  id="password"
-                  name="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  className="glass-input w-full"
-                  placeholder="••••••••"
-                  required
-                  minLength={8}
-                />
-              </div>
+              <Input
+                label="Password"
+                type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                placeholder="••••••••"
+                fullWidth
+                required
+                helperText="Must be at least 8 characters"
+              />
 
-              <div>
-                <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-800 mb-2">
-                  Confirm Password
-                </label>
-                <input
-                  type="password"
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  value={formData.confirmPassword}
-                  onChange={handleChange}
-                  className="glass-input w-full"
-                  placeholder="••••••••"
-                  required
-                />
-              </div>
+              <Input
+                label="Confirm Password"
+                type="password"
+                name="confirmPassword"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                placeholder="••••••••"
+                fullWidth
+                required
+                error={passwordError}
+              />
 
-              <button
+              <Button
                 type="submit"
+                variant="primary"
+                fullWidth
+                loading={isLoading}
                 disabled={isLoading}
-                className="w-full glass-btn-primary rounded-xl py-3 font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {isLoading ? (
-                  <div className="flex items-center justify-center">
-                    <div className="spinner w-5 h-5 mr-2"></div>
-                    Creating account...
-                  </div>
-                ) : (
-                  'Create Account'
-                )}
-              </button>
+                Create Account
+              </Button>
             </form>
 
             <div className="mt-6 text-center">
               <p className="text-gray-600">
                 Already have an account?{' '}
-                <Link to="/login" className="text-primary-600 hover:text-primary-700 font-semibold">
+                <Link
+                  to="/login"
+                  className="text-primary-500 hover:text-primary-600 font-semibold"
+                >
                   Sign in
                 </Link>
               </p>
             </div>
-          </div>
+          </Card>
         </div>
       </div>
     </MainLayout>
-  )
-}
+  );
+};
 
-export default RegisterPage
+export default RegisterPage;

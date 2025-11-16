@@ -1,7 +1,17 @@
 // Common UI Components
-// This file will export all common components for easy importing
+// Central export point for all common components
 
-// Example:
-// export { default as Button } from './Button/Button';
-// export { default as Card } from './Card/Card';
-// export { default as GlassCard } from './Card/GlassCard';
+// Button
+export { default as Button } from './Button';
+
+// Card
+export { Card, GlassCard } from './Card';
+
+// Input
+export { Input, Select, Textarea } from './Input';
+
+// Modal
+export { default as Modal } from './Modal';
+
+// Badge
+export { default as Badge } from './Badge';
