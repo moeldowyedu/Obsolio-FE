@@ -26,6 +26,9 @@ import MultiAgentOrchestratorPage from './pages/Orchestrator/MultiAgentOrchestra
 import AgentSchedulerPage from './pages/Scheduler/AgentSchedulerPage'
 import AgentConfigurationPage from './pages/Agent/AgentConfigurationPage'
 import AgentBuilderPage from './pages/Agent/AgentBuilderPage'
+import AgentsListPage from './pages/Agent/AgentsListPage'
+import AgentDetailPageNew from './pages/Agent/AgentDetailPage'
+import AgentExecutionDetailPage from './pages/Agent/AgentExecutionDetailPage'
 import AgentIntegrationPage from './pages/Integration/AgentIntegrationPage'
 import EnginesOverviewPage from './pages/Engines/EnginesOverviewPage'
 import VisionEnginePage from './pages/Engines/VisionEnginePage'
@@ -214,6 +217,30 @@ function App() {
           element={
             <ProtectedRoute>
               <AgentBuilderPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/agents/:agentId/executions/:executionId"
+          element={
+            <ProtectedRoute>
+              <AgentExecutionDetailPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/agents/:agentId"
+          element={
+            <ProtectedRoute>
+              <AgentDetailPageNew />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/agents"
+          element={
+            <ProtectedRoute>
+              <AgentsListPage />
             </ProtectedRoute>
           }
         />
