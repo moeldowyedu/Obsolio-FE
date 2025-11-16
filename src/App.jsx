@@ -24,6 +24,7 @@ import AgentMarketplacePage from './pages/Marketplace/AgentMarketplacePage'
 import MultiAgentOrchestratorPage from './pages/Orchestrator/MultiAgentOrchestratorPage'
 import AgentSchedulerPage from './pages/Scheduler/AgentSchedulerPage'
 import AgentConfigurationPage from './pages/Agent/AgentConfigurationPage'
+import AgentBuilderPage from './pages/Agent/AgentBuilderPage'
 import AgentIntegrationPage from './pages/Integration/AgentIntegrationPage'
 import EnginesOverviewPage from './pages/Engines/EnginesOverviewPage'
 import VisionEnginePage from './pages/Engines/VisionEnginePage'
@@ -198,6 +199,14 @@ function App() {
         />
 
         {/* Agent Management Routes */}
+        <Route
+          path="/agents/create"
+          element={
+            <ProtectedRoute>
+              <AgentBuilderPage />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/marketplace"
           element={
