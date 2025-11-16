@@ -39,6 +39,8 @@ import DocumentEnginePage from './pages/Engines/DocumentEnginePage'
 import DataEnginePage from './pages/Engines/DataEnginePage'
 import WebEnginePage from './pages/Engines/WebEnginePage'
 import BillingPage from './pages/Billing/BillingPage'
+import HITLQueuePage from './pages/HITL/HITLQueuePage'
+import HITLActivityPage from './pages/HITL/HITLActivityPage'
 import NotFoundPage from './pages/NotFoundPage'
 import ProtectedRoute from './router/ProtectedRoute'
 
@@ -289,6 +291,24 @@ function App() {
           element={
             <ProtectedRoute>
               <AgentIntegrationPage />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* HITL Routes */}
+        <Route
+          path="/hitl/queue"
+          element={
+            <ProtectedRoute>
+              <HITLQueuePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/hitl/activity"
+          element={
+            <ProtectedRoute>
+              <HITLActivityPage />
             </ProtectedRoute>
           }
         />
