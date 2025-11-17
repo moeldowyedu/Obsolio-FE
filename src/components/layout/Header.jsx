@@ -9,15 +9,12 @@ const Header = () => {
   const { language, changeLanguage } = useLanguage()
   const t = translations[language]
   const navigate = useNavigate()
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [userMenuOpen, setUserMenuOpen] = useState(false)
   const [languageMenuOpen, setLanguageMenuOpen] = useState(false)
-  const [agentsMenuOpen, setAgentsMenuOpen] = useState(false)
 
   // Refs for dropdown menus
   const userMenuRef = useRef(null)
   const languageMenuRef = useRef(null)
-  const agentsMenuRef = useRef(null)
 
   // Close dropdowns when clicking outside
   useEffect(() => {
@@ -27,9 +24,6 @@ const Header = () => {
       }
       if (languageMenuRef.current && !languageMenuRef.current.contains(event.target)) {
         setLanguageMenuOpen(false)
-      }
-      if (agentsMenuRef.current && !agentsMenuRef.current.contains(event.target)) {
-        setAgentsMenuOpen(false)
       }
     }
 
@@ -52,10 +46,6 @@ const Header = () => {
     navigate('/login')
   }
 
-  const toggleMobileMenu = () => {
-    setMobileMenuOpen(!mobileMenuOpen)
-  }
-
   const toggleUserMenu = () => {
     setUserMenuOpen(!userMenuOpen)
   }
@@ -65,13 +55,13 @@ const Header = () => {
       <nav className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           {/* Logo - Always links to homepage */}
-          <Link to="/" className="flex items-center space-x-2">
+          <Link to={isAuthenticated ? "/dashboard" : "/"} className="flex items-center space-x-2">
             <span className="material-icons text-3xl text-primary-600">gavel</span>
             <span className="text-2xl font-bold text-gray-900 text-shadow font-heading">Aasim</span>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="flex items-center space-x-6">
             {!isAuthenticated ? (
               <>
                 <Link to="/#features" className="text-gray-700 hover:text-primary-600 transition-colors font-medium">
@@ -131,77 +121,6 @@ const Header = () => {
               </>
             ) : (
               <>
-                <Link to="/dashboard" className="text-gray-700 hover:text-primary-600 transition-colors font-medium">
-                  {t.dashboard}
-                </Link>
-                <Link to="/submissions" className="text-gray-700 hover:text-primary-600 transition-colors font-medium">
-                  {t.submissions}
-                </Link>
-
-                {/* AI Agents Dropdown */}
-                <div className="relative" ref={agentsMenuRef}>
-                  <button
-                    onClick={() => setAgentsMenuOpen(!agentsMenuOpen)}
-                    className="flex items-center space-x-1 text-gray-700 hover:text-primary-600 transition-colors font-medium"
-                  >
-                    <span>AI Agents</span>
-                    <span className="material-icons text-sm">expand_more</span>
-                  </button>
-                  {agentsMenuOpen && (
-                    <div className="absolute left-0 mt-2 w-56 glass-card rounded-xl overflow-hidden shadow-2xl">
-                      <Link
-                        to="/marketplace"
-                        className="block px-4 py-3 text-gray-700 hover:bg-white/50 transition-colors"
-                        onClick={() => setAgentsMenuOpen(false)}
-                      >
-                        <div className="flex items-center space-x-2">
-                          <span className="material-icons text-sm text-blue-600">store</span>
-                          <span>Marketplace</span>
-                        </div>
-                      </Link>
-                      <Link
-                        to="/orchestrator"
-                        className="block px-4 py-3 text-gray-700 hover:bg-white/50 transition-colors"
-                        onClick={() => setAgentsMenuOpen(false)}
-                      >
-                        <div className="flex items-center space-x-2">
-                          <span className="material-icons text-sm text-purple-600">account_tree</span>
-                          <span>Orchestrator</span>
-                        </div>
-                      </Link>
-                      <Link
-                        to="/scheduler"
-                        className="block px-4 py-3 text-gray-700 hover:bg-white/50 transition-colors"
-                        onClick={() => setAgentsMenuOpen(false)}
-                      >
-                        <div className="flex items-center space-x-2">
-                          <span className="material-icons text-sm text-green-600">event</span>
-                          <span>Scheduler</span>
-                        </div>
-                      </Link>
-                      <Link
-                        to="/integration"
-                        className="block px-4 py-3 text-gray-700 hover:bg-white/50 transition-colors border-t border-gray-200"
-                        onClick={() => setAgentsMenuOpen(false)}
-                      >
-                        <div className="flex items-center space-x-2">
-                          <span className="material-icons text-sm text-orange-600">code</span>
-                          <span>API & Integration</span>
-                        </div>
-                      </Link>
-                    </div>
-                  )}
-                </div>
-
-                <Link to="/criteria" className="text-gray-700 hover:text-primary-600 transition-colors font-medium">
-                  {t.criteria}
-                </Link>
-                {user?.role === 'admin' && (
-                  <Link to="/admin" className="text-gray-700 hover:text-primary-600 transition-colors font-medium">
-                    {t.admin}
-                  </Link>
-                )}
-
                 {/* Language Switcher */}
                 <div className="relative" ref={languageMenuRef}>
                   <button
@@ -246,12 +165,12 @@ const Header = () => {
                     onClick={toggleUserMenu}
                     className="flex items-center space-x-2 glass-card px-4 py-2 rounded-xl hover:bg-white/90 transition-all"
                   >
-                    <div className="w-8 h-8 rounded-full bg-primary-500 flex items-center justify-center">
-                      <span className="text-gray-900 font-semibold text-sm">
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary-500 to-purple-500 flex items-center justify-center">
+                      <span className="text-white font-semibold text-sm">
                         {user?.name?.charAt(0).toUpperCase() || 'U'}
                       </span>
                     </div>
-                    <span className="text-gray-800 font-medium">{user?.name || 'User'}</span>
+                    <span className="text-gray-800 font-medium hidden sm:block">{user?.name || 'User'}</span>
                     <span className="material-icons text-gray-700 text-sm">
                       {userMenuOpen ? 'expand_less' : 'expand_more'}
                     </span>
@@ -259,7 +178,13 @@ const Header = () => {
 
                   {/* Dropdown Menu */}
                   {userMenuOpen && (
-                    <div className="absolute right-0 mt-2 w-48 glass-card rounded-xl overflow-hidden shadow-2xl">
+                    <div className="absolute right-0 mt-2 w-56 glass-card rounded-xl overflow-hidden shadow-2xl">
+                      <div className="px-4 py-3 border-b border-gray-200 bg-gradient-to-r from-primary-50 to-purple-50">
+                        <p className="text-sm font-semibold text-gray-900">{user?.name || 'User'}</p>
+                        <p className="text-xs text-gray-600 mt-0.5">{user?.email || 'user@example.com'}</p>
+                        <p className="text-xs text-primary-600 font-medium mt-1 capitalize">{user?.role || 'User'}</p>
+                      </div>
+
                       <Link
                         to="/profile"
                         className="block px-4 py-3 text-gray-700 hover:bg-white/50 transition-colors"
@@ -270,6 +195,7 @@ const Header = () => {
                           <span>{t.profile}</span>
                         </div>
                       </Link>
+
                       <Link
                         to="/notifications"
                         className="block px-4 py-3 text-gray-700 hover:bg-white/50 transition-colors"
@@ -280,9 +206,23 @@ const Header = () => {
                           <span>{t.notifications}</span>
                         </div>
                       </Link>
+
+                      {user?.role === 'system_admin' && (
+                        <Link
+                          to="/system-admin/tenants"
+                          className="block px-4 py-3 text-purple-700 hover:bg-purple-50 transition-colors border-t border-gray-200"
+                          onClick={() => setUserMenuOpen(false)}
+                        >
+                          <div className="flex items-center space-x-2">
+                            <span className="material-icons text-sm">admin_panel_settings</span>
+                            <span>System Admin</span>
+                          </div>
+                        </Link>
+                      )}
+
                       <button
                         onClick={handleLogout}
-                        className="w-full text-left px-4 py-3 text-gray-700 hover:bg-white/50 transition-colors border-t border-gray-200"
+                        className="w-full text-left px-4 py-3 text-red-700 hover:bg-red-50 transition-colors border-t border-gray-200"
                       >
                         <div className="flex items-center space-x-2">
                           <span className="material-icons text-sm">logout</span>
@@ -295,146 +235,7 @@ const Header = () => {
               </>
             )}
           </div>
-
-          {/* Mobile Menu Button */}
-          <button
-            onClick={toggleMobileMenu}
-            className="md:hidden text-gray-800 p-2"
-          >
-            <span className="material-icons">
-              {mobileMenuOpen ? 'close' : 'menu'}
-            </span>
-          </button>
         </div>
-
-        {/* Mobile Navigation */}
-        {mobileMenuOpen && (
-          <div className="md:hidden mt-4 pb-4 border-t border-gray-200 pt-4">
-            {!isAuthenticated ? (
-              <div className="flex flex-col space-y-3">
-                <Link
-                  to="/#features"
-                  className="text-gray-700 hover:text-primary-600 transition-colors py-2"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Features
-                </Link>
-                <Link
-                  to="/#use-cases"
-                  className="text-gray-700 hover:text-primary-600 transition-colors py-2"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Use Cases
-                </Link>
-                <Link
-                  to="/login"
-                  className="text-gray-700 hover:text-primary-600 transition-colors py-2"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Login
-                </Link>
-                <Link
-                  to="/register"
-                  className="glass-btn-primary rounded-xl px-6 py-2 text-center"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Get Started
-                </Link>
-              </div>
-            ) : (
-              <div className="flex flex-col space-y-3">
-                <Link
-                  to="/dashboard"
-                  className="text-gray-700 hover:text-primary-600 transition-colors py-2"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Dashboard
-                </Link>
-                <Link
-                  to="/submissions"
-                  className="text-gray-700 hover:text-primary-600 transition-colors py-2"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Submissions
-                </Link>
-
-                {/* AI Agents Section */}
-                <div className="border-t border-gray-200 pt-3">
-                  <div className="text-xs font-bold text-gray-500 mb-2 px-2">AI AGENTS</div>
-                  <Link
-                    to="/marketplace"
-                    className="text-gray-700 hover:text-primary-600 transition-colors py-2 flex items-center space-x-2"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    <span className="material-icons text-sm text-blue-600">store</span>
-                    <span>Marketplace</span>
-                  </Link>
-                  <Link
-                    to="/orchestrator"
-                    className="text-gray-700 hover:text-primary-600 transition-colors py-2 flex items-center space-x-2"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    <span className="material-icons text-sm text-purple-600">account_tree</span>
-                    <span>Orchestrator</span>
-                  </Link>
-                  <Link
-                    to="/scheduler"
-                    className="text-gray-700 hover:text-primary-600 transition-colors py-2 flex items-center space-x-2"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    <span className="material-icons text-sm text-green-600">event</span>
-                    <span>Scheduler</span>
-                  </Link>
-                  <Link
-                    to="/integration"
-                    className="text-gray-700 hover:text-primary-600 transition-colors py-2 flex items-center space-x-2"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    <span className="material-icons text-sm text-orange-600">code</span>
-                    <span>API & Integration</span>
-                  </Link>
-                </div>
-
-                <Link
-                  to="/criteria"
-                  className="text-gray-700 hover:text-primary-600 transition-colors py-2 border-t border-gray-200 pt-3"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Criteria
-                </Link>
-                {user?.role === 'admin' && (
-                  <Link
-                    to="/admin"
-                    className="text-gray-700 hover:text-primary-600 transition-colors py-2"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    Admin
-                  </Link>
-                )}
-                <Link
-                  to="/profile"
-                  className="text-gray-700 hover:text-primary-600 transition-colors py-2 border-t border-gray-200 pt-3"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Profile
-                </Link>
-                <Link
-                  to="/notifications"
-                  className="text-gray-700 hover:text-primary-600 transition-colors py-2"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Notifications
-                </Link>
-                <button
-                  onClick={handleLogout}
-                  className="text-left text-gray-700 hover:text-primary-600 transition-colors py-2 border-t border-gray-200 pt-3"
-                >
-                  Logout
-                </button>
-              </div>
-            )}
-          </div>
-        )}
       </nav>
     </header>
   )
