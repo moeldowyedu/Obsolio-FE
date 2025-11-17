@@ -72,6 +72,7 @@ const BranchDetailsPage = () => {
   };
 
   return (
+    <MainLayout>
     <div className="p-6 space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
@@ -284,7 +285,8 @@ const BranchDetailsPage = () => {
           </Card>
         </div>
       </div>
-    </div>
+      </div>
+    </MainLayout>
   );
 };
 

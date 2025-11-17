@@ -10,6 +10,7 @@ import {
   Search,
   Filter,
 } from 'lucide-react';
+import MainLayout from '../../components/layout/MainLayout';
 import Button from '../../components/common/Button/Button';
 import Input from '../../components/common/Input/Input';
 import Select from '../../components/common/Input/Select';
@@ -142,6 +143,7 @@ const ProjectsPage = () => {
   };
 
   return (
+    <MainLayout>
     <div className="p-6 space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
@@ -322,7 +324,8 @@ const ProjectsPage = () => {
           </div>
         </Card>
       )}
-    </div>
+      </div>
+    </MainLayout>
   );
 };
 

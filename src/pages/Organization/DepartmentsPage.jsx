@@ -9,6 +9,7 @@ import {
   ChevronRight,
   ChevronDown,
 } from 'lucide-react';
+import MainLayout from '../../components/layout/MainLayout';
 import Button from '../../components/common/Button/Button';
 import Input from '../../components/common/Input/Input';
 import Card from '../../components/common/Card/Card';
@@ -237,9 +238,10 @@ const DepartmentsPage = () => {
   };
 
   return (
-    <div className="p-6 space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
+    <MainLayout>
+      <div className="p-6 space-y-6">
+        {/* Header */}
+        <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Departments</h1>
           <p className="text-gray-600 mt-1">
@@ -315,7 +317,8 @@ const DepartmentsPage = () => {
           </div>
         </Card>
       )}
-    </div>
+      </div>
+    </MainLayout>
   );
 };
 

@@ -13,6 +13,7 @@ import Input from '../../components/common/Input/Input';
 import Select from '../../components/common/Input/Select';
 import Card from '../../components/common/Card/Card';
 import { useUserManagementStore } from '../../store/userManagementStore';
+import MainLayout from '../../components/layout/MainLayout';
 
 const InviteUserPage = () => {
   const navigate = useNavigate();
@@ -112,6 +113,7 @@ const InviteUserPage = () => {
   }
 
   return (
+    <MainLayout>
     <div className="p-6 space-y-6">
       {/* Header */}
       <div className="flex items-center gap-4">
@@ -409,7 +411,8 @@ const InviteUserPage = () => {
           </Button>
         </div>
       </form>
-    </div>
+      </div>
+    </MainLayout>
   );
 };
 
