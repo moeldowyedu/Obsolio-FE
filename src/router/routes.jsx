@@ -21,6 +21,17 @@ import DocumentEnginePage from '../pages/Engines/DocumentEnginePage';
 import DataEnginePage from '../pages/Engines/DataEnginePage';
 import WebEnginePage from '../pages/Engines/WebEnginePage';
 
+// Organization Pages
+import BranchesPage from '../pages/Organization/BranchesPage';
+import DepartmentsPage from '../pages/Organization/DepartmentsPage';
+import ProjectsPage from '../pages/Organization/ProjectsPage';
+import TeamsPage from '../pages/Organization/TeamsPage';
+
+// Agents Pages
+import AllAgentsPage from '../pages/Agents/AllAgentsPage';
+import AgentPerformancePage from '../pages/Agents/AgentPerformancePage';
+import AgentDeploymentWizard from '../components/agent-deployment/AgentDeploymentWizard';
+
 // AgentX Pages
 import MarketplacePage from '../pages/AgentX/MarketplacePage';
 import AgentBuilderPage from '../pages/AgentX/AgentBuilderPage';
@@ -30,6 +41,7 @@ import MyAgentsPage from '../pages/AgentX/MyAgentsPage';
 import OversightModesPage from '../pages/HITL/OversightModesPage';
 import ApprovalWorkflowsPage from '../pages/HITL/ApprovalWorkflowsPage';
 import ActivityLogsPage from '../pages/HITL/ActivityLogsPage';
+import ApprovalQueuePage from '../pages/HITL/ApprovalQueuePage';
 
 // Settings Pages
 import TenantSettingsPage from '../pages/Settings/TenantSettingsPage';
@@ -141,6 +153,74 @@ const AppRoutes = () => {
         }
       />
 
+      {/* Organization Routes */}
+      <Route
+        path="/organization/branches"
+        element={
+          <ProtectedRoute>
+            <BranchesPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/organization/departments"
+        element={
+          <ProtectedRoute>
+            <DepartmentsPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/organization/projects"
+        element={
+          <ProtectedRoute>
+            <ProjectsPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/organization/teams"
+        element={
+          <ProtectedRoute>
+            <TeamsPage />
+          </ProtectedRoute>
+        }
+      />
+
+      {/* Agents Routes */}
+      <Route
+        path="/agents/all"
+        element={
+          <ProtectedRoute>
+            <AllAgentsPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/agents/my-agents"
+        element={
+          <ProtectedRoute>
+            <MyAgentsPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/agents/performance"
+        element={
+          <ProtectedRoute>
+            <AgentPerformancePage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/agents/deploy"
+        element={
+          <ProtectedRoute>
+            <AgentDeploymentWizard />
+          </ProtectedRoute>
+        }
+      />
+
       {/* AgentX Hub Routes */}
       <Route
         path="/agentx"
@@ -193,10 +273,26 @@ const AppRoutes = () => {
         }
       />
       <Route
+        path="/hitl/approval-queue"
+        element={
+          <ProtectedRoute>
+            <ApprovalQueuePage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
         path="/hitl/approvals"
         element={
           <ProtectedRoute>
             <ApprovalWorkflowsPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/hitl/activity-logs"
+        element={
+          <ProtectedRoute>
+            <ActivityLogsPage />
           </ProtectedRoute>
         }
       />

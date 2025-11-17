@@ -7,9 +7,16 @@ const Sidebar = () => {
   const location = useLocation();
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [expandedSections, setExpandedSections] = useState({
-    engines: false,
-    agentx: false,
+    organization: false,
+    agents: false,
+    jobFlows: false,
+    orchestration: false,
+    scheduling: false,
     hitl: false,
+    engines: false,
+    integrations: false,
+    teamUsers: false,
+    billing: false,
     settings: false
   });
 
@@ -18,12 +25,26 @@ const Sidebar = () => {
     const path = location.pathname;
     const newExpanded = { ...expandedSections };
 
-    if (path.startsWith('/engines/')) {
-      newExpanded.engines = true;
-    } else if (path.startsWith('/agentx/')) {
-      newExpanded.agentx = true;
+    if (path.startsWith('/organization/')) {
+      newExpanded.organization = true;
+    } else if (path.startsWith('/agents/')) {
+      newExpanded.agents = true;
+    } else if (path.startsWith('/job-flows/')) {
+      newExpanded.jobFlows = true;
+    } else if (path.startsWith('/orchestration/')) {
+      newExpanded.orchestration = true;
+    } else if (path.startsWith('/scheduling/')) {
+      newExpanded.scheduling = true;
     } else if (path.startsWith('/hitl/')) {
       newExpanded.hitl = true;
+    } else if (path.startsWith('/engines/')) {
+      newExpanded.engines = true;
+    } else if (path.startsWith('/integrations/')) {
+      newExpanded.integrations = true;
+    } else if (path.startsWith('/team-users/')) {
+      newExpanded.teamUsers = true;
+    } else if (path.startsWith('/billing/')) {
+      newExpanded.billing = true;
     } else if (path.startsWith('/settings/')) {
       newExpanded.settings = true;
     }
@@ -50,6 +71,70 @@ const Sidebar = () => {
       exact: true
     },
     {
+      name: 'Organization',
+      icon: '🏢',
+      section: 'organization',
+      children: [
+        { name: 'Branches', href: '/organization/branches', icon: '🏛️' },
+        { name: 'Departments', href: '/organization/departments', icon: '🏗️' },
+        { name: 'Projects', href: '/organization/projects', icon: '📁' },
+        { name: 'Teams', href: '/organization/teams', icon: '👥' },
+      ]
+    },
+    {
+      name: 'Agents',
+      icon: '🤖',
+      section: 'agents',
+      children: [
+        { name: 'All Agents', href: '/agents/all', icon: '📋' },
+        { name: 'My Agents', href: '/agents/my-agents', icon: '👤' },
+        { name: 'Agent Performance', href: '/agents/performance', icon: '📈' },
+        { name: 'Deploy New Agent', href: '/agents/deploy', icon: '➕' },
+        { name: 'Marketplace', href: '/agentx/marketplace', icon: '🏪' },
+      ]
+    },
+    {
+      name: 'Job Flows',
+      icon: '⚡',
+      section: 'jobFlows',
+      children: [
+        { name: 'All Job Flows', href: '/job-flows/all', icon: '📋' },
+        { name: 'Job Calendar', href: '/job-flows/calendar', icon: '📅' },
+        { name: 'Execution History', href: '/job-flows/history', icon: '📜' },
+      ]
+    },
+    {
+      name: 'Orchestration',
+      icon: '🔀',
+      section: 'orchestration',
+      children: [
+        { name: 'Workflows', href: '/orchestration/workflows', icon: '📊' },
+        { name: 'Workflow Builder', href: '/orchestration/builder', icon: '🔧' },
+        { name: 'Execution History', href: '/orchestration/history', icon: '📜' },
+      ]
+    },
+    {
+      name: 'Scheduling',
+      icon: '📅',
+      section: 'scheduling',
+      children: [
+        { name: 'Scheduled Jobs', href: '/scheduling/jobs', icon: '⏰' },
+        { name: 'Calendar View', href: '/scheduling/calendar', icon: '📆' },
+        { name: 'Upcoming Runs', href: '/scheduling/upcoming', icon: '⏳' },
+      ]
+    },
+    {
+      name: 'HITL Framework',
+      icon: '👥',
+      section: 'hitl',
+      children: [
+        { name: 'Approval Queue', href: '/hitl/approval-queue', icon: '📥' },
+        { name: 'My Approvals', href: '/hitl/my-approvals', icon: '✅' },
+        { name: 'Activity Logs', href: '/hitl/activity-logs', icon: '📜' },
+        { name: 'HITL Configuration', href: '/hitl/configuration', icon: '⚙️' },
+      ]
+    },
+    {
       name: 'Precision AI Engines',
       icon: '⚙️',
       section: 'engines',
@@ -60,24 +145,36 @@ const Sidebar = () => {
       }))
     },
     {
-      name: 'AgentX Hub',
-      icon: '🤖',
-      section: 'agentx',
+      name: 'Integrations',
+      icon: '🔌',
+      section: 'integrations',
       children: [
-        { name: 'Marketplace', href: '/agentx/marketplace', icon: '🏪' },
-        { name: 'My Agents', href: '/agentx/my-agents', icon: '📁' },
-        { name: 'Private Agents', href: '/agentx/private', icon: '🔒' },
-        { name: 'Developer Portal', href: '/agentx/developer', icon: '💻' },
+        { name: 'Connected Apps', href: '/integrations/connected', icon: '🔗' },
+        { name: 'API Keys', href: '/integrations/api-keys', icon: '🔑' },
+        { name: 'Webhooks', href: '/integrations/webhooks', icon: '🪝' },
+        { name: 'Browse Integrations', href: '/integrations/browse', icon: '🏪' },
       ]
     },
     {
-      name: 'HITL Framework',
+      name: 'Team & Users',
       icon: '👥',
-      section: 'hitl',
+      section: 'teamUsers',
       children: [
-        { name: 'Oversight Modes', href: '/hitl/modes', icon: '🔘' },
-        { name: 'Approval Workflows', href: '/hitl/approvals', icon: '✅' },
-        { name: 'Activity Logs', href: '/hitl/logs', icon: '📜' },
+        { name: 'All Users', href: '/team-users/all', icon: '👤' },
+        { name: 'Invite Users', href: '/team-users/invite', icon: '📧' },
+        { name: 'Roles & Permissions', href: '/team-users/roles', icon: '🔐' },
+        { name: 'User Activity', href: '/team-users/activity', icon: '📊' },
+      ]
+    },
+    {
+      name: 'Billing & Usage',
+      icon: '💳',
+      section: 'billing',
+      children: [
+        { name: 'Overview', href: '/billing/overview', icon: '📊' },
+        { name: 'Subscription', href: '/billing/subscription', icon: '💰' },
+        { name: 'Usage Reports', href: '/billing/usage', icon: '📈' },
+        { name: 'Invoices', href: '/billing/invoices', icon: '🧾' },
       ]
     },
     {
@@ -87,8 +184,8 @@ const Sidebar = () => {
       children: [
         { name: 'Tenant Settings', href: '/settings/tenant', icon: '🏢' },
         { name: 'Rubrics', href: '/settings/rubrics', icon: '📋' },
-        { name: 'Integrations', href: '/settings/integrations', icon: '🔌' },
-        { name: 'Users & Roles', href: '/settings/users', icon: '👤' },
+        { name: 'Security', href: '/settings/security', icon: '🔒' },
+        { name: 'Notifications', href: '/settings/notifications', icon: '🔔' },
       ]
     },
   ];
