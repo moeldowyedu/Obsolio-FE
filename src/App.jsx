@@ -41,6 +41,9 @@ import WebEnginePage from './pages/Engines/WebEnginePage'
 import BillingPage from './pages/Billing/BillingPage'
 import HITLQueuePage from './pages/HITL/HITLQueuePage'
 import HITLActivityPage from './pages/HITL/HITLActivityPage'
+import OversightModesPage from './pages/HITL/OversightModesPage'
+import ApprovalWorkflowsPage from './pages/HITL/ApprovalWorkflowsPage'
+import ActivityLogsPage from './pages/HITL/ActivityLogsPage'
 import WorkflowListPage from './pages/Workflow/WorkflowListPage'
 import WorkflowBuilderPage from './pages/Workflow/WorkflowBuilderPage'
 import WorkflowExecutionPage from './pages/Workflow/WorkflowExecutionPage'
@@ -48,6 +51,14 @@ import APIKeysPage from './pages/Developer/APIKeysPage'
 import WebhooksPage from './pages/Developer/WebhooksPage'
 import IntegrationsPage from './pages/Developer/IntegrationsPage'
 import DeveloperDocsPage from './pages/Developer/DeveloperDocsPage'
+import AgentXMarketplacePage from './pages/AgentX/MarketplacePage'
+import MyAgentsPage from './pages/AgentX/MyAgentsPage'
+import PrivateAgentsPage from './pages/AgentX/PrivateAgentsPage'
+import DeveloperPortalPage from './pages/AgentX/DeveloperPortalPage'
+import TenantSettingsPage from './pages/Settings/TenantSettingsPage'
+import RubricsPage from './pages/Settings/RubricsPage'
+import SettingsIntegrationsPage from './pages/Settings/IntegrationsPage'
+import UsersRolesPage from './pages/Settings/UsersRolesPage'
 import NotFoundPage from './pages/NotFoundPage'
 import ProtectedRoute from './router/ProtectedRoute'
 
@@ -270,6 +281,38 @@ function App() {
           }
         />
         <Route
+          path="/agentx/marketplace"
+          element={
+            <ProtectedRoute>
+              <AgentXMarketplacePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/agentx/my-agents"
+          element={
+            <ProtectedRoute>
+              <MyAgentsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/agentx/private"
+          element={
+            <ProtectedRoute>
+              <PrivateAgentsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/agentx/developer"
+          element={
+            <ProtectedRoute>
+              <DeveloperPortalPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path="/agent/configure/:agentId"
           element={
             <ProtectedRoute>
@@ -303,6 +346,30 @@ function App() {
         />
 
         {/* HITL Routes */}
+        <Route
+          path="/hitl/modes"
+          element={
+            <ProtectedRoute>
+              <OversightModesPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/hitl/approvals"
+          element={
+            <ProtectedRoute>
+              <ApprovalWorkflowsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/hitl/logs"
+          element={
+            <ProtectedRoute>
+              <ActivityLogsPage />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/hitl/queue"
           element={
@@ -376,6 +443,40 @@ function App() {
           element={
             <ProtectedRoute>
               <DeveloperDocsPage />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Settings Routes */}
+        <Route
+          path="/settings/tenant"
+          element={
+            <ProtectedRoute>
+              <TenantSettingsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/settings/rubrics"
+          element={
+            <ProtectedRoute>
+              <RubricsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/settings/integrations"
+          element={
+            <ProtectedRoute>
+              <SettingsIntegrationsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/settings/users"
+          element={
+            <ProtectedRoute>
+              <UsersRolesPage />
             </ProtectedRoute>
           }
         />
