@@ -12,6 +12,7 @@ import Card from '../../components/common/Card/Card';
 import Select from '../../components/common/Input/Select';
 import Input from '../../components/common/Input/Input';
 import { HITL_MODES } from '../../utils/constants';
+import MainLayout from '../../components/layout/MainLayout';
 
 const HITLConfigurationPage = () => {
   const [config, setConfig] = useState({
@@ -42,6 +43,7 @@ const HITLConfigurationPage = () => {
   };
 
   return (
+    <MainLayout>
     <div className="p-6 space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
@@ -307,7 +309,8 @@ const HITLConfigurationPage = () => {
           ))}
         </div>
       </Card>
-    </div>
+      </div>
+    </MainLayout>
   );
 };
 

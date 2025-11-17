@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import HITLApprovalQueue from '../../components/hitl/HITLApprovalQueue';
 import TaskReviewModal from '../../components/hitl/TaskReviewModal';
+import MainLayout from '../../components/layout/MainLayout';
 
 const ApprovalQueuePage = () => {
   const [selectedTask, setSelectedTask] = useState(null);
@@ -14,12 +15,14 @@ const ApprovalQueuePage = () => {
   };
 
   return (
-    <div className="p-6">
-      <HITLApprovalQueue onTaskSelect={handleTaskSelect} />
-      {selectedTask && (
-        <TaskReviewModal task={selectedTask} onClose={handleCloseModal} />
-      )}
-    </div>
+    <MainLayout>
+      <div className="p-6">
+        <HITLApprovalQueue onTaskSelect={handleTaskSelect} />
+        {selectedTask && (
+          <TaskReviewModal task={selectedTask} onClose={handleCloseModal} />
+        )}
+      </div>
+    </MainLayout>
   );
 };
 

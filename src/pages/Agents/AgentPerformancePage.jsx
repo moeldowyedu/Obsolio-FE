@@ -12,6 +12,7 @@ import {
 import Card from '../../components/common/Card/Card';
 import Select from '../../components/common/Input/Select';
 import Badge from '../../components/common/Badge/Badge';
+import MainLayout from '../../components/layout/MainLayout';
 
 const AgentPerformancePage = () => {
   const [timeRange, setTimeRange] = useState('7d');
@@ -167,6 +168,7 @@ const AgentPerformancePage = () => {
   };
 
   return (
+    <MainLayout>
     <div className="p-6 space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
@@ -400,7 +402,8 @@ const AgentPerformancePage = () => {
           </table>
         </div>
       </Card>
-    </div>
+      </div>
+    </MainLayout>
   );
 };
 

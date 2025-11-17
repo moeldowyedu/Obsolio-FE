@@ -11,6 +11,7 @@ import Button from '../../components/common/Button/Button';
 import Card from '../../components/common/Card/Card';
 import Badge from '../../components/common/Badge/Badge';
 import { useUserManagementStore } from '../../store/userManagementStore';
+import MainLayout from '../../components/layout/MainLayout';
 
 const RolesPermissionsPage = () => {
   const { roles } = useUserManagementStore();
@@ -78,6 +79,7 @@ const RolesPermissionsPage = () => {
   const currentRole = roles[selectedRole];
 
   return (
+    <MainLayout>
     <div className="p-6 space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
@@ -209,7 +211,8 @@ const RolesPermissionsPage = () => {
           </Card>
         </div>
       </div>
-    </div>
+      </div>
+    </MainLayout>
   );
 };
 

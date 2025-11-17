@@ -17,6 +17,7 @@ import Input from '../../components/common/Input/Input';
 import Select from '../../components/common/Input/Select';
 import Card from '../../components/common/Card/Card';
 import Badge from '../../components/common/Badge/Badge';
+import MainLayout from '../../components/layout/MainLayout';
 
 const JobFlowsListPage = () => {
   const navigate = useNavigate();
@@ -168,6 +169,7 @@ const JobFlowsListPage = () => {
   };
 
   return (
+    <MainLayout>
     <div className="p-6 space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
@@ -398,7 +400,8 @@ const JobFlowsListPage = () => {
           </div>
         </Card>
       )}
-    </div>
+      </div>
+    </MainLayout>
   );
 };
 

@@ -1,8 +1,15 @@
 import { Link } from 'react-router-dom';
+import { lazy, Suspense } from 'react';
 import MainLayout from '../../components/layout/MainLayout';
-import { WhyUsePrecisionAgents } from '../../components/home';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { translations } from '../../translations';
+
+// Lazy load the heavy component to improve initial load time
+const WhyUsePrecisionAgents = lazy(() =>
+  import('../../components/home').then(module => ({
+    default: module.WhyUsePrecisionAgents
+  }))
+);
 
 const HomePage = () => {
   const { language } = useLanguage();
@@ -70,7 +77,16 @@ const HomePage = () => {
       </section>
 
       {/* Why Use Precision AI Agents - Full comprehensive section */}
-      <WhyUsePrecisionAgents />
+      <Suspense fallback={
+        <div className="py-20 px-6 flex items-center justify-center">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto mb-4"></div>
+            <p className="text-gray-600">Loading content...</p>
+          </div>
+        </div>
+      }>
+        <WhyUsePrecisionAgents />
+      </Suspense>
 
       {/* Social Proof - Compact */}
       <section className="py-20 px-6 bg-gradient-to-b from-purple-50 to-white">
@@ -99,6 +115,7 @@ const HomePage = () => {
                   src="https://i.pravatar.cc/150?img=1"
                   alt="Dr. Heba Saleh"
                   className="w-12 h-12 rounded-full mr-3"
+                  loading="lazy"
                 />
                 <div>
                   <div className="font-bold text-gray-900">Dr. Heba Saleh</div>
@@ -122,6 +139,7 @@ const HomePage = () => {
                   src="https://i.pravatar.cc/150?img=12"
                   alt="Ahmed El-Sayed"
                   className="w-12 h-12 rounded-full mr-3"
+                  loading="lazy"
                 />
                 <div>
                   <div className="font-bold text-gray-900">Ahmed El-Sayed</div>
@@ -145,6 +163,7 @@ const HomePage = () => {
                   src="https://i.pravatar.cc/150?img=45"
                   alt="Sarah Martinez"
                   className="w-12 h-12 rounded-full mr-3"
+                  loading="lazy"
                 />
                 <div>
                   <div className="font-bold text-gray-900">Sarah Martinez</div>
