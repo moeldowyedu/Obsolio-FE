@@ -23,6 +23,7 @@ import WebEnginePage from '../pages/Engines/WebEnginePage';
 
 // Organization Pages
 import BranchesPage from '../pages/Organization/BranchesPage';
+import BranchDetailsPage from '../pages/Organization/BranchDetailsPage';
 import DepartmentsPage from '../pages/Organization/DepartmentsPage';
 import ProjectsPage from '../pages/Organization/ProjectsPage';
 import TeamsPage from '../pages/Organization/TeamsPage';
@@ -37,11 +38,19 @@ import MarketplacePage from '../pages/AgentX/MarketplacePage';
 import AgentBuilderPage from '../pages/AgentX/AgentBuilderPage';
 import MyAgentsPage from '../pages/AgentX/MyAgentsPage';
 
+// Job Flows Pages
+import JobFlowsListPage from '../pages/JobFlows/JobFlowsListPage';
+import JobCalendarPage from '../pages/JobFlows/JobCalendarPage';
+
 // HITL Pages
 import OversightModesPage from '../pages/HITL/OversightModesPage';
 import ApprovalWorkflowsPage from '../pages/HITL/ApprovalWorkflowsPage';
 import ActivityLogsPage from '../pages/HITL/ActivityLogsPage';
 import ApprovalQueuePage from '../pages/HITL/ApprovalQueuePage';
+
+// Team & Users Pages
+import AllUsersPage from '../pages/Team/AllUsersPage';
+import InviteUserPage from '../pages/Team/InviteUserPage';
 
 // Settings Pages
 import TenantSettingsPage from '../pages/Settings/TenantSettingsPage';
@@ -159,6 +168,14 @@ const AppRoutes = () => {
         element={
           <ProtectedRoute>
             <BranchesPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/organization/branches/:id"
+        element={
+          <ProtectedRoute>
+            <BranchDetailsPage />
           </ProtectedRoute>
         }
       />
@@ -301,6 +318,42 @@ const AppRoutes = () => {
         element={
           <ProtectedRoute>
             <ActivityLogsPage />
+          </ProtectedRoute>
+        }
+      />
+
+      {/* Job Flows Routes */}
+      <Route
+        path="/job-flows/all"
+        element={
+          <ProtectedRoute>
+            <JobFlowsListPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/job-flows/calendar"
+        element={
+          <ProtectedRoute>
+            <JobCalendarPage />
+          </ProtectedRoute>
+        }
+      />
+
+      {/* Team & Users Routes */}
+      <Route
+        path="/team-users/all"
+        element={
+          <ProtectedRoute>
+            <AllUsersPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/team-users/invite"
+        element={
+          <ProtectedRoute>
+            <InviteUserPage />
           </ProtectedRoute>
         }
       />
