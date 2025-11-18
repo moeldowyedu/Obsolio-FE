@@ -8,6 +8,7 @@ import ConfigureInputOutputStep from './ConfigureInputOutputStep';
 import SetHITLModeStep from './SetHITLModeStep';
 import SetPermissionsStep from './SetPermissionsStep';
 import ReviewDeployStep from './ReviewDeployStep';
+import MainLayout from '../layout/MainLayout';
 
 const AgentDeploymentWizard = () => {
   const navigate = useNavigate();
@@ -79,46 +80,48 @@ const AgentDeploymentWizard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-secondary-50">
-      <div className="container mx-auto px-4 py-8">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">Deploy AI Agent</h1>
-          <p className="text-gray-600">
-            Set up your AI agent as a virtual employee in your organization
-          </p>
-        </div>
+    <MainLayout>
+      <div className="bg-gradient-to-br from-primary-50 via-white to-secondary-50 min-h-full p-8">
+        <div className="container mx-auto">
+          {/* Header */}
+          <div className="text-center mb-8">
+            <h1 className="text-4xl font-bold text-gray-900 mb-2">Deploy AI Agent</h1>
+            <p className="text-gray-600">
+              Set up your AI agent as a virtual employee in your organization
+            </p>
+          </div>
 
-        {/* Wizard Steps Progress */}
-        <div className="mb-8">
-          <WizardSteps steps={wizardSteps} currentStep={currentStep} />
-        </div>
+          {/* Wizard Steps Progress */}
+          <div className="mb-8">
+            <WizardSteps steps={wizardSteps} currentStep={currentStep} />
+          </div>
 
-        {/* Step Content */}
-        <div className="bg-white rounded-2xl shadow-xl p-8 mb-8">
-          {isLoading ? (
-            <div className="flex items-center justify-center py-20">
-              <div className="text-center">
-                <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-primary-500 mx-auto mb-4"></div>
-                <p className="text-gray-600">Processing...</p>
+          {/* Step Content */}
+          <div className="bg-white rounded-2xl shadow-xl p-8 mb-8">
+            {isLoading ? (
+              <div className="flex items-center justify-center py-20">
+                <div className="text-center">
+                  <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-primary-500 mx-auto mb-4"></div>
+                  <p className="text-gray-600">Processing...</p>
+                </div>
               </div>
-            </div>
-          ) : (
-            renderStep()
-          )}
-        </div>
+            ) : (
+              renderStep()
+            )}
+          </div>
 
-        {/* Footer */}
-        <div className="text-center text-sm text-gray-500">
-          <p>
-            Need help?{' '}
-            <a href="/docs/agent-deployment" className="text-primary-500 hover:text-primary-600">
-              View Documentation
-            </a>
-          </p>
+          {/* Footer */}
+          <div className="text-center text-sm text-gray-500">
+            <p>
+              Need help?{' '}
+              <a href="/docs/agent-deployment" className="text-primary-500 hover:text-primary-600">
+                View Documentation
+              </a>
+            </p>
+          </div>
         </div>
       </div>
-    </div>
+    </MainLayout>
   );
 };
 
