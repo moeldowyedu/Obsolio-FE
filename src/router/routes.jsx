@@ -37,6 +37,7 @@ import AgentDeploymentWizard from '../components/agent-deployment/AgentDeploymen
 import MarketplacePage from '../pages/AgentX/MarketplacePage';
 import AgentBuilderPage from '../pages/AgentX/AgentBuilderPage';
 import MyAgentsPage from '../pages/AgentX/MyAgentsPage';
+import DeveloperPortalPage from '../pages/AgentX/DeveloperPortalPage';
 
 // Job Flows Pages
 import JobFlowsListPage from '../pages/JobFlows/JobFlowsListPage';
@@ -81,6 +82,9 @@ import BrowseIntegrationsPage from '../pages/Integrations/BrowseIntegrationsPage
 
 // Settings Pages
 import TenantSettingsPage from '../pages/Settings/TenantSettingsPage';
+import RubricsPage from '../pages/Settings/RubricsPage';
+import SecurityPage from '../pages/Settings/SecurityPage';
+import SettingsNotificationsPage from '../pages/Settings/NotificationsPage';
 
 // Legacy Pages (to be migrated)
 import AgentSelectionPage from '../pages/Submissions/AgentSelectionPage';
@@ -300,6 +304,14 @@ const AppRoutes = () => {
           </ProtectedRoute>
         }
       />
+      <Route
+        path="/agentx/developer"
+        element={
+          <ProtectedRoute>
+            <DeveloperPortalPage />
+          </ProtectedRoute>
+        }
+      />
 
       {/* HITL Routes */}
       <Route
@@ -441,6 +453,30 @@ const AppRoutes = () => {
         element={
           <ProtectedRoute>
             <TenantSettingsPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/settings/rubrics"
+        element={
+          <ProtectedRoute>
+            <RubricsPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/settings/security"
+        element={
+          <ProtectedRoute>
+            <SecurityPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/settings/notifications"
+        element={
+          <ProtectedRoute>
+            <SettingsNotificationsPage />
           </ProtectedRoute>
         }
       />

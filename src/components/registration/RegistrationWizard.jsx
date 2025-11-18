@@ -12,6 +12,7 @@ import ProjectsSetupStep from './organization/ProjectsSetupStep';
 import TeamsSetupStep from './organization/TeamsSetupStep';
 import RolesPermissionsStep from './organization/RolesPermissionsStep';
 import PlanSelectionStep from './organization/PlanSelectionStep';
+import MainLayout from '../layout/MainLayout';
 
 const RegistrationWizard = () => {
   const navigate = useNavigate();
@@ -196,50 +197,52 @@ const RegistrationWizard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-secondary-50">
-      <div className="container mx-auto px-4 py-8">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">Welcome to Aasim AI</h1>
-          <p className="text-gray-600">
-            Let's get you set up. This will only take a few minutes.
-          </p>
-        </div>
+    <MainLayout showSidebar={false}>
+      <div className="bg-gradient-to-br from-primary-50 via-white to-secondary-50 min-h-full p-8">
+        <div className="container mx-auto">
+          {/* Header */}
+          <div className="text-center mb-8">
+            <h1 className="text-4xl font-bold text-gray-900 mb-2">Welcome to Aasim AI</h1>
+            <p className="text-gray-600">
+              Let's get you set up. This will only take a few minutes.
+            </p>
+          </div>
 
-        {/* Wizard Steps Progress */}
-        <div className="mb-8">
-          <WizardSteps steps={wizardSteps} currentStep={currentStep} />
-        </div>
+          {/* Wizard Steps Progress */}
+          <div className="mb-8">
+            <WizardSteps steps={wizardSteps} currentStep={currentStep} />
+          </div>
 
-        {/* Step Content */}
-        <div className="bg-white rounded-2xl shadow-xl p-8 mb-8">
-          {isLoading ? (
-            <div className="flex items-center justify-center py-20">
-              <div className="text-center">
-                <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-primary-500 mx-auto mb-4"></div>
-                <p className="text-gray-600">Creating your account...</p>
+          {/* Step Content */}
+          <div className="bg-white rounded-2xl shadow-xl p-8 mb-8">
+            {isLoading ? (
+              <div className="flex items-center justify-center py-20">
+                <div className="text-center">
+                  <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-primary-500 mx-auto mb-4"></div>
+                  <p className="text-gray-600">Creating your account...</p>
+                </div>
               </div>
-            </div>
-          ) : (
-            renderStep()
-          )}
-        </div>
+            ) : (
+              renderStep()
+            )}
+          </div>
 
-        {/* Footer */}
-        <div className="text-center text-sm text-gray-500">
-          <p>
-            By continuing, you agree to our{' '}
-            <a href="/terms" className="text-primary-500 hover:text-primary-600">
-              Terms of Service
-            </a>{' '}
-            and{' '}
-            <a href="/privacy" className="text-primary-500 hover:text-primary-600">
-              Privacy Policy
-            </a>
-          </p>
+          {/* Footer */}
+          <div className="text-center text-sm text-gray-500">
+            <p>
+              By continuing, you agree to our{' '}
+              <a href="/terms" className="text-primary-500 hover:text-primary-600">
+                Terms of Service
+              </a>{' '}
+              and{' '}
+              <a href="/privacy" className="text-primary-500 hover:text-primary-600">
+                Privacy Policy
+              </a>
+            </p>
+          </div>
         </div>
       </div>
-    </div>
+    </MainLayout>
   );
 };
 
