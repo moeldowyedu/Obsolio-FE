@@ -83,6 +83,7 @@ import AgentSchedulerPage from '../pages/Scheduler/AgentSchedulerPage';
 import AgentConfigurationPage from '../pages/Agent/AgentConfigurationPage';
 import AgentIntegrationPage from '../pages/Integration/AgentIntegrationPage';
 import NotFoundPage from '../pages/NotFoundPage';
+import APITestPage from '../pages/APITestPage';
 
 const AppRoutes = () => {
   return (
@@ -93,6 +94,7 @@ const AppRoutes = () => {
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/forgot-password" element={<ForgotPasswordPage />} />
       <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
+      <Route path="/api-test" element={<APITestPage />} />
 
       {/* Dashboard */}
       <Route
