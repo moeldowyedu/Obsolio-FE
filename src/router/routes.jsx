@@ -59,6 +59,25 @@ import UserActivityPage from '../pages/Team/UserActivityPage';
 
 // Billing Pages
 import BillingOverviewPage from '../pages/Billing/BillingOverviewPage';
+import SubscriptionPage from '../pages/Billing/SubscriptionPage';
+import UsageReportsPage from '../pages/Billing/UsageReportsPage';
+import InvoicesPage from '../pages/Billing/InvoicesPage';
+
+// Orchestration Pages
+import WorkflowsPage from '../pages/Orchestration/WorkflowsPage';
+import WorkflowBuilderPage from '../pages/Orchestration/WorkflowBuilderPage';
+import OrchestrationExecutionHistoryPage from '../pages/Orchestration/ExecutionHistoryPage';
+
+// Scheduling Pages
+import ScheduledJobsPage from '../pages/Scheduling/ScheduledJobsPage';
+import CalendarViewPage from '../pages/Scheduling/CalendarViewPage';
+import UpcomingRunsPage from '../pages/Scheduling/UpcomingRunsPage';
+
+// Integration Pages
+import ConnectedAppsPage from '../pages/Integrations/ConnectedAppsPage';
+import APIKeysPage from '../pages/Integrations/APIKeysPage';
+import WebhooksPage from '../pages/Integrations/WebhooksPage';
+import BrowseIntegrationsPage from '../pages/Integrations/BrowseIntegrationsPage';
 
 // Settings Pages
 import TenantSettingsPage from '../pages/Settings/TenantSettingsPage';
@@ -426,6 +445,92 @@ const AppRoutes = () => {
         }
       />
 
+      {/* Orchestration Routes */}
+      <Route
+        path="/orchestration/workflows"
+        element={
+          <ProtectedRoute>
+            <WorkflowsPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/orchestration/builder"
+        element={
+          <ProtectedRoute>
+            <WorkflowBuilderPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/orchestration/history"
+        element={
+          <ProtectedRoute>
+            <OrchestrationExecutionHistoryPage />
+          </ProtectedRoute>
+        }
+      />
+
+      {/* Scheduling Routes */}
+      <Route
+        path="/scheduling/jobs"
+        element={
+          <ProtectedRoute>
+            <ScheduledJobsPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/scheduling/calendar"
+        element={
+          <ProtectedRoute>
+            <CalendarViewPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/scheduling/upcoming"
+        element={
+          <ProtectedRoute>
+            <UpcomingRunsPage />
+          </ProtectedRoute>
+        }
+      />
+
+      {/* Integration Routes */}
+      <Route
+        path="/integrations/connected"
+        element={
+          <ProtectedRoute>
+            <ConnectedAppsPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/integrations/api-keys"
+        element={
+          <ProtectedRoute>
+            <APIKeysPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/integrations/webhooks"
+        element={
+          <ProtectedRoute>
+            <WebhooksPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/integrations/browse"
+        element={
+          <ProtectedRoute>
+            <BrowseIntegrationsPage />
+          </ProtectedRoute>
+        }
+      />
+
       {/* Billing Routes */}
       <Route
         path="/billing"
@@ -440,6 +545,30 @@ const AppRoutes = () => {
         element={
           <ProtectedRoute>
             <BillingOverviewPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/billing/subscription"
+        element={
+          <ProtectedRoute>
+            <SubscriptionPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/billing/usage"
+        element={
+          <ProtectedRoute>
+            <UsageReportsPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/billing/invoices"
+        element={
+          <ProtectedRoute>
+            <InvoicesPage />
           </ProtectedRoute>
         }
       />
