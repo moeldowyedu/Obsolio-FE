@@ -1,390 +1,561 @@
 import { Link } from 'react-router-dom';
-import { lazy, Suspense } from 'react';
-import MainLayout from '../../components/layout/MainLayout';
-import { useLanguage } from '../../contexts/LanguageContext';
-import { translations } from '../../translations';
-
-// Lazy load the heavy component to improve initial load time
-const WhyUsePrecisionAgents = lazy(() =>
-  import('../../components/home').then(module => ({
-    default: module.WhyUsePrecisionAgents
-  }))
-);
+import { ArrowRight, CheckCircle, Zap, Shield, TrendingUp, Users, Building2, Sparkles, Bot, Workflow, Eye, DollarSign } from 'lucide-react';
 
 const HomePage = () => {
-  const { language } = useLanguage();
-  const t = translations[language];
-
   return (
-    <MainLayout showFooter={true} showSidebar={false}>
-      {/* Hero Section - Concise and Powerful */}
-      <section className="min-h-screen flex items-center justify-center px-6 bg-gradient-to-b from-white via-purple-50/30 to-white">
-        <div className="max-w-6xl mx-auto text-center">
-          {/* Main Headline */}
-          <h1 className="text-6xl md:text-8xl font-bold mb-6 text-gray-900 tracking-tight font-heading">
-            <span className="gradient-text">{t.heroTitle}</span>
-          </h1>
-
-          {/* Subtitle */}
-          <h2 className="text-2xl md:text-3xl font-semibold mb-4 text-gray-700">
-            {t.heroSubtitle}
-          </h2>
-
-          {/* Key Benefits */}
-          <p className="text-xl md:text-2xl text-primary-600 mb-8 font-medium">
-            {t.heroBenefits}
-          </p>
-
-          {/* Value Proposition */}
-          <p className="text-lg text-gray-600 mb-12 max-w-3xl mx-auto leading-relaxed">
-            {t.heroDescription}
-          </p>
-
-          {/* CTA Buttons */}
-          <div className="max-w-md mx-auto mb-16">
-            {/* Social Sign-In Options */}
-            <div className="space-y-3 mb-6">
-              {/* Google Sign-In */}
-              <button className="w-full flex items-center justify-center gap-3 bg-white border-2 border-gray-300 rounded-full px-6 py-3 text-gray-700 font-semibold hover:bg-gray-50 hover:border-gray-400 transition-all shadow-sm hover:shadow-md">
-                <svg className="w-5 h-5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-                  <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-                  <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
-                  <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-                </svg>
-                Sign in with Google
-              </button>
-
-              {/* LinkedIn Sign-In */}
-              <button className="w-full flex items-center justify-center gap-3 bg-[#0A66C2] border-2 border-[#0A66C2] rounded-full px-6 py-3 text-white font-semibold hover:bg-[#004182] transition-all shadow-sm hover:shadow-md">
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                </svg>
-                Sign in with LinkedIn
-              </button>
-            </div>
-
-            {/* Divider */}
-            <div className="relative my-6">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-300"></div>
+    <div className="min-h-screen bg-white">
+      {/* Navigation */}
+      <nav className="border-b border-gray-200 bg-white/95 backdrop-blur-sm sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-6 py-4">
+          <div className="flex items-center justify-between">
+            <Link to="/" className="flex items-center gap-2">
+              <div className="w-10 h-10 bg-gradient-to-br from-primary-600 to-primary-700 rounded-lg flex items-center justify-center">
+                <span className="text-white font-bold text-xl">A</span>
               </div>
-              <div className="relative flex justify-center text-sm">
-                <span className="px-4 bg-white text-gray-500">Or continue with</span>
-              </div>
-            </div>
-
-            {/* Legacy Registration */}
-            <div className="space-y-3">
-              <Link
-                to="/register"
-                className="block w-full text-center glass-btn-primary rounded-full px-6 py-3 text-lg font-semibold glow hover:scale-105 transition-transform"
-              >
-                {t.startFreeTrial}
-              </Link>
-              <Link
-                to="/login"
-                className="block w-full text-center glass-btn-secondary rounded-full px-6 py-3 text-lg font-semibold border-2 border-primary-500 hover:bg-primary-50 transition-all"
-              >
-                Sign In with Email
+              <span className="text-xl font-bold text-gray-900">Aasim AI</span>
+            </Link>
+            <div className="flex items-center gap-4">
+              <a href="#features" className="text-gray-600 hover:text-gray-900 transition-colors hidden sm:inline">Features</a>
+              <a href="#how-it-works" className="text-gray-600 hover:text-gray-900 transition-colors hidden sm:inline">How It Works</a>
+              <a href="#pricing" className="text-gray-600 hover:text-gray-900 transition-colors hidden sm:inline">Pricing</a>
+              <Link to="/login" className="text-gray-600 hover:text-gray-900 font-medium transition-colors">Sign In</Link>
+              <Link to="/register" className="bg-primary-600 text-white px-6 py-2.5 rounded-lg font-semibold hover:bg-primary-700 transition-colors">
+                Start Free Trial
               </Link>
             </div>
-
-            {/* Book Demo Link */}
-            <div className="mt-6 text-center">
-              <a
-                href="https://calendly.com/aasim-demo"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-primary-600 hover:text-primary-700 font-medium underline"
-              >
-                {t.bookDemo}
-              </a>
-            </div>
-          </div>
-
-          {/* Trust Indicators */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-            <div className="glass-card rounded-2xl p-6">
-              <div className="text-4xl font-bold text-primary-600 mb-2">500x</div>
-              <div className="text-sm text-gray-600">Faster Processing</div>
-            </div>
-            <div className="glass-card rounded-2xl p-6">
-              <div className="text-4xl font-bold text-green-600 mb-2">97%</div>
-              <div className="text-sm text-gray-600">Cost Reduction</div>
-            </div>
-            <div className="glass-card rounded-2xl p-6">
-              <div className="text-4xl font-bold text-purple-600 mb-2">24/7</div>
-              <div className="text-sm text-gray-600">Always Available</div>
-            </div>
           </div>
         </div>
-      </section>
+      </nav>
 
-      {/* Why Use Precision AI Agents - Full comprehensive section */}
-      <Suspense fallback={
-        <div className="py-20 px-6 flex items-center justify-center">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto mb-4"></div>
-            <p className="text-gray-600">Loading content...</p>
-          </div>
-        </div>
-      }>
-        <WhyUsePrecisionAgents />
-      </Suspense>
-
-      {/* Social Proof - Compact */}
-      <section className="py-20 px-6 bg-gradient-to-b from-purple-50 to-white">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-4 font-heading">
-            {t.testimonialsTitle || "Trusted by Industry Leaders"}
-          </h2>
-          <p className="text-xl text-gray-600 text-center mb-12">
-            {t.testimonialsSubtitle || "Join thousands of organizations saving time and money"}
-          </p>
-
-          {/* Featured Testimonials - Just 3 */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Testimonial 1 */}
-            <div className="glass-card rounded-2xl p-6">
-              <div className="flex items-center mb-4">
-                {[...Array(5)].map((_, i) => (
-                  <span key={i} className="material-icons text-yellow-400 text-lg">star</span>
-                ))}
-              </div>
-              <p className="text-gray-700 mb-4 italic">
-                "{t.testimonial1Quote?.substring(0, 150)}..."
-              </p>
-              <div className="flex items-center">
-                <img
-                  src="https://i.pravatar.cc/150?img=1"
-                  alt="Dr. Heba Saleh"
-                  className="w-12 h-12 rounded-full mr-3"
-                  loading="lazy"
-                />
-                <div>
-                  <div className="font-bold text-gray-900">Dr. Heba Saleh</div>
-                  <div className="text-sm text-gray-600">ITI Chairwoman</div>
-                </div>
-              </div>
-            </div>
-
-            {/* Testimonial 2 */}
-            <div className="glass-card rounded-2xl p-6">
-              <div className="flex items-center mb-4">
-                {[...Array(5)].map((_, i) => (
-                  <span key={i} className="material-icons text-yellow-400 text-lg">star</span>
-                ))}
-              </div>
-              <p className="text-gray-700 mb-4 italic">
-                "{t.testimonial2Quote?.substring(0, 150)}..."
-              </p>
-              <div className="flex items-center">
-                <img
-                  src="https://i.pravatar.cc/150?img=12"
-                  alt="Ahmed El-Sayed"
-                  className="w-12 h-12 rounded-full mr-3"
-                  loading="lazy"
-                />
-                <div>
-                  <div className="font-bold text-gray-900">Ahmed El-Sayed</div>
-                  <div className="text-sm text-gray-600">CTO, TechStart</div>
-                </div>
-              </div>
-            </div>
-
-            {/* Testimonial 3 */}
-            <div className="glass-card rounded-2xl p-6">
-              <div className="flex items-center mb-4">
-                {[...Array(5)].map((_, i) => (
-                  <span key={i} className="material-icons text-yellow-400 text-lg">star</span>
-                ))}
-              </div>
-              <p className="text-gray-700 mb-4 italic">
-                "{t.testimonial3Quote?.substring(0, 150)}..."
-              </p>
-              <div className="flex items-center">
-                <img
-                  src="https://i.pravatar.cc/150?img=45"
-                  alt="Sarah Martinez"
-                  className="w-12 h-12 rounded-full mr-3"
-                  loading="lazy"
-                />
-                <div>
-                  <div className="font-bold text-gray-900">Sarah Martinez</div>
-                  <div className="text-sm text-gray-600">Global Hackathon Network</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Quick Features Overview */}
+      {/* Hero Section */}
       <section className="py-20 px-6">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-12 font-heading">
-            {t.aiAgentsTitle || "Precision AI Agents for Every Task"}
-          </h2>
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <div className="inline-flex items-center gap-2 bg-primary-50 text-primary-700 px-4 py-2 rounded-full text-sm font-semibold mb-6">
+                <Sparkles className="w-4 h-4" />
+                Precision AI Platform for Teams & Individuals
+              </div>
+              <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+                Deploy AI Agents.<br />
+                Run Smart Jobs.<br />
+                <span className="text-primary-600">Scale with HITL.</span>
+              </h1>
+              <p className="text-xl text-gray-600 mb-8 leading-relaxed">
+                Build, deploy, and monetize Precision AI Agents with premade rubrics. Run one-time or scheduled jobs, orchestrate multi-agent workflows, and maintain human oversight.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 mb-8">
+                <Link to="/register" className="inline-flex items-center justify-center gap-2 bg-primary-600 text-white px-8 py-4 rounded-lg font-semibold hover:bg-primary-700 transition-colors text-lg">
+                  Start Free Trial
+                  <ArrowRight className="w-5 h-5" />
+                </Link>
+                <a href="#how-it-works" className="inline-flex items-center justify-center gap-2 border-2 border-gray-300 text-gray-700 px-8 py-4 rounded-lg font-semibold hover:border-gray-400 hover:bg-gray-50 transition-colors text-lg">
+                  See How It Works
+                </a>
+              </div>
+              <div className="flex items-center gap-8 text-sm text-gray-600">
+                <div className="flex items-center gap-2">
+                  <CheckCircle className="w-5 h-5 text-green-600" />
+                  <span>No credit card required</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle className="w-5 h-5 text-green-600" />
+                  <span>14-day free trial</span>
+                </div>
+              </div>
+            </div>
+            <div className="relative">
+              <div className="bg-gradient-to-br from-primary-50 to-purple-50 rounded-2xl p-8 border border-gray-200">
+                <div className="bg-white rounded-xl p-6 shadow-sm mb-4">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center">
+                      <Bot className="w-6 h-6 text-primary-600" />
+                    </div>
+                    <div>
+                      <div className="font-semibold text-gray-900">AgentX Hub</div>
+                      <div className="text-sm text-gray-600">Deploy precision AI agents</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm text-gray-600">
+                    <span className="px-3 py-1 bg-green-50 text-green-700 rounded-full">Vision</span>
+                    <span className="px-3 py-1 bg-blue-50 text-blue-700 rounded-full">Audio</span>
+                    <span className="px-3 py-1 bg-purple-50 text-purple-700 rounded-full">Text</span>
+                  </div>
+                </div>
+                <div className="bg-white rounded-xl p-6 shadow-sm">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                      <Workflow className="w-6 h-6 text-green-600" />
+                    </div>
+                    <div>
+                      <div className="font-semibold text-gray-900">Job Flows</div>
+                      <div className="text-sm text-gray-600">Orchestrate & schedule</div>
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-2 text-sm">
+                      <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                      <span className="text-gray-700">Multi-agent workflow running</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm">
+                      <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                      <span className="text-gray-700">HITL approval pending</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+      {/* Trusted By */}
+      <section className="py-12 px-6 bg-gray-50 border-y border-gray-200">
+        <div className="max-w-7xl mx-auto">
+          <p className="text-center text-sm text-gray-600 mb-8 uppercase tracking-wide font-semibold">Trusted by teams worldwide</p>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 items-center opacity-60">
+            <div className="text-center text-2xl font-bold text-gray-800">500x Faster</div>
+            <div className="text-center text-2xl font-bold text-gray-800">97% Cost Saved</div>
+            <div className="text-center text-2xl font-bold text-gray-800">24/7 Available</div>
+            <div className="text-center text-2xl font-bold text-gray-800">10k+ Agents</div>
+          </div>
+        </div>
+      </section>
+
+      {/* For Personal & Organizations */}
+      <section className="py-20 px-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+              Built for Everyone
+            </h2>
+            <p className="text-xl text-gray-600">
+              Whether you're an individual or an enterprise, Aasim AI scales with you
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {/* Personal */}
+            <div className="bg-gradient-to-br from-blue-50 to-white border-2 border-blue-200 rounded-2xl p-8">
+              <div className="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center mb-6">
+                <Users className="w-7 h-7 text-blue-600" />
+              </div>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">Personal Users</h3>
+              <p className="text-gray-600 mb-6">
+                Quick setup, powerful results. No organization structure needed.
+              </p>
+              <ul className="space-y-3">
+                <li className="flex items-start gap-3">
+                  <CheckCircle className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
+                  <span className="text-gray-700">Create unlimited projects</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <CheckCircle className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
+                  <span className="text-gray-700">Deploy agents with premade rubrics</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <CheckCircle className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
+                  <span className="text-gray-700">Run one-time or scheduled jobs</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <CheckCircle className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
+                  <span className="text-gray-700">HITL oversight & approvals</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <CheckCircle className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
+                  <span className="text-gray-700">Monetize by creating agents</span>
+                </li>
+              </ul>
+            </div>
+
+            {/* Organization */}
+            <div className="bg-gradient-to-br from-purple-50 to-white border-2 border-purple-200 rounded-2xl p-8">
+              <div className="w-14 h-14 bg-purple-100 rounded-xl flex items-center justify-center mb-6">
+                <Building2 className="w-7 h-7 text-purple-600" />
+              </div>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">Organizations</h3>
+              <p className="text-gray-600 mb-6">
+                Everything for personal users, plus enterprise features.
+              </p>
+              <ul className="space-y-3">
+                <li className="flex items-start gap-3">
+                  <CheckCircle className="w-5 h-5 text-purple-600 mt-0.5 flex-shrink-0" />
+                  <span className="text-gray-700">Full organizational hierarchy</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <CheckCircle className="w-5 h-5 text-purple-600 mt-0.5 flex-shrink-0" />
+                  <span className="text-gray-700">Branches, departments & teams</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <CheckCircle className="w-5 h-5 text-purple-600 mt-0.5 flex-shrink-0" />
+                  <span className="text-gray-700">Unlimited users & role management</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <CheckCircle className="w-5 h-5 text-purple-600 mt-0.5 flex-shrink-0" />
+                  <span className="text-gray-700">Shared projects across organization</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <CheckCircle className="w-5 h-5 text-purple-600 mt-0.5 flex-shrink-0" />
+                  <span className="text-gray-700">Advanced analytics & reporting</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Key Features */}
+      <section id="features" className="py-20 px-6 bg-gray-50">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+              Complete AI Platform
+            </h2>
+            <p className="text-xl text-gray-600">
+              Everything you need to build, deploy, and scale AI operations
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {/* Feature 1 */}
-            <div className="glass-card rounded-2xl p-6 hover:scale-105 transition-transform">
-              <span className="material-icons text-5xl text-blue-600 mb-4">videocam</span>
-              <h3 className="text-xl font-bold text-gray-900 mb-2">{t.agent1Title}</h3>
-              <p className="text-gray-700">{t.agent1Description}</p>
+            <div className="bg-white rounded-xl p-6 border border-gray-200 hover:border-primary-300 hover:shadow-lg transition-all">
+              <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mb-4">
+                <Bot className="w-6 h-6 text-primary-600" />
+              </div>
+              <h3 className="text-lg font-bold text-gray-900 mb-2">AgentX Hub</h3>
+              <p className="text-gray-600 text-sm">
+                Deploy precision AI agents from our marketplace with premade rubrics. Build and monetize your own.
+              </p>
             </div>
 
             {/* Feature 2 */}
-            <div className="glass-card rounded-2xl p-6 hover:scale-105 transition-transform">
-              <span className="material-icons text-5xl text-purple-600 mb-4">image</span>
-              <h3 className="text-xl font-bold text-gray-900 mb-2">{t.agent2Title}</h3>
-              <p className="text-gray-700">{t.agent2Description}</p>
+            <div className="bg-white rounded-xl p-6 border border-gray-200 hover:border-green-300 hover:shadow-lg transition-all">
+              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
+                <Workflow className="w-6 h-6 text-green-600" />
+              </div>
+              <h3 className="text-lg font-bold text-gray-900 mb-2">Job Flows</h3>
+              <p className="text-gray-600 text-sm">
+                Run agents one-time or scheduled. Orchestrate multi-agent workflows for complex tasks.
+              </p>
             </div>
 
             {/* Feature 3 */}
-            <div className="glass-card rounded-2xl p-6 hover:scale-105 transition-transform">
-              <span className="material-icons text-5xl text-green-600 mb-4">code</span>
-              <h3 className="text-xl font-bold text-gray-900 mb-2">{t.agent3Title}</h3>
-              <p className="text-gray-700">{t.agent3Description}</p>
+            <div className="bg-white rounded-xl p-6 border border-gray-200 hover:border-blue-300 hover:shadow-lg transition-all">
+              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
+                <Eye className="w-6 h-6 text-blue-600" />
+              </div>
+              <h3 className="text-lg font-bold text-gray-900 mb-2">HITL Framework</h3>
+              <p className="text-gray-600 text-sm">
+                Human-in-the-loop oversight with approval workflows, activity logs, and audit trails.
+              </p>
             </div>
-          </div>
 
-          <div className="text-center">
-            <Link
-              to="/agentx/marketplace"
-              className="glass-btn-primary rounded-xl px-8 py-3 font-semibold inline-flex items-center"
-            >
-              <span className="material-icons mr-2">store</span>
-              Explore All Agents
-            </Link>
+            {/* Feature 4 */}
+            <div className="bg-white rounded-xl p-6 border border-gray-200 hover:border-purple-300 hover:shadow-lg transition-all">
+              <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
+                <DollarSign className="w-6 h-6 text-purple-600" />
+              </div>
+              <h3 className="text-lg font-bold text-gray-900 mb-2">Monetization</h3>
+              <p className="text-gray-600 text-sm">
+                Create and publish agents to AgentX Hub. Earn revenue from your AI innovations.
+              </p>
+            </div>
+
+            {/* Feature 5 */}
+            <div className="bg-white rounded-xl p-6 border border-gray-200 hover:border-orange-300 hover:shadow-lg transition-all">
+              <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4">
+                <Zap className="w-6 h-6 text-orange-600" />
+              </div>
+              <h3 className="text-lg font-bold text-gray-900 mb-2">7 Precision Engines</h3>
+              <p className="text-gray-600 text-sm">
+                Vision, Audio, Text, Code, Document, Data, and Web engines for any use case.
+              </p>
+            </div>
+
+            {/* Feature 6 */}
+            <div className="bg-white rounded-xl p-6 border border-gray-200 hover:border-teal-300 hover:shadow-lg transition-all">
+              <div className="w-12 h-12 bg-teal-100 rounded-lg flex items-center justify-center mb-4">
+                <Shield className="w-6 h-6 text-teal-600" />
+              </div>
+              <h3 className="text-lg font-bold text-gray-900 mb-2">Enterprise Security</h3>
+              <p className="text-gray-600 text-sm">
+                SOC 2 compliant, encrypted data, role-based access, and complete audit logs.
+              </p>
+            </div>
+
+            {/* Feature 7 */}
+            <div className="bg-white rounded-xl p-6 border border-gray-200 hover:border-pink-300 hover:shadow-lg transition-all">
+              <div className="w-12 h-12 bg-pink-100 rounded-lg flex items-center justify-center mb-4">
+                <TrendingUp className="w-6 h-6 text-pink-600" />
+              </div>
+              <h3 className="text-lg font-bold text-gray-900 mb-2">Analytics & Insights</h3>
+              <p className="text-gray-600 text-sm">
+                Track agent performance, job execution, costs, and ROI in real-time.
+              </p>
+            </div>
+
+            {/* Feature 8 */}
+            <div className="bg-white rounded-xl p-6 border border-gray-200 hover:border-indigo-300 hover:shadow-lg transition-all">
+              <div className="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mb-4">
+                <Sparkles className="w-6 h-6 text-indigo-600" />
+              </div>
+              <h3 className="text-lg font-bold text-gray-900 mb-2">API & Integrations</h3>
+              <p className="text-gray-600 text-sm">
+                Connect with 100+ apps via API, webhooks, and native integrations.
+              </p>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Pricing Preview - Simple */}
-      <section id="pricing" className="py-20 px-6 bg-gradient-to-b from-white to-purple-50">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-4 font-heading">
-            {t.pricingTitle}
-          </h2>
-          <p className="text-center text-xl text-gray-600 mb-12">
-            {t.pricingSubtitle}
-          </p>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Small Business */}
-            <div className="glass-card rounded-3xl p-8">
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">{t.smallBusiness}</h3>
-              <div className="mb-6">
-                <span className="text-5xl font-bold text-gray-900">$100</span>
-                <span className="text-gray-600">{t.perMonth}</span>
+      {/* How It Works */}
+      <section id="how-it-works" className="py-20 px-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+              How It Works
+            </h2>
+            <p className="text-xl text-gray-600">
+              From setup to scale in 4 simple steps
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            {/* Step 1 */}
+            <div className="relative">
+              <div className="bg-gradient-to-br from-primary-50 to-white border-2 border-primary-200 rounded-2xl p-6 text-center">
+                <div className="w-12 h-12 bg-primary-600 text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4">1</div>
+                <h3 className="text-lg font-bold text-gray-900 mb-2">Create Project</h3>
+                <p className="text-gray-600 text-sm">
+                  Set up your first project in seconds. No complex setup required.
+                </p>
               </div>
-              <ul className="space-y-3 mb-8 text-gray-700">
-                <li className="flex items-start">
-                  <span className="material-icons text-green-600 text-sm mr-2 mt-1">check</span>
-                  <span>{t.evaluationsMonth}</span>
+              <div className="hidden md:block absolute top-1/2 right-0 transform translate-x-1/2 -translate-y-1/2">
+                <ArrowRight className="w-6 h-6 text-gray-300" />
+              </div>
+            </div>
+
+            {/* Step 2 */}
+            <div className="relative">
+              <div className="bg-gradient-to-br from-green-50 to-white border-2 border-green-200 rounded-2xl p-6 text-center">
+                <div className="w-12 h-12 bg-green-600 text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4">2</div>
+                <h3 className="text-lg font-bold text-gray-900 mb-2">Deploy Agents</h3>
+                <p className="text-gray-600 text-sm">
+                  Browse AgentX Hub, select agents, deploy with premade rubrics.
+                </p>
+              </div>
+              <div className="hidden md:block absolute top-1/2 right-0 transform translate-x-1/2 -translate-y-1/2">
+                <ArrowRight className="w-6 h-6 text-gray-300" />
+              </div>
+            </div>
+
+            {/* Step 3 */}
+            <div className="relative">
+              <div className="bg-gradient-to-br from-blue-50 to-white border-2 border-blue-200 rounded-2xl p-6 text-center">
+                <div className="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4">3</div>
+                <h3 className="text-lg font-bold text-gray-900 mb-2">Run Jobs</h3>
+                <p className="text-gray-600 text-sm">
+                  Execute one-time jobs or schedule recurring workflows.
+                </p>
+              </div>
+              <div className="hidden md:block absolute top-1/2 right-0 transform translate-x-1/2 -translate-y-1/2">
+                <ArrowRight className="w-6 h-6 text-gray-300" />
+              </div>
+            </div>
+
+            {/* Step 4 */}
+            <div className="bg-gradient-to-br from-purple-50 to-white border-2 border-purple-200 rounded-2xl p-6 text-center">
+              <div className="w-12 h-12 bg-purple-600 text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4">4</div>
+              <h3 className="text-lg font-bold text-gray-900 mb-2">Monitor & Scale</h3>
+              <p className="text-gray-600 text-sm">
+                Track with HITL oversight, optimize, and scale as you grow.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Pricing */}
+      <section id="pricing" className="py-20 px-6 bg-gray-50">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+              Simple, Transparent Pricing
+            </h2>
+            <p className="text-xl text-gray-600">
+              Start free, scale as you grow. No hidden fees.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {/* Starter */}
+            <div className="bg-white rounded-2xl p-8 border-2 border-gray-200 hover:border-primary-300 transition-all">
+              <h3 className="text-2xl font-bold text-gray-900 mb-2">Starter</h3>
+              <div className="mb-6">
+                <span className="text-5xl font-bold text-gray-900">$49</span>
+                <span className="text-gray-600">/month</span>
+              </div>
+              <ul className="space-y-3 mb-8">
+                <li className="flex items-start gap-2">
+                  <CheckCircle className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
+                  <span className="text-gray-700">5 agents deployed</span>
                 </li>
-                <li className="flex items-start">
-                  <span className="material-icons text-green-600 text-sm mr-2 mt-1">check</span>
-                  <span>{t.allAgents}</span>
+                <li className="flex items-start gap-2">
+                  <CheckCircle className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
+                  <span className="text-gray-700">1,000 job runs/month</span>
                 </li>
-                <li className="flex items-start">
-                  <span className="material-icons text-green-600 text-sm mr-2 mt-1">check</span>
-                  <span>{t.prioritySupport}</span>
+                <li className="flex items-start gap-2">
+                  <CheckCircle className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
+                  <span className="text-gray-700">Basic HITL features</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <CheckCircle className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
+                  <span className="text-gray-700">Email support</span>
                 </li>
               </ul>
-              <Link to="/register" className="w-full block text-center glass-btn-secondary rounded-xl px-6 py-3 font-semibold">
-                {t.getStarted}
+              <Link to="/register" className="block w-full text-center bg-gray-100 text-gray-900 px-6 py-3 rounded-lg font-semibold hover:bg-gray-200 transition-colors">
+                Start Free Trial
               </Link>
             </div>
 
-            {/* Medium - Popular */}
-            <div className="glass-card rounded-3xl p-8 border-2 border-primary-400 glow transform scale-105">
-              <div className="text-center mb-4">
-                <span className="bg-gradient-to-r from-primary-500 to-primary-600 text-white px-4 py-1 rounded-full text-xs font-semibold">
-                  {t.popular}
-                </span>
+            {/* Professional */}
+            <div className="bg-white rounded-2xl p-8 border-2 border-primary-500 relative hover:shadow-xl transition-all">
+              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-primary-600 text-white px-4 py-1 rounded-full text-sm font-semibold">
+                Most Popular
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">{t.medium}</h3>
+              <h3 className="text-2xl font-bold text-gray-900 mb-2">Professional</h3>
               <div className="mb-6">
-                <span className="text-5xl font-bold text-gray-900">$250</span>
-                <span className="text-gray-600">{t.perMonth}</span>
+                <span className="text-5xl font-bold text-gray-900">$199</span>
+                <span className="text-gray-600">/month</span>
               </div>
-              <ul className="space-y-3 mb-8 text-gray-700">
-                <li className="flex items-start">
-                  <span className="material-icons text-green-600 text-sm mr-2 mt-1">check</span>
-                  <span>{t.evaluations300}</span>
+              <ul className="space-y-3 mb-8">
+                <li className="flex items-start gap-2">
+                  <CheckCircle className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
+                  <span className="text-gray-700">Unlimited agents</span>
                 </li>
-                <li className="flex items-start">
-                  <span className="material-icons text-green-600 text-sm mr-2 mt-1">check</span>
-                  <span>{t.advancedAnalytics}</span>
+                <li className="flex items-start gap-2">
+                  <CheckCircle className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
+                  <span className="text-gray-700">10,000 job runs/month</span>
                 </li>
-                <li className="flex items-start">
-                  <span className="material-icons text-green-600 text-sm mr-2 mt-1">check</span>
-                  <span>{t.apiAccess}</span>
+                <li className="flex items-start gap-2">
+                  <CheckCircle className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
+                  <span className="text-gray-700">Advanced HITL & workflows</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <CheckCircle className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
+                  <span className="text-gray-700">Priority support</span>
                 </li>
               </ul>
-              <Link to="/register" className="w-full block text-center glass-btn-primary rounded-xl px-6 py-3 font-semibold glow">
-                {t.getStarted}
+              <Link to="/register" className="block w-full text-center bg-primary-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary-700 transition-colors">
+                Start Free Trial
               </Link>
             </div>
 
             {/* Enterprise */}
-            <div className="glass-card rounded-3xl p-8">
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">{t.enterprise}</h3>
+            <div className="bg-white rounded-2xl p-8 border-2 border-gray-200 hover:border-purple-300 transition-all">
+              <h3 className="text-2xl font-bold text-gray-900 mb-2">Enterprise</h3>
               <div className="mb-6">
-                <span className="text-4xl font-bold text-gray-900">{t.custom}</span>
+                <span className="text-5xl font-bold text-gray-900">Custom</span>
               </div>
-              <ul className="space-y-3 mb-8 text-gray-700">
-                <li className="flex items-start">
-                  <span className="material-icons text-green-600 text-sm mr-2 mt-1">check</span>
-                  <span>{t.unlimitedEvaluations}</span>
+              <ul className="space-y-3 mb-8">
+                <li className="flex items-start gap-2">
+                  <CheckCircle className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
+                  <span className="text-gray-700">Unlimited everything</span>
                 </li>
-                <li className="flex items-start">
-                  <span className="material-icons text-green-600 text-sm mr-2 mt-1">check</span>
-                  <span>{t.customModels}</span>
+                <li className="flex items-start gap-2">
+                  <CheckCircle className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
+                  <span className="text-gray-700">Custom integrations</span>
                 </li>
-                <li className="flex items-start">
-                  <span className="material-icons text-green-600 text-sm mr-2 mt-1">check</span>
-                  <span>{t.support247}</span>
+                <li className="flex items-start gap-2">
+                  <CheckCircle className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
+                  <span className="text-gray-700">Dedicated support</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <CheckCircle className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
+                  <span className="text-gray-700">SLA & compliance</span>
                 </li>
               </ul>
-              <Link to="/register" className="w-full block text-center glass-btn-secondary rounded-xl px-6 py-3 font-semibold">
-                {t.contactUs}
-              </Link>
+              <a href="mailto:sales@aasim.ai" className="block w-full text-center bg-gray-100 text-gray-900 px-6 py-3 rounded-lg font-semibold hover:bg-gray-200 transition-colors">
+                Contact Sales
+              </a>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Final CTA */}
-      <section className="py-20 px-6">
+      {/* CTA Section */}
+      <section className="py-20 px-6 bg-gradient-to-br from-primary-600 to-primary-700 text-white">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-6 font-heading">
-            {t.finalCtaTitle}
+          <h2 className="text-4xl md:text-5xl font-bold mb-6">
+            Ready to Get Started?
           </h2>
-          <p className="text-xl text-gray-600 mb-8">
-            {t.finalCtaSubtitle}
+          <p className="text-xl mb-8 text-primary-100">
+            Join thousands of teams using Aasim AI to automate their workflows
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
-            <Link
-              to="/register"
-              className="glass-btn-primary rounded-full px-10 py-4 text-lg font-semibold glow"
-            >
-              {t.startFreeTrial}
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link to="/register" className="inline-flex items-center justify-center gap-2 bg-white text-primary-600 px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition-colors text-lg">
+              Start Free Trial
+              <ArrowRight className="w-5 h-5" />
             </Link>
-            <Link
-              to="/agentx/marketplace"
-              className="glass-btn-secondary rounded-full px-10 py-4 text-lg font-semibold border-2 border-primary-500"
-            >
-              Explore AgentX Hub
-            </Link>
+            <a href="mailto:sales@aasim.ai" className="inline-flex items-center justify-center gap-2 border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white/10 transition-colors text-lg">
+              Talk to Sales
+            </a>
           </div>
-          <p className="text-sm text-gray-600">{t.noCredit}</p>
+          <p className="mt-6 text-primary-100 text-sm">
+            No credit card required • 14-day free trial • Cancel anytime
+          </p>
         </div>
       </section>
-    </MainLayout>
+
+      {/* Footer */}
+      <footer className="py-12 px-6 bg-gray-900 text-gray-400">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
+            <div>
+              <h4 className="text-white font-semibold mb-4">Product</h4>
+              <ul className="space-y-2">
+                <li><a href="#features" className="hover:text-white transition-colors">Features</a></li>
+                <li><a href="#pricing" className="hover:text-white transition-colors">Pricing</a></li>
+                <li><Link to="/agentx/marketplace" className="hover:text-white transition-colors">AgentX Hub</Link></li>
+                <li><Link to="/engines" className="hover:text-white transition-colors">AI Engines</Link></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="text-white font-semibold mb-4">Company</h4>
+              <ul className="space-y-2">
+                <li><a href="/about" className="hover:text-white transition-colors">About Us</a></li>
+                <li><a href="/blog" className="hover:text-white transition-colors">Blog</a></li>
+                <li><a href="/careers" className="hover:text-white transition-colors">Careers</a></li>
+                <li><a href="/contact" className="hover:text-white transition-colors">Contact</a></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="text-white font-semibold mb-4">Resources</h4>
+              <ul className="space-y-2">
+                <li><a href="/docs" className="hover:text-white transition-colors">Documentation</a></li>
+                <li><a href="/api" className="hover:text-white transition-colors">API Reference</a></li>
+                <li><a href="/support" className="hover:text-white transition-colors">Support</a></li>
+                <li><a href="/status" className="hover:text-white transition-colors">Status</a></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="text-white font-semibold mb-4">Legal</h4>
+              <ul className="space-y-2">
+                <li><a href="/privacy" className="hover:text-white transition-colors">Privacy Policy</a></li>
+                <li><a href="/terms" className="hover:text-white transition-colors">Terms of Service</a></li>
+                <li><a href="/security" className="hover:text-white transition-colors">Security</a></li>
+                <li><a href="/compliance" className="hover:text-white transition-colors">Compliance</a></li>
+              </ul>
+            </div>
+          </div>
+          <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center">
+            <div className="flex items-center gap-2 mb-4 md:mb-0">
+              <div className="w-8 h-8 bg-gradient-to-br from-primary-600 to-primary-700 rounded-lg flex items-center justify-center">
+                <span className="text-white font-bold">A</span>
+              </div>
+              <span className="text-white font-semibold">Aasim AI</span>
+            </div>
+            <p className="text-sm">© 2025 Aasim AI. All rights reserved.</p>
+          </div>
+        </div>
+      </footer>
+    </div>
   );
 };
 
