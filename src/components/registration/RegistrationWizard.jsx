@@ -63,23 +63,29 @@ const RegistrationWizard = () => {
       }
 
       // Register user
-      await register(registrationData);
+      const result = await register(registrationData);
 
-      // Mark as complete
-      completeRegistration();
+      // Only proceed if registration was successful
+      if (result) {
+        // Mark as complete
+        completeRegistration();
 
-      // Navigate to dashboard where they can set up organization structure
-      navigate('/dashboard');
+        // Navigate to dashboard where they can set up organization structure
+        setTimeout(() => {
+          navigate('/dashboard', { replace: true });
+        }, 500);
+      }
     } catch (error) {
       console.error('Registration failed:', error);
-      // Error is handled by the auth store
+      // Error is handled by the auth store and toast notification
+      // User stays on the plan selection step to retry
     }
   };
 
   // Redirect if already complete
   useEffect(() => {
     if (isComplete) {
-      navigate('/dashboard');
+      navigate('/dashboard', { replace: true });
     }
   }, [isComplete, navigate]);
 

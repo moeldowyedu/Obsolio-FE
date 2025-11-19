@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Search, Filter, TrendingUp, Star, Download, Grid3x3, List, ArrowUpDown, Users } from 'lucide-react';
+import { Search, Filter, TrendingUp, Star, Download, Grid3x3, List, ArrowUpDown, Users, MessageCircle } from 'lucide-react';
 import MainLayout from '../../components/layout/MainLayout';
 
 const MarketplacePage = () => {
@@ -44,6 +44,7 @@ const MarketplacePage = () => {
         reviews: 342,
         deployments: 1250,
         isPublic: true,
+        owner: 'Aasim AI',
         tags: ['chatbot', 'support', 'automation', '24/7'],
         features: ['Multi-channel', 'Sentiment Analysis', 'Auto-routing', 'Knowledge Base']
       },
@@ -60,6 +61,7 @@ const MarketplacePage = () => {
         reviews: 189,
         deployments: 580,
         isPublic: true,
+        owner: 'LegalTech Corp',
         tags: ['legal', 'documents', 'compliance', 'risk'],
         features: ['Contract Review', 'Compliance Check', 'Risk Scoring', 'Clause Extraction']
       },
@@ -76,6 +78,7 @@ const MarketplacePage = () => {
         reviews: 256,
         deployments: 920,
         isPublic: true,
+        owner: 'SalesPro Inc',
         tags: ['sales', 'forecasting', 'analytics', 'pipeline'],
         features: ['Pipeline Analysis', 'Revenue Forecast', 'Deal Scoring', 'Trend Detection']
       },
@@ -92,6 +95,7 @@ const MarketplacePage = () => {
         reviews: 198,
         deployments: 670,
         isPublic: true,
+        owner: 'TalentHub Solutions',
         tags: ['hr', 'recruitment', 'automation', 'screening'],
         features: ['Resume Parsing', 'Candidate Scoring', 'Auto-scheduling', 'ATS Integration']
       },
@@ -108,6 +112,7 @@ const MarketplacePage = () => {
         reviews: 145,
         deployments: 450,
         isPublic: true,
+        owner: 'Aasim AI',
         tags: ['finance', 'audit', 'compliance', 'reporting'],
         features: ['Statement Analysis', 'Anomaly Detection', 'Compliance Reports', 'Risk Assessment']
       },
@@ -124,6 +129,7 @@ const MarketplacePage = () => {
         reviews: 412,
         deployments: 1100,
         isPublic: true,
+        owner: 'Aasim AI',
         tags: ['moderation', 'content', 'safety', 'automation'],
         features: ['Real-time Moderation', 'Custom Policies', 'Multi-language', 'Image/Video Detection']
       },
@@ -140,6 +146,7 @@ const MarketplacePage = () => {
         reviews: 287,
         deployments: 830,
         isPublic: true,
+        owner: 'MarketPro Analytics',
         tags: ['marketing', 'analytics', 'roi', 'optimization'],
         features: ['ROI Tracking', 'Campaign Analysis', 'Attribution', 'A/B Testing']
       },
@@ -156,6 +163,7 @@ const MarketplacePage = () => {
         reviews: 156,
         deployments: 520,
         isPublic: true,
+        owner: 'SupplyChain Plus',
         tags: ['inventory', 'optimization', 'forecasting', 'automation'],
         features: ['Demand Forecast', 'Auto-reorder', 'Stock Alerts', 'Supplier Integration']
       },
@@ -172,6 +180,7 @@ const MarketplacePage = () => {
         reviews: 634,
         deployments: 2150,
         isPublic: true,
+        owner: 'Aasim AI',
         tags: ['code', 'review', 'security', 'quality'],
         features: ['Security Scan', 'Best Practices', 'Code Smells', 'Documentation Check']
       },
@@ -188,6 +197,7 @@ const MarketplacePage = () => {
         reviews: 98,
         deployments: 320,
         isPublic: true,
+        owner: 'HealthTech Systems',
         tags: ['healthcare', 'claims', 'fraud', 'compliance'],
         features: ['Claims Processing', 'Fraud Detection', 'HIPAA Compliance', 'Accuracy Check']
       },
@@ -204,6 +214,7 @@ const MarketplacePage = () => {
         reviews: 445,
         deployments: 1450,
         isPublic: true,
+        owner: 'EmailPro Suite',
         tags: ['email', 'marketing', 'personalization', 'analytics'],
         features: ['Personalization', 'A/B Testing', 'Analytics', 'Automation']
       },
@@ -220,6 +231,7 @@ const MarketplacePage = () => {
         reviews: 167,
         deployments: 410,
         isPublic: true,
+        owner: 'LogisticsAI Inc',
         tags: ['supply-chain', 'logistics', 'optimization', 'forecasting'],
         features: ['Route Optimization', 'Demand Forecast', 'Supplier Management', 'Cost Analysis']
       }
@@ -463,7 +475,24 @@ const MarketplacePage = () => {
                 </div>
 
                 {/* Header */}
-                <h3 className="text-xl font-bold text-secondary-900 mb-2">{agent.name}</h3>
+                <div className="mb-4">
+                  <h3 className="text-xl font-bold text-secondary-900 mb-1">{agent.name}</h3>
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-xs text-secondary-600">by</span>
+                    <span className={`text-xs font-semibold ${
+                      agent.owner === 'Aasim AI'
+                        ? 'text-primary-600'
+                        : 'text-secondary-700'
+                    }`}>
+                      {agent.owner}
+                    </span>
+                    {agent.owner === 'Aasim AI' && (
+                      <div className="px-1.5 py-0.5 bg-primary-100 text-primary-700 text-[10px] font-bold rounded uppercase">
+                        Official
+                      </div>
+                    )}
+                  </div>
+                </div>
                 <p className="text-sm text-secondary-600 mb-4 line-clamp-2">{agent.description}</p>
 
                 {/* Rating and Reviews */}
@@ -497,14 +526,24 @@ const MarketplacePage = () => {
                 </div>
 
                 {/* Footer */}
-                <div className="flex items-center justify-between">
-                  <div>
-                    <div className="text-2xl font-bold text-secondary-900">{agent.pricingLabel}</div>
-                    <div className="text-xs text-gray-500">per month</div>
+                <div>
+                  <div className="flex items-center justify-between mb-3">
+                    <div>
+                      <div className="text-2xl font-bold text-secondary-900">{agent.pricingLabel}</div>
+                      <div className="text-xs text-gray-500">per month</div>
+                    </div>
                   </div>
-                  <button className="px-6 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-semibold hover:shadow-lg transition-shadow">
-                    Deploy
-                  </button>
+                  <div className="flex items-center gap-2">
+                    <button className="flex-1 px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-semibold hover:shadow-lg transition-shadow text-sm">
+                      Deploy
+                    </button>
+                    <button
+                      className="px-3 py-2 border-2 border-gray-300 rounded-xl hover:border-primary-600 hover:bg-primary-50 transition-colors group"
+                      title="Contact Owner"
+                    >
+                      <MessageCircle className="w-4 h-4 text-secondary-600 group-hover:text-primary-600" />
+                    </button>
+                  </div>
                 </div>
               </div>
             ))}
@@ -527,6 +566,21 @@ const MarketplacePage = () => {
                     <div className="flex items-start justify-between mb-2">
                       <div>
                         <h3 className="text-2xl font-bold text-secondary-900 mb-1">{agent.name}</h3>
+                        <div className="flex items-center gap-2 mb-2">
+                          <span className="text-sm text-secondary-600">by</span>
+                          <span className={`text-sm font-semibold ${
+                            agent.owner === 'Aasim AI'
+                              ? 'text-primary-600'
+                              : 'text-secondary-700'
+                          }`}>
+                            {agent.owner}
+                          </span>
+                          {agent.owner === 'Aasim AI' && (
+                            <div className="px-2 py-0.5 bg-primary-100 text-primary-700 text-xs font-bold rounded uppercase">
+                              Official
+                            </div>
+                          )}
+                        </div>
                         <div className="flex items-center gap-3 mb-2">
                           <div className="flex items-center gap-2">
                             {renderStars(agent.rating)}
@@ -574,6 +628,10 @@ const MarketplacePage = () => {
                     <div className="flex items-center gap-3">
                       <button className="px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-semibold hover:shadow-lg transition-shadow">
                         Deploy Agent
+                      </button>
+                      <button className="px-6 py-3 border-2 border-gray-300 rounded-xl font-semibold text-secondary-700 hover:border-primary-600 hover:bg-primary-50 hover:text-primary-700 transition-colors flex items-center gap-2">
+                        <MessageCircle className="w-4 h-4" />
+                        Contact
                       </button>
                       <button className="px-6 py-3 border border-gray-300 rounded-xl font-semibold text-secondary-700 hover:bg-gray-50">
                         View Details

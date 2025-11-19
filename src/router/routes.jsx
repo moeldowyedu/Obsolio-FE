@@ -36,6 +36,10 @@ import MarketplacePage from '../pages/AgentX/MarketplacePage';
 import AgentBuilderPage from '../pages/AgentX/AgentBuilderPage';
 import MyAgentsPage from '../pages/AgentX/MyAgentsPage';
 import DeveloperPortalPage from '../pages/AgentX/DeveloperPortalPage';
+import MonetizationDashboard from '../pages/AgentX/MonetizationDashboard';
+
+// Chat Pages
+import ChatPage from '../pages/Chat/ChatPage';
 
 // Job Flows Pages
 import JobFlowsListPage from '../pages/JobFlows/JobFlowsListPage';
@@ -86,8 +90,10 @@ import SettingsNotificationsPage from '../pages/Settings/NotificationsPage';
 
 // Profile Pages
 import ProfilePage from '../pages/Profile/ProfilePage';
-import NotificationsPage from '../pages/Profile/NotificationsPage';
 import AdminDashboardPage from '../pages/Admin/AdminDashboardPage';
+
+// Notifications Pages
+import NotificationsPage from '../pages/Notifications/NotificationsPage';
 import UserManagementPage from '../pages/Admin/UserManagementPage';
 import AnalyticsPage from '../pages/Admin/AnalyticsPage';
 import N8nWebhookManagementPage from '../pages/Admin/N8nWebhookManagementPage';
@@ -280,6 +286,24 @@ const AppRoutes = () => {
         element={
           <ProtectedRoute>
             <DeveloperPortalPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/agentx/monetization"
+        element={
+          <ProtectedRoute>
+            <MonetizationDashboard />
+          </ProtectedRoute>
+        }
+      />
+
+      {/* Chat Routes */}
+      <Route
+        path="/chat"
+        element={
+          <ProtectedRoute>
+            <ChatPage />
           </ProtectedRoute>
         }
       />

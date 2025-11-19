@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useAuthStore } from '../../store/authStore'
 import { useLanguage } from '../../contexts/LanguageContext'
 import { translations } from '../../translations'
+import NotificationBell from '../common/NotificationBell/NotificationBell'
 
 const Header = () => {
   const { isAuthenticated, user, logout } = useAuthStore()
@@ -158,6 +159,9 @@ const Header = () => {
                     </div>
                   )}
                 </div>
+
+                {/* Notification Bell */}
+                <NotificationBell />
 
                 {/* User Menu */}
                 <div className="relative" ref={userMenuRef}>
