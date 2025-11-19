@@ -1,26 +1,22 @@
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useRegistrationWizardStore } from '../../store/registrationWizardStore';
 import { useAuthStore } from '../../store/authStore';
-import WizardSteps from '../wizard/WizardSteps';
+import { ChevronLeft, CheckCircle2 } from 'lucide-react';
 import AccountCreationStep from './AccountCreationStep';
 import TenantTypeSelectionStep from './TenantTypeSelectionStep';
 import PlanSelectionStep from './organization/PlanSelectionStep';
-import MainLayout from '../layout/MainLayout';
 
 const RegistrationWizard = () => {
   const navigate = useNavigate();
   const {
     currentStep,
-    totalSteps,
     tenantType,
     accountData,
     organizationData,
     personalData,
     nextStep,
     prevStep,
-    setCurrentStep,
-    resetWizard,
     isComplete,
     completeRegistration,
   } = useRegistrationWizardStore();
@@ -32,17 +28,17 @@ const RegistrationWizard = () => {
     {
       id: 'account',
       title: 'Account',
-      description: 'Create account',
+      description: 'Create your account',
     },
     {
       id: 'tenant-type',
       title: 'Account Type',
-      description: 'Choose type',
+      description: 'Personal or Organization',
     },
     {
       id: 'plan',
       title: 'Plan',
-      description: 'Select plan',
+      description: 'Choose your plan',
     },
   ];
 
@@ -102,57 +98,128 @@ const RegistrationWizard = () => {
   };
 
   return (
-    <MainLayout showSidebar={false}>
-      <div className="bg-gradient-to-br from-primary-50 via-white to-secondary-50 min-h-full p-8">
-        <div className="container mx-auto">
-          {/* Header */}
-          <div className="text-center mb-8">
-            <h1 className="text-4xl font-bold text-gray-900 mb-2">Welcome to Aasim AI</h1>
-            <p className="text-gray-600">
-              Let's get you started. This will only take a minute.
-            </p>
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50">
+      {/* Modern Header with Logo */}
+      <div className="border-b border-gray-200 bg-white/80 backdrop-blur-sm sticky top-0 z-10">
+        <div className="container mx-auto px-6 py-4">
+          <div className="flex items-center justify-between">
+            <Link to="/" className="flex items-center gap-2">
+              <div className="w-10 h-10 bg-gradient-to-br from-primary-600 to-primary-700 rounded-lg flex items-center justify-center">
+                <span className="text-white font-bold text-xl">A</span>
+              </div>
+              <span className="text-xl font-bold text-gray-900">Aasim AI</span>
+            </Link>
+            <div className="text-sm text-gray-600">
+              Already have an account?{' '}
+              <Link to="/login" className="text-primary-600 hover:text-primary-700 font-semibold">
+                Sign in
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="container mx-auto px-6 py-12">
+        <div className="max-w-4xl mx-auto">
+          {/* Progress Steps - Professional Design */}
+          <div className="mb-12">
+            <div className="flex items-center justify-between relative">
+              {/* Progress Line */}
+              <div className="absolute top-5 left-0 right-0 h-0.5 bg-gray-200 -z-10">
+                <div
+                  className="h-full bg-gradient-to-r from-primary-600 to-primary-500 transition-all duration-500"
+                  style={{ width: `${((currentStep - 1) / (wizardSteps.length - 1)) * 100}%` }}
+                />
+              </div>
+
+              {wizardSteps.map((step, index) => {
+                const stepNumber = index + 1;
+                const isActive = stepNumber === currentStep;
+                const isCompleted = stepNumber < currentStep;
+
+                return (
+                  <div key={step.id} className="flex flex-col items-center flex-1">
+                    <div
+                      className={`
+                        w-10 h-10 rounded-full flex items-center justify-center font-semibold text-sm transition-all duration-300
+                        ${
+                          isCompleted
+                            ? 'bg-primary-600 text-white'
+                            : isActive
+                            ? 'bg-primary-600 text-white ring-4 ring-primary-100'
+                            : 'bg-white border-2 border-gray-300 text-gray-400'
+                        }
+                      `}
+                    >
+                      {isCompleted ? (
+                        <CheckCircle2 className="w-5 h-5" />
+                      ) : (
+                        <span>{stepNumber}</span>
+                      )}
+                    </div>
+                    <div className="mt-3 text-center">
+                      <p
+                        className={`text-sm font-semibold ${
+                          isActive ? 'text-gray-900' : isCompleted ? 'text-primary-600' : 'text-gray-400'
+                        }`}
+                      >
+                        {step.title}
+                      </p>
+                      <p className="text-xs text-gray-500 mt-0.5 hidden sm:block">{step.description}</p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
 
-          {/* Wizard Steps Progress */}
-          <div className="mb-8">
-            <WizardSteps steps={wizardSteps} currentStep={currentStep} />
-          </div>
-
-          {/* Step Content */}
-          <div className="bg-white rounded-2xl shadow-xl p-8 mb-8">
+          {/* Main Content Card */}
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
             {isLoading ? (
-              <div className="flex items-center justify-center py-20">
-                <div className="text-center">
-                  <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-primary-500 mx-auto mb-4"></div>
-                  <p className="text-gray-600">Creating your account...</p>
+              <div className="flex flex-col items-center justify-center py-20 px-6">
+                <div className="relative">
+                  <div className="w-16 h-16 border-4 border-primary-100 rounded-full"></div>
+                  <div className="absolute top-0 left-0 w-16 h-16 border-4 border-primary-600 rounded-full border-t-transparent animate-spin"></div>
                 </div>
+                <p className="mt-6 text-gray-600 font-medium">Creating your account...</p>
+                <p className="text-sm text-gray-500 mt-2">This will only take a moment</p>
               </div>
             ) : (
-              renderStep()
+              <div className="p-8 md:p-12">{renderStep()}</div>
             )}
           </div>
 
-          {/* Footer */}
-          <div className="text-center text-sm text-gray-500">
-            <p>
-              By continuing, you agree to our{' '}
-              <a href="/terms" className="text-primary-500 hover:text-primary-600">
+          {/* Footer Info */}
+          <div className="mt-8 text-center">
+            <div className="flex items-center justify-center gap-6 text-sm text-gray-500">
+              <a href="/terms" className="hover:text-gray-700 transition-colors">
                 Terms of Service
-              </a>{' '}
-              and{' '}
-              <a href="/privacy" className="text-primary-500 hover:text-primary-600">
+              </a>
+              <span className="w-1 h-1 bg-gray-300 rounded-full"></span>
+              <a href="/privacy" className="hover:text-gray-700 transition-colors">
                 Privacy Policy
               </a>
-            </p>
+              <span className="w-1 h-1 bg-gray-300 rounded-full"></span>
+              <a href="/support" className="hover:text-gray-700 transition-colors">
+                Help & Support
+              </a>
+            </div>
             {tenantType === 'organization' && currentStep === 3 && (
-              <p className="mt-4 text-sm text-gray-600">
-                💡 You can set up your organization structure (branches, departments, teams) after registration from your dashboard.
-              </p>
+              <div className="mt-6 inline-flex items-center gap-2 bg-blue-50 text-blue-800 px-4 py-2 rounded-lg text-sm">
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                  <path
+                    fillRule="evenodd"
+                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+                <span>Set up your organization structure after registration</span>
+              </div>
             )}
           </div>
         </div>
       </div>
-    </MainLayout>
+    </div>
   );
 };
 

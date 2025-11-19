@@ -50,9 +50,9 @@ const TenantTypeSelectionStep = ({ onNext, onBack }) => {
 
   return (
     <div className="max-w-5xl mx-auto">
-      <div className="mb-10 text-center">
-        <h2 className="text-3xl font-bold text-gray-900 mb-2">Choose Your Account Type</h2>
-        <p className="text-gray-600 text-lg">
+      <div className="mb-10">
+        <h2 className="text-2xl font-bold text-gray-900 mb-2">Choose Your Account Type</h2>
+        <p className="text-gray-600">
           Select the option that best fits your needs. You can upgrade anytime.
         </p>
       </div>
