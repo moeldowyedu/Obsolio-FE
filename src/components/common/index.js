@@ -42,3 +42,6 @@ export { default as Tooltip } from './Tooltip';
 
 // EmptyState
 export { default as EmptyState } from './EmptyState';
+
+// NotificationBell
+export { default as NotificationBell } from './NotificationBell/NotificationBell';
