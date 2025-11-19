@@ -7,13 +7,6 @@ import RegisterPage from './pages/Auth/RegisterPage'
 import ForgotPasswordPage from './pages/Auth/ForgotPasswordPage'
 import ResetPasswordPage from './pages/Auth/ResetPasswordPage'
 import DashboardPage from './pages/Dashboard/DashboardPage'
-import AgentSelectionPage from './pages/Submissions/AgentSelectionPage'
-import CreateSubmissionForm from './pages/Submissions/CreateSubmissionForm'
-import SubmissionsListPage from './pages/Submissions/SubmissionsListPage'
-import SubmissionDetailsPage from './pages/Submissions/SubmissionDetailsPage'
-import EvaluationResultsPage from './pages/Evaluations/EvaluationResultsPage'
-import ReportViewerPage from './pages/Evaluations/ReportViewerPage'
-import CriteriaManagementPage from './pages/Evaluations/CriteriaManagementPage'
 import ProfilePage from './pages/Profile/ProfilePage'
 import NotificationsPage from './pages/Profile/NotificationsPage'
 import AdminDashboardPage from './pages/Admin/AdminDashboardPage'
@@ -26,16 +19,6 @@ import EngineManagementPage from './pages/Admin/EngineManagementPage'
 import AgentsManagementPage from './pages/Admin/AgentsManagementPage'
 import ActiveAgentsMonitorPage from './pages/Admin/ActiveAgentsMonitorPage'
 import IntegrationManagementPage from './pages/Admin/IntegrationManagementPage'
-import AgentMarketplacePage from './pages/Marketplace/AgentMarketplacePage'
-import AgentDetailPage from './pages/Marketplace/AgentDetailPage'
-import MultiAgentOrchestratorPage from './pages/Orchestrator/MultiAgentOrchestratorPage'
-import AgentSchedulerPage from './pages/Scheduler/AgentSchedulerPage'
-import AgentConfigurationPage from './pages/Agent/AgentConfigurationPage'
-import AgentBuilderPage from './pages/Agent/AgentBuilderPage'
-import AgentsListPage from './pages/Agent/AgentsListPage'
-import AgentDetailPageNew from './pages/Agent/AgentDetailPage'
-import AgentExecutionDetailPage from './pages/Agent/AgentExecutionDetailPage'
-import AgentIntegrationPage from './pages/Integration/AgentIntegrationPage'
 import EnginesOverviewPage from './pages/Engines/EnginesOverviewPage'
 import VisionEnginePage from './pages/Engines/VisionEnginePage'
 import AudioEnginePage from './pages/Engines/AudioEnginePage'
@@ -44,20 +27,11 @@ import CodeEnginePage from './pages/Engines/CodeEnginePage'
 import DocumentEnginePage from './pages/Engines/DocumentEnginePage'
 import DataEnginePage from './pages/Engines/DataEnginePage'
 import WebEnginePage from './pages/Engines/WebEnginePage'
-import BillingPage from './pages/Billing/BillingPage'
-import HITLQueuePage from './pages/HITL/HITLQueuePage'
-import HITLActivityPage from './pages/HITL/HITLActivityPage'
 import OversightModesPage from './pages/HITL/OversightModesPage'
 import ApprovalWorkflowsPage from './pages/HITL/ApprovalWorkflowsPage'
 import ActivityLogsPage from './pages/HITL/ActivityLogsPage'
-import WorkflowListPage from './pages/Workflow/WorkflowListPage'
-import WorkflowBuilderPage from './pages/Workflow/WorkflowBuilderPage'
-import WorkflowExecutionPage from './pages/Workflow/WorkflowExecutionPage'
-import APIKeysPage from './pages/Developer/APIKeysPage'
-import WebhooksPage from './pages/Developer/WebhooksPage'
-import IntegrationsPage from './pages/Developer/IntegrationsPage'
-import DeveloperDocsPage from './pages/Developer/DeveloperDocsPage'
 import AgentXMarketplacePage from './pages/AgentX/MarketplacePage'
+import AgentXBuilderPage from './pages/AgentX/AgentBuilderPage'
 import MyAgentsPage from './pages/AgentX/MyAgentsPage'
 import PrivateAgentsPage from './pages/AgentX/PrivateAgentsPage'
 import DeveloperPortalPage from './pages/AgentX/DeveloperPortalPage'
@@ -67,9 +41,7 @@ import BranchDetailsPage from './pages/Organization/BranchDetailsPage'
 import DepartmentsPage from './pages/Organization/DepartmentsPage'
 import ProjectsPage from './pages/Organization/ProjectsPage'
 import TeamsPage from './pages/Organization/TeamsPage'
-// Phase 10 Pages - Agents
-import AllAgentsPage from './pages/Agents/AllAgentsPage'
-import AgentPerformancePage from './pages/Agents/AgentPerformancePage'
+// Agent Deployment
 import AgentDeploymentWizard from './components/agent-deployment/AgentDeploymentWizard'
 // Phase 10 Pages - Job Flows
 import JobFlowsListPage from './pages/JobFlows/JobFlowsListPage'
@@ -79,6 +51,18 @@ import ExecutionHistoryPage from './pages/JobFlows/ExecutionHistoryPage'
 import ApprovalQueuePage from './pages/HITL/ApprovalQueuePage'
 import MyApprovalsPage from './pages/HITL/MyApprovalsPage'
 import HITLConfigurationPage from './pages/HITL/HITLConfigurationPage'
+// Orchestration & Scheduling
+import WorkflowsPage from './pages/Orchestration/WorkflowsPage'
+import WorkflowBuilderPage from './pages/Orchestration/WorkflowBuilderPage'
+import OrchestrationExecutionHistoryPage from './pages/Orchestration/ExecutionHistoryPage'
+import ScheduledJobsPage from './pages/Scheduling/ScheduledJobsPage'
+import CalendarViewPage from './pages/Scheduling/CalendarViewPage'
+import UpcomingRunsPage from './pages/Scheduling/UpcomingRunsPage'
+// Integrations
+import ConnectedAppsPage from './pages/Integrations/ConnectedAppsPage'
+import APIKeysPage from './pages/Integrations/APIKeysPage'
+import WebhooksPage from './pages/Integrations/WebhooksPage'
+import BrowseIntegrationsPage from './pages/Integrations/BrowseIntegrationsPage'
 // Phase 10 Pages - Team & Users
 import AllUsersPage from './pages/Team/AllUsersPage'
 import InviteUserPage from './pages/Team/InviteUserPage'
@@ -86,10 +70,13 @@ import RolesPermissionsPage from './pages/Team/RolesPermissionsPage'
 import UserActivityPage from './pages/Team/UserActivityPage'
 // Phase 10 Pages - Billing
 import BillingOverviewPage from './pages/Billing/BillingOverviewPage'
+import SubscriptionPage from './pages/Billing/SubscriptionPage'
+import UsageReportsPage from './pages/Billing/UsageReportsPage'
+import InvoicesPage from './pages/Billing/InvoicesPage'
 import TenantSettingsPage from './pages/Settings/TenantSettingsPage'
 import RubricsPage from './pages/Settings/RubricsPage'
-import SettingsIntegrationsPage from './pages/Settings/IntegrationsPage'
-import UsersRolesPage from './pages/Settings/UsersRolesPage'
+import SecurityPage from './pages/Settings/SecurityPage'
+import SettingsNotificationsPage from './pages/Settings/NotificationsPage'
 import NotFoundPage from './pages/NotFoundPage'
 import ProtectedRoute from './router/ProtectedRoute'
 
@@ -112,62 +99,6 @@ function App() {
           element={
             <ProtectedRoute>
               <DashboardPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/agent-select"
-          element={
-            <ProtectedRoute>
-              <AgentSelectionPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/submissions"
-          element={
-            <ProtectedRoute>
-              <SubmissionsListPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/submissions/create"
-          element={
-            <ProtectedRoute>
-              <CreateSubmissionForm />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/submissions/:id"
-          element={
-            <ProtectedRoute>
-              <SubmissionDetailsPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/evaluations/:id"
-          element={
-            <ProtectedRoute>
-              <EvaluationResultsPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/evaluations/:id/report"
-          element={
-            <ProtectedRoute>
-              <ReportViewerPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/criteria"
-          element={
-            <ProtectedRoute>
-              <CriteriaManagementPage />
             </ProtectedRoute>
           }
         />
@@ -207,7 +138,7 @@ function App() {
           path="/billing/subscription"
           element={
             <ProtectedRoute>
-              <BillingOverviewPage />
+              <SubscriptionPage />
             </ProtectedRoute>
           }
         />
@@ -215,7 +146,7 @@ function App() {
           path="/billing/usage"
           element={
             <ProtectedRoute>
-              <BillingOverviewPage />
+              <UsageReportsPage />
             </ProtectedRoute>
           }
         />
@@ -223,7 +154,7 @@ function App() {
           path="/billing/invoices"
           element={
             <ProtectedRoute>
-              <BillingOverviewPage />
+              <InvoicesPage />
             </ProtectedRoute>
           }
         />
@@ -336,84 +267,12 @@ function App() {
           }
         />
 
-        {/* Agent Management Routes */}
+        {/* AgentX Hub Routes */}
         <Route
-          path="/agents/all"
+          path="/agentx"
           element={
             <ProtectedRoute>
-              <AllAgentsPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/agents/my-agents"
-          element={
-            <ProtectedRoute>
-              <MyAgentsPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/agents/performance"
-          element={
-            <ProtectedRoute>
-              <AgentPerformancePage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/agents/deploy"
-          element={
-            <ProtectedRoute>
-              <AgentDeploymentWizard />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/agents/create"
-          element={
-            <ProtectedRoute>
-              <AgentBuilderPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/agents/:agentId/executions/:executionId"
-          element={
-            <ProtectedRoute>
-              <AgentExecutionDetailPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/agents/:agentId"
-          element={
-            <ProtectedRoute>
-              <AgentDetailPageNew />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/agents"
-          element={
-            <ProtectedRoute>
-              <AgentsListPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/marketplace"
-          element={
-            <ProtectedRoute>
-              <AgentMarketplacePage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/marketplace/:agentId"
-          element={
-            <ProtectedRoute>
-              <AgentDetailPage />
+              <AgentXMarketplacePage />
             </ProtectedRoute>
           }
         />
@@ -434,6 +293,14 @@ function App() {
           }
         />
         <Route
+          path="/agentx/builder"
+          element={
+            <ProtectedRoute>
+              <AgentXBuilderPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path="/agentx/private"
           element={
             <ProtectedRoute>
@@ -450,36 +317,16 @@ function App() {
           }
         />
         <Route
-          path="/agent/configure/:agentId"
+          path="/agents/deploy"
           element={
             <ProtectedRoute>
-              <AgentConfigurationPage />
+              <AgentDeploymentWizard />
             </ProtectedRoute>
           }
         />
         <Route
-          path="/orchestrator"
-          element={
-            <ProtectedRoute>
-              <MultiAgentOrchestratorPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/scheduler"
-          element={
-            <ProtectedRoute>
-              <AgentSchedulerPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/integration"
-          element={
-            <ProtectedRoute>
-              <AgentIntegrationPage />
-            </ProtectedRoute>
-          }
+          path="/agents/my-agents"
+          element={<Navigate to="/agentx/my-agents" replace />}
         />
 
         {/* HITL Routes */}
@@ -547,22 +394,6 @@ function App() {
             </ProtectedRoute>
           }
         />
-        <Route
-          path="/hitl/queue"
-          element={
-            <ProtectedRoute>
-              <HITLQueuePage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/hitl/activity"
-          element={
-            <ProtectedRoute>
-              <HITLActivityPage />
-            </ProtectedRoute>
-          }
-        />
 
         {/* Job Flows Routes */}
         <Route
@@ -590,17 +421,17 @@ function App() {
           }
         />
 
-        {/* Workflow Routes */}
+        {/* Orchestration Routes */}
         <Route
-          path="/workflows"
+          path="/orchestration/workflows"
           element={
             <ProtectedRoute>
-              <WorkflowListPage />
+              <WorkflowsPage />
             </ProtectedRoute>
           }
         />
         <Route
-          path="/workflows/builder"
+          path="/orchestration/builder"
           element={
             <ProtectedRoute>
               <WorkflowBuilderPage />
@@ -608,17 +439,51 @@ function App() {
           }
         />
         <Route
-          path="/workflows/:workflowId/executions/:executionId"
+          path="/orchestration/history"
           element={
             <ProtectedRoute>
-              <WorkflowExecutionPage />
+              <OrchestrationExecutionHistoryPage />
             </ProtectedRoute>
           }
         />
 
-        {/* Developer Routes */}
+        {/* Scheduling Routes */}
         <Route
-          path="/developer/api-keys"
+          path="/scheduling/jobs"
+          element={
+            <ProtectedRoute>
+              <ScheduledJobsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/scheduling/calendar"
+          element={
+            <ProtectedRoute>
+              <CalendarViewPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/scheduling/upcoming"
+          element={
+            <ProtectedRoute>
+              <UpcomingRunsPage />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Integration Routes */}
+        <Route
+          path="/integrations/connected"
+          element={
+            <ProtectedRoute>
+              <ConnectedAppsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/integrations/api-keys"
           element={
             <ProtectedRoute>
               <APIKeysPage />
@@ -626,7 +491,7 @@ function App() {
           }
         />
         <Route
-          path="/developer/webhooks"
+          path="/integrations/webhooks"
           element={
             <ProtectedRoute>
               <WebhooksPage />
@@ -634,18 +499,10 @@ function App() {
           }
         />
         <Route
-          path="/developer/integrations"
+          path="/integrations/browse"
           element={
             <ProtectedRoute>
-              <IntegrationsPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/developer/docs"
-          element={
-            <ProtectedRoute>
-              <DeveloperDocsPage />
+              <BrowseIntegrationsPage />
             </ProtectedRoute>
           }
         />
@@ -710,26 +567,10 @@ function App() {
           }
         />
         <Route
-          path="/settings/integrations"
-          element={
-            <ProtectedRoute>
-              <SettingsIntegrationsPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/settings/users"
-          element={
-            <ProtectedRoute>
-              <UsersRolesPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
           path="/settings/security"
           element={
             <ProtectedRoute>
-              <TenantSettingsPage />
+              <SecurityPage />
             </ProtectedRoute>
           }
         />
@@ -737,7 +578,7 @@ function App() {
           path="/settings/notifications"
           element={
             <ProtectedRoute>
-              <NotificationsPage />
+              <SettingsNotificationsPage />
             </ProtectedRoute>
           }
         />
@@ -778,9 +619,25 @@ function App() {
 
         {/* System Admin Routes - Platform Management */}
         <Route
+          path="/system-admin"
+          element={
+            <ProtectedRoute requireAdmin>
+              <AdminDashboardPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/system-admin/dashboard"
+          element={
+            <ProtectedRoute requireAdmin>
+              <AdminDashboardPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path="/system-admin/tenants"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute requireAdmin>
               <TenantsManagementPage />
             </ProtectedRoute>
           }
@@ -788,7 +645,7 @@ function App() {
         <Route
           path="/system-admin/engines"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute requireAdmin>
               <EngineManagementPage />
             </ProtectedRoute>
           }
@@ -796,15 +653,15 @@ function App() {
         <Route
           path="/system-admin/agents"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute requireAdmin>
               <AgentsManagementPage />
             </ProtectedRoute>
           }
         />
         <Route
-          path="/system-admin/monitor"
+          path="/system-admin/active-agents"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute requireAdmin>
               <ActiveAgentsMonitorPage />
             </ProtectedRoute>
           }
@@ -812,8 +669,16 @@ function App() {
         <Route
           path="/system-admin/integrations"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute requireAdmin>
               <IntegrationManagementPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/system-admin/settings"
+          element={
+            <ProtectedRoute requireAdmin>
+              <TenantSettingsPage />
             </ProtectedRoute>
           }
         />

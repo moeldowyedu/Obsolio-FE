@@ -8,7 +8,7 @@ const Sidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [expandedSections, setExpandedSections] = useState({
     organization: false,
-    agents: false,
+    agentx: false,
     jobFlows: false,
     orchestration: false,
     scheduling: false,
@@ -27,8 +27,8 @@ const Sidebar = () => {
 
     if (path.startsWith('/organization/')) {
       newExpanded.organization = true;
-    } else if (path.startsWith('/agents/')) {
-      newExpanded.agents = true;
+    } else if (path.startsWith('/agentx/') || path.startsWith('/agents/')) {
+      newExpanded.agentx = true;
     } else if (path.startsWith('/job-flows/')) {
       newExpanded.jobFlows = true;
     } else if (path.startsWith('/orchestration/')) {
@@ -82,15 +82,15 @@ const Sidebar = () => {
       ]
     },
     {
-      name: 'Agents',
+      name: 'AgentX Hub',
       icon: '🤖',
-      section: 'agents',
+      section: 'agentx',
       children: [
-        { name: 'All Agents', href: '/agents/all', icon: '📋' },
-        { name: 'My Agents', href: '/agents/my-agents', icon: '👤' },
-        { name: 'Agent Performance', href: '/agents/performance', icon: '📈' },
-        { name: 'Deploy New Agent', href: '/agents/deploy', icon: '➕' },
         { name: 'Marketplace', href: '/agentx/marketplace', icon: '🏪' },
+        { name: 'My Agents', href: '/agentx/my-agents', icon: '👤' },
+        { name: 'Agent Builder', href: '/agentx/builder', icon: '🔧' },
+        { name: 'Deploy Agent', href: '/agents/deploy', icon: '➕' },
+        { name: 'Developer Portal', href: '/agentx/developer', icon: '📚' },
       ]
     },
     {

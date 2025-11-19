@@ -252,7 +252,7 @@ const HomePage = () => {
 
           <div className="text-center">
             <Link
-              to="/marketplace"
+              to="/agentx/marketplace"
               className="glass-btn-primary rounded-xl px-8 py-3 font-semibold inline-flex items-center"
             >
               <span className="material-icons mr-2">store</span>
@@ -375,10 +375,10 @@ const HomePage = () => {
               {t.startFreeTrial}
             </Link>
             <Link
-              to="/marketplace"
+              to="/agentx/marketplace"
               className="glass-btn-secondary rounded-full px-10 py-4 text-lg font-semibold border-2 border-primary-500"
             >
-              Explore Marketplace
+              Explore AgentX Hub
             </Link>
           </div>
           <p className="text-sm text-gray-600">{t.noCredit}</p>

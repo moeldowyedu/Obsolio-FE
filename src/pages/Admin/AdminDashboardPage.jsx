@@ -369,7 +369,7 @@ const AdminDashboardPage = () => {
             <p className="text-gray-600 text-sm">{t.webhooksCardDesc}</p>
           </Link>
           <Link
-            to="/criteria"
+            to="/settings/rubrics"
             className="glass-card-hover rounded-2xl p-6 group"
           >
             <span className="material-icons text-4xl text-purple-600 mb-3">tune</span>
