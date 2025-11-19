@@ -38,7 +38,14 @@ export const useAuthStore = create(
         set({ isLoading: true, error: null });
         try {
           const data = await authService.register(userData);
-          set({ isLoading: false });
+          // Auto-login after successful registration
+          set({
+            user: data.user,
+            token: data.token,
+            isAuthenticated: true,
+            isLoading: false,
+            error: null,
+          });
           return data;
         } catch (error) {
           set({
