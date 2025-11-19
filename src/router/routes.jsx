@@ -28,9 +28,7 @@ import DepartmentsPage from '../pages/Organization/DepartmentsPage';
 import ProjectsPage from '../pages/Organization/ProjectsPage';
 import TeamsPage from '../pages/Organization/TeamsPage';
 
-// Agents Pages
-import AllAgentsPage from '../pages/Agents/AllAgentsPage';
-import AgentPerformancePage from '../pages/Agents/AgentPerformancePage';
+// Agent Deployment Component
 import AgentDeploymentWizard from '../components/agent-deployment/AgentDeploymentWizard';
 
 // AgentX Pages
@@ -86,14 +84,7 @@ import RubricsPage from '../pages/Settings/RubricsPage';
 import SecurityPage from '../pages/Settings/SecurityPage';
 import SettingsNotificationsPage from '../pages/Settings/NotificationsPage';
 
-// Legacy Pages (to be migrated)
-import AgentSelectionPage from '../pages/Submissions/AgentSelectionPage';
-import CreateSubmissionForm from '../pages/Submissions/CreateSubmissionForm';
-import SubmissionsListPage from '../pages/Submissions/SubmissionsListPage';
-import SubmissionDetailsPage from '../pages/Submissions/SubmissionDetailsPage';
-import EvaluationResultsPage from '../pages/Evaluations/EvaluationResultsPage';
-import ReportViewerPage from '../pages/Evaluations/ReportViewerPage';
-import CriteriaManagementPage from '../pages/Evaluations/CriteriaManagementPage';
+// Profile Pages
 import ProfilePage from '../pages/Profile/ProfilePage';
 import NotificationsPage from '../pages/Profile/NotificationsPage';
 import AdminDashboardPage from '../pages/Admin/AdminDashboardPage';
@@ -105,11 +96,6 @@ import EngineManagementPage from '../pages/Admin/EngineManagementPage';
 import AgentsManagementPage from '../pages/Admin/AgentsManagementPage';
 import ActiveAgentsMonitorPage from '../pages/Admin/ActiveAgentsMonitorPage';
 import IntegrationManagementPage from '../pages/Admin/IntegrationManagementPage';
-import AgentMarketplacePage from '../pages/Marketplace/AgentMarketplacePage';
-import MultiAgentOrchestratorPage from '../pages/Orchestrator/MultiAgentOrchestratorPage';
-import AgentSchedulerPage from '../pages/Scheduler/AgentSchedulerPage';
-import AgentConfigurationPage from '../pages/Agent/AgentConfigurationPage';
-import AgentIntegrationPage from '../pages/Integration/AgentIntegrationPage';
 import NotFoundPage from '../pages/NotFoundPage';
 import APITestPage from '../pages/APITestPage';
 
@@ -242,30 +228,10 @@ const AppRoutes = () => {
         }
       />
 
-      {/* Agents Routes */}
-      <Route
-        path="/agents/all"
-        element={
-          <ProtectedRoute>
-            <AllAgentsPage />
-          </ProtectedRoute>
-        }
-      />
+      {/* Agents Routes - Redirect to AgentX */}
       <Route
         path="/agents/my-agents"
-        element={
-          <ProtectedRoute>
-            <MyAgentsPage />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/agents/performance"
-        element={
-          <ProtectedRoute>
-            <AgentPerformancePage />
-          </ProtectedRoute>
-        }
+        element={<Navigate to="/agentx/my-agents" replace />}
       />
       <Route
         path="/agents/deploy"
@@ -614,65 +580,6 @@ const AppRoutes = () => {
         }
       />
 
-      {/* Legacy Routes - Submissions */}
-      <Route
-        path="/agent-select"
-        element={
-          <ProtectedRoute>
-            <AgentSelectionPage />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/submissions"
-        element={
-          <ProtectedRoute>
-            <SubmissionsListPage />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/submissions/create"
-        element={
-          <ProtectedRoute>
-            <CreateSubmissionForm />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/submissions/:id"
-        element={
-          <ProtectedRoute>
-            <SubmissionDetailsPage />
-          </ProtectedRoute>
-        }
-      />
-
-      {/* Legacy Routes - Evaluations */}
-      <Route
-        path="/evaluations/:id"
-        element={
-          <ProtectedRoute>
-            <EvaluationResultsPage />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/evaluations/:id/report"
-        element={
-          <ProtectedRoute>
-            <ReportViewerPage />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/criteria"
-        element={
-          <ProtectedRoute>
-            <CriteriaManagementPage />
-          </ProtectedRoute>
-        }
-      />
 
       {/* Profile Routes */}
       <Route
@@ -692,47 +599,6 @@ const AppRoutes = () => {
         }
       />
 
-      {/* Legacy Agent Management Routes */}
-      <Route
-        path="/marketplace"
-        element={
-          <ProtectedRoute>
-            <AgentMarketplacePage />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/agent/configure/:agentId"
-        element={
-          <ProtectedRoute>
-            <AgentConfigurationPage />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/orchestrator"
-        element={
-          <ProtectedRoute>
-            <MultiAgentOrchestratorPage />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/scheduler"
-        element={
-          <ProtectedRoute>
-            <AgentSchedulerPage />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/integration"
-        element={
-          <ProtectedRoute>
-            <AgentIntegrationPage />
-          </ProtectedRoute>
-        }
-      />
 
       {/* System Admin Routes */}
       <Route
