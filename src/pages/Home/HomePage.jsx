@@ -12,13 +12,13 @@ const HomePage = () => {
               <div className="w-10 h-10 bg-gradient-to-br from-primary-600 to-primary-700 rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-xl">A</span>
               </div>
-              <span className="text-xl font-bold text-gray-900">Aasim AI</span>
+              <span className="text-xl font-bold text-secondary-900 tracking-tight">Aasim AI</span>
             </Link>
             <div className="flex items-center gap-4">
-              <a href="#features" className="text-gray-600 hover:text-gray-900 transition-colors hidden sm:inline">Features</a>
-              <a href="#how-it-works" className="text-gray-600 hover:text-gray-900 transition-colors hidden sm:inline">How It Works</a>
-              <a href="#pricing" className="text-gray-600 hover:text-gray-900 transition-colors hidden sm:inline">Pricing</a>
-              <Link to="/login" className="text-gray-600 hover:text-gray-900 font-medium transition-colors">Sign In</Link>
+              <a href="#features" className="text-secondary-600 hover:text-secondary-900 font-medium transition-colors hidden sm:inline">Features</a>
+              <a href="#how-it-works" className="text-secondary-600 hover:text-secondary-900 font-medium transition-colors hidden sm:inline">How It Works</a>
+              <a href="#pricing" className="text-secondary-600 hover:text-secondary-900 font-medium transition-colors hidden sm:inline">Pricing</a>
+              <Link to="/login" className="text-secondary-700 hover:text-secondary-900 font-semibold transition-colors">Sign In</Link>
               <Link to="/register" className="bg-primary-600 text-white px-6 py-2.5 rounded-lg font-semibold hover:bg-primary-700 transition-colors">
                 Start Free Trial
               </Link>
@@ -36,20 +36,20 @@ const HomePage = () => {
                 <Sparkles className="w-4 h-4" />
                 Precision AI Platform for Teams & Individuals
               </div>
-              <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+              <h1 className="text-5xl md:text-6xl font-bold text-secondary-900 mb-6 leading-tight tracking-tight">
                 Deploy AI Agents.<br />
                 Run Smart Jobs.<br />
-                <span className="text-primary-600">Scale with HITL.</span>
+                <span className="bg-gradient-to-r from-primary-600 to-primary-700 bg-clip-text text-transparent">Scale with HITL.</span>
               </h1>
-              <p className="text-xl text-gray-600 mb-8 leading-relaxed">
+              <p className="text-xl text-secondary-600 mb-8 leading-relaxed font-medium">
                 Build, deploy, and monetize Precision AI Agents with premade rubrics. Run one-time or scheduled jobs, orchestrate multi-agent workflows, and maintain human oversight.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 mb-8">
-                <Link to="/register" className="inline-flex items-center justify-center gap-2 bg-primary-600 text-white px-8 py-4 rounded-lg font-semibold hover:bg-primary-700 transition-colors text-lg">
+                <Link to="/register" className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-primary-600 to-primary-700 text-white px-8 py-4 rounded-xl font-bold hover:from-primary-700 hover:to-primary-800 transition-all shadow-lg hover:shadow-xl text-lg tracking-wide">
                   Start Free Trial
                   <ArrowRight className="w-5 h-5" />
                 </Link>
-                <a href="#how-it-works" className="inline-flex items-center justify-center gap-2 border-2 border-gray-300 text-gray-700 px-8 py-4 rounded-lg font-semibold hover:border-gray-400 hover:bg-gray-50 transition-colors text-lg">
+                <a href="#how-it-works" className="inline-flex items-center justify-center gap-2 border-2 border-secondary-300 text-secondary-700 px-8 py-4 rounded-xl font-bold hover:border-secondary-400 hover:bg-secondary-50 transition-all text-lg tracking-wide">
                   See How It Works
                 </a>
               </div>
@@ -112,12 +112,24 @@ const HomePage = () => {
       {/* Trusted By */}
       <section className="py-12 px-6 bg-gray-50 border-y border-gray-200">
         <div className="max-w-7xl mx-auto">
-          <p className="text-center text-sm text-gray-600 mb-8 uppercase tracking-wide font-semibold">Trusted by teams worldwide</p>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 items-center opacity-60">
-            <div className="text-center text-2xl font-bold text-gray-800">500x Faster</div>
-            <div className="text-center text-2xl font-bold text-gray-800">97% Cost Saved</div>
-            <div className="text-center text-2xl font-bold text-gray-800">24/7 Available</div>
-            <div className="text-center text-2xl font-bold text-gray-800">10k+ Agents</div>
+          <p className="text-center text-sm text-secondary-500 mb-8 uppercase tracking-wider font-bold">Trusted by teams worldwide</p>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 items-center">
+            <div className="text-center">
+              <div className="text-3xl font-bold text-secondary-900 mb-1">500x</div>
+              <div className="text-sm text-secondary-600 font-semibold">Faster</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-secondary-900 mb-1">97%</div>
+              <div className="text-sm text-secondary-600 font-semibold">Cost Saved</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-secondary-900 mb-1">24/7</div>
+              <div className="text-sm text-secondary-600 font-semibold">Available</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-secondary-900 mb-1">10k+</div>
+              <div className="text-sm text-secondary-600 font-semibold">Agents</div>
+            </div>
           </div>
         </div>
       </section>
@@ -126,10 +138,10 @@ const HomePage = () => {
       <section className="py-20 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+            <h2 className="text-4xl md:text-5xl font-bold text-secondary-900 mb-4 tracking-tight">
               Built for Everyone
             </h2>
-            <p className="text-xl text-gray-600">
+            <p className="text-xl text-secondary-600 font-medium">
               Whether you're an individual or an enterprise, Aasim AI scales with you
             </p>
           </div>
@@ -139,8 +151,8 @@ const HomePage = () => {
               <div className="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center mb-6">
                 <Users className="w-7 h-7 text-blue-600" />
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">Personal Users</h3>
-              <p className="text-gray-600 mb-6">
+              <h3 className="text-2xl font-bold text-secondary-900 mb-4 tracking-tight">Personal Users</h3>
+              <p className="text-secondary-600 mb-6 font-medium">
                 Quick setup, powerful results. No organization structure needed.
               </p>
               <ul className="space-y-3">
@@ -172,8 +184,8 @@ const HomePage = () => {
               <div className="w-14 h-14 bg-purple-100 rounded-xl flex items-center justify-center mb-6">
                 <Building2 className="w-7 h-7 text-purple-600" />
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">Organizations</h3>
-              <p className="text-gray-600 mb-6">
+              <h3 className="text-2xl font-bold text-secondary-900 mb-4 tracking-tight">Organizations</h3>
+              <p className="text-secondary-600 mb-6 font-medium">
                 Everything for personal users, plus enterprise features.
               </p>
               <ul className="space-y-3">
@@ -207,10 +219,10 @@ const HomePage = () => {
       <section id="features" className="py-20 px-6 bg-gray-50">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+            <h2 className="text-4xl md:text-5xl font-bold text-secondary-900 mb-4 tracking-tight">
               Complete AI Platform
             </h2>
-            <p className="text-xl text-gray-600">
+            <p className="text-xl text-secondary-600 font-medium">
               Everything you need to build, deploy, and scale AI operations
             </p>
           </div>
@@ -220,8 +232,8 @@ const HomePage = () => {
               <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mb-4">
                 <Bot className="w-6 h-6 text-primary-600" />
               </div>
-              <h3 className="text-lg font-bold text-gray-900 mb-2">AgentX Hub</h3>
-              <p className="text-gray-600 text-sm">
+              <h3 className="text-lg font-bold text-secondary-900 mb-2 tracking-tight">AgentX Hub</h3>
+              <p className="text-secondary-600 text-sm font-medium leading-relaxed">
                 Deploy precision AI agents from our marketplace with premade rubrics. Build and monetize your own.
               </p>
             </div>
@@ -231,8 +243,8 @@ const HomePage = () => {
               <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
                 <Workflow className="w-6 h-6 text-green-600" />
               </div>
-              <h3 className="text-lg font-bold text-gray-900 mb-2">Job Flows</h3>
-              <p className="text-gray-600 text-sm">
+              <h3 className="text-lg font-bold text-secondary-900 mb-2 tracking-tight">Job Flows</h3>
+              <p className="text-secondary-600 text-sm font-medium leading-relaxed">
                 Run agents one-time or scheduled. Orchestrate multi-agent workflows for complex tasks.
               </p>
             </div>
@@ -242,8 +254,8 @@ const HomePage = () => {
               <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
                 <Eye className="w-6 h-6 text-blue-600" />
               </div>
-              <h3 className="text-lg font-bold text-gray-900 mb-2">HITL Framework</h3>
-              <p className="text-gray-600 text-sm">
+              <h3 className="text-lg font-bold text-secondary-900 mb-2 tracking-tight">HITL Framework</h3>
+              <p className="text-secondary-600 text-sm font-medium leading-relaxed">
                 Human-in-the-loop oversight with approval workflows, activity logs, and audit trails.
               </p>
             </div>
@@ -253,8 +265,8 @@ const HomePage = () => {
               <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
                 <DollarSign className="w-6 h-6 text-purple-600" />
               </div>
-              <h3 className="text-lg font-bold text-gray-900 mb-2">Monetization</h3>
-              <p className="text-gray-600 text-sm">
+              <h3 className="text-lg font-bold text-secondary-900 mb-2 tracking-tight">Monetization</h3>
+              <p className="text-secondary-600 text-sm font-medium leading-relaxed">
                 Create and publish agents to AgentX Hub. Earn revenue from your AI innovations.
               </p>
             </div>
@@ -264,8 +276,8 @@ const HomePage = () => {
               <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4">
                 <Zap className="w-6 h-6 text-orange-600" />
               </div>
-              <h3 className="text-lg font-bold text-gray-900 mb-2">7 Precision Engines</h3>
-              <p className="text-gray-600 text-sm">
+              <h3 className="text-lg font-bold text-secondary-900 mb-2 tracking-tight">7 Precision Engines</h3>
+              <p className="text-secondary-600 text-sm font-medium leading-relaxed">
                 Vision, Audio, Text, Code, Document, Data, and Web engines for any use case.
               </p>
             </div>
@@ -275,8 +287,8 @@ const HomePage = () => {
               <div className="w-12 h-12 bg-teal-100 rounded-lg flex items-center justify-center mb-4">
                 <Shield className="w-6 h-6 text-teal-600" />
               </div>
-              <h3 className="text-lg font-bold text-gray-900 mb-2">Enterprise Security</h3>
-              <p className="text-gray-600 text-sm">
+              <h3 className="text-lg font-bold text-secondary-900 mb-2 tracking-tight">Enterprise Security</h3>
+              <p className="text-secondary-600 text-sm font-medium leading-relaxed">
                 SOC 2 compliant, encrypted data, role-based access, and complete audit logs.
               </p>
             </div>
@@ -286,8 +298,8 @@ const HomePage = () => {
               <div className="w-12 h-12 bg-pink-100 rounded-lg flex items-center justify-center mb-4">
                 <TrendingUp className="w-6 h-6 text-pink-600" />
               </div>
-              <h3 className="text-lg font-bold text-gray-900 mb-2">Analytics & Insights</h3>
-              <p className="text-gray-600 text-sm">
+              <h3 className="text-lg font-bold text-secondary-900 mb-2 tracking-tight">Analytics & Insights</h3>
+              <p className="text-secondary-600 text-sm font-medium leading-relaxed">
                 Track agent performance, job execution, costs, and ROI in real-time.
               </p>
             </div>
@@ -297,8 +309,8 @@ const HomePage = () => {
               <div className="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mb-4">
                 <Sparkles className="w-6 h-6 text-indigo-600" />
               </div>
-              <h3 className="text-lg font-bold text-gray-900 mb-2">API & Integrations</h3>
-              <p className="text-gray-600 text-sm">
+              <h3 className="text-lg font-bold text-secondary-900 mb-2 tracking-tight">API & Integrations</h3>
+              <p className="text-secondary-600 text-sm font-medium leading-relaxed">
                 Connect with 100+ apps via API, webhooks, and native integrations.
               </p>
             </div>
@@ -310,10 +322,10 @@ const HomePage = () => {
       <section id="how-it-works" className="py-20 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+            <h2 className="text-4xl md:text-5xl font-bold text-secondary-900 mb-4 tracking-tight">
               How It Works
             </h2>
-            <p className="text-xl text-gray-600">
+            <p className="text-xl text-secondary-600 font-medium">
               From setup to scale in 4 simple steps
             </p>
           </div>
@@ -322,8 +334,8 @@ const HomePage = () => {
             <div className="relative">
               <div className="bg-gradient-to-br from-primary-50 to-white border-2 border-primary-200 rounded-2xl p-6 text-center">
                 <div className="w-12 h-12 bg-primary-600 text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4">1</div>
-                <h3 className="text-lg font-bold text-gray-900 mb-2">Create Project</h3>
-                <p className="text-gray-600 text-sm">
+                <h3 className="text-lg font-bold text-secondary-900 mb-2 tracking-tight">Create Project</h3>
+                <p className="text-secondary-600 text-sm font-medium leading-relaxed">
                   Set up your first project in seconds. No complex setup required.
                 </p>
               </div>
@@ -336,8 +348,8 @@ const HomePage = () => {
             <div className="relative">
               <div className="bg-gradient-to-br from-green-50 to-white border-2 border-green-200 rounded-2xl p-6 text-center">
                 <div className="w-12 h-12 bg-green-600 text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4">2</div>
-                <h3 className="text-lg font-bold text-gray-900 mb-2">Deploy Agents</h3>
-                <p className="text-gray-600 text-sm">
+                <h3 className="text-lg font-bold text-secondary-900 mb-2 tracking-tight">Deploy Agents</h3>
+                <p className="text-secondary-600 text-sm font-medium leading-relaxed">
                   Browse AgentX Hub, select agents, deploy with premade rubrics.
                 </p>
               </div>
@@ -350,8 +362,8 @@ const HomePage = () => {
             <div className="relative">
               <div className="bg-gradient-to-br from-blue-50 to-white border-2 border-blue-200 rounded-2xl p-6 text-center">
                 <div className="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4">3</div>
-                <h3 className="text-lg font-bold text-gray-900 mb-2">Run Jobs</h3>
-                <p className="text-gray-600 text-sm">
+                <h3 className="text-lg font-bold text-secondary-900 mb-2 tracking-tight">Run Jobs</h3>
+                <p className="text-secondary-600 text-sm font-medium leading-relaxed">
                   Execute one-time jobs or schedule recurring workflows.
                 </p>
               </div>
@@ -363,8 +375,8 @@ const HomePage = () => {
             {/* Step 4 */}
             <div className="bg-gradient-to-br from-purple-50 to-white border-2 border-purple-200 rounded-2xl p-6 text-center">
               <div className="w-12 h-12 bg-purple-600 text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4">4</div>
-              <h3 className="text-lg font-bold text-gray-900 mb-2">Monitor & Scale</h3>
-              <p className="text-gray-600 text-sm">
+              <h3 className="text-lg font-bold text-secondary-900 mb-2 tracking-tight">Monitor & Scale</h3>
+              <p className="text-secondary-600 text-sm font-medium leading-relaxed">
                 Track with HITL oversight, optimize, and scale as you grow.
               </p>
             </div>
@@ -376,20 +388,20 @@ const HomePage = () => {
       <section id="pricing" className="py-20 px-6 bg-gray-50">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+            <h2 className="text-4xl md:text-5xl font-bold text-secondary-900 mb-4 tracking-tight">
               Simple, Transparent Pricing
             </h2>
-            <p className="text-xl text-gray-600">
+            <p className="text-xl text-secondary-600 font-medium">
               Start free, scale as you grow. No hidden fees.
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {/* Starter */}
             <div className="bg-white rounded-2xl p-8 border-2 border-gray-200 hover:border-primary-300 transition-all">
-              <h3 className="text-2xl font-bold text-gray-900 mb-2">Starter</h3>
+              <h3 className="text-2xl font-bold text-secondary-900 mb-2 tracking-tight">Starter</h3>
               <div className="mb-6">
-                <span className="text-5xl font-bold text-gray-900">$49</span>
-                <span className="text-gray-600">/month</span>
+                <span className="text-5xl font-bold text-secondary-900 tracking-tight">$49</span>
+                <span className="text-secondary-600 font-semibold">/month</span>
               </div>
               <ul className="space-y-3 mb-8">
                 <li className="flex items-start gap-2">
@@ -419,10 +431,10 @@ const HomePage = () => {
               <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-primary-600 text-white px-4 py-1 rounded-full text-sm font-semibold">
                 Most Popular
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-2">Professional</h3>
+              <h3 className="text-2xl font-bold text-secondary-900 mb-2 tracking-tight">Professional</h3>
               <div className="mb-6">
-                <span className="text-5xl font-bold text-gray-900">$199</span>
-                <span className="text-gray-600">/month</span>
+                <span className="text-5xl font-bold text-secondary-900 tracking-tight">$199</span>
+                <span className="text-secondary-600 font-semibold">/month</span>
               </div>
               <ul className="space-y-3 mb-8">
                 <li className="flex items-start gap-2">
@@ -449,9 +461,9 @@ const HomePage = () => {
 
             {/* Enterprise */}
             <div className="bg-white rounded-2xl p-8 border-2 border-gray-200 hover:border-purple-300 transition-all">
-              <h3 className="text-2xl font-bold text-gray-900 mb-2">Enterprise</h3>
+              <h3 className="text-2xl font-bold text-secondary-900 mb-2 tracking-tight">Enterprise</h3>
               <div className="mb-6">
-                <span className="text-5xl font-bold text-gray-900">Custom</span>
+                <span className="text-5xl font-bold text-secondary-900 tracking-tight">Custom</span>
               </div>
               <ul className="space-y-3 mb-8">
                 <li className="flex items-start gap-2">
@@ -480,24 +492,25 @@ const HomePage = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 px-6 bg-gradient-to-br from-primary-600 to-primary-700 text-white">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
+      <section className="py-20 px-6 bg-gradient-to-br from-secondary-900 via-secondary-800 to-secondary-900 text-white relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-primary-600/10 to-accent-purple-600/10"></div>
+        <div className="max-w-4xl mx-auto text-center relative z-10">
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight">
             Ready to Get Started?
           </h2>
-          <p className="text-xl mb-8 text-primary-100">
+          <p className="text-xl mb-8 text-secondary-200 font-medium">
             Join thousands of teams using Aasim AI to automate their workflows
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/register" className="inline-flex items-center justify-center gap-2 bg-white text-primary-600 px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition-colors text-lg">
+            <Link to="/register" className="inline-flex items-center justify-center gap-2 bg-white text-secondary-900 px-8 py-4 rounded-xl font-bold hover:bg-secondary-50 transition-all shadow-xl hover:shadow-2xl text-lg tracking-wide">
               Start Free Trial
               <ArrowRight className="w-5 h-5" />
             </Link>
-            <a href="mailto:sales@aasim.ai" className="inline-flex items-center justify-center gap-2 border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white/10 transition-colors text-lg">
+            <a href="mailto:sales@aasim.ai" className="inline-flex items-center justify-center gap-2 border-2 border-white text-white px-8 py-4 rounded-xl font-bold hover:bg-white/10 transition-all text-lg tracking-wide">
               Talk to Sales
             </a>
           </div>
-          <p className="mt-6 text-primary-100 text-sm">
+          <p className="mt-6 text-secondary-300 text-sm font-semibold">
             No credit card required • 14-day free trial • Cancel anytime
           </p>
         </div>
