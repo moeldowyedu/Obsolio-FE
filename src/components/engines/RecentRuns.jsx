@@ -66,10 +66,10 @@ const RecentRuns = ({ engineId }) => {
     <Card>
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h2 className="text-xl font-bold font-heading text-gray-900">
+          <h2 className="text-xl font-bold font-heading text-secondary-900">
             Recent Runs
           </h2>
-          <p className="text-sm text-gray-600 mt-1">
+          <p className="text-sm text-secondary-600 mt-1">
             Latest processing jobs for this engine
           </p>
         </div>
@@ -86,12 +86,12 @@ const RecentRuns = ({ engineId }) => {
           >
             <div className="flex-grow min-w-0">
               <div className="flex items-center gap-2 mb-1">
-                <h3 className="font-medium text-gray-900 truncate">{run.input}</h3>
+                <h3 className="font-medium text-secondary-900 truncate">{run.input}</h3>
                 <Badge variant={getStatusVariant(run.status)} size="sm">
                   {run.status}
                 </Badge>
               </div>
-              <div className="flex items-center gap-4 text-sm text-gray-600">
+              <div className="flex items-center gap-4 text-sm text-secondary-600">
                 <span>Rubric: {run.rubric}</span>
                 <span>•</span>
                 <span>{formatRelativeTime(run.timestamp)}</span>
@@ -107,7 +107,7 @@ const RecentRuns = ({ engineId }) => {
             <div className="flex items-center gap-4 ml-4">
               {run.score !== null && (
                 <div className="text-right">
-                  <div className="text-2xl font-bold text-gray-900">{run.score}</div>
+                  <div className="text-2xl font-bold text-secondary-900">{run.score}</div>
                   <div className="text-xs text-gray-500">score</div>
                 </div>
               )}

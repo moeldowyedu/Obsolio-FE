@@ -173,7 +173,7 @@ const ApprovalTable = () => {
         {filteredApprovals.length === 0 ? (
           <div className="text-center py-12">
             <Check className="w-16 h-16 text-green-500 mx-auto mb-4" />
-            <p className="text-gray-600 text-lg font-semibold mb-2">No pending approvals!</p>
+            <p className="text-secondary-600 text-lg font-semibold mb-2">No pending approvals!</p>
             <p className="text-gray-500">All tasks have been reviewed.</p>
           </div>
         ) : (
@@ -181,25 +181,25 @@ const ApprovalTable = () => {
             <table className="w-full">
               <thead className="bg-gray-50 border-b border-gray-200">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-semibold text-secondary-700 uppercase tracking-wider">
                     Agent & Task
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-semibold text-secondary-700 uppercase tracking-wider">
                     Input
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-semibold text-secondary-700 uppercase tracking-wider">
                     AI Decision
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-semibold text-secondary-700 uppercase tracking-wider">
                     Confidence
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-semibold text-secondary-700 uppercase tracking-wider">
                     Priority
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-semibold text-secondary-700 uppercase tracking-wider">
                     Time
                   </th>
-                  <th className="px-6 py-3 text-right text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-right text-xs font-semibold text-secondary-700 uppercase tracking-wider">
                     Actions
                   </th>
                 </tr>
@@ -211,18 +211,18 @@ const ApprovalTable = () => {
                       <div className="flex items-center gap-3">
                         <span className="text-2xl">{approval.agentIcon}</span>
                         <div>
-                          <p className="text-sm font-semibold text-gray-900">{approval.agent}</p>
-                          <p className="text-xs text-gray-600">{approval.task}</p>
+                          <p className="text-sm font-semibold text-secondary-900">{approval.agent}</p>
+                          <p className="text-xs text-secondary-600">{approval.task}</p>
                         </div>
                       </div>
                     </td>
                     <td className="px-6 py-4">
-                      <p className="text-sm text-gray-900 max-w-xs truncate" title={approval.input}>
+                      <p className="text-sm text-secondary-900 max-w-xs truncate" title={approval.input}>
                         {approval.input}
                       </p>
                     </td>
                     <td className="px-6 py-4">
-                      <p className="text-sm font-medium text-gray-900">{approval.aiDecision}</p>
+                      <p className="text-sm font-medium text-secondary-900">{approval.aiDecision}</p>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center gap-2">
@@ -249,7 +249,7 @@ const ApprovalTable = () => {
                       </Badge>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex items-center gap-1 text-sm text-gray-600">
+                      <div className="flex items-center gap-1 text-sm text-secondary-600">
                         <Clock className="w-4 h-4" />
                         {formatRelativeTime(approval.timestamp)}
                       </div>
@@ -295,13 +295,13 @@ const ApprovalTable = () => {
             <div className="flex items-start gap-4">
               <span className="text-4xl">{selectedApproval.agentIcon}</span>
               <div className="flex-grow">
-                <h2 className="text-2xl font-bold font-heading text-gray-900">{selectedApproval.agent}</h2>
-                <p className="text-gray-600">{selectedApproval.task}</p>
+                <h2 className="text-2xl font-bold font-heading text-secondary-900">{selectedApproval.agent}</h2>
+                <p className="text-secondary-600">{selectedApproval.task}</p>
                 <div className="flex items-center gap-3 mt-2">
                   <Badge variant={getPriorityColor(selectedApproval.priority)}>
                     {selectedApproval.priority} priority
                   </Badge>
-                  <span className="text-sm text-gray-600">
+                  <span className="text-sm text-secondary-600">
                     {formatRelativeTime(selectedApproval.timestamp)}
                   </span>
                 </div>
@@ -311,8 +311,8 @@ const ApprovalTable = () => {
             {/* Details */}
             <div className="space-y-4">
               <Card className="bg-gray-50">
-                <h3 className="text-sm font-semibold text-gray-700 mb-2">Input</h3>
-                <p className="text-gray-900">{selectedApproval.input}</p>
+                <h3 className="text-sm font-semibold text-secondary-700 mb-2">Input</h3>
+                <p className="text-secondary-900">{selectedApproval.input}</p>
               </Card>
 
               <Card className="bg-blue-50 border-blue-200">
@@ -333,14 +333,14 @@ const ApprovalTable = () => {
               </Card>
 
               <Card>
-                <h3 className="text-sm font-semibold text-gray-700 mb-3">Additional Metadata</h3>
+                <h3 className="text-sm font-semibold text-secondary-700 mb-3">Additional Metadata</h3>
                 <div className="space-y-2">
                   {Object.entries(selectedApproval.metadata).map(([key, value]) => (
                     <div key={key} className="flex justify-between py-2 border-b border-gray-200 last:border-0">
-                      <span className="text-sm text-gray-600 capitalize">
+                      <span className="text-sm text-secondary-600 capitalize">
                         {key.replace(/([A-Z])/g, ' $1').trim()}
                       </span>
-                      <span className="text-sm font-medium text-gray-900">
+                      <span className="text-sm font-medium text-secondary-900">
                         {Array.isArray(value) ? value.join(', ') : value}
                       </span>
                     </div>

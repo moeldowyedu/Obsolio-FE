@@ -9,10 +9,10 @@ const BasicInfoStep = ({ data, onChange }) => {
   return (
     <div className="space-y-6">
       <Card padding="md">
-        <h2 className="text-2xl font-heading font-bold text-gray-900 mb-4">
+        <h2 className="text-2xl font-heading font-bold text-secondary-900 mb-4">
           Basic Information
         </h2>
-        <p className="text-gray-600 mb-6">
+        <p className="text-secondary-600 mb-6">
           Let's start by defining the basic details of your Precision AI Agent
         </p>
 
@@ -75,12 +75,12 @@ const BasicInfoStep = ({ data, onChange }) => {
       {/* Tips Card */}
       <Card padding="md" className="bg-gradient-to-br from-blue-50 to-blue-100">
         <div className="flex items-start gap-3">
-          <div className="w-10 h-10 bg-primary-500 rounded-lg flex items-center justify-center flex-shrink-0">
+          <div className="w-10 h-10 bg-primary-600 rounded-lg flex items-center justify-center flex-shrink-0">
             <span className="text-white text-xl">💡</span>
           </div>
           <div>
-            <h3 className="font-semibold text-gray-900 mb-2">Tips for Success</h3>
-            <ul className="text-sm text-gray-700 space-y-1">
+            <h3 className="font-semibold text-secondary-900 mb-2">Tips for Success</h3>
+            <ul className="text-sm text-secondary-700 space-y-1">
               <li>• Use a clear, descriptive name that explains what the agent does</li>
               <li>• Include use cases and benefits in the description</li>
               <li>• Select the most relevant industry for better discovery</li>

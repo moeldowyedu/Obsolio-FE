@@ -87,12 +87,12 @@ const BranchDetailsPage = () => {
           </Button>
           <div>
             <div className="flex items-center gap-3 mb-2">
-              <h1 className="text-3xl font-bold text-gray-900">{branch.name}</h1>
+              <h1 className="text-3xl font-bold text-secondary-900">{branch.name}</h1>
               <Badge className={getStatusColor(branch.status)}>
                 {branch.status.toUpperCase()}
               </Badge>
             </div>
-            <p className="text-gray-600 flex items-center gap-2">
+            <p className="text-secondary-600 flex items-center gap-2">
               <MapPin className="w-4 h-4" />
               {branch.address}
             </p>
@@ -151,25 +151,25 @@ const BranchDetailsPage = () => {
         <div className="lg:col-span-2 space-y-6">
           {/* Contact Information */}
           <Card>
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">Contact Information</h2>
+            <h2 className="text-xl font-semibold text-secondary-900 mb-4">Contact Information</h2>
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <p className="text-sm text-gray-500 mb-1">Phone</p>
-                <p className="font-medium text-gray-900 flex items-center gap-2">
+                <p className="font-medium text-secondary-900 flex items-center gap-2">
                   <Phone className="w-4 h-4" />
                   {branch.phone}
                 </p>
               </div>
               <div>
                 <p className="text-sm text-gray-500 mb-1">Email</p>
-                <p className="font-medium text-gray-900 flex items-center gap-2">
+                <p className="font-medium text-secondary-900 flex items-center gap-2">
                   <Mail className="w-4 h-4" />
                   {branch.email}
                 </p>
               </div>
               <div>
                 <p className="text-sm text-gray-500 mb-1">Established</p>
-                <p className="font-medium text-gray-900 flex items-center gap-2">
+                <p className="font-medium text-secondary-900 flex items-center gap-2">
                   <Calendar className="w-4 h-4" />
                   {new Date(branch.establishedDate).toLocaleDateString()}
                 </p>
@@ -179,19 +179,19 @@ const BranchDetailsPage = () => {
 
           {/* Manager Information */}
           <Card>
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">Branch Manager</h2>
+            <h2 className="text-xl font-semibold text-secondary-900 mb-4">Branch Manager</h2>
             <div className="flex items-start gap-4">
-              <div className="w-16 h-16 bg-primary-500 rounded-full flex items-center justify-center text-white font-bold text-2xl flex-shrink-0">
+              <div className="w-16 h-16 bg-primary-600 rounded-full flex items-center justify-center text-white font-bold text-2xl flex-shrink-0">
                 {branch.manager.charAt(0)}
               </div>
               <div className="flex-1">
-                <h3 className="font-semibold text-gray-900 text-lg">{branch.manager}</h3>
+                <h3 className="font-semibold text-secondary-900 text-lg">{branch.manager}</h3>
                 <div className="mt-2 space-y-1">
-                  <p className="text-sm text-gray-600 flex items-center gap-2">
+                  <p className="text-sm text-secondary-600 flex items-center gap-2">
                     <Mail className="w-4 h-4" />
                     {branch.managerEmail}
                   </p>
-                  <p className="text-sm text-gray-600 flex items-center gap-2">
+                  <p className="text-sm text-secondary-600 flex items-center gap-2">
                     <Phone className="w-4 h-4" />
                     {branch.managerPhone}
                   </p>
@@ -202,7 +202,7 @@ const BranchDetailsPage = () => {
 
           {/* Departments */}
           <Card>
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">Departments</h2>
+            <h2 className="text-xl font-semibold text-secondary-900 mb-4">Departments</h2>
             <div className="space-y-3">
               {branch.departments.map((dept) => (
                 <div
@@ -212,9 +212,9 @@ const BranchDetailsPage = () => {
                 >
                   <div className="flex items-center gap-3">
                     <Building2 className="w-5 h-5 text-gray-400" />
-                    <span className="font-medium text-gray-900">{dept.name}</span>
+                    <span className="font-medium text-secondary-900">{dept.name}</span>
                   </div>
-                  <div className="flex items-center gap-4 text-sm text-gray-600">
+                  <div className="flex items-center gap-4 text-sm text-secondary-600">
                     <span>{dept.employees} employees</span>
                     <span>{dept.agents} agents</span>
                   </div>
@@ -225,12 +225,12 @@ const BranchDetailsPage = () => {
 
           {/* Active Projects */}
           <Card>
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">Active Projects</h2>
+            <h2 className="text-xl font-semibold text-secondary-900 mb-4">Active Projects</h2>
             <div className="space-y-4">
               {branch.projects.map((project) => (
                 <div key={project.id} className="border-b border-gray-200 last:border-0 pb-4 last:pb-0">
                   <div className="flex items-center justify-between mb-2">
-                    <h3 className="font-medium text-gray-900">{project.name}</h3>
+                    <h3 className="font-medium text-secondary-900">{project.name}</h3>
                     <Badge className={getProjectStatusColor(project.status)}>
                       {project.status.replace('_', ' ').toUpperCase()}
                     </Badge>
@@ -238,11 +238,11 @@ const BranchDetailsPage = () => {
                   <div className="flex items-center gap-2">
                     <div className="flex-1 bg-gray-200 rounded-full h-2">
                       <div
-                        className="bg-primary-500 h-2 rounded-full transition-all"
+                        className="bg-primary-600 h-2 rounded-full transition-all"
                         style={{ width: `${project.progress}%` }}
                       ></div>
                     </div>
-                    <span className="text-sm font-medium text-gray-900">{project.progress}%</span>
+                    <span className="text-sm font-medium text-secondary-900">{project.progress}%</span>
                   </div>
                 </div>
               ))}
@@ -254,11 +254,11 @@ const BranchDetailsPage = () => {
         <div className="space-y-6">
           {/* Recent Activity */}
           <Card>
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">Recent Activity</h2>
+            <h2 className="text-xl font-semibold text-secondary-900 mb-4">Recent Activity</h2>
             <div className="space-y-3">
               {branch.recentActivity.map((activity) => (
                 <div key={activity.id} className="pb-3 border-b border-gray-200 last:border-0">
-                  <p className="text-sm text-gray-900">{activity.action}</p>
+                  <p className="text-sm text-secondary-900">{activity.action}</p>
                   <p className="text-xs text-gray-500 mt-1">{activity.timestamp}</p>
                 </div>
               ))}
@@ -267,7 +267,7 @@ const BranchDetailsPage = () => {
 
           {/* Quick Actions */}
           <Card>
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">Quick Actions</h2>
+            <h2 className="text-xl font-semibold text-secondary-900 mb-4">Quick Actions</h2>
             <div className="space-y-2">
               <Button variant="outline" className="w-full justify-start">
                 Add Department

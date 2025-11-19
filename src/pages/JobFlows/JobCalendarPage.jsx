@@ -183,7 +183,7 @@ const JobCalendarPage = () => {
               </div>
             ))}
             {jobs.length > 3 && (
-              <div className="text-xs text-gray-600 text-center">
+              <div className="text-xs text-secondary-600 text-center">
                 +{jobs.length - 3} more
               </div>
             )}
@@ -201,8 +201,8 @@ const JobCalendarPage = () => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Job Calendar</h1>
-          <p className="text-gray-600 mt-1">View scheduled job flows on calendar</p>
+          <h1 className="text-3xl font-bold text-secondary-900">Job Calendar</h1>
+          <p className="text-secondary-600 mt-1">View scheduled job flows on calendar</p>
         </div>
         <div className="flex gap-3">
           <Button
@@ -222,7 +222,7 @@ const JobCalendarPage = () => {
             <Button variant="ghost" size="sm" onClick={previousMonth}>
               <ChevronLeft className="w-5 h-5" />
             </Button>
-            <h2 className="text-2xl font-bold text-gray-900">
+            <h2 className="text-2xl font-bold text-secondary-900">
               {monthNames[currentDate.getMonth()]} {currentDate.getFullYear()}
             </h2>
             <Button variant="ghost" size="sm" onClick={nextMonth}>
@@ -250,7 +250,7 @@ const JobCalendarPage = () => {
           {dayNames.map((day) => (
             <div
               key={day}
-              className="p-3 text-center font-semibold text-gray-700 border-b border-gray-200"
+              className="p-3 text-center font-semibold text-secondary-700 border-b border-gray-200"
             >
               {day}
             </div>
@@ -263,35 +263,35 @@ const JobCalendarPage = () => {
 
       {/* Legend */}
       <Card>
-        <h3 className="font-semibold text-gray-900 mb-3">Legend</h3>
+        <h3 className="font-semibold text-secondary-900 mb-3">Legend</h3>
         <div className="flex flex-wrap gap-4">
           <div className="flex items-center gap-2">
             <div className="w-4 h-4 bg-blue-100 border border-blue-300 rounded"></div>
-            <span className="text-sm text-gray-700">Scheduled</span>
+            <span className="text-sm text-secondary-700">Scheduled</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-4 h-4 bg-green-100 border border-green-300 rounded"></div>
-            <span className="text-sm text-gray-700">Running</span>
+            <span className="text-sm text-secondary-700">Running</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-4 h-4 bg-gray-100 border border-gray-300 rounded"></div>
-            <span className="text-sm text-gray-700">Completed</span>
+            <span className="text-sm text-secondary-700">Completed</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-4 h-4 bg-red-100 border border-red-300 rounded"></div>
-            <span className="text-sm text-gray-700">Failed</span>
+            <span className="text-sm text-secondary-700">Failed</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-4 h-4 bg-blue-50 border-2 border-blue-500 rounded"></div>
-            <span className="text-sm text-gray-700">Today</span>
+            <span className="text-sm text-secondary-700">Today</span>
           </div>
         </div>
       </Card>
 
       {/* Upcoming Jobs Sidebar */}
       <Card>
-        <h3 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
-          <CalendarIcon className="w-5 h-5 text-primary-500" />
+        <h3 className="font-semibold text-secondary-900 mb-4 flex items-center gap-2">
+          <CalendarIcon className="w-5 h-5 text-primary-600" />
           Upcoming Jobs (Next 24 Hours)
         </h3>
         <div className="space-y-3">
@@ -309,15 +309,15 @@ const JobCalendarPage = () => {
                     <Bot className="w-5 h-5 text-primary-600" />
                   </div>
                   <div>
-                    <p className="font-medium text-gray-900">{job.name}</p>
-                    <p className="text-sm text-gray-600">{job.agent}</p>
+                    <p className="font-medium text-secondary-900">{job.name}</p>
+                    <p className="text-sm text-secondary-600">{job.agent}</p>
                   </div>
                 </div>
                 <div className="text-right">
-                  <p className="text-sm font-medium text-gray-900">
+                  <p className="text-sm font-medium text-secondary-900">
                     {job.date.toLocaleDateString()}
                   </p>
-                  <p className="text-sm text-gray-600 flex items-center gap-1">
+                  <p className="text-sm text-secondary-600 flex items-center gap-1">
                     <Clock className="w-3 h-3" />
                     {job.time}
                   </p>

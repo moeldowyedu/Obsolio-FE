@@ -38,7 +38,7 @@ const RubricEditor = ({ rubric, onSave, onCancel }) => {
   return (
     <div className="space-y-6">
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+        <label className="block text-sm font-medium text-secondary-700 mb-2">
           Rubric Name
         </label>
         <input
@@ -52,7 +52,7 @@ const RubricEditor = ({ rubric, onSave, onCancel }) => {
 
       <div>
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-semibold text-gray-900">Criteria</h3>
+          <h3 className="text-lg font-semibold text-secondary-900">Criteria</h3>
           <Button onClick={addCriterion} size="sm">
             Add Criterion
           </Button>

@@ -33,17 +33,17 @@ const EngineCard = ({ engine }) => {
         </Badge>
       </div>
 
-      <h3 className="text-xl font-semibold text-gray-900 mb-2">{name}</h3>
-      <p className="text-gray-600 text-sm mb-4 flex-grow">{description}</p>
+      <h3 className="text-xl font-semibold text-secondary-900 mb-2">{name}</h3>
+      <p className="text-secondary-600 text-sm mb-4 flex-grow">{description}</p>
 
       <div className="grid grid-cols-2 gap-4 mb-4 py-4 border-t border-gray-100">
         <div>
           <p className="text-gray-500 text-xs mb-1">Processed Today</p>
-          <p className="text-lg font-semibold text-gray-900">{processedToday?.toLocaleString() || 0}</p>
+          <p className="text-lg font-semibold text-secondary-900">{processedToday?.toLocaleString() || 0}</p>
         </div>
         <div>
           <p className="text-gray-500 text-xs mb-1">Accuracy</p>
-          <p className="text-lg font-semibold text-gray-900">{accuracy || 'N/A'}</p>
+          <p className="text-lg font-semibold text-secondary-900">{accuracy || 'N/A'}</p>
         </div>
       </div>
 

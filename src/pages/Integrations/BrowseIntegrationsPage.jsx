@@ -57,8 +57,8 @@ const BrowseIntegrationsPage = () => {
     <MainLayout>
       <div className="p-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Browse Integrations</h1>
-          <p className="text-gray-600">
+          <h1 className="text-3xl font-bold text-secondary-900 mb-2">Browse Integrations</h1>
+          <p className="text-secondary-600">
             Discover and install integrations to extend your platform
           </p>
         </div>
@@ -94,10 +94,10 @@ const BrowseIntegrationsPage = () => {
                   )}
                 </div>
 
-                <h3 className="text-lg font-semibold text-gray-900 mb-1">
+                <h3 className="text-lg font-semibold text-secondary-900 mb-1">
                   {integration.name}
                 </h3>
-                <p className="text-sm text-gray-600 mb-2">{integration.description}</p>
+                <p className="text-sm text-secondary-600 mb-2">{integration.description}</p>
                 <Badge color="blue">{integration.category}</Badge>
 
                 <div className="mt-4 pt-4 border-t border-gray-200">

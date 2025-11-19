@@ -46,10 +46,10 @@ const CodeEnginePage = () => {
             <Badge variant="primary" size="sm" className="mb-2">
               {engine.category}
             </Badge>
-            <h1 className="text-4xl font-heading font-bold text-gray-900 mb-2">
+            <h1 className="text-4xl font-heading font-bold text-secondary-900 mb-2">
               {engine.name}
             </h1>
-            <p className="text-lg text-gray-600">{engine.description}</p>
+            <p className="text-lg text-secondary-600">{engine.description}</p>
           </div>
         </div>
 
@@ -57,7 +57,7 @@ const CodeEnginePage = () => {
           {/* Test Panel */}
           <div className="lg:col-span-2">
             <Card padding="md">
-              <h2 className="text-2xl font-heading font-bold text-gray-900 mb-4">
+              <h2 className="text-2xl font-heading font-bold text-secondary-900 mb-4">
                 Test Code Engine
               </h2>
 
@@ -85,7 +85,7 @@ const CodeEnginePage = () => {
               {/* Results */}
               {results && (
                 <div className="space-y-4">
-                  <h3 className="text-lg font-semibold text-gray-900">
+                  <h3 className="text-lg font-semibold text-secondary-900">
                     Analysis Results
                   </h3>
 
@@ -95,7 +95,7 @@ const CodeEnginePage = () => {
                         <p className="text-xs text-gray-500 mb-1">Syntax</p>
                         <div className="flex items-center gap-2">
                           <CheckCircle className="w-4 h-4 text-green-500" />
-                          <span className="text-sm font-medium text-gray-900">
+                          <span className="text-sm font-medium text-secondary-900">
                             Valid
                           </span>
                         </div>
@@ -110,14 +110,14 @@ const CodeEnginePage = () => {
                         <p className="text-xs text-gray-500 mb-1">
                           Maintainability
                         </p>
-                        <p className="text-lg font-semibold text-gray-900">
+                        <p className="text-lg font-semibold text-secondary-900">
                           {results.maintainability}%
                         </p>
                       </div>
                     </div>
 
                     <div>
-                      <p className="text-sm font-medium text-gray-700 mb-2">
+                      <p className="text-sm font-medium text-secondary-700 mb-2">
                         Issues Found ({results.bugs.length}):
                       </p>
                       <div className="space-y-2">
@@ -134,10 +134,10 @@ const CodeEnginePage = () => {
                               }`}
                             />
                             <div className="flex-1">
-                              <p className="text-sm font-medium text-gray-900">
+                              <p className="text-sm font-medium text-secondary-900">
                                 Line {bug.line}
                               </p>
-                              <p className="text-sm text-gray-600">
+                              <p className="text-sm text-secondary-600">
                                 {bug.message}
                               </p>
                             </div>
@@ -155,14 +155,14 @@ const CodeEnginePage = () => {
                     </div>
 
                     <div>
-                      <p className="text-sm font-medium text-gray-700 mb-2">
+                      <p className="text-sm font-medium text-secondary-700 mb-2">
                         Optimization Suggestions:
                       </p>
                       <ul className="space-y-2">
                         {results.optimizations.map((opt, idx) => (
                           <li
                             key={idx}
-                            className="text-sm text-gray-600 bg-white p-3 rounded border flex items-start gap-2"
+                            className="text-sm text-secondary-600 bg-white p-3 rounded border flex items-start gap-2"
                           >
                             <CheckCircle className="w-4 h-4 text-blue-500 flex-shrink-0 mt-0.5" />
                             <span>{opt}</span>
@@ -179,24 +179,24 @@ const CodeEnginePage = () => {
           {/* Sidebar */}
           <div className="lg:col-span-1 space-y-6">
             <Card padding="md">
-              <h3 className="text-lg font-semibold text-gray-900 mb-3">
+              <h3 className="text-lg font-semibold text-secondary-900 mb-3">
                 Capabilities
               </h3>
               <ul className="space-y-2">
                 {engine.capabilities.map((cap, idx) => (
                   <li key={idx} className="flex items-center gap-2">
                     <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" />
-                    <span className="text-sm text-gray-700">{cap}</span>
+                    <span className="text-sm text-secondary-700">{cap}</span>
                   </li>
                 ))}
               </ul>
             </Card>
 
             <Card padding="md">
-              <h3 className="text-lg font-semibold text-gray-900 mb-3">
+              <h3 className="text-lg font-semibold text-secondary-900 mb-3">
                 Common Use Cases
               </h3>
-              <ul className="space-y-2 text-sm text-gray-700">
+              <ul className="space-y-2 text-sm text-secondary-700">
                 <li>• Code review automation</li>
                 <li>• Bug detection</li>
                 <li>• Performance optimization</li>
@@ -206,10 +206,10 @@ const CodeEnginePage = () => {
             </Card>
 
             <Card padding="md" className="bg-gradient-to-br from-teal-50 to-teal-100">
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+              <h3 className="text-lg font-semibold text-secondary-900 mb-2">
                 Build with Code
               </h3>
-              <p className="text-sm text-gray-700 mb-4">
+              <p className="text-sm text-secondary-700 mb-4">
                 Create a custom agent using the Code Engine
               </p>
               <Button

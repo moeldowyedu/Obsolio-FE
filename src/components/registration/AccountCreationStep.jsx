@@ -109,8 +109,8 @@ const AccountCreationStep = ({ onNext }) => {
   return (
     <div className="max-w-2xl mx-auto">
       <div className="mb-8">
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">Create Your Account</h2>
-        <p className="text-gray-600">
+        <h2 className="text-2xl font-bold text-secondary-900 mb-2">Create Your Account</h2>
+        <p className="text-secondary-600">
           Enter your details to get started with Aasim AI Platform.
         </p>
       </div>
@@ -201,7 +201,7 @@ const AccountCreationStep = ({ onNext }) => {
           {accountData.password && (
             <div className="mt-2">
               <div className="flex items-center justify-between mb-1">
-                <span className="text-xs text-gray-600">Password Strength</span>
+                <span className="text-xs text-secondary-600">Password Strength</span>
                 <span className={`text-xs font-medium ${
                   strengthInfo.label === 'Weak' ? 'text-red-500' :
                   strengthInfo.label === 'Fair' ? 'text-yellow-500' :
@@ -255,16 +255,16 @@ const AccountCreationStep = ({ onNext }) => {
           <input
             type="checkbox"
             id="terms"
-            className="mt-1 w-4 h-4 text-primary-500 focus:ring-primary-500 border-gray-300 rounded"
+            className="mt-1 w-4 h-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
             required
           />
-          <label htmlFor="terms" className="text-sm text-gray-700">
+          <label htmlFor="terms" className="text-sm text-secondary-700">
             I agree to the{' '}
-            <a href="/terms" className="text-primary-500 hover:text-primary-600 font-medium">
+            <a href="/terms" className="text-primary-600 hover:text-primary-600 font-medium">
               Terms of Service
             </a>{' '}
             and{' '}
-            <a href="/privacy" className="text-primary-500 hover:text-primary-600 font-medium">
+            <a href="/privacy" className="text-primary-600 hover:text-primary-600 font-medium">
               Privacy Policy
             </a>
           </label>
@@ -276,9 +276,9 @@ const AccountCreationStep = ({ onNext }) => {
         </Button>
 
         {/* Login Link */}
-        <div className="text-center text-sm text-gray-600">
+        <div className="text-center text-sm text-secondary-600">
           Already have an account?{' '}
-          <a href="/login" className="text-primary-500 hover:text-primary-600 font-medium">
+          <a href="/login" className="text-primary-600 hover:text-primary-600 font-medium">
             Sign in
           </a>
         </div>

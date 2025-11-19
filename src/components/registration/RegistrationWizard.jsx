@@ -107,9 +107,9 @@ const RegistrationWizard = () => {
               <div className="w-10 h-10 bg-gradient-to-br from-primary-600 to-primary-700 rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-xl">A</span>
               </div>
-              <span className="text-xl font-bold text-gray-900">Aasim AI</span>
+              <span className="text-xl font-bold text-secondary-900">Aasim AI</span>
             </Link>
-            <div className="text-sm text-gray-600">
+            <div className="text-sm text-secondary-600">
               Already have an account?{' '}
               <Link to="/login" className="text-primary-600 hover:text-primary-700 font-semibold">
                 Sign in
@@ -181,7 +181,7 @@ const RegistrationWizard = () => {
                   <div className="w-16 h-16 border-4 border-primary-100 rounded-full"></div>
                   <div className="absolute top-0 left-0 w-16 h-16 border-4 border-primary-600 rounded-full border-t-transparent animate-spin"></div>
                 </div>
-                <p className="mt-6 text-gray-600 font-medium">Creating your account...</p>
+                <p className="mt-6 text-secondary-600 font-medium">Creating your account...</p>
                 <p className="text-sm text-gray-500 mt-2">This will only take a moment</p>
               </div>
             ) : (
@@ -192,15 +192,15 @@ const RegistrationWizard = () => {
           {/* Footer Info */}
           <div className="mt-8 text-center">
             <div className="flex items-center justify-center gap-6 text-sm text-gray-500">
-              <a href="/terms" className="hover:text-gray-700 transition-colors">
+              <a href="/terms" className="hover:text-secondary-700 transition-colors">
                 Terms of Service
               </a>
               <span className="w-1 h-1 bg-gray-300 rounded-full"></span>
-              <a href="/privacy" className="hover:text-gray-700 transition-colors">
+              <a href="/privacy" className="hover:text-secondary-700 transition-colors">
                 Privacy Policy
               </a>
               <span className="w-1 h-1 bg-gray-300 rounded-full"></span>
-              <a href="/support" className="hover:text-gray-700 transition-colors">
+              <a href="/support" className="hover:text-secondary-700 transition-colors">
                 Help & Support
               </a>
             </div>

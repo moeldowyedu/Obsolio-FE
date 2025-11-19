@@ -40,14 +40,14 @@ const HITLDecisionModal = ({ isOpen, onClose, approval, onDecide }) => {
         {/* Agent Info */}
         <div>
           <div className="flex items-center gap-2 mb-2">
-            <h3 className="text-lg font-semibold text-gray-900">
+            <h3 className="text-lg font-semibold text-secondary-900">
               {approval.agentName}
             </h3>
             <Badge variant="default" size="sm">
               Execution #{approval.executionId?.slice(0, 8) || 'N/A'}
             </Badge>
           </div>
-          <p className="text-sm text-gray-600">{approval.description}</p>
+          <p className="text-sm text-secondary-600">{approval.description}</p>
         </div>
 
         {/* Confidence Warning */}
@@ -78,7 +78,7 @@ const HITLDecisionModal = ({ isOpen, onClose, approval, onDecide }) => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {approval.input && (
             <div>
-              <p className="text-sm font-medium text-gray-900 mb-2">Input Data</p>
+              <p className="text-sm font-medium text-secondary-900 mb-2">Input Data</p>
               <pre className="text-xs bg-gray-50 p-3 rounded border border-gray-200 overflow-auto max-h-48">
                 {JSON.stringify(approval.input, null, 2)}
               </pre>
@@ -86,7 +86,7 @@ const HITLDecisionModal = ({ isOpen, onClose, approval, onDecide }) => {
           )}
           {approval.output && (
             <div>
-              <p className="text-sm font-medium text-gray-900 mb-2">
+              <p className="text-sm font-medium text-secondary-900 mb-2">
                 Proposed Output
               </p>
               <pre className="text-xs bg-gray-50 p-3 rounded border border-gray-200 overflow-auto max-h-48">
@@ -98,7 +98,7 @@ const HITLDecisionModal = ({ isOpen, onClose, approval, onDecide }) => {
 
         {/* Decision Selection */}
         <div>
-          <p className="text-sm font-medium text-gray-900 mb-3">Your Decision</p>
+          <p className="text-sm font-medium text-secondary-900 mb-3">Your Decision</p>
           <div className="grid grid-cols-2 gap-3">
             <button
               onClick={() => setDecision('approve')}
@@ -122,7 +122,7 @@ const HITLDecisionModal = ({ isOpen, onClose, approval, onDecide }) => {
                   Approve
                 </span>
               </div>
-              <p className="text-xs text-gray-600">
+              <p className="text-xs text-secondary-600">
                 Approve and continue execution
               </p>
             </button>
@@ -149,7 +149,7 @@ const HITLDecisionModal = ({ isOpen, onClose, approval, onDecide }) => {
                   Reject
                 </span>
               </div>
-              <p className="text-xs text-gray-600">Reject and halt execution</p>
+              <p className="text-xs text-secondary-600">Reject and halt execution</p>
             </button>
           </div>
         </div>

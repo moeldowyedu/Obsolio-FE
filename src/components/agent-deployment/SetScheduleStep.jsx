@@ -143,14 +143,14 @@ const SetScheduleStep = ({ onNext, onBack }) => {
     return (
       <div className="max-w-3xl mx-auto">
         <div className="mb-8 text-center">
-          <h2 className="text-3xl font-bold text-gray-900 mb-2">Schedule Configuration</h2>
-          <p className="text-gray-600">Configure when and how this agent runs</p>
+          <h2 className="text-3xl font-bold text-secondary-900 mb-2">Schedule Configuration</h2>
+          <p className="text-secondary-600">Configure when and how this agent runs</p>
         </div>
 
         <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6 text-center">
           <AlertCircle className="w-12 h-12 text-yellow-500 mx-auto mb-3" />
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">On-Demand Agent</h3>
-          <p className="text-gray-600 mb-4">
+          <h3 className="text-lg font-semibold text-secondary-900 mb-2">On-Demand Agent</h3>
+          <p className="text-secondary-600 mb-4">
             This agent is set to run on-demand only. It will not run on a schedule and must be manually triggered by authorized users.
           </p>
           <div className="flex justify-center gap-3">
@@ -169,8 +169,8 @@ const SetScheduleStep = ({ onNext, onBack }) => {
   return (
     <div className="max-w-4xl mx-auto">
       <div className="mb-8 text-center">
-        <h2 className="text-3xl font-bold text-gray-900 mb-2">Set Schedule</h2>
-        <p className="text-gray-600">
+        <h2 className="text-3xl font-bold text-secondary-900 mb-2">Set Schedule</h2>
+        <p className="text-secondary-600">
           Configure when and how frequently this agent runs
         </p>
       </div>
@@ -305,14 +305,14 @@ const SetScheduleStep = ({ onNext, onBack }) => {
 
         {/* Advanced Options */}
         <div className="border-t border-gray-200 pt-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Advanced Options</h3>
+          <h3 className="text-lg font-semibold text-secondary-900 mb-4">Advanced Options</h3>
 
           <div className="space-y-4">
             {/* Skip Holidays */}
             <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
               <div>
-                <h4 className="font-medium text-gray-900">Skip Holidays</h4>
-                <p className="text-sm text-gray-600">Don't run on recognized holidays</p>
+                <h4 className="font-medium text-secondary-900">Skip Holidays</h4>
+                <p className="text-sm text-secondary-600">Don't run on recognized holidays</p>
               </div>
               <Toggle
                 checked={schedule.skipHolidays}
@@ -323,8 +323,8 @@ const SetScheduleStep = ({ onNext, onBack }) => {
             {/* Retry on Failure */}
             <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
               <div>
-                <h4 className="font-medium text-gray-900">Retry on Failure</h4>
-                <p className="text-sm text-gray-600">Automatically retry if execution fails</p>
+                <h4 className="font-medium text-secondary-900">Retry on Failure</h4>
+                <p className="text-sm text-secondary-600">Automatically retry if execution fails</p>
               </div>
               <Toggle
                 checked={schedule.retryOnFailure}
@@ -370,8 +370,8 @@ const SetScheduleStep = ({ onNext, onBack }) => {
             {/* Notify on Completion */}
             <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
               <div>
-                <h4 className="font-medium text-gray-900">Notify on Completion</h4>
-                <p className="text-sm text-gray-600">Send notification when agent completes</p>
+                <h4 className="font-medium text-secondary-900">Notify on Completion</h4>
+                <p className="text-sm text-secondary-600">Send notification when agent completes</p>
               </div>
               <Toggle
                 checked={schedule.notifyOnCompletion}

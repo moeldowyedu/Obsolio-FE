@@ -71,10 +71,10 @@ const APITestPage = () => {
     <div className="min-h-screen bg-gradient-to-br from-purple-50 to-indigo-100 p-8">
       <div className="max-w-6xl mx-auto">
         <div className="bg-white rounded-2xl shadow-xl p-8">
-          <h1 className="text-4xl font-bold text-gray-800 mb-2">
+          <h1 className="text-4xl font-bold text-secondary-800 mb-2">
             🔌 API Connection Test
           </h1>
-          <p className="text-gray-600 mb-8">
+          <p className="text-secondary-600 mb-8">
             Test and verify backend API connectivity
           </p>
 
@@ -101,7 +101,7 @@ const APITestPage = () => {
 
           {/* Health Check Section */}
           <div className="mb-8">
-            <h2 className="text-2xl font-bold text-gray-800 mb-4">
+            <h2 className="text-2xl font-bold text-secondary-800 mb-4">
               1. Health Check
             </h2>
             <button
@@ -155,7 +155,7 @@ const APITestPage = () => {
 
           {/* Full Diagnostics */}
           <div className="mb-8">
-            <h2 className="text-2xl font-bold text-gray-800 mb-4">
+            <h2 className="text-2xl font-bold text-secondary-800 mb-4">
               2. Full Diagnostics
             </h2>
             <button
@@ -177,7 +177,7 @@ const APITestPage = () => {
 
           {/* Custom Endpoint Test */}
           <div className="mb-8">
-            <h2 className="text-2xl font-bold text-gray-800 mb-4">
+            <h2 className="text-2xl font-bold text-secondary-800 mb-4">
               3. Test Custom Endpoint
             </h2>
             <div className="flex gap-4 mb-4">

@@ -97,8 +97,8 @@ const TeamsSetupStep = ({ onNext, onBack }) => {
   return (
     <div className="max-w-4xl mx-auto">
       <div className="mb-8 text-center">
-        <h2 className="text-3xl font-bold text-gray-900 mb-2">Teams Setup</h2>
-        <p className="text-gray-600">
+        <h2 className="text-3xl font-bold text-secondary-900 mb-2">Teams Setup</h2>
+        <p className="text-secondary-600">
           Create cross-functional teams that bring together members from different departments.
           <span className="block text-sm text-gray-500 mt-1">
             This step is optional - skip if you don't use team-based collaboration
@@ -109,7 +109,7 @@ const TeamsSetupStep = ({ onNext, onBack }) => {
       {/* Existing Teams List */}
       {teams.length > 0 && (
         <div className="mb-6 space-y-3">
-          <h3 className="text-lg font-semibold text-gray-900 mb-3">Your Teams ({teams.length})</h3>
+          <h3 className="text-lg font-semibold text-secondary-900 mb-3">Your Teams ({teams.length})</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {teams.map((team) => (
               <div
@@ -119,12 +119,12 @@ const TeamsSetupStep = ({ onNext, onBack }) => {
                 <div className="flex items-start justify-between mb-2">
                   <div className="flex items-center gap-2">
                     <div className="w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center">
-                      <Users className="w-5 h-5 text-primary-500" />
+                      <Users className="w-5 h-5 text-primary-600" />
                     </div>
                     <div>
-                      <h4 className="font-semibold text-gray-900">{team.name}</h4>
+                      <h4 className="font-semibold text-secondary-900">{team.name}</h4>
                       {team.lead && (
-                        <p className="text-xs text-gray-600">Lead: {team.lead}</p>
+                        <p className="text-xs text-secondary-600">Lead: {team.lead}</p>
                       )}
                     </div>
                   </div>
@@ -146,14 +146,14 @@ const TeamsSetupStep = ({ onNext, onBack }) => {
                   </div>
                 </div>
                 {team.purpose && (
-                  <p className="text-sm text-gray-600 mb-2">{team.purpose}</p>
+                  <p className="text-sm text-secondary-600 mb-2">{team.purpose}</p>
                 )}
                 {team.members && (
                   <div className="flex flex-wrap gap-1">
                     {team.members.split(',').map((member, idx) => (
                       <span
                         key={idx}
-                        className="px-2 py-0.5 bg-gray-100 text-gray-700 text-xs rounded"
+                        className="px-2 py-0.5 bg-gray-100 text-secondary-700 text-xs rounded"
                       >
                         {member.trim()}
                       </span>
@@ -169,7 +169,7 @@ const TeamsSetupStep = ({ onNext, onBack }) => {
       {/* Add/Edit Team Form */}
       {(isAdding || editingId) && (
         <div className="bg-gray-50 border border-gray-200 rounded-lg p-6 mb-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">
+          <h3 className="text-lg font-semibold text-secondary-900 mb-4">
             {editingId ? 'Edit Team' : 'Add New Team'}
           </h3>
           <div className="space-y-4">
@@ -241,7 +241,7 @@ const TeamsSetupStep = ({ onNext, onBack }) => {
         <button
           type="button"
           onClick={() => setIsAdding(true)}
-          className="w-full py-4 border-2 border-dashed border-gray-300 rounded-lg text-gray-600 hover:border-primary-500 hover:text-primary-500 transition-colors flex items-center justify-center gap-2 mb-6"
+          className="w-full py-4 border-2 border-dashed border-gray-300 rounded-lg text-secondary-600 hover:border-primary-600 hover:text-primary-600 transition-colors flex items-center justify-center gap-2 mb-6"
         >
           <Plus className="w-5 h-5" />
           <span className="font-medium">Add Team</span>

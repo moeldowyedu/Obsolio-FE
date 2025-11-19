@@ -132,8 +132,8 @@ const AdminDashboardPage = () => {
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
           <div>
-            <h1 className="text-4xl font-bold text-gray-900 mb-2 font-heading">{t.adminDashboardTitle}</h1>
-            <p className="text-gray-600">{t.adminDashboardDesc}</p>
+            <h1 className="text-4xl font-bold text-secondary-900 mb-2 font-heading">{t.adminDashboardTitle}</h1>
+            <p className="text-secondary-600">{t.adminDashboardDesc}</p>
           </div>
           <div className="mt-4 md:mt-0">
             <select
@@ -166,8 +166,8 @@ const AdminDashboardPage = () => {
                   {stat.percentage}
                 </div>
               </div>
-              <h3 className="text-3xl font-bold text-gray-900 mb-1">{stat.value}</h3>
-              <p className="text-gray-600 text-sm font-medium mb-1">{stat.label}</p>
+              <h3 className="text-3xl font-bold text-secondary-900 mb-1">{stat.value}</h3>
+              <p className="text-secondary-600 text-sm font-medium mb-1">{stat.label}</p>
               <p className="text-gray-500 text-xs">{stat.change} from last period</p>
             </div>
           ))}
@@ -175,15 +175,15 @@ const AdminDashboardPage = () => {
 
         {/* Revenue Stats */}
         <div className="glass-card rounded-2xl p-6 mb-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+          <h2 className="text-2xl font-bold text-secondary-900 mb-6 flex items-center">
             <span className="material-icons text-green-600 mr-2">attach_money</span>
             {t.revenueOverviewTitle}
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             {revenueStats.map((stat, index) => (
               <div key={index} className="text-center">
-                <div className="text-3xl font-bold text-gray-900 mb-1">{stat.value}</div>
-                <div className="text-sm text-gray-600 font-medium mb-2">{stat.label}</div>
+                <div className="text-3xl font-bold text-secondary-900 mb-1">{stat.value}</div>
+                <div className="text-sm text-secondary-600 font-medium mb-2">{stat.label}</div>
                 <div className={`text-sm font-semibold ${
                   stat.trend === 'up' ? 'text-green-600' : 'text-red-600'
                 }`}>
@@ -199,7 +199,7 @@ const AdminDashboardPage = () => {
           <div className="lg:col-span-2">
             <div className="glass-card rounded-2xl p-6">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold text-gray-900">{t.recentActivityTitle}</h2>
+                <h2 className="text-2xl font-bold text-secondary-900">{t.recentActivityTitle}</h2>
                 <Link to="/admin/users" className="text-primary-600 hover:text-primary-700 font-semibold text-sm">
                   {t.viewAllLink}
                 </Link>
@@ -213,7 +213,7 @@ const AdminDashboardPage = () => {
                       </span>
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm text-gray-900">
+                      <p className="text-sm text-secondary-900">
                         <span className="font-semibold">{activity.user}</span> {activity.action}
                       </p>
                       <p className="text-xs text-gray-500 mt-1">{activity.time}</p>
@@ -227,13 +227,13 @@ const AdminDashboardPage = () => {
           {/* Industry Breakdown */}
           <div className="lg:col-span-1">
             <div className="glass-card rounded-2xl p-6">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">{t.industryBreakdownTitle}</h2>
+              <h2 className="text-2xl font-bold text-secondary-900 mb-6">{t.industryBreakdownTitle}</h2>
               <div className="space-y-4">
                 {industryBreakdown.map((industry, index) => (
                   <div key={index}>
                     <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm font-medium text-gray-900">{industry.name}</span>
-                      <span className="text-sm font-bold text-gray-900">{industry.count}</span>
+                      <span className="text-sm font-medium text-secondary-900">{industry.name}</span>
+                      <span className="text-sm font-bold text-secondary-900">{industry.count}</span>
                     </div>
                     <div className="w-full bg-gray-200 rounded-full h-2">
                       <div
@@ -252,7 +252,7 @@ const AdminDashboardPage = () => {
         {/* Top Users */}
         <div className="glass-card rounded-2xl p-6 mb-8">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold text-gray-900">{t.topUsersTitle}</h2>
+            <h2 className="text-2xl font-bold text-secondary-900">{t.topUsersTitle}</h2>
             <Link to="/admin/users" className="text-primary-600 hover:text-primary-700 font-semibold text-sm">
               {t.manageUsersLink}
             </Link>
@@ -261,12 +261,12 @@ const AdminDashboardPage = () => {
             <table className="w-full">
               <thead className="bg-gray-50/80">
                 <tr>
-                  <th className="text-left py-3 px-4 text-xs font-bold text-gray-700 uppercase">{t.tableHeaderUser}</th>
-                  <th className="text-left py-3 px-4 text-xs font-bold text-gray-700 uppercase">{t.tableHeaderEmail}</th>
-                  <th className="text-left py-3 px-4 text-xs font-bold text-gray-700 uppercase">{t.tableHeaderSubmissions}</th>
-                  <th className="text-left py-3 px-4 text-xs font-bold text-gray-700 uppercase">{t.tableHeaderAvgScore}</th>
-                  <th className="text-left py-3 px-4 text-xs font-bold text-gray-700 uppercase">{t.tableHeaderStatus}</th>
-                  <th className="text-right py-3 px-4 text-xs font-bold text-gray-700 uppercase">{t.tableHeaderActions}</th>
+                  <th className="text-left py-3 px-4 text-xs font-bold text-secondary-700 uppercase">{t.tableHeaderUser}</th>
+                  <th className="text-left py-3 px-4 text-xs font-bold text-secondary-700 uppercase">{t.tableHeaderEmail}</th>
+                  <th className="text-left py-3 px-4 text-xs font-bold text-secondary-700 uppercase">{t.tableHeaderSubmissions}</th>
+                  <th className="text-left py-3 px-4 text-xs font-bold text-secondary-700 uppercase">{t.tableHeaderAvgScore}</th>
+                  <th className="text-left py-3 px-4 text-xs font-bold text-secondary-700 uppercase">{t.tableHeaderStatus}</th>
+                  <th className="text-right py-3 px-4 text-xs font-bold text-secondary-700 uppercase">{t.tableHeaderActions}</th>
                 </tr>
               </thead>
               <tbody>
@@ -277,11 +277,11 @@ const AdminDashboardPage = () => {
                         <div className="w-10 h-10 rounded-full bg-primary-100 flex items-center justify-center mr-3">
                           <span className="text-primary-600 font-semibold">{user.name[0]}</span>
                         </div>
-                        <span className="font-semibold text-gray-900">{user.name}</span>
+                        <span className="font-semibold text-secondary-900">{user.name}</span>
                       </div>
                     </td>
-                    <td className="py-4 px-4 text-gray-600">{user.email}</td>
-                    <td className="py-4 px-4 text-gray-900 font-semibold">{user.submissions}</td>
+                    <td className="py-4 px-4 text-secondary-600">{user.email}</td>
+                    <td className="py-4 px-4 text-secondary-900 font-semibold">{user.submissions}</td>
                     <td className="py-4 px-4">
                       <span className="text-primary-600 font-bold">{user.score}</span>
                     </td>
@@ -308,7 +308,7 @@ const AdminDashboardPage = () => {
 
         {/* System Health */}
         <div className="glass-card rounded-2xl p-6">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+          <h2 className="text-2xl font-bold text-secondary-900 mb-6 flex items-center">
             <span className="material-icons text-blue-600 mr-2">monitor_heart</span>
             {t.systemHealthTitle}
           </h2>
@@ -316,12 +316,12 @@ const AdminDashboardPage = () => {
             {systemHealth.map((service, index) => (
               <div key={index} className="glass-card rounded-xl p-4">
                 <div className="flex items-center justify-between mb-3">
-                  <h3 className="font-semibold text-gray-900">{service.name}</h3>
+                  <h3 className="font-semibold text-secondary-900">{service.name}</h3>
                   <span className={`w-3 h-3 rounded-full bg-${service.color}-500`}></span>
                 </div>
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between">
-                    <span className="text-gray-600">{t.statusLabel}</span>
+                    <span className="text-secondary-600">{t.statusLabel}</span>
                     <span className={`font-semibold capitalize ${
                       service.status === 'healthy' ? 'text-green-600' : 'text-yellow-600'
                     }`}>
@@ -329,12 +329,12 @@ const AdminDashboardPage = () => {
                     </span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-600">{t.uptimeLabel}</span>
-                    <span className="font-semibold text-gray-900">{service.uptime}</span>
+                    <span className="text-secondary-600">{t.uptimeLabel}</span>
+                    <span className="font-semibold text-secondary-900">{service.uptime}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-600">{t.responseLabel}</span>
-                    <span className="font-semibold text-gray-900">{service.responseTime}</span>
+                    <span className="text-secondary-600">{t.responseLabel}</span>
+                    <span className="font-semibold text-secondary-900">{service.responseTime}</span>
                   </div>
                 </div>
               </div>
@@ -349,32 +349,32 @@ const AdminDashboardPage = () => {
             className="glass-card-hover rounded-2xl p-6 group"
           >
             <span className="material-icons text-4xl text-primary-600 mb-3">people</span>
-            <h3 className="text-xl font-bold text-gray-900 mb-2">{t.manageUsersCard}</h3>
-            <p className="text-gray-600 text-sm">{t.manageUsersCardDesc}</p>
+            <h3 className="text-xl font-bold text-secondary-900 mb-2">{t.manageUsersCard}</h3>
+            <p className="text-secondary-600 text-sm">{t.manageUsersCardDesc}</p>
           </Link>
           <Link
             to="/admin/analytics"
             className="glass-card-hover rounded-2xl p-6 group"
           >
             <span className="material-icons text-4xl text-green-600 mb-3">analytics</span>
-            <h3 className="text-xl font-bold text-gray-900 mb-2">{t.viewAnalyticsCard}</h3>
-            <p className="text-gray-600 text-sm">{t.viewAnalyticsCardDesc}</p>
+            <h3 className="text-xl font-bold text-secondary-900 mb-2">{t.viewAnalyticsCard}</h3>
+            <p className="text-secondary-600 text-sm">{t.viewAnalyticsCardDesc}</p>
           </Link>
           <Link
             to="/admin/webhooks"
             className="glass-card-hover rounded-2xl p-6 group"
           >
             <span className="material-icons text-4xl text-orange-600 mb-3">webhook</span>
-            <h3 className="text-xl font-bold text-gray-900 mb-2">{t.webhooksTab}</h3>
-            <p className="text-gray-600 text-sm">{t.webhooksCardDesc}</p>
+            <h3 className="text-xl font-bold text-secondary-900 mb-2">{t.webhooksTab}</h3>
+            <p className="text-secondary-600 text-sm">{t.webhooksCardDesc}</p>
           </Link>
           <Link
             to="/settings/rubrics"
             className="glass-card-hover rounded-2xl p-6 group"
           >
             <span className="material-icons text-4xl text-purple-600 mb-3">tune</span>
-            <h3 className="text-xl font-bold text-gray-900 mb-2">{t.criteria}</h3>
-            <p className="text-gray-600 text-sm">{t.manageCriteriaCardDesc}</p>
+            <h3 className="text-xl font-bold text-secondary-900 mb-2">{t.criteria}</h3>
+            <p className="text-secondary-600 text-sm">{t.manageCriteriaCardDesc}</p>
           </Link>
         </div>
       </div>

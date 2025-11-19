@@ -170,7 +170,7 @@ const DepartmentsPage = () => {
               {hasChildren && (
                 <button
                   onClick={() => toggleDepartment(dept.id)}
-                  className="mt-1 text-gray-400 hover:text-gray-600"
+                  className="mt-1 text-gray-400 hover:text-secondary-600"
                 >
                   {isExpanded ? (
                     <ChevronDown className="w-5 h-5" />
@@ -186,27 +186,27 @@ const DepartmentsPage = () => {
               </div>
 
               <div className="flex-1">
-                <h3 className="text-lg font-semibold text-gray-900 mb-1">
+                <h3 className="text-lg font-semibold text-secondary-900 mb-1">
                   {dept.name}
                 </h3>
-                <p className="text-sm text-gray-600 mb-2">{dept.description}</p>
-                <p className="text-sm text-gray-600 mb-3">
+                <p className="text-sm text-secondary-600 mb-2">{dept.description}</p>
+                <p className="text-sm text-secondary-600 mb-3">
                   <Users className="w-4 h-4 inline mr-1" />
                   Manager: {dept.manager}
                 </p>
                 <div className="flex gap-6">
                   <div>
                     <span className="text-xs text-gray-500">Employees</span>
-                    <p className="font-semibold text-gray-900">{dept.employees}</p>
+                    <p className="font-semibold text-secondary-900">{dept.employees}</p>
                   </div>
                   <div>
                     <span className="text-xs text-gray-500">AI Agents</span>
-                    <p className="font-semibold text-gray-900">{dept.agents}</p>
+                    <p className="font-semibold text-secondary-900">{dept.agents}</p>
                   </div>
                   {hasChildren && (
                     <div>
                       <span className="text-xs text-gray-500">Sub-departments</span>
-                      <p className="font-semibold text-gray-900">{dept.children.length}</p>
+                      <p className="font-semibold text-secondary-900">{dept.children.length}</p>
                     </div>
                   )}
                 </div>
@@ -243,8 +243,8 @@ const DepartmentsPage = () => {
         {/* Header */}
         <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Departments</h1>
-          <p className="text-gray-600 mt-1">
+          <h1 className="text-3xl font-bold text-secondary-900">Departments</h1>
+          <p className="text-secondary-600 mt-1">
             Manage your organization's department structure
           </p>
         </div>
@@ -306,10 +306,10 @@ const DepartmentsPage = () => {
         <Card>
           <div className="text-center py-12">
             <Building className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">
+            <h3 className="text-lg font-semibold text-secondary-900 mb-2">
               No Departments Found
             </h3>
-            <p className="text-gray-600">
+            <p className="text-secondary-600">
               {searchTerm
                 ? 'Try adjusting your search'
                 : 'Get started by adding your first department'}

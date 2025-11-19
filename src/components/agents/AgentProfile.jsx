@@ -56,8 +56,8 @@ const AgentProfile = ({ agent }) => {
           <div className="flex-1">
             <div className="flex items-start justify-between mb-4">
               <div>
-                <h1 className="text-3xl font-bold text-gray-900 mb-1">{agent.name}</h1>
-                <div className="flex items-center gap-2 text-lg text-gray-600 mb-2">
+                <h1 className="text-3xl font-bold text-secondary-900 mb-1">{agent.name}</h1>
+                <div className="flex items-center gap-2 text-lg text-secondary-600 mb-2">
                   <Briefcase className="w-5 h-5" />
                   <span>{agent.jobTitle}</span>
                 </div>
@@ -75,20 +75,20 @@ const AgentProfile = ({ agent }) => {
             {/* Quick Stats */}
             <div className="grid grid-cols-4 gap-4">
               <div className="text-center p-3 bg-gray-50 rounded-lg">
-                <div className="text-2xl font-bold text-gray-900">{agent.performanceMetrics?.accuracy || 0}%</div>
-                <div className="text-xs text-gray-600">Accuracy</div>
+                <div className="text-2xl font-bold text-secondary-900">{agent.performanceMetrics?.accuracy || 0}%</div>
+                <div className="text-xs text-secondary-600">Accuracy</div>
               </div>
               <div className="text-center p-3 bg-gray-50 rounded-lg">
-                <div className="text-2xl font-bold text-gray-900">{agent.performanceMetrics?.tasksCompleted || 0}</div>
-                <div className="text-xs text-gray-600">Tasks Completed</div>
+                <div className="text-2xl font-bold text-secondary-900">{agent.performanceMetrics?.tasksCompleted || 0}</div>
+                <div className="text-xs text-secondary-600">Tasks Completed</div>
               </div>
               <div className="text-center p-3 bg-gray-50 rounded-lg">
-                <div className="text-2xl font-bold text-gray-900">{agent.performanceMetrics?.avgTime || 0}s</div>
-                <div className="text-xs text-gray-600">Avg. Time</div>
+                <div className="text-2xl font-bold text-secondary-900">{agent.performanceMetrics?.avgTime || 0}s</div>
+                <div className="text-xs text-secondary-600">Avg. Time</div>
               </div>
               <div className="text-center p-3 bg-gray-50 rounded-lg">
-                <div className="text-2xl font-bold text-gray-900">{agent.performanceMetrics?.uptime || 0}%</div>
-                <div className="text-xs text-gray-600">Uptime</div>
+                <div className="text-2xl font-bold text-secondary-900">{agent.performanceMetrics?.uptime || 0}%</div>
+                <div className="text-xs text-secondary-600">Uptime</div>
               </div>
             </div>
           </div>
@@ -100,8 +100,8 @@ const AgentProfile = ({ agent }) => {
         <div className="space-y-6">
           {/* Assignment Information */}
           <Card>
-            <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
-              <Building2 className="w-5 h-5 text-primary-500" />
+            <h2 className="text-xl font-semibold text-secondary-900 mb-4 flex items-center gap-2">
+              <Building2 className="w-5 h-5 text-primary-600" />
               Assignment Information
             </h2>
             <div className="space-y-3">
@@ -110,7 +110,7 @@ const AgentProfile = ({ agent }) => {
                   <MapPin className="w-5 h-5 text-gray-400 mt-0.5" />
                   <div>
                     <div className="text-sm text-gray-500">Branch</div>
-                    <div className="font-medium text-gray-900">{agent.branch}</div>
+                    <div className="font-medium text-secondary-900">{agent.branch}</div>
                   </div>
                 </div>
               )}
@@ -119,7 +119,7 @@ const AgentProfile = ({ agent }) => {
                   <Briefcase className="w-5 h-5 text-gray-400 mt-0.5" />
                   <div>
                     <div className="text-sm text-gray-500">Department</div>
-                    <div className="font-medium text-gray-900">{agent.department}</div>
+                    <div className="font-medium text-secondary-900">{agent.department}</div>
                   </div>
                 </div>
               )}
@@ -128,7 +128,7 @@ const AgentProfile = ({ agent }) => {
                   <FolderKanban className="w-5 h-5 text-gray-400 mt-0.5" />
                   <div>
                     <div className="text-sm text-gray-500">Project</div>
-                    <div className="font-medium text-gray-900">{agent.project}</div>
+                    <div className="font-medium text-secondary-900">{agent.project}</div>
                   </div>
                 </div>
               )}
@@ -137,7 +137,7 @@ const AgentProfile = ({ agent }) => {
                   <User className="w-5 h-5 text-gray-400 mt-0.5" />
                   <div>
                     <div className="text-sm text-gray-500">Reporting To</div>
-                    <div className="font-medium text-gray-900">{agent.reportingTo}</div>
+                    <div className="font-medium text-secondary-900">{agent.reportingTo}</div>
                   </div>
                 </div>
               )}
@@ -146,8 +146,8 @@ const AgentProfile = ({ agent }) => {
 
           {/* Schedule Information */}
           <Card>
-            <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
-              <Clock className="w-5 h-5 text-primary-500" />
+            <h2 className="text-xl font-semibold text-secondary-900 mb-4 flex items-center gap-2">
+              <Clock className="w-5 h-5 text-primary-600" />
               Schedule
             </h2>
             <div className="space-y-3">
@@ -155,7 +155,7 @@ const AgentProfile = ({ agent }) => {
                 <Calendar className="w-5 h-5 text-gray-400 mt-0.5" />
                 <div>
                   <div className="text-sm text-gray-500">Frequency</div>
-                  <div className="font-medium text-gray-900">{agent.schedule?.frequency || 'N/A'}</div>
+                  <div className="font-medium text-secondary-900">{agent.schedule?.frequency || 'N/A'}</div>
                 </div>
               </div>
               {agent.schedule?.time && (
@@ -163,7 +163,7 @@ const AgentProfile = ({ agent }) => {
                   <Clock className="w-5 h-5 text-gray-400 mt-0.5" />
                   <div>
                     <div className="text-sm text-gray-500">Time</div>
-                    <div className="font-medium text-gray-900">{agent.schedule.time} {agent.schedule.timezone}</div>
+                    <div className="font-medium text-secondary-900">{agent.schedule.time} {agent.schedule.timezone}</div>
                   </div>
                 </div>
               )}
@@ -178,8 +178,8 @@ const AgentProfile = ({ agent }) => {
 
           {/* HITL Supervision */}
           <Card>
-            <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
-              <Shield className="w-5 h-5 text-primary-500" />
+            <h2 className="text-xl font-semibold text-secondary-900 mb-4 flex items-center gap-2">
+              <Shield className="w-5 h-5 text-primary-600" />
               HITL Supervision
             </h2>
             <div className="space-y-3">
@@ -187,7 +187,7 @@ const AgentProfile = ({ agent }) => {
                 <Shield className="w-5 h-5 text-gray-400 mt-0.5" />
                 <div>
                   <div className="text-sm text-gray-500">HITL Mode</div>
-                  <div className="font-medium text-gray-900">{agent.hitlMode || 'Fully AI-Driven'}</div>
+                  <div className="font-medium text-secondary-900">{agent.hitlMode || 'Fully AI-Driven'}</div>
                 </div>
               </div>
               {agent.hitlSupervisor && (
@@ -195,7 +195,7 @@ const AgentProfile = ({ agent }) => {
                   <User className="w-5 h-5 text-gray-400 mt-0.5" />
                   <div>
                     <div className="text-sm text-gray-500">HITL Supervisor</div>
-                    <div className="font-medium text-gray-900">{agent.hitlSupervisor}</div>
+                    <div className="font-medium text-secondary-900">{agent.hitlSupervisor}</div>
                   </div>
                 </div>
               )}
@@ -207,8 +207,8 @@ const AgentProfile = ({ agent }) => {
         <div className="space-y-6">
           {/* Engines Used */}
           <Card>
-            <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
-              <Zap className="w-5 h-5 text-primary-500" />
+            <h2 className="text-xl font-semibold text-secondary-900 mb-4 flex items-center gap-2">
+              <Zap className="w-5 h-5 text-primary-600" />
               Engines Used
             </h2>
             <div className="flex flex-wrap gap-2">
@@ -226,16 +226,16 @@ const AgentProfile = ({ agent }) => {
 
           {/* Performance Metrics */}
           <Card>
-            <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
-              <TrendingUp className="w-5 h-5 text-primary-500" />
+            <h2 className="text-xl font-semibold text-secondary-900 mb-4 flex items-center gap-2">
+              <TrendingUp className="w-5 h-5 text-primary-600" />
               Performance Metrics
             </h2>
             <div className="space-y-4">
               {/* Accuracy */}
               <div>
                 <div className="flex justify-between text-sm mb-1">
-                  <span className="text-gray-600">Accuracy</span>
-                  <span className="font-medium text-gray-900">{agent.performanceMetrics?.accuracy || 0}%</span>
+                  <span className="text-secondary-600">Accuracy</span>
+                  <span className="font-medium text-secondary-900">{agent.performanceMetrics?.accuracy || 0}%</span>
                 </div>
                 <div className="w-full bg-gray-200 rounded-full h-2">
                   <div
@@ -248,8 +248,8 @@ const AgentProfile = ({ agent }) => {
               {/* Success Rate */}
               <div>
                 <div className="flex justify-between text-sm mb-1">
-                  <span className="text-gray-600">Success Rate</span>
-                  <span className="font-medium text-gray-900">{agent.performanceMetrics?.successRate || 0}%</span>
+                  <span className="text-secondary-600">Success Rate</span>
+                  <span className="font-medium text-secondary-900">{agent.performanceMetrics?.successRate || 0}%</span>
                 </div>
                 <div className="w-full bg-gray-200 rounded-full h-2">
                   <div
@@ -262,8 +262,8 @@ const AgentProfile = ({ agent }) => {
               {/* Uptime */}
               <div>
                 <div className="flex justify-between text-sm mb-1">
-                  <span className="text-gray-600">Uptime</span>
-                  <span className="font-medium text-gray-900">{agent.performanceMetrics?.uptime || 0}%</span>
+                  <span className="text-secondary-600">Uptime</span>
+                  <span className="font-medium text-secondary-900">{agent.performanceMetrics?.uptime || 0}%</span>
                 </div>
                 <div className="w-full bg-gray-200 rounded-full h-2">
                   <div
@@ -277,8 +277,8 @@ const AgentProfile = ({ agent }) => {
 
           {/* Recent Activity */}
           <Card>
-            <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
-              <Activity className="w-5 h-5 text-primary-500" />
+            <h2 className="text-xl font-semibold text-secondary-900 mb-4 flex items-center gap-2">
+              <Activity className="w-5 h-5 text-primary-600" />
               Recent Activity
             </h2>
             <div className="space-y-3">
@@ -295,7 +295,7 @@ const AgentProfile = ({ agent }) => {
                       )}
                     </div>
                     <div className="flex-1">
-                      <div className="text-sm font-medium text-gray-900">{activity.task}</div>
+                      <div className="text-sm font-medium text-secondary-900">{activity.task}</div>
                       <div className="text-xs text-gray-500">{activity.time}</div>
                     </div>
                   </div>

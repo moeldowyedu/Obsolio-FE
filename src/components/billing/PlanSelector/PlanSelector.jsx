@@ -73,7 +73,7 @@ const PlanSelector = ({ currentPlanId, onSelectPlan }) => {
               key={plan.id}
               className={`relative bg-white rounded-xl border-2 p-6 transition-all ${
                 plan.popular
-                  ? 'border-primary-500 shadow-lg scale-105'
+                  ? 'border-primary-600 shadow-lg scale-105'
                   : isCurrentPlan
                   ? 'border-secondary-500'
                   : 'border-gray-200 hover:border-gray-300'
@@ -97,19 +97,19 @@ const PlanSelector = ({ currentPlanId, onSelectPlan }) => {
 
               {/* Plan Header */}
               <div className="text-center mb-6">
-                <h3 className="text-2xl font-heading font-bold text-gray-900 mb-2">
+                <h3 className="text-2xl font-heading font-bold text-secondary-900 mb-2">
                   {plan.name}
                 </h3>
                 <div className="flex items-baseline justify-center gap-1 mb-2">
                   {typeof monthlyPrice === 'number' ? (
                     <>
-                      <span className="text-4xl font-bold text-gray-900">
+                      <span className="text-4xl font-bold text-secondary-900">
                         ${monthlyPrice}
                       </span>
-                      <span className="text-gray-600">/month</span>
+                      <span className="text-secondary-600">/month</span>
                     </>
                   ) : (
-                    <span className="text-4xl font-bold text-gray-900">
+                    <span className="text-4xl font-bold text-secondary-900">
                       {monthlyPrice}
                     </span>
                   )}
@@ -126,20 +126,20 @@ const PlanSelector = ({ currentPlanId, onSelectPlan }) => {
                 {plan.features.map((feature, idx) => (
                   <li key={idx} className="flex items-start gap-2">
                     <Check className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
-                    <span className="text-sm text-gray-700">{feature}</span>
+                    <span className="text-sm text-secondary-700">{feature}</span>
                   </li>
                 ))}
               </ul>
 
               {/* Limits */}
               <div className="mb-6 p-4 bg-gray-50 rounded-lg">
-                <p className="text-xs font-semibold text-gray-700 mb-2">
+                <p className="text-xs font-semibold text-secondary-700 mb-2">
                   Usage Limits:
                 </p>
-                <div className="space-y-1 text-xs text-gray-600">
+                <div className="space-y-1 text-xs text-secondary-600">
                   <div className="flex justify-between">
                     <span>Agents:</span>
-                    <span className="font-medium text-gray-900">
+                    <span className="font-medium text-secondary-900">
                       {plan.limits.maxAgents === -1
                         ? 'Unlimited'
                         : plan.limits.maxAgents}
@@ -147,7 +147,7 @@ const PlanSelector = ({ currentPlanId, onSelectPlan }) => {
                   </div>
                   <div className="flex justify-between">
                     <span>Runs/month:</span>
-                    <span className="font-medium text-gray-900">
+                    <span className="font-medium text-secondary-900">
                       {plan.limits.maxRuns === -1
                         ? 'Unlimited'
                         : plan.limits.maxRuns.toLocaleString()}
@@ -155,7 +155,7 @@ const PlanSelector = ({ currentPlanId, onSelectPlan }) => {
                   </div>
                   <div className="flex justify-between">
                     <span>Workflows:</span>
-                    <span className="font-medium text-gray-900">
+                    <span className="font-medium text-secondary-900">
                       {plan.limits.maxWorkflows === -1
                         ? 'Unlimited'
                         : plan.limits.maxWorkflows}

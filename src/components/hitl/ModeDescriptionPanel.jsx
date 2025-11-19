@@ -154,19 +154,19 @@ const ModeDescriptionPanel = ({ mode }) => {
           <div className="text-4xl">{modeData.icon}</div>
           <div className="flex-grow">
             <div className="flex items-center gap-3 mb-2">
-              <h2 className="text-2xl font-bold font-heading text-gray-900">{modeData.name}</h2>
+              <h2 className="text-2xl font-bold font-heading text-secondary-900">{modeData.name}</h2>
               {modeData.badge && (
                 <Badge variant="success">{modeData.badge}</Badge>
               )}
             </div>
-            <p className="text-gray-700">{modeData.description}</p>
+            <p className="text-secondary-700">{modeData.description}</p>
           </div>
         </div>
       </Card>
 
       {/* Performance Metrics */}
       <Card>
-        <h3 className="text-lg font-semibold font-heading text-gray-900 mb-4 flex items-center gap-2">
+        <h3 className="text-lg font-semibold font-heading text-secondary-900 mb-4 flex items-center gap-2">
           <TrendingUp className="w-5 h-5 text-primary-600" />
           Performance Metrics
         </h3>
@@ -174,7 +174,7 @@ const ModeDescriptionPanel = ({ mode }) => {
           {Object.entries(details.metrics).map(([key, value]) => (
             <div key={key}>
               <div className="flex items-center justify-between mb-2">
-                <span className="text-sm text-gray-600 capitalize">{key}</span>
+                <span className="text-sm text-secondary-600 capitalize">{key}</span>
                 <span className={`text-sm font-semibold ${getMetricColor(value)}`}>
                   {value}%
                 </span>
@@ -193,7 +193,7 @@ const ModeDescriptionPanel = ({ mode }) => {
       <div className="grid md:grid-cols-2 gap-6">
         {/* Use Cases */}
         <Card>
-          <h3 className="text-lg font-semibold font-heading text-gray-900 mb-4 flex items-center gap-2">
+          <h3 className="text-lg font-semibold font-heading text-secondary-900 mb-4 flex items-center gap-2">
             <CheckCircle className="w-5 h-5 text-green-600" />
             Ideal Use Cases
           </h3>
@@ -201,7 +201,7 @@ const ModeDescriptionPanel = ({ mode }) => {
             {details.useCases.map((useCase, index) => (
               <li key={index} className="flex items-start gap-2">
                 <span className="text-green-600 mt-1">✓</span>
-                <span className="text-gray-700 text-sm">{useCase}</span>
+                <span className="text-secondary-700 text-sm">{useCase}</span>
               </li>
             ))}
           </ul>
@@ -209,7 +209,7 @@ const ModeDescriptionPanel = ({ mode }) => {
 
         {/* Risks */}
         <Card>
-          <h3 className="text-lg font-semibold font-heading text-gray-900 mb-4 flex items-center gap-2">
+          <h3 className="text-lg font-semibold font-heading text-secondary-900 mb-4 flex items-center gap-2">
             <AlertTriangle className="w-5 h-5 text-yellow-600" />
             Risks & Considerations
           </h3>
@@ -217,7 +217,7 @@ const ModeDescriptionPanel = ({ mode }) => {
             {details.risks.map((risk, index) => (
               <li key={index} className="flex items-start gap-2">
                 <span className="text-yellow-600 mt-1">⚠</span>
-                <span className="text-gray-700 text-sm">{risk}</span>
+                <span className="text-secondary-700 text-sm">{risk}</span>
               </li>
             ))}
           </ul>
@@ -226,7 +226,7 @@ const ModeDescriptionPanel = ({ mode }) => {
 
       {/* Configuration Settings */}
       <Card>
-        <h3 className="text-lg font-semibold font-heading text-gray-900 mb-4 flex items-center gap-2">
+        <h3 className="text-lg font-semibold font-heading text-secondary-900 mb-4 flex items-center gap-2">
           <Settings className="w-5 h-5 text-primary-600" />
           Default Configuration
         </h3>
@@ -234,10 +234,10 @@ const ModeDescriptionPanel = ({ mode }) => {
           <div className="grid md:grid-cols-2 gap-4">
             {Object.entries(details.settings).map(([key, value]) => (
               <div key={key} className="flex items-center justify-between py-2 border-b border-gray-200">
-                <span className="text-sm text-gray-600 capitalize">
+                <span className="text-sm text-secondary-600 capitalize">
                   {key.replace(/([A-Z])/g, ' $1').trim()}
                 </span>
-                <span className="text-sm font-semibold text-gray-900">
+                <span className="text-sm font-semibold text-secondary-900">
                   {typeof value === 'boolean' ? (value ? 'Enabled' : 'Disabled') : value}
                   {typeof value === 'number' && key.includes('Rate') && '%'}
                 </span>
@@ -253,8 +253,8 @@ const ModeDescriptionPanel = ({ mode }) => {
         mode === 'consensus' ? 'border-blue-200 bg-blue-50' :
         'border-green-200 bg-green-50'
       }`}>
-        <h3 className="font-semibold text-gray-900 mb-2">Recommendation</h3>
-        <p className="text-sm text-gray-700">
+        <h3 className="font-semibold text-secondary-900 mb-2">Recommendation</h3>
+        <p className="text-sm text-secondary-700">
           {mode === 'full-auto' &&
             'Best suited for high-volume, low-risk operations where speed is critical. Ensure robust monitoring and fallback mechanisms are in place.'}
           {mode === 'spot-check' &&

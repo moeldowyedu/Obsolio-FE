@@ -30,10 +30,10 @@ const EngineSelectionStep = ({ data, onChange }) => {
   return (
     <div className="space-y-6">
       <Card padding="md">
-        <h2 className="text-2xl font-heading font-bold text-gray-900 mb-4">
+        <h2 className="text-2xl font-heading font-bold text-secondary-900 mb-4">
           Select Precision AI Engines
         </h2>
-        <p className="text-gray-600 mb-6">
+        <p className="text-secondary-600 mb-6">
           Choose one or more engines to power your agent. You can combine multiple engines for advanced functionality.
         </p>
 
@@ -53,13 +53,13 @@ const EngineSelectionStep = ({ data, onChange }) => {
                 onClick={() => toggleEngine(engine.id)}
                 className={`relative p-4 rounded-lg border-2 cursor-pointer transition-all ${
                   isSelected
-                    ? 'border-primary-500 bg-primary-50 shadow-md'
+                    ? 'border-primary-600 bg-primary-50 shadow-md'
                     : 'border-gray-200 hover:border-primary-300 hover:bg-gray-50'
                 }`}
               >
                 {isSelected && (
                   <div className="absolute top-3 right-3">
-                    <CheckCircle className="w-6 h-6 text-primary-500" />
+                    <CheckCircle className="w-6 h-6 text-primary-600" />
                   </div>
                 )}
 
@@ -72,17 +72,17 @@ const EngineSelectionStep = ({ data, onChange }) => {
                   </div>
 
                   <div className="flex-1 min-w-0">
-                    <h3 className="font-semibold text-gray-900 mb-1">
+                    <h3 className="font-semibold text-secondary-900 mb-1">
                       {engine.name}
                     </h3>
-                    <p className="text-sm text-gray-600 mb-2">
+                    <p className="text-sm text-secondary-600 mb-2">
                       {engine.description}
                     </p>
                     <div className="flex flex-wrap gap-1">
                       {engine.capabilities.slice(0, 2).map((cap, idx) => (
                         <span
                           key={idx}
-                          className="text-xs px-2 py-0.5 bg-white border border-gray-200 text-gray-600 rounded"
+                          className="text-xs px-2 py-0.5 bg-white border border-gray-200 text-secondary-600 rounded"
                         >
                           {cap}
                         </span>
@@ -108,10 +108,10 @@ const EngineSelectionStep = ({ data, onChange }) => {
               <CheckCircle className="w-5 h-5 text-white" />
             </div>
             <div>
-              <h3 className="font-semibold text-gray-900 mb-2">
+              <h3 className="font-semibold text-secondary-900 mb-2">
                 Multi-Engine Capabilities
               </h3>
-              <p className="text-sm text-gray-700">
+              <p className="text-sm text-secondary-700">
                 You've selected {selectedEngines.length} engine{selectedEngines.length !== 1 ? 's' : ''}. Your agent will be able to combine their capabilities for more powerful automation.
               </p>
             </div>
@@ -126,10 +126,10 @@ const EngineSelectionStep = ({ data, onChange }) => {
               <span className="text-white text-xl">⚠️</span>
             </div>
             <div>
-              <h3 className="font-semibold text-gray-900 mb-2">
+              <h3 className="font-semibold text-secondary-900 mb-2">
                 No Engines Selected
               </h3>
-              <p className="text-sm text-gray-700">
+              <p className="text-sm text-secondary-700">
                 Please select at least one engine to continue building your agent.
               </p>
             </div>

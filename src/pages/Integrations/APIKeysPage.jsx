@@ -35,8 +35,8 @@ const APIKeysPage = () => {
     <MainLayout>
       <div className="p-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">API Keys</h1>
-          <p className="text-gray-600">
+          <h1 className="text-3xl font-bold text-secondary-900 mb-2">API Keys</h1>
+          <p className="text-secondary-600">
             Manage your API keys for programmatic access
           </p>
         </div>
@@ -54,7 +54,7 @@ const APIKeysPage = () => {
                 <div className="flex items-start justify-between mb-4">
                   <div>
                     <div className="flex items-center gap-3 mb-2">
-                      <h3 className="text-lg font-semibold text-gray-900">
+                      <h3 className="text-lg font-semibold text-secondary-900">
                         {apiKey.name}
                       </h3>
                       <Badge color="green">{apiKey.status}</Badge>
@@ -68,13 +68,13 @@ const APIKeysPage = () => {
                         className="p-1 hover:bg-gray-100 rounded"
                       >
                         {showKey[apiKey.id] ? (
-                          <EyeOff className="w-4 h-4 text-gray-600" />
+                          <EyeOff className="w-4 h-4 text-secondary-600" />
                         ) : (
-                          <Eye className="w-4 h-4 text-gray-600" />
+                          <Eye className="w-4 h-4 text-secondary-600" />
                         )}
                       </button>
                       <button className="p-1 hover:bg-gray-100 rounded">
-                        <Copy className="w-4 h-4 text-gray-600" />
+                        <Copy className="w-4 h-4 text-secondary-600" />
                       </button>
                     </div>
                   </div>
@@ -89,11 +89,11 @@ const APIKeysPage = () => {
                 <div className="grid grid-cols-2 gap-4 text-sm">
                   <div>
                     <p className="text-gray-500">Created</p>
-                    <p className="font-medium text-gray-900">{apiKey.created}</p>
+                    <p className="font-medium text-secondary-900">{apiKey.created}</p>
                   </div>
                   <div>
                     <p className="text-gray-500">Last Used</p>
-                    <p className="font-medium text-gray-900">{apiKey.lastUsed}</p>
+                    <p className="font-medium text-secondary-900">{apiKey.lastUsed}</p>
                   </div>
                 </div>
               </div>

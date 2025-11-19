@@ -20,8 +20,8 @@ const UsageReportsPage = () => {
     <MainLayout>
       <div className="p-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Usage Reports</h1>
-          <p className="text-gray-600">
+          <h1 className="text-3xl font-bold text-secondary-900 mb-2">Usage Reports</h1>
+          <p className="text-secondary-600">
             Monitor your resource usage and consumption
           </p>
         </div>
@@ -30,8 +30,8 @@ const UsageReportsPage = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <Card>
             <div className="p-6">
-              <h3 className="text-sm font-medium text-gray-600 mb-2">AI Agents</h3>
-              <p className="text-3xl font-bold text-gray-900 mb-2">
+              <h3 className="text-sm font-medium text-secondary-600 mb-2">AI Agents</h3>
+              <p className="text-3xl font-bold text-secondary-900 mb-2">
                 {currentUsage.agents.used} / {currentUsage.agents.limit}
               </p>
               <div className="w-full bg-gray-200 rounded-full h-2">
@@ -45,8 +45,8 @@ const UsageReportsPage = () => {
 
           <Card>
             <div className="p-6">
-              <h3 className="text-sm font-medium text-gray-600 mb-2">Executions</h3>
-              <p className="text-3xl font-bold text-gray-900 mb-2">
+              <h3 className="text-sm font-medium text-secondary-600 mb-2">Executions</h3>
+              <p className="text-3xl font-bold text-secondary-900 mb-2">
                 {currentUsage.executions.used.toLocaleString()} / {currentUsage.executions.limit.toLocaleString()}
               </p>
               <div className="w-full bg-gray-200 rounded-full h-2">
@@ -60,8 +60,8 @@ const UsageReportsPage = () => {
 
           <Card>
             <div className="p-6">
-              <h3 className="text-sm font-medium text-gray-600 mb-2">Storage</h3>
-              <p className="text-3xl font-bold text-gray-900 mb-2">
+              <h3 className="text-sm font-medium text-secondary-600 mb-2">Storage</h3>
+              <p className="text-3xl font-bold text-secondary-900 mb-2">
                 {currentUsage.storage.used} GB / {currentUsage.storage.limit} GB
               </p>
               <div className="w-full bg-gray-200 rounded-full h-2">
@@ -78,7 +78,7 @@ const UsageReportsPage = () => {
         <Card>
           <div className="p-6">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl font-semibold text-gray-900">Historical Usage</h2>
+              <h2 className="text-xl font-semibold text-secondary-900">Historical Usage</h2>
               <div className="flex gap-3">
                 <Button variant="outline" icon={<Calendar className="w-4 h-4" />}>
                   Date Range
@@ -93,19 +93,19 @@ const UsageReportsPage = () => {
               <table className="w-full">
                 <thead>
                   <tr className="border-b border-gray-200">
-                    <th className="text-left py-3 px-4 font-semibold text-gray-900">Month</th>
-                    <th className="text-left py-3 px-4 font-semibold text-gray-900">AI Agents</th>
-                    <th className="text-left py-3 px-4 font-semibold text-gray-900">Executions</th>
-                    <th className="text-left py-3 px-4 font-semibold text-gray-900">Storage (GB)</th>
+                    <th className="text-left py-3 px-4 font-semibold text-secondary-900">Month</th>
+                    <th className="text-left py-3 px-4 font-semibold text-secondary-900">AI Agents</th>
+                    <th className="text-left py-3 px-4 font-semibold text-secondary-900">Executions</th>
+                    <th className="text-left py-3 px-4 font-semibold text-secondary-900">Storage (GB)</th>
                   </tr>
                 </thead>
                 <tbody>
                   {monthlyUsage.map((usage, idx) => (
                     <tr key={idx} className="border-b border-gray-100 hover:bg-gray-50">
-                      <td className="py-3 px-4 text-gray-900">{usage.month}</td>
-                      <td className="py-3 px-4 text-gray-700">{usage.agents}</td>
-                      <td className="py-3 px-4 text-gray-700">{usage.executions.toLocaleString()}</td>
-                      <td className="py-3 px-4 text-gray-700">{usage.storage}</td>
+                      <td className="py-3 px-4 text-secondary-900">{usage.month}</td>
+                      <td className="py-3 px-4 text-secondary-700">{usage.agents}</td>
+                      <td className="py-3 px-4 text-secondary-700">{usage.executions.toLocaleString()}</td>
+                      <td className="py-3 px-4 text-secondary-700">{usage.storage}</td>
                     </tr>
                   ))}
                 </tbody>

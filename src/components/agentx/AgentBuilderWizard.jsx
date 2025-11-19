@@ -90,7 +90,7 @@ const AgentBuilderWizard = ({ steps = [], onComplete }) => {
         return (
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
+              <label className="block text-sm font-semibold text-secondary-700 mb-2">
                 Agent Name *
               </label>
               <input
@@ -103,7 +103,7 @@ const AgentBuilderWizard = ({ steps = [], onComplete }) => {
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
+              <label className="block text-sm font-semibold text-secondary-700 mb-2">
                 Description *
               </label>
               <textarea
@@ -116,7 +116,7 @@ const AgentBuilderWizard = ({ steps = [], onComplete }) => {
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-3">
+              <label className="block text-sm font-semibold text-secondary-700 mb-3">
                 Select Precision Engines *
               </label>
               <div className="grid grid-cols-2 gap-3">
@@ -126,15 +126,15 @@ const AgentBuilderWizard = ({ steps = [], onComplete }) => {
                     onClick={() => toggleEngine(engine.id)}
                     className={`p-4 border-2 rounded-lg cursor-pointer transition-all ${
                       agentConfig.selectedEngines.includes(engine.id)
-                        ? 'border-primary-500 bg-primary-50'
+                        ? 'border-primary-600 bg-primary-50'
                         : 'border-gray-200 hover:border-gray-300'
                     }`}
                   >
                     <div className="flex items-center gap-3">
                       <span className="text-2xl">{engine.icon}</span>
                       <div className="flex-grow">
-                        <p className="font-semibold text-gray-900 text-sm">{engine.shortName}</p>
-                        <p className="text-xs text-gray-600">{engine.category}</p>
+                        <p className="font-semibold text-secondary-900 text-sm">{engine.shortName}</p>
+                        <p className="text-xs text-secondary-600">{engine.category}</p>
                       </div>
                       {agentConfig.selectedEngines.includes(engine.id) && (
                         <Check className="w-5 h-5 text-primary-600" />
@@ -143,7 +143,7 @@ const AgentBuilderWizard = ({ steps = [], onComplete }) => {
                   </div>
                 ))}
               </div>
-              <p className="text-sm text-gray-600 mt-2">
+              <p className="text-sm text-secondary-600 mt-2">
                 Selected: {agentConfig.selectedEngines.length} engine(s)
               </p>
             </div>
@@ -154,7 +154,7 @@ const AgentBuilderWizard = ({ steps = [], onComplete }) => {
         return (
           <div className="space-y-6">
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
+              <label className="block text-sm font-semibold text-secondary-700 mb-2">
                 Max Processing Time (seconds)
               </label>
               <input
@@ -167,7 +167,7 @@ const AgentBuilderWizard = ({ steps = [], onComplete }) => {
                 })}
                 className="w-full"
               />
-              <div className="flex justify-between text-sm text-gray-600">
+              <div className="flex justify-between text-sm text-secondary-600">
                 <span>5s</span>
                 <span className="font-semibold text-primary-600">
                   {agentConfig.settings.maxProcessingTime}s
@@ -177,7 +177,7 @@ const AgentBuilderWizard = ({ steps = [], onComplete }) => {
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
+              <label className="block text-sm font-semibold text-secondary-700 mb-2">
                 Confidence Threshold
               </label>
               <input
@@ -190,7 +190,7 @@ const AgentBuilderWizard = ({ steps = [], onComplete }) => {
                 })}
                 className="w-full"
               />
-              <div className="flex justify-between text-sm text-gray-600">
+              <div className="flex justify-between text-sm text-secondary-600">
                 <span>0%</span>
                 <span className="font-semibold text-primary-600">
                   {(agentConfig.settings.confidenceThreshold * 100).toFixed(0)}%
@@ -200,7 +200,7 @@ const AgentBuilderWizard = ({ steps = [], onComplete }) => {
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
+              <label className="block text-sm font-semibold text-secondary-700 mb-2">
                 Batch Size
               </label>
               <input
@@ -213,7 +213,7 @@ const AgentBuilderWizard = ({ steps = [], onComplete }) => {
                 })}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
               />
-              <p className="text-sm text-gray-600 mt-1">
+              <p className="text-sm text-secondary-600 mt-1">
                 Number of items to process in parallel
               </p>
             </div>
@@ -241,7 +241,7 @@ const AgentBuilderWizard = ({ steps = [], onComplete }) => {
       case 2: // Set HITL Mode
         return (
           <div className="space-y-4">
-            <p className="text-sm text-gray-600 mb-4">
+            <p className="text-sm text-secondary-600 mb-4">
               Choose how much human oversight your agent requires
             </p>
             <div className="space-y-3">
@@ -251,7 +251,7 @@ const AgentBuilderWizard = ({ steps = [], onComplete }) => {
                   onClick={() => updateConfig({ hitlMode: mode.id })}
                   className={`p-4 border-2 rounded-lg cursor-pointer transition-all ${
                     agentConfig.hitlMode === mode.id
-                      ? 'border-primary-500 bg-primary-50'
+                      ? 'border-primary-600 bg-primary-50'
                       : 'border-gray-200 hover:border-gray-300'
                   }`}
                 >
@@ -260,12 +260,12 @@ const AgentBuilderWizard = ({ steps = [], onComplete }) => {
                       <span className="text-2xl">{mode.icon}</span>
                       <div>
                         <div className="flex items-center gap-2">
-                          <p className="font-semibold text-gray-900">{mode.name}</p>
+                          <p className="font-semibold text-secondary-900">{mode.name}</p>
                           {mode.badge && (
                             <Badge variant="success" size="sm">{mode.badge}</Badge>
                           )}
                         </div>
-                        <p className="text-sm text-gray-600">{mode.description}</p>
+                        <p className="text-sm text-secondary-600">{mode.description}</p>
                       </div>
                     </div>
                     {agentConfig.hitlMode === mode.id && (
@@ -283,7 +283,7 @@ const AgentBuilderWizard = ({ steps = [], onComplete }) => {
           <div className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-semibold text-secondary-700 mb-2">
                   Input Type
                 </label>
                 <select
@@ -302,7 +302,7 @@ const AgentBuilderWizard = ({ steps = [], onComplete }) => {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-semibold text-secondary-700 mb-2">
                   Output Format
                 </label>
                 <select
@@ -321,7 +321,7 @@ const AgentBuilderWizard = ({ steps = [], onComplete }) => {
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
+              <label className="block text-sm font-semibold text-secondary-700 mb-2">
                 Schema Definition
               </label>
               <textarea
@@ -339,7 +339,7 @@ const AgentBuilderWizard = ({ steps = [], onComplete }) => {
   }
 }`}
               />
-              <p className="text-sm text-gray-600 mt-1">
+              <p className="text-sm text-secondary-600 mt-1">
                 Define your input/output schema in JSON format
               </p>
             </div>
@@ -350,7 +350,7 @@ const AgentBuilderWizard = ({ steps = [], onComplete }) => {
         return (
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
+              <label className="block text-sm font-semibold text-secondary-700 mb-2">
                 Test Input
               </label>
               <textarea
@@ -399,26 +399,26 @@ const AgentBuilderWizard = ({ steps = [], onComplete }) => {
         return (
           <div className="space-y-4">
             <Card className="bg-gradient-to-br from-primary-50 to-secondary-50">
-              <h3 className="text-xl font-bold font-heading text-gray-900 mb-4">
+              <h3 className="text-xl font-bold font-heading text-secondary-900 mb-4">
                 Ready to Deploy
               </h3>
               <div className="space-y-3">
                 <div className="flex justify-between py-2 border-b border-gray-200">
-                  <span className="text-gray-700">Agent Name</span>
-                  <span className="font-semibold text-gray-900">{agentConfig.name || 'Unnamed Agent'}</span>
+                  <span className="text-secondary-700">Agent Name</span>
+                  <span className="font-semibold text-secondary-900">{agentConfig.name || 'Unnamed Agent'}</span>
                 </div>
                 <div className="flex justify-between py-2 border-b border-gray-200">
-                  <span className="text-gray-700">Engines Selected</span>
-                  <span className="font-semibold text-gray-900">{agentConfig.selectedEngines.length}</span>
+                  <span className="text-secondary-700">Engines Selected</span>
+                  <span className="font-semibold text-secondary-900">{agentConfig.selectedEngines.length}</span>
                 </div>
                 <div className="flex justify-between py-2 border-b border-gray-200">
-                  <span className="text-gray-700">HITL Mode</span>
-                  <span className="font-semibold text-gray-900">
+                  <span className="text-secondary-700">HITL Mode</span>
+                  <span className="font-semibold text-secondary-900">
                     {HITL_MODES.find(m => m.id === agentConfig.hitlMode)?.name}
                   </span>
                 </div>
                 <div className="flex justify-between py-2 border-b border-gray-200">
-                  <span className="text-gray-700">Test Status</span>
+                  <span className="text-secondary-700">Test Status</span>
                   <Badge variant={agentConfig.testResults ? 'success' : 'warning'}>
                     {agentConfig.testResults ? 'Passed' : 'Not Tested'}
                   </Badge>
@@ -463,7 +463,7 @@ const AgentBuilderWizard = ({ steps = [], onComplete }) => {
                   index < currentStep
                     ? 'bg-primary-600 text-white'
                     : index === currentStep
-                    ? 'bg-primary-500 text-white ring-4 ring-primary-100'
+                    ? 'bg-primary-600 text-white ring-4 ring-primary-100'
                     : 'bg-gray-200 text-gray-600'
                 }`}
               >
@@ -490,7 +490,7 @@ const AgentBuilderWizard = ({ steps = [], onComplete }) => {
 
       {/* Step Content */}
       <Card className="min-h-[400px]">
-        <h2 className="text-2xl font-bold font-heading text-gray-900 mb-6">
+        <h2 className="text-2xl font-bold font-heading text-secondary-900 mb-6">
           {wizardSteps[currentStep]}
         </h2>
         {renderStepContent()}

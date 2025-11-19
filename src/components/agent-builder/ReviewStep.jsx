@@ -12,7 +12,7 @@ const ReviewStep = ({ data, onEdit }) => {
   const Section = ({ title, onEditClick, children }) => (
     <Card padding="md" className="mb-4">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-lg font-semibold text-gray-900">{title}</h3>
+        <h3 className="text-lg font-semibold text-secondary-900">{title}</h3>
         <button
           onClick={onEditClick}
           className="flex items-center gap-2 px-3 py-1.5 text-sm text-primary-600 hover:bg-primary-50 rounded-lg transition-colors"
@@ -48,16 +48,16 @@ const ReviewStep = ({ data, onEdit }) => {
         <div className="space-y-3">
           <div>
             <p className="text-sm text-gray-500">Agent Name</p>
-            <p className="text-base font-medium text-gray-900">{data.name}</p>
+            <p className="text-base font-medium text-secondary-900">{data.name}</p>
           </div>
           <div>
             <p className="text-sm text-gray-500">Description</p>
-            <p className="text-base text-gray-700">{data.description}</p>
+            <p className="text-base text-secondary-700">{data.description}</p>
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div>
               <p className="text-sm text-gray-500">Industry</p>
-              <p className="text-base font-medium text-gray-900">
+              <p className="text-base font-medium text-secondary-900">
                 {selectedIndustry?.name || 'Not specified'}
               </p>
             </div>
@@ -98,10 +98,10 @@ const ReviewStep = ({ data, onEdit }) => {
                 <span className="text-lg">{engine.icon}</span>
               </div>
               <div className="flex-1 min-w-0">
-                <p className="font-medium text-gray-900 text-sm truncate">
+                <p className="font-medium text-secondary-900 text-sm truncate">
                   {engine.name}
                 </p>
-                <p className="text-xs text-gray-600">{engine.category}</p>
+                <p className="text-xs text-secondary-600">{engine.category}</p>
               </div>
             </div>
           ))}
@@ -115,7 +115,7 @@ const ReviewStep = ({ data, onEdit }) => {
       <Section title="Configuration" onEditClick={() => onEdit(3)}>
         <div className="space-y-4">
           <div>
-            <p className="text-sm font-medium text-gray-700 mb-2">
+            <p className="text-sm font-medium text-secondary-700 mb-2">
               Input Fields ({data.inputSchema?.length || 0})
             </p>
             <div className="space-y-2">
@@ -125,7 +125,7 @@ const ReviewStep = ({ data, onEdit }) => {
                   className="flex items-center justify-between p-2 bg-gray-50 rounded border border-gray-200"
                 >
                   <div>
-                    <span className="text-sm font-medium text-gray-900">
+                    <span className="text-sm font-medium text-secondary-900">
                       {field.name}
                     </span>
                     {field.required && (
@@ -143,7 +143,7 @@ const ReviewStep = ({ data, onEdit }) => {
           </div>
 
           <div>
-            <p className="text-sm font-medium text-gray-700 mb-2">
+            <p className="text-sm font-medium text-secondary-700 mb-2">
               Output Fields ({data.outputSchema?.length || 0})
             </p>
             <div className="space-y-2">
@@ -152,7 +152,7 @@ const ReviewStep = ({ data, onEdit }) => {
                   key={idx}
                   className="flex items-center justify-between p-2 bg-gray-50 rounded border border-gray-200"
                 >
-                  <span className="text-sm font-medium text-gray-900">
+                  <span className="text-sm font-medium text-secondary-900">
                     {field.name}
                   </span>
                   <Badge variant="default" size="sm">
@@ -166,13 +166,13 @@ const ReviewStep = ({ data, onEdit }) => {
           <div className="grid grid-cols-2 gap-4 pt-2 border-t">
             <div>
               <p className="text-xs text-gray-500">Timeout</p>
-              <p className="text-sm font-medium text-gray-900">
+              <p className="text-sm font-medium text-secondary-900">
                 {data.timeout || 300} seconds
               </p>
             </div>
             <div>
               <p className="text-xs text-gray-500">Error Handling</p>
-              <p className="text-sm font-medium text-gray-900">
+              <p className="text-sm font-medium text-secondary-900">
                 {data.errorHandling || 'Retry'}
               </p>
             </div>
@@ -201,14 +201,14 @@ const ReviewStep = ({ data, onEdit }) => {
                 <span className="text-lg">{selectedHITL.icon}</span>
               </div>
               <div>
-                <p className="font-medium text-gray-900">{selectedHITL.name}</p>
-                <p className="text-sm text-gray-600">{selectedHITL.description}</p>
+                <p className="font-medium text-secondary-900">{selectedHITL.name}</p>
+                <p className="text-sm text-secondary-600">{selectedHITL.description}</p>
               </div>
             </div>
 
             {data.hitlConfig?.approvalRequired?.length > 0 && (
               <div className="pt-3 border-t">
-                <p className="text-sm font-medium text-gray-700 mb-2">
+                <p className="text-sm font-medium text-secondary-700 mb-2">
                   Approval Required For:
                 </p>
                 <div className="flex flex-wrap gap-2">
@@ -241,19 +241,19 @@ const ReviewStep = ({ data, onEdit }) => {
           <p className="text-2xl font-bold text-primary-600">
             {selectedEngines.length}
           </p>
-          <p className="text-sm text-gray-600">Engines</p>
+          <p className="text-sm text-secondary-600">Engines</p>
         </Card>
         <Card padding="md" className="text-center">
           <p className="text-2xl font-bold text-secondary-600">
             {data.inputSchema?.length || 0}
           </p>
-          <p className="text-sm text-gray-600">Inputs</p>
+          <p className="text-sm text-secondary-600">Inputs</p>
         </Card>
         <Card padding="md" className="text-center">
           <p className="text-2xl font-bold text-purple-600">
             {data.outputSchema?.length || 0}
           </p>
-          <p className="text-sm text-gray-600">Outputs</p>
+          <p className="text-sm text-secondary-600">Outputs</p>
         </Card>
       </div>
     </div>

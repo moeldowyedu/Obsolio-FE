@@ -49,8 +49,8 @@ const InvoicesPage = () => {
     <MainLayout>
       <div className="p-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Invoices</h1>
-          <p className="text-gray-600">
+          <h1 className="text-3xl font-bold text-secondary-900 mb-2">Invoices</h1>
+          <p className="text-secondary-600">
             View and download your billing invoices
           </p>
         </div>
@@ -61,24 +61,24 @@ const InvoicesPage = () => {
               <table className="w-full">
                 <thead>
                   <tr className="border-b border-gray-200">
-                    <th className="text-left py-3 px-4 font-semibold text-gray-900">Invoice ID</th>
-                    <th className="text-left py-3 px-4 font-semibold text-gray-900">Date</th>
-                    <th className="text-left py-3 px-4 font-semibold text-gray-900">Period</th>
-                    <th className="text-left py-3 px-4 font-semibold text-gray-900">Amount</th>
-                    <th className="text-left py-3 px-4 font-semibold text-gray-900">Status</th>
-                    <th className="text-left py-3 px-4 font-semibold text-gray-900">Actions</th>
+                    <th className="text-left py-3 px-4 font-semibold text-secondary-900">Invoice ID</th>
+                    <th className="text-left py-3 px-4 font-semibold text-secondary-900">Date</th>
+                    <th className="text-left py-3 px-4 font-semibold text-secondary-900">Period</th>
+                    <th className="text-left py-3 px-4 font-semibold text-secondary-900">Amount</th>
+                    <th className="text-left py-3 px-4 font-semibold text-secondary-900">Status</th>
+                    <th className="text-left py-3 px-4 font-semibold text-secondary-900">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   {invoices.map((invoice) => (
                     <tr key={invoice.id} className="border-b border-gray-100 hover:bg-gray-50">
                       <td className="py-4 px-4">
-                        <code className="text-sm font-mono text-gray-900">{invoice.id}</code>
+                        <code className="text-sm font-mono text-secondary-900">{invoice.id}</code>
                       </td>
-                      <td className="py-4 px-4 text-gray-700">{invoice.date}</td>
-                      <td className="py-4 px-4 text-gray-700">{invoice.period}</td>
+                      <td className="py-4 px-4 text-secondary-700">{invoice.date}</td>
+                      <td className="py-4 px-4 text-secondary-700">{invoice.period}</td>
                       <td className="py-4 px-4">
-                        <span className="font-semibold text-gray-900">{invoice.amount}</span>
+                        <span className="font-semibold text-secondary-900">{invoice.amount}</span>
                       </td>
                       <td className="py-4 px-4">
                         <Badge color={getStatusColor(invoice.status)}>

@@ -309,11 +309,11 @@ const RubricsPage = () => {
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
+            <h1 className="text-3xl font-bold text-secondary-900 flex items-center gap-3">
               <ClipboardList className="w-8 h-8 text-primary-600" />
               Evaluation Rubrics
             </h1>
-            <p className="text-gray-600 mt-2">
+            <p className="text-secondary-600 mt-2">
               Pre-made and custom evaluation criteria for your AI agents (Tenant-specific)
             </p>
           </div>
@@ -329,24 +329,24 @@ const RubricsPage = () => {
         {/* Stats */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
-            <div className="text-sm font-medium text-gray-600 mb-2">Total Rubrics</div>
-            <div className="text-3xl font-bold text-gray-900">{rubrics.length}</div>
+            <div className="text-sm font-medium text-secondary-600 mb-2">Total Rubrics</div>
+            <div className="text-3xl font-bold text-secondary-900">{rubrics.length}</div>
           </div>
           <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
-            <div className="text-sm font-medium text-gray-600 mb-2">Engine Rubrics</div>
+            <div className="text-sm font-medium text-secondary-600 mb-2">Engine Rubrics</div>
             <div className="text-3xl font-bold text-primary-600">
               {rubrics.filter(r => r.type === 'engine').length}
             </div>
           </div>
           <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
-            <div className="text-sm font-medium text-gray-600 mb-2">Industry Rubrics</div>
+            <div className="text-sm font-medium text-secondary-600 mb-2">Industry Rubrics</div>
             <div className="text-3xl font-bold text-secondary-600">
               {rubrics.filter(r => r.type === 'industry').length}
             </div>
           </div>
           <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
-            <div className="text-sm font-medium text-gray-600 mb-2">Active Agents</div>
-            <div className="text-3xl font-bold text-gray-900">
+            <div className="text-sm font-medium text-secondary-600 mb-2">Active Agents</div>
+            <div className="text-3xl font-bold text-secondary-900">
               {rubrics.reduce((sum, r) => sum + r.usedBy, 0)}
             </div>
           </div>
@@ -368,7 +368,7 @@ const RubricsPage = () => {
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <Filter className="w-5 h-5 text-gray-600" />
+              <Filter className="w-5 h-5 text-secondary-600" />
               <select
                 value={filterType}
                 onChange={(e) => setFilterType(e.target.value)}
@@ -389,25 +389,25 @@ const RubricsPage = () => {
             <table className="w-full">
               <thead className="bg-gray-50 border-b border-gray-200">
                 <tr>
-                  <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                  <th className="px-6 py-4 text-left text-xs font-semibold text-secondary-600 uppercase tracking-wider">
                     Rubric Name
                   </th>
-                  <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                  <th className="px-6 py-4 text-left text-xs font-semibold text-secondary-600 uppercase tracking-wider">
                     Type
                   </th>
-                  <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                  <th className="px-6 py-4 text-left text-xs font-semibold text-secondary-600 uppercase tracking-wider">
                     Category
                   </th>
-                  <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                  <th className="px-6 py-4 text-left text-xs font-semibold text-secondary-600 uppercase tracking-wider">
                     Criteria
                   </th>
-                  <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                  <th className="px-6 py-4 text-left text-xs font-semibold text-secondary-600 uppercase tracking-wider">
                     Used By
                   </th>
-                  <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                  <th className="px-6 py-4 text-left text-xs font-semibold text-secondary-600 uppercase tracking-wider">
                     Last Modified
                   </th>
-                  <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                  <th className="px-6 py-4 text-left text-xs font-semibold text-secondary-600 uppercase tracking-wider">
                     Actions
                   </th>
                 </tr>
@@ -420,8 +420,8 @@ const RubricsPage = () => {
                         onClick={() => openModal('view', rubric)}
                         className="text-left hover:text-primary-600 transition-colors"
                       >
-                        <div className="font-semibold text-gray-900">{rubric.name}</div>
-                        <div className="text-sm text-gray-600 mt-1">{rubric.description}</div>
+                        <div className="font-semibold text-secondary-900">{rubric.name}</div>
+                        <div className="text-sm text-secondary-600 mt-1">{rubric.description}</div>
                       </button>
                     </td>
                     <td className="px-6 py-4">
@@ -436,11 +436,11 @@ const RubricsPage = () => {
                       </span>
                     </td>
                     <td className="px-6 py-4">
-                      <span className="text-sm text-gray-900">{rubric.category}</span>
+                      <span className="text-sm text-secondary-900">{rubric.category}</span>
                     </td>
                     <td className="px-6 py-4">
-                      <span className="text-sm font-medium text-gray-900">{rubric.criteria.length}</span>
-                      <span className="text-sm text-gray-600"> criteria</span>
+                      <span className="text-sm font-medium text-secondary-900">{rubric.criteria.length}</span>
+                      <span className="text-sm text-secondary-600"> criteria</span>
                     </td>
                     <td className="px-6 py-4">
                       <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-700 border border-green-200">
@@ -448,7 +448,7 @@ const RubricsPage = () => {
                       </span>
                     </td>
                     <td className="px-6 py-4">
-                      <span className="text-sm text-gray-600">
+                      <span className="text-sm text-secondary-600">
                         {rubric.lastModified.toLocaleDateString()}
                       </span>
                     </td>
@@ -456,14 +456,14 @@ const RubricsPage = () => {
                       <div className="flex items-center gap-2">
                         <button
                           onClick={() => openModal('view', rubric)}
-                          className="p-2 text-gray-600 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors"
+                          className="p-2 text-secondary-600 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors"
                           title="View"
                         >
                           <Eye className="w-4 h-4" />
                         </button>
                         <button
                           onClick={() => handleDuplicate(rubric)}
-                          className="p-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                          className="p-2 text-secondary-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
                           title="Duplicate"
                         >
                           <Copy className="w-4 h-4" />
@@ -472,14 +472,14 @@ const RubricsPage = () => {
                           <>
                             <button
                               onClick={() => openModal('edit', rubric)}
-                              className="p-2 text-gray-600 hover:text-yellow-600 hover:bg-yellow-50 rounded-lg transition-colors"
+                              className="p-2 text-secondary-600 hover:text-yellow-600 hover:bg-yellow-50 rounded-lg transition-colors"
                               title="Edit"
                             >
                               <Edit className="w-4 h-4" />
                             </button>
                             <button
                               onClick={() => handleDelete(rubric.id)}
-                              className="p-2 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                              className="p-2 text-secondary-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
                               title="Delete"
                             >
                               <Trash2 className="w-4 h-4" />
@@ -497,14 +497,14 @@ const RubricsPage = () => {
 
         {/* Info Box */}
         <div className="bg-gradient-to-r from-primary-50 to-purple-50 rounded-xl p-6 border border-primary-200">
-          <h4 className="font-bold text-gray-900 mb-2 flex items-center gap-2">
+          <h4 className="font-bold text-secondary-900 mb-2 flex items-center gap-2">
             <span>💡</span> About Evaluation Rubrics
           </h4>
-          <p className="text-gray-700 text-sm mb-3">
+          <p className="text-secondary-700 text-sm mb-3">
             Rubrics define the evaluation criteria and their weights that AI agents use to score submissions.
             Each criterion is scored individually, then combined using the weighted average to produce the final score.
           </p>
-          <ul className="text-sm text-gray-700 space-y-1">
+          <ul className="text-sm text-secondary-700 space-y-1">
             <li>• <strong>Engine Rubrics:</strong> Pre-configured for each Precision AI Engine</li>
             <li>• <strong>Industry Rubrics:</strong> Tailored for specific industries and use cases</li>
             <li>• <strong>Custom Rubrics:</strong> Create your own evaluation criteria</li>
@@ -519,7 +519,7 @@ const RubricsPage = () => {
           <div className="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col">
             {/* Modal Header */}
             <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between bg-gradient-to-r from-primary-50 to-purple-50">
-              <h2 className="text-2xl font-bold text-gray-900">
+              <h2 className="text-2xl font-bold text-secondary-900">
                 {modalMode === 'view' && 'View Rubric'}
                 {modalMode === 'create' && 'Create Custom Rubric'}
                 {modalMode === 'edit' && 'Edit Rubric'}
@@ -528,7 +528,7 @@ const RubricsPage = () => {
                 onClick={closeModal}
                 className="p-2 hover:bg-gray-200 rounded-lg transition-colors"
               >
-                <X className="w-6 h-6 text-gray-600" />
+                <X className="w-6 h-6 text-secondary-600" />
               </button>
             </div>
 
@@ -537,8 +537,8 @@ const RubricsPage = () => {
               {modalMode === 'view' && selectedRubric ? (
                 <div className="space-y-6">
                   <div>
-                    <h3 className="text-xl font-bold text-gray-900 mb-2">{selectedRubric.name}</h3>
-                    <p className="text-gray-600">{selectedRubric.description}</p>
+                    <h3 className="text-xl font-bold text-secondary-900 mb-2">{selectedRubric.name}</h3>
+                    <p className="text-secondary-600">{selectedRubric.description}</p>
                     <div className="flex gap-2 mt-3">
                       <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold ${
                         selectedRubric.type === 'engine'
@@ -549,23 +549,23 @@ const RubricsPage = () => {
                       }`}>
                         {selectedRubric.type}
                       </span>
-                      <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-gray-100 text-gray-700 border border-gray-200">
+                      <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-gray-100 text-secondary-700 border border-gray-200">
                         {selectedRubric.category}
                       </span>
                     </div>
                   </div>
 
                   <div>
-                    <h4 className="font-semibold text-gray-900 mb-3">Evaluation Criteria</h4>
+                    <h4 className="font-semibold text-secondary-900 mb-3">Evaluation Criteria</h4>
                     <div className="space-y-3">
                       {selectedRubric.criteria.map((criterion, index) => (
                         <div key={index} className="bg-gray-50 rounded-lg p-4 border border-gray-200">
                           <div className="flex items-center justify-between mb-2">
-                            <span className="font-medium text-gray-900">{criterion.name}</span>
+                            <span className="font-medium text-secondary-900">{criterion.name}</span>
                             <span className="text-lg font-bold text-primary-600">{criterion.weight}%</span>
                           </div>
                           {criterion.description && (
-                            <p className="text-sm text-gray-600">{criterion.description}</p>
+                            <p className="text-sm text-secondary-600">{criterion.description}</p>
                           )}
                           <div className="mt-2 w-full bg-gray-200 rounded-full h-2">
                             <div
@@ -579,11 +579,11 @@ const RubricsPage = () => {
                   </div>
 
                   <div className="flex items-center justify-between pt-4 border-t border-gray-200">
-                    <div className="text-sm text-gray-600">
+                    <div className="text-sm text-secondary-600">
                       <p>Used by <strong>{selectedRubric.usedBy}</strong> agents</p>
                       <p>Last modified: {selectedRubric.lastModified.toLocaleDateString()}</p>
                     </div>
-                    <div className="text-sm font-semibold text-gray-900">
+                    <div className="text-sm font-semibold text-secondary-900">
                       Total Weight: 100%
                     </div>
                   </div>
@@ -591,7 +591,7 @@ const RubricsPage = () => {
               ) : (
                 <div className="space-y-6">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-secondary-700 mb-2">
                       Rubric Name *
                     </label>
                     <input
@@ -604,7 +604,7 @@ const RubricsPage = () => {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-secondary-700 mb-2">
                       Description *
                     </label>
                     <textarea
@@ -617,7 +617,7 @@ const RubricsPage = () => {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-secondary-700 mb-2">
                       Category *
                     </label>
                     <input
@@ -631,7 +631,7 @@ const RubricsPage = () => {
 
                   <div>
                     <div className="flex items-center justify-between mb-3">
-                      <label className="block text-sm font-medium text-gray-700">
+                      <label className="block text-sm font-medium text-secondary-700">
                         Criteria * (Total: {getTotalWeight()}%)
                       </label>
                       <button
@@ -678,7 +678,7 @@ const RubricsPage = () => {
                                   min="0"
                                   max="100"
                                 />
-                                <span className="text-sm font-medium text-gray-700">%</span>
+                                <span className="text-sm font-medium text-secondary-700">%</span>
                               </div>
                             </div>
                             <button
@@ -721,7 +721,7 @@ const RubricsPage = () => {
               <div className="flex gap-3">
                 <button
                   onClick={closeModal}
-                  className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+                  className="px-6 py-2 border border-gray-300 text-secondary-700 rounded-lg hover:bg-gray-50 transition-colors"
                 >
                   {modalMode === 'view' ? 'Close' : 'Cancel'}
                 </button>

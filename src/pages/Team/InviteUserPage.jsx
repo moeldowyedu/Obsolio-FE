@@ -99,8 +99,8 @@ const InviteUserPage = () => {
             <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <CheckCircle className="w-12 h-12 text-green-600" />
             </div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">Invitation Sent!</h2>
-            <p className="text-gray-600 mb-6">
+            <h2 className="text-2xl font-bold text-secondary-900 mb-2">Invitation Sent!</h2>
+            <p className="text-secondary-600 mb-6">
               An invitation email has been sent to {invitationForm.email}
             </p>
             <Button variant="primary" onClick={() => navigate('/team-users/all')}>
@@ -126,8 +126,8 @@ const InviteUserPage = () => {
           Back
         </Button>
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Invite User</h1>
-          <p className="text-gray-600 mt-1">
+          <h1 className="text-3xl font-bold text-secondary-900">Invite User</h1>
+          <p className="text-secondary-600 mt-1">
             Send an invitation to join your organization
           </p>
         </div>
@@ -144,10 +144,10 @@ const InviteUserPage = () => {
 
         {/* Basic Information */}
         <Card>
-          <h2 className="text-xl font-semibold text-gray-900 mb-4">Basic Information</h2>
+          <h2 className="text-xl font-semibold text-secondary-900 mb-4">Basic Information</h2>
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-secondary-700 mb-2">
                 Email Address <span className="text-red-500">*</span>
               </label>
               <Input
@@ -162,7 +162,7 @@ const InviteUserPage = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-secondary-700 mb-2">
                 Personal Message (Optional)
               </label>
               <textarea
@@ -178,13 +178,13 @@ const InviteUserPage = () => {
 
         {/* Role & Permissions */}
         <Card>
-          <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
-            <Shield className="w-5 h-5 text-primary-500" />
+          <h2 className="text-xl font-semibold text-secondary-900 mb-4 flex items-center gap-2">
+            <Shield className="w-5 h-5 text-primary-600" />
             Role & Permissions
           </h2>
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-secondary-700 mb-2">
                 Role <span className="text-red-500">*</span>
               </label>
               <Select
@@ -201,13 +201,13 @@ const InviteUserPage = () => {
                 fullWidth
               />
               {selectedRole && (
-                <p className="mt-2 text-sm text-gray-600">{selectedRole.description}</p>
+                <p className="mt-2 text-sm text-secondary-600">{selectedRole.description}</p>
               )}
             </div>
 
             {selectedRole && (
               <div className="bg-gray-50 rounded-lg p-4">
-                <h3 className="text-sm font-semibold text-gray-900 mb-3">
+                <h3 className="text-sm font-semibold text-secondary-900 mb-3">
                   Default Permissions for {selectedRole.name}
                 </h3>
                 <div className="grid grid-cols-2 gap-2">
@@ -229,7 +229,7 @@ const InviteUserPage = () => {
             )}
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-secondary-700 mb-2">
                 Access Scope <span className="text-red-500">*</span>
               </label>
               <Select
@@ -251,13 +251,13 @@ const InviteUserPage = () => {
 
         {/* Organizational Assignment */}
         <Card>
-          <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
-            <Building className="w-5 h-5 text-primary-500" />
+          <h2 className="text-xl font-semibold text-secondary-900 mb-4 flex items-center gap-2">
+            <Building className="w-5 h-5 text-primary-600" />
             Organizational Assignment
           </h2>
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-secondary-700 mb-2">
                 Branch {invitationForm.accessScope === 'branch' && <span className="text-red-500">*</span>}
               </label>
               <Select
@@ -273,7 +273,7 @@ const InviteUserPage = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-secondary-700 mb-2">
                 Department {invitationForm.accessScope === 'department' && <span className="text-red-500">*</span>}
               </label>
               <Select
@@ -289,7 +289,7 @@ const InviteUserPage = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-secondary-700 mb-2">
                 Projects (Optional)
               </label>
               <Select
@@ -341,7 +341,7 @@ const InviteUserPage = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-secondary-700 mb-2">
                 Teams (Optional)
               </label>
               <Select

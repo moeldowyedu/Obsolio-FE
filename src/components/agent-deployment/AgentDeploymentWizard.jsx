@@ -85,8 +85,8 @@ const AgentDeploymentWizard = () => {
         <div className="container mx-auto">
           {/* Header */}
           <div className="text-center mb-8">
-            <h1 className="text-4xl font-bold text-gray-900 mb-2">Deploy AI Agent</h1>
-            <p className="text-gray-600">
+            <h1 className="text-4xl font-bold text-secondary-900 mb-2">Deploy AI Agent</h1>
+            <p className="text-secondary-600">
               Set up your AI agent as a virtual employee in your organization
             </p>
           </div>
@@ -101,8 +101,8 @@ const AgentDeploymentWizard = () => {
             {isLoading ? (
               <div className="flex items-center justify-center py-20">
                 <div className="text-center">
-                  <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-primary-500 mx-auto mb-4"></div>
-                  <p className="text-gray-600">Processing...</p>
+                  <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-primary-600 mx-auto mb-4"></div>
+                  <p className="text-secondary-600">Processing...</p>
                 </div>
               </div>
             ) : (
@@ -114,7 +114,7 @@ const AgentDeploymentWizard = () => {
           <div className="text-center text-sm text-gray-500">
             <p>
               Need help?{' '}
-              <a href="/docs/agent-deployment" className="text-primary-500 hover:text-primary-600">
+              <a href="/docs/agent-deployment" className="text-primary-600 hover:text-primary-600">
                 View Documentation
               </a>
             </p>

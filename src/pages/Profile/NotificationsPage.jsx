@@ -154,8 +154,8 @@ const NotificationsPage = () => {
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
           <div>
-            <h1 className="text-4xl font-bold text-gray-900 mb-2 font-heading">Notifications</h1>
-            <p className="text-gray-600">
+            <h1 className="text-4xl font-bold text-secondary-900 mb-2 font-heading">Notifications</h1>
+            <p className="text-secondary-600">
               Stay updated with your evaluation activity
               {unreadCount > 0 && (
                 <span className="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-primary-100 text-primary-800">
@@ -179,7 +179,7 @@ const NotificationsPage = () => {
           {/* Filters Sidebar */}
           <div className="lg:col-span-1">
             <div className="glass-card rounded-2xl p-6">
-              <h2 className="text-lg font-bold text-gray-900 mb-4">Filters</h2>
+              <h2 className="text-lg font-bold text-secondary-900 mb-4">Filters</h2>
               <div className="space-y-2">
                 {filterOptions.map((option) => {
                   const count = option.value === 'all'
@@ -224,8 +224,8 @@ const NotificationsPage = () => {
               {filteredNotifications.length === 0 ? (
                 <div className="glass-card rounded-2xl p-12 text-center">
                   <span className="material-icons text-6xl text-gray-300 mb-4">notifications_off</span>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">No notifications</h3>
-                  <p className="text-gray-600">
+                  <h3 className="text-xl font-bold text-secondary-900 mb-2">No notifications</h3>
+                  <p className="text-secondary-600">
                     {filter === 'unread'
                       ? "You're all caught up! No unread notifications."
                       : 'No notifications match your current filter.'}
@@ -252,12 +252,12 @@ const NotificationsPage = () => {
                         <div className="flex items-start justify-between mb-2">
                           <div className="flex-1">
                             <div className="flex items-center">
-                              <h3 className="text-lg font-bold text-gray-900">{notification.title}</h3>
+                              <h3 className="text-lg font-bold text-secondary-900">{notification.title}</h3>
                               {!notification.read && (
                                 <span className="ml-2 w-2 h-2 rounded-full bg-primary-600"></span>
                               )}
                             </div>
-                            <p className="text-sm text-gray-600 mt-1">{notification.message}</p>
+                            <p className="text-sm text-secondary-600 mt-1">{notification.message}</p>
                           </div>
                         </div>
 
@@ -281,7 +281,7 @@ const NotificationsPage = () => {
                             {!notification.read && (
                               <button
                                 onClick={() => markAsRead(notification.id)}
-                                className="text-gray-600 hover:text-gray-800 text-sm flex items-center"
+                                className="text-secondary-600 hover:text-secondary-800 text-sm flex items-center"
                                 title="Mark as read"
                               >
                                 <span className="material-icons text-sm">done</span>

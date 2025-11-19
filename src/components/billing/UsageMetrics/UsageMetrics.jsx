@@ -54,8 +54,8 @@ const UsageMetrics = ({ usage, limits, plan }) => {
       <Card padding="md" className="bg-gradient-to-r from-primary-50 to-secondary-50">
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-sm text-gray-600 mb-1">Current Plan</p>
-            <h3 className="text-2xl font-bold text-gray-900">{plan.name}</h3>
+            <p className="text-sm text-secondary-600 mb-1">Current Plan</p>
+            <h3 className="text-2xl font-bold text-secondary-900">{plan.name}</h3>
           </div>
           <Badge variant="primary" size="lg">
             ${plan.price}/month
@@ -76,9 +76,9 @@ const UsageMetrics = ({ usage, limits, plan }) => {
                 <div className="flex items-center gap-3">
                   <div className="text-3xl">{metric.icon}</div>
                   <div>
-                    <p className="text-sm text-gray-600">{metric.label}</p>
+                    <p className="text-sm text-secondary-600">{metric.label}</p>
                     <div className="flex items-center gap-2 mt-1">
-                      <p className="text-2xl font-bold text-gray-900">
+                      <p className="text-2xl font-bold text-secondary-900">
                         {metric.current.toLocaleString()}
                       </p>
                       {metric.trend && (
@@ -113,7 +113,7 @@ const UsageMetrics = ({ usage, limits, plan }) => {
                   <Badge variant="success" size="sm">
                     Unlimited
                   </Badge>
-                  <p className="text-xs text-gray-600">No limits on this plan</p>
+                  <p className="text-xs text-secondary-600">No limits on this plan</p>
                 </div>
               ) : (
                 <>
@@ -124,11 +124,11 @@ const UsageMetrics = ({ usage, limits, plan }) => {
                     size="md"
                   />
                   <div className="flex items-center justify-between mt-2">
-                    <p className="text-xs text-gray-600">
+                    <p className="text-xs text-secondary-600">
                       {metric.current.toLocaleString()} of{' '}
                       {metric.limit.toLocaleString()}
                     </p>
-                    <p className="text-xs font-medium text-gray-900">
+                    <p className="text-xs font-medium text-secondary-900">
                       {Math.round(percentage)}% used
                     </p>
                   </div>
@@ -151,8 +151,8 @@ const UsageMetrics = ({ usage, limits, plan }) => {
       <Card padding="md" className="bg-gray-50">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
-            <p className="text-xs text-gray-600 mb-1">Billing Period</p>
-            <p className="font-medium text-gray-900">
+            <p className="text-xs text-secondary-600 mb-1">Billing Period</p>
+            <p className="font-medium text-secondary-900">
               {new Date().toLocaleDateString()} -{' '}
               {new Date(
                 new Date().setMonth(new Date().getMonth() + 1)
@@ -160,16 +160,16 @@ const UsageMetrics = ({ usage, limits, plan }) => {
             </p>
           </div>
           <div>
-            <p className="text-xs text-gray-600 mb-1">Next Billing Date</p>
-            <p className="font-medium text-gray-900">
+            <p className="text-xs text-secondary-600 mb-1">Next Billing Date</p>
+            <p className="font-medium text-secondary-900">
               {new Date(
                 new Date().setMonth(new Date().getMonth() + 1)
               ).toLocaleDateString()}
             </p>
           </div>
           <div>
-            <p className="text-xs text-gray-600 mb-1">Total This Month</p>
-            <p className="font-medium text-gray-900 text-xl">
+            <p className="text-xs text-secondary-600 mb-1">Total This Month</p>
+            <p className="font-medium text-secondary-900 text-xl">
               ${plan.price}.00
             </p>
           </div>

@@ -157,8 +157,8 @@ const MyAgentsPage = () => {
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">My Agents</h1>
-            <p className="text-gray-600">
+            <h1 className="text-3xl font-bold text-secondary-900 mb-2">My Agents</h1>
+            <p className="text-secondary-600">
               Manage your deployed AI agents and monitor their performance
             </p>
           </div>
@@ -174,16 +174,16 @@ const MyAgentsPage = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           <div className="glass-card rounded-2xl p-6 hover:shadow-lg transition-shadow">
             <div className="flex items-center justify-between mb-2">
-              <div className="text-sm font-medium text-gray-600">Total Agents</div>
+              <div className="text-sm font-medium text-secondary-600">Total Agents</div>
               <Grid3x3 className="w-5 h-5 text-blue-600" />
             </div>
-            <div className="text-3xl font-bold text-gray-900">{agents.length}</div>
+            <div className="text-3xl font-bold text-secondary-900">{agents.length}</div>
             <div className="text-xs text-gray-500 mt-1">Deployed agents</div>
           </div>
 
           <div className="glass-card rounded-2xl p-6 hover:shadow-lg transition-shadow">
             <div className="flex items-center justify-between mb-2">
-              <div className="text-sm font-medium text-gray-600">Active</div>
+              <div className="text-sm font-medium text-secondary-600">Active</div>
               <CheckCircle className="w-5 h-5 text-green-600" />
             </div>
             <div className="text-3xl font-bold text-green-600">{activeAgents}</div>
@@ -192,16 +192,16 @@ const MyAgentsPage = () => {
 
           <div className="glass-card rounded-2xl p-6 hover:shadow-lg transition-shadow">
             <div className="flex items-center justify-between mb-2">
-              <div className="text-sm font-medium text-gray-600">Total Executions</div>
+              <div className="text-sm font-medium text-secondary-600">Total Executions</div>
               <Activity className="w-5 h-5 text-purple-600" />
             </div>
-            <div className="text-3xl font-bold text-gray-900">{formatNumber(totalExecutions)}</div>
+            <div className="text-3xl font-bold text-secondary-900">{formatNumber(totalExecutions)}</div>
             <div className="text-xs text-gray-500 mt-1">All-time runs</div>
           </div>
 
           <div className="glass-card rounded-2xl p-6 hover:shadow-lg transition-shadow">
             <div className="flex items-center justify-between mb-2">
-              <div className="text-sm font-medium text-gray-600">Success Rate</div>
+              <div className="text-sm font-medium text-secondary-600">Success Rate</div>
               <TrendingUp className="w-5 h-5 text-orange-600" />
             </div>
             <div className="text-3xl font-bold text-orange-600">{avgSuccessRate.toFixed(1)}%</div>
@@ -211,7 +211,7 @@ const MyAgentsPage = () => {
 
         {/* View Toggle */}
         <div className="flex items-center justify-between">
-          <h2 className="text-xl font-bold text-gray-900">Your Agents</h2>
+          <h2 className="text-xl font-bold text-secondary-900">Your Agents</h2>
           <div className="flex items-center gap-2 bg-gray-100 rounded-lg p-1">
             <button
               onClick={() => setViewMode('grid')}
@@ -238,13 +238,13 @@ const MyAgentsPage = () => {
         {agents.length === 0 ? (
           <div className="glass-card rounded-3xl p-12 text-center">
             <Grid3x3 className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-xl font-bold text-gray-900 mb-2">No agents deployed yet</h3>
-            <p className="text-gray-600 mb-6 max-w-md mx-auto">
+            <h3 className="text-xl font-bold text-secondary-900 mb-2">No agents deployed yet</h3>
+            <p className="text-secondary-600 mb-6 max-w-md mx-auto">
               Deploy agents from the marketplace or create your own custom agents to get started
             </p>
             <div className="flex gap-3 justify-center">
               <Link to="/agentx/marketplace">
-                <button className="px-6 py-3 border border-gray-300 rounded-xl font-semibold text-gray-700 hover:bg-gray-50">
+                <button className="px-6 py-3 border border-gray-300 rounded-xl font-semibold text-secondary-700 hover:bg-gray-50">
                   Browse Marketplace
                 </button>
               </Link>
@@ -268,8 +268,8 @@ const MyAgentsPage = () => {
                 </div>
 
                 {/* Name and Description */}
-                <h3 className="text-xl font-bold text-gray-900 mb-2">{agent.name}</h3>
-                <p className="text-sm text-gray-600 mb-4 line-clamp-2">{agent.description}</p>
+                <h3 className="text-xl font-bold text-secondary-900 mb-2">{agent.name}</h3>
+                <p className="text-sm text-secondary-600 mb-4 line-clamp-2">{agent.description}</p>
 
                 {/* Source Badge */}
                 <div className="mb-4">
@@ -286,7 +286,7 @@ const MyAgentsPage = () => {
                 <div className="grid grid-cols-2 gap-4 mb-4 pb-4 border-b border-gray-200">
                   <div>
                     <div className="text-xs text-gray-500 mb-1">Executions</div>
-                    <div className="text-lg font-bold text-gray-900">
+                    <div className="text-lg font-bold text-secondary-900">
                       {formatNumber(agent.executions)}
                     </div>
                   </div>
@@ -298,13 +298,13 @@ const MyAgentsPage = () => {
                   </div>
                   <div>
                     <div className="text-xs text-gray-500 mb-1">Avg Time</div>
-                    <div className="text-sm font-semibold text-gray-900">
+                    <div className="text-sm font-semibold text-secondary-900">
                       {agent.avgProcessingTime}
                     </div>
                   </div>
                   <div>
                     <div className="text-xs text-gray-500 mb-1">Last Active</div>
-                    <div className="text-sm font-semibold text-gray-900">
+                    <div className="text-sm font-semibold text-secondary-900">
                       {formatRelativeTime(agent.lastActive)}
                     </div>
                   </div>
@@ -365,7 +365,7 @@ const MyAgentsPage = () => {
                     <div className="flex items-start justify-between mb-3">
                       <div>
                         <div className="flex items-center gap-3 mb-2">
-                          <h3 className="text-2xl font-bold text-gray-900">{agent.name}</h3>
+                          <h3 className="text-2xl font-bold text-secondary-900">{agent.name}</h3>
                           {getStatusBadge(agent.status)}
                           <span className={`px-3 py-1 rounded-lg text-xs font-medium ${
                             agent.source === 'private'
@@ -375,7 +375,7 @@ const MyAgentsPage = () => {
                             {agent.source === 'private' ? 'Private' : 'Marketplace'}
                           </span>
                         </div>
-                        <p className="text-gray-600">{agent.description}</p>
+                        <p className="text-secondary-600">{agent.description}</p>
                       </div>
                     </div>
 
@@ -383,7 +383,7 @@ const MyAgentsPage = () => {
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-4">
                       <div>
                         <div className="text-xs text-gray-500 mb-1">Total Executions</div>
-                        <div className="text-xl font-bold text-gray-900">
+                        <div className="text-xl font-bold text-secondary-900">
                           {formatNumber(agent.executions)}
                         </div>
                       </div>
@@ -395,13 +395,13 @@ const MyAgentsPage = () => {
                       </div>
                       <div>
                         <div className="text-xs text-gray-500 mb-1">Avg Processing Time</div>
-                        <div className="text-xl font-bold text-gray-900">
+                        <div className="text-xl font-bold text-secondary-900">
                           {agent.avgProcessingTime}
                         </div>
                       </div>
                       <div>
                         <div className="text-xs text-gray-500 mb-1">Last Active</div>
-                        <div className="text-xl font-bold text-gray-900">
+                        <div className="text-xl font-bold text-secondary-900">
                           {formatRelativeTime(agent.lastActive)}
                         </div>
                       </div>
@@ -409,18 +409,18 @@ const MyAgentsPage = () => {
 
                     {/* Tags */}
                     <div className="flex items-center gap-3 mb-4">
-                      <span className="text-sm text-gray-600">Engines:</span>
+                      <span className="text-sm text-secondary-600">Engines:</span>
                       <div className="flex gap-2">
                         {agent.engines.map((engine, index) => (
                           <span
                             key={index}
-                            className="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-lg font-medium"
+                            className="px-3 py-1 bg-gray-100 text-secondary-700 text-sm rounded-lg font-medium"
                           >
                             {engine}
                           </span>
                         ))}
                       </div>
-                      <span className="text-sm text-gray-600 ml-2">HITL:</span>
+                      <span className="text-sm text-secondary-600 ml-2">HITL:</span>
                       <span className="px-3 py-1 bg-blue-100 text-blue-700 text-sm rounded-lg font-medium">
                         {agent.hitlMode}
                       </span>

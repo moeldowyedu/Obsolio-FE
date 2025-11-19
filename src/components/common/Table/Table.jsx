@@ -98,7 +98,7 @@ const Table = ({
                   {columns.map((column) => (
                     <td
                       key={column.key}
-                      className="px-6 py-4 whitespace-nowrap text-sm text-gray-900"
+                      className="px-6 py-4 whitespace-nowrap text-sm text-secondary-900"
                     >
                       {column.render
                         ? column.render(row[column.key], row)
@@ -124,7 +124,7 @@ const Table = ({
       {/* Pagination */}
       {pagination && totalPages > 1 && (
         <div className="flex items-center justify-between px-6 py-3 bg-white border-t border-gray-200">
-          <div className="text-sm text-gray-700">
+          <div className="text-sm text-secondary-700">
             Showing <span className="font-medium">{startIndex + 1}</span> to{' '}
             <span className="font-medium">
               {Math.min(endIndex, sortedData.length)}

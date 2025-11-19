@@ -59,11 +59,11 @@ const Modal = ({
         {/* Header */}
         {(title || showCloseButton) && (
           <div className="flex items-center justify-between p-6 border-b border-gray-200">
-            {title && <h2 className="text-xl font-heading font-semibold text-gray-900">{title}</h2>}
+            {title && <h2 className="text-xl font-heading font-semibold text-secondary-900">{title}</h2>}
             {showCloseButton && (
               <button
                 onClick={onClose}
-                className="text-gray-400 hover:text-gray-600 transition-colors"
+                className="text-gray-400 hover:text-secondary-600 transition-colors"
               >
                 <svg
                   className="w-6 h-6"

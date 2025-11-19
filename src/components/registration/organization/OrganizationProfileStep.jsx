@@ -145,8 +145,8 @@ const OrganizationProfileStep = ({ onNext, onBack }) => {
   return (
     <div className="max-w-3xl mx-auto">
       <div className="mb-8 text-center">
-        <h2 className="text-3xl font-bold text-gray-900 mb-2">Organization Profile</h2>
-        <p className="text-gray-600">
+        <h2 className="text-3xl font-bold text-secondary-900 mb-2">Organization Profile</h2>
+        <p className="text-secondary-600">
           Tell us about your organization. This information helps us tailor your experience.
         </p>
       </div>
@@ -167,7 +167,7 @@ const OrganizationProfileStep = ({ onNext, onBack }) => {
 
         {/* Logo Upload */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium text-secondary-700 mb-2">
             Organization Logo
             <span className="text-gray-500 font-normal ml-2">(Optional)</span>
           </label>
@@ -203,7 +203,7 @@ const OrganizationProfileStep = ({ onNext, onBack }) => {
               />
               <label
                 htmlFor="logo-upload"
-                className="inline-block px-4 py-2 bg-gray-100 text-gray-700 rounded-lg cursor-pointer hover:bg-gray-200 transition-colors"
+                className="inline-block px-4 py-2 bg-gray-100 text-secondary-700 rounded-lg cursor-pointer hover:bg-gray-200 transition-colors"
               >
                 Choose File
               </label>

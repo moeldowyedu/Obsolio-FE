@@ -79,8 +79,8 @@ const SetHITLModeStep = ({ onNext, onBack }) => {
   return (
     <div className="max-w-5xl mx-auto">
       <div className="mb-8 text-center">
-        <h2 className="text-3xl font-bold text-gray-900 mb-2">Set HITL Mode & Supervisor</h2>
-        <p className="text-gray-600">
+        <h2 className="text-3xl font-bold text-secondary-900 mb-2">Set HITL Mode & Supervisor</h2>
+        <p className="text-secondary-600">
           Configure human oversight and approval requirements for this agent
         </p>
       </div>
@@ -88,7 +88,7 @@ const SetHITLModeStep = ({ onNext, onBack }) => {
       <form onSubmit={handleSubmit} className="space-y-8">
         {/* HITL Mode Selection */}
         <div>
-          <h3 className="text-xl font-semibold text-gray-900 mb-4">Choose Oversight Mode</h3>
+          <h3 className="text-xl font-semibold text-secondary-900 mb-4">Choose Oversight Mode</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {HITL_MODES.map((mode) => {
               const Icon = getModeIcon(mode.id);
@@ -100,7 +100,7 @@ const SetHITLModeStep = ({ onNext, onBack }) => {
                   onClick={() => handleModeSelect(mode.id)}
                   className={`cursor-pointer transition-all ${
                     isSelected
-                      ? 'border-2 border-primary-500 shadow-lg'
+                      ? 'border-2 border-primary-600 shadow-lg'
                       : 'border border-gray-200 hover:shadow-md'
                   }`}
                 >
@@ -109,8 +109,8 @@ const SetHITLModeStep = ({ onNext, onBack }) => {
                       <Icon className="w-6 h-6 text-white" />
                     </div>
                     <div className="flex-1">
-                      <h4 className="font-semibold text-gray-900 mb-1">{mode.name}</h4>
-                      <p className="text-sm text-gray-600 mb-2">{mode.description}</p>
+                      <h4 className="font-semibold text-secondary-900 mb-1">{mode.name}</h4>
+                      <p className="text-sm text-secondary-600 mb-2">{mode.description}</p>
                       <p className="text-xs text-gray-500">
                         <span className="font-medium">Use case:</span> {mode.useCase}
                       </p>
@@ -125,12 +125,12 @@ const SetHITLModeStep = ({ onNext, onBack }) => {
         {/* Supervisor Selection */}
         {requiresSupervisor && (
           <div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-4">Assign Supervisors</h3>
+            <h3 className="text-xl font-semibold text-secondary-900 mb-4">Assign Supervisors</h3>
 
             {/* Selected Supervisors */}
             {hitlConfig.supervisorIds.length > 0 && (
               <div className="mb-4">
-                <h4 className="text-sm font-medium text-gray-700 mb-2">Selected Supervisors</h4>
+                <h4 className="text-sm font-medium text-secondary-700 mb-2">Selected Supervisors</h4>
                 <div className="flex flex-wrap gap-2">
                   {hitlConfig.supervisorIds.map((userId) => {
                     const user = availableUsers.find((u) => u.id === userId);
@@ -192,7 +192,7 @@ const SetHITLModeStep = ({ onNext, onBack }) => {
         {/* Approval Configuration */}
         {requiresSupervisor && hitlConfig.supervisorIds.length > 1 && (
           <div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-4">Approval Routing</h3>
+            <h3 className="text-xl font-semibold text-secondary-900 mb-4">Approval Routing</h3>
             <Select
               label="Approval Type"
               value={hitlConfig.approvalRouting}
@@ -207,7 +207,7 @@ const SetHITLModeStep = ({ onNext, onBack }) => {
         {/* Escalation Rules */}
         {requiresSupervisor && (
           <div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-4">Escalation Rules</h3>
+            <h3 className="text-xl font-semibold text-secondary-900 mb-4">Escalation Rules</h3>
             <Input
               label="Escalation Time (hours)"
               type="number"
@@ -223,12 +223,12 @@ const SetHITLModeStep = ({ onNext, onBack }) => {
 
         {/* Notification Preferences */}
         <div>
-          <h3 className="text-xl font-semibold text-gray-900 mb-4">Notification Preferences</h3>
+          <h3 className="text-xl font-semibold text-secondary-900 mb-4">Notification Preferences</h3>
           <div className="space-y-4">
             <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
               <div>
-                <h4 className="font-medium text-gray-900">Notify on Pending Approval</h4>
-                <p className="text-sm text-gray-600">Alert supervisors when approval is needed</p>
+                <h4 className="font-medium text-secondary-900">Notify on Pending Approval</h4>
+                <p className="text-sm text-secondary-600">Alert supervisors when approval is needed</p>
               </div>
               <Toggle
                 checked={hitlConfig.notifyOnPendingApproval}
@@ -238,8 +238,8 @@ const SetHITLModeStep = ({ onNext, onBack }) => {
 
             <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
               <div>
-                <h4 className="font-medium text-gray-900">Notify on Completion</h4>
-                <p className="text-sm text-gray-600">Alert when agent completes a task</p>
+                <h4 className="font-medium text-secondary-900">Notify on Completion</h4>
+                <p className="text-sm text-secondary-600">Alert when agent completes a task</p>
               </div>
               <Toggle
                 checked={hitlConfig.notifyOnCompletion}
@@ -249,8 +249,8 @@ const SetHITLModeStep = ({ onNext, onBack }) => {
 
             <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
               <div>
-                <h4 className="font-medium text-gray-900">Notify on Error</h4>
-                <p className="text-sm text-gray-600">Alert when agent encounters an error</p>
+                <h4 className="font-medium text-secondary-900">Notify on Error</h4>
+                <p className="text-sm text-secondary-600">Alert when agent encounters an error</p>
               </div>
               <Toggle
                 checked={hitlConfig.notifyOnError}
@@ -260,8 +260,8 @@ const SetHITLModeStep = ({ onNext, onBack }) => {
 
             <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
               <div>
-                <h4 className="font-medium text-gray-900">Daily Summary Report</h4>
-                <p className="text-sm text-gray-600">Send daily activity summary to supervisors</p>
+                <h4 className="font-medium text-secondary-900">Daily Summary Report</h4>
+                <p className="text-sm text-secondary-600">Send daily activity summary to supervisors</p>
               </div>
               <Toggle
                 checked={hitlConfig.dailySummary}

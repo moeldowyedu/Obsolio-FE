@@ -63,8 +63,8 @@ const DeploymentModal = ({ isOpen, onClose, agent, onDeploy }) => {
             {agent?.icon || '🤖'}
           </div>
           <div>
-            <h3 className="font-semibold text-gray-900">{agent?.name}</h3>
-            <p className="text-sm text-gray-600">{agent?.description}</p>
+            <h3 className="font-semibold text-secondary-900">{agent?.name}</h3>
+            <p className="text-sm text-secondary-600">{agent?.description}</p>
             <div className="flex gap-2 mt-2">
               <Badge variant="primary" size="sm">{agent?.category}</Badge>
               <Badge variant="info" size="sm">{agent?.industry}</Badge>
@@ -75,7 +75,7 @@ const DeploymentModal = ({ isOpen, onClose, agent, onDeploy }) => {
         {/* Deployment Configuration */}
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-secondary-700 mb-2">
               Deployment Name
             </label>
             <input
@@ -88,7 +88,7 @@ const DeploymentModal = ({ isOpen, onClose, agent, onDeploy }) => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-secondary-700 mb-2">
               Environment
             </label>
             <select
@@ -105,7 +105,7 @@ const DeploymentModal = ({ isOpen, onClose, agent, onDeploy }) => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-secondary-700 mb-2">
               Region
             </label>
             <select
@@ -123,8 +123,8 @@ const DeploymentModal = ({ isOpen, onClose, agent, onDeploy }) => {
 
           <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
             <div>
-              <p className="font-medium text-gray-900">Auto Scaling</p>
-              <p className="text-sm text-gray-600">Automatically scale based on demand</p>
+              <p className="font-medium text-secondary-900">Auto Scaling</p>
+              <p className="text-sm text-secondary-600">Automatically scale based on demand</p>
             </div>
             <label className="relative inline-flex items-center cursor-pointer">
               <input
@@ -139,7 +139,7 @@ const DeploymentModal = ({ isOpen, onClose, agent, onDeploy }) => {
 
           {!deploymentConfig.autoScale && (
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-secondary-700 mb-2">
                 Number of Instances
               </label>
               <input

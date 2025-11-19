@@ -132,8 +132,8 @@ const UserActivityPage = () => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">User Activity</h1>
-          <p className="text-gray-600 mt-1">
+          <h1 className="text-3xl font-bold text-secondary-900">User Activity</h1>
+          <p className="text-secondary-600 mt-1">
             Monitor team member activities and actions
           </p>
         </div>
@@ -185,10 +185,10 @@ const UserActivityPage = () => {
         <Card className="bg-gradient-to-br from-gray-50 to-gray-100">
           <div className="flex items-center justify-between">
             <div>
-              <div className="text-2xl font-bold text-gray-900">
+              <div className="text-2xl font-bold text-secondary-900">
                 {new Set(activities.map((a) => a.user)).size}
               </div>
-              <div className="text-sm text-gray-700">Active Users</div>
+              <div className="text-sm text-secondary-700">Active Users</div>
             </div>
             <User className="w-10 h-10 text-gray-500" />
           </div>
@@ -249,13 +249,13 @@ const UserActivityPage = () => {
                 <div className="flex items-start justify-between mb-2">
                   <div>
                     <div className="flex items-center gap-2 mb-1">
-                      <span className="font-semibold text-gray-900">{activity.user}</span>
+                      <span className="font-semibold text-secondary-900">{activity.user}</span>
                       <Badge className={getActivityTypeColor(activity.type)}>
                         {activity.type.toUpperCase()}
                       </Badge>
                     </div>
-                    <p className="text-gray-900">{activity.action}</p>
-                    <p className="text-sm text-gray-600 mt-1">{activity.details}</p>
+                    <p className="text-secondary-900">{activity.action}</p>
+                    <p className="text-sm text-secondary-600 mt-1">{activity.details}</p>
                   </div>
                   <div className="text-right text-sm text-gray-500">
                     <div className="flex items-center gap-1">
@@ -279,10 +279,10 @@ const UserActivityPage = () => {
         <Card>
           <div className="text-center py-12">
             <Activity className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">
+            <h3 className="text-lg font-semibold text-secondary-900 mb-2">
               No Activities Found
             </h3>
-            <p className="text-gray-600">
+            <p className="text-secondary-600">
               {searchTerm || activityTypeFilter !== 'all' || userFilter !== 'all'
                 ? 'Try adjusting your filters'
                 : 'User activities will appear here'}

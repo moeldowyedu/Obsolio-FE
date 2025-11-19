@@ -202,10 +202,10 @@ const Sidebar = () => {
           </div>
           {!isCollapsed && (
             <div className="overflow-hidden">
-              <h1 className="text-xl font-bold font-heading text-gray-900 whitespace-nowrap">
+              <h1 className="text-xl font-bold font-heading text-secondary-900 whitespace-nowrap">
                 {PLATFORM.name}
               </h1>
-              <p className="text-xs text-gray-600 whitespace-nowrap">
+              <p className="text-xs text-secondary-600 whitespace-nowrap">
                 {PLATFORM.tagline}
               </p>
             </div>
@@ -220,9 +220,9 @@ const Sidebar = () => {
         title={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
       >
         {isCollapsed ? (
-          <ChevronRight className="w-4 h-4 text-gray-600" />
+          <ChevronRight className="w-4 h-4 text-secondary-600" />
         ) : (
-          <ChevronLeft className="w-4 h-4 text-gray-600" />
+          <ChevronLeft className="w-4 h-4 text-secondary-600" />
         )}
       </button>
 
@@ -288,7 +288,7 @@ const Sidebar = () => {
                   {isCollapsed && (
                     <div className="absolute left-full top-0 ml-2 hidden group-hover:block z-50">
                       <div className="bg-white border border-gray-200 rounded-lg shadow-lg py-2 min-w-[200px]">
-                        <div className="px-4 py-2 text-sm font-semibold text-gray-900 border-b border-gray-200">
+                        <div className="px-4 py-2 text-sm font-semibold text-secondary-900 border-b border-gray-200">
                           {item.name}
                         </div>
                         {item.children.map((child) => (
@@ -349,10 +349,10 @@ const Sidebar = () => {
       {!isCollapsed && (
         <div className="p-4 border-t border-gray-200 bg-white flex-shrink-0">
           <div className="bg-gradient-to-r from-primary-50 to-secondary-50 rounded-lg p-4">
-            <h3 className="text-sm font-semibold text-gray-900 mb-1">
+            <h3 className="text-sm font-semibold text-secondary-900 mb-1">
               Need Help?
             </h3>
-            <p className="text-xs text-gray-600 mb-3">
+            <p className="text-xs text-secondary-600 mb-3">
               Check our documentation and guides
             </p>
             <a

@@ -111,14 +111,14 @@ const AgentExecutionTimeline = ({ executions = [], agentId }) => {
                   <div className="flex items-start justify-between mb-3">
                     <div>
                       <div className="flex items-center gap-2 mb-1">
-                        <h4 className="font-semibold text-gray-900">
+                        <h4 className="font-semibold text-secondary-900">
                           Execution #{execution.executionNumber || execution.id.slice(0, 8)}
                         </h4>
                         <Badge variant={config.variant} size="sm">
                           {execution.status}
                         </Badge>
                       </div>
-                      <p className="text-sm text-gray-600">
+                      <p className="text-sm text-secondary-600">
                         {formatDate(execution.startedAt)}
                       </p>
                     </div>
@@ -133,20 +133,20 @@ const AgentExecutionTimeline = ({ executions = [], agentId }) => {
                   {/* Stats */}
                   <div className="grid grid-cols-3 gap-4 text-sm">
                     <div>
-                      <p className="text-gray-600 mb-1">Duration</p>
-                      <p className="font-medium text-gray-900">
+                      <p className="text-secondary-600 mb-1">Duration</p>
+                      <p className="font-medium text-secondary-900">
                         {formatDuration(execution.duration)}
                       </p>
                     </div>
                     <div>
-                      <p className="text-gray-600 mb-1">Triggered By</p>
-                      <p className="font-medium text-gray-900">
+                      <p className="text-secondary-600 mb-1">Triggered By</p>
+                      <p className="font-medium text-secondary-900">
                         {execution.triggeredBy || 'Manual'}
                       </p>
                     </div>
                     <div>
-                      <p className="text-gray-600 mb-1">Items Processed</p>
-                      <p className="font-medium text-gray-900">
+                      <p className="text-secondary-600 mb-1">Items Processed</p>
+                      <p className="font-medium text-secondary-900">
                         {execution.itemsProcessed || 0}
                       </p>
                     </div>
@@ -165,7 +165,7 @@ const AgentExecutionTimeline = ({ executions = [], agentId }) => {
                   {/* Input/Output preview */}
                   {execution.inputPreview && (
                     <div className="mt-3">
-                      <p className="text-xs text-gray-600 mb-1">Input</p>
+                      <p className="text-xs text-secondary-600 mb-1">Input</p>
                       <pre className="text-xs bg-gray-50 p-2 rounded border border-gray-200 overflow-x-auto">
                         {JSON.stringify(execution.inputPreview, null, 2)}
                       </pre>

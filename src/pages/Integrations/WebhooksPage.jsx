@@ -37,8 +37,8 @@ const WebhooksPage = () => {
     <MainLayout>
       <div className="p-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Webhooks</h1>
-          <p className="text-gray-600">
+          <h1 className="text-3xl font-bold text-secondary-900 mb-2">Webhooks</h1>
+          <p className="text-secondary-600">
             Configure webhooks to receive real-time notifications
           </p>
         </div>
@@ -56,7 +56,7 @@ const WebhooksPage = () => {
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-2">
-                      <h3 className="text-lg font-semibold text-gray-900">
+                      <h3 className="text-lg font-semibold text-secondary-900">
                         {webhook.name}
                       </h3>
                       <Badge color={webhook.status === 'active' ? 'green' : 'gray'}>
@@ -68,7 +68,7 @@ const WebhooksPage = () => {
                         <XCircle className="w-5 h-5 text-gray-400" />
                       )}
                     </div>
-                    <code className="text-sm text-gray-600 bg-gray-100 px-2 py-1 rounded">
+                    <code className="text-sm text-secondary-600 bg-gray-100 px-2 py-1 rounded">
                       {webhook.url}
                     </code>
                   </div>
@@ -84,8 +84,8 @@ const WebhooksPage = () => {
                 </div>
 
                 <div className="flex items-center justify-between pt-4 border-t border-gray-200">
-                  <p className="text-sm text-gray-600">
-                    Last triggered: <span className="font-medium text-gray-900">{webhook.lastTriggered}</span>
+                  <p className="text-sm text-secondary-600">
+                    Last triggered: <span className="font-medium text-secondary-900">{webhook.lastTriggered}</span>
                   </p>
                   <div className="flex items-center gap-2">
                     <Button size="sm" variant="outline" icon={<Edit className="w-4 h-4" />}>

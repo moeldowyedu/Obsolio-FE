@@ -75,7 +75,7 @@ const MarketplaceFilters = ({ filters, onFilterChange, onClearFilters }) => {
         {activeFilterCount > 0 && (
           <Card padding="sm">
             <div className="flex items-center justify-between">
-              <span className="text-sm font-medium text-gray-700">
+              <span className="text-sm font-medium text-secondary-700">
                 {activeFilterCount} filter{activeFilterCount !== 1 ? 's' : ''} active
               </span>
               <button
@@ -91,7 +91,7 @@ const MarketplaceFilters = ({ filters, onFilterChange, onClearFilters }) => {
 
         {/* Categories */}
         <Card padding="md">
-          <h3 className="font-semibold text-gray-900 mb-3">Categories</h3>
+          <h3 className="font-semibold text-secondary-900 mb-3">Categories</h3>
           <div className="space-y-2 max-h-64 overflow-y-auto">
             {categories.map((category) => (
               <button
@@ -111,7 +111,7 @@ const MarketplaceFilters = ({ filters, onFilterChange, onClearFilters }) => {
 
         {/* Engines */}
         <Card padding="md">
-          <h3 className="font-semibold text-gray-900 mb-3">AI Engines</h3>
+          <h3 className="font-semibold text-secondary-900 mb-3">AI Engines</h3>
           <div className="space-y-2">
             {ENGINES.map((engine) => (
               <label
@@ -128,7 +128,7 @@ const MarketplaceFilters = ({ filters, onFilterChange, onClearFilters }) => {
                   className="w-3 h-3 rounded"
                   style={{ backgroundColor: engine.color }}
                 />
-                <span className="text-sm text-gray-700">{engine.name}</span>
+                <span className="text-sm text-secondary-700">{engine.name}</span>
               </label>
             ))}
           </div>
@@ -136,7 +136,7 @@ const MarketplaceFilters = ({ filters, onFilterChange, onClearFilters }) => {
 
         {/* Price Range */}
         <Card padding="md">
-          <h3 className="font-semibold text-gray-900 mb-3">Price</h3>
+          <h3 className="font-semibold text-secondary-900 mb-3">Price</h3>
           <div className="space-y-2">
             {priceRanges.map((range) => (
               <label
@@ -150,7 +150,7 @@ const MarketplaceFilters = ({ filters, onFilterChange, onClearFilters }) => {
                   onChange={() => handlePriceRangeChange(range.id)}
                   className="w-4 h-4 text-primary-600"
                 />
-                <span className="text-sm text-gray-700">{range.label}</span>
+                <span className="text-sm text-secondary-700">{range.label}</span>
               </label>
             ))}
           </div>
@@ -158,7 +158,7 @@ const MarketplaceFilters = ({ filters, onFilterChange, onClearFilters }) => {
 
         {/* Rating */}
         <Card padding="md">
-          <h3 className="font-semibold text-gray-900 mb-3">Rating</h3>
+          <h3 className="font-semibold text-secondary-900 mb-3">Rating</h3>
           <div className="space-y-2">
             {[5, 4, 3].map((rating) => (
               <label
@@ -174,7 +174,7 @@ const MarketplaceFilters = ({ filters, onFilterChange, onClearFilters }) => {
                   }
                   className="w-4 h-4 text-primary-600"
                 />
-                <span className="text-sm text-gray-700">
+                <span className="text-sm text-secondary-700">
                   {rating}+ ⭐
                 </span>
               </label>

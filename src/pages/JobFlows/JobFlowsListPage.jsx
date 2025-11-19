@@ -174,8 +174,8 @@ const JobFlowsListPage = () => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Job Flows</h1>
-          <p className="text-gray-600 mt-1">
+          <h1 className="text-3xl font-bold text-secondary-900">Job Flows</h1>
+          <p className="text-secondary-600 mt-1">
             Manage AI agent job assignments and schedules
           </p>
         </div>
@@ -293,10 +293,10 @@ const JobFlowsListPage = () => {
               <div className="flex-1">
                 <div className="flex items-start justify-between mb-2">
                   <div>
-                    <h3 className="text-xl font-semibold text-gray-900 mb-1">
+                    <h3 className="text-xl font-semibold text-secondary-900 mb-1">
                       {jobFlow.name}
                     </h3>
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm text-secondary-600">
                       <Bot className="w-4 h-4 inline mr-1" />
                       {jobFlow.agent}
                     </p>
@@ -309,11 +309,11 @@ const JobFlowsListPage = () => {
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4 pt-4 border-t border-gray-200">
                   <div>
                     <p className="text-xs text-gray-500 mb-1">Department</p>
-                    <p className="text-sm font-medium text-gray-900">{jobFlow.department}</p>
+                    <p className="text-sm font-medium text-secondary-900">{jobFlow.department}</p>
                   </div>
                   <div>
                     <p className="text-xs text-gray-500 mb-1">Schedule</p>
-                    <p className="text-sm font-medium text-gray-900 flex items-center gap-1">
+                    <p className="text-sm font-medium text-secondary-900 flex items-center gap-1">
                       <Clock className="w-3 h-3" />
                       {jobFlow.schedule}
                     </p>
@@ -324,14 +324,14 @@ const JobFlowsListPage = () => {
                   </div>
                   <div>
                     <p className="text-xs text-gray-500 mb-1">Tasks Completed</p>
-                    <p className="text-sm font-medium text-gray-900">
+                    <p className="text-sm font-medium text-secondary-900">
                       {jobFlow.tasksCompleted.toLocaleString()}
                     </p>
                   </div>
                 </div>
 
                 {jobFlow.nextRun && (
-                  <div className="mt-3 flex items-center gap-2 text-sm text-gray-600">
+                  <div className="mt-3 flex items-center gap-2 text-sm text-secondary-600">
                     <Calendar className="w-4 h-4" />
                     Next run: {new Date(jobFlow.nextRun).toLocaleString()}
                   </div>
@@ -382,10 +382,10 @@ const JobFlowsListPage = () => {
         <Card>
           <div className="text-center py-12">
             <Bot className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">
+            <h3 className="text-lg font-semibold text-secondary-900 mb-2">
               No Job Flows Found
             </h3>
-            <p className="text-gray-600 mb-4">
+            <p className="text-secondary-600 mb-4">
               {searchTerm || statusFilter !== 'all' || departmentFilter !== 'all'
                 ? 'Try adjusting your filters'
                 : 'Get started by creating your first job flow'}

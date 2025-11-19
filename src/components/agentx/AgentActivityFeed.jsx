@@ -68,10 +68,10 @@ const AgentActivityFeed = () => {
             <div className="flex-grow min-w-0">
               <div className="flex items-start justify-between gap-2">
                 <div className="flex-grow min-w-0">
-                  <p className="font-medium text-gray-900 text-sm truncate">
+                  <p className="font-medium text-secondary-900 text-sm truncate">
                     {activity.agent}
                   </p>
-                  <p className="text-sm text-gray-600 mt-0.5">
+                  <p className="text-sm text-secondary-600 mt-0.5">
                     {activity.action}
                   </p>
                 </div>

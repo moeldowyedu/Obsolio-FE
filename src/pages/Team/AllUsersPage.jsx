@@ -181,8 +181,8 @@ const AllUsersPage = () => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">All Users</h1>
-          <p className="text-gray-600 mt-1">
+          <h1 className="text-3xl font-bold text-secondary-900">All Users</h1>
+          <p className="text-secondary-600 mt-1">
             Manage team members and their access
           </p>
         </div>
@@ -292,25 +292,25 @@ const AllUsersPage = () => {
           <table className="w-full">
             <thead className="bg-gray-50 border-b border-gray-200">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase">
+                <th className="px-6 py-3 text-left text-xs font-semibold text-secondary-700 uppercase">
                   User
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase">
+                <th className="px-6 py-3 text-left text-xs font-semibold text-secondary-700 uppercase">
                   Role
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase">
+                <th className="px-6 py-3 text-left text-xs font-semibold text-secondary-700 uppercase">
                   Department
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase">
+                <th className="px-6 py-3 text-left text-xs font-semibold text-secondary-700 uppercase">
                   Access Scope
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase">
+                <th className="px-6 py-3 text-left text-xs font-semibold text-secondary-700 uppercase">
                   Status
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase">
+                <th className="px-6 py-3 text-left text-xs font-semibold text-secondary-700 uppercase">
                   Last Active
                 </th>
-                <th className="px-6 py-3 text-center text-xs font-semibold text-gray-700 uppercase">
+                <th className="px-6 py-3 text-center text-xs font-semibold text-secondary-700 uppercase">
                   Actions
                 </th>
               </tr>
@@ -320,12 +320,12 @@ const AllUsersPage = () => {
                 <tr key={user.id} className="hover:bg-gray-50">
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-primary-500 rounded-full flex items-center justify-center text-white font-bold">
+                      <div className="w-10 h-10 bg-primary-600 rounded-full flex items-center justify-center text-white font-bold">
                         {user.name.charAt(0)}
                       </div>
                       <div>
-                        <p className="font-medium text-gray-900">{user.name}</p>
-                        <p className="text-sm text-gray-600 flex items-center gap-1">
+                        <p className="font-medium text-secondary-900">{user.name}</p>
+                        <p className="text-sm text-secondary-600 flex items-center gap-1">
                           <Mail className="w-3 h-3" />
                           {user.email}
                         </p>
@@ -339,13 +339,13 @@ const AllUsersPage = () => {
                     </Badge>
                   </td>
                   <td className="px-6 py-4">
-                    <div className="flex items-center gap-2 text-sm text-gray-900">
+                    <div className="flex items-center gap-2 text-sm text-secondary-900">
                       <Building className="w-4 h-4 text-gray-400" />
                       {user.department}
                     </div>
                   </td>
                   <td className="px-6 py-4">
-                    <span className="text-sm text-gray-900 capitalize">
+                    <span className="text-sm text-secondary-900 capitalize">
                       {user.accessScope.replace('-', ' ')}
                     </span>
                   </td>
@@ -355,7 +355,7 @@ const AllUsersPage = () => {
                     </Badge>
                   </td>
                   <td className="px-6 py-4">
-                    <span className="text-sm text-gray-600">{user.lastActive}</span>
+                    <span className="text-sm text-secondary-600">{user.lastActive}</span>
                   </td>
                   <td className="px-6 py-4">
                     <div className="flex items-center justify-center gap-2">
@@ -381,8 +381,8 @@ const AllUsersPage = () => {
         <Card>
           <div className="text-center py-12">
             <User className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">No Users Found</h3>
-            <p className="text-gray-600">
+            <h3 className="text-lg font-semibold text-secondary-900 mb-2">No Users Found</h3>
+            <p className="text-secondary-600">
               {searchTerm || roleFilter !== 'all' || departmentFilter !== 'all' || statusFilter !== 'all'
                 ? 'Try adjusting your filters'
                 : 'Get started by inviting your first team member'}

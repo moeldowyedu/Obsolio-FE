@@ -19,7 +19,7 @@ const WizardSteps = ({ steps, currentStep }) => {
                     isCompleted
                       ? 'bg-green-500 text-white'
                       : isCurrent
-                      ? 'bg-primary-500 text-white ring-4 ring-primary-100'
+                      ? 'bg-primary-600 text-white ring-4 ring-primary-100'
                       : 'bg-gray-200 text-gray-500'
                   }`}
                 >

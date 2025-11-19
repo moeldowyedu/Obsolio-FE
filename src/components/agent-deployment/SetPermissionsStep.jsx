@@ -94,8 +94,8 @@ const SetPermissionsStep = ({ onNext, onBack }) => {
   return (
     <div className="max-w-5xl mx-auto">
       <div className="mb-8 text-center">
-        <h2 className="text-3xl font-bold text-gray-900 mb-2">Set Permissions & Visibility</h2>
-        <p className="text-gray-600">
+        <h2 className="text-3xl font-bold text-secondary-900 mb-2">Set Permissions & Visibility</h2>
+        <p className="text-secondary-600">
           Control who can see, modify, and trigger this agent
         </p>
       </div>
@@ -103,8 +103,8 @@ const SetPermissionsStep = ({ onNext, onBack }) => {
       <form onSubmit={handleSubmit} className="space-y-8">
         {/* Visibility */}
         <div>
-          <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
-            <Eye className="w-5 h-5 text-primary-500" />
+          <h3 className="text-xl font-semibold text-secondary-900 mb-4 flex items-center gap-2">
+            <Eye className="w-5 h-5 text-primary-600" />
             Who Can View This Agent?
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -118,7 +118,7 @@ const SetPermissionsStep = ({ onNext, onBack }) => {
                   onClick={() => updatePermissions({ visibility: option.id })}
                   className={`cursor-pointer transition-all ${
                     isSelected
-                      ? 'border-2 border-primary-500 shadow-lg'
+                      ? 'border-2 border-primary-600 shadow-lg'
                       : 'border border-gray-200 hover:shadow-md'
                   }`}
                 >
@@ -127,8 +127,8 @@ const SetPermissionsStep = ({ onNext, onBack }) => {
                       <Icon className="w-6 h-6 text-white" />
                     </div>
                     <div>
-                      <h4 className="font-semibold text-gray-900 mb-1">{option.title}</h4>
-                      <p className="text-sm text-gray-600">{option.description}</p>
+                      <h4 className="font-semibold text-secondary-900 mb-1">{option.title}</h4>
+                      <p className="text-sm text-secondary-600">{option.description}</p>
                     </div>
                   </div>
                 </Card>
@@ -139,8 +139,8 @@ const SetPermissionsStep = ({ onNext, onBack }) => {
 
         {/* Modify Permissions */}
         <div>
-          <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
-            <Lock className="w-5 h-5 text-primary-500" />
+          <h3 className="text-xl font-semibold text-secondary-900 mb-4 flex items-center gap-2">
+            <Lock className="w-5 h-5 text-primary-600" />
             Who Can Modify This Agent?
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -154,18 +154,18 @@ const SetPermissionsStep = ({ onNext, onBack }) => {
                   onClick={() => updatePermissions({ canModify: option.id })}
                   className={`cursor-pointer transition-all ${
                     isSelected
-                      ? 'border-2 border-primary-500 shadow-lg'
+                      ? 'border-2 border-primary-600 shadow-lg'
                       : 'border border-gray-200 hover:shadow-md'
                   }`}
                 >
                   <div className="text-center">
                     <div className="flex justify-center mb-3">
-                      <div className={`w-12 h-12 ${isSelected ? 'bg-primary-500' : 'bg-gray-200'} rounded-lg flex items-center justify-center`}>
+                      <div className={`w-12 h-12 ${isSelected ? 'bg-primary-600' : 'bg-gray-200'} rounded-lg flex items-center justify-center`}>
                         <Icon className={`w-6 h-6 ${isSelected ? 'text-white' : 'text-gray-600'}`} />
                       </div>
                     </div>
-                    <h4 className="font-semibold text-gray-900 mb-1">{option.title}</h4>
-                    <p className="text-sm text-gray-600">{option.description}</p>
+                    <h4 className="font-semibold text-secondary-900 mb-1">{option.title}</h4>
+                    <p className="text-sm text-secondary-600">{option.description}</p>
                   </div>
                 </Card>
               );
@@ -175,8 +175,8 @@ const SetPermissionsStep = ({ onNext, onBack }) => {
 
         {/* Trigger Permissions */}
         <div>
-          <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
-            <Play className="w-5 h-5 text-primary-500" />
+          <h3 className="text-xl font-semibold text-secondary-900 mb-4 flex items-center gap-2">
+            <Play className="w-5 h-5 text-primary-600" />
             Who Can Trigger Manual Runs?
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -190,18 +190,18 @@ const SetPermissionsStep = ({ onNext, onBack }) => {
                   onClick={() => updatePermissions({ canTrigger: option.id })}
                   className={`cursor-pointer transition-all ${
                     isSelected
-                      ? 'border-2 border-primary-500 shadow-lg'
+                      ? 'border-2 border-primary-600 shadow-lg'
                       : 'border border-gray-200 hover:shadow-md'
                   }`}
                 >
                   <div className="text-center">
                     <div className="flex justify-center mb-3">
-                      <div className={`w-12 h-12 ${isSelected ? 'bg-primary-500' : 'bg-gray-200'} rounded-lg flex items-center justify-center`}>
+                      <div className={`w-12 h-12 ${isSelected ? 'bg-primary-600' : 'bg-gray-200'} rounded-lg flex items-center justify-center`}>
                         <Icon className={`w-6 h-6 ${isSelected ? 'text-white' : 'text-gray-600'}`} />
                       </div>
                     </div>
-                    <h4 className="font-semibold text-gray-900 mb-1">{option.title}</h4>
-                    <p className="text-sm text-gray-600">{option.description}</p>
+                    <h4 className="font-semibold text-secondary-900 mb-1">{option.title}</h4>
+                    <p className="text-sm text-secondary-600">{option.description}</p>
                   </div>
                 </Card>
               );

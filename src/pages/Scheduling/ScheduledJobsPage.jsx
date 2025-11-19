@@ -51,8 +51,8 @@ const ScheduledJobsPage = () => {
     <MainLayout>
       <div className="p-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Scheduled Jobs</h1>
-          <p className="text-gray-600">
+          <h1 className="text-3xl font-bold text-secondary-900 mb-2">Scheduled Jobs</h1>
+          <p className="text-secondary-600">
             Manage automated job schedules for your agents
           </p>
         </div>
@@ -85,33 +85,33 @@ const ScheduledJobsPage = () => {
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-2">
-                      <h3 className="text-xl font-semibold text-gray-900">
+                      <h3 className="text-xl font-semibold text-secondary-900">
                         {job.name}
                       </h3>
                       <Badge color={getStatusColor(job.status)}>
                         {job.status}
                       </Badge>
                     </div>
-                    <p className="text-gray-600">Agent: {job.agent}</p>
+                    <p className="text-secondary-600">Agent: {job.agent}</p>
                   </div>
                 </div>
 
                 <div className="grid grid-cols-4 gap-4 mb-4">
                   <div>
                     <p className="text-xs text-gray-500 mb-1">Schedule</p>
-                    <p className="text-sm font-medium text-gray-900">
+                    <p className="text-sm font-medium text-secondary-900">
                       {job.schedule}
                     </p>
                   </div>
                   <div>
                     <p className="text-xs text-gray-500 mb-1">Next Run</p>
-                    <p className="text-sm font-medium text-gray-900">
+                    <p className="text-sm font-medium text-secondary-900">
                       {job.nextRun}
                     </p>
                   </div>
                   <div>
                     <p className="text-xs text-gray-500 mb-1">Last Run</p>
-                    <p className="text-sm font-medium text-gray-900">
+                    <p className="text-sm font-medium text-secondary-900">
                       {job.lastRun}
                     </p>
                   </div>

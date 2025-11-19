@@ -74,7 +74,7 @@ const WorkflowNode = ({ node, isSelected, onSelect, onConfigure, isExecuting, ex
 
       {/* Node Card */}
       <div className={`bg-white rounded-lg shadow-md border-2 ${
-        isSelected ? 'border-primary-500' : 'border-gray-200'
+        isSelected ? 'border-primary-600' : 'border-gray-200'
       } transition-all hover:shadow-lg min-w-[180px]`}>
         {/* Header */}
         <div className={`bg-gradient-to-r ${nodeColor} text-white px-4 py-2 rounded-t-lg flex items-center justify-between`}>
@@ -87,26 +87,26 @@ const WorkflowNode = ({ node, isSelected, onSelect, onConfigure, isExecuting, ex
 
         {/* Content */}
         <div className="p-3">
-          <p className="font-semibold text-gray-900 text-sm mb-1">{node.label || 'Unnamed Node'}</p>
+          <p className="font-semibold text-secondary-900 text-sm mb-1">{node.label || 'Unnamed Node'}</p>
           {node.agentName && (
-            <p className="text-xs text-gray-600 mb-2">{node.agentName}</p>
+            <p className="text-xs text-secondary-600 mb-2">{node.agentName}</p>
           )}
 
           {/* Node-specific details */}
           {node.type === 'condition' && node.condition && (
-            <div className="text-xs text-gray-600 mb-2">
+            <div className="text-xs text-secondary-600 mb-2">
               <Badge variant="default" size="sm">{node.condition}</Badge>
             </div>
           )}
 
           {node.type === 'loop' && node.iterations && (
-            <div className="text-xs text-gray-600">
+            <div className="text-xs text-secondary-600">
               <Badge variant="default" size="sm">{node.iterations} iterations</Badge>
             </div>
           )}
 
           {node.type === 'delay' && node.duration && (
-            <div className="text-xs text-gray-600">
+            <div className="text-xs text-secondary-600">
               <Badge variant="default" size="sm">{node.duration}s delay</Badge>
             </div>
           )}
@@ -115,7 +115,7 @@ const WorkflowNode = ({ node, isSelected, onSelect, onConfigure, isExecuting, ex
           {isExecuting && executionStatus && (
             <div className="mt-2 pt-2 border-t border-gray-200">
               <div className="flex items-center justify-between text-xs">
-                <span className="text-gray-600">Status:</span>
+                <span className="text-secondary-600">Status:</span>
                 <Badge
                   variant={
                     executionStatus === 'success' ? 'success' :
@@ -139,9 +139,9 @@ const WorkflowNode = ({ node, isSelected, onSelect, onConfigure, isExecuting, ex
               e.stopPropagation();
               onConfigure(node.id);
             }}
-            className="absolute -top-2 -right-2 p-1 bg-white border-2 border-gray-300 rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:border-primary-500"
+            className="absolute -top-2 -right-2 p-1 bg-white border-2 border-gray-300 rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:border-primary-600"
           >
-            <Settings className="w-4 h-4 text-gray-600" />
+            <Settings className="w-4 h-4 text-secondary-600" />
           </button>
         )}
 

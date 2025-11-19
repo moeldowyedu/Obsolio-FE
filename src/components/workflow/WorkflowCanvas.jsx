@@ -91,11 +91,11 @@ const WorkflowCanvas = ({
                   onMouseLeave={() => setHoveredConnection(null)}
                   className={`p-2 rounded-full border-2 border-dashed transition-all ${
                     hoveredConnection === index
-                      ? 'bg-primary-100 border-primary-500 scale-110'
+                      ? 'bg-primary-100 border-primary-600 scale-110'
                       : 'bg-white border-gray-300 opacity-0 group-hover:opacity-100'
                   }`}
                 >
-                  <Plus className="w-4 h-4 text-gray-600" />
+                  <Plus className="w-4 h-4 text-secondary-600" />
                 </button>
               )}
             </div>

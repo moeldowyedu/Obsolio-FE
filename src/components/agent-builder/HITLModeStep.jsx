@@ -56,10 +56,10 @@ const HITLModeStep = ({ data, onChange }) => {
   return (
     <div className="space-y-6">
       <Card padding="md">
-        <h2 className="text-2xl font-heading font-bold text-gray-900 mb-4">
+        <h2 className="text-2xl font-heading font-bold text-secondary-900 mb-4">
           Human-in-the-Loop (HITL) Oversight
         </h2>
-        <p className="text-gray-600 mb-6">
+        <p className="text-secondary-600 mb-6">
           Choose how humans will oversee and control your AI agent's operations
         </p>
 
@@ -87,7 +87,7 @@ const HITLModeStep = ({ data, onChange }) => {
 
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-2">
-                      <h3 className="text-lg font-semibold text-gray-900">
+                      <h3 className="text-lg font-semibold text-secondary-900">
                         {mode.name}
                       </h3>
                       {isSelected && (
@@ -97,7 +97,7 @@ const HITLModeStep = ({ data, onChange }) => {
                       )}
                     </div>
 
-                    <p className="text-sm text-gray-600 mb-3">
+                    <p className="text-sm text-secondary-600 mb-3">
                       {mode.description}
                     </p>
 
@@ -105,7 +105,7 @@ const HITLModeStep = ({ data, onChange }) => {
                       <span className="text-xs font-medium text-gray-500">
                         Best for:
                       </span>
-                      <span className="text-xs px-2 py-1 bg-white border border-gray-200 text-gray-700 rounded">
+                      <span className="text-xs px-2 py-1 bg-white border border-gray-200 text-secondary-700 rounded">
                         {mode.useCase}
                       </span>
                     </div>
@@ -126,13 +126,13 @@ const HITLModeStep = ({ data, onChange }) => {
       {/* HITL Configuration */}
       {selectedMode && selectedMode !== 'fully-ai' && (
         <Card padding="md">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">
+          <h3 className="text-lg font-semibold text-secondary-900 mb-4">
             HITL Configuration
           </h3>
 
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-secondary-700 mb-2">
                 Approval Required For
               </label>
               <div className="space-y-2">
@@ -166,7 +166,7 @@ const HITLModeStep = ({ data, onChange }) => {
                       }}
                       className="w-4 h-4 text-primary-600 rounded"
                     />
-                    <label htmlFor={option.id} className="text-sm text-gray-700">
+                    <label htmlFor={option.id} className="text-sm text-secondary-700">
                       {option.label}
                     </label>
                   </div>
@@ -175,7 +175,7 @@ const HITLModeStep = ({ data, onChange }) => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-secondary-700 mb-2">
                 Notification Method
               </label>
               <select
@@ -208,10 +208,10 @@ const HITLModeStep = ({ data, onChange }) => {
             <Icons.Info className="w-5 h-5 text-white" />
           </div>
           <div>
-            <h3 className="font-semibold text-gray-900 mb-2">
+            <h3 className="font-semibold text-secondary-900 mb-2">
               Why HITL Matters
             </h3>
-            <p className="text-sm text-gray-700">
+            <p className="text-sm text-secondary-700">
               Human-in-the-Loop oversight ensures AI agents operate safely and
               align with your business rules. You maintain control while
               benefiting from AI automation.

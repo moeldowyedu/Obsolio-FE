@@ -84,8 +84,8 @@ const RolesPermissionsPage = () => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Roles & Permissions</h1>
-          <p className="text-gray-600 mt-1">
+          <h1 className="text-3xl font-bold text-secondary-900">Roles & Permissions</h1>
+          <p className="text-secondary-600 mt-1">
             Manage user roles and their permissions
           </p>
         </div>
@@ -97,7 +97,7 @@ const RolesPermissionsPage = () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Roles List */}
         <div className="space-y-3">
-          <h2 className="text-lg font-semibold text-gray-900">Available Roles</h2>
+          <h2 className="text-lg font-semibold text-secondary-900">Available Roles</h2>
           {Object.keys(roles).map((roleKey) => {
             const role = roles[roleKey];
             const isSelected = selectedRole === roleKey;
@@ -119,7 +119,7 @@ const RolesPermissionsPage = () => {
                         {role.name}
                       </h3>
                     </div>
-                    <p className="text-sm text-gray-600 mb-3">{role.description}</p>
+                    <p className="text-sm text-secondary-600 mb-3">{role.description}</p>
                     <div className="flex items-center gap-2 text-xs text-gray-500">
                       <Users className="w-4 h-4" />
                       <span>12 users</span>
@@ -154,7 +154,7 @@ const RolesPermissionsPage = () => {
           {/* Permissions by Category */}
           {Object.keys(groupedPermissions).map((category) => (
             <Card key={category}>
-              <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+              <h3 className="text-lg font-semibold text-secondary-900 mb-4 flex items-center gap-2">
                 <Badge className="bg-blue-100 text-blue-700">
                   {category}
                 </Badge>
@@ -193,19 +193,19 @@ const RolesPermissionsPage = () => {
 
           {/* Permission Summary */}
           <Card className="bg-gray-50">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Permission Summary</h3>
+            <h3 className="text-lg font-semibold text-secondary-900 mb-4">Permission Summary</h3>
             <div className="grid grid-cols-2 gap-4">
               <div className="bg-white rounded-lg p-4 border border-gray-200">
                 <div className="text-3xl font-bold text-green-600 mb-1">
                   {Object.values(currentRole.defaultPermissions).filter(Boolean).length}
                 </div>
-                <div className="text-sm text-gray-600">Permissions Granted</div>
+                <div className="text-sm text-secondary-600">Permissions Granted</div>
               </div>
               <div className="bg-white rounded-lg p-4 border border-gray-200">
-                <div className="text-3xl font-bold text-gray-600 mb-1">
+                <div className="text-3xl font-bold text-secondary-600 mb-1">
                   {Object.values(currentRole.defaultPermissions).filter((v) => !v).length}
                 </div>
-                <div className="text-sm text-gray-600">Permissions Denied</div>
+                <div className="text-sm text-secondary-600">Permissions Denied</div>
               </div>
             </div>
           </Card>

@@ -55,10 +55,10 @@ const QuickActions = () => {
             >
               {action.icon}
             </div>
-            <h3 className="font-heading font-semibold text-gray-900 mb-1">
+            <h3 className="font-heading font-semibold text-secondary-900 mb-1">
               {action.title}
             </h3>
-            <p className="text-sm text-gray-600">{action.description}</p>
+            <p className="text-sm text-secondary-600">{action.description}</p>
           </div>
         </Card>
       ))}

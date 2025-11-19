@@ -54,10 +54,10 @@ const RubricConfiguration = ({ engineId }) => {
       <Card>
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h2 className="text-xl font-bold font-heading text-gray-900">
+            <h2 className="text-xl font-bold font-heading text-secondary-900">
               Rubric Configuration
             </h2>
-            <p className="text-sm text-gray-600 mt-1">
+            <p className="text-sm text-secondary-600 mt-1">
               Manage evaluation criteria and rubrics for this engine
             </p>
           </div>
@@ -75,12 +75,12 @@ const RubricConfiguration = ({ engineId }) => {
               <div className="flex items-center gap-4">
                 <div>
                   <div className="flex items-center gap-2 mb-1">
-                    <h3 className="font-semibold text-gray-900">{rubric.name}</h3>
+                    <h3 className="font-semibold text-secondary-900">{rubric.name}</h3>
                     {rubric.isActive && (
                       <Badge variant="success" size="sm">Active</Badge>
                     )}
                   </div>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm text-secondary-600">
                     {rubric.criteria} criteria • Last modified {rubric.lastModified.toLocaleDateString()}
                   </p>
                 </div>

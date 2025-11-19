@@ -92,8 +92,8 @@ const DefineJobDetailsStep = ({ onNext, onBack }) => {
   return (
     <div className="max-w-3xl mx-auto">
       <div className="mb-8 text-center">
-        <h2 className="text-3xl font-bold text-gray-900 mb-2">Define Job Details</h2>
-        <p className="text-gray-600">
+        <h2 className="text-3xl font-bold text-secondary-900 mb-2">Define Job Details</h2>
+        <p className="text-secondary-600">
           Set up how this agent will function as a virtual employee in your organization
         </p>
       </div>
@@ -128,8 +128,8 @@ const DefineJobDetailsStep = ({ onNext, onBack }) => {
 
         {/* Assignment Section */}
         <div className="border-t border-gray-200 pt-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-            <Building2 className="w-5 h-5 text-primary-500" />
+          <h3 className="text-lg font-semibold text-secondary-900 mb-4 flex items-center gap-2">
+            <Building2 className="w-5 h-5 text-primary-600" />
             Organizational Assignment
           </h3>
 
@@ -178,8 +178,8 @@ const DefineJobDetailsStep = ({ onNext, onBack }) => {
 
         {/* Management Section */}
         <div className="border-t border-gray-200 pt-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-            <User className="w-5 h-5 text-primary-500" />
+          <h3 className="text-lg font-semibold text-secondary-900 mb-4 flex items-center gap-2">
+            <User className="w-5 h-5 text-primary-600" />
             Management & Supervision
           </h3>
 

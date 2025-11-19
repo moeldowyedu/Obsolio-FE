@@ -16,10 +16,10 @@ const UsageChart = ({ data = [] }) => {
   return (
     <Card padding="md">
       <div className="mb-4">
-        <h3 className="text-lg font-heading font-semibold text-gray-900 mb-1">
+        <h3 className="text-lg font-heading font-semibold text-secondary-900 mb-1">
           Usage This Month
         </h3>
-        <p className="text-sm text-gray-600">Agent executions over time</p>
+        <p className="text-sm text-secondary-600">Agent executions over time</p>
       </div>
 
       <div className="h-64">

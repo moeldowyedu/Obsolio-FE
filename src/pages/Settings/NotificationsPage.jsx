@@ -49,8 +49,8 @@ const NotificationsPage = () => {
     <MainLayout>
       <div className="p-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Notification Settings</h1>
-          <p className="text-gray-600">
+          <h1 className="text-3xl font-bold text-secondary-900 mb-2">Notification Settings</h1>
+          <p className="text-secondary-600">
             Manage how you receive notifications and alerts
           </p>
         </div>
@@ -60,8 +60,8 @@ const NotificationsPage = () => {
           <Card>
             <div className="p-6">
               <Mail className="w-8 h-8 text-blue-600 mb-3" />
-              <h3 className="text-lg font-semibold text-gray-900 mb-1">Email</h3>
-              <p className="text-sm text-gray-600">12 active</p>
+              <h3 className="text-lg font-semibold text-secondary-900 mb-1">Email</h3>
+              <p className="text-sm text-secondary-600">12 active</p>
               <Badge color="green" className="mt-2">Enabled</Badge>
             </div>
           </Card>
@@ -69,8 +69,8 @@ const NotificationsPage = () => {
           <Card>
             <div className="p-6">
               <Bell className="w-8 h-8 text-purple-600 mb-3" />
-              <h3 className="text-lg font-semibold text-gray-900 mb-1">Push</h3>
-              <p className="text-sm text-gray-600">8 active</p>
+              <h3 className="text-lg font-semibold text-secondary-900 mb-1">Push</h3>
+              <p className="text-sm text-secondary-600">8 active</p>
               <Badge color="green" className="mt-2">Enabled</Badge>
             </div>
           </Card>
@@ -78,8 +78,8 @@ const NotificationsPage = () => {
           <Card>
             <div className="p-6">
               <MessageSquare className="w-8 h-8 text-green-600 mb-3" />
-              <h3 className="text-lg font-semibold text-gray-900 mb-1">SMS</h3>
-              <p className="text-sm text-gray-600">3 active</p>
+              <h3 className="text-lg font-semibold text-secondary-900 mb-1">SMS</h3>
+              <p className="text-sm text-secondary-600">3 active</p>
               <Badge color="yellow" className="mt-2">Limited</Badge>
             </div>
           </Card>
@@ -94,23 +94,23 @@ const NotificationsPage = () => {
                   <div className="text-primary-600">
                     {category.icon}
                   </div>
-                  <h2 className="text-xl font-semibold text-gray-900">{category.category}</h2>
+                  <h2 className="text-xl font-semibold text-secondary-900">{category.category}</h2>
                 </div>
 
                 <div className="overflow-x-auto">
                   <table className="w-full">
                     <thead>
                       <tr className="border-b border-gray-200">
-                        <th className="text-left py-3 px-4 font-semibold text-gray-700">Notification Type</th>
-                        <th className="text-center py-3 px-4 font-semibold text-gray-700">Email</th>
-                        <th className="text-center py-3 px-4 font-semibold text-gray-700">Push</th>
-                        <th className="text-center py-3 px-4 font-semibold text-gray-700">SMS</th>
+                        <th className="text-left py-3 px-4 font-semibold text-secondary-700">Notification Type</th>
+                        <th className="text-center py-3 px-4 font-semibold text-secondary-700">Email</th>
+                        <th className="text-center py-3 px-4 font-semibold text-secondary-700">Push</th>
+                        <th className="text-center py-3 px-4 font-semibold text-secondary-700">SMS</th>
                       </tr>
                     </thead>
                     <tbody>
                       {category.notifications.map((notif, notifIdx) => (
                         <tr key={notifIdx} className="border-b border-gray-100 hover:bg-gray-50">
-                          <td className="py-3 px-4 text-gray-900">{notif.name}</td>
+                          <td className="py-3 px-4 text-secondary-900">{notif.name}</td>
                           <td className="py-3 px-4 text-center">
                             <input
                               type="checkbox"
@@ -150,13 +150,13 @@ const NotificationsPage = () => {
           <div className="p-6">
             <div className="flex items-center gap-3 mb-6">
               <Calendar className="w-6 h-6 text-primary-600" />
-              <h2 className="text-xl font-semibold text-gray-900">Quiet Hours</h2>
+              <h2 className="text-xl font-semibold text-secondary-900">Quiet Hours</h2>
             </div>
 
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="font-medium text-gray-900">Do Not Disturb</h3>
-                <p className="text-sm text-gray-600">Pause non-urgent notifications during these hours</p>
+                <h3 className="font-medium text-secondary-900">Do Not Disturb</h3>
+                <p className="text-sm text-secondary-600">Pause non-urgent notifications during these hours</p>
               </div>
               <div className="flex items-center gap-4">
                 <select className="px-3 py-2 border border-gray-300 rounded-lg">
@@ -164,7 +164,7 @@ const NotificationsPage = () => {
                   <option>11:00 PM</option>
                   <option>12:00 AM</option>
                 </select>
-                <span className="text-gray-600">to</span>
+                <span className="text-secondary-600">to</span>
                 <select className="px-3 py-2 border border-gray-300 rounded-lg">
                   <option>6:00 AM</option>
                   <option>7:00 AM</option>

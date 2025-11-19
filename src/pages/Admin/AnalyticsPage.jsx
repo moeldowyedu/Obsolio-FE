@@ -81,8 +81,8 @@ const AnalyticsPage = () => {
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
           <div>
-            <h1 className="text-4xl font-bold text-gray-900 mb-2 font-heading">{t.analyticsDashboardTitle}</h1>
-            <p className="text-gray-600">{t.analyticsDashboardDesc}</p>
+            <h1 className="text-4xl font-bold text-secondary-900 mb-2 font-heading">{t.analyticsDashboardTitle}</h1>
+            <p className="text-secondary-600">{t.analyticsDashboardDesc}</p>
           </div>
           <div className="mt-4 md:mt-0 flex space-x-3">
             <select
@@ -114,8 +114,8 @@ const AnalyticsPage = () => {
                   {stat.change}
                 </span>
               </div>
-              <div className="text-3xl font-bold text-gray-900 mb-1">{stat.value}</div>
-              <div className="text-sm text-gray-600">{stat.label}</div>
+              <div className="text-3xl font-bold text-secondary-900 mb-1">{stat.value}</div>
+              <div className="text-sm text-secondary-600">{stat.label}</div>
             </div>
           ))}
         </div>
@@ -123,7 +123,7 @@ const AnalyticsPage = () => {
         {/* User Engagement Chart */}
         <div className="glass-card rounded-2xl p-6 mb-8">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold text-gray-900">{t.userEngagementTrendsTitle}</h2>
+            <h2 className="text-2xl font-bold text-secondary-900">{t.userEngagementTrendsTitle}</h2>
             <div className="flex space-x-2">
               {['submissions', 'users', 'revenue'].map((metric) => (
                 <button
@@ -151,7 +151,7 @@ const AnalyticsPage = () => {
                     style={{ height: `${(data.submissions / 165) * 100}%` }}
                   />
                 </div>
-                <div className="text-xs text-gray-600 mt-2 font-semibold">{data.day}</div>
+                <div className="text-xs text-secondary-600 mt-2 font-semibold">{data.day}</div>
                 <div className="text-xs text-gray-500">{data.submissions}</div>
               </div>
             ))}
@@ -161,16 +161,16 @@ const AnalyticsPage = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
           {/* Top Industries */}
           <div className="glass-card rounded-2xl p-6">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">{t.topIndustriesTitle}</h2>
+            <h2 className="text-2xl font-bold text-secondary-900 mb-6">{t.topIndustriesTitle}</h2>
             <div className="space-y-4">
               {topIndustries.map((industry, index) => (
                 <div key={index} className="flex items-center justify-between pb-4 border-b border-gray-100 last:border-0">
                   <div className="flex-1">
                     <div className="flex items-center justify-between mb-2">
-                      <span className="font-semibold text-gray-900">{industry.name}</span>
-                      <span className="text-sm font-bold text-gray-900">{industry.revenue}</span>
+                      <span className="font-semibold text-secondary-900">{industry.name}</span>
+                      <span className="text-sm font-bold text-secondary-900">{industry.revenue}</span>
                     </div>
-                    <div className="flex items-center justify-between text-sm text-gray-600">
+                    <div className="flex items-center justify-between text-sm text-secondary-600">
                       <span>{industry.submissions} {t.submissionsLabel}</span>
                       <span className="text-green-600 font-semibold">{industry.growth}</span>
                     </div>
@@ -182,13 +182,13 @@ const AnalyticsPage = () => {
 
           {/* Revenue Breakdown */}
           <div className="glass-card rounded-2xl p-6">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">{t.revenueBreakdownTitle}</h2>
+            <h2 className="text-2xl font-bold text-secondary-900 mb-6">{t.revenueBreakdownTitle}</h2>
             <div className="space-y-6">
               {revenueBreakdown.map((item, index) => (
                 <div key={index}>
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm font-medium text-gray-900">{item.category}</span>
-                    <span className="text-sm font-bold text-gray-900">${item.amount.toLocaleString()}</span>
+                    <span className="text-sm font-medium text-secondary-900">{item.category}</span>
+                    <span className="text-sm font-bold text-secondary-900">${item.amount.toLocaleString()}</span>
                   </div>
                   <div className="w-full bg-gray-200 rounded-full h-3">
                     <div
@@ -202,7 +202,7 @@ const AnalyticsPage = () => {
             </div>
             <div className="mt-6 pt-6 border-t border-gray-200">
               <div className="flex items-center justify-between">
-                <span className="font-semibold text-gray-900">{t.totalRevenueLabel2}</span>
+                <span className="font-semibold text-secondary-900">{t.totalRevenueLabel2}</span>
                 <span className="text-2xl font-bold text-primary-600">
                   ${revenueBreakdown.reduce((sum, item) => sum + item.amount, 0).toLocaleString()}
                 </span>
@@ -213,26 +213,26 @@ const AnalyticsPage = () => {
 
         {/* Agent Performance */}
         <div className="glass-card rounded-2xl p-6 mb-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">{t.aiAgentPerformanceTitle}</h2>
+          <h2 className="text-2xl font-bold text-secondary-900 mb-6">{t.aiAgentPerformanceTitle}</h2>
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead className="bg-gray-50/80">
                 <tr>
-                  <th className="text-left py-3 px-4 text-xs font-bold text-gray-700 uppercase">{t.tableHeaderAgent}</th>
-                  <th className="text-left py-3 px-4 text-xs font-bold text-gray-700 uppercase">{t.tableHeaderUsageCount}</th>
-                  <th className="text-left py-3 px-4 text-xs font-bold text-gray-700 uppercase">{t.tableHeaderAvgScore}</th>
-                  <th className="text-left py-3 px-4 text-xs font-bold text-gray-700 uppercase">{t.tableHeaderSatisfaction}</th>
-                  <th className="text-left py-3 px-4 text-xs font-bold text-gray-700 uppercase">{t.tableHeaderPerformance}</th>
+                  <th className="text-left py-3 px-4 text-xs font-bold text-secondary-700 uppercase">{t.tableHeaderAgent}</th>
+                  <th className="text-left py-3 px-4 text-xs font-bold text-secondary-700 uppercase">{t.tableHeaderUsageCount}</th>
+                  <th className="text-left py-3 px-4 text-xs font-bold text-secondary-700 uppercase">{t.tableHeaderAvgScore}</th>
+                  <th className="text-left py-3 px-4 text-xs font-bold text-secondary-700 uppercase">{t.tableHeaderSatisfaction}</th>
+                  <th className="text-left py-3 px-4 text-xs font-bold text-secondary-700 uppercase">{t.tableHeaderPerformance}</th>
                 </tr>
               </thead>
               <tbody>
                 {agentPerformance.map((agent, index) => (
                   <tr key={index} className="border-b border-gray-100">
                     <td className="py-4 px-4">
-                      <div className="font-semibold text-gray-900">{agent.name}</div>
+                      <div className="font-semibold text-secondary-900">{agent.name}</div>
                     </td>
                     <td className="py-4 px-4">
-                      <span className="font-semibold text-gray-900">{agent.usage.toLocaleString()}</span>
+                      <span className="font-semibold text-secondary-900">{agent.usage.toLocaleString()}</span>
                     </td>
                     <td className="py-4 px-4">
                       <div className="flex items-center">
@@ -243,7 +243,7 @@ const AnalyticsPage = () => {
                     <td className="py-4 px-4">
                       <div className="flex items-center">
                         <span className="material-icons text-yellow-500 text-sm mr-1">star</span>
-                        <span className="font-semibold text-gray-900">{agent.satisfaction}</span>
+                        <span className="font-semibold text-secondary-900">{agent.satisfaction}</span>
                         <span className="text-gray-500 text-sm ml-1">{t.outOfFive}</span>
                       </div>
                     </td>
@@ -264,25 +264,25 @@ const AnalyticsPage = () => {
 
         {/* Key Insights */}
         <div className="glass-card rounded-2xl p-6">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+          <h2 className="text-2xl font-bold text-secondary-900 mb-6 flex items-center">
             <span className="material-icons text-primary-600 mr-2">insights</span>
             {t.keyInsightsTitle}
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="glass-card rounded-xl p-4 bg-gradient-to-br from-green-50 to-white">
               <span className="material-icons text-green-600 text-3xl mb-3">trending_up</span>
-              <h3 className="font-bold text-gray-900 mb-2">{t.growingRevenueTitle}</h3>
-              <p className="text-sm text-gray-700">{t.growingRevenueDesc}</p>
+              <h3 className="font-bold text-secondary-900 mb-2">{t.growingRevenueTitle}</h3>
+              <p className="text-sm text-secondary-700">{t.growingRevenueDesc}</p>
             </div>
             <div className="glass-card rounded-xl p-4 bg-gradient-to-br from-blue-50 to-white">
               <span className="material-icons text-blue-600 text-3xl mb-3">people</span>
-              <h3 className="font-bold text-gray-900 mb-2">{t.userGrowthTitle}</h3>
-              <p className="text-sm text-gray-700">{t.userGrowthDesc}</p>
+              <h3 className="font-bold text-secondary-900 mb-2">{t.userGrowthTitle}</h3>
+              <p className="text-sm text-secondary-700">{t.userGrowthDesc}</p>
             </div>
             <div className="glass-card rounded-xl p-4 bg-gradient-to-br from-purple-50 to-white">
               <span className="material-icons text-purple-600 text-3xl mb-3">psychology</span>
-              <h3 className="font-bold text-gray-900 mb-2">{t.aiPerformanceTitle}</h3>
-              <p className="text-sm text-gray-700">{t.aiPerformanceDesc}</p>
+              <h3 className="font-bold text-secondary-900 mb-2">{t.aiPerformanceTitle}</h3>
+              <p className="text-sm text-secondary-700">{t.aiPerformanceDesc}</p>
             </div>
           </div>
         </div>

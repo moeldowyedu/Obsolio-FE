@@ -51,8 +51,8 @@ const ResetPasswordPage = () => {
         <div className="w-full max-w-md">
           <Card padding="lg">
             <div className="text-center mb-8">
-              <h1 className="text-4xl font-heading font-bold text-gray-900 mb-2">Reset Password</h1>
-              <p className="text-gray-600">Enter your new password</p>
+              <h1 className="text-4xl font-heading font-bold text-secondary-900 mb-2 tracking-tight">Reset Password</h1>
+              <p className="text-secondary-600 font-medium">Enter your new password</p>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-5">

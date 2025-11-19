@@ -69,7 +69,7 @@ const AgentSettings = ({ agent, onUpdate, onDelete }) => {
     <div className="space-y-6">
       {/* Basic Settings */}
       <Card padding="md">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Basic Settings</h3>
+        <h3 className="text-lg font-semibold text-secondary-900 mb-4">Basic Settings</h3>
         <div className="space-y-4">
           <Input
             label="Agent Name"
@@ -104,7 +104,7 @@ const AgentSettings = ({ agent, onUpdate, onDelete }) => {
 
       {/* Engine Selection */}
       <Card padding="md">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Precision AI Engines</h3>
+        <h3 className="text-lg font-semibold text-secondary-900 mb-4">Precision AI Engines</h3>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
           {ENGINES.map((engine) => (
             <button
@@ -112,12 +112,12 @@ const AgentSettings = ({ agent, onUpdate, onDelete }) => {
               onClick={() => handleEngineToggle(engine.id)}
               className={`p-4 rounded-lg border-2 transition-all ${
                 formData.engines.includes(engine.id)
-                  ? 'border-primary-500 bg-primary-50'
+                  ? 'border-primary-600 bg-primary-50'
                   : 'border-gray-200 hover:border-gray-300'
               }`}
             >
               <div className="text-3xl mb-2">{engine.icon}</div>
-              <p className="font-medium text-sm text-gray-900">{engine.name}</p>
+              <p className="font-medium text-sm text-secondary-900">{engine.name}</p>
             </button>
           ))}
         </div>
@@ -125,7 +125,7 @@ const AgentSettings = ({ agent, onUpdate, onDelete }) => {
 
       {/* HITL Configuration */}
       <Card padding="md">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">
+        <h3 className="text-lg font-semibold text-secondary-900 mb-4">
           Human-in-the-Loop Configuration
         </h3>
         <Select
@@ -148,7 +148,7 @@ const AgentSettings = ({ agent, onUpdate, onDelete }) => {
 
       {/* Execution Settings */}
       <Card padding="md">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Execution Settings</h3>
+        <h3 className="text-lg font-semibold text-secondary-900 mb-4">Execution Settings</h3>
         <div className="space-y-4">
           <Input
             label="Timeout (seconds)"
@@ -172,12 +172,12 @@ const AgentSettings = ({ agent, onUpdate, onDelete }) => {
 
       {/* Advanced Settings */}
       <Card padding="md">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Advanced Settings</h3>
+        <h3 className="text-lg font-semibold text-secondary-900 mb-4">Advanced Settings</h3>
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="font-medium text-gray-900">Public Agent</p>
-              <p className="text-sm text-gray-600">
+              <p className="font-medium text-secondary-900">Public Agent</p>
+              <p className="text-sm text-secondary-600">
                 Make this agent available in the marketplace
               </p>
             </div>
@@ -189,8 +189,8 @@ const AgentSettings = ({ agent, onUpdate, onDelete }) => {
 
           <div className="flex items-center justify-between">
             <div>
-              <p className="font-medium text-gray-900">Enable Logging</p>
-              <p className="text-sm text-gray-600">
+              <p className="font-medium text-secondary-900">Enable Logging</p>
+              <p className="text-sm text-secondary-600">
                 Store execution logs for debugging and analytics
               </p>
             </div>
@@ -202,8 +202,8 @@ const AgentSettings = ({ agent, onUpdate, onDelete }) => {
 
           <div className="flex items-center justify-between">
             <div>
-              <p className="font-medium text-gray-900">Enable Notifications</p>
-              <p className="text-sm text-gray-600">
+              <p className="font-medium text-secondary-900">Enable Notifications</p>
+              <p className="text-sm text-secondary-600">
                 Receive notifications for execution results
               </p>
             </div>
@@ -238,8 +238,8 @@ const AgentSettings = ({ agent, onUpdate, onDelete }) => {
           <div className="flex items-start gap-3">
             <AlertTriangle className="w-5 h-5 text-yellow-600 mt-0.5" />
             <div className="flex-1">
-              <p className="font-medium text-gray-900 mb-1">Delete Agent?</p>
-              <p className="text-sm text-gray-600 mb-3">
+              <p className="font-medium text-secondary-900 mb-1">Delete Agent?</p>
+              <p className="text-sm text-secondary-600 mb-3">
                 This action cannot be undone. All execution history and configurations will be
                 permanently deleted.
               </p>

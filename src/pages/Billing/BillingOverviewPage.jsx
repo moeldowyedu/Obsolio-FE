@@ -35,8 +35,8 @@ const BillingOverviewPage = () => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Billing Overview</h1>
-          <p className="text-gray-600 mt-1">
+          <h1 className="text-3xl font-bold text-secondary-900">Billing Overview</h1>
+          <p className="text-secondary-600 mt-1">
             Manage your subscription and billing details
           </p>
         </div>
@@ -77,30 +77,30 @@ const BillingOverviewPage = () => {
       {/* Usage Statistics */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <Card>
-          <h3 className="text-sm font-medium text-gray-600 mb-2">Active Agents</h3>
+          <h3 className="text-sm font-medium text-secondary-600 mb-2">Active Agents</h3>
           <div className="flex items-end justify-between mb-2">
-            <div className="text-3xl font-bold text-gray-900">
+            <div className="text-3xl font-bold text-secondary-900">
               {billingData.currentUsage.agents}
             </div>
-            <div className="text-sm text-gray-600">
+            <div className="text-sm text-secondary-600">
               of {billingData.currentUsage.agentLimit}
             </div>
           </div>
           <div className="w-full bg-gray-200 rounded-full h-2">
             <div
-              className="bg-primary-500 h-2 rounded-full"
+              className="bg-primary-600 h-2 rounded-full"
               style={{ width: `${(billingData.currentUsage.agents / billingData.currentUsage.agentLimit) * 100}%` }}
             ></div>
           </div>
         </Card>
 
         <Card>
-          <h3 className="text-sm font-medium text-gray-600 mb-2">Task Executions</h3>
+          <h3 className="text-sm font-medium text-secondary-600 mb-2">Task Executions</h3>
           <div className="flex items-end justify-between mb-2">
-            <div className="text-3xl font-bold text-gray-900">
+            <div className="text-3xl font-bold text-secondary-900">
               {billingData.currentUsage.taskExecutions.toLocaleString()}
             </div>
-            <div className="text-sm text-gray-600">
+            <div className="text-sm text-secondary-600">
               of {billingData.currentUsage.taskLimit.toLocaleString()}
             </div>
           </div>
@@ -113,12 +113,12 @@ const BillingOverviewPage = () => {
         </Card>
 
         <Card>
-          <h3 className="text-sm font-medium text-gray-600 mb-2">Storage Used</h3>
+          <h3 className="text-sm font-medium text-secondary-600 mb-2">Storage Used</h3>
           <div className="flex items-end justify-between mb-2">
-            <div className="text-3xl font-bold text-gray-900">
+            <div className="text-3xl font-bold text-secondary-900">
               {billingData.currentUsage.storage} GB
             </div>
-            <div className="text-sm text-gray-600">
+            <div className="text-sm text-secondary-600">
               of {billingData.currentUsage.storageLimit} GB
             </div>
           </div>
@@ -172,15 +172,15 @@ const BillingOverviewPage = () => {
 
       {/* Payment Method */}
       <Card>
-        <h2 className="text-xl font-semibold text-gray-900 mb-4">Payment Method</h2>
+        <h2 className="text-xl font-semibold text-secondary-900 mb-4">Payment Method</h2>
         <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center">
               <CreditCard className="w-6 h-6 text-primary-600" />
             </div>
             <div>
-              <p className="font-medium text-gray-900">Visa ending in 4242</p>
-              <p className="text-sm text-gray-600">Expires 12/2027</p>
+              <p className="font-medium text-secondary-900">Visa ending in 4242</p>
+              <p className="text-sm text-secondary-600">Expires 12/2027</p>
             </div>
           </div>
           <Button variant="outline" size="sm">

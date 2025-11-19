@@ -162,11 +162,11 @@ const OversightModesPage = () => {
         <div className="mb-8">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
+              <h1 className="text-3xl font-bold text-secondary-900 flex items-center gap-3">
                 <Settings className="w-8 h-8 text-primary-600" />
                 HITL Oversight Modes
               </h1>
-              <p className="text-gray-600 mt-2">
+              <p className="text-secondary-600 mt-2">
                 Configure the level of human oversight for your AI agents
               </p>
             </div>
@@ -184,42 +184,42 @@ const OversightModesPage = () => {
           <div className="glass-card rounded-2xl p-6">
             <div className="flex items-center gap-3 mb-2">
               <Clock className="w-5 h-5 text-yellow-600" />
-              <p className="text-sm text-gray-600">Pending</p>
+              <p className="text-sm text-secondary-600">Pending</p>
             </div>
-            <p className="text-3xl font-bold text-gray-900">{stats.pendingApprovals}</p>
+            <p className="text-3xl font-bold text-secondary-900">{stats.pendingApprovals}</p>
           </div>
           <div className="glass-card rounded-2xl p-6">
             <div className="flex items-center gap-3 mb-2">
               <CheckCircle className="w-5 h-5 text-green-600" />
-              <p className="text-sm text-gray-600">Auto-Approved</p>
+              <p className="text-sm text-secondary-600">Auto-Approved</p>
             </div>
             <p className="text-3xl font-bold text-green-600">{stats.autoApproved}</p>
           </div>
           <div className="glass-card rounded-2xl p-6">
             <div className="flex items-center gap-3 mb-2">
               <Eye className="w-5 h-5 text-blue-600" />
-              <p className="text-sm text-gray-600">Manual Reviews</p>
+              <p className="text-sm text-secondary-600">Manual Reviews</p>
             </div>
             <p className="text-3xl font-bold text-blue-600">{stats.manualReviews}</p>
           </div>
           <div className="glass-card rounded-2xl p-6">
             <div className="flex items-center gap-3 mb-2">
-              <Activity className="w-5 h-5 text-gray-600" />
-              <p className="text-sm text-gray-600">Total Today</p>
+              <Activity className="w-5 h-5 text-secondary-600" />
+              <p className="text-sm text-secondary-600">Total Today</p>
             </div>
-            <p className="text-3xl font-bold text-gray-900">{stats.totalDecisions}</p>
+            <p className="text-3xl font-bold text-secondary-900">{stats.totalDecisions}</p>
           </div>
           <div className="glass-card rounded-2xl p-6">
             <div className="flex items-center gap-3 mb-2">
               <TrendingUp className="w-5 h-5 text-primary-600" />
-              <p className="text-sm text-gray-600">Approval Rate</p>
+              <p className="text-sm text-secondary-600">Approval Rate</p>
             </div>
             <p className="text-3xl font-bold text-primary-600">{stats.approvalRate}%</p>
           </div>
           <div className="glass-card rounded-2xl p-6">
             <div className="flex items-center gap-3 mb-2">
               <Target className="w-5 h-5 text-purple-600" />
-              <p className="text-sm text-gray-600">Avg Response</p>
+              <p className="text-sm text-secondary-600">Avg Response</p>
             </div>
             <p className="text-2xl font-bold text-purple-600">{stats.avgResponseTime}</p>
           </div>
@@ -227,7 +227,7 @@ const OversightModesPage = () => {
 
         {/* Mode Selection Cards */}
         <div className="mb-8">
-          <h2 className="text-xl font-bold text-gray-900 mb-4">Select Oversight Mode</h2>
+          <h2 className="text-xl font-bold text-secondary-900 mb-4">Select Oversight Mode</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {modes.map((mode) => {
               const colors = getColorClasses(mode.color);
@@ -260,8 +260,8 @@ const OversightModesPage = () => {
                     )}
                   </div>
 
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">{mode.name}</h3>
-                  <p className="text-sm text-gray-600 mb-4">{mode.description}</p>
+                  <h3 className="text-xl font-bold text-secondary-900 mb-2">{mode.name}</h3>
+                  <p className="text-sm text-secondary-600 mb-4">{mode.description}</p>
 
                   <div className="pt-4 border-t border-gray-200">
                     <button
@@ -288,15 +288,15 @@ const OversightModesPage = () => {
                 className: `w-10 h-10 ${getColorClasses(selectedModeData.color).icon}`
               })}
               <div>
-                <h2 className="text-2xl font-bold text-gray-900">{selectedModeData.name}</h2>
-                <p className="text-gray-600">{selectedModeData.description}</p>
+                <h2 className="text-2xl font-bold text-secondary-900">{selectedModeData.name}</h2>
+                <p className="text-secondary-600">{selectedModeData.description}</p>
               </div>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
               {/* Use Cases */}
               <div>
-                <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <h3 className="text-lg font-bold text-secondary-900 mb-4 flex items-center gap-2">
                   <Info className="w-5 h-5 text-blue-600" />
                   Ideal Use Cases
                 </h3>
@@ -306,7 +306,7 @@ const OversightModesPage = () => {
                       <span className="w-6 h-6 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">
                         {index + 1}
                       </span>
-                      <span className="text-gray-700">{useCase}</span>
+                      <span className="text-secondary-700">{useCase}</span>
                     </li>
                   ))}
                 </ul>
@@ -315,13 +315,13 @@ const OversightModesPage = () => {
               {/* Pros & Cons */}
               <div className="space-y-6">
                 <div>
-                  <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+                  <h3 className="text-lg font-bold text-secondary-900 mb-4 flex items-center gap-2">
                     <CheckCircle className="w-5 h-5 text-green-600" />
                     Advantages
                   </h3>
                   <ul className="space-y-2">
                     {selectedModeData.pros.map((pro, index) => (
-                      <li key={index} className="flex items-start gap-2 text-gray-700">
+                      <li key={index} className="flex items-start gap-2 text-secondary-700">
                         <span className="text-green-600 mt-1">✓</span>
                         <span>{pro}</span>
                       </li>
@@ -330,13 +330,13 @@ const OversightModesPage = () => {
                 </div>
 
                 <div>
-                  <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+                  <h3 className="text-lg font-bold text-secondary-900 mb-4 flex items-center gap-2">
                     <AlertTriangle className="w-5 h-5 text-orange-600" />
                     Considerations
                   </h3>
                   <ul className="space-y-2">
                     {selectedModeData.cons.map((con, index) => (
-                      <li key={index} className="flex items-start gap-2 text-gray-700">
+                      <li key={index} className="flex items-start gap-2 text-secondary-700">
                         <span className="text-orange-600 mt-1">!</span>
                         <span>{con}</span>
                       </li>
@@ -348,14 +348,14 @@ const OversightModesPage = () => {
 
             {/* Configuration Options */}
             <div className="bg-gray-50 rounded-xl p-6 border border-gray-200">
-              <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-                <Settings className="w-5 h-5 text-gray-700" />
+              <h3 className="text-lg font-bold text-secondary-900 mb-4 flex items-center gap-2">
+                <Settings className="w-5 h-5 text-secondary-700" />
                 Configuration Settings
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {Object.entries(selectedModeData.configOptions).map(([key, value]) => (
                   <div key={key} className="bg-white rounded-lg p-4 border border-gray-200">
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    <label className="block text-sm font-semibold text-secondary-700 mb-2">
                       {key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
                     </label>
                     {typeof value === 'boolean' ? (
@@ -366,7 +366,7 @@ const OversightModesPage = () => {
                           readOnly
                           className="w-4 h-4 text-primary-600 rounded"
                         />
-                        <span className="text-sm text-gray-600">
+                        <span className="text-sm text-secondary-600">
                           {value ? 'Enabled' : 'Disabled'}
                         </span>
                       </div>
@@ -380,14 +380,14 @@ const OversightModesPage = () => {
                           readOnly
                           className="flex-grow"
                         />
-                        <span className="font-bold text-gray-900 w-12 text-right">{value}%</span>
+                        <span className="font-bold text-secondary-900 w-12 text-right">{value}%</span>
                       </div>
                     ) : (
                       <input
                         type="text"
                         value={value}
                         readOnly
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-50 text-gray-700"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-50 text-secondary-700"
                       />
                     )}
                   </div>
@@ -400,16 +400,16 @@ const OversightModesPage = () => {
         {/* Comparison Table */}
         <div className="glass-card rounded-2xl overflow-hidden mb-8">
           <div className="p-6 bg-gradient-to-r from-primary-50 to-purple-50">
-            <h2 className="text-2xl font-bold text-gray-900">Mode Comparison</h2>
-            <p className="text-gray-600 mt-1">Compare all oversight modes at a glance</p>
+            <h2 className="text-2xl font-bold text-secondary-900">Mode Comparison</h2>
+            <p className="text-secondary-600 mt-1">Compare all oversight modes at a glance</p>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead className="bg-gray-50 border-b-2 border-gray-200">
                 <tr>
-                  <th className="px-6 py-4 text-left text-sm font-bold text-gray-700">Feature</th>
+                  <th className="px-6 py-4 text-left text-sm font-bold text-secondary-700">Feature</th>
                   {modes.map(mode => (
-                    <th key={mode.id} className="px-6 py-4 text-center text-sm font-bold text-gray-700">
+                    <th key={mode.id} className="px-6 py-4 text-center text-sm font-bold text-secondary-700">
                       {mode.name}
                     </th>
                   ))}
@@ -417,13 +417,13 @@ const OversightModesPage = () => {
               </thead>
               <tbody className="divide-y divide-gray-200">
                 <tr className="hover:bg-gray-50">
-                  <td className="px-6 py-4 font-semibold text-gray-900">Human Oversight</td>
-                  <td className="px-6 py-4 text-center text-gray-600">None</td>
-                  <td className="px-6 py-4 text-center text-gray-600">Selective</td>
-                  <td className="px-6 py-4 text-center text-gray-600">Complete</td>
+                  <td className="px-6 py-4 font-semibold text-secondary-900">Human Oversight</td>
+                  <td className="px-6 py-4 text-center text-secondary-600">None</td>
+                  <td className="px-6 py-4 text-center text-secondary-600">Selective</td>
+                  <td className="px-6 py-4 text-center text-secondary-600">Complete</td>
                 </tr>
                 <tr className="hover:bg-gray-50">
-                  <td className="px-6 py-4 font-semibold text-gray-900">Processing Speed</td>
+                  <td className="px-6 py-4 font-semibold text-secondary-900">Processing Speed</td>
                   <td className="px-6 py-4 text-center">
                     <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-semibold">
                       Instant
@@ -441,28 +441,28 @@ const OversightModesPage = () => {
                   </td>
                 </tr>
                 <tr className="hover:bg-gray-50">
-                  <td className="px-6 py-4 font-semibold text-gray-900">Scalability</td>
+                  <td className="px-6 py-4 font-semibold text-secondary-900">Scalability</td>
                   <td className="px-6 py-4 text-center text-green-600 font-bold">Unlimited</td>
                   <td className="px-6 py-4 text-center text-blue-600 font-bold">High</td>
                   <td className="px-6 py-4 text-center text-orange-600 font-bold">Limited</td>
                 </tr>
                 <tr className="hover:bg-gray-50">
-                  <td className="px-6 py-4 font-semibold text-gray-900">Error Prevention</td>
+                  <td className="px-6 py-4 font-semibold text-secondary-900">Error Prevention</td>
                   <td className="px-6 py-4 text-center text-orange-600 font-bold">Low</td>
                   <td className="px-6 py-4 text-center text-green-600 font-bold">High</td>
                   <td className="px-6 py-4 text-center text-green-600 font-bold">Highest</td>
                 </tr>
                 <tr className="hover:bg-gray-50">
-                  <td className="px-6 py-4 font-semibold text-gray-900">Resource Requirements</td>
+                  <td className="px-6 py-4 font-semibold text-secondary-900">Resource Requirements</td>
                   <td className="px-6 py-4 text-center text-green-600 font-bold">Minimal</td>
                   <td className="px-6 py-4 text-center text-blue-600 font-bold">Moderate</td>
                   <td className="px-6 py-4 text-center text-orange-600 font-bold">Significant</td>
                 </tr>
                 <tr className="hover:bg-gray-50">
-                  <td className="px-6 py-4 font-semibold text-gray-900">Best For</td>
-                  <td className="px-6 py-4 text-center text-sm text-gray-600">High-volume tasks</td>
-                  <td className="px-6 py-4 text-center text-sm text-gray-600">Critical operations</td>
-                  <td className="px-6 py-4 text-center text-sm text-gray-600">High-stakes decisions</td>
+                  <td className="px-6 py-4 font-semibold text-secondary-900">Best For</td>
+                  <td className="px-6 py-4 text-center text-sm text-secondary-600">High-volume tasks</td>
+                  <td className="px-6 py-4 text-center text-sm text-secondary-600">Critical operations</td>
+                  <td className="px-6 py-4 text-center text-sm text-secondary-600">High-stakes decisions</td>
                 </tr>
               </tbody>
             </table>
@@ -472,8 +472,8 @@ const OversightModesPage = () => {
         {/* Save Configuration Button */}
         <div className="flex items-center justify-between glass-card rounded-2xl p-6 bg-gradient-to-r from-primary-50 to-purple-50">
           <div>
-            <h3 className="font-bold text-gray-900 text-lg">Ready to apply changes?</h3>
-            <p className="text-gray-600 text-sm mt-1">
+            <h3 className="font-bold text-secondary-900 text-lg">Ready to apply changes?</h3>
+            <p className="text-secondary-600 text-sm mt-1">
               This will update the oversight mode for all active agents
             </p>
           </div>

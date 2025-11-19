@@ -38,7 +38,7 @@ const MarketplaceFilters = ({ filters, onFilterChange, activeFilters }) => {
         onClick={() => toggleSection(filterType)}
         className="flex items-center justify-between w-full mb-3"
       >
-        <h3 className="text-sm font-semibold text-gray-900">{title}</h3>
+        <h3 className="text-sm font-semibold text-secondary-900">{title}</h3>
         <svg
           className={`w-4 h-4 transition-transform ${expandedSections[filterType] ? 'rotate-180' : ''}`}
           fill="none"
@@ -61,7 +61,7 @@ const MarketplaceFilters = ({ filters, onFilterChange, activeFilters }) => {
                   onChange={() => handleFilterToggle(filterType, item.value)}
                   className="w-4 h-4 text-blue-600 rounded focus:ring-2 focus:ring-blue-500"
                 />
-                <span className="text-sm text-gray-700">{item.label}</span>
+                <span className="text-sm text-secondary-700">{item.label}</span>
                 {item.count !== undefined && (
                   <span className="text-xs text-gray-500">({item.count})</span>
                 )}
@@ -76,7 +76,7 @@ const MarketplaceFilters = ({ filters, onFilterChange, activeFilters }) => {
   return (
     <Card>
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-lg font-semibold text-gray-900">Filters</h2>
+        <h2 className="text-lg font-semibold text-secondary-900">Filters</h2>
         {Object.keys(activeFilters).length > 0 && (
           <button
             onClick={clearFilters}

@@ -53,7 +53,7 @@ const HomePage = () => {
                   See How It Works
                 </a>
               </div>
-              <div className="flex items-center gap-8 text-sm text-gray-600">
+              <div className="flex items-center gap-8 text-sm text-secondary-600">
                 <div className="flex items-center gap-2">
                   <CheckCircle className="w-5 h-5 text-green-600" />
                   <span>No credit card required</span>
@@ -72,11 +72,11 @@ const HomePage = () => {
                       <Bot className="w-6 h-6 text-primary-600" />
                     </div>
                     <div>
-                      <div className="font-semibold text-gray-900">AgentX Hub</div>
-                      <div className="text-sm text-gray-600">Deploy precision AI agents</div>
+                      <div className="font-semibold text-secondary-900">AgentX Hub</div>
+                      <div className="text-sm text-secondary-600">Deploy precision AI agents</div>
                     </div>
                   </div>
-                  <div className="flex items-center gap-2 text-sm text-gray-600">
+                  <div className="flex items-center gap-2 text-sm text-secondary-600">
                     <span className="px-3 py-1 bg-green-50 text-green-700 rounded-full">Vision</span>
                     <span className="px-3 py-1 bg-blue-50 text-blue-700 rounded-full">Audio</span>
                     <span className="px-3 py-1 bg-purple-50 text-purple-700 rounded-full">Text</span>
@@ -88,18 +88,18 @@ const HomePage = () => {
                       <Workflow className="w-6 h-6 text-green-600" />
                     </div>
                     <div>
-                      <div className="font-semibold text-gray-900">Job Flows</div>
-                      <div className="text-sm text-gray-600">Orchestrate & schedule</div>
+                      <div className="font-semibold text-secondary-900">Job Flows</div>
+                      <div className="text-sm text-secondary-600">Orchestrate & schedule</div>
                     </div>
                   </div>
                   <div className="space-y-2">
                     <div className="flex items-center gap-2 text-sm">
                       <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                      <span className="text-gray-700">Multi-agent workflow running</span>
+                      <span className="text-secondary-700">Multi-agent workflow running</span>
                     </div>
                     <div className="flex items-center gap-2 text-sm">
                       <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                      <span className="text-gray-700">HITL approval pending</span>
+                      <span className="text-secondary-700">HITL approval pending</span>
                     </div>
                   </div>
                 </div>
@@ -158,23 +158,23 @@ const HomePage = () => {
               <ul className="space-y-3">
                 <li className="flex items-start gap-3">
                   <CheckCircle className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
-                  <span className="text-gray-700">Create unlimited projects</span>
+                  <span className="text-secondary-700">Create unlimited projects</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <CheckCircle className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
-                  <span className="text-gray-700">Deploy agents with premade rubrics</span>
+                  <span className="text-secondary-700">Deploy agents with premade rubrics</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <CheckCircle className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
-                  <span className="text-gray-700">Run one-time or scheduled jobs</span>
+                  <span className="text-secondary-700">Run one-time or scheduled jobs</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <CheckCircle className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
-                  <span className="text-gray-700">HITL oversight & approvals</span>
+                  <span className="text-secondary-700">HITL oversight & approvals</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <CheckCircle className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
-                  <span className="text-gray-700">Monetize by creating agents</span>
+                  <span className="text-secondary-700">Monetize by creating agents</span>
                 </li>
               </ul>
             </div>
@@ -191,23 +191,23 @@ const HomePage = () => {
               <ul className="space-y-3">
                 <li className="flex items-start gap-3">
                   <CheckCircle className="w-5 h-5 text-purple-600 mt-0.5 flex-shrink-0" />
-                  <span className="text-gray-700">Full organizational hierarchy</span>
+                  <span className="text-secondary-700">Full organizational hierarchy</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <CheckCircle className="w-5 h-5 text-purple-600 mt-0.5 flex-shrink-0" />
-                  <span className="text-gray-700">Branches, departments & teams</span>
+                  <span className="text-secondary-700">Branches, departments & teams</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <CheckCircle className="w-5 h-5 text-purple-600 mt-0.5 flex-shrink-0" />
-                  <span className="text-gray-700">Unlimited users & role management</span>
+                  <span className="text-secondary-700">Unlimited users & role management</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <CheckCircle className="w-5 h-5 text-purple-600 mt-0.5 flex-shrink-0" />
-                  <span className="text-gray-700">Shared projects across organization</span>
+                  <span className="text-secondary-700">Shared projects across organization</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <CheckCircle className="w-5 h-5 text-purple-600 mt-0.5 flex-shrink-0" />
-                  <span className="text-gray-700">Advanced analytics & reporting</span>
+                  <span className="text-secondary-700">Advanced analytics & reporting</span>
                 </li>
               </ul>
             </div>
@@ -406,28 +406,28 @@ const HomePage = () => {
               <ul className="space-y-3 mb-8">
                 <li className="flex items-start gap-2">
                   <CheckCircle className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
-                  <span className="text-gray-700">5 agents deployed</span>
+                  <span className="text-secondary-700">5 agents deployed</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <CheckCircle className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
-                  <span className="text-gray-700">1,000 job runs/month</span>
+                  <span className="text-secondary-700">1,000 job runs/month</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <CheckCircle className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
-                  <span className="text-gray-700">Basic HITL features</span>
+                  <span className="text-secondary-700">Basic HITL features</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <CheckCircle className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
-                  <span className="text-gray-700">Email support</span>
+                  <span className="text-secondary-700">Email support</span>
                 </li>
               </ul>
-              <Link to="/register" className="block w-full text-center bg-gray-100 text-gray-900 px-6 py-3 rounded-lg font-semibold hover:bg-gray-200 transition-colors">
+              <Link to="/register" className="block w-full text-center bg-gray-100 text-secondary-900 px-6 py-3 rounded-lg font-semibold hover:bg-gray-200 transition-colors">
                 Start Free Trial
               </Link>
             </div>
 
             {/* Professional */}
-            <div className="bg-white rounded-2xl p-8 border-2 border-primary-500 relative hover:shadow-xl transition-all">
+            <div className="bg-white rounded-2xl p-8 border-2 border-primary-600 relative hover:shadow-xl transition-all">
               <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-primary-600 text-white px-4 py-1 rounded-full text-sm font-semibold">
                 Most Popular
               </div>
@@ -439,19 +439,19 @@ const HomePage = () => {
               <ul className="space-y-3 mb-8">
                 <li className="flex items-start gap-2">
                   <CheckCircle className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
-                  <span className="text-gray-700">Unlimited agents</span>
+                  <span className="text-secondary-700">Unlimited agents</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <CheckCircle className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
-                  <span className="text-gray-700">10,000 job runs/month</span>
+                  <span className="text-secondary-700">10,000 job runs/month</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <CheckCircle className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
-                  <span className="text-gray-700">Advanced HITL & workflows</span>
+                  <span className="text-secondary-700">Advanced HITL & workflows</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <CheckCircle className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
-                  <span className="text-gray-700">Priority support</span>
+                  <span className="text-secondary-700">Priority support</span>
                 </li>
               </ul>
               <Link to="/register" className="block w-full text-center bg-primary-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary-700 transition-colors">
@@ -468,22 +468,22 @@ const HomePage = () => {
               <ul className="space-y-3 mb-8">
                 <li className="flex items-start gap-2">
                   <CheckCircle className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
-                  <span className="text-gray-700">Unlimited everything</span>
+                  <span className="text-secondary-700">Unlimited everything</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <CheckCircle className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
-                  <span className="text-gray-700">Custom integrations</span>
+                  <span className="text-secondary-700">Custom integrations</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <CheckCircle className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
-                  <span className="text-gray-700">Dedicated support</span>
+                  <span className="text-secondary-700">Dedicated support</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <CheckCircle className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
-                  <span className="text-gray-700">SLA & compliance</span>
+                  <span className="text-secondary-700">SLA & compliance</span>
                 </li>
               </ul>
-              <a href="mailto:sales@aasim.ai" className="block w-full text-center bg-gray-100 text-gray-900 px-6 py-3 rounded-lg font-semibold hover:bg-gray-200 transition-colors">
+              <a href="mailto:sales@aasim.ai" className="block w-full text-center bg-gray-100 text-secondary-900 px-6 py-3 rounded-lg font-semibold hover:bg-gray-200 transition-colors">
                 Contact Sales
               </a>
             </div>

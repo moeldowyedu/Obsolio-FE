@@ -155,8 +155,8 @@ const DepartmentsSetupStep = ({ onNext, onBack }) => {
   return (
     <div className="max-w-4xl mx-auto">
       <div className="mb-8 text-center">
-        <h2 className="text-3xl font-bold text-gray-900 mb-2">Departments Structure</h2>
-        <p className="text-gray-600">
+        <h2 className="text-3xl font-bold text-secondary-900 mb-2">Departments Structure</h2>
+        <p className="text-secondary-600">
           Set up your organization's departments. Choose a template or create custom departments.
           <span className="block text-sm font-medium text-primary-600 mt-1">Required - At least one department</span>
         </p>
@@ -166,7 +166,7 @@ const DepartmentsSetupStep = ({ onNext, onBack }) => {
       {showTemplates && departments.length === 0 && (
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
+            <h3 className="text-lg font-semibold text-secondary-900 flex items-center gap-2">
               <Sparkles className="w-5 h-5 text-yellow-500" />
               Quick Start Templates
             </h3>
@@ -176,18 +176,18 @@ const DepartmentsSetupStep = ({ onNext, onBack }) => {
               <div
                 key={template.id}
                 onClick={() => handleLoadTemplate(template.id)}
-                className="p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-primary-500 hover:shadow-md transition-all"
+                className="p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-primary-600 hover:shadow-md transition-all"
               >
                 <div className="flex items-start gap-3">
                   <div className="text-3xl">{template.icon}</div>
                   <div className="flex-1">
-                    <h4 className="font-semibold text-gray-900 mb-1">{template.name}</h4>
-                    <p className="text-sm text-gray-600 mb-2">{template.description}</p>
+                    <h4 className="font-semibold text-secondary-900 mb-1">{template.name}</h4>
+                    <p className="text-sm text-secondary-600 mb-2">{template.description}</p>
                     <div className="flex flex-wrap gap-1">
                       {template.departments.map((dept, idx) => (
                         <span
                           key={idx}
-                          className="px-2 py-0.5 bg-gray-100 text-gray-700 text-xs rounded"
+                          className="px-2 py-0.5 bg-gray-100 text-secondary-700 text-xs rounded"
                         >
                           {dept}
                         </span>
@@ -205,7 +205,7 @@ const DepartmentsSetupStep = ({ onNext, onBack }) => {
                 setShowTemplates(false);
                 setIsAdding(true);
               }}
-              className="text-primary-500 hover:text-primary-600 text-sm font-medium"
+              className="text-primary-600 hover:text-primary-600 text-sm font-medium"
             >
               Or create custom departments
             </button>
@@ -217,7 +217,7 @@ const DepartmentsSetupStep = ({ onNext, onBack }) => {
       {departments.length > 0 && (
         <div className="mb-6 space-y-3">
           <div className="flex items-center justify-between mb-3">
-            <h3 className="text-lg font-semibold text-gray-900">
+            <h3 className="text-lg font-semibold text-secondary-900">
               Your Departments ({departments.length})
             </h3>
             {!showTemplates && (
@@ -240,8 +240,8 @@ const DepartmentsSetupStep = ({ onNext, onBack }) => {
               >
                 <div className="flex items-start justify-between mb-2">
                   <div className="flex items-center gap-2">
-                    <Briefcase className="w-5 h-5 text-primary-500" />
-                    <h4 className="font-semibold text-gray-900">{department.name}</h4>
+                    <Briefcase className="w-5 h-5 text-primary-600" />
+                    <h4 className="font-semibold text-secondary-900">{department.name}</h4>
                   </div>
                   <div className="flex gap-1">
                     <button
@@ -261,7 +261,7 @@ const DepartmentsSetupStep = ({ onNext, onBack }) => {
                   </div>
                 </div>
                 {department.description && (
-                  <p className="text-sm text-gray-600 mb-2">{department.description}</p>
+                  <p className="text-sm text-secondary-600 mb-2">{department.description}</p>
                 )}
                 <div className="space-y-1 text-xs text-gray-500">
                   {department.head && <p>Head: {department.head}</p>}
@@ -281,7 +281,7 @@ const DepartmentsSetupStep = ({ onNext, onBack }) => {
       {/* Add/Edit Department Form */}
       {(isAdding || editingId) && (
         <div className="bg-gray-50 border border-gray-200 rounded-lg p-6 mb-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">
+          <h3 className="text-lg font-semibold text-secondary-900 mb-4">
             {editingId ? 'Edit Department' : 'Add New Department'}
           </h3>
           <div className="space-y-4">
@@ -369,7 +369,7 @@ const DepartmentsSetupStep = ({ onNext, onBack }) => {
         <button
           type="button"
           onClick={() => setIsAdding(true)}
-          className="w-full py-4 border-2 border-dashed border-gray-300 rounded-lg text-gray-600 hover:border-primary-500 hover:text-primary-500 transition-colors flex items-center justify-center gap-2 mb-6"
+          className="w-full py-4 border-2 border-dashed border-gray-300 rounded-lg text-secondary-600 hover:border-primary-600 hover:text-primary-600 transition-colors flex items-center justify-center gap-2 mb-6"
         >
           <Plus className="w-5 h-5" />
           <span className="font-medium">Add Another Department</span>

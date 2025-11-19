@@ -45,8 +45,8 @@ const PlanSelectionStep = ({ onNext, onBack }) => {
   return (
     <div className="max-w-6xl mx-auto">
       <div className="mb-8">
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">Choose Your Plan</h2>
-        <p className="text-gray-600">
+        <h2 className="text-2xl font-bold text-secondary-900 mb-2">Choose Your Plan</h2>
+        <p className="text-secondary-600">
           {tenantType === 'organization'
             ? 'Select the plan that best fits your organization\'s needs. You can upgrade or downgrade anytime.'
             : 'Start with the perfect plan for your individual use. Upgrade as you grow.'}
@@ -97,7 +97,7 @@ const PlanSelectionStep = ({ onNext, onBack }) => {
               onClick={() => handleSelectPlan(plan.id)}
               className={`relative bg-white rounded-xl border-2 p-6 cursor-pointer transition-all ${
                 plan.popular
-                  ? 'border-primary-500 shadow-lg transform scale-105'
+                  ? 'border-primary-600 shadow-lg transform scale-105'
                   : isSelected
                   ? 'border-secondary-500 shadow-md'
                   : 'border-gray-200 hover:border-gray-300 hover:shadow-md'
@@ -105,7 +105,7 @@ const PlanSelectionStep = ({ onNext, onBack }) => {
             >
               {plan.popular && (
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                  <Badge className="bg-primary-500 text-white px-4 py-1 font-semibold">
+                  <Badge className="bg-primary-600 text-white px-4 py-1 font-semibold">
                     Most Popular
                   </Badge>
                 </div>
@@ -121,15 +121,15 @@ const PlanSelectionStep = ({ onNext, onBack }) => {
 
               {/* Plan Header */}
               <div className="text-center mb-6">
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">{plan.name}</h3>
+                <h3 className="text-2xl font-bold text-secondary-900 mb-2">{plan.name}</h3>
                 <div className="flex items-baseline justify-center gap-1 mb-2">
                   {typeof monthlyPrice === 'number' ? (
                     <>
-                      <span className="text-4xl font-bold text-gray-900">${monthlyPrice}</span>
-                      <span className="text-gray-600">/month</span>
+                      <span className="text-4xl font-bold text-secondary-900">${monthlyPrice}</span>
+                      <span className="text-secondary-600">/month</span>
                     </>
                   ) : (
-                    <span className="text-4xl font-bold text-gray-900">{monthlyPrice}</span>
+                    <span className="text-4xl font-bold text-secondary-900">{monthlyPrice}</span>
                   )}
                 </div>
                 {billingCycle === 'yearly' && yearlySavings > 0 && (
@@ -144,24 +144,24 @@ const PlanSelectionStep = ({ onNext, onBack }) => {
                 {plan.features.map((feature, idx) => (
                   <li key={idx} className="flex items-start gap-2">
                     <Check className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
-                    <span className="text-sm text-gray-700">{feature}</span>
+                    <span className="text-sm text-secondary-700">{feature}</span>
                   </li>
                 ))}
               </ul>
 
               {/* Limits */}
               <div className="mb-6 p-4 bg-gray-50 rounded-lg">
-                <p className="text-xs font-semibold text-gray-700 mb-2">Usage Limits:</p>
-                <div className="space-y-1 text-xs text-gray-600">
+                <p className="text-xs font-semibold text-secondary-700 mb-2">Usage Limits:</p>
+                <div className="space-y-1 text-xs text-secondary-600">
                   <div className="flex justify-between">
                     <span>Agents:</span>
-                    <span className="font-medium text-gray-900">
+                    <span className="font-medium text-secondary-900">
                       {plan.limits.maxAgents === -1 ? 'Unlimited' : plan.limits.maxAgents}
                     </span>
                   </div>
                   <div className="flex justify-between">
                     <span>Runs/month:</span>
-                    <span className="font-medium text-gray-900">
+                    <span className="font-medium text-secondary-900">
                       {plan.limits.maxRuns === -1
                         ? 'Unlimited'
                         : plan.limits.maxRuns.toLocaleString()}
@@ -169,7 +169,7 @@ const PlanSelectionStep = ({ onNext, onBack }) => {
                   </div>
                   <div className="flex justify-between">
                     <span>Workflows:</span>
-                    <span className="font-medium text-gray-900">
+                    <span className="font-medium text-secondary-900">
                       {plan.limits.maxWorkflows === -1
                         ? 'Unlimited'
                         : plan.limits.maxWorkflows}

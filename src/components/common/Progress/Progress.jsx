@@ -28,7 +28,7 @@ const Progress = ({
     <div className={`w-full ${className}`}>
       {(showLabel || label) && (
         <div className="flex items-center justify-between mb-2">
-          <span className="text-sm font-medium text-gray-700">
+          <span className="text-sm font-medium text-secondary-700">
             {label || `${Math.round(percentage)}%`}
           </span>
           {showLabel && !label && (

@@ -57,20 +57,20 @@ const AgentDetailModal = ({ agent, onClose }) => {
                 {agent.icon}
               </div>
               <div>
-                <h2 className="text-2xl font-bold font-heading text-gray-900">{agent.name}</h2>
-                <p className="text-gray-600 mt-1">{agent.description}</p>
+                <h2 className="text-2xl font-bold font-heading text-secondary-900">{agent.name}</h2>
+                <p className="text-secondary-600 mt-1">{agent.description}</p>
                 <div className="flex items-center gap-3 mt-2">
                   <Badge variant="primary">{agent.category}</Badge>
                   <Badge variant="default">{agent.industry}</Badge>
                   <div className="flex items-center gap-1 text-yellow-500">
                     <Star className="w-4 h-4 fill-current" />
-                    <span className="font-semibold text-gray-900">{agent.rating}</span>
+                    <span className="font-semibold text-secondary-900">{agent.rating}</span>
                     <span className="text-gray-500 text-sm">({formatNumber(agent.reviews?.length || 156)} reviews)</span>
                   </div>
                 </div>
               </div>
             </div>
-            <button onClick={onClose} className="text-gray-400 hover:text-gray-600 transition-colors">
+            <button onClick={onClose} className="text-gray-400 hover:text-secondary-600 transition-colors">
               <X className="w-6 h-6" />
             </button>
           </div>
@@ -85,8 +85,8 @@ const AgentDetailModal = ({ agent, onClose }) => {
                   <div key={index} className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl">
                     <div className="text-primary-600">{feature.icon}</div>
                     <div>
-                      <p className="text-sm text-gray-600">{feature.label}</p>
-                      <p className="font-semibold text-gray-900">{feature.value}</p>
+                      <p className="text-sm text-secondary-600">{feature.label}</p>
+                      <p className="font-semibold text-secondary-900">{feature.value}</p>
                     </div>
                   </div>
                 ))}
@@ -108,7 +108,7 @@ const AgentDetailModal = ({ agent, onClose }) => {
                   ]).map((capability, index) => (
                     <li key={index} className="flex items-start gap-2">
                       <span className="text-secondary-500 mt-1">✓</span>
-                      <span className="text-gray-700">{capability}</span>
+                      <span className="text-secondary-700">{capability}</span>
                     </li>
                   ))}
                 </ul>
@@ -132,17 +132,17 @@ const AgentDetailModal = ({ agent, onClose }) => {
               <h3 className="text-lg font-semibold font-heading mb-4">Pricing</h3>
               <div className="grid grid-cols-3 gap-4">
                 <div className="p-4 bg-gray-50 rounded-xl text-center">
-                  <p className="text-sm text-gray-600 mb-1">Per Request</p>
-                  <p className="text-2xl font-bold text-gray-900">{formatCurrency(agent.pricing?.perRequest || 0.05)}</p>
+                  <p className="text-sm text-secondary-600 mb-1">Per Request</p>
+                  <p className="text-2xl font-bold text-secondary-900">{formatCurrency(agent.pricing?.perRequest || 0.05)}</p>
                 </div>
-                <div className="p-4 bg-primary-50 rounded-xl text-center border-2 border-primary-500">
+                <div className="p-4 bg-primary-50 rounded-xl text-center border-2 border-primary-600">
                   <p className="text-sm text-primary-700 mb-1">Monthly</p>
                   <p className="text-2xl font-bold text-primary-900">{formatCurrency(agent.pricing?.monthly || 299)}</p>
                   <p className="text-xs text-primary-600 mt-1">Most Popular</p>
                 </div>
                 <div className="p-4 bg-gray-50 rounded-xl text-center">
-                  <p className="text-sm text-gray-600 mb-1">Enterprise</p>
-                  <p className="text-lg font-semibold text-gray-900">Custom</p>
+                  <p className="text-sm text-secondary-600 mb-1">Enterprise</p>
+                  <p className="text-lg font-semibold text-secondary-900">Custom</p>
                 </div>
               </div>
             </div>
@@ -155,8 +155,8 @@ const AgentDetailModal = ({ agent, onClose }) => {
                   <div key={index} className="p-4 bg-gray-50 rounded-xl">
                     <div className="flex items-start justify-between mb-2">
                       <div>
-                        <p className="font-semibold text-gray-900">{review.author}</p>
-                        <p className="text-sm text-gray-600">{review.company}</p>
+                        <p className="font-semibold text-secondary-900">{review.author}</p>
+                        <p className="text-sm text-secondary-600">{review.company}</p>
                       </div>
                       <div className="flex items-center gap-2">
                         <div className="flex items-center gap-1">
@@ -174,7 +174,7 @@ const AgentDetailModal = ({ agent, onClose }) => {
                         <span className="text-sm text-gray-500">{review.date}</span>
                       </div>
                     </div>
-                    <p className="text-gray-700">{review.comment}</p>
+                    <p className="text-secondary-700">{review.comment}</p>
                   </div>
                 ))}
               </div>
@@ -186,30 +186,30 @@ const AgentDetailModal = ({ agent, onClose }) => {
               <div className="bg-gray-50 p-6 rounded-xl space-y-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <Settings className="w-5 h-5 text-gray-600" />
+                    <Settings className="w-5 h-5 text-secondary-600" />
                     <div>
-                      <p className="font-semibold text-gray-900">HITL Mode</p>
-                      <p className="text-sm text-gray-600">Configure human oversight level</p>
+                      <p className="font-semibold text-secondary-900">HITL Mode</p>
+                      <p className="text-sm text-secondary-600">Configure human oversight level</p>
                     </div>
                   </div>
                   <Badge variant="info">Configurable</Badge>
                 </div>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <Settings className="w-5 h-5 text-gray-600" />
+                    <Settings className="w-5 h-5 text-secondary-600" />
                     <div>
-                      <p className="font-semibold text-gray-900">Custom Rubrics</p>
-                      <p className="text-sm text-gray-600">Add your own evaluation criteria</p>
+                      <p className="font-semibold text-secondary-900">Custom Rubrics</p>
+                      <p className="text-sm text-secondary-600">Add your own evaluation criteria</p>
                     </div>
                   </div>
                   <Badge variant="success">Supported</Badge>
                 </div>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <Settings className="w-5 h-5 text-gray-600" />
+                    <Settings className="w-5 h-5 text-secondary-600" />
                     <div>
-                      <p className="font-semibold text-gray-900">Webhooks</p>
-                      <p className="text-sm text-gray-600">Real-time notifications</p>
+                      <p className="font-semibold text-secondary-900">Webhooks</p>
+                      <p className="text-sm text-secondary-600">Real-time notifications</p>
                     </div>
                   </div>
                   <Badge variant="success">Supported</Badge>
@@ -221,9 +221,9 @@ const AgentDetailModal = ({ agent, onClose }) => {
           {/* Footer Actions */}
           <div className="sticky bottom-0 bg-white border-t border-gray-200 p-6 flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600">Starting at</p>
-              <p className="text-2xl font-bold text-gray-900">
-                {formatCurrency(agent.pricing?.monthly || 299)}<span className="text-base text-gray-600">/mo</span>
+              <p className="text-sm text-secondary-600">Starting at</p>
+              <p className="text-2xl font-bold text-secondary-900">
+                {formatCurrency(agent.pricing?.monthly || 299)}<span className="text-base text-secondary-600">/mo</span>
               </p>
             </div>
             <div className="flex gap-3">

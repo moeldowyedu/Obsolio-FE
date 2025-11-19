@@ -168,24 +168,24 @@ const HITLApprovalQueue = ({ onTaskSelect }) => {
 
       {/* Approval Queue */}
       <div className="space-y-4">
-        <h2 className="text-xl font-semibold text-gray-900 flex items-center gap-2">
-          <Filter className="w-5 h-5 text-primary-500" />
+        <h2 className="text-xl font-semibold text-secondary-900 flex items-center gap-2">
+          <Filter className="w-5 h-5 text-primary-600" />
           Approval Queue ({filteredApprovals.length})
         </h2>
 
         {isLoading ? (
           <Card>
             <div className="text-center py-12">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-4 border-primary-500 mx-auto mb-4"></div>
-              <p className="text-gray-600">Loading approvals...</p>
+              <div className="animate-spin rounded-full h-12 w-12 border-b-4 border-primary-600 mx-auto mb-4"></div>
+              <p className="text-secondary-600">Loading approvals...</p>
             </div>
           </Card>
         ) : filteredApprovals.length === 0 ? (
           <Card>
             <div className="text-center py-12">
               <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">All Caught Up!</h3>
-              <p className="text-gray-600">No pending approvals at the moment.</p>
+              <h3 className="text-lg font-semibold text-secondary-900 mb-2">All Caught Up!</h3>
+              <p className="text-secondary-600">No pending approvals at the moment.</p>
             </div>
           </Card>
         ) : (
@@ -213,12 +213,12 @@ const HITLApprovalQueue = ({ onTaskSelect }) => {
                   <div className="flex items-start justify-between mb-3">
                     <div>
                       <div className="flex items-center gap-2 mb-1">
-                        <h3 className="text-lg font-semibold text-gray-900">{task.taskName}</h3>
+                        <h3 className="text-lg font-semibold text-secondary-900">{task.taskName}</h3>
                         <Badge className={getPriorityColor(task.priority)}>
                           {task.priority.toUpperCase()}
                         </Badge>
                       </div>
-                      <p className="text-sm text-gray-600">
+                      <p className="text-sm text-secondary-600">
                         Agent: {task.agentName} • {task.agentJobTitle}
                       </p>
                     </div>
@@ -233,19 +233,19 @@ const HITLApprovalQueue = ({ onTaskSelect }) => {
                   <div className="bg-gray-50 rounded-lg p-3 mb-3">
                     <div className="flex items-start justify-between mb-2">
                       <div>
-                        <span className="text-sm font-medium text-gray-700">AI Decision: </span>
-                        <span className="text-sm font-semibold text-gray-900 capitalize">
+                        <span className="text-sm font-medium text-secondary-700">AI Decision: </span>
+                        <span className="text-sm font-semibold text-secondary-900 capitalize">
                           {task.aiDecision.action.replace('_', ' ')}
                         </span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <span className="text-xs text-gray-600">Confidence:</span>
+                        <span className="text-xs text-secondary-600">Confidence:</span>
                         <span className={`text-sm font-bold ${getConfidenceColor(task.aiDecision.confidence)}`}>
                           {Math.round(task.aiDecision.confidence * 100)}%
                         </span>
                       </div>
                     </div>
-                    <p className="text-sm text-gray-600">{task.aiDecision.reasoning}</p>
+                    <p className="text-sm text-secondary-600">{task.aiDecision.reasoning}</p>
                   </div>
 
                   {/* Key Data */}
@@ -253,15 +253,15 @@ const HITLApprovalQueue = ({ onTaskSelect }) => {
                     {Object.entries(task.data).slice(0, 6).map(([key, value]) => (
                       <div key={key} className="text-sm">
                         <span className="text-gray-500 capitalize">{key.replace(/([A-Z])/g, ' $1')}: </span>
-                        <span className="font-medium text-gray-900">{value}</span>
+                        <span className="font-medium text-secondary-900">{value}</span>
                       </div>
                     ))}
                   </div>
 
                   {/* Footer */}
                   <div className="flex items-center justify-between pt-3 border-t border-gray-200">
-                    <div className="flex items-center gap-4 text-sm text-gray-600">
-                      <div>Rubric Score: <span className="font-semibold text-gray-900">{task.rubricScore}/100</span></div>
+                    <div className="flex items-center gap-4 text-sm text-secondary-600">
+                      <div>Rubric Score: <span className="font-semibold text-secondary-900">{task.rubricScore}/100</span></div>
                       <div>{task.supportingDocuments.length} Documents</div>
                     </div>
 

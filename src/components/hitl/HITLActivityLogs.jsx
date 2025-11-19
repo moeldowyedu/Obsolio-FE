@@ -41,7 +41,7 @@ const HITLActivityLogs = () => {
       escalated: <AlertTriangle className="w-5 h-5 text-orange-600" />,
       modified: <Edit className="w-5 h-5 text-blue-600" />,
     };
-    return icons[action] || <Clock className="w-5 h-5 text-gray-600" />;
+    return icons[action] || <Clock className="w-5 h-5 text-secondary-600" />;
   };
 
   const getActionColor = (action) => {
@@ -144,8 +144,8 @@ const HITLActivityLogs = () => {
         <Card className="bg-gradient-to-br from-gray-50 to-gray-100">
           <div className="flex items-center justify-between">
             <div>
-              <div className="text-2xl font-bold text-gray-900">{stats.total}</div>
-              <div className="text-sm text-gray-700">Total Actions</div>
+              <div className="text-2xl font-bold text-secondary-900">{stats.total}</div>
+              <div className="text-sm text-secondary-700">Total Actions</div>
             </div>
             <TrendingUp className="w-10 h-10 text-gray-500" />
           </div>
@@ -242,24 +242,24 @@ const HITLActivityLogs = () => {
 
       {/* Activity Logs */}
       <div className="space-y-4">
-        <h2 className="text-xl font-semibold text-gray-900 flex items-center gap-2">
-          <FileText className="w-5 h-5 text-primary-500" />
+        <h2 className="text-xl font-semibold text-secondary-900 flex items-center gap-2">
+          <FileText className="w-5 h-5 text-primary-600" />
           Activity History ({filteredLogs.length})
         </h2>
 
         {isLoading ? (
           <Card>
             <div className="text-center py-12">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-4 border-primary-500 mx-auto mb-4"></div>
-              <p className="text-gray-600">Loading activity logs...</p>
+              <div className="animate-spin rounded-full h-12 w-12 border-b-4 border-primary-600 mx-auto mb-4"></div>
+              <p className="text-secondary-600">Loading activity logs...</p>
             </div>
           </Card>
         ) : filteredLogs.length === 0 ? (
           <Card>
             <div className="text-center py-12">
               <FileText className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">No Activity Found</h3>
-              <p className="text-gray-600">
+              <h3 className="text-lg font-semibold text-secondary-900 mb-2">No Activity Found</h3>
+              <p className="text-secondary-600">
                 {searchTerm || filters.action !== 'all' || filters.dateRange !== 'all'
                   ? 'Try adjusting your filters'
                   : 'No HITL activity has been logged yet'}
@@ -285,12 +285,12 @@ const HITLActivityLogs = () => {
                     <div className="flex items-start justify-between mb-2">
                       <div>
                         <div className="flex items-center gap-2 mb-1">
-                          <h3 className="font-semibold text-gray-900">{log.taskName}</h3>
+                          <h3 className="font-semibold text-secondary-900">{log.taskName}</h3>
                           <Badge className={getActionColor(log.action)}>
                             {log.action.toUpperCase()}
                           </Badge>
                         </div>
-                        <p className="text-sm text-gray-600">
+                        <p className="text-sm text-secondary-600">
                           Agent: {log.agentName} • {log.agentJobTitle || 'AI Agent'}
                         </p>
                       </div>
@@ -307,10 +307,10 @@ const HITLActivityLogs = () => {
                       {/* Approver */}
                       <div className="flex items-center gap-2 text-sm">
                         <User className="w-4 h-4 text-gray-400" />
-                        <span className="text-gray-600">
+                        <span className="text-secondary-600">
                           {log.action === 'approved' ? 'Approved' : log.action === 'rejected' ? 'Rejected' : log.action === 'modified' ? 'Modified' : 'Escalated'} by:
                         </span>
-                        <span className="font-medium text-gray-900">{log.approverName || 'Unknown'}</span>
+                        <span className="font-medium text-secondary-900">{log.approverName || 'Unknown'}</span>
                       </div>
 
                       {/* Comments/Reason */}
@@ -319,7 +319,7 @@ const HITLActivityLogs = () => {
                           <p className="text-xs text-gray-500 uppercase mb-1">
                             {log.action === 'rejected' ? 'Rejection Reason' : log.action === 'escalated' ? 'Escalation Reason' : 'Comments'}
                           </p>
-                          <p className="text-sm text-gray-700">{log.comments || log.reason}</p>
+                          <p className="text-sm text-secondary-700">{log.comments || log.reason}</p>
                         </div>
                       )}
 
@@ -349,9 +349,9 @@ const HITLActivityLogs = () => {
                       {/* AI Decision Info */}
                       {log.originalAIDecision && (
                         <div className="flex items-center gap-4 text-xs text-gray-500 pt-2 border-t border-gray-200">
-                          <span>Original AI Decision: <span className="font-medium text-gray-700 capitalize">{log.originalAIDecision.action?.replace('_', ' ')}</span></span>
-                          <span>AI Confidence: <span className="font-medium text-gray-700">{log.originalAIDecision.confidence ? Math.round(log.originalAIDecision.confidence * 100) : 0}%</span></span>
-                          {log.rubricScore && <span>Rubric Score: <span className="font-medium text-gray-700">{log.rubricScore}/100</span></span>}
+                          <span>Original AI Decision: <span className="font-medium text-secondary-700 capitalize">{log.originalAIDecision.action?.replace('_', ' ')}</span></span>
+                          <span>AI Confidence: <span className="font-medium text-secondary-700">{log.originalAIDecision.confidence ? Math.round(log.originalAIDecision.confidence * 100) : 0}%</span></span>
+                          {log.rubricScore && <span>Rubric Score: <span className="font-medium text-secondary-700">{log.rubricScore}/100</span></span>}
                         </div>
                       )}
                     </div>
@@ -370,7 +370,7 @@ const HITLActivityLogs = () => {
             <Button variant="outline" size="sm" disabled>
               Previous
             </Button>
-            <span className="px-4 py-2 text-gray-600">Page 1 of 1</span>
+            <span className="px-4 py-2 text-secondary-600">Page 1 of 1</span>
             <Button variant="outline" size="sm" disabled>
               Next
             </Button>

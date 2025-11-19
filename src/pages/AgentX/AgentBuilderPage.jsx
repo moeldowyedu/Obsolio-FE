@@ -29,8 +29,8 @@ const AgentBuilderPage = () => {
     <MainLayout>
       <div className="p-6 max-w-5xl mx-auto">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold font-heading text-gray-900">Create Private Agent</h1>
-          <p className="text-gray-600 mt-2">
+          <h1 className="text-3xl font-bold font-heading text-secondary-900">Create Private Agent</h1>
+          <p className="text-secondary-600 mt-2">
             Build a custom AI agent tailored to your specific use case using our Precision Engines
           </p>
         </div>

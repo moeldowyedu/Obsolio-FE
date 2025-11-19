@@ -153,8 +153,8 @@ const ExecutionHistoryPage = () => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Execution History</h1>
-          <p className="text-gray-600 mt-1">
+          <h1 className="text-3xl font-bold text-secondary-900">Execution History</h1>
+          <p className="text-secondary-600 mt-1">
             View past job flow executions and performance
           </p>
         </div>
@@ -252,28 +252,28 @@ const ExecutionHistoryPage = () => {
           <table className="w-full">
             <thead className="bg-gray-50 border-b border-gray-200">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase">
+                <th className="px-6 py-3 text-left text-xs font-semibold text-secondary-700 uppercase">
                   Job Flow
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase">
+                <th className="px-6 py-3 text-left text-xs font-semibold text-secondary-700 uppercase">
                   Agent
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase">
+                <th className="px-6 py-3 text-left text-xs font-semibold text-secondary-700 uppercase">
                   Start Time
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase">
+                <th className="px-6 py-3 text-left text-xs font-semibold text-secondary-700 uppercase">
                   Duration
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase">
+                <th className="px-6 py-3 text-left text-xs font-semibold text-secondary-700 uppercase">
                   Tasks
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase">
+                <th className="px-6 py-3 text-left text-xs font-semibold text-secondary-700 uppercase">
                   Success Rate
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase">
+                <th className="px-6 py-3 text-left text-xs font-semibold text-secondary-700 uppercase">
                   Status
                 </th>
-                <th className="px-6 py-3 text-center text-xs font-semibold text-gray-700 uppercase">
+                <th className="px-6 py-3 text-center text-xs font-semibold text-secondary-700 uppercase">
                   Actions
                 </th>
               </tr>
@@ -282,28 +282,28 @@ const ExecutionHistoryPage = () => {
               {filteredExecutions.map((execution) => (
                 <tr key={execution.id} className="hover:bg-gray-50">
                   <td className="px-6 py-4">
-                    <div className="font-medium text-gray-900">{execution.jobFlowName}</div>
+                    <div className="font-medium text-secondary-900">{execution.jobFlowName}</div>
                     <div className="text-xs text-gray-500">ID: {execution.id}</div>
                   </td>
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-2">
                       <Bot className="w-4 h-4 text-gray-400" />
-                      <span className="text-sm text-gray-900">{execution.agent}</span>
+                      <span className="text-sm text-secondary-900">{execution.agent}</span>
                     </div>
                   </td>
                   <td className="px-6 py-4">
-                    <div className="text-sm text-gray-900">
+                    <div className="text-sm text-secondary-900">
                       {new Date(execution.startTime).toLocaleString()}
                     </div>
                   </td>
                   <td className="px-6 py-4">
-                    <div className="flex items-center gap-2 text-sm text-gray-900">
+                    <div className="flex items-center gap-2 text-sm text-secondary-900">
                       <Clock className="w-4 h-4 text-gray-400" />
                       {execution.duration}
                     </div>
                   </td>
                   <td className="px-6 py-4">
-                    <div className="text-sm text-gray-900">{execution.tasksProcessed}</div>
+                    <div className="text-sm text-secondary-900">{execution.tasksProcessed}</div>
                   </td>
                   <td className="px-6 py-4">
                     <div className={`text-sm font-semibold ${
@@ -345,10 +345,10 @@ const ExecutionHistoryPage = () => {
         <Card>
           <div className="text-center py-12">
             <Calendar className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">
+            <h3 className="text-lg font-semibold text-secondary-900 mb-2">
               No Execution History Found
             </h3>
-            <p className="text-gray-600">
+            <p className="text-secondary-600">
               {searchTerm || statusFilter !== 'all' || agentFilter !== 'all'
                 ? 'Try adjusting your filters'
                 : 'Job flow executions will appear here once they run'}

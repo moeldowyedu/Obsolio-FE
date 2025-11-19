@@ -47,10 +47,10 @@ const AudioEnginePage = () => {
             <Badge variant="primary" size="sm" className="mb-2">
               {engine.category}
             </Badge>
-            <h1 className="text-4xl font-heading font-bold text-gray-900 mb-2">
+            <h1 className="text-4xl font-heading font-bold text-secondary-900 mb-2">
               {engine.name}
             </h1>
-            <p className="text-lg text-gray-600">{engine.description}</p>
+            <p className="text-lg text-secondary-600">{engine.description}</p>
           </div>
         </div>
 
@@ -58,14 +58,14 @@ const AudioEnginePage = () => {
           {/* Test Panel */}
           <div className="lg:col-span-2">
             <Card padding="md">
-              <h2 className="text-2xl font-heading font-bold text-gray-900 mb-4">
+              <h2 className="text-2xl font-heading font-bold text-secondary-900 mb-4">
                 Test Audio Engine
               </h2>
 
               {/* Upload Area */}
               <div className="mb-6">
                 <label className="block mb-2">
-                  <span className="text-sm font-medium text-gray-700">
+                  <span className="text-sm font-medium text-secondary-700">
                     Upload Audio File
                   </span>
                   <div className="mt-2 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg hover:border-primary-400 transition-colors cursor-pointer">
@@ -75,8 +75,8 @@ const AudioEnginePage = () => {
                       ) : (
                         <>
                           <Upload className="mx-auto h-12 w-12 text-gray-400" />
-                          <div className="flex text-sm text-gray-600">
-                            <span className="text-primary-600 hover:text-primary-500 font-medium">
+                          <div className="flex text-sm text-secondary-600">
+                            <span className="text-primary-600 hover:text-primary-600 font-medium">
                               Upload a file
                             </span>
                             <p className="pl-1">or drag and drop</p>
@@ -109,23 +109,23 @@ const AudioEnginePage = () => {
               {/* Results */}
               {results && (
                 <div className="space-y-4">
-                  <h3 className="text-lg font-semibold text-gray-900">
+                  <h3 className="text-lg font-semibold text-secondary-900">
                     Analysis Results
                   </h3>
 
                   <div className="bg-gray-50 rounded-lg p-4 space-y-3">
                     <div className="flex items-center gap-2">
                       <CheckCircle className="w-5 h-5 text-green-500" />
-                      <span className="font-medium text-gray-900">
+                      <span className="font-medium text-secondary-900">
                         Confidence: {(results.confidence * 100).toFixed(1)}%
                       </span>
                     </div>
 
                     <div>
-                      <p className="text-sm font-medium text-gray-700 mb-2">
+                      <p className="text-sm font-medium text-secondary-700 mb-2">
                         Transcription:
                       </p>
-                      <p className="text-sm text-gray-600 bg-white p-3 rounded border">
+                      <p className="text-sm text-secondary-600 bg-white p-3 rounded border">
                         {results.transcription}
                       </p>
                     </div>
@@ -133,7 +133,7 @@ const AudioEnginePage = () => {
                     <div className="grid grid-cols-3 gap-4">
                       <div>
                         <p className="text-xs text-gray-500">Speakers</p>
-                        <p className="text-lg font-semibold text-gray-900">
+                        <p className="text-lg font-semibold text-secondary-900">
                           {results.speakers}
                         </p>
                       </div>
@@ -145,7 +145,7 @@ const AudioEnginePage = () => {
                       </div>
                       <div>
                         <p className="text-xs text-gray-500">Language</p>
-                        <p className="text-sm font-medium text-gray-900">
+                        <p className="text-sm font-medium text-secondary-900">
                           {results.language}
                         </p>
                       </div>
@@ -159,24 +159,24 @@ const AudioEnginePage = () => {
           {/* Sidebar */}
           <div className="lg:col-span-1 space-y-6">
             <Card padding="md">
-              <h3 className="text-lg font-semibold text-gray-900 mb-3">
+              <h3 className="text-lg font-semibold text-secondary-900 mb-3">
                 Capabilities
               </h3>
               <ul className="space-y-2">
                 {engine.capabilities.map((cap, idx) => (
                   <li key={idx} className="flex items-center gap-2">
                     <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" />
-                    <span className="text-sm text-gray-700">{cap}</span>
+                    <span className="text-sm text-secondary-700">{cap}</span>
                   </li>
                 ))}
               </ul>
             </Card>
 
             <Card padding="md">
-              <h3 className="text-lg font-semibold text-gray-900 mb-3">
+              <h3 className="text-lg font-semibold text-secondary-900 mb-3">
                 Common Use Cases
               </h3>
-              <ul className="space-y-2 text-sm text-gray-700">
+              <ul className="space-y-2 text-sm text-secondary-700">
                 <li>• Meeting transcription</li>
                 <li>• Podcast analysis</li>
                 <li>• Customer call monitoring</li>
@@ -186,10 +186,10 @@ const AudioEnginePage = () => {
             </Card>
 
             <Card padding="md" className="bg-gradient-to-br from-purple-50 to-purple-100">
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+              <h3 className="text-lg font-semibold text-secondary-900 mb-2">
                 Build with Audio
               </h3>
-              <p className="text-sm text-gray-700 mb-4">
+              <p className="text-sm text-secondary-700 mb-4">
                 Create a custom agent using the Audio Engine
               </p>
               <Button

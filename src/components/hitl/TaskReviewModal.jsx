@@ -151,13 +151,13 @@ const TaskReviewModal = ({ task, onClose }) => {
     if (activeAction === 'approve') {
       return (
         <Card className="bg-green-50 border-green-200">
-          <h4 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
+          <h4 className="font-semibold text-secondary-900 mb-4 flex items-center gap-2">
             <CheckCircle className="w-5 h-5 text-green-600" />
             Approve Task
           </h4>
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-secondary-700 mb-2">
                 Comments (Optional)
               </label>
               <textarea
@@ -190,13 +190,13 @@ const TaskReviewModal = ({ task, onClose }) => {
     if (activeAction === 'reject') {
       return (
         <Card className="bg-red-50 border-red-200">
-          <h4 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
+          <h4 className="font-semibold text-secondary-900 mb-4 flex items-center gap-2">
             <XCircle className="w-5 h-5 text-red-600" />
             Reject Task
           </h4>
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-secondary-700 mb-2">
                 Reason for Rejection <span className="text-red-500">*</span>
               </label>
               <textarea
@@ -208,7 +208,7 @@ const TaskReviewModal = ({ task, onClose }) => {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-secondary-700 mb-2">
                 Additional Comments (Optional)
               </label>
               <textarea
@@ -241,13 +241,13 @@ const TaskReviewModal = ({ task, onClose }) => {
     if (activeAction === 'modify') {
       return (
         <Card className="bg-blue-50 border-blue-200">
-          <h4 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
+          <h4 className="font-semibold text-secondary-900 mb-4 flex items-center gap-2">
             <Edit className="w-5 h-5 text-blue-600" />
             Modify AI Decision
           </h4>
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-secondary-700 mb-2">
                 New Decision <span className="text-red-500">*</span>
               </label>
               <select
@@ -263,7 +263,7 @@ const TaskReviewModal = ({ task, onClose }) => {
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-secondary-700 mb-2">
                 Reasoning for Change <span className="text-red-500">*</span>
               </label>
               <textarea
@@ -296,13 +296,13 @@ const TaskReviewModal = ({ task, onClose }) => {
     if (activeAction === 'escalate') {
       return (
         <Card className="bg-orange-50 border-orange-200">
-          <h4 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
+          <h4 className="font-semibold text-secondary-900 mb-4 flex items-center gap-2">
             <AlertTriangle className="w-5 h-5 text-orange-600" />
             Escalate Task
           </h4>
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-secondary-700 mb-2">
                 Escalate To <span className="text-red-500">*</span>
               </label>
               <select
@@ -318,7 +318,7 @@ const TaskReviewModal = ({ task, onClose }) => {
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-secondary-700 mb-2">
                 Escalation Reason <span className="text-red-500">*</span>
               </label>
               <textarea
@@ -356,8 +356,8 @@ const TaskReviewModal = ({ task, onClose }) => {
           <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <CheckCircle className="w-12 h-12 text-green-600" />
           </div>
-          <h3 className="text-2xl font-bold text-gray-900 mb-2">Action Completed!</h3>
-          <p className="text-gray-600">
+          <h3 className="text-2xl font-bold text-secondary-900 mb-2">Action Completed!</h3>
+          <p className="text-secondary-600">
             Your decision has been recorded and the agent has been notified.
           </p>
         </div>
@@ -372,18 +372,18 @@ const TaskReviewModal = ({ task, onClose }) => {
         <div className="flex items-start justify-between p-6 border-b border-gray-200">
           <div className="flex-1">
             <div className="flex items-center gap-3 mb-2">
-              <h2 className="text-2xl font-bold text-gray-900">{task.taskName}</h2>
+              <h2 className="text-2xl font-bold text-secondary-900">{task.taskName}</h2>
               <Badge className={getPriorityColor(task.priority)}>
                 {task.priority.toUpperCase()}
               </Badge>
             </div>
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-secondary-600">
               Submitted {getTimeAgo(task.submittedAt)} • Task ID: {task.id}
             </p>
           </div>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 transition-colors"
+            className="text-gray-400 hover:text-secondary-600 transition-colors"
             disabled={actionInProgress}
           >
             <X className="w-6 h-6" />
@@ -394,15 +394,15 @@ const TaskReviewModal = ({ task, onClose }) => {
           {/* Agent Information */}
           <Card className="bg-gradient-to-r from-blue-50 to-indigo-50">
             <div className="flex items-start gap-4">
-              <div className="w-12 h-12 bg-primary-500 rounded-full flex items-center justify-center text-white font-bold text-lg">
+              <div className="w-12 h-12 bg-primary-600 rounded-full flex items-center justify-center text-white font-bold text-lg">
                 {task.agentName.charAt(0)}
               </div>
               <div className="flex-1">
-                <h3 className="font-semibold text-gray-900 flex items-center gap-2">
+                <h3 className="font-semibold text-secondary-900 flex items-center gap-2">
                   <User className="w-4 h-4" />
                   {task.agentName}
                 </h3>
-                <div className="text-sm text-gray-600 mt-1 space-y-1">
+                <div className="text-sm text-secondary-600 mt-1 space-y-1">
                   <p className="flex items-center gap-2">
                     <Briefcase className="w-4 h-4" />
                     {task.agentJobTitle}
@@ -415,49 +415,49 @@ const TaskReviewModal = ({ task, onClose }) => {
               </div>
               <div className="text-right">
                 <div className="text-xs text-gray-500">Rubric Score</div>
-                <div className="text-2xl font-bold text-gray-900">{task.rubricScore}/100</div>
+                <div className="text-2xl font-bold text-secondary-900">{task.rubricScore}/100</div>
               </div>
             </div>
           </Card>
 
           {/* AI Decision */}
           <Card>
-            <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-              <TrendingUp className="w-5 h-5 text-primary-500" />
+            <h3 className="text-lg font-semibold text-secondary-900 mb-4 flex items-center gap-2">
+              <TrendingUp className="w-5 h-5 text-primary-600" />
               AI Decision Analysis
             </h3>
             <div className="space-y-3">
               <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                 <div>
-                  <span className="text-sm text-gray-600">Recommended Action:</span>
-                  <span className="ml-2 font-semibold text-gray-900 capitalize">
+                  <span className="text-sm text-secondary-600">Recommended Action:</span>
+                  <span className="ml-2 font-semibold text-secondary-900 capitalize">
                     {task.aiDecision.action.replace('_', ' ')}
                   </span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="text-xs text-gray-600">Confidence:</span>
+                  <span className="text-xs text-secondary-600">Confidence:</span>
                   <span className={`text-lg font-bold ${getConfidenceColor(task.aiDecision.confidence)}`}>
                     {Math.round(task.aiDecision.confidence * 100)}%
                   </span>
                 </div>
               </div>
               <div className="p-3 bg-blue-50 rounded-lg border border-blue-200">
-                <p className="text-sm font-medium text-gray-700 mb-1">Reasoning:</p>
-                <p className="text-sm text-gray-600">{task.aiDecision.reasoning}</p>
+                <p className="text-sm font-medium text-secondary-700 mb-1">Reasoning:</p>
+                <p className="text-sm text-secondary-600">{task.aiDecision.reasoning}</p>
               </div>
             </div>
           </Card>
 
           {/* Task Data */}
           <Card>
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Task Details</h3>
+            <h3 className="text-lg font-semibold text-secondary-900 mb-4">Task Details</h3>
             <div className="grid grid-cols-2 gap-4">
               {Object.entries(task.data).map(([key, value]) => (
                 <div key={key} className="p-3 bg-gray-50 rounded-lg">
                   <p className="text-xs text-gray-500 uppercase mb-1">
                     {key.replace(/([A-Z])/g, ' $1').trim()}
                   </p>
-                  <p className="font-medium text-gray-900">{value}</p>
+                  <p className="font-medium text-secondary-900">{value}</p>
                 </div>
               ))}
             </div>
@@ -465,8 +465,8 @@ const TaskReviewModal = ({ task, onClose }) => {
 
           {/* Supporting Documents */}
           <Card>
-            <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-              <FileText className="w-5 h-5 text-primary-500" />
+            <h3 className="text-lg font-semibold text-secondary-900 mb-4 flex items-center gap-2">
+              <FileText className="w-5 h-5 text-primary-600" />
               Supporting Documents ({task.supportingDocuments.length})
             </h3>
             <div className="space-y-2">
@@ -478,17 +478,17 @@ const TaskReviewModal = ({ task, onClose }) => {
                   <div className="flex items-center gap-3">
                     <FileText className="w-5 h-5 text-gray-400" />
                     <div>
-                      <p className="font-medium text-gray-900">{doc.name}</p>
+                      <p className="font-medium text-secondary-900">{doc.name}</p>
                       <p className="text-xs text-gray-500">
                         {doc.type.toUpperCase()} • {doc.size}
                       </p>
                     </div>
                   </div>
                   <div className="flex gap-2">
-                    <button className="p-2 text-gray-600 hover:text-primary-600 transition-colors">
+                    <button className="p-2 text-secondary-600 hover:text-primary-600 transition-colors">
                       <Eye className="w-4 h-4" />
                     </button>
-                    <button className="p-2 text-gray-600 hover:text-primary-600 transition-colors">
+                    <button className="p-2 text-secondary-600 hover:text-primary-600 transition-colors">
                       <Download className="w-4 h-4" />
                     </button>
                   </div>

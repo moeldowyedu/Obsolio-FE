@@ -59,7 +59,7 @@ const HITLApprovalCard = ({ approval, onApprove, onReject, onViewDetails }) => {
       <div className="flex items-start justify-between mb-4">
         <div className="flex-1">
           <div className="flex items-center gap-2 mb-2">
-            <h3 className="text-lg font-semibold text-gray-900">{approval.agentName}</h3>
+            <h3 className="text-lg font-semibold text-secondary-900">{approval.agentName}</h3>
             <Badge variant={getPriorityVariant(approval.priority)} size="sm">
               {approval.priority}
             </Badge>
@@ -69,11 +69,11 @@ const HITLApprovalCard = ({ approval, onApprove, onReject, onViewDetails }) => {
               </Badge>
             )}
           </div>
-          <p className="text-sm text-gray-600">{approval.description || 'Awaiting approval'}</p>
+          <p className="text-sm text-secondary-600">{approval.description || 'Awaiting approval'}</p>
         </div>
         <button
           onClick={() => setIsExpanded(!isExpanded)}
-          className="text-gray-400 hover:text-gray-600 transition-colors"
+          className="text-gray-400 hover:text-secondary-600 transition-colors"
         >
           <Eye className="w-5 h-5" />
         </button>
@@ -82,26 +82,26 @@ const HITLApprovalCard = ({ approval, onApprove, onReject, onViewDetails }) => {
       {/* Metadata */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4 pb-4 border-b border-gray-200">
         <div>
-          <p className="text-xs text-gray-600 mb-1">Execution ID</p>
-          <p className="text-sm font-medium text-gray-900 font-mono">
+          <p className="text-xs text-secondary-600 mb-1">Execution ID</p>
+          <p className="text-sm font-medium text-secondary-900 font-mono">
             #{approval.executionId?.slice(0, 8) || 'N/A'}
           </p>
         </div>
         <div>
-          <p className="text-xs text-gray-600 mb-1">Confidence</p>
+          <p className="text-xs text-secondary-600 mb-1">Confidence</p>
           <p className={`text-sm font-bold ${getConfidenceColor(approval.confidence)}`}>
             {(approval.confidence * 100).toFixed(1)}%
           </p>
         </div>
         <div>
-          <p className="text-xs text-gray-600 mb-1">Created</p>
-          <p className="text-sm text-gray-900">{formatDate(approval.createdAt)}</p>
+          <p className="text-xs text-secondary-600 mb-1">Created</p>
+          <p className="text-sm text-secondary-900">{formatDate(approval.createdAt)}</p>
         </div>
         <div>
-          <p className="text-xs text-gray-600 mb-1">Waiting</p>
+          <p className="text-xs text-secondary-600 mb-1">Waiting</p>
           <div className="flex items-center gap-1">
             <Clock className="w-3 h-3 text-gray-500" />
-            <p className="text-sm text-gray-900">{getTimeAgo(approval.createdAt)}</p>
+            <p className="text-sm text-secondary-900">{getTimeAgo(approval.createdAt)}</p>
           </div>
         </div>
       </div>
@@ -111,7 +111,7 @@ const HITLApprovalCard = ({ approval, onApprove, onReject, onViewDetails }) => {
         <div className="mb-4 space-y-3">
           {approval.input && (
             <div>
-              <p className="text-sm font-medium text-gray-900 mb-2">Input Data</p>
+              <p className="text-sm font-medium text-secondary-900 mb-2">Input Data</p>
               <pre className="text-xs bg-gray-50 p-3 rounded border border-gray-200 overflow-auto max-h-40">
                 {JSON.stringify(approval.input, null, 2)}
               </pre>
@@ -119,7 +119,7 @@ const HITLApprovalCard = ({ approval, onApprove, onReject, onViewDetails }) => {
           )}
           {approval.output && (
             <div>
-              <p className="text-sm font-medium text-gray-900 mb-2">Proposed Output</p>
+              <p className="text-sm font-medium text-secondary-900 mb-2">Proposed Output</p>
               <pre className="text-xs bg-gray-50 p-3 rounded border border-gray-200 overflow-auto max-h-40">
                 {JSON.stringify(approval.output, null, 2)}
               </pre>
@@ -127,7 +127,7 @@ const HITLApprovalCard = ({ approval, onApprove, onReject, onViewDetails }) => {
           )}
           {approval.reason && (
             <div>
-              <p className="text-sm font-medium text-gray-900 mb-2">Reason for Review</p>
+              <p className="text-sm font-medium text-secondary-900 mb-2">Reason for Review</p>
               <div className="flex items-start gap-2 p-3 bg-yellow-50 border border-yellow-200 rounded">
                 <AlertCircle className="w-4 h-4 text-yellow-600 mt-0.5" />
                 <p className="text-sm text-yellow-800">{approval.reason}</p>

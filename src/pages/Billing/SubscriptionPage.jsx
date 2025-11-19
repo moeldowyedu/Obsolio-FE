@@ -60,8 +60,8 @@ const SubscriptionPage = () => {
     <MainLayout>
       <div className="p-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Subscription</h1>
-          <p className="text-gray-600">
+          <h1 className="text-3xl font-bold text-secondary-900 mb-2">Subscription</h1>
+          <p className="text-secondary-600">
             Manage your subscription plan and billing
           </p>
         </div>
@@ -69,19 +69,19 @@ const SubscriptionPage = () => {
         {/* Current Plan */}
         <Card className="mb-8">
           <div className="p-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">Current Plan</h2>
+            <h2 className="text-xl font-semibold text-secondary-900 mb-4">Current Plan</h2>
             <div className="flex items-start justify-between">
               <div>
                 <div className="flex items-center gap-3 mb-2">
-                  <h3 className="text-2xl font-bold text-gray-900">
+                  <h3 className="text-2xl font-bold text-secondary-900">
                     {currentPlan.name}
                   </h3>
                   <Badge color="green">{currentPlan.status}</Badge>
                 </div>
                 <p className="text-3xl font-bold text-primary-600 mb-2">
-                  {currentPlan.price} <span className="text-lg font-normal text-gray-600">{currentPlan.period}</span>
+                  {currentPlan.price} <span className="text-lg font-normal text-secondary-600">{currentPlan.period}</span>
                 </p>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-secondary-600">
                   Next billing date: <strong>{currentPlan.nextBilling}</strong>
                 </p>
               </div>
@@ -94,12 +94,12 @@ const SubscriptionPage = () => {
         </Card>
 
         {/* Available Plans */}
-        <h2 className="text-2xl font-semibold text-gray-900 mb-6">Available Plans</h2>
+        <h2 className="text-2xl font-semibold text-secondary-900 mb-6">Available Plans</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {plans.map((plan) => (
             <Card
               key={plan.name}
-              className={`relative ${plan.popular ? 'border-2 border-primary-500' : ''}`}
+              className={`relative ${plan.popular ? 'border-2 border-primary-600' : ''}`}
             >
               {plan.popular && (
                 <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
@@ -107,18 +107,18 @@ const SubscriptionPage = () => {
                 </div>
               )}
               <div className="p-6">
-                <h3 className="text-xl font-bold text-gray-900 mb-2">
+                <h3 className="text-xl font-bold text-secondary-900 mb-2">
                   {plan.name}
                 </h3>
                 <div className="mb-6">
-                  <span className="text-4xl font-bold text-gray-900">{plan.price}</span>
-                  <span className="text-gray-600 ml-2">{plan.period}</span>
+                  <span className="text-4xl font-bold text-secondary-900">{plan.price}</span>
+                  <span className="text-secondary-600 ml-2">{plan.period}</span>
                 </div>
                 <ul className="space-y-3 mb-6">
                   {plan.features.map((feature, idx) => (
                     <li key={idx} className="flex items-start gap-2">
                       <Check className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
-                      <span className="text-gray-700">{feature}</span>
+                      <span className="text-secondary-700">{feature}</span>
                     </li>
                   ))}
                 </ul>

@@ -9,8 +9,8 @@ const SecurityPage = () => {
     <MainLayout>
       <div className="p-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Security Settings</h1>
-          <p className="text-gray-600">
+          <h1 className="text-3xl font-bold text-secondary-900 mb-2">Security Settings</h1>
+          <p className="text-secondary-600">
             Manage your account security and authentication settings
           </p>
         </div>
@@ -20,30 +20,30 @@ const SecurityPage = () => {
           <div className="p-6">
             <div className="flex items-center gap-3 mb-6">
               <Lock className="w-6 h-6 text-primary-600" />
-              <h2 className="text-xl font-semibold text-gray-900">Password & Authentication</h2>
+              <h2 className="text-xl font-semibold text-secondary-900">Password & Authentication</h2>
             </div>
 
             <div className="space-y-4">
               <div className="flex items-center justify-between py-3 border-b border-gray-200">
                 <div>
-                  <h3 className="font-medium text-gray-900">Password</h3>
-                  <p className="text-sm text-gray-600">Last changed 30 days ago</p>
+                  <h3 className="font-medium text-secondary-900">Password</h3>
+                  <p className="text-sm text-secondary-600">Last changed 30 days ago</p>
                 </div>
                 <Button size="sm" variant="outline">Change Password</Button>
               </div>
 
               <div className="flex items-center justify-between py-3 border-b border-gray-200">
                 <div>
-                  <h3 className="font-medium text-gray-900">Two-Factor Authentication (2FA)</h3>
-                  <p className="text-sm text-gray-600">Add an extra layer of security</p>
+                  <h3 className="font-medium text-secondary-900">Two-Factor Authentication (2FA)</h3>
+                  <p className="text-sm text-secondary-600">Add an extra layer of security</p>
                 </div>
                 <Badge color="gray">Not Enabled</Badge>
               </div>
 
               <div className="flex items-center justify-between py-3">
                 <div>
-                  <h3 className="font-medium text-gray-900">Social Login</h3>
-                  <p className="text-sm text-gray-600">Google, LinkedIn connected</p>
+                  <h3 className="font-medium text-secondary-900">Social Login</h3>
+                  <p className="text-sm text-secondary-600">Google, LinkedIn connected</p>
                 </div>
                 <Button size="sm" variant="outline">Manage</Button>
               </div>
@@ -56,22 +56,22 @@ const SecurityPage = () => {
           <div className="p-6">
             <div className="flex items-center gap-3 mb-6">
               <Key className="w-6 h-6 text-primary-600" />
-              <h2 className="text-xl font-semibold text-gray-900">API Access</h2>
+              <h2 className="text-xl font-semibold text-secondary-900">API Access</h2>
             </div>
 
             <div className="space-y-4">
               <div className="flex items-center justify-between py-3 border-b border-gray-200">
                 <div>
-                  <h3 className="font-medium text-gray-900">API Keys</h3>
-                  <p className="text-sm text-gray-600">2 active API keys</p>
+                  <h3 className="font-medium text-secondary-900">API Keys</h3>
+                  <p className="text-sm text-secondary-600">2 active API keys</p>
                 </div>
                 <Button size="sm" variant="outline">View Keys</Button>
               </div>
 
               <div className="flex items-center justify-between py-3">
                 <div>
-                  <h3 className="font-medium text-gray-900">IP Whitelist</h3>
-                  <p className="text-sm text-gray-600">Restrict API access by IP</p>
+                  <h3 className="font-medium text-secondary-900">IP Whitelist</h3>
+                  <p className="text-sm text-secondary-600">Restrict API access by IP</p>
                 </div>
                 <Badge color="gray">Not Configured</Badge>
               </div>
@@ -84,14 +84,14 @@ const SecurityPage = () => {
           <div className="p-6">
             <div className="flex items-center gap-3 mb-6">
               <Eye className="w-6 h-6 text-primary-600" />
-              <h2 className="text-xl font-semibold text-gray-900">Active Sessions</h2>
+              <h2 className="text-xl font-semibold text-secondary-900">Active Sessions</h2>
             </div>
 
             <div className="space-y-4">
               <div className="flex items-center justify-between py-3 border-b border-gray-200">
                 <div>
-                  <h3 className="font-medium text-gray-900">Current Session</h3>
-                  <p className="text-sm text-gray-600">Chrome on macOS • 192.168.1.1</p>
+                  <h3 className="font-medium text-secondary-900">Current Session</h3>
+                  <p className="text-sm text-secondary-600">Chrome on macOS • 192.168.1.1</p>
                   <p className="text-xs text-gray-500 mt-1">Active now</p>
                 </div>
                 <Badge color="green">Active</Badge>
@@ -99,8 +99,8 @@ const SecurityPage = () => {
 
               <div className="flex items-center justify-between py-3">
                 <div>
-                  <h3 className="font-medium text-gray-900">Previous Session</h3>
-                  <p className="text-sm text-gray-600">Firefox on Windows • 192.168.1.5</p>
+                  <h3 className="font-medium text-secondary-900">Previous Session</h3>
+                  <p className="text-sm text-secondary-600">Firefox on Windows • 192.168.1.5</p>
                   <p className="text-xs text-gray-500 mt-1">2 days ago</p>
                 </div>
                 <Button size="sm" variant="outline">Revoke</Button>
@@ -120,22 +120,22 @@ const SecurityPage = () => {
           <div className="p-6">
             <div className="flex items-center gap-3 mb-6">
               <AlertTriangle className="w-6 h-6 text-yellow-600" />
-              <h2 className="text-xl font-semibold text-gray-900">Security Alerts</h2>
+              <h2 className="text-xl font-semibold text-secondary-900">Security Alerts</h2>
             </div>
 
             <div className="space-y-4">
               <div className="flex items-center justify-between py-3 border-b border-gray-200">
                 <div>
-                  <h3 className="font-medium text-gray-900">Email Alerts</h3>
-                  <p className="text-sm text-gray-600">Get notified of security events</p>
+                  <h3 className="font-medium text-secondary-900">Email Alerts</h3>
+                  <p className="text-sm text-secondary-600">Get notified of security events</p>
                 </div>
                 <Badge color="green">Enabled</Badge>
               </div>
 
               <div className="flex items-center justify-between py-3">
                 <div>
-                  <h3 className="font-medium text-gray-900">Login Notifications</h3>
-                  <p className="text-sm text-gray-600">Alert on new device logins</p>
+                  <h3 className="font-medium text-secondary-900">Login Notifications</h3>
+                  <p className="text-sm text-secondary-600">Alert on new device logins</p>
                 </div>
                 <Badge color="green">Enabled</Badge>
               </div>

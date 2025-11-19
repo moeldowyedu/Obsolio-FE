@@ -7,8 +7,8 @@ const MetricsRow = ({ metrics }) => {
         <Card key={index} className="hover:shadow-lg transition-shadow">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600 mb-1">{metric.label}</p>
-              <p className="text-3xl font-bold text-gray-900">{metric.value}</p>
+              <p className="text-sm text-secondary-600 mb-1">{metric.label}</p>
+              <p className="text-3xl font-bold text-secondary-900">{metric.value}</p>
               {metric.change && (
                 <p className={`text-sm mt-1 ${
                   metric.change > 0 ? 'text-secondary-500' : 'text-red-500'

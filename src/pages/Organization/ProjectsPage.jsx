@@ -148,8 +148,8 @@ const ProjectsPage = () => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Projects</h1>
-          <p className="text-gray-600 mt-1">
+          <h1 className="text-3xl font-bold text-secondary-900">Projects</h1>
+          <p className="text-secondary-600 mt-1">
             Manage projects across your organization
           </p>
         </div>
@@ -240,10 +240,10 @@ const ProjectsPage = () => {
                     <Folder className="w-6 h-6 text-primary-600" />
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-lg font-semibold text-gray-900 mb-1">
+                    <h3 className="text-lg font-semibold text-secondary-900 mb-1">
                       {project.name}
                     </h3>
-                    <p className="text-sm text-gray-600">{project.description}</p>
+                    <p className="text-sm text-secondary-600">{project.description}</p>
                   </div>
                 </div>
                 <div className="flex gap-2">
@@ -269,12 +269,12 @@ const ProjectsPage = () => {
               {/* Progress Bar */}
               <div>
                 <div className="flex items-center justify-between text-sm mb-2">
-                  <span className="text-gray-600">Progress</span>
-                  <span className="font-semibold text-gray-900">{project.progress}%</span>
+                  <span className="text-secondary-600">Progress</span>
+                  <span className="font-semibold text-secondary-900">{project.progress}%</span>
                 </div>
                 <div className="w-full bg-gray-200 rounded-full h-2">
                   <div
-                    className="bg-primary-500 h-2 rounded-full transition-all"
+                    className="bg-primary-600 h-2 rounded-full transition-all"
                     style={{ width: `${project.progress}%` }}
                   ></div>
                 </div>
@@ -284,21 +284,21 @@ const ProjectsPage = () => {
               <div className="grid grid-cols-2 gap-4 pt-4 border-t border-gray-200">
                 <div>
                   <p className="text-xs text-gray-500 mb-1">Department</p>
-                  <p className="text-sm font-medium text-gray-900">{project.department}</p>
+                  <p className="text-sm font-medium text-secondary-900">{project.department}</p>
                 </div>
                 <div>
                   <p className="text-xs text-gray-500 mb-1">Project Lead</p>
-                  <p className="text-sm font-medium text-gray-900">{project.lead}</p>
+                  <p className="text-sm font-medium text-secondary-900">{project.lead}</p>
                 </div>
                 <div>
                   <p className="text-xs text-gray-500 mb-1">Team Size</p>
-                  <p className="text-sm font-medium text-gray-900">
+                  <p className="text-sm font-medium text-secondary-900">
                     {project.members} members • {project.agents} AI agents
                   </p>
                 </div>
                 <div>
                   <p className="text-xs text-gray-500 mb-1">Timeline</p>
-                  <p className="text-sm font-medium text-gray-900">
+                  <p className="text-sm font-medium text-secondary-900">
                     {new Date(project.startDate).toLocaleDateString()} -{' '}
                     {new Date(project.endDate).toLocaleDateString()}
                   </p>
@@ -313,10 +313,10 @@ const ProjectsPage = () => {
         <Card>
           <div className="text-center py-12">
             <Folder className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">
+            <h3 className="text-lg font-semibold text-secondary-900 mb-2">
               No Projects Found
             </h3>
-            <p className="text-gray-600">
+            <p className="text-secondary-600">
               {searchTerm || statusFilter !== 'all'
                 ? 'Try adjusting your filters'
                 : 'Get started by creating your first project'}

@@ -31,8 +31,8 @@ const ForgotPasswordPage = () => {
         <div className="w-full max-w-md">
           <Card padding="lg">
             <div className="text-center mb-8">
-              <h1 className="text-4xl font-heading font-bold text-gray-900 mb-2">Forgot Password?</h1>
-              <p className="text-gray-600">
+              <h1 className="text-4xl font-heading font-bold text-secondary-900 mb-2 tracking-tight">Forgot Password?</h1>
+              <p className="text-secondary-600 font-medium">
                 {isSubmitted
                   ? 'Check your email for reset instructions'
                   : 'Enter your email to reset your password'}
@@ -63,17 +63,17 @@ const ForgotPasswordPage = () => {
               </form>
             ) : (
               <div className="text-center">
-                <div className="bg-green-50 rounded-lg p-6 mb-6">
+                <div className="bg-green-50 border border-green-200 rounded-xl p-6 mb-6">
                   <div className="text-5xl mb-4">✓</div>
-                  <p className="text-gray-700">
-                    We've sent a password reset link to <strong>{email}</strong>
+                  <p className="text-secondary-700 font-medium">
+                    We've sent a password reset link to <strong className="text-secondary-900">{email}</strong>
                   </p>
                 </div>
               </div>
             )}
 
             <div className="mt-6 text-center">
-              <Link to="/login" className="text-primary-500 hover:text-primary-600 font-medium">
+              <Link to="/login" className="text-primary-600 hover:text-primary-700 font-semibold transition-colors">
                 ← Back to Login
               </Link>
             </div>

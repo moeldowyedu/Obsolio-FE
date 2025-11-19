@@ -67,10 +67,10 @@ const ModeSelector = ({ selectedMode, onSelectMode }) => {
             </Badge>
           </div>
 
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">
+          <h3 className="text-lg font-semibold text-secondary-900 mb-2">
             {mode.name}
           </h3>
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-secondary-600">
             {mode.description}
           </p>
 

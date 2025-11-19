@@ -98,7 +98,7 @@ const HITLActivityLog = ({ activities = [], compact = false }) => {
                   <div className="flex items-start justify-between mb-3">
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-1">
-                        <h4 className="font-semibold text-gray-900">
+                        <h4 className="font-semibold text-secondary-900">
                           {activity.agentName}
                         </h4>
                         <Badge variant={config.variant} size="sm">
@@ -106,7 +106,7 @@ const HITLActivityLog = ({ activities = [], compact = false }) => {
                           {config.label}
                         </Badge>
                       </div>
-                      <p className="text-sm text-gray-600 mb-2">
+                      <p className="text-sm text-secondary-600 mb-2">
                         Execution #{activity.executionId?.slice(0, 8) || 'N/A'}
                       </p>
                       <div className="flex items-center gap-4 text-xs text-gray-500">
@@ -146,10 +146,10 @@ const HITLActivityLog = ({ activities = [], compact = false }) => {
                   {/* Decision reason */}
                   {activity.comment && (
                     <div className="mt-3 p-3 bg-gray-50 border border-gray-200 rounded">
-                      <p className="text-sm font-medium text-gray-900 mb-1">
+                      <p className="text-sm font-medium text-secondary-900 mb-1">
                         Decision Comment
                       </p>
-                      <p className="text-sm text-gray-700">{activity.comment}</p>
+                      <p className="text-sm text-secondary-700">{activity.comment}</p>
                     </div>
                   )}
 
@@ -157,20 +157,20 @@ const HITLActivityLog = ({ activities = [], compact = false }) => {
                   {!compact && activity.metrics && (
                     <div className="grid grid-cols-3 gap-4 mt-3 pt-3 border-t border-gray-200">
                       <div>
-                        <p className="text-xs text-gray-600 mb-1">Confidence</p>
-                        <p className="text-sm font-medium text-gray-900">
+                        <p className="text-xs text-secondary-600 mb-1">Confidence</p>
+                        <p className="text-sm font-medium text-secondary-900">
                           {(activity.metrics.confidence * 100).toFixed(1)}%
                         </p>
                       </div>
                       <div>
-                        <p className="text-xs text-gray-600 mb-1">Priority</p>
+                        <p className="text-xs text-secondary-600 mb-1">Priority</p>
                         <Badge variant="default" size="sm">
                           {activity.priority || 'medium'}
                         </Badge>
                       </div>
                       <div>
-                        <p className="text-xs text-gray-600 mb-1">HITL Mode</p>
-                        <p className="text-sm font-medium text-gray-900">
+                        <p className="text-xs text-secondary-600 mb-1">HITL Mode</p>
+                        <p className="text-sm font-medium text-secondary-900">
                           {activity.hitlMode || 'N/A'}
                         </p>
                       </div>

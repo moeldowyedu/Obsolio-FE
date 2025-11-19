@@ -200,9 +200,9 @@ const PrivateAgentsPage = () => {
           <div>
             <div className="flex items-center gap-3 mb-2">
               <Lock className="w-8 h-8 text-purple-600" />
-              <h1 className="text-3xl font-bold text-gray-900">Private Agents</h1>
+              <h1 className="text-3xl font-bold text-secondary-900">Private Agents</h1>
             </div>
-            <p className="text-gray-600">
+            <p className="text-secondary-600">
               Organization-specific agents trained on your proprietary data and processes
             </p>
           </div>
@@ -218,16 +218,16 @@ const PrivateAgentsPage = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           <div className="glass-card rounded-2xl p-6 hover:shadow-lg transition-shadow">
             <div className="flex items-center justify-between mb-2">
-              <div className="text-sm font-medium text-gray-600">Total Private Agents</div>
+              <div className="text-sm font-medium text-secondary-600">Total Private Agents</div>
               <Shield className="w-5 h-5 text-purple-600" />
             </div>
-            <div className="text-3xl font-bold text-gray-900">{privateAgents.length}</div>
+            <div className="text-3xl font-bold text-secondary-900">{privateAgents.length}</div>
             <div className="text-xs text-gray-500 mt-1">Custom agents created</div>
           </div>
 
           <div className="glass-card rounded-2xl p-6 hover:shadow-lg transition-shadow">
             <div className="flex items-center justify-between mb-2">
-              <div className="text-sm font-medium text-gray-600">Active Agents</div>
+              <div className="text-sm font-medium text-secondary-600">Active Agents</div>
               <TrendingUp className="w-5 h-5 text-green-600" />
             </div>
             <div className="text-3xl font-bold text-green-600">{activeAgents}</div>
@@ -236,7 +236,7 @@ const PrivateAgentsPage = () => {
 
           <div className="glass-card rounded-2xl p-6 hover:shadow-lg transition-shadow">
             <div className="flex items-center justify-between mb-2">
-              <div className="text-sm font-medium text-gray-600">Team Agents</div>
+              <div className="text-sm font-medium text-secondary-600">Team Agents</div>
               <Users className="w-5 h-5 text-blue-600" />
             </div>
             <div className="text-3xl font-bold text-blue-600">{teamAgents}</div>
@@ -245,22 +245,22 @@ const PrivateAgentsPage = () => {
 
           <div className="glass-card rounded-2xl p-6 hover:shadow-lg transition-shadow">
             <div className="flex items-center justify-between mb-2">
-              <div className="text-sm font-medium text-gray-600">Total Runs</div>
+              <div className="text-sm font-medium text-secondary-600">Total Runs</div>
               <FileCode className="w-5 h-5 text-orange-600" />
             </div>
-            <div className="text-3xl font-bold text-gray-900">{formatNumber(totalRuns)}</div>
+            <div className="text-3xl font-bold text-secondary-900">{formatNumber(totalRuns)}</div>
             <div className="text-xs text-gray-500 mt-1">Across all agents</div>
           </div>
         </div>
 
         {/* Private Agents List */}
         <div>
-          <h2 className="text-xl font-bold text-gray-900 mb-4">Your Private Agents</h2>
+          <h2 className="text-xl font-bold text-secondary-900 mb-4">Your Private Agents</h2>
           {privateAgents.length === 0 ? (
             <div className="glass-card rounded-3xl p-12 text-center">
               <Lock className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-              <h3 className="text-xl font-bold text-gray-900 mb-2">No Private Agents Yet</h3>
-              <p className="text-gray-600 mb-6 max-w-md mx-auto">
+              <h3 className="text-xl font-bold text-secondary-900 mb-2">No Private Agents Yet</h3>
+              <p className="text-secondary-600 mb-6 max-w-md mx-auto">
                 Create custom agents trained on your organization's proprietary data and business processes
               </p>
               <Link to="/agentx/builder">
@@ -286,14 +286,14 @@ const PrivateAgentsPage = () => {
                       <div className="flex items-start justify-between mb-3">
                         <div>
                           <div className="flex items-center gap-3 mb-2">
-                            <h3 className="text-2xl font-bold text-gray-900">{agent.name}</h3>
+                            <h3 className="text-2xl font-bold text-secondary-900">{agent.name}</h3>
                             {getStatusBadge(agent.status)}
                             {getVisibilityBadge(agent.visibility)}
-                            <span className="px-3 py-1 rounded-full text-xs font-semibold bg-gray-100 text-gray-700 border border-gray-200">
+                            <span className="px-3 py-1 rounded-full text-xs font-semibold bg-gray-100 text-secondary-700 border border-gray-200">
                               {agent.version}
                             </span>
                           </div>
-                          <p className="text-gray-600 mb-3">{agent.description}</p>
+                          <p className="text-secondary-600 mb-3">{agent.description}</p>
                           <div className="flex items-center gap-4 text-sm text-gray-500">
                             <div className="flex items-center gap-1">
                               <Calendar className="w-4 h-4" />
@@ -314,7 +314,7 @@ const PrivateAgentsPage = () => {
                       <div className="grid grid-cols-3 gap-6 mb-4 pb-4 border-b border-gray-200">
                         <div>
                           <div className="text-xs text-gray-500 mb-1">Total Runs</div>
-                          <div className="text-xl font-bold text-gray-900">
+                          <div className="text-xl font-bold text-secondary-900">
                             {formatNumber(agent.metrics.totalRuns)}
                           </div>
                         </div>
@@ -326,7 +326,7 @@ const PrivateAgentsPage = () => {
                         </div>
                         <div>
                           <div className="text-xs text-gray-500 mb-1">Avg Processing</div>
-                          <div className="text-xl font-bold text-gray-900">
+                          <div className="text-xl font-bold text-secondary-900">
                             {agent.metrics.avgProcessingTime}
                           </div>
                         </div>
@@ -360,7 +360,7 @@ const PrivateAgentsPage = () => {
                         {agent.status !== 'archived' && (
                           <button
                             onClick={() => handleArchive(agent.id)}
-                            className="px-6 py-2 bg-gray-100 text-gray-700 rounded-xl text-sm font-semibold hover:bg-gray-200 flex items-center gap-2"
+                            className="px-6 py-2 bg-gray-100 text-secondary-700 rounded-xl text-sm font-semibold hover:bg-gray-200 flex items-center gap-2"
                           >
                             <Archive className="w-4 h-4" />
                             Archive
@@ -382,11 +382,11 @@ const PrivateAgentsPage = () => {
               <Shield className="w-6 h-6 text-white" />
             </div>
             <div className="flex-grow">
-              <h4 className="font-bold text-gray-900 mb-2 text-lg">Enterprise Security & Privacy</h4>
-              <p className="text-gray-700 text-sm mb-3">
+              <h4 className="font-bold text-secondary-900 mb-2 text-lg">Enterprise Security & Privacy</h4>
+              <p className="text-secondary-700 text-sm mb-3">
                 Private agents are exclusive to your organization and provide the highest level of security and customization:
               </p>
-              <ul className="space-y-2 text-sm text-gray-700">
+              <ul className="space-y-2 text-sm text-secondary-700">
                 <li className="flex items-center gap-2">
                   <div className="w-1.5 h-1.5 bg-purple-600 rounded-full" />
                   <span><strong>Data Isolation:</strong> Training data never leaves your environment</span>

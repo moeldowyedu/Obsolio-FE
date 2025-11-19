@@ -51,8 +51,8 @@ const TenantTypeSelectionStep = ({ onNext, onBack }) => {
   return (
     <div className="max-w-5xl mx-auto">
       <div className="mb-10">
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">Choose Your Account Type</h2>
-        <p className="text-gray-600">
+        <h2 className="text-2xl font-bold text-secondary-900 mb-2">Choose Your Account Type</h2>
+        <p className="text-secondary-600">
           Select the option that best fits your needs. You can upgrade anytime.
         </p>
       </div>
@@ -70,7 +70,7 @@ const TenantTypeSelectionStep = ({ onNext, onBack }) => {
                 relative p-8 rounded-2xl border-2 cursor-pointer transition-all duration-300 transform hover:scale-105
                 ${
                   isSelected
-                    ? 'border-primary-500 bg-primary-50 shadow-xl'
+                    ? 'border-primary-600 bg-primary-50 shadow-xl'
                     : 'border-gray-200 bg-white hover:border-primary-300 hover:shadow-lg'
                 }
               `}
@@ -87,7 +87,7 @@ const TenantTypeSelectionStep = ({ onNext, onBack }) => {
               {/* Selected Indicator */}
               {isSelected && (
                 <div className="absolute top-4 right-4">
-                  <div className="w-8 h-8 bg-primary-500 rounded-full flex items-center justify-center">
+                  <div className="w-8 h-8 bg-primary-600 rounded-full flex items-center justify-center">
                     <Check className="w-5 h-5 text-white" />
                   </div>
                 </div>
@@ -97,15 +97,15 @@ const TenantTypeSelectionStep = ({ onNext, onBack }) => {
               <div
                 className={`
                 w-16 h-16 rounded-2xl flex items-center justify-center mb-4 transition-colors
-                ${isSelected ? 'bg-primary-500' : 'bg-gray-100'}
+                ${isSelected ? 'bg-primary-600' : 'bg-gray-100'}
               `}
               >
                 <Icon className={`w-8 h-8 ${isSelected ? 'text-white' : 'text-gray-600'}`} />
               </div>
 
               {/* Title & Description */}
-              <h3 className="text-2xl font-bold text-gray-900 mb-2">{type.title}</h3>
-              <p className="text-gray-600 mb-6">{type.description}</p>
+              <h3 className="text-2xl font-bold text-secondary-900 mb-2">{type.title}</h3>
+              <p className="text-secondary-600 mb-6">{type.description}</p>
 
               {/* Features */}
               <div className="space-y-3">
@@ -114,12 +114,12 @@ const TenantTypeSelectionStep = ({ onNext, onBack }) => {
                     <div
                       className={`
                       w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5
-                      ${isSelected ? 'bg-primary-500' : 'bg-gray-300'}
+                      ${isSelected ? 'bg-primary-600' : 'bg-gray-300'}
                     `}
                     >
                       <Check className={`w-3 h-3 ${isSelected ? 'text-white' : 'text-gray-600'}`} />
                     </div>
-                    <span className="text-gray-700 text-sm">{feature}</span>
+                    <span className="text-secondary-700 text-sm">{feature}</span>
                   </div>
                 ))}
               </div>
@@ -131,7 +131,7 @@ const TenantTypeSelectionStep = ({ onNext, onBack }) => {
                   mt-6 w-full py-3 rounded-lg font-medium transition-all
                   ${
                     isSelected
-                      ? 'bg-primary-500 text-white shadow-md hover:bg-primary-600'
+                      ? 'bg-primary-600 text-white shadow-md hover:bg-primary-600'
                       : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                   }
                 `}
@@ -145,52 +145,52 @@ const TenantTypeSelectionStep = ({ onNext, onBack }) => {
 
       {/* Comparison Table */}
       <div className="mb-8 bg-gray-50 rounded-lg p-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Comparison</h3>
+        <h3 className="text-lg font-semibold text-secondary-900 mb-4">Quick Comparison</h3>
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
               <tr className="border-b border-gray-200">
-                <th className="text-left py-3 px-4 text-sm font-semibold text-gray-700">
+                <th className="text-left py-3 px-4 text-sm font-semibold text-secondary-700">
                   Feature
                 </th>
-                <th className="text-center py-3 px-4 text-sm font-semibold text-gray-700">
+                <th className="text-center py-3 px-4 text-sm font-semibold text-secondary-700">
                   Personal
                 </th>
-                <th className="text-center py-3 px-4 text-sm font-semibold text-gray-700">
+                <th className="text-center py-3 px-4 text-sm font-semibold text-secondary-700">
                   Organization
                 </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
               <tr>
-                <td className="py-3 px-4 text-sm text-gray-700">Users</td>
-                <td className="py-3 px-4 text-center text-sm text-gray-600">1-5</td>
-                <td className="py-3 px-4 text-center text-sm text-gray-600">Unlimited</td>
+                <td className="py-3 px-4 text-sm text-secondary-700">Users</td>
+                <td className="py-3 px-4 text-center text-sm text-secondary-600">1-5</td>
+                <td className="py-3 px-4 text-center text-sm text-secondary-600">Unlimited</td>
               </tr>
               <tr>
-                <td className="py-3 px-4 text-sm text-gray-700">Departments</td>
-                <td className="py-3 px-4 text-center text-sm text-gray-600">-</td>
-                <td className="py-3 px-4 text-center text-sm text-gray-600">✓</td>
+                <td className="py-3 px-4 text-sm text-secondary-700">Departments</td>
+                <td className="py-3 px-4 text-center text-sm text-secondary-600">-</td>
+                <td className="py-3 px-4 text-center text-sm text-secondary-600">✓</td>
               </tr>
               <tr>
-                <td className="py-3 px-4 text-sm text-gray-700">Multi-branch Support</td>
-                <td className="py-3 px-4 text-center text-sm text-gray-600">-</td>
-                <td className="py-3 px-4 text-center text-sm text-gray-600">✓</td>
+                <td className="py-3 px-4 text-sm text-secondary-700">Multi-branch Support</td>
+                <td className="py-3 px-4 text-center text-sm text-secondary-600">-</td>
+                <td className="py-3 px-4 text-center text-sm text-secondary-600">✓</td>
               </tr>
               <tr>
-                <td className="py-3 px-4 text-sm text-gray-700">Projects & Teams</td>
-                <td className="py-3 px-4 text-center text-sm text-gray-600">-</td>
-                <td className="py-3 px-4 text-center text-sm text-gray-600">✓</td>
+                <td className="py-3 px-4 text-sm text-secondary-700">Projects & Teams</td>
+                <td className="py-3 px-4 text-center text-sm text-secondary-600">-</td>
+                <td className="py-3 px-4 text-center text-sm text-secondary-600">✓</td>
               </tr>
               <tr>
-                <td className="py-3 px-4 text-sm text-gray-700">Custom Roles</td>
-                <td className="py-3 px-4 text-center text-sm text-gray-600">Basic</td>
-                <td className="py-3 px-4 text-center text-sm text-gray-600">Advanced</td>
+                <td className="py-3 px-4 text-sm text-secondary-700">Custom Roles</td>
+                <td className="py-3 px-4 text-center text-sm text-secondary-600">Basic</td>
+                <td className="py-3 px-4 text-center text-sm text-secondary-600">Advanced</td>
               </tr>
               <tr>
-                <td className="py-3 px-4 text-sm text-gray-700">Registration Time</td>
-                <td className="py-3 px-4 text-center text-sm text-gray-600">~1 minute</td>
-                <td className="py-3 px-4 text-center text-sm text-gray-600">~1 minute</td>
+                <td className="py-3 px-4 text-sm text-secondary-700">Registration Time</td>
+                <td className="py-3 px-4 text-center text-sm text-secondary-600">~1 minute</td>
+                <td className="py-3 px-4 text-center text-sm text-secondary-600">~1 minute</td>
               </tr>
             </tbody>
           </table>

@@ -25,17 +25,17 @@ const DashboardPage = () => {
         {/* Welcome Section */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between">
           <div>
-            <h1 className="text-4xl font-heading font-bold text-gray-900 mb-2">
+            <h1 className="text-4xl font-heading font-bold text-secondary-900 mb-2 tracking-tight">
               Welcome back, {user?.name || 'User'}!
             </h1>
-            <p className="text-gray-600">
+            <p className="text-secondary-600 font-medium">
               Here's what's happening with your Precision AI Agents today
             </p>
           </div>
           <div className="mt-4 md:mt-0">
             <div className="flex items-center gap-3">
               <div className="text-right">
-                <p className="text-sm text-gray-600">Current Plan</p>
+                <p className="text-sm text-secondary-600 font-semibold">Current Plan</p>
                 <Badge variant="primary" size="lg">
                   {currentPlan?.name || 'Starter'}
                 </Badge>
@@ -82,7 +82,7 @@ const DashboardPage = () => {
 
         {/* Quick Actions */}
         <div>
-          <h2 className="text-2xl font-heading font-bold text-gray-900 mb-4">
+          <h2 className="text-2xl font-heading font-bold text-secondary-900 mb-4 tracking-tight">
             Quick Actions
           </h2>
           <QuickActions />
@@ -110,14 +110,14 @@ const DashboardPage = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="bg-gradient-to-br from-primary-50 to-primary-100 rounded-xl p-6 border border-primary-200">
             <div className="flex items-center gap-3 mb-3">
-              <div className="w-10 h-10 bg-primary-500 rounded-lg flex items-center justify-center">
+              <div className="w-10 h-10 bg-primary-600 rounded-lg flex items-center justify-center">
                 <span className="text-white text-xl">💡</span>
               </div>
-              <h3 className="font-heading font-semibold text-gray-900">
+              <h3 className="font-heading font-semibold text-secondary-900">
                 Precision AI Engines
               </h3>
             </div>
-            <p className="text-sm text-gray-700 mb-4">
+            <p className="text-sm text-secondary-700 mb-4">
               Access 7 powerful engines to build custom agents
             </p>
             <a
@@ -133,11 +133,11 @@ const DashboardPage = () => {
               <div className="w-10 h-10 bg-secondary-500 rounded-lg flex items-center justify-center">
                 <span className="text-white text-xl">🏪</span>
               </div>
-              <h3 className="font-heading font-semibold text-gray-900">
+              <h3 className="font-heading font-semibold text-secondary-900">
                 AgentX Hub
               </h3>
             </div>
-            <p className="text-sm text-gray-700 mb-4">
+            <p className="text-sm text-secondary-700 mb-4">
               Discover & deploy agents. Earn 70% revenue share
             </p>
             <a
@@ -153,11 +153,11 @@ const DashboardPage = () => {
               <div className="w-10 h-10 bg-purple-500 rounded-lg flex items-center justify-center">
                 <span className="text-white text-xl">👥</span>
               </div>
-              <h3 className="font-heading font-semibold text-gray-900">
+              <h3 className="font-heading font-semibold text-secondary-900">
                 HITL Mode
               </h3>
             </div>
-            <p className="text-sm text-gray-700 mb-4">
+            <p className="text-sm text-secondary-700 mb-4">
               Human-in-the-Loop oversight for critical tasks
             </p>
             <a

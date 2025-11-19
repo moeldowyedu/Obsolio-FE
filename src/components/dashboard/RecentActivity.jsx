@@ -57,12 +57,12 @@ const RecentActivity = ({ activities = [] }) => {
   return (
     <Card padding="md">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-lg font-heading font-semibold text-gray-900">
+        <h3 className="text-lg font-heading font-semibold text-secondary-900">
           Recent Activity
         </h3>
         <a
           href="/history"
-          className="text-sm text-primary-500 hover:text-primary-600 font-medium"
+          className="text-sm text-primary-600 hover:text-primary-600 font-medium"
         >
           View all →
         </a>
@@ -80,10 +80,10 @@ const RecentActivity = ({ activities = [] }) => {
               </Badge>
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-gray-900 truncate">
+              <p className="text-sm font-medium text-secondary-900 truncate">
                 {activity.agentName}
               </p>
-              <p className="text-sm text-gray-600">{activity.action}</p>
+              <p className="text-sm text-secondary-600">{activity.action}</p>
               <p className="text-xs text-gray-500 mt-1">
                 {formatDistanceToNow(activity.timestamp, { addSuffix: true })}
               </p>

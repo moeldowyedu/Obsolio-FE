@@ -23,8 +23,8 @@ const WorkflowBuilderPage = () => {
               Back
             </Button>
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">Workflow Builder</h1>
-              <p className="text-gray-600">Design your automated workflow</p>
+              <h1 className="text-3xl font-bold text-secondary-900">Workflow Builder</h1>
+              <p className="text-secondary-600">Design your automated workflow</p>
             </div>
           </div>
           <div className="flex items-center gap-3">
@@ -39,10 +39,10 @@ const WorkflowBuilderPage = () => {
 
         {/* Workflow Details */}
         <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Workflow Details</h2>
+          <h2 className="text-lg font-semibold text-secondary-900 mb-4">Workflow Details</h2>
           <div className="grid grid-cols-2 gap-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-secondary-700 mb-2">
                 Workflow Name
               </label>
               <input
@@ -54,7 +54,7 @@ const WorkflowBuilderPage = () => {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-secondary-700 mb-2">
                 Description
               </label>
               <input
@@ -70,17 +70,17 @@ const WorkflowBuilderPage = () => {
 
         {/* Workflow Canvas */}
         <div className="bg-white rounded-lg shadow-sm p-6">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Workflow Canvas</h2>
+          <h2 className="text-lg font-semibold text-secondary-900 mb-4">Workflow Canvas</h2>
 
           <div className="border-2 border-dashed border-gray-300 rounded-lg p-12 text-center">
             <div className="max-w-md mx-auto">
               <div className="w-16 h-16 mx-auto mb-4 bg-primary-100 rounded-full flex items-center justify-center">
                 <span className="text-3xl">🔀</span>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">
+              <h3 className="text-xl font-semibold text-secondary-900 mb-2">
                 Build Your Workflow
               </h3>
-              <p className="text-gray-600 mb-6">
+              <p className="text-secondary-600 mb-6">
                 Drag and drop agents, add conditions, and connect steps to create your automated workflow.
               </p>
               <p className="text-sm text-gray-500">

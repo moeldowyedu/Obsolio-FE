@@ -321,11 +321,11 @@ const ApprovalWorkflowsPage = () => {
         <div className="mb-8">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
+              <h1 className="text-3xl font-bold text-secondary-900 flex items-center gap-3">
                 <Eye className="w-8 h-8 text-primary-600" />
                 Approval Workflows
               </h1>
-              <p className="text-gray-600 mt-2">
+              <p className="text-secondary-600 mt-2">
                 Review and approve AI decisions that require human oversight
               </p>
             </div>
@@ -337,30 +337,30 @@ const ApprovalWorkflowsPage = () => {
           <div className="glass-card rounded-2xl p-6">
             <div className="flex items-center gap-3 mb-2">
               <Clock className="w-5 h-5 text-yellow-600" />
-              <p className="text-sm text-gray-600">Pending Approvals</p>
+              <p className="text-sm text-secondary-600">Pending Approvals</p>
             </div>
             <p className="text-3xl font-bold text-yellow-600">{stats.pending}</p>
           </div>
           <div className="glass-card rounded-2xl p-6">
             <div className="flex items-center gap-3 mb-2">
               <TrendingUp className="w-5 h-5 text-green-600" />
-              <p className="text-sm text-gray-600">Approval Rate</p>
+              <p className="text-sm text-secondary-600">Approval Rate</p>
             </div>
             <p className="text-3xl font-bold text-green-600">{stats.approvalRate}%</p>
           </div>
           <div className="glass-card rounded-2xl p-6">
             <div className="flex items-center gap-3 mb-2">
               <Calendar className="w-5 h-5 text-blue-600" />
-              <p className="text-sm text-gray-600">Avg Response Time</p>
+              <p className="text-sm text-secondary-600">Avg Response Time</p>
             </div>
             <p className="text-3xl font-bold text-blue-600">{stats.avgResponseTime}</p>
           </div>
           <div className="glass-card rounded-2xl p-6">
             <div className="flex items-center gap-3 mb-2">
-              <CheckCircle className="w-5 h-5 text-gray-600" />
-              <p className="text-sm text-gray-600">Total Today</p>
+              <CheckCircle className="w-5 h-5 text-secondary-600" />
+              <p className="text-sm text-secondary-600">Total Today</p>
             </div>
-            <p className="text-3xl font-bold text-gray-900">{stats.totalToday}</p>
+            <p className="text-3xl font-bold text-secondary-900">{stats.totalToday}</p>
           </div>
         </div>
 
@@ -429,7 +429,7 @@ const ApprovalWorkflowsPage = () => {
           {/* Bulk Actions */}
           {selectedApprovals.length > 0 && (
             <div className="mt-4 pt-4 border-t border-gray-200 flex items-center gap-4">
-              <span className="text-sm text-gray-600">
+              <span className="text-sm text-secondary-600">
                 {selectedApprovals.length} selected
               </span>
               <button
@@ -448,7 +448,7 @@ const ApprovalWorkflowsPage = () => {
               </button>
               <button
                 onClick={() => setSelectedApprovals([])}
-                className="text-sm text-gray-600 hover:text-gray-900"
+                className="text-sm text-secondary-600 hover:text-secondary-900"
               >
                 Clear Selection
               </button>
@@ -461,7 +461,7 @@ const ApprovalWorkflowsPage = () => {
           {filteredApprovals.length === 0 ? (
             <div className="glass-card rounded-2xl p-12 text-center">
               <AlertCircle className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-              <p className="text-gray-600 font-medium">No approvals found</p>
+              <p className="text-secondary-600 font-medium">No approvals found</p>
               <p className="text-sm text-gray-500 mt-1">Try adjusting your filters or search query</p>
             </div>
           ) : (
@@ -496,8 +496,8 @@ const ApprovalWorkflowsPage = () => {
                   <div className="flex-grow">
                     <div className="flex items-start justify-between mb-3">
                       <div>
-                        <h3 className="text-lg font-bold text-gray-900">{approval.agentName}</h3>
-                        <p className="text-sm text-gray-600">{approval.actionType}</p>
+                        <h3 className="text-lg font-bold text-secondary-900">{approval.agentName}</h3>
+                        <p className="text-sm text-secondary-600">{approval.actionType}</p>
                       </div>
                       <div className="flex items-center gap-2">
                         {getPriorityBadge(approval.priority)}
@@ -505,11 +505,11 @@ const ApprovalWorkflowsPage = () => {
                       </div>
                     </div>
 
-                    <p className="text-gray-700 mb-4">{approval.description}</p>
+                    <p className="text-secondary-700 mb-4">{approval.description}</p>
 
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4 p-4 bg-gray-50 rounded-lg">
                       <div>
-                        <p className="text-xs text-gray-600 mb-1">AI Confidence</p>
+                        <p className="text-xs text-secondary-600 mb-1">AI Confidence</p>
                         <div className="flex items-center gap-2">
                           <div className="flex-grow bg-gray-200 rounded-full h-2 max-w-[80px]">
                             <div
@@ -523,20 +523,20 @@ const ApprovalWorkflowsPage = () => {
                               style={{ width: `${approval.confidence}%` }}
                             />
                           </div>
-                          <span className="text-sm font-bold text-gray-900">{approval.confidence}%</span>
+                          <span className="text-sm font-bold text-secondary-900">{approval.confidence}%</span>
                         </div>
                       </div>
                       <div>
-                        <p className="text-xs text-gray-600 mb-1">Requester</p>
-                        <p className="text-sm font-semibold text-gray-900">{approval.requester}</p>
+                        <p className="text-xs text-secondary-600 mb-1">Requester</p>
+                        <p className="text-sm font-semibold text-secondary-900">{approval.requester}</p>
                       </div>
                       <div>
-                        <p className="text-xs text-gray-600 mb-1">Time</p>
-                        <p className="text-sm font-semibold text-gray-900">{getTimeAgo(approval.timestamp)}</p>
+                        <p className="text-xs text-secondary-600 mb-1">Time</p>
+                        <p className="text-sm font-semibold text-secondary-900">{getTimeAgo(approval.timestamp)}</p>
                       </div>
                       <div>
-                        <p className="text-xs text-gray-600 mb-1">AI Decision</p>
-                        <p className="text-sm font-semibold text-gray-900">{approval.decision}</p>
+                        <p className="text-xs text-secondary-600 mb-1">AI Decision</p>
+                        <p className="text-sm font-semibold text-secondary-900">{approval.decision}</p>
                       </div>
                     </div>
 
@@ -582,7 +582,7 @@ const ApprovalWorkflowsPage = () => {
 
         {/* Results count */}
         {filteredApprovals.length > 0 && (
-          <div className="mt-6 text-sm text-gray-600 text-center">
+          <div className="mt-6 text-sm text-secondary-600 text-center">
             Showing {filteredApprovals.length} of {approvals.length} approvals
           </div>
         )}
@@ -600,19 +600,19 @@ const ApprovalWorkflowsPage = () => {
             <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg">
               <span className="text-4xl">{selectedApproval.agentIcon}</span>
               <div>
-                <h3 className="font-bold text-gray-900 text-lg">{selectedApproval.agentName}</h3>
-                <p className="text-gray-600">{selectedApproval.actionType}</p>
+                <h3 className="font-bold text-secondary-900 text-lg">{selectedApproval.agentName}</h3>
+                <p className="text-secondary-600">{selectedApproval.actionType}</p>
               </div>
             </div>
 
             <div className="space-y-4">
-              <h4 className="font-bold text-gray-900">Details</h4>
+              <h4 className="font-bold text-secondary-900">Details</h4>
               {Object.entries(selectedApproval.details).map(([key, value]) => (
                 <div key={key} className="grid grid-cols-3 gap-4 py-2 border-b border-gray-200">
-                  <span className="font-semibold text-gray-700 capitalize">
+                  <span className="font-semibold text-secondary-700 capitalize">
                     {key.replace(/([A-Z])/g, ' $1').trim()}:
                   </span>
-                  <span className="col-span-2 text-gray-900">
+                  <span className="col-span-2 text-secondary-900">
                     {Array.isArray(value) ? value.join(', ') : value}
                   </span>
                 </div>
@@ -649,7 +649,7 @@ const ApprovalWorkflowsPage = () => {
       >
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-secondary-700 mb-2">
               Message to Requester
             </label>
             <textarea

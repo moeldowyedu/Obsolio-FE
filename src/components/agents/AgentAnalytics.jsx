@@ -85,8 +85,8 @@ const AgentAnalytics = ({ analytics }) => {
               </div>
             )}
           </div>
-          <p className="text-sm text-gray-600 mb-1">Total Executions</p>
-          <p className="text-3xl font-bold text-gray-900">
+          <p className="text-sm text-secondary-600 mb-1">Total Executions</p>
+          <p className="text-3xl font-bold text-secondary-900">
             {metrics.totalExecutions.toLocaleString()}
           </p>
           <p className="text-xs text-gray-500 mt-1">Last 30 days</p>
@@ -107,7 +107,7 @@ const AgentAnalytics = ({ analytics }) => {
               </div>
             )}
           </div>
-          <p className="text-sm text-gray-600 mb-1">Success Rate</p>
+          <p className="text-sm text-secondary-600 mb-1">Success Rate</p>
           <p className="text-3xl font-bold text-green-600">{metrics.successRate}%</p>
           <p className="text-xs text-gray-500 mt-1">Last 30 days</p>
         </Card>
@@ -127,15 +127,15 @@ const AgentAnalytics = ({ analytics }) => {
               </div>
             )}
           </div>
-          <p className="text-sm text-gray-600 mb-1">Avg Duration</p>
-          <p className="text-3xl font-bold text-gray-900">{metrics.avgDuration}s</p>
+          <p className="text-sm text-secondary-600 mb-1">Avg Duration</p>
+          <p className="text-3xl font-bold text-secondary-900">{metrics.avgDuration}s</p>
           <p className="text-xs text-gray-500 mt-1">Last 30 days</p>
         </Card>
       </div>
 
       {/* Execution Trend */}
       <Card padding="md">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Execution Trend</h3>
+        <h3 className="text-lg font-semibold text-secondary-900 mb-4">Execution Trend</h3>
         <ResponsiveContainer width="100%" height={300}>
           <LineChart data={executionTrend}>
             <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
@@ -180,7 +180,7 @@ const AgentAnalytics = ({ analytics }) => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Average Duration by Time */}
         <Card padding="md">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">
+          <h3 className="text-lg font-semibold text-secondary-900 mb-4">
             Avg Duration by Time of Day
           </h3>
           <ResponsiveContainer width="100%" height={250}>
@@ -202,7 +202,7 @@ const AgentAnalytics = ({ analytics }) => {
 
         {/* Status Distribution */}
         <Card padding="md">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Status Distribution</h3>
+          <h3 className="text-lg font-semibold text-secondary-900 mb-4">Status Distribution</h3>
           <ResponsiveContainer width="100%" height={250}>
             <PieChart>
               <Pie
@@ -230,9 +230,9 @@ const AgentAnalytics = ({ analytics }) => {
                     className="w-3 h-3 rounded-full"
                     style={{ backgroundColor: item.color }}
                   />
-                  <span className="text-gray-700">{item.name}</span>
+                  <span className="text-secondary-700">{item.name}</span>
                 </div>
-                <span className="font-medium text-gray-900">{item.value.toLocaleString()}</span>
+                <span className="font-medium text-secondary-900">{item.value.toLocaleString()}</span>
               </div>
             ))}
           </div>

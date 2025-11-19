@@ -62,8 +62,8 @@ const ProfilePage = () => {
       <div className="py-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2 font-heading">Profile Settings</h1>
-          <p className="text-gray-600">Manage your account settings and preferences</p>
+          <h1 className="text-4xl font-bold text-secondary-900 mb-2 font-heading">Profile Settings</h1>
+          <p className="text-secondary-600">Manage your account settings and preferences</p>
         </div>
 
         {/* Profile Card with Avatar */}
@@ -81,8 +81,8 @@ const ProfilePage = () => {
             </div>
 
             <div className="flex-1 text-center md:text-left">
-              <h2 className="text-3xl font-bold text-gray-900 mb-2">{formData.name}</h2>
-              <p className="text-gray-600 mb-1">{formData.jobTitle} at {formData.company}</p>
+              <h2 className="text-3xl font-bold text-secondary-900 mb-2">{formData.name}</h2>
+              <p className="text-secondary-600 mb-1">{formData.jobTitle} at {formData.company}</p>
               <p className="text-primary-600 font-medium">{formData.email}</p>
 
               <div className="flex flex-wrap justify-center md:justify-start gap-2 mt-4">
@@ -102,20 +102,20 @@ const ProfilePage = () => {
         {/* Stats Overview */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
           <div className="glass-card rounded-2xl p-5 text-center">
-            <div className="text-3xl font-bold text-gray-900">124</div>
-            <div className="text-sm text-gray-600 mt-1">Total Submissions</div>
+            <div className="text-3xl font-bold text-secondary-900">124</div>
+            <div className="text-sm text-secondary-600 mt-1">Total Submissions</div>
           </div>
           <div className="glass-card rounded-2xl p-5 text-center">
             <div className="text-3xl font-bold text-green-600">98</div>
-            <div className="text-sm text-gray-600 mt-1">Completed</div>
+            <div className="text-sm text-secondary-600 mt-1">Completed</div>
           </div>
           <div className="glass-card rounded-2xl p-5 text-center">
             <div className="text-3xl font-bold text-primary-600">87.5</div>
-            <div className="text-sm text-gray-600 mt-1">Avg. Score</div>
+            <div className="text-sm text-secondary-600 mt-1">Avg. Score</div>
           </div>
           <div className="glass-card rounded-2xl p-5 text-center">
-            <div className="text-3xl font-bold text-gray-900">156</div>
-            <div className="text-sm text-gray-600 mt-1">Days Active</div>
+            <div className="text-3xl font-bold text-secondary-900">156</div>
+            <div className="text-sm text-secondary-600 mt-1">Days Active</div>
           </div>
         </div>
 
@@ -183,7 +183,7 @@ const ProfilePage = () => {
             {activeTab === 'general' && (
               <div className="space-y-6">
                 <div className="flex items-center justify-between mb-6">
-                  <h3 className="text-2xl font-bold text-gray-900">Personal Information</h3>
+                  <h3 className="text-2xl font-bold text-secondary-900">Personal Information</h3>
                   {!isEditing && (
                     <button
                       onClick={() => setIsEditing(true)}
@@ -197,7 +197,7 @@ const ProfilePage = () => {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-medium text-gray-800 mb-2">Full Name</label>
+                    <label className="block text-sm font-medium text-secondary-800 mb-2">Full Name</label>
                     <input
                       type="text"
                       name="name"
@@ -209,7 +209,7 @@ const ProfilePage = () => {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-800 mb-2">Email Address</label>
+                    <label className="block text-sm font-medium text-secondary-800 mb-2">Email Address</label>
                     <input
                       type="email"
                       name="email"
@@ -221,7 +221,7 @@ const ProfilePage = () => {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-800 mb-2">Phone Number</label>
+                    <label className="block text-sm font-medium text-secondary-800 mb-2">Phone Number</label>
                     <input
                       type="tel"
                       name="phone"
@@ -233,7 +233,7 @@ const ProfilePage = () => {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-800 mb-2">Company</label>
+                    <label className="block text-sm font-medium text-secondary-800 mb-2">Company</label>
                     <input
                       type="text"
                       name="company"
@@ -245,7 +245,7 @@ const ProfilePage = () => {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-800 mb-2">Job Title</label>
+                    <label className="block text-sm font-medium text-secondary-800 mb-2">Job Title</label>
                     <input
                       type="text"
                       name="jobTitle"
@@ -258,7 +258,7 @@ const ProfilePage = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-800 mb-2">Bio</label>
+                  <label className="block text-sm font-medium text-secondary-800 mb-2">Bio</label>
                   <textarea
                     name="bio"
                     value={formData.bio}
@@ -291,17 +291,17 @@ const ProfilePage = () => {
             {/* Notifications Tab */}
             {activeTab === 'notifications' && (
               <div className="space-y-6">
-                <h3 className="text-2xl font-bold text-gray-900 mb-6">Notification Preferences</h3>
+                <h3 className="text-2xl font-bold text-secondary-900 mb-6">Notification Preferences</h3>
 
                 <div className="space-y-4">
                   <div className="glass-card rounded-xl p-6">
-                    <h4 className="text-lg font-semibold text-gray-900 mb-4">Email Notifications</h4>
+                    <h4 className="text-lg font-semibold text-secondary-900 mb-4">Email Notifications</h4>
 
                     <div className="space-y-4">
                       <div className="flex items-center justify-between">
                         <div>
-                          <p className="font-medium text-gray-900">New Submission</p>
-                          <p className="text-sm text-gray-600">Get notified when a new submission is created</p>
+                          <p className="font-medium text-secondary-900">New Submission</p>
+                          <p className="text-sm text-secondary-600">Get notified when a new submission is created</p>
                         </div>
                         <button
                           onClick={() => handleNotificationChange('emailSubmission')}
@@ -319,8 +319,8 @@ const ProfilePage = () => {
 
                       <div className="flex items-center justify-between">
                         <div>
-                          <p className="font-medium text-gray-900">Evaluation Complete</p>
-                          <p className="text-sm text-gray-600">Get notified when an evaluation is completed</p>
+                          <p className="font-medium text-secondary-900">Evaluation Complete</p>
+                          <p className="text-sm text-secondary-600">Get notified when an evaluation is completed</p>
                         </div>
                         <button
                           onClick={() => handleNotificationChange('emailEvaluation')}
@@ -338,8 +338,8 @@ const ProfilePage = () => {
 
                       <div className="flex items-center justify-between">
                         <div>
-                          <p className="font-medium text-gray-900">Weekly Summary</p>
-                          <p className="text-sm text-gray-600">Receive a weekly summary of your activity</p>
+                          <p className="font-medium text-secondary-900">Weekly Summary</p>
+                          <p className="text-sm text-secondary-600">Receive a weekly summary of your activity</p>
                         </div>
                         <button
                           onClick={() => handleNotificationChange('emailWeekly')}
@@ -358,13 +358,13 @@ const ProfilePage = () => {
                   </div>
 
                   <div className="glass-card rounded-xl p-6">
-                    <h4 className="text-lg font-semibold text-gray-900 mb-4">Push Notifications</h4>
+                    <h4 className="text-lg font-semibold text-secondary-900 mb-4">Push Notifications</h4>
 
                     <div className="space-y-4">
                       <div className="flex items-center justify-between">
                         <div>
-                          <p className="font-medium text-gray-900">Submission Updates</p>
-                          <p className="text-sm text-gray-600">Push notifications for submission status changes</p>
+                          <p className="font-medium text-secondary-900">Submission Updates</p>
+                          <p className="text-sm text-secondary-600">Push notifications for submission status changes</p>
                         </div>
                         <button
                           onClick={() => handleNotificationChange('pushSubmission')}
@@ -382,8 +382,8 @@ const ProfilePage = () => {
 
                       <div className="flex items-center justify-between">
                         <div>
-                          <p className="font-medium text-gray-900">Evaluation Results</p>
-                          <p className="text-sm text-gray-600">Push notifications when results are ready</p>
+                          <p className="font-medium text-secondary-900">Evaluation Results</p>
+                          <p className="text-sm text-secondary-600">Push notifications when results are ready</p>
                         </div>
                         <button
                           onClick={() => handleNotificationChange('pushEvaluation')}
@@ -416,11 +416,11 @@ const ProfilePage = () => {
             {/* Security Tab */}
             {activeTab === 'security' && (
               <div className="space-y-6">
-                <h3 className="text-2xl font-bold text-gray-900 mb-6">Security Settings</h3>
+                <h3 className="text-2xl font-bold text-secondary-900 mb-6">Security Settings</h3>
 
                 <div className="glass-card rounded-xl p-6">
-                  <h4 className="text-lg font-semibold text-gray-900 mb-4">Password</h4>
-                  <p className="text-gray-600 mb-4">Change your password to keep your account secure</p>
+                  <h4 className="text-lg font-semibold text-secondary-900 mb-4">Password</h4>
+                  <p className="text-secondary-600 mb-4">Change your password to keep your account secure</p>
                   <button className="glass-btn-secondary rounded-lg px-6 py-2">
                     Change Password
                   </button>
@@ -429,8 +429,8 @@ const ProfilePage = () => {
                 <div className="glass-card rounded-xl p-6">
                   <div className="flex items-center justify-between">
                     <div>
-                      <h4 className="text-lg font-semibold text-gray-900 mb-2">Two-Factor Authentication</h4>
-                      <p className="text-gray-600">Add an extra layer of security to your account</p>
+                      <h4 className="text-lg font-semibold text-secondary-900 mb-2">Two-Factor Authentication</h4>
+                      <p className="text-secondary-600">Add an extra layer of security to your account</p>
                     </div>
                     <button
                       onClick={() => setSecurity({ ...security, twoFactor: !security.twoFactor })}
@@ -448,14 +448,14 @@ const ProfilePage = () => {
                 </div>
 
                 <div className="glass-card rounded-xl p-6">
-                  <h4 className="text-lg font-semibold text-gray-900 mb-4">Active Sessions</h4>
+                  <h4 className="text-lg font-semibold text-secondary-900 mb-4">Active Sessions</h4>
                   <div className="space-y-3">
                     <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
                       <div className="flex items-center">
                         <span className="material-icons text-green-600 mr-3">laptop</span>
                         <div>
-                          <p className="font-medium text-gray-900">Current Session</p>
-                          <p className="text-sm text-gray-600">Chrome on MacOS • New York, USA</p>
+                          <p className="font-medium text-secondary-900">Current Session</p>
+                          <p className="text-sm text-secondary-600">Chrome on MacOS • New York, USA</p>
                         </div>
                       </div>
                       <span className="text-xs text-green-600 font-semibold">Active Now</span>
@@ -477,21 +477,21 @@ const ProfilePage = () => {
             {/* Billing Tab */}
             {activeTab === 'billing' && (
               <div className="space-y-6">
-                <h3 className="text-2xl font-bold text-gray-900 mb-6">Billing & Subscription</h3>
+                <h3 className="text-2xl font-bold text-secondary-900 mb-6">Billing & Subscription</h3>
 
                 <div className="glass-card rounded-xl p-6 border-2 border-primary-400">
                   <div className="flex items-start justify-between mb-4">
                     <div>
-                      <h4 className="text-2xl font-bold text-gray-900">Pro Plan</h4>
-                      <p className="text-gray-600">300 evaluations/month</p>
+                      <h4 className="text-2xl font-bold text-secondary-900">Pro Plan</h4>
+                      <p className="text-secondary-600">300 evaluations/month</p>
                     </div>
                     <span className="bg-gradient-to-r from-primary-500 to-primary-600 text-white px-4 py-1 rounded-full text-sm font-semibold">
                       Active
                     </span>
                   </div>
                   <div className="flex items-end space-x-2 mb-4">
-                    <span className="text-4xl font-bold text-gray-900">$250</span>
-                    <span className="text-gray-600 mb-1">/month</span>
+                    <span className="text-4xl font-bold text-secondary-900">$250</span>
+                    <span className="text-secondary-600 mb-1">/month</span>
                   </div>
                   <button className="w-full glass-btn-secondary rounded-lg py-3">
                     Manage Subscription
@@ -499,13 +499,13 @@ const ProfilePage = () => {
                 </div>
 
                 <div className="glass-card rounded-xl p-6">
-                  <h4 className="text-lg font-semibold text-gray-900 mb-4">Payment Method</h4>
+                  <h4 className="text-lg font-semibold text-secondary-900 mb-4">Payment Method</h4>
                   <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg mb-4">
                     <div className="flex items-center">
-                      <span className="material-icons text-gray-600 mr-3">credit_card</span>
+                      <span className="material-icons text-secondary-600 mr-3">credit_card</span>
                       <div>
-                        <p className="font-medium text-gray-900">•••• •••• •••• 4242</p>
-                        <p className="text-sm text-gray-600">Expires 12/25</p>
+                        <p className="font-medium text-secondary-900">•••• •••• •••• 4242</p>
+                        <p className="text-sm text-secondary-600">Expires 12/25</p>
                       </div>
                     </div>
                     <button className="text-primary-600 hover:text-primary-700 font-semibold text-sm">
@@ -518,15 +518,15 @@ const ProfilePage = () => {
                 </div>
 
                 <div className="glass-card rounded-xl p-6">
-                  <h4 className="text-lg font-semibold text-gray-900 mb-4">Billing History</h4>
+                  <h4 className="text-lg font-semibold text-secondary-900 mb-4">Billing History</h4>
                   <div className="space-y-3">
                     <div className="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
                       <div>
-                        <p className="font-medium text-gray-900">December 2025</p>
-                        <p className="text-sm text-gray-600">Paid on Dec 1, 2025</p>
+                        <p className="font-medium text-secondary-900">December 2025</p>
+                        <p className="text-sm text-secondary-600">Paid on Dec 1, 2025</p>
                       </div>
                       <div className="text-right">
-                        <p className="font-bold text-gray-900">$250.00</p>
+                        <p className="font-bold text-secondary-900">$250.00</p>
                         <button className="text-primary-600 hover:text-primary-700 text-sm font-semibold">
                           Download
                         </button>
@@ -534,11 +534,11 @@ const ProfilePage = () => {
                     </div>
                     <div className="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
                       <div>
-                        <p className="font-medium text-gray-900">November 2025</p>
-                        <p className="text-sm text-gray-600">Paid on Nov 1, 2025</p>
+                        <p className="font-medium text-secondary-900">November 2025</p>
+                        <p className="text-sm text-secondary-600">Paid on Nov 1, 2025</p>
                       </div>
                       <div className="text-right">
-                        <p className="font-bold text-gray-900">$250.00</p>
+                        <p className="font-bold text-secondary-900">$250.00</p>
                         <button className="text-primary-600 hover:text-primary-700 text-sm font-semibold">
                           Download
                         </button>

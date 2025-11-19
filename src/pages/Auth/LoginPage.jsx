@@ -45,8 +45,8 @@ const LoginPage = () => {
         <div className="w-full max-w-md">
           <Card padding="lg">
             <div className="text-center mb-8">
-              <h1 className="text-4xl font-heading font-bold text-gray-900 mb-2">Welcome Back</h1>
-              <p className="text-gray-600">Sign in to continue to Aasim AI</p>
+              <h1 className="text-4xl font-heading font-bold text-secondary-900 mb-2 tracking-tight">Welcome Back</h1>
+              <p className="text-secondary-600 font-medium">Sign in to continue to Aasim AI</p>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-5">
@@ -77,13 +77,13 @@ const LoginPage = () => {
                 <label className="flex items-center cursor-pointer">
                   <input
                     type="checkbox"
-                    className="w-4 h-4 rounded border-gray-300 text-primary-500 focus:ring-primary-500"
+                    className="w-4 h-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
                   />
-                  <span className="ml-2 text-sm text-gray-600">Remember me</span>
+                  <span className="ml-2 text-sm text-secondary-600 font-medium">Remember me</span>
                 </label>
                 <Link
                   to="/forgot-password"
-                  className="text-sm text-primary-500 hover:text-primary-600 font-medium"
+                  className="text-sm text-primary-600 hover:text-primary-700 font-semibold transition-colors"
                 >
                   Forgot password?
                 </Link>
@@ -101,11 +101,11 @@ const LoginPage = () => {
             </form>
 
             <div className="mt-6 text-center">
-              <p className="text-gray-600">
+              <p className="text-secondary-600 font-medium">
                 Don't have an account?{' '}
                 <Link
                   to="/register"
-                  className="text-primary-500 hover:text-primary-600 font-semibold"
+                  className="text-primary-600 hover:text-primary-700 font-bold transition-colors"
                 >
                   Sign up
                 </Link>

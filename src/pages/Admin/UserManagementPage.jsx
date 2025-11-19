@@ -127,8 +127,8 @@ const UserManagementPage = () => {
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
           <div>
-            <h1 className="text-4xl font-bold text-gray-900 mb-2 font-heading">{t.userManagementTitle}</h1>
-            <p className="text-gray-600">{t.userManagementDesc}</p>
+            <h1 className="text-4xl font-bold text-secondary-900 mb-2 font-heading">{t.userManagementTitle}</h1>
+            <p className="text-secondary-600">{t.userManagementDesc}</p>
           </div>
           <button className="glass-btn-primary rounded-xl px-6 py-3 font-semibold inline-flex items-center mt-4 md:mt-0">
             <span className="material-icons mr-2">person_add</span>
@@ -143,8 +143,8 @@ const UserManagementPage = () => {
               <div className={`w-12 h-12 rounded-xl bg-${stat.color}-100 flex items-center justify-center mb-4`}>
                 <span className={`material-icons text-${stat.color}-600 text-xl`}>{stat.icon}</span>
               </div>
-              <div className="text-3xl font-bold text-gray-900 mb-1">{stat.value}</div>
-              <div className="text-sm text-gray-600">{stat.label}</div>
+              <div className="text-3xl font-bold text-secondary-900 mb-1">{stat.value}</div>
+              <div className="text-sm text-secondary-600">{stat.label}</div>
             </div>
           ))}
         </div>
@@ -192,13 +192,13 @@ const UserManagementPage = () => {
             <table className="w-full">
               <thead className="bg-gray-50/80">
                 <tr>
-                  <th className="text-left py-4 px-6 text-xs font-bold text-gray-700 uppercase">{t.tableHeaderUser}</th>
-                  <th className="text-left py-4 px-6 text-xs font-bold text-gray-700 uppercase">{t.tableHeaderRole}</th>
-                  <th className="text-left py-4 px-6 text-xs font-bold text-gray-700 uppercase">{t.tableHeaderPlan}</th>
-                  <th className="text-left py-4 px-6 text-xs font-bold text-gray-700 uppercase">{t.tableHeaderStatus}</th>
-                  <th className="text-left py-4 px-6 text-xs font-bold text-gray-700 uppercase">{t.tableHeaderSubmissions}</th>
-                  <th className="text-left py-4 px-6 text-xs font-bold text-gray-700 uppercase">{t.tableHeaderAvgScore}</th>
-                  <th className="text-right py-4 px-6 text-xs font-bold text-gray-700 uppercase">{t.tableHeaderActions}</th>
+                  <th className="text-left py-4 px-6 text-xs font-bold text-secondary-700 uppercase">{t.tableHeaderUser}</th>
+                  <th className="text-left py-4 px-6 text-xs font-bold text-secondary-700 uppercase">{t.tableHeaderRole}</th>
+                  <th className="text-left py-4 px-6 text-xs font-bold text-secondary-700 uppercase">{t.tableHeaderPlan}</th>
+                  <th className="text-left py-4 px-6 text-xs font-bold text-secondary-700 uppercase">{t.tableHeaderStatus}</th>
+                  <th className="text-left py-4 px-6 text-xs font-bold text-secondary-700 uppercase">{t.tableHeaderSubmissions}</th>
+                  <th className="text-left py-4 px-6 text-xs font-bold text-secondary-700 uppercase">{t.tableHeaderAvgScore}</th>
+                  <th className="text-right py-4 px-6 text-xs font-bold text-secondary-700 uppercase">{t.tableHeaderActions}</th>
                 </tr>
               </thead>
               <tbody>
@@ -217,7 +217,7 @@ const UserManagementPage = () => {
                             <span className="text-primary-600 font-semibold text-lg">{user.name[0]}</span>
                           </div>
                           <div>
-                            <div className="font-semibold text-gray-900">{user.name}</div>
+                            <div className="font-semibold text-secondary-900">{user.name}</div>
                             <div className="text-sm text-gray-500">{user.email}</div>
                           </div>
                         </div>
@@ -240,7 +240,7 @@ const UserManagementPage = () => {
                       </td>
                       <td className="py-5 px-6">{getStatusBadge(user.status)}</td>
                       <td className="py-5 px-6">
-                        <span className="font-semibold text-gray-900">{user.submissions}</span>
+                        <span className="font-semibold text-secondary-900">{user.submissions}</span>
                       </td>
                       <td className="py-5 px-6">
                         <span className="text-primary-600 font-bold">{user.avgScore}</span>

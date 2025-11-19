@@ -158,11 +158,11 @@ const TenantSettingsPage = () => {
         <div className="mb-8">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
+              <h1 className="text-3xl font-bold text-secondary-900 flex items-center gap-3">
                 <Building2 className="w-8 h-8 text-primary-600" />
                 Tenant Settings
               </h1>
-              <p className="text-gray-600 mt-2">
+              <p className="text-secondary-600 mt-2">
                 Manage your organization's configuration, preferences, and compliance settings
               </p>
             </div>
@@ -171,39 +171,39 @@ const TenantSettingsPage = () => {
 
         {/* Quick Stats Overview */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div className="glass-card rounded-2xl p-6 border-l-4 border-primary-500">
+          <div className="glass-card rounded-2xl p-6 border-l-4 border-primary-600">
             <div className="flex items-center justify-between mb-2">
-              <div className="text-sm font-medium text-gray-600">Active Users</div>
+              <div className="text-sm font-medium text-secondary-600">Active Users</div>
               <Users className="w-5 h-5 text-primary-600" />
             </div>
-            <div className="text-3xl font-bold text-gray-900">{tenantInfo.currentUsers}</div>
+            <div className="text-3xl font-bold text-secondary-900">{tenantInfo.currentUsers}</div>
             <div className="text-xs text-gray-500 mt-1">of {tenantInfo.maxUsers} total</div>
           </div>
 
           <div className="glass-card rounded-2xl p-6 border-l-4 border-green-500">
             <div className="flex items-center justify-between mb-2">
-              <div className="text-sm font-medium text-gray-600">Storage Used</div>
+              <div className="text-sm font-medium text-secondary-600">Storage Used</div>
               <DollarSign className="w-5 h-5 text-green-600" />
             </div>
-            <div className="text-3xl font-bold text-gray-900">{tenantInfo.storageUsed}</div>
+            <div className="text-3xl font-bold text-secondary-900">{tenantInfo.storageUsed}</div>
             <div className="text-xs text-gray-500 mt-1">of {tenantInfo.storageLimit} limit</div>
           </div>
 
           <div className="glass-card rounded-2xl p-6 border-l-4 border-purple-500">
             <div className="flex items-center justify-between mb-2">
-              <div className="text-sm font-medium text-gray-600">Plan</div>
+              <div className="text-sm font-medium text-secondary-600">Plan</div>
               <CreditCard className="w-5 h-5 text-purple-600" />
             </div>
-            <div className="text-3xl font-bold text-gray-900">{tenantInfo.plan}</div>
+            <div className="text-3xl font-bold text-secondary-900">{tenantInfo.plan}</div>
             <div className="text-xs text-gray-500 mt-1">Active subscription</div>
           </div>
 
           <div className="glass-card rounded-2xl p-6 border-l-4 border-blue-500">
             <div className="flex items-center justify-between mb-2">
-              <div className="text-sm font-medium text-gray-600">Renewal Date</div>
+              <div className="text-sm font-medium text-secondary-600">Renewal Date</div>
               <Calendar className="w-5 h-5 text-blue-600" />
             </div>
-            <div className="text-xl font-bold text-gray-900">
+            <div className="text-xl font-bold text-secondary-900">
               {new Date(tenantInfo.planRenewalDate).toLocaleDateString()}
             </div>
             <div className="text-xs text-gray-500 mt-1">Auto-renewal enabled</div>
@@ -218,8 +218,8 @@ const TenantSettingsPage = () => {
                 <Building2 className="w-6 h-6 text-white" />
               </div>
               <div>
-                <h2 className="text-2xl font-bold text-gray-900">Basic Information</h2>
-                <p className="text-sm text-gray-600 mt-1">
+                <h2 className="text-2xl font-bold text-secondary-900">Basic Information</h2>
+                <p className="text-sm text-secondary-600 mt-1">
                   Complete organization profile including contact details, address, and company information
                 </p>
               </div>
@@ -232,10 +232,10 @@ const TenantSettingsPage = () => {
               {/* Logo Upload - Left Column */}
               <div className="lg:col-span-1">
                 <div className="sticky top-6">
-                  <label className="block text-sm font-semibold text-gray-900 mb-4">
+                  <label className="block text-sm font-semibold text-secondary-900 mb-4">
                     Organization Logo
                   </label>
-                  <div className="glass-card rounded-2xl p-6 text-center border-2 border-dashed border-gray-300 hover:border-primary-500 transition-colors">
+                  <div className="glass-card rounded-2xl p-6 text-center border-2 border-dashed border-gray-300 hover:border-primary-600 transition-colors">
                     <img
                       src={tenantInfo.logoPreview}
                       alt="Organization Logo"
@@ -267,7 +267,7 @@ const TenantSettingsPage = () => {
                       )}
                     </div>
                     <div className="mt-4 text-left">
-                      <p className="text-xs text-gray-600 mb-1">
+                      <p className="text-xs text-secondary-600 mb-1">
                         <strong>Requirements:</strong>
                       </p>
                       <ul className="text-xs text-gray-500 space-y-1">
@@ -286,13 +286,13 @@ const TenantSettingsPage = () => {
                   <div className="flex items-start gap-3">
                     <Briefcase className="w-5 h-5 text-primary-600 mt-1 flex-shrink-0" />
                     <div className="flex-1">
-                      <h3 className="font-semibold text-gray-900 mb-1">Company Identity</h3>
-                      <p className="text-sm text-gray-600 mb-4">
+                      <h3 className="font-semibold text-secondary-900 mb-1">Company Identity</h3>
+                      <p className="text-sm text-secondary-600 mb-4">
                         Primary information about your organization
                       </p>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                          <label className="block text-xs font-semibold text-gray-700 mb-2 uppercase tracking-wide">
+                          <label className="block text-xs font-semibold text-secondary-700 mb-2 uppercase tracking-wide">
                             Organization Name <span className="text-red-500">*</span>
                           </label>
                           <input
@@ -305,7 +305,7 @@ const TenantSettingsPage = () => {
                         </div>
 
                         <div>
-                          <label className="block text-xs font-semibold text-gray-700 mb-2 uppercase tracking-wide">
+                          <label className="block text-xs font-semibold text-secondary-700 mb-2 uppercase tracking-wide">
                             Legal Name
                           </label>
                           <input
@@ -318,7 +318,7 @@ const TenantSettingsPage = () => {
                         </div>
 
                         <div>
-                          <label className="block text-xs font-semibold text-gray-700 mb-2 uppercase tracking-wide">
+                          <label className="block text-xs font-semibold text-secondary-700 mb-2 uppercase tracking-wide">
                             Industry <span className="text-red-500">*</span>
                           </label>
                           <select
@@ -333,7 +333,7 @@ const TenantSettingsPage = () => {
                         </div>
 
                         <div>
-                          <label className="block text-xs font-semibold text-gray-700 mb-2 uppercase tracking-wide">
+                          <label className="block text-xs font-semibold text-secondary-700 mb-2 uppercase tracking-wide">
                             Company Size
                           </label>
                           <select
@@ -348,7 +348,7 @@ const TenantSettingsPage = () => {
                         </div>
 
                         <div>
-                          <label className="block text-xs font-semibold text-gray-700 mb-2 uppercase tracking-wide">
+                          <label className="block text-xs font-semibold text-secondary-700 mb-2 uppercase tracking-wide">
                             <Hash className="w-3 h-3 inline mr-1" />
                             Tax ID / EIN
                           </label>
@@ -362,7 +362,7 @@ const TenantSettingsPage = () => {
                         </div>
 
                         <div>
-                          <label className="block text-xs font-semibold text-gray-700 mb-2 uppercase tracking-wide">
+                          <label className="block text-xs font-semibold text-secondary-700 mb-2 uppercase tracking-wide">
                             Registration Number
                           </label>
                           <input
@@ -375,7 +375,7 @@ const TenantSettingsPage = () => {
                         </div>
 
                         <div>
-                          <label className="block text-xs font-semibold text-gray-700 mb-2 uppercase tracking-wide">
+                          <label className="block text-xs font-semibold text-secondary-700 mb-2 uppercase tracking-wide">
                             <LinkIcon className="w-3 h-3 inline mr-1" />
                             Website
                           </label>
@@ -389,7 +389,7 @@ const TenantSettingsPage = () => {
                         </div>
 
                         <div>
-                          <label className="block text-xs font-semibold text-gray-700 mb-2 uppercase tracking-wide">
+                          <label className="block text-xs font-semibold text-secondary-700 mb-2 uppercase tracking-wide">
                             LinkedIn Profile
                           </label>
                           <input
@@ -402,7 +402,7 @@ const TenantSettingsPage = () => {
                         </div>
 
                         <div>
-                          <label className="block text-xs font-semibold text-gray-700 mb-2 uppercase tracking-wide">
+                          <label className="block text-xs font-semibold text-secondary-700 mb-2 uppercase tracking-wide">
                             <Calendar className="w-3 h-3 inline mr-1" />
                             Founded Year
                           </label>
@@ -416,7 +416,7 @@ const TenantSettingsPage = () => {
                         </div>
 
                         <div>
-                          <label className="block text-xs font-semibold text-gray-700 mb-2 uppercase tracking-wide">
+                          <label className="block text-xs font-semibold text-secondary-700 mb-2 uppercase tracking-wide">
                             Custom Domain
                           </label>
                           <input
@@ -430,7 +430,7 @@ const TenantSettingsPage = () => {
                       </div>
 
                       <div className="mt-4">
-                        <label className="block text-xs font-semibold text-gray-700 mb-2 uppercase tracking-wide">
+                        <label className="block text-xs font-semibold text-secondary-700 mb-2 uppercase tracking-wide">
                           Company Description
                         </label>
                         <textarea
@@ -452,8 +452,8 @@ const TenantSettingsPage = () => {
               <div className="flex items-start gap-3 mb-6">
                 <Phone className="w-5 h-5 text-blue-600 mt-1 flex-shrink-0" />
                 <div>
-                  <h3 className="font-semibold text-gray-900 mb-1">Contact Information</h3>
-                  <p className="text-sm text-gray-600">
+                  <h3 className="font-semibold text-secondary-900 mb-1">Contact Information</h3>
+                  <p className="text-sm text-secondary-600">
                     Primary contact channels for your organization
                   </p>
                 </div>
@@ -462,12 +462,12 @@ const TenantSettingsPage = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {/* Phone Numbers */}
                 <div className="space-y-4">
-                  <div className="text-xs font-bold text-gray-700 uppercase tracking-wider mb-3 flex items-center gap-2">
+                  <div className="text-xs font-bold text-secondary-700 uppercase tracking-wider mb-3 flex items-center gap-2">
                     <Phone className="w-4 h-4 text-blue-600" />
                     Phone Numbers
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-gray-700 mb-2">
+                    <label className="block text-xs font-semibold text-secondary-700 mb-2">
                       Primary Phone <span className="text-red-500">*</span>
                     </label>
                     <input
@@ -479,7 +479,7 @@ const TenantSettingsPage = () => {
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-gray-700 mb-2">
+                    <label className="block text-xs font-semibold text-secondary-700 mb-2">
                       Secondary Phone
                     </label>
                     <input
@@ -491,7 +491,7 @@ const TenantSettingsPage = () => {
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-gray-700 mb-2">
+                    <label className="block text-xs font-semibold text-secondary-700 mb-2">
                       Support Phone
                     </label>
                     <input
@@ -503,7 +503,7 @@ const TenantSettingsPage = () => {
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-gray-700 mb-2">
+                    <label className="block text-xs font-semibold text-secondary-700 mb-2">
                       Fax Number
                     </label>
                     <input
@@ -518,13 +518,13 @@ const TenantSettingsPage = () => {
 
                 {/* Email Addresses */}
                 <div className="space-y-4 md:col-span-2 lg:col-span-2">
-                  <div className="text-xs font-bold text-gray-700 uppercase tracking-wider mb-3 flex items-center gap-2">
+                  <div className="text-xs font-bold text-secondary-700 uppercase tracking-wider mb-3 flex items-center gap-2">
                     <Mail className="w-4 h-4 text-blue-600" />
                     Email Addresses
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-xs font-semibold text-gray-700 mb-2">
+                      <label className="block text-xs font-semibold text-secondary-700 mb-2">
                         Primary Email <span className="text-red-500">*</span>
                       </label>
                       <input
@@ -536,7 +536,7 @@ const TenantSettingsPage = () => {
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-semibold text-gray-700 mb-2">
+                      <label className="block text-xs font-semibold text-secondary-700 mb-2">
                         Support Email
                       </label>
                       <input
@@ -548,7 +548,7 @@ const TenantSettingsPage = () => {
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-semibold text-gray-700 mb-2">
+                      <label className="block text-xs font-semibold text-secondary-700 mb-2">
                         Billing Email
                       </label>
                       <input
@@ -560,7 +560,7 @@ const TenantSettingsPage = () => {
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-semibold text-gray-700 mb-2">
+                      <label className="block text-xs font-semibold text-secondary-700 mb-2">
                         Sales Email
                       </label>
                       <input
@@ -581,8 +581,8 @@ const TenantSettingsPage = () => {
               <div className="flex items-start gap-3 mb-6">
                 <MapPin className="w-5 h-5 text-green-600 mt-1 flex-shrink-0" />
                 <div className="flex-1">
-                  <h3 className="font-semibold text-gray-900 mb-1">Business Address</h3>
-                  <p className="text-sm text-gray-600">
+                  <h3 className="font-semibold text-secondary-900 mb-1">Business Address</h3>
+                  <p className="text-sm text-secondary-600">
                     Primary physical location of your organization
                   </p>
                 </div>
@@ -591,7 +591,7 @@ const TenantSettingsPage = () => {
               <div className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-semibold text-gray-700 mb-2 uppercase tracking-wide">
+                    <label className="block text-xs font-semibold text-secondary-700 mb-2 uppercase tracking-wide">
                       Street Address <span className="text-red-500">*</span>
                     </label>
                     <input
@@ -604,7 +604,7 @@ const TenantSettingsPage = () => {
                   </div>
 
                   <div>
-                    <label className="block text-xs font-semibold text-gray-700 mb-2 uppercase tracking-wide">
+                    <label className="block text-xs font-semibold text-secondary-700 mb-2 uppercase tracking-wide">
                       Address Line 2 (Optional)
                     </label>
                     <input
@@ -619,7 +619,7 @@ const TenantSettingsPage = () => {
 
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                   <div className="md:col-span-2">
-                    <label className="block text-xs font-semibold text-gray-700 mb-2 uppercase tracking-wide">
+                    <label className="block text-xs font-semibold text-secondary-700 mb-2 uppercase tracking-wide">
                       City <span className="text-red-500">*</span>
                     </label>
                     <input
@@ -632,7 +632,7 @@ const TenantSettingsPage = () => {
                   </div>
 
                   <div>
-                    <label className="block text-xs font-semibold text-gray-700 mb-2 uppercase tracking-wide">
+                    <label className="block text-xs font-semibold text-secondary-700 mb-2 uppercase tracking-wide">
                       State/Province <span className="text-red-500">*</span>
                     </label>
                     <input
@@ -645,7 +645,7 @@ const TenantSettingsPage = () => {
                   </div>
 
                   <div>
-                    <label className="block text-xs font-semibold text-gray-700 mb-2 uppercase tracking-wide">
+                    <label className="block text-xs font-semibold text-secondary-700 mb-2 uppercase tracking-wide">
                       Postal Code <span className="text-red-500">*</span>
                     </label>
                     <input
@@ -659,7 +659,7 @@ const TenantSettingsPage = () => {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-gray-700 mb-2 uppercase tracking-wide">
+                  <label className="block text-xs font-semibold text-secondary-700 mb-2 uppercase tracking-wide">
                     Country <span className="text-red-500">*</span>
                   </label>
                   <select
@@ -683,17 +683,17 @@ const TenantSettingsPage = () => {
                       onChange={(e) => setTenantInfo({ ...tenantInfo, useSameAddress: e.target.checked })}
                       className="w-4 h-4 text-primary-600 border-gray-300 rounded focus:ring-primary-500"
                     />
-                    <label htmlFor="useSameAddress" className="text-sm font-medium text-gray-700">
+                    <label htmlFor="useSameAddress" className="text-sm font-medium text-secondary-700">
                       Billing address is the same as business address
                     </label>
                   </div>
 
                   {!tenantInfo.useSameAddress && (
                     <div className="space-y-4 bg-white rounded-lg p-4 border border-green-200">
-                      <h4 className="text-sm font-semibold text-gray-900">Billing Address</h4>
+                      <h4 className="text-sm font-semibold text-secondary-900">Billing Address</h4>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                          <label className="block text-xs font-semibold text-gray-700 mb-2">
+                          <label className="block text-xs font-semibold text-secondary-700 mb-2">
                             Street Address
                           </label>
                           <input
@@ -705,7 +705,7 @@ const TenantSettingsPage = () => {
                           />
                         </div>
                         <div>
-                          <label className="block text-xs font-semibold text-gray-700 mb-2">
+                          <label className="block text-xs font-semibold text-secondary-700 mb-2">
                             Address Line 2
                           </label>
                           <input
@@ -717,7 +717,7 @@ const TenantSettingsPage = () => {
                           />
                         </div>
                         <div>
-                          <label className="block text-xs font-semibold text-gray-700 mb-2">
+                          <label className="block text-xs font-semibold text-secondary-700 mb-2">
                             City
                           </label>
                           <input
@@ -729,7 +729,7 @@ const TenantSettingsPage = () => {
                           />
                         </div>
                         <div>
-                          <label className="block text-xs font-semibold text-gray-700 mb-2">
+                          <label className="block text-xs font-semibold text-secondary-700 mb-2">
                             State/Province
                           </label>
                           <input
@@ -741,7 +741,7 @@ const TenantSettingsPage = () => {
                           />
                         </div>
                         <div>
-                          <label className="block text-xs font-semibold text-gray-700 mb-2">
+                          <label className="block text-xs font-semibold text-secondary-700 mb-2">
                             Postal Code
                           </label>
                           <input
@@ -753,7 +753,7 @@ const TenantSettingsPage = () => {
                           />
                         </div>
                         <div>
-                          <label className="block text-xs font-semibold text-gray-700 mb-2">
+                          <label className="block text-xs font-semibold text-secondary-700 mb-2">
                             Country
                           </label>
                           <select
@@ -778,8 +778,8 @@ const TenantSettingsPage = () => {
               <div className="flex items-start gap-3 mb-6">
                 <Globe className="w-5 h-5 text-purple-600 mt-1 flex-shrink-0" />
                 <div>
-                  <h3 className="font-semibold text-gray-900 mb-1">Regional & Localization Settings</h3>
-                  <p className="text-sm text-gray-600">
+                  <h3 className="font-semibold text-secondary-900 mb-1">Regional & Localization Settings</h3>
+                  <p className="text-sm text-secondary-600">
                     Configure time zone, language, currency, and date/time formats
                   </p>
                 </div>
@@ -787,7 +787,7 @@ const TenantSettingsPage = () => {
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <div>
-                  <label className="block text-xs font-semibold text-gray-700 mb-2 uppercase tracking-wide">
+                  <label className="block text-xs font-semibold text-secondary-700 mb-2 uppercase tracking-wide">
                     <Clock className="w-3 h-3 inline mr-1" />
                     Time Zone <span className="text-red-500">*</span>
                   </label>
@@ -803,7 +803,7 @@ const TenantSettingsPage = () => {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-gray-700 mb-2 uppercase tracking-wide">
+                  <label className="block text-xs font-semibold text-secondary-700 mb-2 uppercase tracking-wide">
                     <Globe className="w-3 h-3 inline mr-1" />
                     Language <span className="text-red-500">*</span>
                   </label>
@@ -824,7 +824,7 @@ const TenantSettingsPage = () => {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-gray-700 mb-2 uppercase tracking-wide">
+                  <label className="block text-xs font-semibold text-secondary-700 mb-2 uppercase tracking-wide">
                     <DollarSign className="w-3 h-3 inline mr-1" />
                     Currency <span className="text-red-500">*</span>
                   </label>
@@ -842,7 +842,7 @@ const TenantSettingsPage = () => {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-gray-700 mb-2 uppercase tracking-wide">
+                  <label className="block text-xs font-semibold text-secondary-700 mb-2 uppercase tracking-wide">
                     Date Format
                   </label>
                   <select
@@ -858,7 +858,7 @@ const TenantSettingsPage = () => {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-gray-700 mb-2 uppercase tracking-wide">
+                  <label className="block text-xs font-semibold text-secondary-700 mb-2 uppercase tracking-wide">
                     Time Format
                   </label>
                   <select
@@ -883,8 +883,8 @@ const TenantSettingsPage = () => {
                 <Shield className="w-6 h-6 text-white" />
               </div>
               <div>
-                <h2 className="text-2xl font-bold text-gray-900">Security & Compliance</h2>
-                <p className="text-sm text-gray-600 mt-1">
+                <h2 className="text-2xl font-bold text-secondary-900">Security & Compliance</h2>
+                <p className="text-sm text-secondary-600 mt-1">
                   Configure security policies and compliance requirements
                 </p>
               </div>
@@ -895,8 +895,8 @@ const TenantSettingsPage = () => {
             <div className="glass-card rounded-xl p-5 border-l-4 border-red-500">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="font-semibold text-gray-900">Single Sign-On (SSO)</p>
-                  <p className="text-sm text-gray-600 mt-1">Enable SAML/OAuth authentication</p>
+                  <p className="font-semibold text-secondary-900">Single Sign-On (SSO)</p>
+                  <p className="text-sm text-secondary-600 mt-1">Enable SAML/OAuth authentication</p>
                 </div>
                 <label className="relative inline-flex items-center cursor-pointer">
                   <input
@@ -913,8 +913,8 @@ const TenantSettingsPage = () => {
             <div className="glass-card rounded-xl p-5 border-l-4 border-orange-500">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="font-semibold text-gray-900">Multi-Factor Authentication</p>
-                  <p className="text-sm text-gray-600 mt-1">Require MFA for all users</p>
+                  <p className="font-semibold text-secondary-900">Multi-Factor Authentication</p>
+                  <p className="text-sm text-secondary-600 mt-1">Require MFA for all users</p>
                 </div>
                 <label className="relative inline-flex items-center cursor-pointer">
                   <input
@@ -931,8 +931,8 @@ const TenantSettingsPage = () => {
             <div className="glass-card rounded-xl p-5 border-l-4 border-yellow-500">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="font-semibold text-gray-900">Audit Logs</p>
-                  <p className="text-sm text-gray-600 mt-1">Track all system activities</p>
+                  <p className="font-semibold text-secondary-900">Audit Logs</p>
+                  <p className="text-sm text-secondary-600 mt-1">Track all system activities</p>
                 </div>
                 <label className="relative inline-flex items-center cursor-pointer">
                   <input
@@ -949,8 +949,8 @@ const TenantSettingsPage = () => {
             <div className="glass-card rounded-xl p-5 border-l-4 border-green-500">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="font-semibold text-gray-900">API Access</p>
-                  <p className="text-sm text-gray-600 mt-1">Enable API key authentication</p>
+                  <p className="font-semibold text-secondary-900">API Access</p>
+                  <p className="text-sm text-secondary-600 mt-1">Enable API key authentication</p>
                 </div>
                 <label className="relative inline-flex items-center cursor-pointer">
                   <input
@@ -967,8 +967,8 @@ const TenantSettingsPage = () => {
             <div className="glass-card rounded-xl p-5 border-l-4 border-blue-500">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="font-semibold text-gray-900">Auto Backup</p>
-                  <p className="text-sm text-gray-600 mt-1">Daily automated backups</p>
+                  <p className="font-semibold text-secondary-900">Auto Backup</p>
+                  <p className="text-sm text-secondary-600 mt-1">Daily automated backups</p>
                 </div>
                 <label className="relative inline-flex items-center cursor-pointer">
                   <input
@@ -984,7 +984,7 @@ const TenantSettingsPage = () => {
 
             <div className="glass-card rounded-xl p-5 border-l-4 border-purple-500">
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">
+                <label className="block text-sm font-semibold text-secondary-900 mb-2">
                   Data Retention (days)
                 </label>
                 <input
@@ -1009,8 +1009,8 @@ const TenantSettingsPage = () => {
                 <Users className="w-6 h-6 text-white" />
               </div>
               <div>
-                <h2 className="text-2xl font-bold text-gray-900">Agent Permissions</h2>
-                <p className="text-sm text-gray-600 mt-1">
+                <h2 className="text-2xl font-bold text-secondary-900">Agent Permissions</h2>
+                <p className="text-sm text-secondary-600 mt-1">
                   Control agent deployment and usage policies
                 </p>
               </div>
@@ -1021,8 +1021,8 @@ const TenantSettingsPage = () => {
             <div className="glass-card rounded-xl p-5 border-l-4 border-indigo-500">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="font-semibold text-gray-900">Allow Public Agents</p>
-                  <p className="text-sm text-gray-600 mt-1">Users can deploy public marketplace agents</p>
+                  <p className="font-semibold text-secondary-900">Allow Public Agents</p>
+                  <p className="text-sm text-secondary-600 mt-1">Users can deploy public marketplace agents</p>
                 </div>
                 <label className="relative inline-flex items-center cursor-pointer">
                   <input
@@ -1039,8 +1039,8 @@ const TenantSettingsPage = () => {
             <div className="glass-card rounded-xl p-5 border-l-4 border-blue-500">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="font-semibold text-gray-900">Allow Private Agents</p>
-                  <p className="text-sm text-gray-600 mt-1">Users can create custom private agents</p>
+                  <p className="font-semibold text-secondary-900">Allow Private Agents</p>
+                  <p className="text-sm text-secondary-600 mt-1">Users can create custom private agents</p>
                 </div>
                 <label className="relative inline-flex items-center cursor-pointer">
                   <input
@@ -1065,8 +1065,8 @@ const TenantSettingsPage = () => {
                   <Save className="w-5 h-5 text-primary-600" />
                 </div>
                 <div>
-                  <p className="font-semibold text-gray-900">Ready to save your changes?</p>
-                  <p className="text-sm text-gray-600">Make sure all required fields are completed</p>
+                  <p className="font-semibold text-secondary-900">Ready to save your changes?</p>
+                  <p className="text-sm text-secondary-600">Make sure all required fields are completed</p>
                 </div>
               </div>
               <div className="flex items-center gap-3">

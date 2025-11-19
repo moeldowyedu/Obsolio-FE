@@ -64,17 +64,17 @@ const AgentCard = ({ agent, featured = false }) => {
       <div className="p-4">
         {/* Title and Author */}
         <div className="mb-3">
-          <h3 className="text-lg font-heading font-bold text-gray-900 mb-1 line-clamp-1">
+          <h3 className="text-lg font-heading font-bold text-secondary-900 mb-1 line-clamp-1">
             {agent.name}
           </h3>
-          <div className="flex items-center gap-2 text-sm text-gray-600">
+          <div className="flex items-center gap-2 text-sm text-secondary-600">
             <User className="w-4 h-4" />
             <span>{agent.author}</span>
           </div>
         </div>
 
         {/* Description */}
-        <p className="text-sm text-gray-600 mb-4 line-clamp-2">
+        <p className="text-sm text-secondary-600 mb-4 line-clamp-2">
           {agent.description}
         </p>
 
@@ -91,7 +91,7 @@ const AgentCard = ({ agent, featured = false }) => {
               </span>
             ))}
             {agent.engines?.length > 3 && (
-              <span className="text-xs px-2 py-1 bg-gray-100 text-gray-600 rounded">
+              <span className="text-xs px-2 py-1 bg-gray-100 text-secondary-600 rounded">
                 +{agent.engines.length - 3}
               </span>
             )}
@@ -100,7 +100,7 @@ const AgentCard = ({ agent, featured = false }) => {
 
         {/* Stats */}
         <div className="flex items-center justify-between pt-3 border-t border-gray-200">
-          <div className="flex items-center gap-4 text-sm text-gray-600">
+          <div className="flex items-center gap-4 text-sm text-secondary-600">
             <div className="flex items-center gap-1">
               <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
               <span className="font-medium">{agent.rating || '5.0'}</span>
@@ -124,7 +124,7 @@ const AgentCard = ({ agent, featured = false }) => {
             e.stopPropagation();
             // Handle quick deploy
           }}
-          className="w-full mt-4 py-2 px-4 bg-primary-500 text-white rounded-lg font-medium hover:bg-primary-600 transition-colors flex items-center justify-center gap-2"
+          className="w-full mt-4 py-2 px-4 bg-primary-600 text-white rounded-lg font-medium hover:bg-primary-600 transition-colors flex items-center justify-center gap-2"
         >
           <Zap className="w-4 h-4" />
           Quick Deploy

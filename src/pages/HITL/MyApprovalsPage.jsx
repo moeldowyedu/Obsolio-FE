@@ -174,8 +174,8 @@ const MyApprovalsPage = () => {
     <div className="p-6 space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold text-gray-900">My Approvals</h1>
-        <p className="text-gray-600 mt-1">
+        <h1 className="text-3xl font-bold text-secondary-900">My Approvals</h1>
+        <p className="text-secondary-600 mt-1">
           Your HITL approval history and decisions
         </p>
       </div>
@@ -185,8 +185,8 @@ const MyApprovalsPage = () => {
         <Card className="bg-gradient-to-br from-gray-50 to-gray-100">
           <div className="flex items-center justify-between">
             <div>
-              <div className="text-2xl font-bold text-gray-900">{stats.total}</div>
-              <div className="text-sm text-gray-700">Total Approvals</div>
+              <div className="text-2xl font-bold text-secondary-900">{stats.total}</div>
+              <div className="text-sm text-secondary-700">Total Approvals</div>
             </div>
             <Calendar className="w-10 h-10 text-gray-500" />
           </div>
@@ -281,10 +281,10 @@ const MyApprovalsPage = () => {
                 {/* Header */}
                 <div className="flex items-start justify-between mb-3">
                   <div>
-                    <h3 className="font-semibold text-gray-900 text-lg mb-1">
+                    <h3 className="font-semibold text-secondary-900 text-lg mb-1">
                       {approval.taskName}
                     </h3>
-                    <p className="text-sm text-gray-600">Agent: {approval.agentName}</p>
+                    <p className="text-sm text-secondary-600">Agent: {approval.agentName}</p>
                   </div>
                   <Badge className={getActionColor(approval.action)}>
                     <span className="flex items-center gap-1">
@@ -299,13 +299,13 @@ const MyApprovalsPage = () => {
                   <div className="flex items-center justify-between">
                     <div>
                       <span className="text-xs text-gray-500 uppercase">AI Decision:</span>
-                      <span className="ml-2 text-sm font-medium text-gray-900 capitalize">
+                      <span className="ml-2 text-sm font-medium text-secondary-900 capitalize">
                         {approval.aiDecision.replace('_', ' ')}
                       </span>
                     </div>
                     <div>
                       <span className="text-xs text-gray-500 uppercase">Confidence:</span>
-                      <span className="ml-2 text-sm font-semibold text-gray-900">
+                      <span className="ml-2 text-sm font-semibold text-secondary-900">
                         {approval.aiConfidence}%
                       </span>
                     </div>
@@ -355,10 +355,10 @@ const MyApprovalsPage = () => {
         <Card>
           <div className="text-center py-12">
             <CheckCircle className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">
+            <h3 className="text-lg font-semibold text-secondary-900 mb-2">
               No Approvals Found
             </h3>
-            <p className="text-gray-600">
+            <p className="text-secondary-600">
               {searchTerm || actionFilter !== 'all' || dateRangeFilter !== 'all'
                 ? 'Try adjusting your filters'
                 : 'Your approval history will appear here'}

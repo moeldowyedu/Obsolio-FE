@@ -14,7 +14,7 @@ const Textarea = forwardRef(({
   return (
     <div className={clsx('flex flex-col gap-1.5', fullWidth && 'w-full', containerClassName)}>
       {label && (
-        <label className="text-sm font-medium text-gray-700">
+        <label className="text-sm font-medium text-secondary-700">
           {label}
           {props.required && <span className="text-red-500 ml-1">*</span>}
         </label>

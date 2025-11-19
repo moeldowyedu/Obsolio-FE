@@ -60,8 +60,8 @@ const UpcomingRunsPage = () => {
     <MainLayout>
       <div className="p-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Upcoming Runs</h1>
-          <p className="text-gray-600">
+          <h1 className="text-3xl font-bold text-secondary-900 mb-2">Upcoming Runs</h1>
+          <p className="text-secondary-600">
             View all scheduled jobs that are coming up
           </p>
         </div>
@@ -75,8 +75,8 @@ const UpcomingRunsPage = () => {
                   <Clock className="w-6 h-6 text-blue-600" />
                 </div>
                 <div>
-                  <p className="text-sm text-gray-600">Next 24 Hours</p>
-                  <p className="text-2xl font-bold text-gray-900">3</p>
+                  <p className="text-sm text-secondary-600">Next 24 Hours</p>
+                  <p className="text-2xl font-bold text-secondary-900">3</p>
                 </div>
               </div>
             </div>
@@ -88,8 +88,8 @@ const UpcomingRunsPage = () => {
                   <Calendar className="w-6 h-6 text-green-600" />
                 </div>
                 <div>
-                  <p className="text-sm text-gray-600">This Week</p>
-                  <p className="text-2xl font-bold text-gray-900">5</p>
+                  <p className="text-sm text-secondary-600">This Week</p>
+                  <p className="text-2xl font-bold text-secondary-900">5</p>
                 </div>
               </div>
             </div>
@@ -101,8 +101,8 @@ const UpcomingRunsPage = () => {
                   <Clock className="w-6 h-6 text-purple-600" />
                 </div>
                 <div>
-                  <p className="text-sm text-gray-600">High Priority</p>
-                  <p className="text-2xl font-bold text-gray-900">2</p>
+                  <p className="text-sm text-secondary-600">High Priority</p>
+                  <p className="text-2xl font-bold text-secondary-900">2</p>
                 </div>
               </div>
             </div>
@@ -112,7 +112,7 @@ const UpcomingRunsPage = () => {
         {/* Upcoming Runs List */}
         <Card>
           <div className="p-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">Scheduled Runs</h2>
+            <h2 className="text-xl font-semibold text-secondary-900 mb-4">Scheduled Runs</h2>
             <div className="space-y-4">
               {upcomingRuns.map((run) => (
                 <div
@@ -124,19 +124,19 @@ const UpcomingRunsPage = () => {
                       <Clock className="w-5 h-5 text-primary-600" />
                     </div>
                     <div className="flex-1">
-                      <h3 className="font-semibold text-gray-900 mb-1">
+                      <h3 className="font-semibold text-secondary-900 mb-1">
                         {run.jobName}
                       </h3>
-                      <p className="text-sm text-gray-600">Agent: {run.agent}</p>
+                      <p className="text-sm text-secondary-600">Agent: {run.agent}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-6">
                     <div className="text-right">
-                      <p className="text-sm text-gray-600">Scheduled for</p>
-                      <p className="font-medium text-gray-900">{run.scheduledTime}</p>
+                      <p className="text-sm text-secondary-600">Scheduled for</p>
+                      <p className="font-medium text-secondary-900">{run.scheduledTime}</p>
                     </div>
                     <div className="text-right">
-                      <p className="text-sm text-gray-600">Time until run</p>
+                      <p className="text-sm text-secondary-600">Time until run</p>
                       <p className="font-semibold text-primary-600">{run.timeUntil}</p>
                     </div>
                     <Badge color={getPriorityColor(run.priority)}>

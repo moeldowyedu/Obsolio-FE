@@ -43,7 +43,7 @@ const QuickTestPanel = ({ engineId, inputType = 'text' }) => {
         return (
           <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-primary-400 transition-colors cursor-pointer">
             <div className="text-4xl mb-3">📁</div>
-            <p className="text-gray-700 font-medium mb-1">
+            <p className="text-secondary-700 font-medium mb-1">
               Drop your file here or click to browse
             </p>
             <p className="text-sm text-gray-500">
@@ -77,10 +77,10 @@ const QuickTestPanel = ({ engineId, inputType = 'text' }) => {
   return (
     <Card>
       <div className="mb-6">
-        <h2 className="text-xl font-bold font-heading text-gray-900">
+        <h2 className="text-xl font-bold font-heading text-secondary-900">
           Quick Test Panel
         </h2>
-        <p className="text-sm text-gray-600 mt-1">
+        <p className="text-sm text-secondary-600 mt-1">
           Test the engine with sample data
         </p>
       </div>
@@ -88,7 +88,7 @@ const QuickTestPanel = ({ engineId, inputType = 'text' }) => {
       <div className="space-y-4">
         {/* Rubric Selection */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium text-secondary-700 mb-2">
             Select Rubric
           </label>
           <select
@@ -106,7 +106,7 @@ const QuickTestPanel = ({ engineId, inputType = 'text' }) => {
 
         {/* Input */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium text-secondary-700 mb-2">
             Test Input
           </label>
           {renderInput()}
@@ -125,26 +125,26 @@ const QuickTestPanel = ({ engineId, inputType = 'text' }) => {
         {/* Results */}
         {result && (
           <div className="mt-6 p-6 bg-gradient-to-r from-primary-50 to-secondary-50 rounded-lg border border-primary-100">
-            <h3 className="font-semibold text-gray-900 mb-4">Test Results</h3>
+            <h3 className="font-semibold text-secondary-900 mb-4">Test Results</h3>
 
             <div className="grid grid-cols-2 gap-4 mb-4">
               <div className="bg-white rounded-lg p-4">
-                <p className="text-sm text-gray-600 mb-1">Overall Score</p>
-                <p className="text-3xl font-bold text-gray-900">{result.score}%</p>
+                <p className="text-sm text-secondary-600 mb-1">Overall Score</p>
+                <p className="text-3xl font-bold text-secondary-900">{result.score}%</p>
               </div>
               <div className="bg-white rounded-lg p-4">
-                <p className="text-sm text-gray-600 mb-1">Processing Time</p>
-                <p className="text-3xl font-bold text-gray-900">{result.processingTime}s</p>
+                <p className="text-sm text-secondary-600 mb-1">Processing Time</p>
+                <p className="text-3xl font-bold text-secondary-900">{result.processingTime}s</p>
               </div>
             </div>
 
             <div className="bg-white rounded-lg p-4">
-              <h4 className="text-sm font-semibold text-gray-900 mb-3">Criteria Scores</h4>
+              <h4 className="text-sm font-semibold text-secondary-900 mb-3">Criteria Scores</h4>
               <div className="space-y-2">
                 {result.criteria.map((criterion, index) => (
                   <div key={index}>
                     <div className="flex justify-between text-sm mb-1">
-                      <span className="text-gray-700">{criterion.name}</span>
+                      <span className="text-secondary-700">{criterion.name}</span>
                       <span className="font-medium">{criterion.score}/{criterion.maxScore}</span>
                     </div>
                     <div className="w-full bg-gray-200 rounded-full h-2">

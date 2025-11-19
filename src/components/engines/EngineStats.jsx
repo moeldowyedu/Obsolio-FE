@@ -8,7 +8,7 @@ const EngineStats = ({ stats }) => {
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
       {/* Processing Volume */}
       <Card>
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Processing Volume</h3>
+        <h3 className="text-lg font-semibold text-secondary-900 mb-4">Processing Volume</h3>
         <ResponsiveContainer width="100%" height={300}>
           <LineChart data={processedData}>
             <CartesianGrid strokeDasharray="3 3" />
@@ -22,7 +22,7 @@ const EngineStats = ({ stats }) => {
 
       {/* Accuracy Trend */}
       <Card>
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Accuracy Trend</h3>
+        <h3 className="text-lg font-semibold text-secondary-900 mb-4">Accuracy Trend</h3>
         <ResponsiveContainer width="100%" height={300}>
           <LineChart data={accuracyData}>
             <CartesianGrid strokeDasharray="3 3" />
@@ -36,12 +36,12 @@ const EngineStats = ({ stats }) => {
 
       {/* Performance Metrics */}
       <Card className="lg:col-span-2">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Performance Metrics</h3>
+        <h3 className="text-lg font-semibold text-secondary-900 mb-4">Performance Metrics</h3>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
           {performanceMetrics?.map((metric, index) => (
             <div key={index} className="text-center">
-              <p className="text-3xl font-bold text-gray-900">{metric.value}</p>
-              <p className="text-sm text-gray-600 mt-1">{metric.label}</p>
+              <p className="text-3xl font-bold text-secondary-900">{metric.value}</p>
+              <p className="text-sm text-secondary-600 mt-1">{metric.label}</p>
             </div>
           ))}
         </div>

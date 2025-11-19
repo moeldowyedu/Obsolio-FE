@@ -74,8 +74,8 @@ const WorkflowSidebar = ({
     return (
       <div className="w-80 bg-white border-l border-gray-200 overflow-y-auto">
         <div className="p-4 border-b border-gray-200">
-          <h3 className="font-semibold text-gray-900 mb-1">Node Palette</h3>
-          <p className="text-sm text-gray-600">
+          <h3 className="font-semibold text-secondary-900 mb-1">Node Palette</h3>
+          <p className="text-sm text-secondary-600">
             Click a node type to add it to your workflow
           </p>
         </div>
@@ -87,13 +87,13 @@ const WorkflowSidebar = ({
               <button
                 key={nodeType.type}
                 onClick={() => onAddNodeType && onAddNodeType(nodeType.type)}
-                className={`w-full p-3 rounded-lg border-2 border-gray-200 hover:border-primary-500 transition-all text-left group ${nodeType.color}`}
+                className={`w-full p-3 rounded-lg border-2 border-gray-200 hover:border-primary-600 transition-all text-left group ${nodeType.color}`}
               >
                 <div className="flex items-start gap-3">
                   <Icon className="w-6 h-6 flex-shrink-0" />
                   <div className="flex-1 min-w-0">
-                    <p className="font-medium text-gray-900 mb-0.5">{nodeType.label}</p>
-                    <p className="text-xs text-gray-600">{nodeType.description}</p>
+                    <p className="font-medium text-secondary-900 mb-0.5">{nodeType.label}</p>
+                    <p className="text-xs text-secondary-600">{nodeType.description}</p>
                   </div>
                 </div>
               </button>
@@ -103,7 +103,7 @@ const WorkflowSidebar = ({
 
         {/* Templates section */}
         <div className="p-4 border-t border-gray-200">
-          <h4 className="font-medium text-gray-900 mb-2">Quick Templates</h4>
+          <h4 className="font-medium text-secondary-900 mb-2">Quick Templates</h4>
           <div className="space-y-2">
             <button className="w-full p-2 text-sm text-left rounded border border-gray-200 hover:bg-gray-50">
               Sequential Processing
@@ -125,12 +125,12 @@ const WorkflowSidebar = ({
     <div className="w-80 bg-white border-l border-gray-200 overflow-y-auto">
       <div className="p-4 border-b border-gray-200">
         <div className="flex items-center justify-between mb-1">
-          <h3 className="font-semibold text-gray-900">Configure Node</h3>
+          <h3 className="font-semibold text-secondary-900">Configure Node</h3>
           <Badge variant="default" size="sm">
             {selectedNode.type}
           </Badge>
         </div>
-        <p className="text-sm text-gray-600">Edit node settings</p>
+        <p className="text-sm text-secondary-600">Edit node settings</p>
       </div>
 
       <div className="p-4 space-y-4">
@@ -167,7 +167,7 @@ const WorkflowSidebar = ({
             </Select>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-secondary-700 mb-2">
                 Input Mapping
               </label>
               <Textarea

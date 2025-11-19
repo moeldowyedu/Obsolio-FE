@@ -38,8 +38,8 @@ const AgentCard = ({ agent, onSelect, onDeploy }) => {
         </div>
       </div>
 
-      <h3 className="text-xl font-semibold text-gray-900 mb-2">{name}</h3>
-      <p className="text-gray-600 text-sm mb-3 flex-grow line-clamp-3">{description}</p>
+      <h3 className="text-xl font-semibold text-secondary-900 mb-2">{name}</h3>
+      <p className="text-secondary-600 text-sm mb-3 flex-grow line-clamp-3">{description}</p>
 
       <div className="flex items-center gap-2 mb-3">
         <Badge variant="primary" size="sm">{category}</Badge>
@@ -59,15 +59,15 @@ const AgentCard = ({ agent, onSelect, onDeploy }) => {
       <div className="grid grid-cols-3 gap-2 mb-4 py-3 border-t border-gray-100">
         <div className="text-center">
           <p className="text-xs text-gray-500">Rating</p>
-          <p className="text-sm font-semibold text-gray-900">⭐ {rating || 'N/A'}</p>
+          <p className="text-sm font-semibold text-secondary-900">⭐ {rating || 'N/A'}</p>
         </div>
         <div className="text-center">
           <p className="text-xs text-gray-500">Deployments</p>
-          <p className="text-sm font-semibold text-gray-900">{deployments?.toLocaleString() || 0}</p>
+          <p className="text-sm font-semibold text-secondary-900">{deployments?.toLocaleString() || 0}</p>
         </div>
         <div className="text-center">
           <p className="text-xs text-gray-500">Pricing</p>
-          <p className="text-sm font-semibold text-gray-900">{pricing || 'Free'}</p>
+          <p className="text-sm font-semibold text-secondary-900">{pricing || 'Free'}</p>
         </div>
       </div>
 

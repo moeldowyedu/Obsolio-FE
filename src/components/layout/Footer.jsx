@@ -11,34 +11,34 @@ const Footer = () => {
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
               <span className="material-icons text-2xl text-primary-600">gavel</span>
-              <span className="text-xl font-bold text-gray-900 text-shadow">Aasim</span>
+              <span className="text-xl font-bold text-secondary-900 text-shadow">Aasim</span>
             </div>
-            <p className="text-gray-600 text-sm">
+            <p className="text-secondary-600 text-sm">
               The Precision AI Agent for comprehensive content evaluation and assessment.
             </p>
           </div>
 
           {/* Product */}
           <div>
-            <h3 className="text-gray-900 font-semibold mb-4">Product</h3>
+            <h3 className="text-secondary-900 font-semibold mb-4">Product</h3>
             <ul className="space-y-2">
               <li>
-                <Link to="/#features" className="text-gray-600 hover:text-primary-600 text-sm transition-colors">
+                <Link to="/#features" className="text-secondary-600 hover:text-primary-600 text-sm transition-colors">
                   Features
                 </Link>
               </li>
               <li>
-                <Link to="/#use-cases" className="text-gray-600 hover:text-primary-600 text-sm transition-colors">
+                <Link to="/#use-cases" className="text-secondary-600 hover:text-primary-600 text-sm transition-colors">
                   Use Cases
                 </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-600 hover:text-primary-600 text-sm transition-colors">
+                <a href="#" className="text-secondary-600 hover:text-primary-600 text-sm transition-colors">
                   Pricing
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gray-600 hover:text-primary-600 text-sm transition-colors">
+                <a href="#" className="text-secondary-600 hover:text-primary-600 text-sm transition-colors">
                   Documentation
                 </a>
               </li>
@@ -47,25 +47,25 @@ const Footer = () => {
 
           {/* Company */}
           <div>
-            <h3 className="text-gray-900 font-semibold mb-4">Company</h3>
+            <h3 className="text-secondary-900 font-semibold mb-4">Company</h3>
             <ul className="space-y-2">
               <li>
-                <a href="#" className="text-gray-600 hover:text-primary-600 text-sm transition-colors">
+                <a href="#" className="text-secondary-600 hover:text-primary-600 text-sm transition-colors">
                   About Us
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gray-600 hover:text-primary-600 text-sm transition-colors">
+                <a href="#" className="text-secondary-600 hover:text-primary-600 text-sm transition-colors">
                   Contact
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gray-600 hover:text-primary-600 text-sm transition-colors">
+                <a href="#" className="text-secondary-600 hover:text-primary-600 text-sm transition-colors">
                   Privacy Policy
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gray-600 hover:text-primary-600 text-sm transition-colors">
+                <a href="#" className="text-secondary-600 hover:text-primary-600 text-sm transition-colors">
                   Terms of Service
                 </a>
               </li>
@@ -74,25 +74,25 @@ const Footer = () => {
 
           {/* Connect */}
           <div>
-            <h3 className="text-gray-900 font-semibold mb-4">Connect</h3>
+            <h3 className="text-secondary-900 font-semibold mb-4">Connect</h3>
             <ul className="space-y-2">
               <li>
-                <a href="#" className="text-gray-600 hover:text-primary-600 text-sm transition-colors">
+                <a href="#" className="text-secondary-600 hover:text-primary-600 text-sm transition-colors">
                   Twitter
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gray-600 hover:text-primary-600 text-sm transition-colors">
+                <a href="#" className="text-secondary-600 hover:text-primary-600 text-sm transition-colors">
                   LinkedIn
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gray-600 hover:text-primary-600 text-sm transition-colors">
+                <a href="#" className="text-secondary-600 hover:text-primary-600 text-sm transition-colors">
                   GitHub
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gray-600 hover:text-primary-600 text-sm transition-colors">
+                <a href="#" className="text-secondary-600 hover:text-primary-600 text-sm transition-colors">
                   Support
                 </a>
               </li>

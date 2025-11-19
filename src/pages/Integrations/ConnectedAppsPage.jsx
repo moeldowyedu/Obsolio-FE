@@ -40,8 +40,8 @@ const ConnectedAppsPage = () => {
     <MainLayout>
       <div className="p-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Connected Apps</h1>
-          <p className="text-gray-600">
+          <h1 className="text-3xl font-bold text-secondary-900 mb-2">Connected Apps</h1>
+          <p className="text-secondary-600">
             Manage your integrated third-party applications
           </p>
         </div>
@@ -76,10 +76,10 @@ const ConnectedAppsPage = () => {
                       </span>
                     </div>
                     <div>
-                      <h3 className="text-lg font-semibold text-gray-900 mb-1">
+                      <h3 className="text-lg font-semibold text-secondary-900 mb-1">
                         {app.name}
                       </h3>
-                      <p className="text-sm text-gray-600">{app.description}</p>
+                      <p className="text-sm text-secondary-600">{app.description}</p>
                     </div>
                   </div>
                   {app.status === 'connected' ? (
@@ -92,13 +92,13 @@ const ConnectedAppsPage = () => {
                 <div className="grid grid-cols-2 gap-4 mb-4">
                   <div>
                     <p className="text-xs text-gray-500 mb-1">Connected</p>
-                    <p className="text-sm font-medium text-gray-900">
+                    <p className="text-sm font-medium text-secondary-900">
                       {app.connectedAt}
                     </p>
                   </div>
                   <div>
                     <p className="text-xs text-gray-500 mb-1">Last Sync</p>
-                    <p className="text-sm font-medium text-gray-900">
+                    <p className="text-sm font-medium text-secondary-900">
                       {app.lastSync}
                     </p>
                   </div>

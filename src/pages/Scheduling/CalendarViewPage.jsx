@@ -48,8 +48,8 @@ const CalendarViewPage = () => {
     <MainLayout>
       <div className="p-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Calendar View</h1>
-          <p className="text-gray-600">
+          <h1 className="text-3xl font-bold text-secondary-900 mb-2">Calendar View</h1>
+          <p className="text-secondary-600">
             View all scheduled jobs in calendar format
           </p>
         </div>
@@ -58,7 +58,7 @@ const CalendarViewPage = () => {
           <div className="p-6">
             {/* Calendar Header */}
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold text-gray-900">
+              <h2 className="text-2xl font-bold text-secondary-900">
                 {monthNames[currentDate.getMonth()]} {currentDate.getFullYear()}
               </h2>
               <div className="flex items-center gap-2">
@@ -85,7 +85,7 @@ const CalendarViewPage = () => {
             <div className="grid grid-cols-7 gap-2">
               {/* Day Headers */}
               {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => (
-                <div key={day} className="text-center font-semibold text-gray-600 py-2">
+                <div key={day} className="text-center font-semibold text-secondary-600 py-2">
                   {day}
                 </div>
               ))}
@@ -108,7 +108,7 @@ const CalendarViewPage = () => {
                   <div
                     key={day}
                     className={`h-24 border rounded-lg p-2 ${
-                      isToday ? 'border-primary-500 bg-primary-50' : 'border-gray-200'
+                      isToday ? 'border-primary-600 bg-primary-50' : 'border-gray-200'
                     }`}
                   >
                     <div className={`text-sm font-semibold mb-1 ${

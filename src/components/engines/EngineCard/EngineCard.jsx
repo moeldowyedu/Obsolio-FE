@@ -47,32 +47,32 @@ const EngineCard = ({ engine, featured = false }) => {
         </div>
 
         {/* Engine Name */}
-        <h3 className="text-xl font-heading font-bold text-gray-900 mb-2">
+        <h3 className="text-xl font-heading font-bold text-secondary-900 mb-2">
           {engine.name}
         </h3>
 
         {/* Category Badge */}
         <div className="mb-3">
-          <span className="inline-block px-3 py-1 bg-gray-100 text-gray-700 text-xs font-medium rounded-full">
+          <span className="inline-block px-3 py-1 bg-gray-100 text-secondary-700 text-xs font-medium rounded-full">
             {engine.category}
           </span>
         </div>
 
         {/* Description */}
-        <p className="text-sm text-gray-600 mb-4 flex-grow">
+        <p className="text-sm text-secondary-600 mb-4 flex-grow">
           {engine.description}
         </p>
 
         {/* Capabilities */}
         <div className="mb-4">
-          <p className="text-xs font-semibold text-gray-700 mb-2">
+          <p className="text-xs font-semibold text-secondary-700 mb-2">
             Key Capabilities:
           </p>
           <div className="flex flex-wrap gap-1">
             {engine.capabilities.slice(0, 3).map((capability, idx) => (
               <span
                 key={idx}
-                className="text-xs px-2 py-1 bg-white border border-gray-200 text-gray-600 rounded"
+                className="text-xs px-2 py-1 bg-white border border-gray-200 text-secondary-600 rounded"
               >
                 {capability}
               </span>

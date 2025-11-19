@@ -43,7 +43,7 @@ const Invoices = ({ invoices = [] }) => {
       key: 'amount',
       label: 'Amount',
       render: (value) => (
-        <span className="font-semibold text-gray-900">${value.toFixed(2)}</span>
+        <span className="font-semibold text-secondary-900">${value.toFixed(2)}</span>
       ),
     },
     {
@@ -90,10 +90,10 @@ const Invoices = ({ invoices = [] }) => {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <div>
-          <h3 className="text-lg font-semibold text-gray-900">
+          <h3 className="text-lg font-semibold text-secondary-900">
             Billing History
           </h3>
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-secondary-600">
             View and download your past invoices
           </p>
         </div>

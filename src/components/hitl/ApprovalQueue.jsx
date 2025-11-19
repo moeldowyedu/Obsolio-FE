@@ -19,7 +19,7 @@ const ApprovalQueue = ({ items, onApprove, onReject }) => {
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
       {/* Queue List */}
       <div className="lg:col-span-2 space-y-3">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">
+        <h3 className="text-lg font-semibold text-secondary-900 mb-4">
           Pending Approvals ({items.length})
         </h3>
 
@@ -40,12 +40,12 @@ const ApprovalQueue = ({ items, onApprove, onReject }) => {
               <div className="flex items-start justify-between">
                 <div className="flex-grow">
                   <div className="flex items-center gap-2 mb-2">
-                    <h4 className="font-semibold text-gray-900">{item.title}</h4>
+                    <h4 className="font-semibold text-secondary-900">{item.title}</h4>
                     <Badge variant={getPriorityVariant(item.priority)} size="sm">
                       {item.priority}
                     </Badge>
                   </div>
-                  <p className="text-sm text-gray-600 mb-2">{item.description}</p>
+                  <p className="text-sm text-secondary-600 mb-2">{item.description}</p>
                   <div className="flex items-center gap-4 text-xs text-gray-500">
                     <span>Agent: {item.agent}</span>
                     <span>•</span>
@@ -62,32 +62,32 @@ const ApprovalQueue = ({ items, onApprove, onReject }) => {
 
       {/* Details Panel */}
       <div>
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Details</h3>
+        <h3 className="text-lg font-semibold text-secondary-900 mb-4">Details</h3>
         {selectedItem ? (
           <Card>
             <div className="space-y-4">
               <div>
-                <h4 className="font-semibold text-gray-900 mb-2">{selectedItem.title}</h4>
+                <h4 className="font-semibold text-secondary-900 mb-2">{selectedItem.title}</h4>
                 <Badge variant={getPriorityVariant(selectedItem.priority)} size="sm">
                   {selectedItem.priority} priority
                 </Badge>
               </div>
 
               <div>
-                <p className="text-sm text-gray-600">{selectedItem.description}</p>
+                <p className="text-sm text-secondary-600">{selectedItem.description}</p>
               </div>
 
               <div className="space-y-2 py-3 border-t border-gray-200">
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-600">Agent:</span>
+                  <span className="text-secondary-600">Agent:</span>
                   <span className="font-medium">{selectedItem.agent}</span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-600">Confidence:</span>
+                  <span className="text-secondary-600">Confidence:</span>
                   <span className="font-medium">{selectedItem.confidence}%</span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-600">Requested:</span>
+                  <span className="text-secondary-600">Requested:</span>
                   <span className="font-medium">
                     {new Date(selectedItem.timestamp).toLocaleString()}
                   </span>
@@ -96,7 +96,7 @@ const ApprovalQueue = ({ items, onApprove, onReject }) => {
 
               {selectedItem.details && (
                 <div className="py-3 border-t border-gray-200">
-                  <h5 className="text-sm font-semibold text-gray-900 mb-2">Additional Details</h5>
+                  <h5 className="text-sm font-semibold text-secondary-900 mb-2">Additional Details</h5>
                   <pre className="text-xs bg-gray-50 p-3 rounded overflow-auto max-h-48">
                     {JSON.stringify(selectedItem.details, null, 2)}
                   </pre>

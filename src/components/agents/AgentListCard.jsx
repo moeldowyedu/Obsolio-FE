@@ -34,14 +34,14 @@ const AgentListCard = ({ agent, onRun, onEdit, onDelete, onToggleStatus }) => {
       <div className="flex items-start justify-between mb-4">
         <div className="flex-1">
           <div className="flex items-center gap-2 mb-1">
-            <h3 className="text-lg font-semibold text-gray-900 group-hover:text-primary-600 transition-colors">
+            <h3 className="text-lg font-semibold text-secondary-900 group-hover:text-primary-600 transition-colors">
               {agent.name}
             </h3>
             <Badge variant={getStatusVariant(agent.status)} size="sm">
               {agent.status}
             </Badge>
           </div>
-          <p className="text-sm text-gray-600 line-clamp-2">{agent.description}</p>
+          <p className="text-sm text-secondary-600 line-clamp-2">{agent.description}</p>
         </div>
         <div className="relative">
           <button
@@ -57,7 +57,7 @@ const AgentListCard = ({ agent, onRun, onEdit, onDelete, onToggleStatus }) => {
                   onEdit(agent.id);
                   setShowMenu(false);
                 }}
-                className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2"
+                className="w-full px-4 py-2 text-left text-sm text-secondary-700 hover:bg-gray-50 flex items-center gap-2"
               >
                 <Edit className="w-4 h-4" />
                 Edit Agent
@@ -67,7 +67,7 @@ const AgentListCard = ({ agent, onRun, onEdit, onDelete, onToggleStatus }) => {
                   onToggleStatus(agent.id);
                   setShowMenu(false);
                 }}
-                className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2"
+                className="w-full px-4 py-2 text-left text-sm text-secondary-700 hover:bg-gray-50 flex items-center gap-2"
               >
                 {agent.status === 'active' ? (
                   <>
@@ -111,13 +111,13 @@ const AgentListCard = ({ agent, onRun, onEdit, onDelete, onToggleStatus }) => {
       {/* Stats */}
       <div className="grid grid-cols-3 gap-4 mb-4 py-3 border-t border-b border-gray-100">
         <div>
-          <p className="text-xs text-gray-600 mb-1">Total Runs</p>
-          <p className="text-xl font-bold text-gray-900">
+          <p className="text-xs text-secondary-600 mb-1">Total Runs</p>
+          <p className="text-xl font-bold text-secondary-900">
             {agent.stats?.totalRuns?.toLocaleString() || 0}
           </p>
         </div>
         <div>
-          <p className="text-xs text-gray-600 mb-1">Success Rate</p>
+          <p className="text-xs text-secondary-600 mb-1">Success Rate</p>
           <div className="flex items-center gap-1">
             <p className="text-xl font-bold text-green-600">
               {agent.stats?.successRate || 0}%
@@ -126,8 +126,8 @@ const AgentListCard = ({ agent, onRun, onEdit, onDelete, onToggleStatus }) => {
           </div>
         </div>
         <div>
-          <p className="text-xs text-gray-600 mb-1">Avg Duration</p>
-          <p className="text-xl font-bold text-gray-900">
+          <p className="text-xs text-secondary-600 mb-1">Avg Duration</p>
+          <p className="text-xl font-bold text-secondary-900">
             {agent.stats?.avgDuration || '0'}s
           </p>
         </div>

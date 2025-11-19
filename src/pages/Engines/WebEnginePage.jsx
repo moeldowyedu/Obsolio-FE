@@ -46,10 +46,10 @@ const WebEnginePage = () => {
             <Badge variant="primary" size="sm" className="mb-2">
               {engine.category}
             </Badge>
-            <h1 className="text-4xl font-heading font-bold text-gray-900 mb-2">
+            <h1 className="text-4xl font-heading font-bold text-secondary-900 mb-2">
               {engine.name}
             </h1>
-            <p className="text-lg text-gray-600">{engine.description}</p>
+            <p className="text-lg text-secondary-600">{engine.description}</p>
           </div>
         </div>
 
@@ -57,7 +57,7 @@ const WebEnginePage = () => {
           {/* Test Panel */}
           <div className="lg:col-span-2">
             <Card padding="md">
-              <h2 className="text-2xl font-heading font-bold text-gray-900 mb-4">
+              <h2 className="text-2xl font-heading font-bold text-secondary-900 mb-4">
                 Test Web Engine
               </h2>
 
@@ -84,16 +84,16 @@ const WebEnginePage = () => {
               {/* Results */}
               {results && (
                 <div className="space-y-4">
-                  <h3 className="text-lg font-semibold text-gray-900">
+                  <h3 className="text-lg font-semibold text-secondary-900">
                     Analysis Results
                   </h3>
 
                   <div className="bg-gray-50 rounded-lg p-4 space-y-4">
                     <div>
-                      <p className="text-sm font-medium text-gray-700 mb-1">
+                      <p className="text-sm font-medium text-secondary-700 mb-1">
                         Page Title:
                       </p>
-                      <p className="text-base font-semibold text-gray-900">
+                      <p className="text-base font-semibold text-secondary-900">
                         {results.title}
                       </p>
                     </div>
@@ -101,13 +101,13 @@ const WebEnginePage = () => {
                     <div className="grid grid-cols-4 gap-4">
                       <div>
                         <p className="text-xs text-gray-500 mb-1">Links</p>
-                        <p className="text-lg font-semibold text-gray-900">
+                        <p className="text-lg font-semibold text-secondary-900">
                           {results.links}
                         </p>
                       </div>
                       <div>
                         <p className="text-xs text-gray-500 mb-1">Images</p>
-                        <p className="text-lg font-semibold text-gray-900">
+                        <p className="text-lg font-semibold text-secondary-900">
                           {results.images}
                         </p>
                       </div>
@@ -121,35 +121,35 @@ const WebEnginePage = () => {
                       </div>
                       <div>
                         <p className="text-xs text-gray-500 mb-1">Load Time</p>
-                        <p className="text-lg font-semibold text-gray-900">
+                        <p className="text-lg font-semibold text-secondary-900">
                           {results.loadTime}
                         </p>
                       </div>
                     </div>
 
                     <div>
-                      <p className="text-sm font-medium text-gray-700 mb-2">
+                      <p className="text-sm font-medium text-secondary-700 mb-2">
                         Description:
                       </p>
-                      <p className="text-sm text-gray-600 bg-white p-3 rounded border">
+                      <p className="text-sm text-secondary-600 bg-white p-3 rounded border">
                         {results.description}
                       </p>
                     </div>
 
                     <div>
-                      <p className="text-sm font-medium text-gray-700 mb-2">
+                      <p className="text-sm font-medium text-secondary-700 mb-2">
                         Metadata:
                       </p>
                       <div className="bg-white p-3 rounded border space-y-1 text-sm">
                         <div className="flex justify-between">
-                          <span className="text-gray-600">Author:</span>
-                          <span className="font-medium text-gray-900">
+                          <span className="text-secondary-600">Author:</span>
+                          <span className="font-medium text-secondary-900">
                             {results.metadata.author}
                           </span>
                         </div>
                         <div className="flex justify-between">
-                          <span className="text-gray-600">Last Modified:</span>
-                          <span className="font-medium text-gray-900">
+                          <span className="text-secondary-600">Last Modified:</span>
+                          <span className="font-medium text-secondary-900">
                             {results.metadata.lastModified}
                           </span>
                         </div>
@@ -157,7 +157,7 @@ const WebEnginePage = () => {
                     </div>
 
                     <div>
-                      <p className="text-sm font-medium text-gray-700 mb-2">
+                      <p className="text-sm font-medium text-secondary-700 mb-2">
                         Keywords:
                       </p>
                       <div className="flex flex-wrap gap-2">
@@ -170,10 +170,10 @@ const WebEnginePage = () => {
                     </div>
 
                     <div>
-                      <p className="text-sm font-medium text-gray-700 mb-2">
+                      <p className="text-sm font-medium text-secondary-700 mb-2">
                         Extracted Content Preview:
                       </p>
-                      <p className="text-sm text-gray-600 bg-white p-3 rounded border">
+                      <p className="text-sm text-secondary-600 bg-white p-3 rounded border">
                         {results.content}
                       </p>
                     </div>
@@ -186,24 +186,24 @@ const WebEnginePage = () => {
           {/* Sidebar */}
           <div className="lg:col-span-1 space-y-6">
             <Card padding="md">
-              <h3 className="text-lg font-semibold text-gray-900 mb-3">
+              <h3 className="text-lg font-semibold text-secondary-900 mb-3">
                 Capabilities
               </h3>
               <ul className="space-y-2">
                 {engine.capabilities.map((cap, idx) => (
                   <li key={idx} className="flex items-center gap-2">
                     <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" />
-                    <span className="text-sm text-gray-700">{cap}</span>
+                    <span className="text-sm text-secondary-700">{cap}</span>
                   </li>
                 ))}
               </ul>
             </Card>
 
             <Card padding="md">
-              <h3 className="text-lg font-semibold text-gray-900 mb-3">
+              <h3 className="text-lg font-semibold text-secondary-900 mb-3">
                 Common Use Cases
               </h3>
-              <ul className="space-y-2 text-sm text-gray-700">
+              <ul className="space-y-2 text-sm text-secondary-700">
                 <li>• Price monitoring</li>
                 <li>• Content aggregation</li>
                 <li>• Competitor analysis</li>
@@ -213,10 +213,10 @@ const WebEnginePage = () => {
             </Card>
 
             <Card padding="md" className="bg-gradient-to-br from-pink-50 to-pink-100">
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+              <h3 className="text-lg font-semibold text-secondary-900 mb-2">
                 Build with Web
               </h3>
-              <p className="text-sm text-gray-700 mb-4">
+              <p className="text-sm text-secondary-700 mb-4">
                 Create a custom agent using the Web Engine
               </p>
               <Button

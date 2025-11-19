@@ -48,8 +48,8 @@ const HITLConfigurationPage = () => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">HITL Configuration</h1>
-          <p className="text-gray-600 mt-1">
+          <h1 className="text-3xl font-bold text-secondary-900">HITL Configuration</h1>
+          <p className="text-secondary-600 mt-1">
             Configure Human-in-the-Loop workflow settings
           </p>
         </div>
@@ -74,13 +74,13 @@ const HITLConfigurationPage = () => {
 
       {/* Default Settings */}
       <Card>
-        <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
-          <Shield className="w-5 h-5 text-primary-500" />
+        <h2 className="text-xl font-semibold text-secondary-900 mb-4 flex items-center gap-2">
+          <Shield className="w-5 h-5 text-primary-600" />
           Default HITL Settings
         </h2>
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-secondary-700 mb-2">
               Default HITL Mode
             </label>
             <Select
@@ -92,14 +92,14 @@ const HITLConfigurationPage = () => {
               }))}
               fullWidth
             />
-            <p className="mt-2 text-sm text-gray-600">
+            <p className="mt-2 text-sm text-secondary-600">
               {HITL_MODES[config.defaultMode]?.description}
             </p>
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-secondary-700 mb-2">
                 Auto-Escalate After (hours)
               </label>
               <Input
@@ -111,7 +111,7 @@ const HITLConfigurationPage = () => {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-secondary-700 mb-2">
                 Approval Timeout (hours)
               </label>
               <Input
@@ -125,7 +125,7 @@ const HITLConfigurationPage = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-secondary-700 mb-2">
               Max Pending Tasks per Supervisor
             </label>
             <Input
@@ -141,15 +141,15 @@ const HITLConfigurationPage = () => {
 
       {/* Notification Settings */}
       <Card>
-        <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
-          <Bell className="w-5 h-5 text-primary-500" />
+        <h2 className="text-xl font-semibold text-secondary-900 mb-4 flex items-center gap-2">
+          <Bell className="w-5 h-5 text-primary-600" />
           Notification Settings
         </h2>
         <div className="space-y-4">
           <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
             <div>
-              <p className="font-medium text-gray-900">Notify on New Task</p>
-              <p className="text-sm text-gray-600">
+              <p className="font-medium text-secondary-900">Notify on New Task</p>
+              <p className="text-sm text-secondary-600">
                 Send notification when a new task requires approval
               </p>
             </div>
@@ -166,8 +166,8 @@ const HITLConfigurationPage = () => {
 
           <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
             <div>
-              <p className="font-medium text-gray-900">Notify on Escalation</p>
-              <p className="text-sm text-gray-600">
+              <p className="font-medium text-secondary-900">Notify on Escalation</p>
+              <p className="text-sm text-secondary-600">
                 Send notification when a task is escalated
               </p>
             </div>
@@ -184,8 +184,8 @@ const HITLConfigurationPage = () => {
 
           <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
             <div>
-              <p className="font-medium text-gray-900">Notify on Overdue</p>
-              <p className="text-sm text-gray-600">
+              <p className="font-medium text-secondary-900">Notify on Overdue</p>
+              <p className="text-sm text-secondary-600">
                 Send notification when approval is overdue
               </p>
             </div>
@@ -201,12 +201,12 @@ const HITLConfigurationPage = () => {
           </div>
 
           <div className="pt-4 border-t border-gray-200">
-            <h3 className="font-semibold text-gray-900 mb-3">Notification Channels</h3>
+            <h3 className="font-semibold text-secondary-900 mb-3">Notification Channels</h3>
             <div className="space-y-3">
               <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                 <div>
-                  <p className="font-medium text-gray-900">Email Notifications</p>
-                  <p className="text-sm text-gray-600">Receive notifications via email</p>
+                  <p className="font-medium text-secondary-900">Email Notifications</p>
+                  <p className="text-sm text-secondary-600">Receive notifications via email</p>
                 </div>
                 <label className="relative inline-flex items-center cursor-pointer">
                   <input
@@ -221,8 +221,8 @@ const HITLConfigurationPage = () => {
 
               <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                 <div>
-                  <p className="font-medium text-gray-900">Slack Notifications</p>
-                  <p className="text-sm text-gray-600">Receive notifications via Slack</p>
+                  <p className="font-medium text-secondary-900">Slack Notifications</p>
+                  <p className="text-sm text-secondary-600">Receive notifications via Slack</p>
                 </div>
                 <label className="relative inline-flex items-center cursor-pointer">
                   <input
@@ -241,15 +241,15 @@ const HITLConfigurationPage = () => {
 
       {/* Approval Settings */}
       <Card>
-        <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
-          <Users className="w-5 h-5 text-primary-500" />
+        <h2 className="text-xl font-semibold text-secondary-900 mb-4 flex items-center gap-2">
+          <Users className="w-5 h-5 text-primary-600" />
           Approval Settings
         </h2>
         <div className="space-y-4">
           <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
             <div>
-              <p className="font-medium text-gray-900">Require Comments</p>
-              <p className="text-sm text-gray-600">
+              <p className="font-medium text-secondary-900">Require Comments</p>
+              <p className="text-sm text-secondary-600">
                 Supervisors must provide comments for all decisions
               </p>
             </div>
@@ -266,8 +266,8 @@ const HITLConfigurationPage = () => {
 
           <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
             <div>
-              <p className="font-medium text-gray-900">Allow Bulk Approval</p>
-              <p className="text-sm text-gray-600">
+              <p className="font-medium text-secondary-900">Allow Bulk Approval</p>
+              <p className="text-sm text-secondary-600">
                 Enable supervisors to approve multiple tasks at once
               </p>
             </div>
@@ -286,11 +286,11 @@ const HITLConfigurationPage = () => {
 
       {/* Escalation Chain */}
       <Card>
-        <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
-          <Clock className="w-5 h-5 text-primary-500" />
+        <h2 className="text-xl font-semibold text-secondary-900 mb-4 flex items-center gap-2">
+          <Clock className="w-5 h-5 text-primary-600" />
           Escalation Chain
         </h2>
-        <p className="text-sm text-gray-600 mb-4">
+        <p className="text-sm text-secondary-600 mb-4">
           Define the escalation path when tasks are not approved within the timeout period
         </p>
         <div className="space-y-3">
@@ -299,10 +299,10 @@ const HITLConfigurationPage = () => {
               key={index}
               className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg"
             >
-              <div className="w-8 h-8 bg-primary-500 text-white rounded-full flex items-center justify-center font-bold flex-shrink-0">
+              <div className="w-8 h-8 bg-primary-600 text-white rounded-full flex items-center justify-center font-bold flex-shrink-0">
                 {index + 1}
               </div>
-              <span className="font-medium text-gray-900 capitalize">
+              <span className="font-medium text-secondary-900 capitalize">
                 {level.replace('-', ' ')}
               </span>
             </div>

@@ -21,7 +21,7 @@ const IntegrationCard = ({ integration, isInstalled, onInstall, onConfigure, onV
         </div>
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-1">
-            <h3 className="text-lg font-semibold text-gray-900 truncate">
+            <h3 className="text-lg font-semibold text-secondary-900 truncate">
               {integration.name}
             </h3>
             {isInstalled && (
@@ -31,7 +31,7 @@ const IntegrationCard = ({ integration, isInstalled, onInstall, onConfigure, onV
               </Badge>
             )}
           </div>
-          <p className="text-sm text-gray-600 mb-2">{integration.provider}</p>
+          <p className="text-sm text-secondary-600 mb-2">{integration.provider}</p>
           <div className="flex items-center gap-3 text-xs text-gray-500">
             {integration.rating && (
               <div className="flex items-center gap-1">
@@ -52,7 +52,7 @@ const IntegrationCard = ({ integration, isInstalled, onInstall, onConfigure, onV
       </div>
 
       {/* Description */}
-      <p className="text-sm text-gray-700 mb-4 line-clamp-2">
+      <p className="text-sm text-secondary-700 mb-4 line-clamp-2">
         {integration.description}
       </p>
 
@@ -61,7 +61,7 @@ const IntegrationCard = ({ integration, isInstalled, onInstall, onConfigure, onV
         <div className="mb-4">
           <ul className="space-y-1">
             {integration.features.slice(0, 3).map((feature, index) => (
-              <li key={index} className="flex items-start gap-2 text-sm text-gray-600">
+              <li key={index} className="flex items-start gap-2 text-sm text-secondary-600">
                 <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
                 <span>{feature}</span>
               </li>
@@ -76,7 +76,7 @@ const IntegrationCard = ({ integration, isInstalled, onInstall, onConfigure, onV
           {integration.tags.slice(0, 3).map((tag) => (
             <span
               key={tag}
-              className="px-2 py-1 bg-gray-100 text-xs text-gray-700 rounded"
+              className="px-2 py-1 bg-gray-100 text-xs text-secondary-700 rounded"
             >
               {tag}
             </span>

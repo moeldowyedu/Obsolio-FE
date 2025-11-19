@@ -362,11 +362,11 @@ const ActivityLogsPage = () => {
         <div className="mb-8">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
+              <h1 className="text-3xl font-bold text-secondary-900 flex items-center gap-3">
                 <Activity className="w-8 h-8 text-primary-600" />
                 Activity Logs
               </h1>
-              <p className="text-gray-600 mt-2">
+              <p className="text-secondary-600 mt-2">
                 Complete history of all HITL decisions and actions
               </p>
             </div>
@@ -406,7 +406,7 @@ const ActivityLogsPage = () => {
                         handleExport('csv');
                         setShowFilters(false);
                       }}
-                      className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 rounded-lg"
+                      className="w-full px-4 py-2 text-left text-sm text-secondary-700 hover:bg-gray-100 rounded-lg"
                     >
                       Export as CSV
                     </button>
@@ -415,7 +415,7 @@ const ActivityLogsPage = () => {
                         handleExport('json');
                         setShowFilters(false);
                       }}
-                      className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 rounded-lg"
+                      className="w-full px-4 py-2 text-left text-sm text-secondary-700 hover:bg-gray-100 rounded-lg"
                     >
                       Export as JSON
                     </button>
@@ -430,43 +430,43 @@ const ActivityLogsPage = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-6 mb-8">
           <div className="glass-card rounded-2xl p-6">
             <div className="flex items-center gap-3 mb-2">
-              <BarChart3 className="w-5 h-5 text-gray-600" />
-              <p className="text-sm text-gray-600">Total Events</p>
+              <BarChart3 className="w-5 h-5 text-secondary-600" />
+              <p className="text-sm text-secondary-600">Total Events</p>
             </div>
-            <p className="text-3xl font-bold text-gray-900">{stats.total}</p>
+            <p className="text-3xl font-bold text-secondary-900">{stats.total}</p>
           </div>
           <div className="glass-card rounded-2xl p-6">
             <div className="flex items-center gap-3 mb-2">
               <CheckCircle className="w-5 h-5 text-green-600" />
-              <p className="text-sm text-gray-600">Approved</p>
+              <p className="text-sm text-secondary-600">Approved</p>
             </div>
             <p className="text-3xl font-bold text-green-600">{stats.approved}</p>
           </div>
           <div className="glass-card rounded-2xl p-6">
             <div className="flex items-center gap-3 mb-2">
               <XCircle className="w-5 h-5 text-red-600" />
-              <p className="text-sm text-gray-600">Rejected</p>
+              <p className="text-sm text-secondary-600">Rejected</p>
             </div>
             <p className="text-3xl font-bold text-red-600">{stats.rejected}</p>
           </div>
           <div className="glass-card rounded-2xl p-6">
             <div className="flex items-center gap-3 mb-2">
               <AlertTriangle className="w-5 h-5 text-yellow-600" />
-              <p className="text-sm text-gray-600">Escalated</p>
+              <p className="text-sm text-secondary-600">Escalated</p>
             </div>
             <p className="text-3xl font-bold text-yellow-600">{stats.escalated}</p>
           </div>
           <div className="glass-card rounded-2xl p-6">
             <div className="flex items-center gap-3 mb-2">
               <TrendingUp className="w-5 h-5 text-primary-600" />
-              <p className="text-sm text-gray-600">Success Rate</p>
+              <p className="text-sm text-secondary-600">Success Rate</p>
             </div>
             <p className="text-3xl font-bold text-primary-600">{stats.successRate}%</p>
           </div>
           <div className="glass-card rounded-2xl p-6">
             <div className="flex items-center gap-3 mb-2">
               <Clock className="w-5 h-5 text-purple-600" />
-              <p className="text-sm text-gray-600">Avg Duration</p>
+              <p className="text-sm text-secondary-600">Avg Duration</p>
             </div>
             <p className="text-2xl font-bold text-purple-600">{stats.avgDuration}</p>
           </div>
@@ -489,7 +489,7 @@ const ActivityLogsPage = () => {
                 {searchQuery && (
                   <button
                     onClick={() => setSearchQuery('')}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-secondary-600"
                   >
                     <X className="w-5 h-5" />
                   </button>
@@ -517,7 +517,7 @@ const ActivityLogsPage = () => {
             <div className="mt-6 pt-6 border-t border-gray-200">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-secondary-700 mb-2">
                     Date Range
                   </label>
                   <select
@@ -534,7 +534,7 @@ const ActivityLogsPage = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-secondary-700 mb-2">
                     Agent
                   </label>
                   <select
@@ -551,7 +551,7 @@ const ActivityLogsPage = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-secondary-700 mb-2">
                     Action Type
                   </label>
                   <select
@@ -568,7 +568,7 @@ const ActivityLogsPage = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-secondary-700 mb-2">
                     Status
                   </label>
                   <select
@@ -585,7 +585,7 @@ const ActivityLogsPage = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-secondary-700 mb-2">
                     User
                   </label>
                   <select
@@ -609,7 +609,7 @@ const ActivityLogsPage = () => {
                 >
                   Reset All Filters
                 </button>
-                <span className="text-sm text-gray-600">
+                <span className="text-sm text-secondary-600">
                   {filteredActivities.length} of {activities.length} events
                 </span>
               </div>
@@ -623,25 +623,25 @@ const ActivityLogsPage = () => {
             <table className="w-full">
               <thead className="bg-gray-50 border-b-2 border-gray-200">
                 <tr>
-                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
+                  <th className="px-6 py-4 text-left text-xs font-bold text-secondary-700 uppercase tracking-wider">
                     Timestamp
                   </th>
-                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
+                  <th className="px-6 py-4 text-left text-xs font-bold text-secondary-700 uppercase tracking-wider">
                     Agent
                   </th>
-                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
+                  <th className="px-6 py-4 text-left text-xs font-bold text-secondary-700 uppercase tracking-wider">
                     Action
                   </th>
-                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
+                  <th className="px-6 py-4 text-left text-xs font-bold text-secondary-700 uppercase tracking-wider">
                     User
                   </th>
-                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
+                  <th className="px-6 py-4 text-left text-xs font-bold text-secondary-700 uppercase tracking-wider">
                     Status
                   </th>
-                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
+                  <th className="px-6 py-4 text-left text-xs font-bold text-secondary-700 uppercase tracking-wider">
                     Duration
                   </th>
-                  <th className="px-6 py-4 text-center text-xs font-bold text-gray-700 uppercase tracking-wider">
+                  <th className="px-6 py-4 text-center text-xs font-bold text-secondary-700 uppercase tracking-wider">
                     Details
                   </th>
                 </tr>
@@ -660,7 +660,7 @@ const ActivityLogsPage = () => {
                     <>
                       <tr key={activity.id} className="hover:bg-gray-50 transition-colors">
                         <td className="px-6 py-4">
-                          <div className="text-sm text-gray-900 font-medium">
+                          <div className="text-sm text-secondary-900 font-medium">
                             {activity.timestamp.toLocaleTimeString()}
                           </div>
                           <div className="text-xs text-gray-500">
@@ -670,17 +670,17 @@ const ActivityLogsPage = () => {
                         <td className="px-6 py-4">
                           <div className="flex items-center gap-2">
                             <span className="text-2xl">{activity.agentIcon}</span>
-                            <span className="text-sm font-medium text-gray-900">{activity.agent}</span>
+                            <span className="text-sm font-medium text-secondary-900">{activity.agent}</span>
                           </div>
                         </td>
                         <td className="px-6 py-4">
-                          <div className="text-sm text-gray-900">{activity.action}</div>
+                          <div className="text-sm text-secondary-900">{activity.action}</div>
                           <div className="text-xs text-gray-500 capitalize">{activity.actionType}</div>
                         </td>
                         <td className="px-6 py-4">
                           <div className="flex items-center gap-2">
                             <User className="w-4 h-4 text-gray-400" />
-                            <span className="text-sm text-gray-900">{activity.user}</span>
+                            <span className="text-sm text-secondary-900">{activity.user}</span>
                           </div>
                         </td>
                         <td className="px-6 py-4">
@@ -689,7 +689,7 @@ const ActivityLogsPage = () => {
                         <td className="px-6 py-4">
                           <div className="flex items-center gap-2">
                             <Clock className="w-4 h-4 text-gray-400" />
-                            <span className="text-sm text-gray-900">{activity.duration}</span>
+                            <span className="text-sm text-secondary-900">{activity.duration}</span>
                           </div>
                         </td>
                         <td className="px-6 py-4 text-center">
@@ -710,9 +710,9 @@ const ActivityLogsPage = () => {
                           <td colSpan="7" className="px-6 py-4 bg-gray-50">
                             <div className="space-y-3">
                               <div className="flex items-center justify-between mb-3">
-                                <h4 className="font-bold text-gray-900">Detailed Information</h4>
+                                <h4 className="font-bold text-secondary-900">Detailed Information</h4>
                                 <div className="flex items-center gap-2">
-                                  <span className="text-xs text-gray-600">AI Confidence:</span>
+                                  <span className="text-xs text-secondary-600">AI Confidence:</span>
                                   <div className="flex items-center gap-2">
                                     <div className="w-24 bg-gray-200 rounded-full h-2">
                                       <div
@@ -726,7 +726,7 @@ const ActivityLogsPage = () => {
                                         style={{ width: `${activity.confidence}%` }}
                                       />
                                     </div>
-                                    <span className="text-sm font-bold text-gray-900">
+                                    <span className="text-sm font-bold text-secondary-900">
                                       {activity.confidence}%
                                     </span>
                                   </div>
@@ -735,10 +735,10 @@ const ActivityLogsPage = () => {
                               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                                 {Object.entries(activity.details).map(([key, value]) => (
                                   <div key={key} className="bg-white rounded-lg p-3 border border-gray-200">
-                                    <p className="text-xs text-gray-600 mb-1 capitalize">
+                                    <p className="text-xs text-secondary-600 mb-1 capitalize">
                                       {key.replace(/([A-Z])/g, ' $1').trim()}
                                     </p>
-                                    <p className="text-sm font-medium text-gray-900">
+                                    <p className="text-sm font-medium text-secondary-900">
                                       {Array.isArray(value) ? value.join(', ') : value}
                                     </p>
                                   </div>
@@ -759,7 +759,7 @@ const ActivityLogsPage = () => {
         {/* Pagination */}
         {totalPages > 1 && (
           <div className="mt-6 flex items-center justify-between">
-            <div className="text-sm text-gray-600">
+            <div className="text-sm text-secondary-600">
               Showing {startIndex + 1} to {Math.min(startIndex + itemsPerPage, filteredActivities.length)} of{' '}
               {filteredActivities.length} events
             </div>

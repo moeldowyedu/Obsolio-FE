@@ -60,8 +60,8 @@ const BranchesPage = () => {
         {/* Header */}
         <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Branches</h1>
-          <p className="text-gray-600 mt-1">
+          <h1 className="text-3xl font-bold text-secondary-900">Branches</h1>
+          <p className="text-secondary-600 mt-1">
             Manage your organization's branch locations
           </p>
         </div>
@@ -141,14 +141,14 @@ const BranchesPage = () => {
                 </div>
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-2">
-                    <h3 className="text-xl font-semibold text-gray-900">
+                    <h3 className="text-xl font-semibold text-secondary-900">
                       {branch.name}
                     </h3>
                     <Badge className="bg-green-100 text-green-700">
                       {branch.status.toUpperCase()}
                     </Badge>
                   </div>
-                  <div className="space-y-1 text-sm text-gray-600">
+                  <div className="space-y-1 text-sm text-secondary-600">
                     <p className="flex items-center gap-2">
                       <MapPin className="w-4 h-4" />
                       {branch.address}
@@ -161,11 +161,11 @@ const BranchesPage = () => {
                   <div className="flex gap-6 mt-3">
                     <div>
                       <span className="text-xs text-gray-500">Departments</span>
-                      <p className="font-semibold text-gray-900">{branch.departments}</p>
+                      <p className="font-semibold text-secondary-900">{branch.departments}</p>
                     </div>
                     <div>
                       <span className="text-xs text-gray-500">Employees</span>
-                      <p className="font-semibold text-gray-900">{branch.employees}</p>
+                      <p className="font-semibold text-secondary-900">{branch.employees}</p>
                     </div>
                   </div>
                 </div>
@@ -192,10 +192,10 @@ const BranchesPage = () => {
         <Card>
           <div className="text-center py-12">
             <Building2 className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">
+            <h3 className="text-lg font-semibold text-secondary-900 mb-2">
               No Branches Found
             </h3>
-            <p className="text-gray-600">
+            <p className="text-secondary-600">
               {searchTerm ? 'Try adjusting your search' : 'Get started by adding your first branch'}
             </p>
           </div>

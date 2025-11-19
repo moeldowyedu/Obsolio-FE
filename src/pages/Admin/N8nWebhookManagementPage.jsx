@@ -228,8 +228,8 @@ const N8nWebhookManagementPage = () => {
       <div className="py-6">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">{t.webhookManagementTitle}</h1>
-          <p className="text-gray-600">{t.webhookManagementDesc}</p>
+          <h1 className="text-4xl font-bold text-secondary-900 mb-2">{t.webhookManagementTitle}</h1>
+          <p className="text-secondary-600">{t.webhookManagementDesc}</p>
         </div>
 
         {/* Tabs */}
@@ -276,34 +276,34 @@ const N8nWebhookManagementPage = () => {
                     {t.activeOption}
                   </span>
                 </div>
-                <h3 className="text-3xl font-bold text-gray-900">{webhooks.filter(w => w.status === 'active').length}</h3>
-                <p className="text-gray-600 text-sm">{t.activeWebhooksLabel}</p>
+                <h3 className="text-3xl font-bold text-secondary-900">{webhooks.filter(w => w.status === 'active').length}</h3>
+                <p className="text-secondary-600 text-sm">{t.activeWebhooksLabel}</p>
               </div>
 
               <div className="glass-card rounded-2xl p-6">
                 <div className="flex items-center justify-between mb-2">
                   <span className="material-icons text-3xl text-purple-600">play_arrow</span>
                 </div>
-                <h3 className="text-3xl font-bold text-gray-900">{webhooks.reduce((sum, w) => sum + w.executions, 0)}</h3>
-                <p className="text-gray-600 text-sm">{t.totalExecutionsLabel}</p>
+                <h3 className="text-3xl font-bold text-secondary-900">{webhooks.reduce((sum, w) => sum + w.executions, 0)}</h3>
+                <p className="text-secondary-600 text-sm">{t.totalExecutionsLabel}</p>
               </div>
 
               <div className="glass-card rounded-2xl p-6">
                 <div className="flex items-center justify-between mb-2">
                   <span className="material-icons text-3xl text-green-600">check_circle</span>
                 </div>
-                <h3 className="text-3xl font-bold text-gray-900">
+                <h3 className="text-3xl font-bold text-secondary-900">
                   {(webhooks.reduce((sum, w) => sum + w.successRate, 0) / webhooks.length).toFixed(1)}%
                 </h3>
-                <p className="text-gray-600 text-sm">{t.avgSuccessRateLabel}</p>
+                <p className="text-secondary-600 text-sm">{t.avgSuccessRateLabel}</p>
               </div>
 
               <div className="glass-card rounded-2xl p-6">
                 <div className="flex items-center justify-between mb-2">
                   <span className="material-icons text-3xl text-orange-600">psychology</span>
                 </div>
-                <h3 className="text-3xl font-bold text-gray-900">{availableAgents.length}</h3>
-                <p className="text-gray-600 text-sm">{t.availableAgentsLabel}</p>
+                <h3 className="text-3xl font-bold text-secondary-900">{availableAgents.length}</h3>
+                <p className="text-secondary-600 text-sm">{t.availableAgentsLabel}</p>
               </div>
             </div>
 
@@ -341,28 +341,28 @@ const N8nWebhookManagementPage = () => {
                 <table className="w-full">
                   <thead>
                     <tr className="border-b border-gray-200">
-                      <th className="text-left py-4 px-4 text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                      <th className="text-left py-4 px-4 text-xs font-semibold text-secondary-600 uppercase tracking-wider">
                         {t.tableHeaderWebhookName}
                       </th>
-                      <th className="text-left py-4 px-4 text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                      <th className="text-left py-4 px-4 text-xs font-semibold text-secondary-600 uppercase tracking-wider">
                         {t.tableHeaderStatus2}
                       </th>
-                      <th className="text-left py-4 px-4 text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                      <th className="text-left py-4 px-4 text-xs font-semibold text-secondary-600 uppercase tracking-wider">
                         {t.tableHeaderConnectedAgents}
                       </th>
-                      <th className="text-left py-4 px-4 text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                      <th className="text-left py-4 px-4 text-xs font-semibold text-secondary-600 uppercase tracking-wider">
                         {t.tableHeaderTrigger}
                       </th>
-                      <th className="text-left py-4 px-4 text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                      <th className="text-left py-4 px-4 text-xs font-semibold text-secondary-600 uppercase tracking-wider">
                         {t.tableHeaderExecutions}
                       </th>
-                      <th className="text-left py-4 px-4 text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                      <th className="text-left py-4 px-4 text-xs font-semibold text-secondary-600 uppercase tracking-wider">
                         {t.tableHeaderSuccessRate}
                       </th>
-                      <th className="text-left py-4 px-4 text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                      <th className="text-left py-4 px-4 text-xs font-semibold text-secondary-600 uppercase tracking-wider">
                         {t.tableHeaderLastExecuted}
                       </th>
-                      <th className="text-center py-4 px-4 text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                      <th className="text-center py-4 px-4 text-xs font-semibold text-secondary-600 uppercase tracking-wider">
                         {t.tableHeaderActions2}
                       </th>
                     </tr>
@@ -372,7 +372,7 @@ const N8nWebhookManagementPage = () => {
                       <tr key={webhook.id} className="border-b border-gray-100 hover:bg-gray-50/50 transition-colors">
                         <td className="py-4 px-4">
                           <div>
-                            <p className="text-gray-900 font-semibold">{webhook.name}</p>
+                            <p className="text-secondary-900 font-semibold">{webhook.name}</p>
                             <p className="text-gray-500 text-xs font-mono mt-1">{webhook.url}</p>
                           </div>
                         </td>
@@ -403,21 +403,21 @@ const N8nWebhookManagementPage = () => {
                               ) : null
                             })}
                             {webhook.agents.length > 3 && (
-                              <span className="inline-flex items-center px-2 py-1 rounded-lg text-xs font-medium bg-gray-100 text-gray-800">
+                              <span className="inline-flex items-center px-2 py-1 rounded-lg text-xs font-medium bg-gray-100 text-secondary-800">
                                 +{webhook.agents.length - 3}
                               </span>
                             )}
                           </div>
                         </td>
                         <td className="py-4 px-4">
-                          <span className="text-gray-700 text-sm capitalize">{webhook.trigger.replace('_', ' ')}</span>
+                          <span className="text-secondary-700 text-sm capitalize">{webhook.trigger.replace('_', ' ')}</span>
                         </td>
                         <td className="py-4 px-4">
-                          <span className="text-gray-900 font-semibold">{webhook.executions}</span>
+                          <span className="text-secondary-900 font-semibold">{webhook.executions}</span>
                         </td>
                         <td className="py-4 px-4">
                           <div className="flex items-center">
-                            <span className="text-gray-900 font-semibold">{webhook.successRate}%</span>
+                            <span className="text-secondary-900 font-semibold">{webhook.successRate}%</span>
                             <div className="w-16 h-2 bg-gray-200 rounded-full ml-2">
                               <div
                                 className="h-full bg-green-500 rounded-full"
@@ -427,7 +427,7 @@ const N8nWebhookManagementPage = () => {
                           </div>
                         </td>
                         <td className="py-4 px-4">
-                          <span className="text-gray-600 text-sm">{webhook.lastExecuted || 'Never'}</span>
+                          <span className="text-secondary-600 text-sm">{webhook.lastExecuted || 'Never'}</span>
                         </td>
                         <td className="py-4 px-4">
                           <div className="flex items-center justify-center space-x-2">
@@ -476,7 +476,7 @@ const N8nWebhookManagementPage = () => {
         {activeTab === 'logs' && (
           <div className="glass-card rounded-2xl p-6">
             <div className="mb-6 flex items-center justify-between">
-              <h2 className="text-2xl font-bold text-gray-900">{t.executionLogsTitle}</h2>
+              <h2 className="text-2xl font-bold text-secondary-900">{t.executionLogsTitle}</h2>
               <select className="glass-input px-4 py-2 rounded-xl">
                 <option>{t.allWebhooksOption}</option>
                 {webhooks.map(w => (
@@ -502,25 +502,25 @@ const N8nWebhookManagementPage = () => {
                           </span>
                         </div>
                         <div>
-                          <h3 className="text-lg font-bold text-gray-900">{webhook?.name}</h3>
-                          <p className="text-gray-600 text-sm">{log.timestamp}</p>
+                          <h3 className="text-lg font-bold text-secondary-900">{webhook?.name}</h3>
+                          <p className="text-secondary-600 text-sm">{log.timestamp}</p>
                         </div>
                       </div>
                       <div className="text-right">
-                        <div className="text-sm font-semibold text-gray-900">Status: {log.statusCode}</div>
-                        <div className="text-xs text-gray-600">Duration: {log.duration}s</div>
+                        <div className="text-sm font-semibold text-secondary-900">Status: {log.statusCode}</div>
+                        <div className="text-xs text-secondary-600">Duration: {log.duration}s</div>
                       </div>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
-                        <h4 className="text-sm font-semibold text-gray-700 mb-2">Payload</h4>
+                        <h4 className="text-sm font-semibold text-secondary-700 mb-2">Payload</h4>
                         <pre className="bg-gray-50 p-3 rounded-lg text-xs overflow-x-auto">
                           {JSON.stringify(log.payload, null, 2)}
                         </pre>
                       </div>
                       <div>
-                        <h4 className="text-sm font-semibold text-gray-700 mb-2">
+                        <h4 className="text-sm font-semibold text-secondary-700 mb-2">
                           {log.status === 'success' ? 'Response' : 'Error'}
                         </h4>
                         <pre className="bg-gray-50 p-3 rounded-lg text-xs overflow-x-auto">
@@ -542,7 +542,7 @@ const N8nWebhookManagementPage = () => {
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
             <div className="bg-white rounded-3xl p-8 max-w-4xl w-full max-h-[90vh] overflow-y-auto">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-3xl font-bold text-gray-900">
+                <h2 className="text-3xl font-bold text-secondary-900">
                   {editingWebhook ? t.editWebhookTitle : t.createNewWebhookTitle}
                 </h2>
                 <button
@@ -556,10 +556,10 @@ const N8nWebhookManagementPage = () => {
               <div className="space-y-6">
                 {/* Basic Information */}
                 <div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-4">{t.basicInformationSection}</h3>
+                  <h3 className="text-xl font-bold text-secondary-900 mb-4">{t.basicInformationSection}</h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      <label className="block text-sm font-semibold text-secondary-700 mb-2">
                         {t.webhookNameLabel}
                       </label>
                       <input
@@ -571,7 +571,7 @@ const N8nWebhookManagementPage = () => {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      <label className="block text-sm font-semibold text-secondary-700 mb-2">
                         {t.triggerEventLabel}
                       </label>
                       <select
@@ -592,7 +592,7 @@ const N8nWebhookManagementPage = () => {
 
                 {/* Webhook URL */}
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  <label className="block text-sm font-semibold text-secondary-700 mb-2">
                     {t.n8nWebhookUrlLabel}
                   </label>
                   <input
@@ -606,10 +606,10 @@ const N8nWebhookManagementPage = () => {
 
                 {/* Authentication */}
                 <div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-4">{t.authenticationSection}</h3>
+                  <h3 className="text-xl font-bold text-secondary-900 mb-4">{t.authenticationSection}</h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      <label className="block text-sm font-semibold text-secondary-700 mb-2">
                         {t.authenticationTypeLabel}
                       </label>
                       <select
@@ -625,7 +625,7 @@ const N8nWebhookManagementPage = () => {
                     </div>
                     {formData.authentication === 'api_key' && (
                       <div>
-                        <label className="block text-sm font-semibold text-gray-700 mb-2">
+                        <label className="block text-sm font-semibold text-secondary-700 mb-2">
                           {t.apiKeyLabel2}
                         </label>
                         <input
@@ -640,7 +640,7 @@ const N8nWebhookManagementPage = () => {
                     {formData.authentication === 'basic' && (
                       <>
                         <div>
-                          <label className="block text-sm font-semibold text-gray-700 mb-2">
+                          <label className="block text-sm font-semibold text-secondary-700 mb-2">
                             {t.usernameLabel}
                           </label>
                           <input
@@ -652,7 +652,7 @@ const N8nWebhookManagementPage = () => {
                           />
                         </div>
                         <div>
-                          <label className="block text-sm font-semibold text-gray-700 mb-2">
+                          <label className="block text-sm font-semibold text-secondary-700 mb-2">
                             {t.passwordLabel}
                           </label>
                           <input
@@ -670,8 +670,8 @@ const N8nWebhookManagementPage = () => {
 
                 {/* Connected Agents */}
                 <div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-4">{t.connectedAiAgentsTitle}</h3>
-                  <p className="text-gray-600 text-sm mb-4">
+                  <h3 className="text-xl font-bold text-secondary-900 mb-4">{t.connectedAiAgentsTitle}</h3>
+                  <p className="text-secondary-600 text-sm mb-4">
                     {t.agentSelectionDesc}
                   </p>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -680,7 +680,7 @@ const N8nWebhookManagementPage = () => {
                         key={agent.id}
                         className={`glass-card p-4 rounded-xl cursor-pointer transition-all ${
                           formData.agents.includes(agent.id)
-                            ? 'border-2 border-primary-500 bg-primary-50'
+                            ? 'border-2 border-primary-600 bg-primary-50'
                             : 'hover:shadow-md'
                         }`}
                       >
@@ -695,7 +695,7 @@ const N8nWebhookManagementPage = () => {
                             <span className={`material-icons text-${agent.color}-600`}>{agent.icon}</span>
                           </div>
                           <div>
-                            <p className="text-sm font-semibold text-gray-900">{agent.name}</p>
+                            <p className="text-sm font-semibold text-secondary-900">{agent.name}</p>
                           </div>
                         </div>
                       </label>
@@ -705,10 +705,10 @@ const N8nWebhookManagementPage = () => {
 
                 {/* Advanced Settings */}
                 <div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-4">{t.advancedSettingsSection}</h3>
+                  <h3 className="text-xl font-bold text-secondary-900 mb-4">{t.advancedSettingsSection}</h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      <label className="block text-sm font-semibold text-secondary-700 mb-2">
                         {t.retryAttemptsLabel}
                       </label>
                       <input
@@ -721,7 +721,7 @@ const N8nWebhookManagementPage = () => {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      <label className="block text-sm font-semibold text-secondary-700 mb-2">
                         {t.timeoutLabel}
                       </label>
                       <input
@@ -738,7 +738,7 @@ const N8nWebhookManagementPage = () => {
 
                 {/* Custom Headers */}
                 <div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-4">{t.customHeadersSection}</h3>
+                  <h3 className="text-xl font-bold text-secondary-900 mb-4">{t.customHeadersSection}</h3>
                   <div className="space-y-3">
                     {formData.headers.map((header, index) => (
                       <div key={index} className="flex items-center space-x-3">
@@ -776,7 +776,7 @@ const N8nWebhookManagementPage = () => {
 
                 {/* Notifications */}
                 <div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-4">{t.notificationsSection}</h3>
+                  <h3 className="text-xl font-bold text-secondary-900 mb-4">{t.notificationsSection}</h3>
                   <label className="flex items-center space-x-3 mb-4">
                     <input
                       type="checkbox"
@@ -784,11 +784,11 @@ const N8nWebhookManagementPage = () => {
                       onChange={(e) => setFormData({ ...formData, notifyOnFailure: e.target.checked })}
                       className="w-5 h-5 text-primary-600 rounded focus:ring-primary-500"
                     />
-                    <span className="text-gray-700">{t.notifyOnFailureLabel}</span>
+                    <span className="text-secondary-700">{t.notifyOnFailureLabel}</span>
                   </label>
                   {formData.notifyOnFailure && (
                     <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      <label className="block text-sm font-semibold text-secondary-700 mb-2">
                         {t.notificationEmailLabel}
                       </label>
                       <input

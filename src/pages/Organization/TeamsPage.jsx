@@ -147,8 +147,8 @@ const TeamsPage = () => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Teams</h1>
-          <p className="text-gray-600 mt-1">
+          <h1 className="text-3xl font-bold text-secondary-900">Teams</h1>
+          <p className="text-secondary-600 mt-1">
             Manage teams across your organization
           </p>
         </div>
@@ -236,10 +236,10 @@ const TeamsPage = () => {
                     <Users className="w-6 h-6 text-primary-600" />
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-lg font-semibold text-gray-900 mb-1">
+                    <h3 className="text-lg font-semibold text-secondary-900 mb-1">
                       {team.name}
                     </h3>
-                    <p className="text-sm text-gray-600">{team.description}</p>
+                    <p className="text-sm text-secondary-600">{team.description}</p>
                   </div>
                 </div>
                 <div className="flex gap-2">
@@ -264,12 +264,12 @@ const TeamsPage = () => {
               <div className="bg-gray-50 rounded-lg p-3">
                 <p className="text-xs text-gray-500 uppercase mb-2">Team Lead</p>
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 bg-primary-500 rounded-full flex items-center justify-center text-white font-semibold">
+                  <div className="w-8 h-8 bg-primary-600 rounded-full flex items-center justify-center text-white font-semibold">
                     {team.lead.charAt(0)}
                   </div>
                   <div>
-                    <p className="font-medium text-gray-900">{team.lead}</p>
-                    <p className="text-xs text-gray-600 flex items-center gap-1">
+                    <p className="font-medium text-secondary-900">{team.lead}</p>
+                    <p className="text-xs text-secondary-600 flex items-center gap-1">
                       <Mail className="w-3 h-3" />
                       {team.leadEmail}
                     </p>
@@ -281,15 +281,15 @@ const TeamsPage = () => {
               <div className="grid grid-cols-3 gap-4 pt-4 border-t border-gray-200">
                 <div>
                   <p className="text-xs text-gray-500 mb-1">Members</p>
-                  <p className="text-lg font-bold text-gray-900">{team.members}</p>
+                  <p className="text-lg font-bold text-secondary-900">{team.members}</p>
                 </div>
                 <div>
                   <p className="text-xs text-gray-500 mb-1">AI Agents</p>
-                  <p className="text-lg font-bold text-gray-900">{team.agents}</p>
+                  <p className="text-lg font-bold text-secondary-900">{team.agents}</p>
                 </div>
                 <div>
                   <p className="text-xs text-gray-500 mb-1">Projects</p>
-                  <p className="text-lg font-bold text-gray-900">{team.projects.length}</p>
+                  <p className="text-lg font-bold text-secondary-900">{team.projects.length}</p>
                 </div>
               </div>
 
@@ -320,10 +320,10 @@ const TeamsPage = () => {
         <Card>
           <div className="text-center py-12">
             <Users className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">
+            <h3 className="text-lg font-semibold text-secondary-900 mb-2">
               No Teams Found
             </h3>
-            <p className="text-gray-600">
+            <p className="text-secondary-600">
               {searchTerm || departmentFilter !== 'all'
                 ? 'Try adjusting your filters'
                 : 'Get started by creating your first team'}

@@ -57,7 +57,7 @@ const Tabs = ({
               {tab.icon && <span>{tab.icon}</span>}
               <span>{tab.label}</span>
               {tab.badge && (
-                <span className="ml-2 px-2 py-0.5 text-xs bg-gray-200 text-gray-700 rounded-full">
+                <span className="ml-2 px-2 py-0.5 text-xs bg-gray-200 text-secondary-700 rounded-full">
                   {tab.badge}
                 </span>
               )}

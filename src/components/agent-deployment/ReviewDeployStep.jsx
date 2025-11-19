@@ -59,26 +59,26 @@ const ReviewDeployStep = ({ onBack }) => {
         <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
           <CheckCircle className="w-12 h-12 text-green-600" />
         </div>
-        <h2 className="text-3xl font-bold text-gray-900 mb-4">Agent Deployed Successfully!</h2>
-        <p className="text-gray-600 mb-8">
+        <h2 className="text-3xl font-bold text-secondary-900 mb-4">Agent Deployed Successfully!</h2>
+        <p className="text-secondary-600 mb-8">
           Your agent is now live and will start running according to the configured schedule.
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
           <Card className="text-center">
-            <Bot className="w-8 h-8 text-primary-500 mx-auto mb-2" />
-            <h4 className="font-semibold text-gray-900 mb-1">{jobDetails.jobTitle}</h4>
-            <p className="text-sm text-gray-600">Agent Name</p>
+            <Bot className="w-8 h-8 text-primary-600 mx-auto mb-2" />
+            <h4 className="font-semibold text-secondary-900 mb-1">{jobDetails.jobTitle}</h4>
+            <p className="text-sm text-secondary-600">Agent Name</p>
           </Card>
           <Card className="text-center">
             <Clock className="w-8 h-8 text-green-500 mx-auto mb-2" />
-            <h4 className="font-semibold text-gray-900 mb-1">{schedule.frequency}</h4>
-            <p className="text-sm text-gray-600">Schedule</p>
+            <h4 className="font-semibold text-secondary-900 mb-1">{schedule.frequency}</h4>
+            <p className="text-sm text-secondary-600">Schedule</p>
           </Card>
           <Card className="text-center">
             <Shield className="w-8 h-8 text-blue-500 mx-auto mb-2" />
-            <h4 className="font-semibold text-gray-900 mb-1">{hitlConfig.mode}</h4>
-            <p className="text-sm text-gray-600">HITL Mode</p>
+            <h4 className="font-semibold text-secondary-900 mb-1">{hitlConfig.mode}</h4>
+            <p className="text-sm text-secondary-600">HITL Mode</p>
           </Card>
         </div>
 
@@ -105,8 +105,8 @@ const ReviewDeployStep = ({ onBack }) => {
   return (
     <div className="max-w-5xl mx-auto">
       <div className="mb-8 text-center">
-        <h2 className="text-3xl font-bold text-gray-900 mb-2">Review & Deploy</h2>
-        <p className="text-gray-600">
+        <h2 className="text-3xl font-bold text-secondary-900 mb-2">Review & Deploy</h2>
+        <p className="text-secondary-600">
           Review your configuration before deploying the agent
         </p>
       </div>
@@ -119,15 +119,15 @@ const ReviewDeployStep = ({ onBack }) => {
               <Bot className="w-6 h-6 text-primary-600" />
             </div>
             <div className="flex-1">
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Agent Source</h3>
-              <div className="space-y-1 text-sm text-gray-600">
+              <h3 className="text-lg font-semibold text-secondary-900 mb-2">Agent Source</h3>
+              <div className="space-y-1 text-sm text-secondary-600">
                 <p>
-                  <span className="font-medium text-gray-700">Type:</span>{' '}
+                  <span className="font-medium text-secondary-700">Type:</span>{' '}
                   {agentSource.type === 'existing' ? 'Existing Agent' : agentSource.type === 'marketplace' ? 'Marketplace' : 'New Agent'}
                 </p>
                 {agentSource.agentData && (
                   <p>
-                    <span className="font-medium text-gray-700">Agent:</span> {agentSource.agentData.name}
+                    <span className="font-medium text-secondary-700">Agent:</span> {agentSource.agentData.name}
                   </p>
                 )}
               </div>
@@ -142,12 +142,12 @@ const ReviewDeployStep = ({ onBack }) => {
               <Briefcase className="w-6 h-6 text-blue-600" />
             </div>
             <div className="flex-1">
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Job Details</h3>
-              <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-sm text-gray-600">
-                <p><span className="font-medium text-gray-700">Job Title:</span> {jobDetails.jobTitle}</p>
-                <p><span className="font-medium text-gray-700">Employment:</span> {jobDetails.employmentType}</p>
-                <p><span className="font-medium text-gray-700">Department:</span> Department #{jobDetails.departmentId}</p>
-                {jobDetails.branchId && <p><span className="font-medium text-gray-700">Branch:</span> Branch #{jobDetails.branchId}</p>}
+              <h3 className="text-lg font-semibold text-secondary-900 mb-2">Job Details</h3>
+              <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-sm text-secondary-600">
+                <p><span className="font-medium text-secondary-700">Job Title:</span> {jobDetails.jobTitle}</p>
+                <p><span className="font-medium text-secondary-700">Employment:</span> {jobDetails.employmentType}</p>
+                <p><span className="font-medium text-secondary-700">Department:</span> Department #{jobDetails.departmentId}</p>
+                {jobDetails.branchId && <p><span className="font-medium text-secondary-700">Branch:</span> Branch #{jobDetails.branchId}</p>}
               </div>
             </div>
           </div>
@@ -160,15 +160,15 @@ const ReviewDeployStep = ({ onBack }) => {
               <Clock className="w-6 h-6 text-green-600" />
             </div>
             <div className="flex-1">
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Schedule</h3>
-              <div className="space-y-1 text-sm text-gray-600">
-                <p><span className="font-medium text-gray-700">Frequency:</span> {schedule.frequency}</p>
+              <h3 className="text-lg font-semibold text-secondary-900 mb-2">Schedule</h3>
+              <div className="space-y-1 text-sm text-secondary-600">
+                <p><span className="font-medium text-secondary-700">Frequency:</span> {schedule.frequency}</p>
                 {schedule.time && (
                   <p>
-                    <span className="font-medium text-gray-700">Time:</span> {schedule.time} ({schedule.timezone})
+                    <span className="font-medium text-secondary-700">Time:</span> {schedule.time} ({schedule.timezone})
                   </p>
                 )}
-                <p><span className="font-medium text-gray-700">Retry on Failure:</span> {schedule.retryOnFailure ? 'Yes' : 'No'}</p>
+                <p><span className="font-medium text-secondary-700">Retry on Failure:</span> {schedule.retryOnFailure ? 'Yes' : 'No'}</p>
               </div>
             </div>
           </div>
@@ -181,15 +181,15 @@ const ReviewDeployStep = ({ onBack }) => {
               <ArrowRight className="w-6 h-6 text-purple-600" />
             </div>
             <div className="flex-1">
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Input/Output</h3>
+              <h3 className="text-lg font-semibold text-secondary-900 mb-2">Input/Output</h3>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <p className="text-sm font-medium text-gray-700 mb-1">Input Source:</p>
-                  <p className="text-sm text-gray-600 capitalize">{inputOutput.inputSource.type || 'Not set'}</p>
+                  <p className="text-sm font-medium text-secondary-700 mb-1">Input Source:</p>
+                  <p className="text-sm text-secondary-600 capitalize">{inputOutput.inputSource.type || 'Not set'}</p>
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-gray-700 mb-1">Output Destination:</p>
-                  <p className="text-sm text-gray-600 capitalize">{inputOutput.outputDestination.type || 'Not set'}</p>
+                  <p className="text-sm font-medium text-secondary-700 mb-1">Output Destination:</p>
+                  <p className="text-sm text-secondary-600 capitalize">{inputOutput.outputDestination.type || 'Not set'}</p>
                 </div>
               </div>
             </div>
@@ -203,12 +203,12 @@ const ReviewDeployStep = ({ onBack }) => {
               <Shield className="w-6 h-6 text-orange-600" />
             </div>
             <div className="flex-1">
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">HITL Configuration</h3>
-              <div className="space-y-1 text-sm text-gray-600">
-                <p><span className="font-medium text-gray-700">Mode:</span> {hitlConfig.mode}</p>
-                <p><span className="font-medium text-gray-700">Supervisors:</span> {hitlConfig.supervisorIds.length} assigned</p>
+              <h3 className="text-lg font-semibold text-secondary-900 mb-2">HITL Configuration</h3>
+              <div className="space-y-1 text-sm text-secondary-600">
+                <p><span className="font-medium text-secondary-700">Mode:</span> {hitlConfig.mode}</p>
+                <p><span className="font-medium text-secondary-700">Supervisors:</span> {hitlConfig.supervisorIds.length} assigned</p>
                 {hitlConfig.supervisorIds.length > 1 && (
-                  <p><span className="font-medium text-gray-700">Routing:</span> {hitlConfig.approvalRouting}</p>
+                  <p><span className="font-medium text-secondary-700">Routing:</span> {hitlConfig.approvalRouting}</p>
                 )}
               </div>
             </div>
@@ -222,11 +222,11 @@ const ReviewDeployStep = ({ onBack }) => {
               <Eye className="w-6 h-6 text-indigo-600" />
             </div>
             <div className="flex-1">
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Permissions</h3>
-              <div className="space-y-1 text-sm text-gray-600">
-                <p><span className="font-medium text-gray-700">Visibility:</span> {permissions.visibility}</p>
-                <p><span className="font-medium text-gray-700">Can Modify:</span> {permissions.canModify}</p>
-                <p><span className="font-medium text-gray-700">Can Trigger:</span> {permissions.canTrigger}</p>
+              <h3 className="text-lg font-semibold text-secondary-900 mb-2">Permissions</h3>
+              <div className="space-y-1 text-sm text-secondary-600">
+                <p><span className="font-medium text-secondary-700">Visibility:</span> {permissions.visibility}</p>
+                <p><span className="font-medium text-secondary-700">Can Modify:</span> {permissions.canModify}</p>
+                <p><span className="font-medium text-secondary-700">Can Trigger:</span> {permissions.canTrigger}</p>
               </div>
             </div>
           </div>
@@ -239,13 +239,13 @@ const ReviewDeployStep = ({ onBack }) => {
               <DollarSign className="w-6 h-6 text-white" />
             </div>
             <div className="flex-1">
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Estimated Cost</h3>
-              <p className="text-sm text-gray-600 mb-2">
+              <h3 className="text-lg font-semibold text-secondary-900 mb-2">Estimated Cost</h3>
+              <p className="text-sm text-secondary-600 mb-2">
                 Based on your configuration, estimated monthly cost:
               </p>
               <div className="flex items-baseline gap-2">
-                <span className="text-3xl font-bold text-gray-900">$49</span>
-                <span className="text-gray-600">/month</span>
+                <span className="text-3xl font-bold text-secondary-900">$49</span>
+                <span className="text-secondary-600">/month</span>
               </div>
               <p className="text-xs text-gray-500 mt-1">
                 Includes {schedule.frequency} runs, HITL supervision, and data storage

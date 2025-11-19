@@ -27,10 +27,10 @@ const EnginesOverviewPage = () => {
       <div className="py-6 space-y-8">
         {/* Header Section */}
         <div>
-          <h1 className="text-4xl font-heading font-bold text-gray-900 mb-2">
+          <h1 className="text-4xl font-heading font-bold text-secondary-900 mb-2">
             Precision AI Engines
           </h1>
-          <p className="text-lg text-gray-600">
+          <p className="text-lg text-secondary-600">
             7 powerful engines to build custom AI agents for any use case
           </p>
         </div>
@@ -39,12 +39,12 @@ const EnginesOverviewPage = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="bg-gradient-to-br from-primary-50 to-primary-100 rounded-xl p-6 border border-primary-200">
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 bg-primary-500 rounded-lg flex items-center justify-center">
+              <div className="w-12 h-12 bg-primary-600 rounded-lg flex items-center justify-center">
                 <span className="text-white text-2xl">⚙️</span>
               </div>
               <div>
-                <p className="text-2xl font-bold text-gray-900">{ENGINES.length}</p>
-                <p className="text-sm text-gray-600">Precision Engines</p>
+                <p className="text-2xl font-bold text-secondary-900">{ENGINES.length}</p>
+                <p className="text-sm text-secondary-600">Precision Engines</p>
               </div>
             </div>
           </div>
@@ -55,10 +55,10 @@ const EnginesOverviewPage = () => {
                 <span className="text-white text-2xl">🎯</span>
               </div>
               <div>
-                <p className="text-2xl font-bold text-gray-900">
+                <p className="text-2xl font-bold text-secondary-900">
                   {ENGINES.reduce((sum, e) => sum + e.capabilities.length, 0)}
                 </p>
-                <p className="text-sm text-gray-600">Total Capabilities</p>
+                <p className="text-sm text-secondary-600">Total Capabilities</p>
               </div>
             </div>
           </div>
@@ -69,8 +69,8 @@ const EnginesOverviewPage = () => {
                 <span className="text-white text-2xl">🚀</span>
               </div>
               <div>
-                <p className="text-2xl font-bold text-gray-900">Unlimited</p>
-                <p className="text-sm text-gray-600">Agent Combinations</p>
+                <p className="text-2xl font-bold text-secondary-900">Unlimited</p>
+                <p className="text-sm text-secondary-600">Agent Combinations</p>
               </div>
             </div>
           </div>
@@ -96,7 +96,7 @@ const EnginesOverviewPage = () => {
                 onClick={() => setSelectedCategory(category)}
                 className={`px-4 py-2 rounded-lg font-medium text-sm transition-all ${
                   selectedCategory === category
-                    ? 'bg-primary-500 text-white shadow-md'
+                    ? 'bg-primary-600 text-white shadow-md'
                     : 'bg-white text-gray-700 border border-gray-300 hover:border-primary-300 hover:bg-primary-50'
                 }`}
               >
@@ -121,10 +121,10 @@ const EnginesOverviewPage = () => {
           ) : (
             <div className="text-center py-16">
               <div className="text-6xl mb-4">🔍</div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">
+              <h3 className="text-xl font-semibold text-secondary-900 mb-2">
                 No engines found
               </h3>
-              <p className="text-gray-600">
+              <p className="text-secondary-600">
                 Try adjusting your search or filter criteria
               </p>
             </div>

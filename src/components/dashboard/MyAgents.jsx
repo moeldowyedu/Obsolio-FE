@@ -44,12 +44,12 @@ const MyAgents = ({ agents = [] }) => {
   return (
     <Card padding="md">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-lg font-heading font-semibold text-gray-900">
+        <h3 className="text-lg font-heading font-semibold text-secondary-900">
           My Agents
         </h3>
         <button
           onClick={() => navigate('/agents/create')}
-          className="text-sm text-primary-500 hover:text-primary-600 font-medium"
+          className="text-sm text-primary-600 hover:text-primary-600 font-medium"
         >
           + New Agent
         </button>
@@ -63,12 +63,12 @@ const MyAgents = ({ agents = [] }) => {
             className="p-4 rounded-lg border border-gray-200 hover:border-primary-300 hover:bg-primary-50 transition-all cursor-pointer"
           >
             <div className="flex items-center justify-between mb-2">
-              <h4 className="font-medium text-gray-900">{agent.name}</h4>
+              <h4 className="font-medium text-secondary-900">{agent.name}</h4>
               <Badge variant={getStatusColor(agent.status)} size="sm">
                 {agent.status}
               </Badge>
             </div>
-            <div className="flex items-center gap-4 text-sm text-gray-600">
+            <div className="flex items-center gap-4 text-sm text-secondary-600">
               <span>{agent.runs} runs</span>
               <span>•</span>
               <span>Last: {agent.lastRun}</span>
@@ -77,7 +77,7 @@ const MyAgents = ({ agents = [] }) => {
               {agent.engines.map((engine, idx) => (
                 <span
                   key={idx}
-                  className="text-xs px-2 py-1 bg-gray-100 text-gray-700 rounded"
+                  className="text-xs px-2 py-1 bg-gray-100 text-secondary-700 rounded"
                 >
                   {engine}
                 </span>
@@ -92,7 +92,7 @@ const MyAgents = ({ agents = [] }) => {
           <p className="text-gray-500">No agents yet</p>
           <button
             onClick={() => navigate('/agents/create')}
-            className="mt-2 text-sm text-primary-500 hover:text-primary-600 font-medium"
+            className="mt-2 text-sm text-primary-600 hover:text-primary-600 font-medium"
           >
             Create your first agent →
           </button>

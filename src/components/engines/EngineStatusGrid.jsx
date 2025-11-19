@@ -24,11 +24,11 @@ const EngineStatusGrid = () => {
               <Badge variant="success" size="sm">Active</Badge>
             </div>
 
-            <h3 className="font-semibold text-gray-900 mb-1 text-sm">
+            <h3 className="font-semibold text-secondary-900 mb-1 text-sm">
               {engine.shortName}
             </h3>
 
-            <div className="space-y-1 text-xs text-gray-600">
+            <div className="space-y-1 text-xs text-secondary-600">
               <div className="flex justify-between">
                 <span>Processed:</span>
                 <span className="font-medium">{formatNumber(engine.processedToday)}</span>

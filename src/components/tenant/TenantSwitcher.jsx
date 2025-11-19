@@ -20,7 +20,7 @@ const TenantSwitcher = ({ currentTenant, tenants, onSwitch }) => {
           {currentTenant?.name?.charAt(0) || 'T'}
         </div>
         <div className="text-left">
-          <p className="text-sm font-medium text-gray-900">{currentTenant?.name || 'Select Tenant'}</p>
+          <p className="text-sm font-medium text-secondary-900">{currentTenant?.name || 'Select Tenant'}</p>
           <p className="text-xs text-gray-500">{currentTenant?.plan || 'No plan'}</p>
         </div>
         <svg
@@ -58,7 +58,7 @@ const TenantSwitcher = ({ currentTenant, tenants, onSwitch }) => {
                     {tenant.name.charAt(0)}
                   </div>
                   <div className="flex-grow text-left">
-                    <p className="text-sm font-medium text-gray-900">{tenant.name}</p>
+                    <p className="text-sm font-medium text-secondary-900">{tenant.name}</p>
                     <p className="text-xs text-gray-500">{tenant.plan}</p>
                   </div>
                   {tenant.id === currentTenant?.id && (

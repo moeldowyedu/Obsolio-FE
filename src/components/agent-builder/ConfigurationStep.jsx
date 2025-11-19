@@ -64,16 +64,16 @@ const ConfigurationStep = ({ data, onChange }) => {
       <Card padding="md">
         <div className="flex items-center justify-between mb-4">
           <div>
-            <h2 className="text-2xl font-heading font-bold text-gray-900">
+            <h2 className="text-2xl font-heading font-bold text-secondary-900">
               Input Configuration
             </h2>
-            <p className="text-gray-600">
+            <p className="text-secondary-600">
               Define what data your agent will accept as input
             </p>
           </div>
           <button
             onClick={addInputField}
-            className="flex items-center gap-2 px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors"
+            className="flex items-center gap-2 px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-600 transition-colors"
           >
             <Plus className="w-4 h-4" />
             Add Field
@@ -136,7 +136,7 @@ const ConfigurationStep = ({ data, onChange }) => {
                     />
                     <label
                       htmlFor={`required-${index}`}
-                      className="text-sm text-gray-700"
+                      className="text-sm text-secondary-700"
                     >
                       Required field
                     </label>
@@ -161,16 +161,16 @@ const ConfigurationStep = ({ data, onChange }) => {
       <Card padding="md">
         <div className="flex items-center justify-between mb-4">
           <div>
-            <h2 className="text-2xl font-heading font-bold text-gray-900">
+            <h2 className="text-2xl font-heading font-bold text-secondary-900">
               Output Configuration
             </h2>
-            <p className="text-gray-600">
+            <p className="text-secondary-600">
               Define what data your agent will produce as output
             </p>
           </div>
           <button
             onClick={addOutputField}
-            className="flex items-center gap-2 px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors"
+            className="flex items-center gap-2 px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-600 transition-colors"
           >
             <Plus className="w-4 h-4" />
             Add Field
@@ -238,7 +238,7 @@ const ConfigurationStep = ({ data, onChange }) => {
 
       {/* Additional Settings */}
       <Card padding="md">
-        <h2 className="text-xl font-heading font-bold text-gray-900 mb-4">
+        <h2 className="text-xl font-heading font-bold text-secondary-900 mb-4">
           Additional Settings
         </h2>
 
@@ -274,7 +274,7 @@ const ConfigurationStep = ({ data, onChange }) => {
               }
               className="w-4 h-4 text-primary-600 rounded"
             />
-            <label htmlFor="enable-logging" className="text-sm text-gray-700">
+            <label htmlFor="enable-logging" className="text-sm text-secondary-700">
               Enable detailed logging
             </label>
           </div>

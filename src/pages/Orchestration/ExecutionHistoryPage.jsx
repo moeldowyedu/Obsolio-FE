@@ -77,8 +77,8 @@ const ExecutionHistoryPage = () => {
     <MainLayout>
       <div className="p-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Execution History</h1>
-          <p className="text-gray-600">
+          <h1 className="text-3xl font-bold text-secondary-900 mb-2">Execution History</h1>
+          <p className="text-secondary-600">
             View all workflow execution logs and results
           </p>
         </div>
@@ -115,7 +115,7 @@ const ExecutionHistoryPage = () => {
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center gap-3 mb-2">
-                        <h3 className="text-lg font-semibold text-gray-900">
+                        <h3 className="text-lg font-semibold text-secondary-900">
                           {execution.workflowName}
                         </h3>
                         <Badge color={getStatusColor(execution.status)}>
@@ -125,21 +125,21 @@ const ExecutionHistoryPage = () => {
                       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
                         <div>
                           <p className="text-gray-500">Started</p>
-                          <p className="font-medium text-gray-900">{execution.startTime}</p>
+                          <p className="font-medium text-secondary-900">{execution.startTime}</p>
                         </div>
                         {execution.endTime && (
                           <div>
                             <p className="text-gray-500">Ended</p>
-                            <p className="font-medium text-gray-900">{execution.endTime}</p>
+                            <p className="font-medium text-secondary-900">{execution.endTime}</p>
                           </div>
                         )}
                         <div>
                           <p className="text-gray-500">Duration</p>
-                          <p className="font-medium text-gray-900">{execution.duration}</p>
+                          <p className="font-medium text-secondary-900">{execution.duration}</p>
                         </div>
                         <div>
                           <p className="text-gray-500">Progress</p>
-                          <p className="font-medium text-gray-900">
+                          <p className="font-medium text-secondary-900">
                             {execution.stepsCompleted}/{execution.totalSteps} steps
                           </p>
                         </div>

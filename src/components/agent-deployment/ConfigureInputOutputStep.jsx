@@ -204,7 +204,7 @@ const ConfigureInputOutputStep = ({ onNext, onBack }) => {
             <p className="text-sm text-purple-700 mb-2">
               Your webhook URL will be generated after deployment:
             </p>
-            <code className="block bg-white p-2 rounded text-sm text-gray-800">
+            <code className="block bg-white p-2 rounded text-sm text-secondary-800">
               https://api.aasim.ai/webhooks/[agent-id]
             </code>
           </div>
@@ -284,7 +284,7 @@ const ConfigureInputOutputStep = ({ onNext, onBack }) => {
       case 'manual':
         return (
           <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
-            <p className="text-sm text-gray-700">
+            <p className="text-sm text-secondary-700">
               Users will manually upload files when triggering the agent. No additional configuration needed.
             </p>
           </div>
@@ -451,8 +451,8 @@ const ConfigureInputOutputStep = ({ onNext, onBack }) => {
   return (
     <div className="max-w-6xl mx-auto">
       <div className="mb-8 text-center">
-        <h2 className="text-3xl font-bold text-gray-900 mb-2">Configure Input/Output</h2>
-        <p className="text-gray-600">
+        <h2 className="text-3xl font-bold text-secondary-900 mb-2">Configure Input/Output</h2>
+        <p className="text-secondary-600">
           Define where the agent gets its data and where it sends results
         </p>
       </div>
@@ -460,7 +460,7 @@ const ConfigureInputOutputStep = ({ onNext, onBack }) => {
       <form onSubmit={handleSubmit} className="space-y-8">
         {/* Input Source Section */}
         <div>
-          <h3 className="text-xl font-semibold text-gray-900 mb-4">Input Source</h3>
+          <h3 className="text-xl font-semibold text-secondary-900 mb-4">Input Source</h3>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
             {inputSourceTypes.map((source) => {
               const Icon = source.icon;
@@ -471,14 +471,14 @@ const ConfigureInputOutputStep = ({ onNext, onBack }) => {
                   key={source.id}
                   onClick={() => handleInputSourceSelect(source.id)}
                   className={`cursor-pointer transition-all ${
-                    isSelected ? 'border-2 border-primary-500 shadow-md' : 'border border-gray-200 hover:shadow-sm'
+                    isSelected ? 'border-2 border-primary-600 shadow-md' : 'border border-gray-200 hover:shadow-sm'
                   }`}
                 >
                   <div className={`w-10 h-10 ${source.color} rounded-lg flex items-center justify-center mb-3`}>
                     <Icon className="w-5 h-5 text-white" />
                   </div>
-                  <h4 className="font-semibold text-gray-900 mb-1">{source.title}</h4>
-                  <p className="text-xs text-gray-600">{source.description}</p>
+                  <h4 className="font-semibold text-secondary-900 mb-1">{source.title}</h4>
+                  <p className="text-xs text-secondary-600">{source.description}</p>
                 </Card>
               );
             })}
@@ -486,7 +486,7 @@ const ConfigureInputOutputStep = ({ onNext, onBack }) => {
 
           {inputOutput.inputSource.type && (
             <div className="bg-gray-50 rounded-lg p-6">
-              <h4 className="font-medium text-gray-900 mb-4">Configure Input Source</h4>
+              <h4 className="font-medium text-secondary-900 mb-4">Configure Input Source</h4>
               {renderInputConfig()}
             </div>
           )}
@@ -501,7 +501,7 @@ const ConfigureInputOutputStep = ({ onNext, onBack }) => {
 
         {/* Output Destination Section */}
         <div>
-          <h3 className="text-xl font-semibold text-gray-900 mb-4">Output Destination</h3>
+          <h3 className="text-xl font-semibold text-secondary-900 mb-4">Output Destination</h3>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
             {outputDestinationTypes.map((dest) => {
               const Icon = dest.icon;
@@ -512,14 +512,14 @@ const ConfigureInputOutputStep = ({ onNext, onBack }) => {
                   key={dest.id}
                   onClick={() => handleOutputDestinationSelect(dest.id)}
                   className={`cursor-pointer transition-all ${
-                    isSelected ? 'border-2 border-primary-500 shadow-md' : 'border border-gray-200 hover:shadow-sm'
+                    isSelected ? 'border-2 border-primary-600 shadow-md' : 'border border-gray-200 hover:shadow-sm'
                   }`}
                 >
                   <div className={`w-10 h-10 ${dest.color} rounded-lg flex items-center justify-center mb-3`}>
                     <Icon className="w-5 h-5 text-white" />
                   </div>
-                  <h4 className="font-semibold text-gray-900 mb-1">{dest.title}</h4>
-                  <p className="text-xs text-gray-600">{dest.description}</p>
+                  <h4 className="font-semibold text-secondary-900 mb-1">{dest.title}</h4>
+                  <p className="text-xs text-secondary-600">{dest.description}</p>
                 </Card>
               );
             })}
@@ -527,7 +527,7 @@ const ConfigureInputOutputStep = ({ onNext, onBack }) => {
 
           {inputOutput.outputDestination.type && (
             <div className="bg-gray-50 rounded-lg p-6">
-              <h4 className="font-medium text-gray-900 mb-4">Configure Output Destination</h4>
+              <h4 className="font-medium text-secondary-900 mb-4">Configure Output Destination</h4>
               {renderOutputConfig()}
             </div>
           )}

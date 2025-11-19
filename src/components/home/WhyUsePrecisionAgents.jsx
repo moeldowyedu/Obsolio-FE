@@ -35,10 +35,10 @@ const WhyUsePrecisionAgents = () => {
 
         {/* ========== HEADER ========== */}
         <div className="text-center mb-20">
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 font-heading">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-secondary-900 mb-6 font-heading">
             Why Use <span className="gradient-text">Precision AI Agents</span>?
           </h2>
-          <p className="text-xl md:text-2xl text-gray-700 max-w-4xl mx-auto mb-4">
+          <p className="text-xl md:text-2xl text-secondary-700 max-w-4xl mx-auto mb-4">
             Superhuman capabilities. Human oversight. Enterprise reliability.
           </p>
           <div className="w-32 h-1 bg-gradient-to-r from-primary-500 to-purple-500 mx-auto rounded-full"></div>
@@ -81,7 +81,7 @@ const WhyUsePrecisionAgents = () => {
 
         {/* ========== DETAILED CAPABILITIES GRID ========== */}
         <div className="mb-24">
-          <h3 className="text-3xl md:text-4xl font-bold text-gray-900 text-center mb-12 font-heading">
+          <h3 className="text-3xl md:text-4xl font-bold text-secondary-900 text-center mb-12 font-heading">
             Superhuman Capabilities
           </h3>
 
@@ -195,7 +195,7 @@ const WhyUsePrecisionAgents = () => {
 
         {/* ========== COMPARISON TABLE ========== */}
         <div className="mb-24">
-          <h3 className="text-3xl md:text-4xl font-bold text-gray-900 text-center mb-12 font-heading">
+          <h3 className="text-3xl md:text-4xl font-bold text-secondary-900 text-center mb-12 font-heading">
             Human vs Precision AI Agent
           </h3>
 
@@ -266,7 +266,7 @@ const WhyUsePrecisionAgents = () => {
 
         {/* ========== ROI CALCULATOR PREVIEW ========== */}
         <div className="mb-24">
-          <h3 className="text-3xl md:text-4xl font-bold text-gray-900 text-center mb-12 font-heading">
+          <h3 className="text-3xl md:text-4xl font-bold text-secondary-900 text-center mb-12 font-heading">
             Real Cost Savings Example
           </h3>
 
@@ -275,7 +275,7 @@ const WhyUsePrecisionAgents = () => {
 
               {/* Traditional Approach */}
               <div className="space-y-4">
-                <h4 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+                <h4 className="text-2xl font-bold text-secondary-900 mb-6 flex items-center">
                   <XCircle className="w-6 h-6 text-red-500 mr-2" />
                   Traditional Approach
                 </h4>
@@ -289,7 +289,7 @@ const WhyUsePrecisionAgents = () => {
 
               {/* Precision AI Approach */}
               <div className="space-y-4">
-                <h4 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+                <h4 className="text-2xl font-bold text-secondary-900 mb-6 flex items-center">
                   <CheckCircle2 className="w-6 h-6 text-green-500 mr-2" />
                   Precision AI Agent Approach
                 </h4>
@@ -331,10 +331,10 @@ const WhyUsePrecisionAgents = () => {
 
         {/* ========== INDUSTRY-SPECIFIC USE CASES ========== */}
         <div className="mb-24">
-          <h3 className="text-3xl md:text-4xl font-bold text-gray-900 text-center mb-4 font-heading">
+          <h3 className="text-3xl md:text-4xl font-bold text-secondary-900 text-center mb-4 font-heading">
             Trusted Across Industries
           </h3>
-          <p className="text-xl text-gray-600 text-center mb-12 max-w-3xl mx-auto">
+          <p className="text-xl text-secondary-600 text-center mb-12 max-w-3xl mx-auto">
             From healthcare to finance, Precision AI Agents deliver results where it matters most
           </p>
 
@@ -432,10 +432,10 @@ const WhyUsePrecisionAgents = () => {
 
         {/* ========== CALL-TO-ACTION SECTION ========== */}
         <div className="glass-card rounded-3xl p-12 text-center bg-gradient-to-br from-primary-50 via-purple-50 to-blue-50">
-          <h3 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 font-heading">
+          <h3 className="text-3xl md:text-4xl font-bold text-secondary-900 mb-4 font-heading">
             Ready to 10x Your Productivity?
           </h3>
-          <p className="text-xl text-gray-700 mb-8 max-w-2xl mx-auto">
+          <p className="text-xl text-secondary-700 mb-8 max-w-2xl mx-auto">
             Build your first Precision AI Agent in minutes. No coding required.
           </p>
 
@@ -451,13 +451,13 @@ const WhyUsePrecisionAgents = () => {
               href="https://calendly.com/aasim-demo"
               target="_blank"
               rel="noopener noreferrer"
-              className="glass-btn-secondary rounded-full px-10 py-4 text-lg inline-flex items-center justify-center border-2 border-primary-500 hover:bg-primary-50"
+              className="glass-btn-secondary rounded-full px-10 py-4 text-lg inline-flex items-center justify-center border-2 border-primary-600 hover:bg-primary-50"
             >
               Schedule Demo
             </a>
           </div>
 
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-secondary-600">
             No credit card required • 14-day free trial • Cancel anytime
           </p>
         </div>
@@ -480,12 +480,12 @@ const ValueCard = ({ icon, iconBgColor, title, metric, metricColor, description,
       <div className={`w-14 h-14 rounded-xl ${iconBgColor} flex items-center justify-center flex-shrink-0`}>
         {icon}
       </div>
-      <h3 className="text-xl font-bold text-gray-900 mt-2">{title}</h3>
+      <h3 className="text-xl font-bold text-secondary-900 mt-2">{title}</h3>
     </div>
     <p className={`text-3xl md:text-4xl font-bold ${metricColor} mb-4`}>
       {metric}
     </p>
-    <p className="text-gray-700 leading-relaxed">
+    <p className="text-secondary-700 leading-relaxed">
       {description}
     </p>
   </div>
@@ -500,11 +500,11 @@ const CapabilityCard = ({ icon, iconColor, iconBg, title, features }) => (
       <div className={`w-12 h-12 rounded-lg ${iconBg} flex items-center justify-center ${iconColor} flex-shrink-0`}>
         {icon}
       </div>
-      <h4 className="text-xl font-bold text-gray-900">{title}</h4>
+      <h4 className="text-xl font-bold text-secondary-900">{title}</h4>
     </div>
     <ul className="space-y-2">
       {features.map((feature, index) => (
-        <li key={index} className="flex items-start text-gray-700">
+        <li key={index} className="flex items-start text-secondary-700">
           <CheckCircle2 className="w-4 h-4 text-green-600 mr-2 mt-1 flex-shrink-0" />
           <span className="text-sm">{feature}</span>
         </li>
@@ -518,14 +518,14 @@ const CapabilityCard = ({ icon, iconColor, iconBg, title, features }) => (
  */
 const ComparisonRow = ({ factor, human, ai, aiAdvantage }) => (
   <tr className="hover:bg-gray-50 transition-colors">
-    <td className="px-6 py-4 text-sm font-semibold text-gray-900">{factor}</td>
-    <td className="px-6 py-4 text-sm text-gray-700 bg-yellow-50">
+    <td className="px-6 py-4 text-sm font-semibold text-secondary-900">{factor}</td>
+    <td className="px-6 py-4 text-sm text-secondary-700 bg-yellow-50">
       <div className="flex items-center">
         {aiAdvantage && <XCircle className="w-4 h-4 text-yellow-600 mr-2 flex-shrink-0" />}
         {human}
       </div>
     </td>
-    <td className="px-6 py-4 text-sm text-gray-900 bg-green-50 font-semibold">
+    <td className="px-6 py-4 text-sm text-secondary-900 bg-green-50 font-semibold">
       <div className="flex items-center">
         {aiAdvantage && <CheckCircle2 className="w-4 h-4 text-green-600 mr-2 flex-shrink-0" />}
         {ai}
@@ -539,7 +539,7 @@ const ComparisonRow = ({ factor, human, ai, aiAdvantage }) => (
  */
 const InfoRow = ({ label, value, valueColor = "text-gray-900" }) => (
   <div className="flex justify-between items-center py-2 border-b border-gray-200">
-    <span className="text-gray-700">{label}</span>
+    <span className="text-secondary-700">{label}</span>
     {value && <span className={`font-semibold ${valueColor}`}>{value}</span>}
   </div>
 );
@@ -566,10 +566,10 @@ const IndustryCard = ({ icon, title, useCases, color }) => {
       <div className={`w-14 h-14 rounded-xl ${bgColor} flex items-center justify-center ${textColor} mb-4`}>
         {icon}
       </div>
-      <h4 className="text-lg font-bold text-gray-900 mb-3">{title}</h4>
+      <h4 className="text-lg font-bold text-secondary-900 mb-3">{title}</h4>
       <ul className="space-y-2">
         {useCases.map((useCase, index) => (
-          <li key={index} className="text-sm text-gray-700 flex items-start">
+          <li key={index} className="text-sm text-secondary-700 flex items-start">
             <span className="text-gray-400 mr-2">•</span>
             <span>{useCase}</span>
           </li>

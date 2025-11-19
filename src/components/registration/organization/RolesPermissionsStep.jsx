@@ -217,8 +217,8 @@ const RolesPermissionsStep = ({ onNext, onBack }) => {
   return (
     <div className="max-w-5xl mx-auto">
       <div className="mb-8 text-center">
-        <h2 className="text-3xl font-bold text-gray-900 mb-2">User Roles & Permissions</h2>
-        <p className="text-gray-600">
+        <h2 className="text-3xl font-bold text-secondary-900 mb-2">User Roles & Permissions</h2>
+        <p className="text-secondary-600">
           Configure access levels for different user roles in your organization.
         </p>
       </div>
@@ -226,7 +226,7 @@ const RolesPermissionsStep = ({ onNext, onBack }) => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
         {/* Role Selection Sidebar */}
         <div className="lg:col-span-1">
-          <h3 className="text-lg font-semibold text-gray-900 mb-3">Roles</h3>
+          <h3 className="text-lg font-semibold text-secondary-900 mb-3">Roles</h3>
           <div className="space-y-2">
             {defaultRoles.map((role) => (
               <button
@@ -235,15 +235,15 @@ const RolesPermissionsStep = ({ onNext, onBack }) => {
                 onClick={() => setSelectedRole(role.id)}
                 className={`w-full text-left p-3 rounded-lg border-2 transition-all ${
                   selectedRole === role.id
-                    ? 'border-primary-500 bg-primary-50'
+                    ? 'border-primary-600 bg-primary-50'
                     : 'border-gray-200 hover:border-gray-300'
                 }`}
               >
                 <div className="flex items-center gap-2 mb-1">
                   <span className="text-xl">{role.icon}</span>
-                  <span className="font-medium text-gray-900">{role.name}</span>
+                  <span className="font-medium text-secondary-900">{role.name}</span>
                 </div>
-                <p className="text-xs text-gray-600">{role.description}</p>
+                <p className="text-xs text-secondary-600">{role.description}</p>
               </button>
             ))}
 
@@ -256,10 +256,10 @@ const RolesPermissionsStep = ({ onNext, onBack }) => {
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-1">
                     <Shield className="w-4 h-4 text-purple-500" />
-                    <span className="font-medium text-gray-900">{role.name}</span>
+                    <span className="font-medium text-secondary-900">{role.name}</span>
                   </div>
                   {role.description && (
-                    <p className="text-xs text-gray-600">{role.description}</p>
+                    <p className="text-xs text-secondary-600">{role.description}</p>
                   )}
                 </div>
                 <button
@@ -274,7 +274,7 @@ const RolesPermissionsStep = ({ onNext, onBack }) => {
 
             {/* Add Custom Role */}
             {isAddingCustomRole ? (
-              <div className="p-3 rounded-lg border-2 border-primary-500 bg-primary-50 space-y-2">
+              <div className="p-3 rounded-lg border-2 border-primary-600 bg-primary-50 space-y-2">
                 <Input
                   placeholder="Role name"
                   value={newRoleName}
@@ -315,7 +315,7 @@ const RolesPermissionsStep = ({ onNext, onBack }) => {
               <button
                 type="button"
                 onClick={() => setIsAddingCustomRole(true)}
-                className="w-full py-3 border-2 border-dashed border-gray-300 rounded-lg text-gray-600 hover:border-primary-500 hover:text-primary-500 transition-colors flex items-center justify-center gap-2"
+                className="w-full py-3 border-2 border-dashed border-gray-300 rounded-lg text-secondary-600 hover:border-primary-600 hover:text-primary-600 transition-colors flex items-center justify-center gap-2"
               >
                 <Plus className="w-4 h-4" />
                 <span className="text-sm font-medium">Add Custom Role</span>
@@ -334,14 +334,14 @@ const RolesPermissionsStep = ({ onNext, onBack }) => {
                     {currentRole.icon}
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold text-gray-900">{currentRole.name}</h3>
-                    <p className="text-sm text-gray-600">{currentRole.description}</p>
+                    <h3 className="text-xl font-bold text-secondary-900">{currentRole.name}</h3>
+                    <p className="text-sm text-secondary-600">{currentRole.description}</p>
                   </div>
                 </div>
               </div>
 
               <div className="bg-white border border-gray-200 rounded-lg p-6">
-                <h4 className="font-semibold text-gray-900 mb-4">Permissions</h4>
+                <h4 className="font-semibold text-secondary-900 mb-4">Permissions</h4>
                 <div className="space-y-4">
                   {permissionsList.map((permission) => (
                     <div
@@ -349,8 +349,8 @@ const RolesPermissionsStep = ({ onNext, onBack }) => {
                       className="flex items-start justify-between p-3 bg-gray-50 rounded-lg"
                     >
                       <div className="flex-1 mr-4">
-                        <h5 className="font-medium text-gray-900 mb-1">{permission.label}</h5>
-                        <p className="text-sm text-gray-600">{permission.description}</p>
+                        <h5 className="font-medium text-secondary-900 mb-1">{permission.label}</h5>
+                        <p className="text-sm text-secondary-600">{permission.description}</p>
                       </div>
                       <Toggle
                         checked={rolePermissions[selectedRole]?.[permission.id] || false}

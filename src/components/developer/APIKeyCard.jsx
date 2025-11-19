@@ -63,7 +63,7 @@ const APIKeyCard = ({ apiKey, onRotate, onDelete, onCopy }) => {
       <div className="flex items-start justify-between mb-4">
         <div className="flex-1">
           <div className="flex items-center gap-2 mb-1">
-            <h3 className="text-lg font-semibold text-gray-900">{apiKey.name}</h3>
+            <h3 className="text-lg font-semibold text-secondary-900">{apiKey.name}</h3>
             <Badge variant={getStatusVariant(apiKey.status)} size="sm">
               {apiKey.status}
             </Badge>
@@ -74,7 +74,7 @@ const APIKeyCard = ({ apiKey, onRotate, onDelete, onCopy }) => {
             )}
           </div>
           {apiKey.description && (
-            <p className="text-sm text-gray-600">{apiKey.description}</p>
+            <p className="text-sm text-secondary-600">{apiKey.description}</p>
           )}
         </div>
       </div>
@@ -82,7 +82,7 @@ const APIKeyCard = ({ apiKey, onRotate, onDelete, onCopy }) => {
       {/* API Key Display */}
       <div className="mb-4 p-3 bg-gray-50 border border-gray-200 rounded-lg">
         <div className="flex items-center gap-2">
-          <code className="flex-1 text-sm font-mono text-gray-900 overflow-hidden">
+          <code className="flex-1 text-sm font-mono text-secondary-900 overflow-hidden">
             {isRevealed ? apiKey.key : maskKey(apiKey.key)}
           </code>
           <div className="flex items-center gap-1">
@@ -92,9 +92,9 @@ const APIKeyCard = ({ apiKey, onRotate, onDelete, onCopy }) => {
               title={isRevealed ? 'Hide key' : 'Reveal key'}
             >
               {isRevealed ? (
-                <EyeOff className="w-4 h-4 text-gray-600" />
+                <EyeOff className="w-4 h-4 text-secondary-600" />
               ) : (
-                <Eye className="w-4 h-4 text-gray-600" />
+                <Eye className="w-4 h-4 text-secondary-600" />
               )}
             </button>
             <button
@@ -102,7 +102,7 @@ const APIKeyCard = ({ apiKey, onRotate, onDelete, onCopy }) => {
               className="p-1.5 hover:bg-gray-200 rounded transition-colors"
               title="Copy to clipboard"
             >
-              <Copy className="w-4 h-4 text-gray-600" />
+              <Copy className="w-4 h-4 text-secondary-600" />
             </button>
           </div>
         </div>
@@ -111,18 +111,18 @@ const APIKeyCard = ({ apiKey, onRotate, onDelete, onCopy }) => {
       {/* Metadata */}
       <div className="grid grid-cols-2 gap-4 mb-4 pb-4 border-b border-gray-200">
         <div>
-          <div className="flex items-center gap-1.5 text-xs text-gray-600 mb-1">
+          <div className="flex items-center gap-1.5 text-xs text-secondary-600 mb-1">
             <Calendar className="w-3.5 h-3.5" />
             <span>Created</span>
           </div>
-          <p className="text-sm font-medium text-gray-900">{formatDate(apiKey.createdAt)}</p>
+          <p className="text-sm font-medium text-secondary-900">{formatDate(apiKey.createdAt)}</p>
         </div>
         <div>
-          <div className="flex items-center gap-1.5 text-xs text-gray-600 mb-1">
+          <div className="flex items-center gap-1.5 text-xs text-secondary-600 mb-1">
             <Calendar className="w-3.5 h-3.5" />
             <span>Expires</span>
           </div>
-          <p className="text-sm font-medium text-gray-900">
+          <p className="text-sm font-medium text-secondary-900">
             {apiKey.expiresAt ? formatDate(apiKey.expiresAt) : 'Never'}
           </p>
           {daysUntilExpiry !== null && daysUntilExpiry > 0 && (
@@ -132,20 +132,20 @@ const APIKeyCard = ({ apiKey, onRotate, onDelete, onCopy }) => {
           )}
         </div>
         <div>
-          <div className="flex items-center gap-1.5 text-xs text-gray-600 mb-1">
+          <div className="flex items-center gap-1.5 text-xs text-secondary-600 mb-1">
             <Activity className="w-3.5 h-3.5" />
             <span>Last Used</span>
           </div>
-          <p className="text-sm font-medium text-gray-900">
+          <p className="text-sm font-medium text-secondary-900">
             {apiKey.lastUsed ? formatDate(apiKey.lastUsed) : 'Never'}
           </p>
         </div>
         <div>
-          <div className="flex items-center gap-1.5 text-xs text-gray-600 mb-1">
+          <div className="flex items-center gap-1.5 text-xs text-secondary-600 mb-1">
             <Activity className="w-3.5 h-3.5" />
             <span>Total Requests</span>
           </div>
-          <p className="text-sm font-medium text-gray-900">
+          <p className="text-sm font-medium text-secondary-900">
             {apiKey.requestCount?.toLocaleString() || 0}
           </p>
         </div>
@@ -154,7 +154,7 @@ const APIKeyCard = ({ apiKey, onRotate, onDelete, onCopy }) => {
       {/* Permissions/Scopes */}
       {apiKey.scopes && apiKey.scopes.length > 0 && (
         <div className="mb-4">
-          <p className="text-xs text-gray-600 mb-2">Scopes</p>
+          <p className="text-xs text-secondary-600 mb-2">Scopes</p>
           <div className="flex flex-wrap gap-2">
             {apiKey.scopes.map((scope) => (
               <Badge key={scope} variant="default" size="sm">
