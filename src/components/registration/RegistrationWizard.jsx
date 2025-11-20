@@ -21,7 +21,14 @@ const RegistrationWizard = () => {
     completeRegistration,
   } = useRegistrationWizardStore();
 
-  const { register, isLoading } = useAuthStore();
+  const { register, isLoading, isAuthenticated } = useAuthStore();
+
+  // Redirect authenticated users to dashboard
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/dashboard', { replace: true });
+    }
+  }, [isAuthenticated, navigate]);
 
   // Simplified wizard steps - same for both personal and organization
   const wizardSteps = [
