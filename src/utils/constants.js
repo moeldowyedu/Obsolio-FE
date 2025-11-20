@@ -11,6 +11,7 @@ export const ENGINES = [
   {
     id: 'vision',
     name: 'Precision Vision Engine',
+    shortName: 'Vision',
     icon: 'eye',
     description: 'Image analysis, object detection, OCR',
     color: '#3b82f6',
@@ -21,6 +22,7 @@ export const ENGINES = [
   {
     id: 'audio',
     name: 'Precision Audio Engine',
+    shortName: 'Audio',
     icon: 'mic',
     description: 'Speech-to-text, audio analysis, transcription',
     color: '#8b5cf6',
@@ -31,6 +33,7 @@ export const ENGINES = [
   {
     id: 'text',
     name: 'Precision Text Engine',
+    shortName: 'Text',
     icon: 'type',
     description: 'NLP, sentiment analysis, entity extraction',
     color: '#06b6d4',
@@ -41,6 +44,7 @@ export const ENGINES = [
   {
     id: 'code',
     name: 'Precision Code Engine',
+    shortName: 'Code',
     icon: 'code',
     description: 'Code analysis, bug detection, optimization',
     color: '#14b8a6',
@@ -51,6 +55,7 @@ export const ENGINES = [
   {
     id: 'document',
     name: 'Precision Document Engine',
+    shortName: 'Documents',
     icon: 'file-text',
     description: 'PDF/DOCX processing, metadata extraction',
     color: '#f59e0b',
@@ -61,6 +66,7 @@ export const ENGINES = [
   {
     id: 'data',
     name: 'Precision Data Engine',
+    shortName: 'Data',
     icon: 'database',
     description: 'CSV/Excel analysis, data validation',
     color: '#10b981',
@@ -71,6 +77,7 @@ export const ENGINES = [
   {
     id: 'web',
     name: 'Precision Web Engine',
+    shortName: 'Web',
     icon: 'globe',
     description: 'Web scraping, content extraction, monitoring',
     color: '#ec4899',

@@ -144,13 +144,13 @@ const EnginesOverviewPage = () => {
             </p>
             <div className="flex flex-wrap gap-4">
               <button
-                onClick={() => window.location.href = '/agents/create'}
+                onClick={() => window.location.href = '/agentx/builder'}
                 className="px-6 py-3 bg-white text-primary-600 rounded-lg font-semibold hover:shadow-lg transition-all"
               >
                 Create Your First Agent →
               </button>
               <button
-                onClick={() => window.location.href = '/marketplace'}
+                onClick={() => window.location.href = '/agentx/marketplace'}
                 className="px-6 py-3 bg-transparent border-2 border-white text-white rounded-lg font-semibold hover:bg-white hover:text-primary-600 transition-all"
               >
                 Browse Marketplace

@@ -141,7 +141,7 @@ const DashboardPage = () => {
               Discover & deploy agents. Earn 70% revenue share
             </p>
             <a
-              href="/marketplace"
+              href="/agentx/marketplace"
               className="text-sm font-medium text-secondary-600 hover:text-secondary-700"
             >
               Visit Marketplace →

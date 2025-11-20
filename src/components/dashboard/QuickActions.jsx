@@ -11,7 +11,7 @@ const QuickActions = () => {
       description: 'Build a new Precision AI Agent',
       icon: '🤖',
       color: 'bg-gradient-to-br from-primary-500 to-primary-600',
-      path: '/agents/create',
+      path: '/agentx/builder',
     },
     {
       id: 'browse-engines',
@@ -27,7 +27,7 @@ const QuickActions = () => {
       description: 'Discover & deploy agents',
       icon: '🏪',
       color: 'bg-gradient-to-br from-secondary-500 to-secondary-600',
-      path: '/marketplace',
+      path: '/agentx/marketplace',
     },
     {
       id: 'orchestrate',
@@ -35,7 +35,7 @@ const QuickActions = () => {
       description: 'Create multi-agent workflows',
       icon: '🎼',
       color: 'bg-gradient-to-br from-orange-500 to-orange-600',
-      path: '/orchestrator',
+      path: '/orchestration/builder',
     },
   ];
 
