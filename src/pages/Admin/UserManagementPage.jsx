@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import MainLayout from '../../components/layout/MainLayout'
 import toast from 'react-hot-toast'
 import { useLanguage } from '../../contexts/LanguageContext'
 import { translations } from '../../translations'
+import { useUserStore } from '../../store/userStore'
 
 const UserManagementPage = () => {
   const { language } = useLanguage()
@@ -11,68 +12,13 @@ const UserManagementPage = () => {
   const [filterRole, setFilterRole] = useState('all')
   const [filterStatus, setFilterStatus] = useState('all')
 
-  const [users, setUsers] = useState([
-    {
-      id: 1,
-      name: 'John Doe',
-      email: 'john@example.com',
-      role: 'user',
-      status: 'active',
-      plan: 'Premium',
-      submissions: 45,
-      avgScore: 87,
-      joined: '2025-01-15',
-      lastActive: '2025-11-05'
-    },
-    {
-      id: 2,
-      name: 'Jane Smith',
-      email: 'jane@example.com',
-      role: 'user',
-      status: 'active',
-      plan: 'Premium',
-      submissions: 38,
-      avgScore: 91,
-      joined: '2025-02-20',
-      lastActive: '2025-11-04'
-    },
-    {
-      id: 3,
-      name: 'Mike Chen',
-      email: 'mike@example.com',
-      role: 'user',
-      status: 'active',
-      plan: 'Free',
-      submissions: 32,
-      avgScore: 85,
-      joined: '2025-03-10',
-      lastActive: '2025-11-03'
-    },
-    {
-      id: 4,
-      name: 'Sarah Johnson',
-      email: 'sarah@example.com',
-      role: 'admin',
-      status: 'active',
-      plan: 'Premium',
-      submissions: 28,
-      avgScore: 89,
-      joined: '2025-01-05',
-      lastActive: '2025-11-05'
-    },
-    {
-      id: 5,
-      name: 'Tom Wilson',
-      email: 'tom@example.com',
-      role: 'user',
-      status: 'suspended',
-      plan: 'Free',
-      submissions: 24,
-      avgScore: 83,
-      joined: '2025-04-01',
-      lastActive: '2025-10-20'
-    },
-  ])
+  // Use backend data from userStore instead of hardcoded data
+  const { users, isLoading, fetchUsers, deleteUser, updateUserStatus } = useUserStore()
+
+  useEffect(() => {
+    // Fetch users from backend when component mounts
+    fetchUsers()
+  }, [fetchUsers])
 
   const filteredUsers = users.filter(user => {
     const matchesSearch = user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -82,20 +28,32 @@ const UserManagementPage = () => {
     return matchesSearch && matchesRole && matchesStatus
   })
 
-  const handleSuspendUser = (userId) => {
-    setUsers(prev => prev.map(u => u.id === userId ? { ...u, status: 'suspended' } : u))
-    toast.success(t.userSuspendedSuccess)
+  const handleSuspendUser = async (userId) => {
+    try {
+      await updateUserStatus(userId, 'suspended')
+      toast.success(t.userSuspendedSuccess || 'User suspended successfully')
+    } catch (error) {
+      toast.error('Failed to suspend user')
+    }
   }
 
-  const handleActivateUser = (userId) => {
-    setUsers(prev => prev.map(u => u.id === userId ? { ...u, status: 'active' } : u))
-    toast.success(t.userActivatedSuccess)
+  const handleActivateUser = async (userId) => {
+    try {
+      await updateUserStatus(userId, 'active')
+      toast.success(t.userActivatedSuccess || 'User activated successfully')
+    } catch (error) {
+      toast.error('Failed to activate user')
+    }
   }
 
-  const handleDeleteUser = (userId) => {
-    if (window.confirm(t.deleteUserConfirmation)) {
-      setUsers(prev => prev.filter(u => u.id !== userId))
-      toast.success(t.userDeletedSuccess)
+  const handleDeleteUser = async (userId) => {
+    if (window.confirm(t.deleteUserConfirmation || 'Are you sure you want to delete this user?')) {
+      try {
+        await deleteUser(userId)
+        toast.success(t.userDeletedSuccess || 'User deleted successfully')
+      } catch (error) {
+        toast.error('Failed to delete user')
+      }
     }
   }
 
