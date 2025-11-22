@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Search, Filter, TrendingUp, Star, Download, Grid3x3, List, ArrowUpDown, Users, MessageCircle } from 'lucide-react';
 import MainLayout from '../../components/layout/MainLayout';
 
 const MarketplacePage = () => {
+  const navigate = useNavigate();
   const [agents, setAgents] = useState([]);
   const [filteredAgents, setFilteredAgents] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -467,6 +469,7 @@ const MarketplacePage = () => {
             {filteredAgents.map((agent) => (
               <div
                 key={agent.id}
+                onClick={() => navigate(`/marketplace/agent/${agent.id}`)}
                 className="glass-card rounded-2xl p-6 hover:shadow-xl transition-shadow cursor-pointer"
               >
                 {/* Icon */}
@@ -534,10 +537,17 @@ const MarketplacePage = () => {
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
-                    <button className="flex-1 px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-semibold hover:shadow-lg transition-shadow text-sm">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        navigate(`/marketplace/checkout/${agent.id}`);
+                      }}
+                      className="flex-1 px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-semibold hover:shadow-lg transition-shadow text-sm"
+                    >
                       Deploy
                     </button>
                     <button
+                      onClick={(e) => e.stopPropagation()}
                       className="px-3 py-2 border-2 border-gray-300 rounded-xl hover:border-primary-600 hover:bg-primary-50 transition-colors group"
                       title="Contact Owner"
                     >
@@ -553,6 +563,7 @@ const MarketplacePage = () => {
             {filteredAgents.map((agent) => (
               <div
                 key={agent.id}
+                onClick={() => navigate(`/marketplace/agent/${agent.id}`)}
                 className="glass-card rounded-2xl p-6 hover:shadow-lg transition-shadow cursor-pointer"
               >
                 <div className="flex items-start gap-6">
@@ -626,14 +637,29 @@ const MarketplacePage = () => {
 
                     {/* Actions */}
                     <div className="flex items-center gap-3">
-                      <button className="px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-semibold hover:shadow-lg transition-shadow">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          navigate(`/marketplace/checkout/${agent.id}`);
+                        }}
+                        className="px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-semibold hover:shadow-lg transition-shadow"
+                      >
                         Deploy Agent
                       </button>
-                      <button className="px-6 py-3 border-2 border-gray-300 rounded-xl font-semibold text-secondary-700 hover:border-primary-600 hover:bg-primary-50 hover:text-primary-700 transition-colors flex items-center gap-2">
+                      <button
+                        onClick={(e) => e.stopPropagation()}
+                        className="px-6 py-3 border-2 border-gray-300 rounded-xl font-semibold text-secondary-700 hover:border-primary-600 hover:bg-primary-50 hover:text-primary-700 transition-colors flex items-center gap-2"
+                      >
                         <MessageCircle className="w-4 h-4" />
                         Contact
                       </button>
-                      <button className="px-6 py-3 border border-gray-300 rounded-xl font-semibold text-secondary-700 hover:bg-gray-50">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          navigate(`/marketplace/agent/${agent.id}`);
+                        }}
+                        className="px-6 py-3 border border-gray-300 rounded-xl font-semibold text-secondary-700 hover:bg-gray-50"
+                      >
                         View Details
                       </button>
                     </div>

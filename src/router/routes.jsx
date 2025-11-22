@@ -33,6 +33,8 @@ import AgentDeploymentWizard from '../components/agent-deployment/AgentDeploymen
 
 // AgentX Pages
 import MarketplacePage from '../pages/AgentX/MarketplacePage';
+import AgentDetailPage from '../pages/AgentX/AgentDetailPage';
+import CheckoutPage from '../pages/AgentX/CheckoutPage';
 import AgentBuilderPage from '../pages/AgentX/AgentBuilderPage';
 import MyAgentsPage from '../pages/AgentX/MyAgentsPage';
 import DeveloperPortalPage from '../pages/AgentX/DeveloperPortalPage';
@@ -264,6 +266,18 @@ const AppRoutes = () => {
             <MarketplacePage />
           </ProtectedRoute>
         }
+      />
+      <Route
+        path="/marketplace/agent/:agentId"
+        element={
+          <ProtectedRoute>
+            <AgentDetailPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/marketplace/checkout/:agentId"
+        element={<CheckoutPage />}
       />
       <Route
         path="/agentx/my-agents"

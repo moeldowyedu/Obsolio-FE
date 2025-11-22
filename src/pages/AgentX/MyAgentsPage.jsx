@@ -8,12 +8,22 @@ import toast from 'react-hot-toast';
 
 const MyAgentsPage = () => {
   const [viewMode, setViewMode] = useState('grid');
-  const { agents, isLoading, fetchAgents, deleteAgent, updateAgentStatus } = useAgentStore();
+  const { agents, isLoading, error, fetchAgents, deleteAgent, updateAgentStatus, clearError } = useAgentStore();
 
   useEffect(() => {
     // Fetch agents from backend when component mounts
-    fetchAgents();
-  }, [fetchAgents]);
+    const loadAgents = async () => {
+      try {
+        await fetchAgents();
+      } catch (err) {
+        console.error('Failed to load agents:', err);
+        // Error is already set in the store
+      }
+    };
+
+    loadAgents();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Empty dependency array - only run once on mount
 
   const handleToggleStatus = async (agentId, currentStatus) => {
     if (currentStatus === 'error') return;
@@ -166,8 +176,33 @@ const MyAgentsPage = () => {
           </div>
         )}
 
+        {/* Error State */}
+        {!isLoading && error && (
+          <div className="glass-card rounded-3xl p-12 text-center">
+            <AlertCircle className="w-16 h-16 text-red-500 mx-auto mb-4" />
+            <h3 className="text-xl font-bold text-secondary-900 mb-2">Failed to load agents</h3>
+            <p className="text-secondary-600 mb-6 max-w-md mx-auto">{error}</p>
+            <div className="flex gap-3 justify-center">
+              <button
+                onClick={() => {
+                  clearError();
+                  fetchAgents();
+                }}
+                className="px-6 py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700"
+              >
+                Try Again
+              </button>
+              <Link to="/agentx/marketplace">
+                <button className="px-6 py-3 border border-gray-300 rounded-xl font-semibold text-secondary-700 hover:bg-gray-50">
+                  Browse Marketplace
+                </button>
+              </Link>
+            </div>
+          </div>
+        )}
+
         {/* Empty State */}
-        {!isLoading && agents.length === 0 && (
+        {!isLoading && !error && agents.length === 0 && (
           <div className="glass-card rounded-3xl p-12 text-center">
             <Grid3x3 className="w-16 h-16 text-gray-400 mx-auto mb-4" />
             <h3 className="text-xl font-bold text-secondary-900 mb-2">No agents deployed yet</h3>
@@ -190,7 +225,7 @@ const MyAgentsPage = () => {
         )}
 
         {/* Agents Grid */}
-        {!isLoading && agents.length > 0 && viewMode === 'grid' && (
+        {!isLoading && !error && agents.length > 0 && viewMode === 'grid' && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {agents.map((agent) => (
               <div key={agent.id} className="glass-card rounded-2xl p-6 hover:shadow-xl transition-shadow">
