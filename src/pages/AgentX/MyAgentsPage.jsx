@@ -1,125 +1,48 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Plus, Play, Pause, Settings, Trash2, TrendingUp, Grid3x3, List, Eye, Activity, AlertCircle, CheckCircle, Clock } from 'lucide-react';
 import MainLayout from '../../components/layout/MainLayout';
 import { formatNumber, formatRelativeTime } from '../../utils/formatters';
+import { useAgentStore } from '../../store/agentStore';
+import toast from 'react-hot-toast';
 
 const MyAgentsPage = () => {
   const [viewMode, setViewMode] = useState('grid');
-  const [agents, setAgents] = useState([
-    {
-      id: '1',
-      name: 'Customer Support AI',
-      icon: '💬',
-      description: 'Intelligent customer support automation with multi-channel support',
-      status: 'active',
-      deployedAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 15),
-      lastActive: new Date(Date.now() - 1000 * 60 * 5),
-      executions: 12450,
-      successRate: 98.4,
-      avgProcessingTime: '1.2s',
-      engines: ['Text', 'Vision'],
-      hitlMode: 'hitl',
-      source: 'marketplace'
-    },
-    {
-      id: '2',
-      name: 'Invoice Validator',
-      icon: '📄',
-      description: 'Custom agent for validating vendor invoices against PO numbers',
-      status: 'active',
-      deployedAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 8),
-      lastActive: new Date(Date.now() - 1000 * 60 * 15),
-      executions: 3280,
-      successRate: 99.2,
-      avgProcessingTime: '2.1s',
-      engines: ['Document', 'Data'],
-      hitlMode: 'spot-check',
-      source: 'private'
-    },
-    {
-      id: '3',
-      name: 'Code Review Assistant',
-      icon: '💻',
-      description: 'Automated PR review with security and best practices checking',
-      status: 'paused',
-      deployedAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 3),
-      lastActive: new Date(Date.now() - 1000 * 60 * 60 * 12),
-      executions: 456,
-      successRate: 96.8,
-      avgProcessingTime: '4.5s',
-      engines: ['Code'],
-      hitlMode: 'full-review',
-      source: 'private'
-    },
-    {
-      id: '4',
-      name: 'Social Media Monitor',
-      icon: '📱',
-      description: 'Real-time brand monitoring and sentiment analysis',
-      status: 'active',
-      deployedAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 22),
-      lastActive: new Date(Date.now() - 1000 * 60 * 2),
-      executions: 28900,
-      successRate: 97.6,
-      avgProcessingTime: '0.8s',
-      engines: ['Text', 'Web', 'Vision'],
-      hitlMode: 'spot-check',
-      source: 'marketplace'
-    },
-    {
-      id: '5',
-      name: 'Document Classifier',
-      icon: '📋',
-      description: 'Automated document classification and routing system',
-      status: 'error',
-      deployedAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 5),
-      lastActive: new Date(Date.now() - 1000 * 60 * 30),
-      executions: 892,
-      successRate: 94.2,
-      avgProcessingTime: '1.8s',
-      engines: ['Document', 'Text'],
-      hitlMode: 'hitl',
-      source: 'marketplace'
-    },
-    {
-      id: '6',
-      name: 'Email Response Bot',
-      icon: '📧',
-      description: 'Automated email response generation with context awareness',
-      status: 'active',
-      deployedAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 12),
-      lastActive: new Date(Date.now() - 1000 * 60 * 8),
-      executions: 5670,
-      successRate: 98.9,
-      avgProcessingTime: '1.5s',
-      engines: ['Text'],
-      hitlMode: 'spot-check',
-      source: 'private'
-    }
-  ]);
+  const { agents, isLoading, fetchAgents, deleteAgent, updateAgentStatus } = useAgentStore();
 
-  const handleToggleStatus = (id) => {
-    setAgents(agents.map(agent => {
-      if (agent.id === id && agent.status !== 'error') {
-        return {
-          ...agent,
-          status: agent.status === 'active' ? 'paused' : 'active'
-        };
-      }
-      return agent;
-    }));
+  useEffect(() => {
+    // Fetch agents from backend when component mounts
+    fetchAgents();
+  }, [fetchAgents]);
+
+  const handleToggleStatus = async (agentId, currentStatus) => {
+    if (currentStatus === 'error') return;
+
+    try {
+      const newStatus = currentStatus === 'active' ? 'paused' : 'active';
+      await updateAgentStatus(agentId, newStatus);
+      toast.success(`Agent ${newStatus === 'active' ? 'activated' : 'paused'} successfully`);
+    } catch (error) {
+      toast.error('Failed to update agent status');
+    }
   };
 
-  const handleDelete = (id) => {
-    if (confirm('Are you sure you want to undeploy this agent? This action cannot be undone.')) {
-      setAgents(agents.filter(agent => agent.id !== id));
+  const handleDelete = async (agentId, agentName) => {
+    if (confirm(`Are you sure you want to undeploy "${agentName}"? This action cannot be undone.`)) {
+      try {
+        await deleteAgent(agentId);
+        toast.success('Agent deleted successfully');
+      } catch (error) {
+        toast.error('Failed to delete agent');
+      }
     }
   };
 
   const activeAgents = agents.filter(a => a.status === 'active').length;
-  const totalExecutions = agents.reduce((sum, a) => sum + a.executions, 0);
-  const avgSuccessRate = agents.reduce((sum, a) => sum + a.successRate, 0) / agents.length;
+  const totalExecutions = agents.reduce((sum, a) => sum + (a.executions || 0), 0);
+  const avgSuccessRate = agents.length > 0
+    ? agents.reduce((sum, a) => sum + (a.success_rate || 0), 0) / agents.length
+    : 0;
 
   const getStatusBadge = (status) => {
     const configs = {
@@ -234,8 +157,17 @@ const MyAgentsPage = () => {
           </div>
         </div>
 
-        {/* Agents Display */}
-        {agents.length === 0 ? (
+        {/* Loading State */}
+        {isLoading && (
+          <div className="glass-card rounded-3xl p-12 text-center">
+            <Activity className="w-16 h-16 text-gray-400 mx-auto mb-4 animate-spin" />
+            <h3 className="text-xl font-bold text-secondary-900 mb-2">Loading agents...</h3>
+            <p className="text-secondary-600">Please wait while we fetch your agents</p>
+          </div>
+        )}
+
+        {/* Empty State */}
+        {!isLoading && agents.length === 0 && (
           <div className="glass-card rounded-3xl p-12 text-center">
             <Grid3x3 className="w-16 h-16 text-gray-400 mx-auto mb-4" />
             <h3 className="text-xl font-bold text-secondary-900 mb-2">No agents deployed yet</h3>
@@ -255,57 +187,37 @@ const MyAgentsPage = () => {
               </Link>
             </div>
           </div>
-        ) : viewMode === 'grid' ? (
+        )}
+
+        {/* Agents Grid */}
+        {!isLoading && agents.length > 0 && viewMode === 'grid' && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {agents.map((agent) => (
               <div key={agent.id} className="glass-card rounded-2xl p-6 hover:shadow-xl transition-shadow">
                 {/* Icon and Status */}
                 <div className="flex items-start justify-between mb-4">
                   <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-3xl">
-                    {agent.icon}
+                    {agent.icon || '🤖'}
                   </div>
                   {getStatusBadge(agent.status)}
                 </div>
 
                 {/* Name and Description */}
                 <h3 className="text-xl font-bold text-secondary-900 mb-2">{agent.name}</h3>
-                <p className="text-sm text-secondary-600 mb-4 line-clamp-2">{agent.description}</p>
-
-                {/* Source Badge */}
-                <div className="mb-4">
-                  <span className={`px-2 py-1 rounded-lg text-xs font-medium ${
-                    agent.source === 'private'
-                      ? 'bg-purple-100 text-purple-700'
-                      : 'bg-blue-100 text-blue-700'
-                  }`}>
-                    {agent.source === 'private' ? 'Private' : 'Marketplace'}
-                  </span>
-                </div>
+                <p className="text-sm text-secondary-600 mb-4 line-clamp-2">{agent.description || 'No description provided'}</p>
 
                 {/* Metrics */}
                 <div className="grid grid-cols-2 gap-4 mb-4 pb-4 border-b border-gray-200">
                   <div>
                     <div className="text-xs text-gray-500 mb-1">Executions</div>
                     <div className="text-lg font-bold text-secondary-900">
-                      {formatNumber(agent.executions)}
+                      {formatNumber(agent.executions || 0)}
                     </div>
                   </div>
                   <div>
                     <div className="text-xs text-gray-500 mb-1">Success Rate</div>
                     <div className="text-lg font-bold text-green-600">
-                      {agent.successRate}%
-                    </div>
-                  </div>
-                  <div>
-                    <div className="text-xs text-gray-500 mb-1">Avg Time</div>
-                    <div className="text-sm font-semibold text-secondary-900">
-                      {agent.avgProcessingTime}
-                    </div>
-                  </div>
-                  <div>
-                    <div className="text-xs text-gray-500 mb-1">Last Active</div>
-                    <div className="text-sm font-semibold text-secondary-900">
-                      {formatRelativeTime(agent.lastActive)}
+                      {agent.success_rate || 0}%
                     </div>
                   </div>
                 </div>
@@ -313,7 +225,7 @@ const MyAgentsPage = () => {
                 {/* Actions */}
                 <div className="grid grid-cols-2 gap-2">
                   <button
-                    onClick={() => handleToggleStatus(agent.id)}
+                    onClick={() => handleToggleStatus(agent.id, agent.status)}
                     disabled={agent.status === 'error'}
                     className={`px-3 py-2 rounded-lg text-sm font-semibold flex items-center justify-center gap-1 ${
                       agent.status === 'active'
@@ -340,138 +252,12 @@ const MyAgentsPage = () => {
                     View Logs
                   </button>
                   <button
-                    onClick={() => handleDelete(agent.id)}
+                    onClick={() => handleDelete(agent.id, agent.name)}
                     className="px-3 py-2 bg-red-100 text-red-700 rounded-lg text-sm font-semibold hover:bg-red-200 flex items-center justify-center gap-1"
                   >
                     <Trash2 className="w-4 h-4" />
                     Delete
                   </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="space-y-4">
-            {agents.map((agent) => (
-              <div key={agent.id} className="glass-card rounded-2xl p-6 hover:shadow-lg transition-shadow">
-                <div className="flex items-start gap-6">
-                  {/* Icon */}
-                  <div className="w-20 h-20 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-4xl flex-shrink-0">
-                    {agent.icon}
-                  </div>
-
-                  {/* Info */}
-                  <div className="flex-grow">
-                    <div className="flex items-start justify-between mb-3">
-                      <div>
-                        <div className="flex items-center gap-3 mb-2">
-                          <h3 className="text-2xl font-bold text-secondary-900">{agent.name}</h3>
-                          {getStatusBadge(agent.status)}
-                          <span className={`px-3 py-1 rounded-lg text-xs font-medium ${
-                            agent.source === 'private'
-                              ? 'bg-purple-100 text-purple-700'
-                              : 'bg-blue-100 text-blue-700'
-                          }`}>
-                            {agent.source === 'private' ? 'Private' : 'Marketplace'}
-                          </span>
-                        </div>
-                        <p className="text-secondary-600">{agent.description}</p>
-                      </div>
-                    </div>
-
-                    {/* Metrics */}
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-4">
-                      <div>
-                        <div className="text-xs text-gray-500 mb-1">Total Executions</div>
-                        <div className="text-xl font-bold text-secondary-900">
-                          {formatNumber(agent.executions)}
-                        </div>
-                      </div>
-                      <div>
-                        <div className="text-xs text-gray-500 mb-1">Success Rate</div>
-                        <div className="text-xl font-bold text-green-600">
-                          {agent.successRate}%
-                        </div>
-                      </div>
-                      <div>
-                        <div className="text-xs text-gray-500 mb-1">Avg Processing Time</div>
-                        <div className="text-xl font-bold text-secondary-900">
-                          {agent.avgProcessingTime}
-                        </div>
-                      </div>
-                      <div>
-                        <div className="text-xs text-gray-500 mb-1">Last Active</div>
-                        <div className="text-xl font-bold text-secondary-900">
-                          {formatRelativeTime(agent.lastActive)}
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Tags */}
-                    <div className="flex items-center gap-3 mb-4">
-                      <span className="text-sm text-secondary-600">Engines:</span>
-                      <div className="flex gap-2">
-                        {agent.engines.map((engine, index) => (
-                          <span
-                            key={index}
-                            className="px-3 py-1 bg-gray-100 text-secondary-700 text-sm rounded-lg font-medium"
-                          >
-                            {engine}
-                          </span>
-                        ))}
-                      </div>
-                      <span className="text-sm text-secondary-600 ml-2">HITL:</span>
-                      <span className="px-3 py-1 bg-blue-100 text-blue-700 text-sm rounded-lg font-medium">
-                        {agent.hitlMode}
-                      </span>
-                    </div>
-
-                    {/* Actions */}
-                    <div className="flex items-center gap-3">
-                      <button
-                        onClick={() => handleToggleStatus(agent.id)}
-                        disabled={agent.status === 'error'}
-                        className={`px-6 py-2 rounded-xl text-sm font-semibold flex items-center gap-2 ${
-                          agent.status === 'active'
-                            ? 'bg-yellow-100 text-yellow-700 hover:bg-yellow-200'
-                            : agent.status === 'error'
-                            ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                            : 'bg-green-100 text-green-700 hover:bg-green-200'
-                        }`}
-                      >
-                        {agent.status === 'active' ? (
-                          <><Pause className="w-4 h-4" /> Pause Agent</>
-                        ) : agent.status === 'error' ? (
-                          <><AlertCircle className="w-4 h-4" /> Fix Error</>
-                        ) : (
-                          <><Play className="w-4 h-4" /> Resume Agent</>
-                        )}
-                      </button>
-                      <Link to={`/agentx/agents/${agent.id}/analytics`}>
-                        <button className="px-6 py-2 border border-gray-300 rounded-xl text-sm font-semibold hover:bg-gray-50 flex items-center gap-2">
-                          <TrendingUp className="w-4 h-4" />
-                          Analytics
-                        </button>
-                      </Link>
-                      <button className="px-6 py-2 border border-gray-300 rounded-xl text-sm font-semibold hover:bg-gray-50 flex items-center gap-2">
-                        <Eye className="w-4 h-4" />
-                        View Logs
-                      </button>
-                      <Link to={`/agentx/agents/${agent.id}/settings`}>
-                        <button className="px-6 py-2 border border-gray-300 rounded-xl text-sm font-semibold hover:bg-gray-50 flex items-center gap-2">
-                          <Settings className="w-4 h-4" />
-                          Configure
-                        </button>
-                      </Link>
-                      <button
-                        onClick={() => handleDelete(agent.id)}
-                        className="px-6 py-2 bg-red-100 text-red-700 rounded-xl text-sm font-semibold hover:bg-red-200 flex items-center gap-2"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                        Delete
-                      </button>
-                    </div>
-                  </div>
                 </div>
               </div>
             ))}

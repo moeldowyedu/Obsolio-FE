@@ -1,18 +1,40 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import MainLayout from '../../components/layout/MainLayout';
 import { useAuthStore } from '../../store/authStore';
 import { useBillingStore } from '../../store/billingStore';
 import { Badge } from '../../components/common';
 import { StatCard, QuickActions, RecentActivity, UsageChart, MyAgents } from '../../components/dashboard';
 import { PLANS } from '../../utils/constants';
+import { authService } from '../../services';
 
 const DashboardPage = () => {
   const { user } = useAuthStore();
   const { currentSubscription, fetchSubscription } = useBillingStore();
+  const [stats, setStats] = useState({
+    total_agents: 0,
+    total_executions: 0,
+    active_workflows: 0,
+    marketplace_sales: 0
+  });
+  const [isLoadingStats, setIsLoadingStats] = useState(true);
 
   useEffect(() => {
     fetchSubscription();
+    fetchDashboardStats();
   }, [fetchSubscription]);
+
+  const fetchDashboardStats = async () => {
+    try {
+      setIsLoadingStats(true);
+      const response = await authService.getDashboardStats();
+      setStats(response.data || response);
+    } catch (error) {
+      console.error('Failed to fetch dashboard stats:', error);
+      // Keep default stats if fetch fails
+    } finally {
+      setIsLoadingStats(false);
+    }
+  };
 
   // Get current plan details
   const currentPlan = currentSubscription
@@ -48,35 +70,35 @@ const DashboardPage = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <StatCard
             title="Total Agents"
-            value="12"
+            value={isLoadingStats ? "..." : String(stats.total_agents || 0)}
             icon={<span className="text-2xl">🤖</span>}
             color="primary"
             trend="up"
-            trendValue="3"
+            trendValue={stats.agents_trend || "0"}
           />
           <StatCard
             title="Runs This Month"
-            value="458"
+            value={isLoadingStats ? "..." : String(stats.total_executions || 0)}
             icon={<span className="text-2xl">▶️</span>}
             color="secondary"
             trend="up"
-            trendValue="12%"
+            trendValue={stats.executions_trend || "0%"}
           />
           <StatCard
             title="Active Workflows"
-            value="6"
+            value={isLoadingStats ? "..." : String(stats.active_workflows || 0)}
             icon={<span className="text-2xl">🎼</span>}
             color="purple"
             trend="up"
-            trendValue="2"
+            trendValue={stats.workflows_trend || "0"}
           />
           <StatCard
             title="Marketplace Sales"
-            value="$1,240"
+            value={isLoadingStats ? "..." : `$${stats.marketplace_sales || 0}`}
             icon={<span className="text-2xl">💰</span>}
             color="orange"
             trend="up"
-            trendValue="$340"
+            trendValue={stats.sales_trend || "$0"}
           />
         </div>
 
