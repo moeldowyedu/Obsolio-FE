@@ -13,11 +13,29 @@ export const ENGINES = [
     name: 'Precision Vision Engine',
     shortName: 'Vision',
     icon: 'eye',
-    description: 'Image analysis, object detection, OCR',
+    description: 'Image & video analysis, object detection, OCR, face recognition',
     color: '#3b82f6',
     category: 'Visual',
-    inputTypes: ['image/png', 'image/jpeg', 'image/gif', 'image/webp'],
-    capabilities: ['object-detection', 'ocr', 'image-classification', 'face-recognition'],
+    inputTypes: [
+      'image/png',
+      'image/jpeg',
+      'image/jpg',
+      'image/gif',
+      'image/webp',
+      'video/mp4',
+      'video/webm',
+      'video/avi'
+    ],
+    capabilities: [
+      'Object Detection',
+      'OCR (Optical Character Recognition)',
+      'Image Classification',
+      'Face Detection & Recognition',
+      'Emotion Analysis',
+      'Color Extraction',
+      'Video Analysis',
+      'Logo & Brand Detection'
+    ],
   },
   {
     id: 'audio',
