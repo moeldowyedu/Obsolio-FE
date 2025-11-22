@@ -172,7 +172,7 @@ const AgentDetailPage = () => {
   };
 
   const handleDeploy = () => {
-    navigate(`/marketplace/checkout/${agentId}`);
+    navigate(`/agentx/marketplace/checkout/${agentId}`);
   };
 
   if (!agent) {

@@ -268,7 +268,7 @@ const AppRoutes = () => {
         }
       />
       <Route
-        path="/marketplace/agent/:agentId"
+        path="/agentx/marketplace/agent/:agentId"
         element={
           <ProtectedRoute>
             <AgentDetailPage />
@@ -276,7 +276,7 @@ const AppRoutes = () => {
         }
       />
       <Route
-        path="/marketplace/checkout/:agentId"
+        path="/agentx/marketplace/checkout/:agentId"
         element={<CheckoutPage />}
       />
       <Route

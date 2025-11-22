@@ -469,7 +469,7 @@ const MarketplacePage = () => {
             {filteredAgents.map((agent) => (
               <div
                 key={agent.id}
-                onClick={() => navigate(`/marketplace/agent/${agent.id}`)}
+                onClick={() => navigate(`/agentx/marketplace/agent/${agent.id}`)}
                 className="glass-card rounded-2xl p-6 hover:shadow-xl transition-shadow cursor-pointer"
               >
                 {/* Icon */}
@@ -540,7 +540,7 @@ const MarketplacePage = () => {
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
-                        navigate(`/marketplace/checkout/${agent.id}`);
+                        navigate(`/agentx/marketplace/checkout/${agent.id}`);
                       }}
                       className="flex-1 px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-semibold hover:shadow-lg transition-shadow text-sm"
                     >
@@ -563,7 +563,7 @@ const MarketplacePage = () => {
             {filteredAgents.map((agent) => (
               <div
                 key={agent.id}
-                onClick={() => navigate(`/marketplace/agent/${agent.id}`)}
+                onClick={() => navigate(`/agentx/marketplace/agent/${agent.id}`)}
                 className="glass-card rounded-2xl p-6 hover:shadow-lg transition-shadow cursor-pointer"
               >
                 <div className="flex items-start gap-6">
@@ -640,7 +640,7 @@ const MarketplacePage = () => {
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
-                          navigate(`/marketplace/checkout/${agent.id}`);
+                          navigate(`/agentx/marketplace/checkout/${agent.id}`);
                         }}
                         className="px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-semibold hover:shadow-lg transition-shadow"
                       >
@@ -656,7 +656,7 @@ const MarketplacePage = () => {
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
-                          navigate(`/marketplace/agent/${agent.id}`);
+                          navigate(`/agentx/marketplace/agent/${agent.id}`);
                         }}
                         className="px-6 py-3 border border-gray-300 rounded-xl font-semibold text-secondary-700 hover:bg-gray-50"
                       >
