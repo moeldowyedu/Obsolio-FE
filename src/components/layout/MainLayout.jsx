@@ -8,7 +8,7 @@ const MainLayout = ({ children, showFooter = true, showSidebar = true }) => {
       <Header />
       <div className="flex flex-grow">
         {showSidebar && <Sidebar />}
-        <main className={`flex-grow overflow-x-auto ${showSidebar ? 'bg-gray-50' : 'container mx-auto px-6'}`}>
+        <main className={`flex-grow overflow-x-auto ${showSidebar ? 'bg-gray-50 px-8 lg:px-10 xl:px-12' : 'container mx-auto px-6'}`}>
           {children}
         </main>
       </div>
