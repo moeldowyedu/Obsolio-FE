@@ -31,9 +31,15 @@ const agentService = {
     return response.data;
   },
 
-  // Duplicate agent
+  // Clone agent
+  cloneAgent: async (agentId, cloneData = {}) => {
+    const response = await api.post(`/agents/${agentId}/clone`, cloneData);
+    return response.data;
+  },
+
+  // Duplicate agent (alias for clone)
   duplicateAgent: async (agentId) => {
-    const response = await api.post(`/agents/${agentId}/duplicate`);
+    const response = await api.post(`/agents/${agentId}/clone`);
     return response.data;
   },
 
@@ -55,15 +61,27 @@ const agentService = {
     return response.data;
   },
 
-  // Run agent once
-  runAgent: async (agentId, inputData) => {
-    const response = await api.post(`/agents/${agentId}/run`, inputData);
+  // Execute agent
+  executeAgent: async (agentId, inputData) => {
+    const response = await api.post(`/agents/${agentId}/execute`, inputData);
     return response.data;
   },
 
-  // Get agent execution history
+  // Run agent once (alias for execute)
+  runAgent: async (agentId, inputData) => {
+    const response = await api.post(`/agents/${agentId}/execute`, inputData);
+    return response.data;
+  },
+
+  // Get agent executions
+  getAgentExecutions: async (agentId, params = {}) => {
+    const response = await api.get(`/agents/${agentId}/executions`, { params });
+    return response.data;
+  },
+
+  // Get agent execution history (alias)
   getAgentHistory: async (agentId, params = {}) => {
-    const response = await api.get(`/agents/${agentId}/history`, { params });
+    const response = await api.get(`/agents/${agentId}/executions`, { params });
     return response.data;
   },
 
@@ -136,6 +154,12 @@ const agentService = {
   // Update agent HITL settings
   updateAgentHITL: async (agentId, hitlSettings) => {
     const response = await api.put(`/agents/${agentId}/hitl`, hitlSettings);
+    return response.data;
+  },
+
+  // Get agents analytics
+  getAgentsAnalytics: async (params = {}) => {
+    const response = await api.get('/analytics/agents', { params });
     return response.data;
   },
 };

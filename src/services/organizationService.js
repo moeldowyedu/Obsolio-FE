@@ -1,6 +1,81 @@
 import api from './api';
 
 const organizationService = {
+  // ========== Organizations ==========
+  organizations: {
+    /**
+     * Get all organizations
+     * GET /api/v1/organizations
+     */
+    list: async (params = {}) => {
+      const response = await api.get('/organizations', { params });
+      return response.data;
+    },
+
+    /**
+     * Get organization by ID
+     * GET /api/v1/organizations/{organization}
+     */
+    get: async (id) => {
+      const response = await api.get(`/organizations/${id}`);
+      return response.data;
+    },
+
+    /**
+     * Create new organization
+     * POST /api/v1/organizations
+     */
+    create: async (data) => {
+      const response = await api.post('/organizations', data);
+      return response.data;
+    },
+
+    /**
+     * Update organization
+     * PUT/PATCH /api/v1/organizations/{organization}
+     */
+    update: async (id, data) => {
+      const response = await api.put(`/organizations/${id}`, data);
+      return response.data;
+    },
+
+    /**
+     * Delete organization
+     * DELETE /api/v1/organizations/{organization}
+     */
+    delete: async (id) => {
+      const response = await api.delete(`/organizations/${id}`);
+      return response.data;
+    },
+
+    /**
+     * Get organization dashboard
+     * GET /api/v1/organizations/{id}/dashboard
+     */
+    getDashboard: async (id) => {
+      const response = await api.get(`/organizations/${id}/dashboard`);
+      return response.data;
+    },
+
+    /**
+     * Get branches by organization
+     * GET /api/v1/organizations/{organizationId}/branches
+     */
+    getBranches: async (organizationId) => {
+      const response = await api.get(`/organizations/${organizationId}/branches`);
+      return response.data;
+    },
+
+    /**
+     * Get departments by organization
+     * GET /api/v1/organizations/{organizationId}/departments
+     */
+    getDepartments: async (organizationId) => {
+      const response = await api.get(`/organizations/${organizationId}/departments`);
+      return response.data;
+    }
+  },
+
   // ========== Branches ==========
   branches: {
     list: async (filters = {}) => {
@@ -30,6 +105,15 @@ const organizationService = {
     delete: async (id) => {
       const response = await api.delete(`/branches/${id}`);
       return response.data;
+    },
+
+    /**
+     * Get departments by branch
+     * GET /api/v1/branches/{branchId}/departments
+     */
+    getDepartments: async (branchId) => {
+      const response = await api.get(`/branches/${branchId}/departments`);
+      return response.data;
     }
   },
 
@@ -57,6 +141,15 @@ const organizationService = {
 
     delete: async (id) => {
       const response = await api.delete(`/departments/${id}`);
+      return response.data;
+    },
+
+    /**
+     * Get projects by department
+     * GET /api/v1/departments/{departmentId}/projects
+     */
+    getProjects: async (departmentId) => {
+      const response = await api.get(`/departments/${departmentId}/projects`);
       return response.data;
     }
   },
@@ -96,6 +189,15 @@ const organizationService = {
     delete: async (id) => {
       const response = await api.delete(`/projects/${id}`);
       return response.data;
+    },
+
+    /**
+     * Update project status
+     * PUT /api/v1/projects/{id}/status
+     */
+    updateStatus: async (id, status) => {
+      const response = await api.put(`/projects/${id}/status`, { status });
+      return response.data;
     }
   },
 
@@ -127,6 +229,24 @@ const organizationService = {
 
     delete: async (id) => {
       const response = await api.delete(`/teams/${id}`);
+      return response.data;
+    },
+
+    /**
+     * Add member to team
+     * POST /api/v1/teams/{id}/members
+     */
+    addMember: async (teamId, memberData) => {
+      const response = await api.post(`/teams/${teamId}/members`, memberData);
+      return response.data;
+    },
+
+    /**
+     * Remove member from team
+     * DELETE /api/v1/teams/{id}/members/{userId}
+     */
+    removeMember: async (teamId, userId) => {
+      const response = await api.delete(`/teams/${teamId}/members/${userId}`);
       return response.data;
     }
   }
