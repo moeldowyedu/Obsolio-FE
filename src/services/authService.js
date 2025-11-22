@@ -14,7 +14,25 @@ const authService = {
 
   // Register
   register: async (userData) => {
-    const response = await api.post('/auth/register', userData);
+    // Transform frontend data to match backend API expectations
+    const requestData = {
+      name: userData.firstName && userData.lastName
+        ? `${userData.firstName} ${userData.lastName}`.trim()
+        : userData.name || userData.email?.split('@')[0] || 'User',
+      email: userData.email,
+      password: userData.password,
+      password_confirmation: userData.password, // Laravel expects this
+    };
+
+    // Add optional fields if provided
+    if (userData.phone) requestData.phone = userData.phone;
+    if (userData.tenantType) requestData.tenant_type = userData.tenantType;
+    if (userData.plan) requestData.plan = userData.plan;
+
+    console.log('📤 Sending registration data:', requestData);
+
+    const response = await api.post('/auth/register', requestData);
+
     // Auto-login after registration by saving token and user
     if (response.data.success && response.data.data.token) {
       localStorage.setItem('auth_token', response.data.data.token);
