@@ -75,11 +75,15 @@ const AccountCreationStep = ({ onNext }) => {
       newErrors.lastName = 'Last name must be at least 2 characters';
     }
 
-    // Phone validation (optional but must be valid if provided)
-    if (accountData.phone) {
+    // Phone validation (required)
+    if (!accountData.phone) {
+      newErrors.phone = 'Phone number is required';
+    } else {
       const phoneRegex = /^[+]?[(]?[0-9]{1,4}[)]?[-\s.]?[(]?[0-9]{1,4}[)]?[-\s.]?[0-9]{1,9}$/;
       if (!phoneRegex.test(accountData.phone.replace(/\s/g, ''))) {
         newErrors.phone = 'Please enter a valid phone number';
+      } else if (accountData.phone.replace(/\D/g, '').length < 10) {
+        newErrors.phone = 'Phone number must be at least 10 digits';
       }
     }
 
@@ -166,7 +170,8 @@ const AccountCreationStep = ({ onNext }) => {
           onChange={(e) => handleChange('phone', e.target.value)}
           leftIcon={<Phone className="w-5 h-5" />}
           error={errors.phone}
-          helperText="Optional - For account recovery and notifications"
+          helperText="For account recovery and notifications"
+          required
           fullWidth
         />
 

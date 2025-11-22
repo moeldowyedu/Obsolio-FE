@@ -23,10 +23,11 @@ const authService = {
       email: userData.email,
       password: userData.password,
       password_confirmation: userData.password, // Laravel expects this
+      phone: userData.phone, // Required field
     };
 
     // Only add optional fields if backend supports them
-    // Note: phone, tenant_type, plan removed - database doesn't have these columns
+    // Note: tenant_type, plan removed - database doesn't have these columns
 
     console.log('📤 Sending registration data:', requestData);
 
