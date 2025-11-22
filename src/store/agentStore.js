@@ -10,14 +10,23 @@ export const useAgentStore = create((set, get) => ({
 
   // Fetch all agents
   fetchAgents: async (params = {}) => {
-    set({ isLoading: true, error: null });
+    set({ isLoading: true, error: null, agents: [] });
     try {
-      const agents = await agentService.getAgents(params);
-      set({ agents, isLoading: false });
-      return agents;
+      const response = await agentService.getAgents(params);
+      // Handle both formats: direct array or wrapped in data property
+      const agents = Array.isArray(response) ? response : (response.data || response);
+      const agentArray = Array.isArray(agents) ? agents : [];
+
+      console.log('fetchAgents response:', response);
+      console.log('Extracted agents:', agentArray);
+
+      set({ agents: agentArray, isLoading: false });
+      return agentArray;
     } catch (error) {
+      console.error('fetchAgents error:', error);
       set({
-        error: error.response?.data?.message || 'Failed to fetch agents',
+        agents: [],
+        error: error.response?.data?.message || error.message || 'Failed to fetch agents',
         isLoading: false,
       });
       throw error;
