@@ -92,6 +92,12 @@ const authService = {
     }
     return response.data;
   },
+
+  // Get Dashboard Stats
+  getDashboardStats: async () => {
+    const response = await api.get('/dashboard/stats');
+    return response.data;
+  },
 };
 
 export default authService;

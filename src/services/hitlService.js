@@ -1,21 +1,33 @@
 import api from './api';
 
 const hitlService = {
-  // Get approval queue
+  // Get all HITL approvals
+  getApprovals: async (params = {}) => {
+    const response = await api.get('/hitl-approvals', { params });
+    return response.data;
+  },
+
+  // Get approval queue (alias)
   getApprovalQueue: async (params = {}) => {
-    const response = await api.get('/hitl/approvals', { params });
+    const response = await api.get('/hitl-approvals', { params });
+    return response.data;
+  },
+
+  // Get pending approvals
+  getPendingApprovals: async () => {
+    const response = await api.get('/hitl-approvals/pending');
     return response.data;
   },
 
   // Get approval by ID
   getApproval: async (approvalId) => {
-    const response = await api.get(`/hitl/approvals/${approvalId}`);
+    const response = await api.get(`/hitl-approvals/${approvalId}`);
     return response.data;
   },
 
   // Approve execution
   approve: async (approvalId, notes = '') => {
-    const response = await api.post(`/hitl/approvals/${approvalId}/approve`, {
+    const response = await api.post(`/hitl-approvals/${approvalId}/approve`, {
       notes,
     });
     return response.data;
@@ -23,15 +35,21 @@ const hitlService = {
 
   // Reject execution
   reject: async (approvalId, reason) => {
-    const response = await api.post(`/hitl/approvals/${approvalId}/reject`, {
+    const response = await api.post(`/hitl-approvals/${approvalId}/reject`, {
       reason,
     });
     return response.data;
   },
 
+  // Escalate approval
+  escalate: async (approvalId, escalationData = {}) => {
+    const response = await api.post(`/hitl-approvals/${approvalId}/escalate`, escalationData);
+    return response.data;
+  },
+
   // Request changes
   requestChanges: async (approvalId, changes) => {
-    const response = await api.post(`/hitl/approvals/${approvalId}/request-changes`, {
+    const response = await api.post(`/hitl-approvals/${approvalId}/request-changes`, {
       changes,
     });
     return response.data;

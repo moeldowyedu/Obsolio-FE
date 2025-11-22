@@ -39,6 +39,38 @@ const engineService = {
     return response.data;
   },
 
+  // ========== Rubrics Management ==========
+
+  // Get engine rubrics
+  getRubrics: async (engineId, params = {}) => {
+    const response = await api.get(`/engines/${engineId}/rubrics`, { params });
+    return response.data;
+  },
+
+  // Get rubric by ID
+  getRubricById: async (engineId, rubricId) => {
+    const response = await api.get(`/engines/${engineId}/rubrics/${rubricId}`);
+    return response.data;
+  },
+
+  // Create new rubric
+  createRubric: async (engineId, rubricData) => {
+    const response = await api.post(`/engines/${engineId}/rubrics`, rubricData);
+    return response.data;
+  },
+
+  // Update rubric
+  updateRubric: async (engineId, rubricId, rubricData) => {
+    const response = await api.put(`/engines/${engineId}/rubrics/${rubricId}`, rubricData);
+    return response.data;
+  },
+
+  // Delete rubric
+  deleteRubric: async (engineId, rubricId) => {
+    const response = await api.delete(`/engines/${engineId}/rubrics/${rubricId}`);
+    return response.data;
+  },
+
   // Vision Engine specific methods
   vision: {
     analyzeImage: async (imageData, options = {}) => {
