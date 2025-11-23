@@ -27,7 +27,7 @@ const AgentCard = ({ agent, featured = false }) => {
 
   return (
     <Card
-      onClick={() => navigate(`/marketplace/${agent.id}`)}
+      onClick={() => navigate(`/agentx/marketplace/agent/${agent.id}`)}
       padding="none"
       hover
       className={`cursor-pointer transition-all duration-300 overflow-hidden ${

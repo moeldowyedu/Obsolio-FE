@@ -170,10 +170,14 @@ const JobCalendarPage = () => {
             {jobs.slice(0, 3).map((job) => (
               <div
                 key={job.id}
-                className={`text-xs p-1 rounded cursor-pointer ${getStatusColor(
+                className={`text-xs p-1 rounded ${getStatusColor(
                   job.status
                 )}`}
-                onClick={() => navigate(`/job-flows/${job.id}`)}
+                onClick={() => {
+                  // TODO: Add job flow details page route
+                  console.log('View job flow details:', job.id);
+                }}
+                title="View details (coming soon)"
               >
                 <div className="flex items-center gap-1">
                   <Clock className="w-3 h-3" />
@@ -301,8 +305,12 @@ const JobCalendarPage = () => {
             .map((job) => (
               <div
                 key={job.id}
-                className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer"
-                onClick={() => navigate(`/job-flows/${job.id}`)}
+                className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
+                onClick={() => {
+                  // TODO: Add job flow details page route
+                  console.log('View job flow details:', job.id);
+                }}
+                title="View details (coming soon)"
               >
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center">

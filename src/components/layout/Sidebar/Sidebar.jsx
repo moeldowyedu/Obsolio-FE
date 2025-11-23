@@ -90,7 +90,6 @@ const Sidebar = () => {
         { name: 'My Agents', href: '/agentx/my-agents', icon: '👤' },
         { name: 'Agent Builder', href: '/agentx/builder', icon: '🔧' },
         { name: 'Deploy Agent', href: '/agents/deploy', icon: '➕' },
-        { name: 'Monetization', href: '/agentx/monetization', icon: '💰' },
         { name: 'Developer Portal', href: '/agentx/developer', icon: '📚' },
       ]
     },

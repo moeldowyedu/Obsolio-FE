@@ -207,8 +207,12 @@ const BranchDetailsPage = () => {
               {branch.departments.map((dept) => (
                 <div
                   key={dept.id}
-                  className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer"
-                  onClick={() => navigate(`/organization/departments/${dept.id}`)}
+                  className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
+                  onClick={() => {
+                    // TODO: Add department details page route
+                    navigate('/organization/departments');
+                  }}
+                  title="View all departments"
                 >
                   <div className="flex items-center gap-3">
                     <Building2 className="w-5 h-5 text-gray-400" />

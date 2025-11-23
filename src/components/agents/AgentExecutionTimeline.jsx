@@ -123,8 +123,12 @@ const AgentExecutionTimeline = ({ executions = [], agentId }) => {
                       </p>
                     </div>
                     <button
-                      onClick={() => navigate(`/agents/${agentId}/executions/${execution.id}`)}
+                      onClick={() => {
+                        // TODO: Add execution details page route
+                        console.log('View execution details:', execution.id);
+                      }}
                       className="p-2 hover:bg-gray-100 rounded-md transition-colors"
+                      title="Execution details (coming soon)"
                     >
                       <Eye className="w-5 h-5 text-gray-500" />
                     </button>

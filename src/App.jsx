@@ -39,6 +39,9 @@ import AgentXBuilderPage from './pages/AgentX/AgentBuilderPage'
 import MyAgentsPage from './pages/AgentX/MyAgentsPage'
 import PrivateAgentsPage from './pages/AgentX/PrivateAgentsPage'
 import DeveloperPortalPage from './pages/AgentX/DeveloperPortalPage'
+import AgentDetailPage from './pages/AgentX/AgentDetailPage'
+import CheckoutPage from './pages/AgentX/CheckoutPage'
+import ChatPage from './pages/Chat/ChatPage'
 // Phase 10 Pages - Organization
 import BranchesPage from './pages/Organization/BranchesPage'
 import BranchDetailsPage from './pages/Organization/BranchDetailsPage'
@@ -248,6 +251,16 @@ function App() {
           }
         />
 
+        {/* Chat/Messages Route */}
+        <Route
+          path="/chat"
+          element={
+            <ProtectedRoute>
+              <ChatPage />
+            </ProtectedRoute>
+          }
+        />
+
         {/* Organization Routes */}
         <Route
           path="/organization/branches"
@@ -308,6 +321,22 @@ function App() {
           }
         />
         <Route
+          path="/agentx/marketplace/agent/:id"
+          element={
+            <ProtectedRoute>
+              <AgentDetailPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/agentx/marketplace/checkout/:id"
+          element={
+            <ProtectedRoute>
+              <CheckoutPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path="/agentx/my-agents"
           element={
             <ProtectedRoute>
@@ -347,9 +376,22 @@ function App() {
             </ProtectedRoute>
           }
         />
+        {/* Legacy routes - redirects */}
         <Route
           path="/agents/my-agents"
           element={<Navigate to="/agentx/my-agents" replace />}
+        />
+        <Route
+          path="/agents/create"
+          element={<Navigate to="/agentx/builder" replace />}
+        />
+        <Route
+          path="/marketplace"
+          element={<Navigate to="/agentx/marketplace" replace />}
+        />
+        <Route
+          path="/marketplace/:id"
+          element={<Navigate to="/agentx/marketplace/agent/:id" replace />}
         />
 
         {/* HITL Routes */}

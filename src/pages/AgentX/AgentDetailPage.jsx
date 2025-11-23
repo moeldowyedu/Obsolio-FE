@@ -190,7 +190,7 @@ const AgentDetailPage = () => {
       <div className="py-6 space-y-6">
         {/* Breadcrumb */}
         <div className="flex items-center gap-2 text-sm text-secondary-600">
-          <button onClick={() => navigate('/marketplace')} className="hover:text-primary-600">
+          <button onClick={() => navigate('/agentx/marketplace')} className="hover:text-primary-600">
             Marketplace
           </button>
           <ChevronRight className="w-4 h-4" />

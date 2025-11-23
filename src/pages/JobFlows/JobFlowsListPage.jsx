@@ -282,8 +282,11 @@ const JobFlowsListPage = () => {
         {filteredJobFlows.map((jobFlow) => (
           <Card
             key={jobFlow.id}
-            className="hover:shadow-lg transition-shadow cursor-pointer"
-            onClick={() => navigate(`/job-flows/${jobFlow.id}`)}
+            className="hover:shadow-lg transition-shadow"
+            onClick={() => {
+              // TODO: Add job flow details page route
+              console.log('View job flow details:', jobFlow.id);
+            }}
           >
             <div className="flex items-start gap-4">
               <div className="w-16 h-16 bg-primary-100 rounded-lg flex items-center justify-center flex-shrink-0">
@@ -344,8 +347,10 @@ const JobFlowsListPage = () => {
                   size="sm"
                   onClick={(e) => {
                     e.stopPropagation();
-                    navigate(`/job-flows/${jobFlow.id}`);
+                    // TODO: Add job flow details page route
+                    console.log('View job flow details:', jobFlow.id);
                   }}
+                  title="View details (coming soon)"
                 >
                   <Eye className="w-4 h-4" />
                 </Button>

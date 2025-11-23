@@ -48,7 +48,7 @@ const MyAgents = ({ agents = [] }) => {
           My Agents
         </h3>
         <button
-          onClick={() => navigate('/agents/create')}
+          onClick={() => navigate('/agentx/builder')}
           className="text-sm text-primary-600 hover:text-primary-600 font-medium"
         >
           + New Agent
@@ -59,7 +59,7 @@ const MyAgents = ({ agents = [] }) => {
         {mockAgents.map((agent) => (
           <div
             key={agent.id}
-            onClick={() => navigate(`/agents/${agent.id}`)}
+            onClick={() => navigate('/agentx/my-agents')}
             className="p-4 rounded-lg border border-gray-200 hover:border-primary-300 hover:bg-primary-50 transition-all cursor-pointer"
           >
             <div className="flex items-center justify-between mb-2">
@@ -91,7 +91,7 @@ const MyAgents = ({ agents = [] }) => {
         <div className="text-center py-8">
           <p className="text-gray-500">No agents yet</p>
           <button
-            onClick={() => navigate('/agents/create')}
+            onClick={() => navigate('/agentx/builder')}
             className="mt-2 text-sm text-primary-600 hover:text-primary-600 font-medium"
           >
             Create your first agent →
