@@ -79,82 +79,82 @@ const Sidebar = () => {
     {
       name: 'Dashboard',
       href: '/dashboard',
-      icon: '📊',
+      icon: 'dashboard',
       exact: true
     },
     {
       name: 'Organization',
-      icon: '🏢',
+      icon: 'business',
       section: 'organization',
       children: [
-        { name: 'Branches', href: '/organization/branches', icon: '🏛️' },
-        { name: 'Departments', href: '/organization/departments', icon: '🏗️' },
-        { name: 'Projects', href: '/organization/projects', icon: '📁' },
-        { name: 'Teams', href: '/organization/teams', icon: '👥' },
+        { name: 'Branches', href: '/organization/branches', icon: 'account_tree' },
+        { name: 'Departments', href: '/organization/departments', icon: 'corporate_fare' },
+        { name: 'Projects', href: '/organization/projects', icon: 'folder' },
+        { name: 'Teams', href: '/organization/teams', icon: 'groups' },
       ]
     },
     {
       name: 'AgentX Hub',
-      icon: '🤖',
+      icon: 'smart_toy',
       section: 'agentx',
       children: [
-        { name: 'Marketplace', href: '/agentx/marketplace', icon: '🏪' },
-        { name: 'My Agents', href: '/agentx/my-agents', icon: '👤' },
-        { name: 'Agent Builder', href: '/agentx/builder', icon: '🔧' },
-        { name: 'Deploy Agent', href: '/agents/deploy', icon: '➕' },
-        { name: 'Developer Portal', href: '/agentx/developer', icon: '📚' },
+        { name: 'Marketplace', href: '/agentx/marketplace', icon: 'store' },
+        { name: 'My Agents', href: '/agentx/my-agents', icon: 'person' },
+        { name: 'Agent Builder', href: '/agentx/builder', icon: 'construction' },
+        { name: 'Deploy Agent', href: '/agents/deploy', icon: 'add_circle' },
+        { name: 'Developer Portal', href: '/agentx/developer', icon: 'code' },
       ]
     },
     {
       name: 'Messages',
       href: '/chat',
-      icon: '💬',
+      icon: 'chat',
       exact: true
     },
     {
       name: 'Job Flows',
-      icon: '⚡',
+      icon: 'bolt',
       section: 'jobFlows',
       children: [
-        { name: 'All Job Flows', href: '/job-flows/all', icon: '📋' },
-        { name: 'Job Calendar', href: '/job-flows/calendar', icon: '📅' },
-        { name: 'Execution History', href: '/job-flows/history', icon: '📜' },
+        { name: 'All Job Flows', href: '/job-flows/all', icon: 'list_alt' },
+        { name: 'Job Calendar', href: '/job-flows/calendar', icon: 'calendar_month' },
+        { name: 'Execution History', href: '/job-flows/history', icon: 'history' },
       ]
     },
     {
       name: 'Orchestration',
-      icon: '🔀',
+      icon: 'account_tree',
       section: 'orchestration',
       children: [
-        { name: 'Workflows', href: '/orchestration/workflows', icon: '📊' },
-        { name: 'Workflow Builder', href: '/orchestration/builder', icon: '🔧' },
-        { name: 'Execution History', href: '/orchestration/history', icon: '📜' },
+        { name: 'Workflows', href: '/orchestration/workflows', icon: 'workflow' },
+        { name: 'Workflow Builder', href: '/orchestration/builder', icon: 'construction' },
+        { name: 'Execution History', href: '/orchestration/history', icon: 'history' },
       ]
     },
     {
       name: 'Scheduling',
-      icon: '📅',
+      icon: 'schedule',
       section: 'scheduling',
       children: [
-        { name: 'Scheduled Jobs', href: '/scheduling/jobs', icon: '⏰' },
-        { name: 'Calendar View', href: '/scheduling/calendar', icon: '📆' },
-        { name: 'Upcoming Runs', href: '/scheduling/upcoming', icon: '⏳' },
+        { name: 'Scheduled Jobs', href: '/scheduling/jobs', icon: 'alarm' },
+        { name: 'Calendar View', href: '/scheduling/calendar', icon: 'calendar_today' },
+        { name: 'Upcoming Runs', href: '/scheduling/upcoming', icon: 'hourglass_empty' },
       ]
     },
     {
       name: 'HITL Framework',
-      icon: '👥',
+      icon: 'supervised_user_circle',
       section: 'hitl',
       children: [
-        { name: 'Approval Queue', href: '/hitl/approval-queue', icon: '📥' },
-        { name: 'My Approvals', href: '/hitl/my-approvals', icon: '✅' },
-        { name: 'Activity Logs', href: '/hitl/activity-logs', icon: '📜' },
-        { name: 'HITL Configuration', href: '/hitl/configuration', icon: '⚙️' },
+        { name: 'Approval Queue', href: '/hitl/approval-queue', icon: 'inbox' },
+        { name: 'My Approvals', href: '/hitl/my-approvals', icon: 'check_circle' },
+        { name: 'Activity Logs', href: '/hitl/activity-logs', icon: 'receipt_long' },
+        { name: 'HITL Configuration', href: '/hitl/configuration', icon: 'settings' },
       ]
     },
     {
       name: 'Precision AI Engines',
-      icon: '⚙️',
+      icon: 'precision_manufacturing',
       section: 'engines',
       children: ENGINES.map(engine => ({
         name: engine.shortName,
@@ -164,46 +164,45 @@ const Sidebar = () => {
     },
     {
       name: 'Integrations',
-      icon: '🔌',
+      icon: 'extension',
       section: 'integrations',
       children: [
-        { name: 'Connected Apps', href: '/integrations/connected', icon: '🔗' },
-        { name: 'API Keys', href: '/integrations/api-keys', icon: '🔑' },
-        { name: 'Webhooks', href: '/integrations/webhooks', icon: '🪝' },
-        { name: 'Browse Integrations', href: '/integrations/browse', icon: '🏪' },
+        { name: 'Connected Apps', href: '/integrations/connected', icon: 'link' },
+        { name: 'API Keys', href: '/integrations/api-keys', icon: 'key' },
+        { name: 'Webhooks', href: '/integrations/webhooks', icon: 'webhook' },
+        { name: 'Browse Integrations', href: '/integrations/browse', icon: 'apps' },
       ]
     },
     {
       name: 'Team & Users',
-      icon: '👥',
+      icon: 'group',
       section: 'teamUsers',
       children: [
-        { name: 'All Users', href: '/team-users/all', icon: '👤' },
-        { name: 'Invite Users', href: '/team-users/invite', icon: '📧' },
-        { name: 'Roles & Permissions', href: '/team-users/roles', icon: '🔐' },
-        { name: 'User Activity', href: '/team-users/activity', icon: '📊' },
+        { name: 'All Users', href: '/team-users/all', icon: 'person' },
+        { name: 'Roles & Permissions', href: '/team-users/roles', icon: 'admin_panel_settings' },
+        { name: 'User Activity', href: '/team-users/activity', icon: 'analytics' },
       ]
     },
     {
       name: 'Billing & Usage',
-      icon: '💳',
+      icon: 'credit_card',
       section: 'billing',
       children: [
-        { name: 'Overview', href: '/billing/overview', icon: '📊' },
-        { name: 'Subscription', href: '/billing/subscription', icon: '💰' },
-        { name: 'Usage Reports', href: '/billing/usage', icon: '📈' },
-        { name: 'Invoices', href: '/billing/invoices', icon: '🧾' },
+        { name: 'Overview', href: '/billing/overview', icon: 'dashboard' },
+        { name: 'Subscription', href: '/billing/subscription', icon: 'payments' },
+        { name: 'Usage Reports', href: '/billing/usage', icon: 'trending_up' },
+        { name: 'Invoices', href: '/billing/invoices', icon: 'receipt' },
       ]
     },
     {
       name: 'Settings',
-      icon: '⚙️',
+      icon: 'settings',
       section: 'settings',
       children: [
-        { name: 'Tenant Settings', href: '/settings/tenant', icon: '🏢' },
-        { name: 'Rubrics', href: '/settings/rubrics', icon: '📋' },
-        { name: 'Security', href: '/settings/security', icon: '🔒' },
-        { name: 'Notifications', href: '/settings/notifications', icon: '🔔' },
+        { name: 'Tenant Settings', href: '/settings/tenant', icon: 'business' },
+        { name: 'Rubrics', href: '/settings/rubrics', icon: 'rule' },
+        { name: 'Security', href: '/settings/security', icon: 'lock' },
+        { name: 'Notifications', href: '/settings/notifications', icon: 'notifications' },
       ]
     },
   ];
@@ -258,13 +257,12 @@ const Sidebar = () => {
                 <li key={item.name}>
                   <button
                     onClick={() => !isCollapsed && toggleSection(item.section)}
-                    className={`w-full flex items-center ${isCollapsed ? 'justify-center' : 'justify-between'} px-3 py-2 text-sm font-medium rounded-lg transition-colors group ${
-                      isAnyChildActive ? 'bg-primary-50 text-primary-700' : 'text-gray-700 hover:bg-gray-100'
-                    }`}
+                    className={`w-full flex items-center ${isCollapsed ? 'justify-center' : 'justify-between'} px-3 py-2 text-sm font-medium rounded-lg transition-colors group ${isAnyChildActive ? 'bg-primary-50 text-primary-700' : 'text-gray-700 hover:bg-gray-100'
+                      }`}
                     title={isCollapsed ? item.name : ''}
                   >
                     <div className="flex items-center gap-3">
-                      <span className="text-lg">{item.icon}</span>
+                      <span className="material-icons text-lg text-secondary-600">{item.icon}</span>
                       {!isCollapsed && <span>{item.name}</span>}
                     </div>
                     {!isCollapsed && (
@@ -287,14 +285,13 @@ const Sidebar = () => {
                           <NavLink
                             to={child.href}
                             className={({ isActive }) =>
-                              `flex items-center gap-3 px-3 py-2 text-sm rounded-lg transition-colors ${
-                                isActive
-                                  ? 'bg-primary-100 text-primary-700 font-medium'
-                                  : 'text-gray-600 hover:bg-gray-100'
+                              `flex items-center gap-3 px-3 py-2 text-sm rounded-lg transition-colors ${isActive
+                                ? 'bg-primary-100 text-primary-700 font-medium'
+                                : 'text-gray-600 hover:bg-gray-100'
                               }`
                             }
                           >
-                            <span className="text-base">{child.icon}</span>
+                            <span className="material-icons text-base text-secondary-600">{child.icon}</span>
                             <span>{child.name}</span>
                           </NavLink>
                         </li>
@@ -314,14 +311,13 @@ const Sidebar = () => {
                             key={child.href}
                             to={child.href}
                             className={({ isActive }) =>
-                              `flex items-center gap-3 px-4 py-2 text-sm transition-colors ${
-                                isActive
-                                  ? 'bg-primary-50 text-primary-700 font-medium'
-                                  : 'text-gray-600 hover:bg-gray-50'
+                              `flex items-center gap-3 px-4 py-2 text-sm transition-colors ${isActive
+                                ? 'bg-primary-50 text-primary-700 font-medium'
+                                : 'text-gray-600 hover:bg-gray-50'
                               }`
                             }
                           >
-                            <span className="text-base">{child.icon}</span>
+                            <span className="material-icons text-base text-secondary-600">{child.icon}</span>
                             <span>{child.name}</span>
                           </NavLink>
                         ))}
@@ -338,15 +334,14 @@ const Sidebar = () => {
                   to={item.href}
                   end={item.exact}
                   className={({ isActive }) =>
-                    `flex items-center ${isCollapsed ? 'justify-center' : 'gap-3'} px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
-                      isActive
-                        ? 'bg-primary-100 text-primary-700'
-                        : 'text-gray-700 hover:bg-gray-100'
+                    `flex items-center ${isCollapsed ? 'justify-center' : 'gap-3'} px-3 py-2 text-sm font-medium rounded-lg transition-colors ${isActive
+                      ? 'bg-primary-100 text-primary-700'
+                      : 'text-gray-700 hover:bg-gray-100'
                     }`
                   }
                   title={isCollapsed ? item.name : ''}
                 >
-                  <span className="text-lg">{item.icon}</span>
+                  <span className="material-icons text-lg text-secondary-600">{item.icon}</span>
                   {!isCollapsed && <span>{item.name}</span>}
                 </NavLink>
 

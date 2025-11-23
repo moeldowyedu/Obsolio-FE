@@ -17,7 +17,7 @@ const ChatPage = () => {
       {
         id: '1',
         name: 'LegalTech Corp',
-        avatar: '⚖️',
+        avatar: 'LC',
         lastMessage: 'Thank you for your interest in our Legal Document Analyzer!',
         timestamp: '2 min ago',
         unread: 2,
@@ -28,7 +28,7 @@ const ChatPage = () => {
       {
         id: '2',
         name: 'SalesPro Inc',
-        avatar: '📈',
+        avatar: 'SP',
         lastMessage: 'The Sales Forecasting AI can definitely help with your pipeline analysis.',
         timestamp: '15 min ago',
         unread: 0,
@@ -39,7 +39,7 @@ const ChatPage = () => {
       {
         id: '3',
         name: 'TalentHub Solutions',
-        avatar: '👥',
+        avatar: 'TS',
         lastMessage: 'We offer custom integration with your existing ATS system.',
         timestamp: '1 hour ago',
         unread: 1,
@@ -50,7 +50,7 @@ const ChatPage = () => {
       {
         id: '4',
         name: 'Aasim AI Support',
-        avatar: '🤖',
+        avatar: 'AS',
         lastMessage: 'Your deployment has been completed successfully!',
         timestamp: '3 hours ago',
         unread: 0,
@@ -61,7 +61,7 @@ const ChatPage = () => {
       {
         id: '5',
         name: 'MarketPro Analytics',
-        avatar: '📊',
+        avatar: 'MA',
         lastMessage: 'The free trial includes all premium features for 14 days.',
         timestamp: 'Yesterday',
         unread: 0,
@@ -72,7 +72,7 @@ const ChatPage = () => {
       {
         id: '6',
         name: 'HealthTech Systems',
-        avatar: '🏥',
+        avatar: 'HS',
         lastMessage: 'HIPAA compliance is built into every aspect of our agent.',
         timestamp: '2 days ago',
         unread: 0,
@@ -193,9 +193,8 @@ const ChatPage = () => {
     <MainLayout showSidebar={true}>
       <div className="h-[calc(100vh-4rem)] flex">
         {/* Conversations List */}
-        <div className={`w-full md:w-96 border-r border-gray-200 bg-white flex flex-col ${
-          showMobileChat ? 'hidden md:flex' : 'flex'
-        }`}>
+        <div className={`w-full md:w-96 border-r border-gray-200 bg-white flex flex-col ${showMobileChat ? 'hidden md:flex' : 'flex'
+          }`}>
           {/* Header */}
           <div className="p-4 border-b border-gray-200">
             <h1 className="text-2xl font-bold text-secondary-900 mb-4 tracking-tight">Messages</h1>
@@ -226,15 +225,14 @@ const ChatPage = () => {
                     c.id === conv.id ? { ...c, unread: 0 } : c
                   ));
                 }}
-                className={`p-4 border-b border-gray-100 cursor-pointer hover:bg-gray-50 transition-colors ${
-                  selectedConversation?.id === conv.id ? 'bg-primary-50 border-l-4 border-l-primary-600' : ''
-                }`}
+                className={`p-4 border-b border-gray-100 cursor-pointer hover:bg-gray-50 transition-colors ${selectedConversation?.id === conv.id ? 'bg-primary-50 border-l-4 border-l-primary-600' : ''
+                  }`}
               >
                 <div className="flex items-start gap-3">
                   {/* Avatar */}
                   <div className="relative flex-shrink-0">
-                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary-500 to-purple-600 flex items-center justify-center text-xl">
-                      {conv.avatar}
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary-500 to-purple-600 flex items-center justify-center">
+                      <span className="text-white font-bold text-sm">{conv.avatar}</span>
                     </div>
                     {conv.online && (
                       <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full" />
@@ -266,9 +264,8 @@ const ChatPage = () => {
 
         {/* Chat Area */}
         {selectedConversation ? (
-          <div className={`flex-1 flex flex-col bg-gray-50 ${
-            showMobileChat ? 'flex' : 'hidden md:flex'
-          }`}>
+          <div className={`flex-1 flex flex-col bg-gray-50 ${showMobileChat ? 'flex' : 'hidden md:flex'
+            }`}>
             {/* Chat Header */}
             <div className="bg-white border-b border-gray-200 p-4">
               <div className="flex items-center justify-between">
@@ -281,8 +278,8 @@ const ChatPage = () => {
                   </button>
 
                   <div className="relative">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary-500 to-purple-600 flex items-center justify-center text-xl">
-                      {selectedConversation.avatar}
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary-500 to-purple-600 flex items-center justify-center">
+                      <span className="text-white font-bold text-sm">{selectedConversation.avatar}</span>
                     </div>
                     {selectedConversation.online && (
                       <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full" />
@@ -326,19 +323,18 @@ const ChatPage = () => {
                 >
                   {/* Avatar */}
                   {!message.isOwn && (
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary-500 to-purple-600 flex items-center justify-center text-sm flex-shrink-0">
-                      {selectedConversation.avatar}
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary-500 to-purple-600 flex items-center justify-center flex-shrink-0">
+                      <span className="text-white font-bold text-xs">{selectedConversation.avatar}</span>
                     </div>
                   )}
 
                   {/* Message Bubble */}
                   <div className={`max-w-md ${message.isOwn ? 'items-end' : 'items-start'} flex flex-col`}>
                     <div
-                      className={`rounded-2xl px-4 py-2 ${
-                        message.isOwn
-                          ? 'bg-gradient-to-r from-primary-600 to-primary-700 text-white'
-                          : 'bg-white text-secondary-900 border border-gray-200'
-                      }`}
+                      className={`rounded-2xl px-4 py-2 ${message.isOwn
+                        ? 'bg-gradient-to-r from-primary-600 to-primary-700 text-white'
+                        : 'bg-white text-secondary-900 border border-gray-200'
+                        }`}
                     >
                       <p className="text-sm leading-relaxed">{message.content}</p>
                     </div>

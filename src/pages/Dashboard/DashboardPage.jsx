@@ -43,16 +43,16 @@ const DashboardPage = () => {
     : PLANS[0]; // Default to Starter
 
   return (
-    <MainLayout>
+    <MainLayout showFooter={false}>
       <div className="py-6 space-y-8">
-        {/* Welcome Section */}
+        {/* Header Section */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between">
           <div>
-            <h1 className="text-4xl font-heading font-bold text-secondary-900 mb-2 tracking-tight">
-              Welcome back, {user?.name || 'User'}!
+            <h1 className="text-3xl font-heading font-bold text-secondary-900 mb-1 tracking-tight">
+              Dashboard
             </h1>
-            <p className="text-secondary-600 font-medium">
-              Here's what's happening with your Precision AI Agents today
+            <p className="text-sm text-secondary-500">
+              {new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
             </p>
           </div>
           <div className="mt-4 md:mt-0">
@@ -72,7 +72,7 @@ const DashboardPage = () => {
           <StatCard
             title="Total Agents"
             value={isLoadingStats ? "..." : String(stats.total_agents || 0)}
-            icon={<span className="text-2xl">🤖</span>}
+            icon={<span className="material-icons text-2xl text-primary-600">smart_toy</span>}
             color="primary"
             trend="up"
             trendValue={stats.agents_trend || "0"}
@@ -80,7 +80,7 @@ const DashboardPage = () => {
           <StatCard
             title="Runs This Month"
             value={isLoadingStats ? "..." : String(stats.total_executions || 0)}
-            icon={<span className="text-2xl">▶️</span>}
+            icon={<span className="material-icons text-2xl text-secondary-600">play_arrow</span>}
             color="secondary"
             trend="up"
             trendValue={stats.executions_trend || "0%"}
@@ -88,7 +88,7 @@ const DashboardPage = () => {
           <StatCard
             title="Active Workflows"
             value={isLoadingStats ? "..." : String(stats.active_workflows || 0)}
-            icon={<span className="text-2xl">🎼</span>}
+            icon={<span className="material-icons text-2xl text-purple-600">account_tree</span>}
             color="purple"
             trend="up"
             trendValue={stats.workflows_trend || "0"}
@@ -96,7 +96,7 @@ const DashboardPage = () => {
           <StatCard
             title="Marketplace Sales"
             value={isLoadingStats ? "..." : `$${stats.marketplace_sales || 0}`}
-            icon={<span className="text-2xl">💰</span>}
+            icon={<span className="material-icons text-2xl text-orange-600">payments</span>}
             color="orange"
             trend="up"
             trendValue={stats.sales_trend || "$0"}
@@ -134,7 +134,7 @@ const DashboardPage = () => {
           <div className="bg-gradient-to-br from-primary-50 to-primary-100 rounded-xl p-6 border border-primary-200">
             <div className="flex items-center gap-3 mb-3">
               <div className="w-10 h-10 bg-primary-600 rounded-lg flex items-center justify-center">
-                <span className="text-white text-xl">💡</span>
+                <span className="material-icons text-white text-xl">precision_manufacturing</span>
               </div>
               <h3 className="font-heading font-semibold text-secondary-900">
                 Precision AI Engines
@@ -154,7 +154,7 @@ const DashboardPage = () => {
           <div className="bg-gradient-to-br from-secondary-50 to-secondary-100 rounded-xl p-6 border border-secondary-200">
             <div className="flex items-center gap-3 mb-3">
               <div className="w-10 h-10 bg-secondary-500 rounded-lg flex items-center justify-center">
-                <span className="text-white text-xl">🏪</span>
+                <span className="material-icons text-white text-xl">store</span>
               </div>
               <h3 className="font-heading font-semibold text-secondary-900">
                 AgentX Hub
@@ -174,7 +174,7 @@ const DashboardPage = () => {
           <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-6 border border-purple-200">
             <div className="flex items-center gap-3 mb-3">
               <div className="w-10 h-10 bg-purple-500 rounded-lg flex items-center justify-center">
-                <span className="text-white text-xl">👥</span>
+                <span className="material-icons text-white text-xl">supervised_user_circle</span>
               </div>
               <h3 className="font-heading font-semibold text-secondary-900">
                 HITL Mode

@@ -148,13 +148,13 @@ const BranchesPage = () => {
       setBranches(branches.map(branch =>
         branch.id === editingBranch.id
           ? {
-              ...branch,
-              name: formData.name,
-              location: formData.location,
-              address: formData.location, // In real app, this would be a separate field
-              manager: formData.manager,
-              status: formData.status,
-            }
+            ...branch,
+            name: formData.name,
+            location: formData.location,
+            address: formData.location, // In real app, this would be a separate field
+            manager: formData.manager,
+            status: formData.status,
+          }
           : branch
       ));
       setIsEditModalOpen(false);
@@ -284,52 +284,60 @@ const BranchesPage = () => {
         </Card>
 
         {/* Branches List */}
-        <div className="grid grid-cols-1 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredBranches.map((branch) => (
             <Card key={branch.id} className="hover:shadow-lg transition-shadow">
-              <div className="flex items-start justify-between">
-                <div className="flex items-start gap-4 flex-1">
-                  <div className="w-16 h-16 bg-primary-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Building2 className="w-8 h-8 text-primary-600" />
-                  </div>
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-2">
-                      <h3 className="text-xl font-semibold text-secondary-900">
+              <div className="space-y-4">
+                {/* Header */}
+                <div className="flex items-start justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                      <Building2 className="w-6 h-6 text-primary-600" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-semibold text-secondary-900">
                         {branch.name}
                       </h3>
-                      <Badge className="bg-green-100 text-green-700">
+                      <Badge className="bg-green-100 text-green-700 text-xs mt-1">
                         {branch.status.toUpperCase()}
                       </Badge>
                     </div>
-                    <div className="space-y-1 text-sm text-secondary-600">
-                      <p className="flex items-center gap-2">
-                        <MapPin className="w-4 h-4" />
-                        {branch.address}
-                      </p>
-                      <p className="flex items-center gap-2">
-                        <Users className="w-4 h-4" />
-                        Manager: {branch.manager}
-                      </p>
-                    </div>
-                    <div className="flex gap-6 mt-3">
-                      <div>
-                        <span className="text-xs text-gray-500">Departments</span>
-                        <p className="font-semibold text-secondary-900">{branch.departments}</p>
-                      </div>
-                      <div>
-                        <span className="text-xs text-gray-500">Employees</span>
-                        <p className="font-semibold text-secondary-900">{branch.employees}</p>
-                      </div>
-                    </div>
                   </div>
                 </div>
-                <div className="flex gap-2">
+
+                {/* Location & Manager */}
+                <div className="space-y-2 text-sm text-secondary-600">
+                  <div className="flex items-start gap-2">
+                    <MapPin className="w-4 h-4 mt-0.5 flex-shrink-0" />
+                    <span className="line-clamp-2">{branch.address}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Users className="w-4 h-4 flex-shrink-0" />
+                    <span className="truncate">{branch.manager}</span>
+                  </div>
+                </div>
+
+                {/* Stats */}
+                <div className="grid grid-cols-2 gap-4 pt-3 border-t border-gray-200">
+                  <div>
+                    <div className="text-xs text-gray-500 mb-1">Departments</div>
+                    <div className="text-lg font-bold text-secondary-900">{branch.departments}</div>
+                  </div>
+                  <div>
+                    <div className="text-xs text-gray-500 mb-1">Employees</div>
+                    <div className="text-lg font-bold text-secondary-900">{branch.employees}</div>
+                  </div>
+                </div>
+
+                {/* Actions */}
+                <div className="flex gap-2 pt-3 border-t border-gray-200">
                   <Button
                     variant="outline"
                     size="sm"
                     leftIcon={<Edit className="w-4 h-4" />}
                     onClick={() => handleEditBranch(branch)}
                     disabled={isLoading}
+                    className="flex-1"
                   >
                     Edit
                   </Button>
@@ -337,7 +345,7 @@ const BranchesPage = () => {
                     variant="outline"
                     size="sm"
                     leftIcon={<Trash2 className="w-4 h-4" />}
-                    className="text-red-600 hover:bg-red-50 border-red-200"
+                    className="text-red-600 hover:bg-red-50 border-red-200 flex-1"
                     onClick={() => handleDeleteBranch(branch)}
                     disabled={isLoading}
                   >
