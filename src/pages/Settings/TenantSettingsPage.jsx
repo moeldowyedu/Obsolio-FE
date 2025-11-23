@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { Building2, Upload, Globe, Phone, Mail, MapPin, Clock, DollarSign, FileText, Save, X, Shield, Users, Calendar, Briefcase, Link as LinkIcon, Hash, CreditCard, ChevronRight, ChevronLeft, AlertCircle, Loader2 } from 'lucide-react';
+import { Building2, Upload, Globe, Phone, Mail, MapPin, Clock, DollarSign, FileText, Save, X, Shield, Users, Calendar, Briefcase, Link as LinkIcon, Hash, CreditCard, ChevronRight, ChevronLeft, AlertCircle, Loader2, RefreshCw } from 'lucide-react';
 import { Stepper, Step, StepLabel, Box, StepConnector } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import toast from 'react-hot-toast';
@@ -29,13 +29,17 @@ const TenantSettingsPage = () => {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);
+  const [showTenantSwitcher, setShowTenantSwitcher] = useState(false);
+  const [availableTenants, setAvailableTenants] = useState([]);
+  const [loadingTenants, setLoadingTenants] = useState(false);
 
   // Get current tenant from Zustand store
-  const { currentTenant, fetchTenantSettings, updateTenantSettings } = useTenantStore();
+  const { currentTenant, fetchTenantSettings, updateTenantSettings, fetchTenants, setCurrentTenant } = useTenantStore();
 
   const [tenantInfo, setTenantInfo] = useState({
     // Organization Details
     name: 'Acme Corporation',
+    shortName: 'acme',
     logo: null,
     logoPreview: 'https://ui-avatars.com/api/?name=Acme+Corporation&size=200&background=4F46E5&color=fff',
     legalName: 'Acme Corporation Inc.',
@@ -307,6 +311,33 @@ const TenantSettingsPage = () => {
     }
   };
 
+  // Handle tenant switch
+  const handleSwitchTenant = async () => {
+    try {
+      setLoadingTenants(true);
+      const tenants = await fetchTenants();
+      setAvailableTenants(tenants?.data || tenants || []);
+      setShowTenantSwitcher(true);
+    } catch (err) {
+      console.error('Failed to fetch tenants:', err);
+      toast.error('Failed to load tenants');
+    } finally {
+      setLoadingTenants(false);
+    }
+  };
+
+  const handleSelectTenant = async (tenantId) => {
+    try {
+      await setCurrentTenant(tenantId);
+      setShowTenantSwitcher(false);
+      toast.success('Tenant switched successfully');
+      window.location.reload(); // Reload to fetch new tenant settings
+    } catch (err) {
+      console.error('Failed to switch tenant:', err);
+      toast.error('Failed to switch tenant');
+    }
+  };
+
   // Step 1: Company Identity
   const renderCompanyIdentityStep = () => (
     <div className="space-y-6">
@@ -375,6 +406,21 @@ const TenantSettingsPage = () => {
                   className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white"
                   placeholder="Enter organization name"
                 />
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-secondary-700 mb-2 uppercase tracking-wide">
+                  Short Name / Slug <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  value={tenantInfo.shortName}
+                  onChange={(e) => setTenantInfo({ ...tenantInfo, shortName: e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, '') })}
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white font-mono"
+                  placeholder="acme-corp"
+                  maxLength="50"
+                />
+                <p className="text-xs text-gray-500 mt-1">Used in URLs and identifiers (lowercase, alphanumeric, hyphens only)</p>
               </div>
 
               <div>
@@ -1021,6 +1067,34 @@ const TenantSettingsPage = () => {
               <p className="text-secondary-600 mt-2">
                 Manage your organization's configuration, preferences, and compliance settings
               </p>
+              {currentTenant && (
+                <div className="mt-2 flex items-center gap-2">
+                  <Badge variant="primary">{currentTenant.name || 'Current Tenant'}</Badge>
+                  {currentTenant.shortName && (
+                    <span className="text-sm text-gray-500 font-mono">@{currentTenant.shortName}</span>
+                  )}
+                </div>
+              )}
+            </div>
+            <div>
+              <Button
+                onClick={handleSwitchTenant}
+                variant="outline"
+                disabled={loadingTenants}
+                className="inline-flex items-center gap-2"
+              >
+                {loadingTenants ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    Loading...
+                  </>
+                ) : (
+                  <>
+                    <RefreshCw className="w-4 h-4" />
+                    Switch Tenant
+                  </>
+                )}
+              </Button>
             </div>
           </div>
         </div>
@@ -1090,13 +1164,12 @@ const TenantSettingsPage = () => {
                   <StepLabel
                     StepIconComponent={() => (
                       <div
-                        className={`w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all ${
-                          index < activeStep
-                            ? 'bg-green-500 border-green-500 text-white'
-                            : index === activeStep
+                        className={`w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all ${index < activeStep
+                          ? 'bg-green-500 border-green-500 text-white'
+                          : index === activeStep
                             ? 'bg-primary-600 border-primary-600 text-white'
                             : 'bg-white border-gray-300 text-gray-400'
-                        }`}
+                          }`}
                       >
                         {step.icon}
                       </div>
@@ -1338,6 +1411,84 @@ const TenantSettingsPage = () => {
           </div>
         </Card>
       </div>
+
+      {/* Tenant Switcher Modal */}
+      {showTenantSwitcher && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" onClick={() => setShowTenantSwitcher(false)}>
+          <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full mx-4 max-h-[80vh] overflow-hidden" onClick={(e) => e.stopPropagation()}>
+            <div className="p-6 border-b border-gray-200">
+              <div className="flex items-center justify-between">
+                <h2 className="text-2xl font-bold text-secondary-900 flex items-center gap-2">
+                  <RefreshCw className="w-6 h-6 text-primary-600" />
+                  Switch Tenant
+                </h2>
+                <button
+                  onClick={() => setShowTenantSwitcher(false)}
+                  className="text-gray-400 hover:text-gray-600 transition-colors"
+                >
+                  <X className="w-6 h-6" />
+                </button>
+              </div>
+              <p className="text-sm text-gray-600 mt-2">Select a tenant to switch to</p>
+            </div>
+
+            <div className="p-6 overflow-y-auto max-h-[60vh]">
+              {availableTenants.length === 0 ? (
+                <div className="text-center py-12">
+                  <Building2 className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+                  <p className="text-gray-500">No tenants available</p>
+                </div>
+              ) : (
+                <div className="space-y-3">
+                  {availableTenants.map((tenant) => {
+                    const tenantId = tenant.id || tenant._id;
+                    const currentTenantId = currentTenant?.id || currentTenant?._id;
+                    const isCurrentTenant = tenantId === currentTenantId;
+
+                    return (
+                      <div
+                        key={tenantId}
+                        onClick={() => !isCurrentTenant && handleSelectTenant(tenantId)}
+                        className={`p-4 rounded-xl border-2 transition-all cursor-pointer ${isCurrentTenant
+                          ? 'border-primary-600 bg-primary-50'
+                          : 'border-gray-200 hover:border-primary-300 hover:bg-gray-50'
+                          }`}
+                      >
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-3">
+                            <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-primary-500 to-purple-600 flex items-center justify-center">
+                              <Building2 className="w-6 h-6 text-white" />
+                            </div>
+                            <div>
+                              <h3 className="font-semibold text-secondary-900">{tenant.name}</h3>
+                              {tenant.shortName && (
+                                <p className="text-sm text-gray-500 font-mono">@{tenant.shortName}</p>
+                              )}
+                            </div>
+                          </div>
+                          {isCurrentTenant && (
+                            <Badge variant="success">Current</Badge>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+
+            <div className="p-6 border-t border-gray-200 bg-gray-50">
+              <Button
+                onClick={() => setShowTenantSwitcher(false)}
+                variant="ghost"
+                className="w-full"
+              >
+                Cancel
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </MainLayout>
   );
 };
