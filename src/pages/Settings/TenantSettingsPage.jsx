@@ -1,11 +1,13 @@
-import { useState, useRef } from 'react';
-import { Building2, Upload, Globe, Phone, Mail, MapPin, Clock, DollarSign, FileText, Save, X, Shield, Users, Calendar, Briefcase, Link as LinkIcon, Hash, CreditCard, ChevronRight, ChevronLeft } from 'lucide-react';
+import { useState, useRef, useEffect } from 'react';
+import { Building2, Upload, Globe, Phone, Mail, MapPin, Clock, DollarSign, FileText, Save, X, Shield, Users, Calendar, Briefcase, Link as LinkIcon, Hash, CreditCard, ChevronRight, ChevronLeft, AlertCircle, Loader2 } from 'lucide-react';
 import { Stepper, Step, StepLabel, Box, StepConnector } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import toast from 'react-hot-toast';
 import MainLayout from '../../components/layout/MainLayout';
 import Card from '../../components/common/Card/Card';
 import Button from '../../components/common/Button/Button';
 import Badge from '../../components/common/Badge/Badge';
+import tenantService from '../../services/tenantService';
 
 // Custom styled connector for the stepper
 const CustomConnector = styled(StepConnector)(({ theme }) => ({
@@ -24,6 +26,10 @@ const CustomConnector = styled(StepConnector)(({ theme }) => ({
 const TenantSettingsPage = () => {
   const fileInputRef = useRef(null);
   const [activeStep, setActiveStep] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState(null);
+  const [currentTenantId, setCurrentTenantId] = useState(null);
 
   const [tenantInfo, setTenantInfo] = useState({
     // Organization Details
@@ -178,9 +184,95 @@ const TenantSettingsPage = () => {
     setActiveStep((prevStep) => Math.max(prevStep - 1, 0));
   };
 
-  const handleSave = () => {
-    console.log('Saving tenant settings:', { tenantInfo, settings });
-    alert('Settings saved successfully!');
+  // Fetch tenant settings on component mount
+  useEffect(() => {
+    const fetchTenantSettings = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        // Get current tenant ID from localStorage
+        const tenantId = localStorage.getItem('current_tenant_id');
+        if (!tenantId) {
+          throw new Error('No tenant selected');
+        }
+        setCurrentTenantId(tenantId);
+
+        // Fetch settings from API
+        const response = await tenantService.getTenantSettings(tenantId);
+        console.log('📥 Fetched tenant settings:', response);
+
+        // Update state with fetched data
+        if (response.data) {
+          if (response.data.tenantInfo) {
+            setTenantInfo(response.data.tenantInfo);
+          }
+          if (response.data.settings) {
+            setSettings(response.data.settings);
+          }
+        }
+
+        toast.success('Settings loaded successfully');
+      } catch (err) {
+        console.error('❌ Error fetching tenant settings:', err);
+        const errorMessage = err.response?.data?.error || err.message || 'Failed to load settings';
+        setError(errorMessage);
+        toast.error(errorMessage);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTenantSettings();
+  }, []);
+
+  const handleSave = async () => {
+    if (!currentTenantId) {
+      toast.error('No tenant selected');
+      return;
+    }
+
+    try {
+      setSaving(true);
+      console.log('💾 Saving tenant settings:', { tenantInfo, settings });
+
+      // Prepare payload
+      const payload = {
+        tenantInfo,
+        settings
+      };
+
+      // Send to API
+      const response = await tenantService.updateTenantSettings(currentTenantId, payload);
+      console.log('✅ Settings saved successfully:', response);
+
+      toast.success('Settings saved successfully!');
+
+      // Update state with response data if needed
+      if (response.data) {
+        if (response.data.tenantInfo) {
+          setTenantInfo(response.data.tenantInfo);
+        }
+        if (response.data.settings) {
+          setSettings(response.data.settings);
+        }
+      }
+    } catch (err) {
+      console.error('❌ Error saving tenant settings:', err);
+      const errorMessage = err.response?.data?.error || err.response?.data?.message || err.message || 'Failed to save settings';
+
+      // Handle validation errors
+      if (err.response?.data?.details) {
+        const validationErrors = Object.entries(err.response.data.details)
+          .map(([field, errors]) => `${field}: ${errors.join(', ')}`)
+          .join('\n');
+        toast.error(`Validation errors:\n${validationErrors}`);
+      } else {
+        toast.error(errorMessage);
+      }
+    } finally {
+      setSaving(false);
+    }
   };
 
   // Step 1: Company Identity
@@ -813,6 +905,43 @@ const TenantSettingsPage = () => {
     }
   };
 
+  // Loading state
+  if (loading) {
+    return (
+      <MainLayout showSidebar={true}>
+        <div className="p-6 max-w-7xl mx-auto">
+          <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-4">
+            <Loader2 className="w-12 h-12 text-primary-600 animate-spin" />
+            <p className="text-lg text-secondary-600">Loading tenant settings...</p>
+          </div>
+        </div>
+      </MainLayout>
+    );
+  }
+
+  // Error state
+  if (error) {
+    return (
+      <MainLayout showSidebar={true}>
+        <div className="p-6 max-w-7xl mx-auto">
+          <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-4">
+            <div className="w-16 h-16 rounded-full bg-red-100 flex items-center justify-center">
+              <AlertCircle className="w-8 h-8 text-red-600" />
+            </div>
+            <h2 className="text-2xl font-bold text-secondary-900">Failed to Load Settings</h2>
+            <p className="text-secondary-600 text-center max-w-md">{error}</p>
+            <Button
+              onClick={() => window.location.reload()}
+              className="mt-4"
+            >
+              Retry
+            </Button>
+          </div>
+        </div>
+      </MainLayout>
+    );
+  }
+
   return (
     <MainLayout showSidebar={true}>
       <div className="p-6 max-w-7xl mx-auto space-y-8">
@@ -936,9 +1065,22 @@ const TenantSettingsPage = () => {
 
             <div className="flex gap-3">
               {activeStep === steps.length - 1 ? (
-                <Button onClick={handleSave} className="inline-flex items-center gap-2">
-                  <Save className="w-4 h-4" />
-                  Save All Settings
+                <Button
+                  onClick={handleSave}
+                  disabled={saving}
+                  className="inline-flex items-center gap-2"
+                >
+                  {saving ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      Saving...
+                    </>
+                  ) : (
+                    <>
+                      <Save className="w-4 h-4" />
+                      Save All Settings
+                    </>
+                  )}
                 </Button>
               ) : (
                 <Button onClick={handleNext} className="inline-flex items-center gap-2">
