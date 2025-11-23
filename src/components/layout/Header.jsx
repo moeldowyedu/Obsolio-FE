@@ -12,10 +12,22 @@ const Header = () => {
   const navigate = useNavigate()
   const [userMenuOpen, setUserMenuOpen] = useState(false)
   const [languageMenuOpen, setLanguageMenuOpen] = useState(false)
+  const [isScrolled, setIsScrolled] = useState(false)
 
   // Refs for dropdown menus
   const userMenuRef = useRef(null)
   const languageMenuRef = useRef(null)
+
+  // Track scroll position for shrink effect
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY
+      setIsScrolled(scrollPosition > 20)
+    }
+
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   // Close dropdowns when clicking outside
   useEffect(() => {
@@ -52,28 +64,23 @@ const Header = () => {
   }
 
   return (
-    <header className="glass-card sticky top-0 z-40 mb-8">
-      <nav className="container mx-auto px-6 py-4">
+    <header className={`glass-card sticky top-0 z-40 transition-all duration-300 ${isScrolled ? 'mb-4' : 'mb-8'}`}>
+      <nav className={`container mx-auto px-6 transition-all duration-300 ${isScrolled ? 'py-2' : 'py-4'}`}>
         <div className="flex items-center justify-between">
           {/* Logo - Always links to homepage */}
           <Link to={isAuthenticated ? "/dashboard" : "/"} className="flex items-center space-x-2">
-            <span className="material-icons text-3xl text-primary-600">gavel</span>
-            <span className="text-2xl font-bold text-secondary-900 text-shadow font-heading">Aasim</span>
+            <span className={`material-icons text-primary-600 transition-all duration-300 ${isScrolled ? 'text-2xl' : 'text-3xl'}`}>gavel</span>
+            <span className={`font-bold text-secondary-900 text-shadow font-heading transition-all duration-300 ${isScrolled ? 'text-xl' : 'text-2xl'}`}>Aasim</span>
           </Link>
 
           {/* Desktop Navigation */}
           <div className="flex items-center space-x-6">
             {!isAuthenticated ? (
               <>
-                <Link to="/#features" className="text-secondary-700 hover:text-primary-600 transition-colors font-medium">
-                  {t.features}
-                </Link>
-                <Link to="/#use-cases" className="text-secondary-700 hover:text-primary-600 transition-colors font-medium">
-                  {t.useCases}
-                </Link>
-                <Link to="/login" className="text-secondary-700 hover:text-primary-600 transition-colors font-medium">
-                  {t.login}
-                </Link>
+                <a href="#features" className="text-secondary-600 hover:text-secondary-900 font-medium transition-colors hidden sm:inline">Features</a>
+                <a href="#how-it-works" className="text-secondary-600 hover:text-secondary-900 font-medium transition-colors hidden sm:inline">How It Works</a>
+                <a href="#pricing" className="text-secondary-600 hover:text-secondary-900 font-medium transition-colors hidden sm:inline">Pricing</a>
+                <Link to="/login" className="text-secondary-700 hover:text-secondary-900 font-semibold transition-colors">Sign In</Link>
 
                 {/* Language Switcher */}
                 <div className="relative" ref={languageMenuRef}>
@@ -97,9 +104,8 @@ const Header = () => {
                             changeLanguage(lang.code)
                             setLanguageMenuOpen(false)
                           }}
-                          className={`w-full text-left px-4 py-3 hover:bg-white/50 transition-colors flex items-center space-x-2 ${
-                            language === lang.code ? 'bg-white/50' : ''
-                          }`}
+                          className={`w-full text-left px-4 py-3 hover:bg-white/50 transition-colors flex items-center space-x-2 ${language === lang.code ? 'bg-white/50' : ''
+                            }`}
                         >
                           <img
                             src={`https://flagcdn.com/24x18/${lang.flag}.png`}
@@ -115,9 +121,9 @@ const Header = () => {
 
                 <Link
                   to="/register"
-                  className="glass-btn-primary rounded-xl px-6 py-2"
+                  className="bg-primary-600 text-white px-6 py-2.5 rounded-lg font-semibold hover:bg-primary-700 transition-colors"
                 >
-                  {t.getStarted}
+                  Start Free Trial
                 </Link>
               </>
             ) : (
@@ -144,9 +150,8 @@ const Header = () => {
                             changeLanguage(lang.code)
                             setLanguageMenuOpen(false)
                           }}
-                          className={`w-full text-left px-4 py-3 hover:bg-white/50 transition-colors flex items-center space-x-2 ${
-                            language === lang.code ? 'bg-white/50' : ''
-                          }`}
+                          className={`w-full text-left px-4 py-3 hover:bg-white/50 transition-colors flex items-center space-x-2 ${language === lang.code ? 'bg-white/50' : ''
+                            }`}
                         >
                           <img
                             src={`https://flagcdn.com/24x18/${lang.flag}.png`}
