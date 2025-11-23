@@ -7,7 +7,7 @@ import MainLayout from '../../components/layout/MainLayout';
 import Card from '../../components/common/Card/Card';
 import Button from '../../components/common/Button/Button';
 import Badge from '../../components/common/Badge/Badge';
-import tenantService from '../../services/tenantService';
+import { useTenantStore } from '../../store/tenantStore';
 
 // Custom styled connector for the stepper
 const CustomConnector = styled(StepConnector)(({ theme }) => ({
@@ -29,7 +29,9 @@ const TenantSettingsPage = () => {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);
-  const [currentTenantId, setCurrentTenantId] = useState(null);
+
+  // Get current tenant from Zustand store
+  const { currentTenant, fetchTenantSettings, updateTenantSettings } = useTenantStore();
 
   const [tenantInfo, setTenantInfo] = useState({
     // Organization Details
@@ -186,29 +188,44 @@ const TenantSettingsPage = () => {
 
   // Fetch tenant settings on component mount
   useEffect(() => {
-    const fetchTenantSettings = async () => {
+    const loadTenantSettings = async () => {
       try {
         setLoading(true);
         setError(null);
 
-        // Get current tenant ID from localStorage
-        const tenantId = localStorage.getItem('current_tenant_id');
-        if (!tenantId) {
-          throw new Error('No tenant selected');
+        // Check if current tenant exists
+        if (!currentTenant) {
+          throw new Error('No tenant selected. Please select a tenant from your account.');
         }
-        setCurrentTenantId(tenantId);
 
-        // Fetch settings from API
-        const response = await tenantService.getTenantSettings(tenantId);
+        const tenantId = currentTenant.id || currentTenant._id;
+        if (!tenantId) {
+          throw new Error('Invalid tenant configuration');
+        }
+
+        console.log('📥 Fetching settings for tenant:', tenantId);
+
+        // Fetch settings from Zustand store
+        const response = await fetchTenantSettings(tenantId);
         console.log('📥 Fetched tenant settings:', response);
 
         // Update state with fetched data
-        if (response.data) {
-          if (response.data.tenantInfo) {
-            setTenantInfo(response.data.tenantInfo);
-          }
-          if (response.data.settings) {
-            setSettings(response.data.settings);
+        if (response) {
+          if (response.data) {
+            if (response.data.tenantInfo) {
+              setTenantInfo(response.data.tenantInfo);
+            }
+            if (response.data.settings) {
+              setSettings(response.data.settings);
+            }
+          } else if (response.tenantInfo || response.settings) {
+            // Handle direct response format
+            if (response.tenantInfo) {
+              setTenantInfo(response.tenantInfo);
+            }
+            if (response.settings) {
+              setSettings(response.settings);
+            }
           }
         }
 
@@ -223,12 +240,18 @@ const TenantSettingsPage = () => {
       }
     };
 
-    fetchTenantSettings();
-  }, []);
+    loadTenantSettings();
+  }, [currentTenant, fetchTenantSettings]);
 
   const handleSave = async () => {
-    if (!currentTenantId) {
+    if (!currentTenant) {
       toast.error('No tenant selected');
+      return;
+    }
+
+    const tenantId = currentTenant.id || currentTenant._id;
+    if (!tenantId) {
+      toast.error('Invalid tenant configuration');
       return;
     }
 
@@ -242,19 +265,28 @@ const TenantSettingsPage = () => {
         settings
       };
 
-      // Send to API
-      const response = await tenantService.updateTenantSettings(currentTenantId, payload);
+      // Send to API using Zustand store
+      const response = await updateTenantSettings(tenantId, payload);
       console.log('✅ Settings saved successfully:', response);
 
       toast.success('Settings saved successfully!');
 
       // Update state with response data if needed
-      if (response.data) {
-        if (response.data.tenantInfo) {
-          setTenantInfo(response.data.tenantInfo);
-        }
-        if (response.data.settings) {
-          setSettings(response.data.settings);
+      if (response) {
+        if (response.data) {
+          if (response.data.tenantInfo) {
+            setTenantInfo(response.data.tenantInfo);
+          }
+          if (response.data.settings) {
+            setSettings(response.data.settings);
+          }
+        } else if (response.tenantInfo || response.settings) {
+          if (response.tenantInfo) {
+            setTenantInfo(response.tenantInfo);
+          }
+          if (response.settings) {
+            setSettings(response.settings);
+          }
         }
       }
     } catch (err) {
@@ -921,6 +953,8 @@ const TenantSettingsPage = () => {
 
   // Error state
   if (error) {
+    const isNoTenantError = error.includes('No tenant selected') || error.includes('Invalid tenant');
+
     return (
       <MainLayout showSidebar={true}>
         <div className="p-6 max-w-7xl mx-auto">
@@ -928,14 +962,45 @@ const TenantSettingsPage = () => {
             <div className="w-16 h-16 rounded-full bg-red-100 flex items-center justify-center">
               <AlertCircle className="w-8 h-8 text-red-600" />
             </div>
-            <h2 className="text-2xl font-bold text-secondary-900">Failed to Load Settings</h2>
+            <h2 className="text-2xl font-bold text-secondary-900">
+              {isNoTenantError ? 'No Tenant Selected' : 'Failed to Load Settings'}
+            </h2>
             <p className="text-secondary-600 text-center max-w-md">{error}</p>
-            <Button
-              onClick={() => window.location.reload()}
-              className="mt-4"
-            >
-              Retry
-            </Button>
+
+            {isNoTenantError ? (
+              <div className="flex gap-3 mt-4">
+                <Button
+                  onClick={() => window.location.href = '/admin/tenants'}
+                  variant="primary"
+                >
+                  Manage Tenants
+                </Button>
+                <Button
+                  onClick={() => window.location.reload()}
+                  variant="ghost"
+                >
+                  Retry
+                </Button>
+              </div>
+            ) : (
+              <Button
+                onClick={() => window.location.reload()}
+                className="mt-4"
+              >
+                Retry
+              </Button>
+            )}
+
+            {isNoTenantError && (
+              <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200 max-w-md">
+                <h3 className="text-sm font-semibold text-blue-900 mb-2">How to fix this:</h3>
+                <ol className="text-sm text-blue-800 space-y-1 list-decimal list-inside">
+                  <li>Go to Tenants Management page</li>
+                  <li>Create a new tenant or select an existing one</li>
+                  <li>Return to this page and retry</li>
+                </ol>
+              </div>
+            )}
           </div>
         </div>
       </MainLayout>
