@@ -209,16 +209,7 @@ const TenantSetupPage = () => {
           </Button>
         </div>
 
-        {/* Skip Option */}
-        <div className="text-center mt-6">
-          <button
-            onClick={() => navigate('/dashboard')}
-            className="text-sm text-secondary-600 hover:text-secondary-900 transition-colors"
-            disabled={isCreating}
-          >
-            Skip for now
-          </button>
-        </div>
+
       </div>
     </div>
   );

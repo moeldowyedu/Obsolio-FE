@@ -4,6 +4,7 @@ import { useAuthStore } from '../../store/authStore'
 import { useLanguage } from '../../contexts/LanguageContext'
 import { translations } from '../../translations'
 import NotificationBell from '../common/NotificationBell/NotificationBell'
+import logo from '../../assets/imgs/Aasim-logo.png'
 
 const Header = () => {
   const { isAuthenticated, user, logout } = useAuthStore()
@@ -22,7 +23,11 @@ const Header = () => {
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY
-      setIsScrolled(scrollPosition > 20)
+      if (scrollPosition > 100) {
+        setIsScrolled(true)
+      } else if (scrollPosition < 10) {
+        setIsScrolled(false)
+      }
     }
 
     window.addEventListener('scroll', handleScroll)
@@ -64,23 +69,32 @@ const Header = () => {
   }
 
   return (
-    <header className={`glass-card sticky top-0 z-40 transition-all duration-300 ${isScrolled ? 'mb-4' : 'mb-8'}`}>
-      <nav className={`container mx-auto px-6 transition-all duration-300 ${isScrolled ? 'py-2' : 'py-4'}`}>
+    <header className={`glass-card sticky top-0 z-40 transition-all duration-500 ${isScrolled ? 'mb-4' : 'mb-8'}`}>
+      <nav className={`max-w-7xl mx-auto px-6 transition-all duration-500 ${isScrolled ? 'py-2' : 'py-6'}`}>
         <div className="flex items-center justify-between">
           {/* Logo - Always links to homepage */}
           <Link to={isAuthenticated ? "/dashboard" : "/"} className="flex items-center space-x-2">
-            <span className={`material-icons text-primary-600 transition-all duration-300 ${isScrolled ? 'text-2xl' : 'text-3xl'}`}>gavel</span>
-            <span className={`font-bold text-secondary-900 text-shadow font-heading transition-all duration-300 ${isScrolled ? 'text-xl' : 'text-2xl'}`}>Aasim</span>
+            <img
+              src={logo}
+              alt="Aasim Logo"
+              className={`transition-all duration-500 object-contain ${isScrolled ? 'h-8' : 'h-16'}`}
+            />
           </Link>
 
           {/* Desktop Navigation */}
           <div className="flex items-center space-x-6">
+            <Link to="/" className="text-secondary-600 hover:text-secondary-900 font-medium transition-colors hidden sm:inline">Home</Link>
+
+            {isAuthenticated && (
+              <Link to="/dashboard" className="text-secondary-600 hover:text-secondary-900 font-medium transition-colors hidden sm:inline">Dashboard</Link>
+            )}
+
             {!isAuthenticated ? (
               <>
                 <a href="#features" className="text-secondary-600 hover:text-secondary-900 font-medium transition-colors hidden sm:inline">Features</a>
                 <a href="#how-it-works" className="text-secondary-600 hover:text-secondary-900 font-medium transition-colors hidden sm:inline">How It Works</a>
                 <a href="#pricing" className="text-secondary-600 hover:text-secondary-900 font-medium transition-colors hidden sm:inline">Pricing</a>
-                <Link to="/login" className="text-secondary-700 hover:text-secondary-900 font-semibold transition-colors">Sign In</Link>
+                <a href="/login" className="text-secondary-700 hover:text-secondary-900 font-semibold transition-colors">Sign In</a>
 
                 {/* Language Switcher */}
                 <div className="relative" ref={languageMenuRef}>

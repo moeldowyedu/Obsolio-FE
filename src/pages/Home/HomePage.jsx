@@ -1,13 +1,16 @@
 import { Link } from 'react-router-dom';
 import { ArrowRight, CheckCircle, Zap, Shield, TrendingUp, Users, Building2, Sparkles, Bot, Workflow, Eye, DollarSign } from 'lucide-react';
 import MainLayout from '../../components/layout/MainLayout';
+import AnimatedDots from '../../components/AnimatedDots';
+
 
 const HomePage = () => {
   return (
     <MainLayout showSidebar={false} showFooter={false}>
       <div className="min-h-screen bg-white -mx-6">
         {/* Hero Section */}
-        <section className="py-20 px-6">
+        <section className="relative py-20 px-6 overflow-hidden">
+          <AnimatedDots />
           <div className="max-w-7xl mx-auto">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div>

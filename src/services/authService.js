@@ -14,30 +14,46 @@ const authService = {
 
   // Register
   register: async (userData) => {
-    // Transform frontend data to match backend API expectations
-    // Only send fields that backend database supports
+    // Transform frontend data to match new unified registration API
     const requestData = {
-      name: userData.firstName && userData.lastName
+      type: userData.type || 'personal', // 'personal' or 'organization'
+      fullName: userData.fullName || (userData.firstName && userData.lastName
         ? `${userData.firstName} ${userData.lastName}`.trim()
-        : userData.name || userData.email?.split('@')[0] || 'User',
+        : userData.name || userData.email?.split('@')[0] || 'User'),
       email: userData.email,
       password: userData.password,
-      password_confirmation: userData.password, // Laravel expects this
-      phone: userData.phone, // Required field
+      password_confirmation: userData.password, // Laravel requires password confirmation
     };
 
-    // Only add optional fields if backend supports them
-    // Note: tenant_type, plan removed - database doesn't have these columns
+    // Add organization-specific fields if type is organization
+    if (userData.type === 'organization') {
+      if (userData.organizationName) {
+        requestData.organizationName = userData.organizationName;
+      }
+      if (userData.organizationDomain) {
+        requestData.organizationDomain = userData.organizationDomain;
+      }
+    }
 
     console.log('📤 Sending registration data:', requestData);
 
     const response = await api.post('/auth/register', requestData);
 
+    // Check if email verification is required
+    if (response.data.emailVerificationRequired) {
+      return {
+        emailVerificationRequired: true,
+        ...response.data
+      };
+    }
+
     // Auto-login after registration by saving token and user
     if (response.data.success && response.data.data.token) {
       localStorage.setItem('auth_token', response.data.data.token);
       localStorage.setItem('user', JSON.stringify(response.data.data.user));
+      return response.data.data;
     }
+
     return response.data.data;
   },
 

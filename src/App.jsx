@@ -4,7 +4,6 @@ import ScrollToTop from './components/ScrollToTop'
 import HomePage from './pages/Home/HomePage'
 import LoginPage from './pages/Auth/LoginPage'
 import RegisterPage from './pages/Auth/RegisterPage'
-import SimpleRegisterPage from './pages/Auth/SimpleRegisterPage'
 import ForgotPasswordPage from './pages/Auth/ForgotPasswordPage'
 import ResetPasswordPage from './pages/Auth/ResetPasswordPage'
 // Onboarding Pages
@@ -91,667 +90,668 @@ function App() {
   return (
     <LanguageProvider>
       <div className="App">
-      <ScrollToTop />
-      <Routes>
-        {/* Public Routes */}
-        <Route path="/" element={<HomePage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/register-simple" element={<SimpleRegisterPage />} />
-        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-        <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
+        <ScrollToTop />
+        <Routes>
+          {/* Public Routes */}
+          <Route path="/" element={<HomePage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          {/* Legacy route - deprecated, redirects to unified registration */}
+          <Route path="/register-simple" element={<Navigate to="/register" replace />} />
+          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+          <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
 
-        {/* Onboarding Routes (Post-Registration) */}
-        <Route
-          path="/onboarding/tenant-setup"
-          element={
-            <ProtectedRoute>
-              <TenantSetupPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/onboarding/organization-setup"
-          element={
-            <ProtectedRoute>
-              <OrganizationSetupPage />
-            </ProtectedRoute>
-          }
-        />
+          {/* Onboarding Routes (Post-Registration) */}
+          <Route
+            path="/onboarding/tenant-setup"
+            element={
+              <ProtectedRoute>
+                <TenantSetupPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/onboarding/organization-setup"
+            element={
+              <ProtectedRoute>
+                <OrganizationSetupPage />
+              </ProtectedRoute>
+            }
+          />
 
-        {/* Protected Routes - Authenticated Users */}
-        <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute>
-              <DashboardPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/profile"
-          element={
-            <ProtectedRoute>
-              <ProfilePage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/notifications"
-          element={
-            <ProtectedRoute>
-              <NotificationsPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/billing"
-          element={
-            <ProtectedRoute>
-              <BillingOverviewPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/billing/overview"
-          element={
-            <ProtectedRoute>
-              <BillingOverviewPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/billing/subscription"
-          element={
-            <ProtectedRoute>
-              <SubscriptionPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/billing/usage"
-          element={
-            <ProtectedRoute>
-              <UsageReportsPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/billing/invoices"
-          element={
-            <ProtectedRoute>
-              <InvoicesPage />
-            </ProtectedRoute>
-          }
-        />
+          {/* Protected Routes - Authenticated Users */}
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <DashboardPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <ProfilePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/notifications"
+            element={
+              <ProtectedRoute>
+                <NotificationsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/billing"
+            element={
+              <ProtectedRoute>
+                <BillingOverviewPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/billing/overview"
+            element={
+              <ProtectedRoute>
+                <BillingOverviewPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/billing/subscription"
+            element={
+              <ProtectedRoute>
+                <SubscriptionPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/billing/usage"
+            element={
+              <ProtectedRoute>
+                <UsageReportsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/billing/invoices"
+            element={
+              <ProtectedRoute>
+                <InvoicesPage />
+              </ProtectedRoute>
+            }
+          />
 
-        {/* Precision AI Engine Routes */}
-        <Route
-          path="/engines"
-          element={
-            <ProtectedRoute>
-              <EnginesOverviewPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/engines/vision"
-          element={
-            <ProtectedRoute>
-              <VisionEnginePage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/engines/audio"
-          element={
-            <ProtectedRoute>
-              <AudioEnginePage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/engines/text"
-          element={
-            <ProtectedRoute>
-              <TextEnginePage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/engines/code"
-          element={
-            <ProtectedRoute>
-              <CodeEnginePage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/engines/document"
-          element={
-            <ProtectedRoute>
-              <DocumentEnginePage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/engines/data"
-          element={
-            <ProtectedRoute>
-              <DataEnginePage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/engines/web"
-          element={
-            <ProtectedRoute>
-              <WebEnginePage />
-            </ProtectedRoute>
-          }
-        />
+          {/* Precision AI Engine Routes */}
+          <Route
+            path="/engines"
+            element={
+              <ProtectedRoute>
+                <EnginesOverviewPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/engines/vision"
+            element={
+              <ProtectedRoute>
+                <VisionEnginePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/engines/audio"
+            element={
+              <ProtectedRoute>
+                <AudioEnginePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/engines/text"
+            element={
+              <ProtectedRoute>
+                <TextEnginePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/engines/code"
+            element={
+              <ProtectedRoute>
+                <CodeEnginePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/engines/document"
+            element={
+              <ProtectedRoute>
+                <DocumentEnginePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/engines/data"
+            element={
+              <ProtectedRoute>
+                <DataEnginePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/engines/web"
+            element={
+              <ProtectedRoute>
+                <WebEnginePage />
+              </ProtectedRoute>
+            }
+          />
 
-        {/* Chat/Messages Route */}
-        <Route
-          path="/chat"
-          element={
-            <ProtectedRoute>
-              <ChatPage />
-            </ProtectedRoute>
-          }
-        />
+          {/* Chat/Messages Route */}
+          <Route
+            path="/chat"
+            element={
+              <ProtectedRoute>
+                <ChatPage />
+              </ProtectedRoute>
+            }
+          />
 
-        {/* Organization Routes */}
-        <Route
-          path="/organization/branches"
-          element={
-            <ProtectedRoute>
-              <BranchesPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/organization/branches/:id"
-          element={
-            <ProtectedRoute>
-              <BranchDetailsPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/organization/departments"
-          element={
-            <ProtectedRoute>
-              <DepartmentsPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/organization/projects"
-          element={
-            <ProtectedRoute>
-              <ProjectsPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/organization/teams"
-          element={
-            <ProtectedRoute>
-              <TeamsPage />
-            </ProtectedRoute>
-          }
-        />
+          {/* Organization Routes */}
+          <Route
+            path="/organization/branches"
+            element={
+              <ProtectedRoute>
+                <BranchesPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/organization/branches/:id"
+            element={
+              <ProtectedRoute>
+                <BranchDetailsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/organization/departments"
+            element={
+              <ProtectedRoute>
+                <DepartmentsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/organization/projects"
+            element={
+              <ProtectedRoute>
+                <ProjectsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/organization/teams"
+            element={
+              <ProtectedRoute>
+                <TeamsPage />
+              </ProtectedRoute>
+            }
+          />
 
-        {/* AgentX Hub Routes */}
-        <Route
-          path="/agentx"
-          element={
-            <ProtectedRoute>
-              <AgentXMarketplacePage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/agentx/marketplace"
-          element={
-            <ProtectedRoute>
-              <AgentXMarketplacePage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/agentx/marketplace/agent/:id"
-          element={
-            <ProtectedRoute>
-              <AgentDetailPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/agentx/marketplace/checkout/:id"
-          element={
-            <ProtectedRoute>
-              <CheckoutPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/agentx/my-agents"
-          element={
-            <ProtectedRoute>
-              <MyAgentsPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/agentx/builder"
-          element={
-            <ProtectedRoute>
-              <AgentXBuilderPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/agentx/private"
-          element={
-            <ProtectedRoute>
-              <PrivateAgentsPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/agentx/developer"
-          element={
-            <ProtectedRoute>
-              <DeveloperPortalPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/agents/deploy"
-          element={
-            <ProtectedRoute>
-              <AgentDeploymentWizard />
-            </ProtectedRoute>
-          }
-        />
-        {/* Legacy routes - redirects */}
-        <Route
-          path="/agents/my-agents"
-          element={<Navigate to="/agentx/my-agents" replace />}
-        />
-        <Route
-          path="/agents/create"
-          element={<Navigate to="/agentx/builder" replace />}
-        />
-        <Route
-          path="/marketplace"
-          element={<Navigate to="/agentx/marketplace" replace />}
-        />
-        <Route
-          path="/marketplace/:id"
-          element={<Navigate to="/agentx/marketplace/agent/:id" replace />}
-        />
+          {/* AgentX Hub Routes */}
+          <Route
+            path="/agentx"
+            element={
+              <ProtectedRoute>
+                <AgentXMarketplacePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/agentx/marketplace"
+            element={
+              <ProtectedRoute>
+                <AgentXMarketplacePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/agentx/marketplace/agent/:id"
+            element={
+              <ProtectedRoute>
+                <AgentDetailPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/agentx/marketplace/checkout/:id"
+            element={
+              <ProtectedRoute>
+                <CheckoutPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/agentx/my-agents"
+            element={
+              <ProtectedRoute>
+                <MyAgentsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/agentx/builder"
+            element={
+              <ProtectedRoute>
+                <AgentXBuilderPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/agentx/private"
+            element={
+              <ProtectedRoute>
+                <PrivateAgentsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/agentx/developer"
+            element={
+              <ProtectedRoute>
+                <DeveloperPortalPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/agents/deploy"
+            element={
+              <ProtectedRoute>
+                <AgentDeploymentWizard />
+              </ProtectedRoute>
+            }
+          />
+          {/* Legacy routes - redirects */}
+          <Route
+            path="/agents/my-agents"
+            element={<Navigate to="/agentx/my-agents" replace />}
+          />
+          <Route
+            path="/agents/create"
+            element={<Navigate to="/agentx/builder" replace />}
+          />
+          <Route
+            path="/marketplace"
+            element={<Navigate to="/agentx/marketplace" replace />}
+          />
+          <Route
+            path="/marketplace/:id"
+            element={<Navigate to="/agentx/marketplace/agent/:id" replace />}
+          />
 
-        {/* HITL Routes */}
-        <Route
-          path="/hitl"
-          element={
-            <ProtectedRoute>
-              <OversightModesPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/hitl/modes"
-          element={
-            <ProtectedRoute>
-              <OversightModesPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/hitl/approvals"
-          element={
-            <ProtectedRoute>
-              <ApprovalWorkflowsPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/hitl/approval-queue"
-          element={
-            <ProtectedRoute>
-              <ApprovalQueuePage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/hitl/my-approvals"
-          element={
-            <ProtectedRoute>
-              <MyApprovalsPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/hitl/activity-logs"
-          element={
-            <ProtectedRoute>
-              <ActivityLogsPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/hitl/logs"
-          element={
-            <ProtectedRoute>
-              <ActivityLogsPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/hitl/configuration"
-          element={
-            <ProtectedRoute>
-              <HITLConfigurationPage />
-            </ProtectedRoute>
-          }
-        />
+          {/* HITL Routes */}
+          <Route
+            path="/hitl"
+            element={
+              <ProtectedRoute>
+                <OversightModesPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/hitl/modes"
+            element={
+              <ProtectedRoute>
+                <OversightModesPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/hitl/approvals"
+            element={
+              <ProtectedRoute>
+                <ApprovalWorkflowsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/hitl/approval-queue"
+            element={
+              <ProtectedRoute>
+                <ApprovalQueuePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/hitl/my-approvals"
+            element={
+              <ProtectedRoute>
+                <MyApprovalsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/hitl/activity-logs"
+            element={
+              <ProtectedRoute>
+                <ActivityLogsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/hitl/logs"
+            element={
+              <ProtectedRoute>
+                <ActivityLogsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/hitl/configuration"
+            element={
+              <ProtectedRoute>
+                <HITLConfigurationPage />
+              </ProtectedRoute>
+            }
+          />
 
-        {/* Job Flows Routes */}
-        <Route
-          path="/job-flows/all"
-          element={
-            <ProtectedRoute>
-              <JobFlowsListPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/job-flows/calendar"
-          element={
-            <ProtectedRoute>
-              <JobCalendarPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/job-flows/history"
-          element={
-            <ProtectedRoute>
-              <ExecutionHistoryPage />
-            </ProtectedRoute>
-          }
-        />
+          {/* Job Flows Routes */}
+          <Route
+            path="/job-flows/all"
+            element={
+              <ProtectedRoute>
+                <JobFlowsListPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/job-flows/calendar"
+            element={
+              <ProtectedRoute>
+                <JobCalendarPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/job-flows/history"
+            element={
+              <ProtectedRoute>
+                <ExecutionHistoryPage />
+              </ProtectedRoute>
+            }
+          />
 
-        {/* Orchestration Routes */}
-        <Route
-          path="/orchestration/workflows"
-          element={
-            <ProtectedRoute>
-              <WorkflowsPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/orchestration/builder"
-          element={
-            <ProtectedRoute>
-              <WorkflowBuilderPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/orchestration/history"
-          element={
-            <ProtectedRoute>
-              <OrchestrationExecutionHistoryPage />
-            </ProtectedRoute>
-          }
-        />
+          {/* Orchestration Routes */}
+          <Route
+            path="/orchestration/workflows"
+            element={
+              <ProtectedRoute>
+                <WorkflowsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/orchestration/builder"
+            element={
+              <ProtectedRoute>
+                <WorkflowBuilderPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/orchestration/history"
+            element={
+              <ProtectedRoute>
+                <OrchestrationExecutionHistoryPage />
+              </ProtectedRoute>
+            }
+          />
 
-        {/* Scheduling Routes */}
-        <Route
-          path="/scheduling/jobs"
-          element={
-            <ProtectedRoute>
-              <ScheduledJobsPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/scheduling/calendar"
-          element={
-            <ProtectedRoute>
-              <CalendarViewPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/scheduling/upcoming"
-          element={
-            <ProtectedRoute>
-              <UpcomingRunsPage />
-            </ProtectedRoute>
-          }
-        />
+          {/* Scheduling Routes */}
+          <Route
+            path="/scheduling/jobs"
+            element={
+              <ProtectedRoute>
+                <ScheduledJobsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/scheduling/calendar"
+            element={
+              <ProtectedRoute>
+                <CalendarViewPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/scheduling/upcoming"
+            element={
+              <ProtectedRoute>
+                <UpcomingRunsPage />
+              </ProtectedRoute>
+            }
+          />
 
-        {/* Integration Routes */}
-        <Route
-          path="/integrations/connected"
-          element={
-            <ProtectedRoute>
-              <ConnectedAppsPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/integrations/api-keys"
-          element={
-            <ProtectedRoute>
-              <APIKeysPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/integrations/webhooks"
-          element={
-            <ProtectedRoute>
-              <WebhooksPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/integrations/browse"
-          element={
-            <ProtectedRoute>
-              <BrowseIntegrationsPage />
-            </ProtectedRoute>
-          }
-        />
+          {/* Integration Routes */}
+          <Route
+            path="/integrations/connected"
+            element={
+              <ProtectedRoute>
+                <ConnectedAppsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/integrations/api-keys"
+            element={
+              <ProtectedRoute>
+                <APIKeysPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/integrations/webhooks"
+            element={
+              <ProtectedRoute>
+                <WebhooksPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/integrations/browse"
+            element={
+              <ProtectedRoute>
+                <BrowseIntegrationsPage />
+              </ProtectedRoute>
+            }
+          />
 
-        {/* Team & Users Routes */}
-        <Route
-          path="/team-users/all"
-          element={
-            <ProtectedRoute>
-              <AllUsersPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/team-users/invite"
-          element={
-            <ProtectedRoute>
-              <InviteUserPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/team-users/roles"
-          element={
-            <ProtectedRoute>
-              <RolesPermissionsPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/team-users/activity"
-          element={
-            <ProtectedRoute>
-              <UserActivityPage />
-            </ProtectedRoute>
-          }
-        />
+          {/* Team & Users Routes */}
+          <Route
+            path="/team-users/all"
+            element={
+              <ProtectedRoute>
+                <AllUsersPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/team-users/invite"
+            element={
+              <ProtectedRoute>
+                <InviteUserPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/team-users/roles"
+            element={
+              <ProtectedRoute>
+                <RolesPermissionsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/team-users/activity"
+            element={
+              <ProtectedRoute>
+                <UserActivityPage />
+              </ProtectedRoute>
+            }
+          />
 
-        {/* Settings Routes */}
-        <Route
-          path="/settings"
-          element={
-            <ProtectedRoute>
-              <TenantSettingsPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/settings/tenant"
-          element={
-            <ProtectedRoute>
-              <TenantSettingsPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/settings/rubrics"
-          element={
-            <ProtectedRoute>
-              <RubricsPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/settings/security"
-          element={
-            <ProtectedRoute>
-              <SecurityPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/settings/notifications"
-          element={
-            <ProtectedRoute>
-              <SettingsNotificationsPage />
-            </ProtectedRoute>
-          }
-        />
+          {/* Settings Routes */}
+          <Route
+            path="/settings"
+            element={
+              <ProtectedRoute>
+                <TenantSettingsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/settings/tenant"
+            element={
+              <ProtectedRoute>
+                <TenantSettingsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/settings/rubrics"
+            element={
+              <ProtectedRoute>
+                <RubricsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/settings/security"
+            element={
+              <ProtectedRoute>
+                <SecurityPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/settings/notifications"
+            element={
+              <ProtectedRoute>
+                <SettingsNotificationsPage />
+              </ProtectedRoute>
+            }
+          />
 
-        {/* Tenant Admin Routes */}
-        <Route
-          path="/admin"
-          element={
-            <ProtectedRoute requireAdmin>
-              <AdminDashboardPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/admin/users"
-          element={
-            <ProtectedRoute requireAdmin>
-              <UserManagementPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/admin/analytics"
-          element={
-            <ProtectedRoute requireAdmin>
-              <AnalyticsPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/admin/webhooks"
-          element={
-            <ProtectedRoute requireAdmin>
-              <N8nWebhookManagementPage />
-            </ProtectedRoute>
-          }
-        />
+          {/* Tenant Admin Routes */}
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute requireAdmin>
+                <AdminDashboardPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/users"
+            element={
+              <ProtectedRoute requireAdmin>
+                <UserManagementPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/analytics"
+            element={
+              <ProtectedRoute requireAdmin>
+                <AnalyticsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/webhooks"
+            element={
+              <ProtectedRoute requireAdmin>
+                <N8nWebhookManagementPage />
+              </ProtectedRoute>
+            }
+          />
 
-        {/* System Admin Routes - Platform Management */}
-        <Route
-          path="/system-admin"
-          element={
-            <ProtectedRoute requireAdmin>
-              <AdminDashboardPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/system-admin/dashboard"
-          element={
-            <ProtectedRoute requireAdmin>
-              <AdminDashboardPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/system-admin/tenants"
-          element={
-            <ProtectedRoute requireAdmin>
-              <TenantsManagementPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/system-admin/engines"
-          element={
-            <ProtectedRoute requireAdmin>
-              <EngineManagementPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/system-admin/agents"
-          element={
-            <ProtectedRoute requireAdmin>
-              <AgentsManagementPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/system-admin/active-agents"
-          element={
-            <ProtectedRoute requireAdmin>
-              <ActiveAgentsMonitorPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/system-admin/integrations"
-          element={
-            <ProtectedRoute requireAdmin>
-              <IntegrationManagementPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/system-admin/settings"
-          element={
-            <ProtectedRoute requireAdmin>
-              <TenantSettingsPage />
-            </ProtectedRoute>
-          }
-        />
+          {/* System Admin Routes - Platform Management */}
+          <Route
+            path="/system-admin"
+            element={
+              <ProtectedRoute requireAdmin>
+                <AdminDashboardPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/system-admin/dashboard"
+            element={
+              <ProtectedRoute requireAdmin>
+                <AdminDashboardPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/system-admin/tenants"
+            element={
+              <ProtectedRoute requireAdmin>
+                <TenantsManagementPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/system-admin/engines"
+            element={
+              <ProtectedRoute requireAdmin>
+                <EngineManagementPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/system-admin/agents"
+            element={
+              <ProtectedRoute requireAdmin>
+                <AgentsManagementPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/system-admin/active-agents"
+            element={
+              <ProtectedRoute requireAdmin>
+                <ActiveAgentsMonitorPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/system-admin/integrations"
+            element={
+              <ProtectedRoute requireAdmin>
+                <IntegrationManagementPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/system-admin/settings"
+            element={
+              <ProtectedRoute requireAdmin>
+                <TenantSettingsPage />
+              </ProtectedRoute>
+            }
+          />
 
-        {/* 404 Not Found */}
-        <Route path="/404" element={<NotFoundPage />} />
-        <Route path="*" element={<Navigate to="/404" replace />} />
-      </Routes>
+          {/* 404 Not Found */}
+          <Route path="/404" element={<NotFoundPage />} />
+          <Route path="*" element={<Navigate to="/404" replace />} />
+        </Routes>
       </div>
     </LanguageProvider>
   )

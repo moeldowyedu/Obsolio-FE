@@ -3,6 +3,8 @@ import { NavLink, Link, useLocation } from 'react-router-dom';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { PLATFORM, ENGINES } from '../../../utils/constants';
 
+import logo from '../../../assets/imgs/Aasim-logo.png';
+
 const Sidebar = () => {
   const location = useLocation();
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -214,9 +216,11 @@ const Sidebar = () => {
       {/* Logo/Brand */}
       <div className={`${isCollapsed ? 'p-4' : 'p-6'} border-b border-gray-200 transition-all duration-300 flex-shrink-0`}>
         <Link to="/dashboard" className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center flex-shrink-0">
-            <span className="text-white text-xl font-bold">A</span>
-          </div>
+          <img
+            src={logo}
+            alt="Aasim Logo"
+            className="w-10 h-10 object-contain"
+          />
           {!isCollapsed && (
             <div className="overflow-hidden">
               <h1 className="text-xl font-bold font-heading text-secondary-900 whitespace-nowrap">
