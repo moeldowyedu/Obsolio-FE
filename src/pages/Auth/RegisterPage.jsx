@@ -200,7 +200,7 @@ const RegisterPage = () => {
             <Sparkles className="w-8 h-8 text-white" />
           </div>
           <h1 className="text-3xl font-bold bg-gradient-to-r from-primary-600 to-purple-600 bg-clip-text text-transparent">
-            Aasim AI
+            OBSOLIO
           </h1>
           <p className="text-secondary-600 mt-2">Create your account to get started</p>
         </div>

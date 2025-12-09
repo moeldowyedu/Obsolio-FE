@@ -65,7 +65,9 @@ const AnimatedDots = () => {
         canvasRef.current.addEventListener("mousemove", handleMouseMove);
         animate(ctx);
         return () => {
-            canvasRef.current.removeEventListener("mousemove", handleMouseMove);
+            if (canvasRef.current) {
+                canvasRef.current.removeEventListener("mousemove", handleMouseMove);
+            }
         };
     }, []);
 
