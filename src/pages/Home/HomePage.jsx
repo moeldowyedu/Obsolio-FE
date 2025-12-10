@@ -7,6 +7,7 @@ import {
 import MainLayout from '../../components/layout/MainLayout';
 import ObsolioLogo from '../../assets/imgs/OBSOLIO-logo-cyan.png';
 import DrHebaImage from '../../assets/imgs/heba-saleh.png';
+import AhmedSalahImage from '../../assets/imgs/ahmed-salah.jpg';
 import { Quote } from 'lucide-react';
 
 const HomePage = () => {
