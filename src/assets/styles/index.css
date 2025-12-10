@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -12,334 +12,154 @@
   body {
     font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
     @apply antialiased;
-    /* Clean white background for enterprise look */
-    background: #ffffff;
-    @apply min-h-screen;
+    /* Deep space black/slate buffer */
+    background: #0B0E14; 
+    color: #e2e8f0;
+    @apply min-h-screen selection:bg-primary-500/30 selection:text-white;
   }
 
   html {
     @apply scroll-smooth;
+    color-scheme: dark;
   }
 }
 
 @layer components {
-  /* iOS Glassmorphism Card - White frosted glass */
+  /* Dark Glassmorphism Card */
   .glass-card {
-    background: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+    background: rgba(30, 41, 59, 0.4);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
     @apply rounded-2xl;
   }
 
   .glass-card-hover {
-    background: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+    background: rgba(30, 41, 59, 0.4);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
     @apply rounded-2xl transition-all duration-300;
   }
 
   .glass-card-hover:hover {
-    background: rgba(255, 255, 255, 0.85);
-    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.12);
+    background: rgba(30, 41, 59, 0.6);
+    border-color: rgba(255, 255, 255, 0.12);
+    box-shadow: 0 20px 48px rgba(0, 0, 0, 0.4);
     transform: translateY(-2px);
   }
 
-  /* Glass Button - iOS style */
+  /* Glass Button - Dark style */
   .glass-btn {
-    background: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     @apply px-6 py-3;
-    @apply text-gray-800 font-semibold;
+    @apply text-gray-200 font-semibold;
     @apply transition-all duration-300;
-    @apply rounded-xl shadow-md;
+    @apply rounded-xl shadow-lg;
   }
 
   .glass-btn:hover {
-    background: rgba(255, 255, 255, 0.85);
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
     transform: scale(1.02);
-    @apply shadow-lg;
+    @apply text-white shadow-xl;
   }
 
-  .glass-btn:active {
-    transform: scale(0.98);
-  }
-
-  /* Primary button with purple */
+  /* Primary button with teal/cyan glow (Obsolio style) */
   .glass-btn-primary {
-    background: linear-gradient(135deg, #a855f7 0%, #9333ea 100%);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border: 1px solid rgba(168, 85, 247, 0.3);
-    @apply text-white font-bold;
-    box-shadow: 0 4px 20px rgba(168, 85, 247, 0.3);
+    background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+    position: relative;
+    overflow: hidden;
+    @apply text-white font-bold px-8 py-3 rounded-xl border-none;
+    box-shadow: 0 0 20px rgba(14, 165, 233, 0.3);
+  }
+  
+  .glass-btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, transparent 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
   }
 
   .glass-btn-primary:hover {
-    background: linear-gradient(135deg, #9333ea 0%, #7e22ce 100%);
-    box-shadow: 0 8px 30px rgba(168, 85, 247, 0.4);
-    transform: scale(1.02);
+    box-shadow: 0 0 30px rgba(14, 165, 233, 0.5);
+    transform: translateY(-1px);
+  }
+  
+  .glass-btn-primary:hover::before {
+    opacity: 1;
   }
 
-  /* Secondary button */
-  .glass-btn-secondary {
-    background: rgba(255, 255, 255, 0.6);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    @apply text-gray-800;
-  }
-
-  .glass-btn-secondary:hover {
-    background: rgba(255, 255, 255, 0.8);
-    border-color: rgba(168, 85, 247, 0.5);
-  }
-
-  /* Input with iOS glass effect */
+  /* Input with Dark Glass effect */
   .glass-input {
-    background: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border: 1px solid rgba(0, 0, 0, 0.1);
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     @apply rounded-xl px-4 py-3;
-    @apply text-gray-900 placeholder-gray-500;
-    @apply focus:outline-none focus:ring-2 focus:ring-primary-500;
+    @apply text-white placeholder-gray-500;
+    @apply focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent;
     @apply transition-all duration-300;
   }
 
   .glass-input:focus {
-    background: rgba(255, 255, 255, 0.85);
-    border-color: rgba(168, 85, 247, 0.5);
+    background: rgba(15, 23, 42, 0.8);
+    box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.1);
   }
 
-  /* Gradient text with purple */
+  /* Gradient text */
   .gradient-text {
-    @apply bg-gradient-to-r from-primary-600 via-primary-500 to-purple-600;
+    @apply bg-gradient-to-r from-primary-400 via-cyan-400 to-primary-500;
     @apply bg-clip-text text-transparent;
   }
 
-  /* Animated gradient background - subtle purple tones */
-  .animated-gradient {
-    background: linear-gradient(
-      45deg,
-      #ffffff,
-      #faf5ff,
-      #f3e8ff,
-      #ffffff
-    );
-    background-size: 400% 400%;
-    animation: gradient 15s ease infinite;
+  /* Custom Scrollbar for dark theme */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
   }
-
-  @keyframes gradient {
-    0% {
-      background-position: 0% 50%;
-    }
-    50% {
-      background-position: 100% 50%;
-    }
-    100% {
-      background-position: 0% 50%;
-    }
+  
+  ::-webkit-scrollbar-track {
+    background: #0f172a; 
   }
-
-  /* Loading spinner */
-  .spinner {
-    @apply border-2 border-gray-200 border-t-primary-500;
-    @apply rounded-full animate-spin;
+  
+  ::-webkit-scrollbar-thumb {
+    background: #334155; 
+    border-radius: 3px;
   }
-
-  /* Badge styles - adjusted for light background */
-  .badge {
-    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold;
-    backdrop-filter: blur(10px) saturate(180%);
-    -webkit-backdrop-filter: blur(10px) saturate(180%);
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: #475569; 
   }
-
-  .badge-success {
-    background: rgba(34, 197, 94, 0.15);
-    @apply text-green-700 border border-green-300;
+  
+  /* Animations */
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
   }
-
-  .badge-warning {
-    background: rgba(234, 179, 8, 0.15);
-    @apply text-yellow-700 border border-yellow-300;
+  
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
   }
-
-  .badge-error {
-    background: rgba(239, 68, 68, 0.15);
-    @apply text-red-700 border border-red-300;
-  }
-
-  .badge-info {
-    background: rgba(59, 130, 246, 0.15);
-    @apply text-blue-700 border border-blue-300;
-  }
-
-  /* Score visualization */
-  .score-circle {
-    @apply relative inline-flex items-center justify-center;
-    @apply w-32 h-32 rounded-full;
-    background: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
-  }
-
-  /* File dropzone */
-  .dropzone {
-    background: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    @apply p-8 rounded-2xl;
-    @apply border-2 border-dashed border-gray-300;
-    @apply cursor-pointer;
-    @apply transition-all duration-300;
-  }
-
-  .dropzone:hover {
-    @apply border-primary-500 bg-white/90;
-    box-shadow: 0 8px 32px rgba(168, 85, 247, 0.15);
-  }
-
-  .dropzone-active {
-    @apply border-primary-600;
-    background: rgba(243, 232, 255, 0.5);
-  }
-
-  /* Table styles */
-  .glass-table {
-    @apply w-full;
-  }
-
-  .glass-table thead {
-    background: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-  }
-
-  .glass-table th {
-    @apply px-6 py-4 text-left text-sm font-semibold text-gray-800;
-    @apply border-b border-gray-200;
-  }
-
-  .glass-table td {
-    @apply px-6 py-4 text-sm text-gray-700;
-    @apply border-b border-gray-100;
-  }
-
-  .glass-table tbody tr {
-    @apply transition-colors duration-200;
-  }
-
-  .glass-table tbody tr:hover {
-    background: rgba(255, 255, 255, 0.5);
-  }
-
-  /* Modal overlay */
-  .modal-overlay {
-    @apply fixed inset-0;
-    background: rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    @apply flex items-center justify-center;
-    @apply z-50;
-  }
-
-  .modal-content {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(30px) saturate(180%);
-    -webkit-backdrop-filter: blur(30px) saturate(180%);
-    @apply p-6 max-w-2xl w-full mx-4;
-    @apply rounded-3xl;
-    @apply max-h-[90vh] overflow-y-auto;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
-  }
-
-  /* Notification */
-  .notification {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    @apply px-4 py-3 rounded-2xl;
-    @apply flex items-center gap-3;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
-  }
-
-  /* Progress bar */
-  .progress-bar {
-    @apply w-full h-2 rounded-full overflow-hidden;
-    background: rgba(0, 0, 0, 0.08);
-  }
-
-  .progress-bar-fill {
-    @apply h-full bg-gradient-to-r from-primary-500 to-purple-500;
-    @apply transition-all duration-300;
-  }
-
-  /* Card with score gradient */
-  .score-card-excellent {
-    @apply border-l-4 border-green-500;
-    background: linear-gradient(to right, rgba(34, 197, 94, 0.08), transparent);
-  }
-
-  .score-card-good {
-    @apply border-l-4 border-blue-500;
-    background: linear-gradient(to right, rgba(59, 130, 246, 0.08), transparent);
-  }
-
-  .score-card-average {
-    @apply border-l-4 border-yellow-500;
-    background: linear-gradient(to right, rgba(234, 179, 8, 0.08), transparent);
-  }
-
-  .score-card-poor {
-    @apply border-l-4 border-red-500;
-    background: linear-gradient(to right, rgba(239, 68, 68, 0.08), transparent);
-  }
-
-  /* Glow effect for purple accent */
-  .glow {
-    box-shadow: 0 0 20px rgba(168, 85, 247, 0.4),
-                0 0 40px rgba(168, 85, 247, 0.2);
-  }
-
-  .glow:hover {
-    box-shadow: 0 0 30px rgba(168, 85, 247, 0.5),
-                0 0 60px rgba(168, 85, 247, 0.3);
+  
+  @keyframes orbital {
+    from { transform: rotate(0deg) translateX(150px) rotate(0deg); }
+    to { transform: rotate(360deg) translateX(150px) rotate(-360deg); }
   }
 }
 
 @layer utilities {
   .text-shadow {
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   }
 
-  .text-shadow-lg {
-    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-  }
-
-  /* Scrollbar styling */
-  .custom-scrollbar::-webkit-scrollbar {
-    width: 8px;
-  }
-
-  .custom-scrollbar::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.05);
-    border-radius: 4px;
-  }
-
-  .custom-scrollbar::-webkit-scrollbar-thumb {
-    background: rgba(0, 0, 0, 0.2);
-    border-radius: 4px;
-  }
-
-  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: rgba(0, 0, 0, 0.3);
+  .text-shadow-glow {
+    text-shadow: 0 0 20px rgba(14, 165, 233, 0.5);
   }
 }
