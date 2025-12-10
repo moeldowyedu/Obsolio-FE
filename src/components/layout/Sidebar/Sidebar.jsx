@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
 import { NavLink, Link, useLocation } from 'react-router-dom';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, LogOut, User, Building2, Settings } from 'lucide-react';
+import { useAuthStore } from '../../../store/authStore';
 import { PLATFORM, ENGINES } from '../../../utils/constants';
 
-import logo from '../../../assets/imgs/Aasim-logo.png';
+import logo from '../../../assets/imgs/OBSOLIO-logo-cyan.png';
 
 const Sidebar = () => {
   const location = useLocation();
+  const { user, logout } = useAuthStore();
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [expandedSections, setExpandedSections] = useState({
     organization: false,
@@ -211,39 +213,44 @@ const Sidebar = () => {
 
   return (
     <aside
-      className={`${isCollapsed ? 'w-20' : 'w-64'} bg-white border-r border-gray-200 h-screen sticky top-0 transition-all duration-300 ease-in-out flex flex-col`}
+      className={`${isCollapsed ? 'w-20' : 'w-64'} bg-[#0B0E14] border-r border-white/10 h-screen sticky top-0 transition-all duration-300 ease-in-out flex flex-col`}
     >
-      {/* Logo/Brand */}
-      <div className={`${isCollapsed ? 'p-4' : 'p-6'} border-b border-gray-200 transition-all duration-300 flex-shrink-0`}>
-        <Link to="/dashboard" className="flex items-center gap-3">
-          <img
-            src={logo}
-            alt="Aasim Logo"
-            className="w-10 h-10 object-contain"
-          />
+      {/* Tenant Branding */}
+      <div className={`${isCollapsed ? 'p-4' : 'p-6'} border-b border-white/10 transition-all duration-300 flex-shrink-0`}>
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary-600 to-primary-800 flex items-center justify-center flex-shrink-0 shadow-lg shadow-primary-900/20">
+            {user?.tenant_logo ? (
+              <img src={user.tenant_logo} alt="Tenant Logo" className="w-6 h-6 object-contain" />
+            ) : (
+              <Building2 className="w-6 h-6 text-white" />
+            )}
+          </div>
           {!isCollapsed && (
             <div className="overflow-hidden">
-              <h1 className="text-xl font-bold font-heading text-secondary-900 whitespace-nowrap">
-                {PLATFORM.name}
+              <h1 className="text-sm font-bold text-white truncate">
+                {user?.tenant_name || user?.company || 'My Workspace'}
               </h1>
-              <p className="text-xs text-secondary-600 whitespace-nowrap">
-                {PLATFORM.tagline}
-              </p>
+              <div className="flex items-center gap-1.5 mt-0.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-green-500"></span>
+                <p className="text-xs text-gray-400 truncate">
+                  {user?.role || 'Admin'}
+                </p>
+              </div>
             </div>
           )}
-        </Link>
+        </div>
       </div>
 
       {/* Collapse/Expand Button */}
       <button
         onClick={toggleSidebar}
-        className="absolute top-20 -right-3 w-6 h-6 bg-white border border-gray-200 rounded-full flex items-center justify-center hover:bg-gray-50 transition-colors z-10 shadow-sm"
+        className="absolute top-20 -right-3 w-6 h-6 bg-[#1e293b] border border-white/10 rounded-full flex items-center justify-center hover:bg-[#334155] transition-colors z-10 shadow-sm"
         title={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
       >
         {isCollapsed ? (
-          <ChevronRight className="w-4 h-4 text-secondary-600" />
+          <ChevronRight className="w-4 h-4 text-gray-400" />
         ) : (
-          <ChevronLeft className="w-4 h-4 text-secondary-600" />
+          <ChevronLeft className="w-4 h-4 text-gray-400" />
         )}
       </button>
 
@@ -261,12 +268,12 @@ const Sidebar = () => {
                 <li key={item.name}>
                   <button
                     onClick={() => !isCollapsed && toggleSection(item.section)}
-                    className={`w-full flex items-center ${isCollapsed ? 'justify-center' : 'justify-between'} px-3 py-2 text-sm font-medium rounded-lg transition-colors group ${isAnyChildActive ? 'bg-primary-50 text-primary-700' : 'text-gray-700 hover:bg-gray-100'
+                    className={`w-full flex items-center ${isCollapsed ? 'justify-center' : 'justify-between'} px-3 py-2 text-sm font-medium rounded-lg transition-colors group ${isAnyChildActive ? 'bg-primary-500/10 text-primary-400' : 'text-gray-400 hover:bg-white/5 hover:text-gray-200'
                       }`}
                     title={isCollapsed ? item.name : ''}
                   >
                     <div className="flex items-center gap-3">
-                      <span className="material-icons text-lg text-secondary-600">{item.icon}</span>
+                      <span className="material-icons text-lg text-gray-500 group-hover:text-gray-300">{item.icon}</span>
                       {!isCollapsed && <span>{item.name}</span>}
                     </div>
                     {!isCollapsed && (
@@ -290,12 +297,12 @@ const Sidebar = () => {
                             to={child.href}
                             className={({ isActive }) =>
                               `flex items-center gap-3 px-3 py-2 text-sm rounded-lg transition-colors ${isActive
-                                ? 'bg-primary-100 text-primary-700 font-medium'
-                                : 'text-gray-600 hover:bg-gray-100'
+                                ? 'bg-primary-500/10 text-primary-400 font-medium'
+                                : 'text-gray-500 hover:bg-white/5 hover:text-gray-300'
                               }`
                             }
                           >
-                            <span className="material-icons text-base text-secondary-600">{child.icon}</span>
+                            <span className="material-icons text-base text-gray-500">{child.icon}</span>
                             <span>{child.name}</span>
                           </NavLink>
                         </li>
@@ -339,13 +346,13 @@ const Sidebar = () => {
                   end={item.exact}
                   className={({ isActive }) =>
                     `flex items-center ${isCollapsed ? 'justify-center' : 'gap-3'} px-3 py-2 text-sm font-medium rounded-lg transition-colors ${isActive
-                      ? 'bg-primary-100 text-primary-700'
-                      : 'text-gray-700 hover:bg-gray-100'
+                      ? 'bg-primary-500/10 text-primary-400'
+                      : 'text-gray-400 hover:bg-white/5 hover:text-gray-200'
                     }`
                   }
                   title={isCollapsed ? item.name : ''}
                 >
-                  <span className="material-icons text-lg text-secondary-600">{item.icon}</span>
+                  <span className="material-icons text-lg text-gray-500">{item.icon}</span>
                   {!isCollapsed && <span>{item.name}</span>}
                 </NavLink>
 
@@ -363,24 +370,53 @@ const Sidebar = () => {
       </nav>
 
       {/* Bottom Section - Help */}
-      {!isCollapsed && (
-        <div className="p-4 border-t border-gray-200 bg-white flex-shrink-0">
-          <div className="bg-gradient-to-r from-primary-50 to-secondary-50 rounded-lg p-4">
-            <h3 className="text-sm font-semibold text-secondary-900 mb-1">
-              Need Help?
-            </h3>
-            <p className="text-xs text-secondary-600 mb-3">
-              Check our documentation and guides
-            </p>
-            <a
-              href="/agentx/developer"
-              className="text-xs text-primary-600 hover:text-primary-700 font-medium"
-            >
-              View Documentation →
-            </a>
+      {/* Bottom Section - User Profile & Logout */}
+      <div className="border-t border-white/10 bg-[#0B0E14] flex-shrink-0">
+        {!isCollapsed ? (
+          <div className="p-4 space-y-4">
+            {/* Help Box */}
+            <div className="bg-gradient-to-r from-primary-900/10 to-blue-900/10 rounded-lg p-3 border border-white/5">
+              <div className="flex items-center justify-between mb-2">
+                <h3 className="text-xs font-semibold text-gray-200">Need Help?</h3>
+                <Link to="/agentx/developer" className="text-[10px] text-primary-400 hover:text-primary-300">Docs →</Link>
+              </div>
+            </div>
+
+            {/* User Profile */}
+            <div className="flex items-center justify-between p-2 rounded-lg bg-white/5 border border-white/5">
+              <div className="flex items-center gap-3 overflow-hidden">
+                <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-purple-500 to-primary-500 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
+                  {user?.name?.charAt(0) || 'U'}
+                </div>
+                <div className="min-w-0">
+                  <p className="text-sm font-medium text-white truncate">{user?.name || 'User'}</p>
+                  <p className="text-xs text-gray-500 truncate">{user?.email}</p>
+                </div>
+              </div>
+              <button
+                onClick={logout}
+                className="p-1.5 text-gray-400 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
+                title="Logout"
+              >
+                <LogOut className="w-4 h-4" />
+              </button>
+            </div>
           </div>
-        </div>
-      )}
+        ) : (
+          <div className="p-2 space-y-2">
+            <div className="w-10 h-10 mx-auto rounded-full bg-gradient-to-tr from-purple-500 to-primary-500 flex items-center justify-center text-white text-xs font-bold" title={user?.name}>
+              {user?.name?.charAt(0) || 'U'}
+            </div>
+            <button
+              onClick={logout}
+              className="w-10 h-10 mx-auto flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
+              title="Logout"
+            >
+              <LogOut className="w-5 h-5" />
+            </button>
+          </div>
+        )}
+      </div>
     </aside>
   );
 };

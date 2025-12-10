@@ -35,13 +35,13 @@ const FormModal = ({
 
       {/* Modal */}
       <div className="flex min-h-full items-center justify-center p-4">
-        <div className={`relative bg-white rounded-2xl shadow-2xl w-full ${sizeClasses[size]} transform transition-all`}>
+        <div className={`relative glass-card w-full ${sizeClasses[size]} transform transition-all`}>
           {/* Header */}
-          <div className="flex items-center justify-between p-6 border-b border-gray-200">
-            <h2 className="text-2xl font-bold text-secondary-900">{title}</h2>
+          <div className="flex items-center justify-between p-6 border-b border-white/10">
+            <h2 className="text-2xl font-bold text-white">{title}</h2>
             <button
               onClick={onClose}
-              className="text-gray-400 hover:text-gray-600 transition-colors"
+              className="text-gray-400 hover:text-white transition-colors"
               disabled={isLoading}
             >
               <X className="w-6 h-6" />
@@ -56,12 +56,12 @@ const FormModal = ({
             </div>
 
             {/* Footer */}
-            <div className="flex items-center justify-end gap-3 p-6 border-t border-gray-200 bg-gray-50 rounded-b-2xl">
+            <div className="flex items-center justify-end gap-3 p-6 border-t border-white/10 bg-black/20 rounded-b-2xl">
               <button
                 type="button"
                 onClick={onClose}
                 disabled={isLoading}
-                className="px-6 py-2.5 border border-gray-300 rounded-xl font-semibold text-secondary-700 hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-6 py-2.5 border border-white/20 rounded-xl font-semibold text-gray-300 hover:bg-white/5 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {cancelText}
               </button>

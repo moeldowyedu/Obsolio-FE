@@ -49,7 +49,7 @@ const ChatPage = () => {
       },
       {
         id: '4',
-        name: 'Aasim AI Support',
+        name: 'Obsolio AI Support',
         avatar: 'AS',
         lastMessage: 'Your deployment has been completed successfully!',
         timestamp: '3 hours ago',
@@ -193,11 +193,11 @@ const ChatPage = () => {
     <MainLayout showSidebar={true}>
       <div className="h-[calc(100vh-4rem)] flex">
         {/* Conversations List */}
-        <div className={`w-full md:w-96 border-r border-gray-200 bg-white flex flex-col ${showMobileChat ? 'hidden md:flex' : 'flex'
+        <div className={`w-full md:w-96 border-r border-white/10 bg-[#1E293B] flex flex-col ${showMobileChat ? 'hidden md:flex' : 'flex'
           }`}>
           {/* Header */}
-          <div className="p-4 border-b border-gray-200">
-            <h1 className="text-2xl font-bold text-secondary-900 mb-4 tracking-tight">Messages</h1>
+          <div className="p-4 border-b border-white/10">
+            <h1 className="text-2xl font-bold text-white mb-4 tracking-tight">Messages</h1>
 
             {/* Search */}
             <div className="relative">
@@ -207,7 +207,7 @@ const ChatPage = () => {
                 placeholder="Search conversations..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                className="w-full pl-10 pr-4 py-2 border border-white/10 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
               />
             </div>
           </div>
@@ -225,7 +225,7 @@ const ChatPage = () => {
                     c.id === conv.id ? { ...c, unread: 0 } : c
                   ));
                 }}
-                className={`p-4 border-b border-gray-100 cursor-pointer hover:bg-gray-50 transition-colors ${selectedConversation?.id === conv.id ? 'bg-primary-50 border-l-4 border-l-primary-600' : ''
+                className={`p-4 border-b border-white/10 cursor-pointer hover:bg-white/5 transition-colors ${selectedConversation?.id === conv.id ? 'bg-primary-900/20 border-l-4 border-l-primary-600' : ''
                   }`}
               >
                 <div className="flex items-start gap-3">
@@ -242,11 +242,11 @@ const ChatPage = () => {
                   {/* Content */}
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between mb-1">
-                      <h3 className="text-sm font-bold text-secondary-900 truncate">{conv.name}</h3>
+                      <h3 className="text-sm font-bold text-white truncate">{conv.name}</h3>
                       <span className="text-xs text-gray-500 ml-2 flex-shrink-0">{conv.timestamp}</span>
                     </div>
                     <div className="text-xs text-primary-600 font-medium mb-1 truncate">{conv.agentName}</div>
-                    <p className="text-sm text-secondary-600 truncate">{conv.lastMessage}</p>
+                    <p className="text-sm text-gray-400 truncate">{conv.lastMessage}</p>
                     <div className="text-xs text-gray-500 mt-1">{conv.context}</div>
                   </div>
 
@@ -264,17 +264,17 @@ const ChatPage = () => {
 
         {/* Chat Area */}
         {selectedConversation ? (
-          <div className={`flex-1 flex flex-col bg-gray-50 ${showMobileChat ? 'flex' : 'hidden md:flex'
+          <div className={`flex-1 flex flex-col bg-white/5 ${showMobileChat ? 'flex' : 'hidden md:flex'
             }`}>
             {/* Chat Header */}
-            <div className="bg-white border-b border-gray-200 p-4">
+            <div className="bg-[#1E293B] border-b border-white/10 p-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <button
                     onClick={() => setShowMobileChat(false)}
-                    className="md:hidden p-2 hover:bg-gray-100 rounded-lg"
+                    className="md:hidden p-2 hover:bg-white/5 rounded-lg"
                   >
-                    <ArrowLeft className="w-5 h-5 text-secondary-600" />
+                    <ArrowLeft className="w-5 h-5 text-gray-400" />
                   </button>
 
                   <div className="relative">
@@ -287,7 +287,7 @@ const ChatPage = () => {
                   </div>
 
                   <div>
-                    <h2 className="text-lg font-bold text-secondary-900">{selectedConversation.name}</h2>
+                    <h2 className="text-lg font-bold text-white">{selectedConversation.name}</h2>
                     <div className="flex items-center gap-2">
                       <p className="text-xs text-primary-600 font-medium">{selectedConversation.agentName}</p>
                       {selectedConversation.online && (
@@ -301,14 +301,14 @@ const ChatPage = () => {
                 </div>
 
                 <div className="flex items-center gap-2">
-                  <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
-                    <Phone className="w-5 h-5 text-secondary-600" />
+                  <button className="p-2 hover:bg-white/5 rounded-lg transition-colors">
+                    <Phone className="w-5 h-5 text-gray-400" />
                   </button>
-                  <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
-                    <Video className="w-5 h-5 text-secondary-600" />
+                  <button className="p-2 hover:bg-white/5 rounded-lg transition-colors">
+                    <Video className="w-5 h-5 text-gray-400" />
                   </button>
-                  <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
-                    <MoreVertical className="w-5 h-5 text-secondary-600" />
+                  <button className="p-2 hover:bg-white/5 rounded-lg transition-colors">
+                    <MoreVertical className="w-5 h-5 text-gray-400" />
                   </button>
                 </div>
               </div>
@@ -333,7 +333,7 @@ const ChatPage = () => {
                     <div
                       className={`rounded-2xl px-4 py-2 ${message.isOwn
                         ? 'bg-gradient-to-r from-primary-600 to-primary-700 text-white'
-                        : 'bg-white text-secondary-900 border border-gray-200'
+                        : 'bg-[#1E293B] text-white border border-white/10'
                         }`}
                     >
                       <p className="text-sm leading-relaxed">{message.content}</p>
@@ -349,13 +349,13 @@ const ChatPage = () => {
             </div>
 
             {/* Message Input */}
-            <div className="bg-white border-t border-gray-200 p-4">
+            <div className="bg-[#1E293B] border-t border-white/10 p-4">
               <form onSubmit={handleSendMessage} className="flex items-center gap-2">
                 <button
                   type="button"
-                  className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                  className="p-2 hover:bg-white/5 rounded-lg transition-colors"
                 >
-                  <Paperclip className="w-5 h-5 text-secondary-600" />
+                  <Paperclip className="w-5 h-5 text-gray-400" />
                 </button>
 
                 <div className="flex-1 relative">
@@ -364,13 +364,13 @@ const ChatPage = () => {
                     value={newMessage}
                     onChange={(e) => setNewMessage(e.target.value)}
                     placeholder="Type a message..."
-                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent pr-12"
+                    className="w-full px-4 py-3 border border-white/10 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent pr-12"
                   />
                   <button
                     type="button"
-                    className="absolute right-3 top-1/2 -translate-y-1/2 p-1 hover:bg-gray-100 rounded-lg transition-colors"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 p-1 hover:bg-white/5 rounded-lg transition-colors"
                   >
-                    <Smile className="w-5 h-5 text-secondary-600" />
+                    <Smile className="w-5 h-5 text-gray-400" />
                   </button>
                 </div>
 
@@ -386,13 +386,13 @@ const ChatPage = () => {
             </div>
           </div>
         ) : (
-          <div className="flex-1 hidden md:flex items-center justify-center bg-gray-50">
+          <div className="flex-1 hidden md:flex items-center justify-center bg-white/5">
             <div className="text-center">
-              <div className="w-20 h-20 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-20 h-20 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-4">
                 <User className="w-10 h-10 text-gray-400" />
               </div>
-              <h3 className="text-xl font-bold text-secondary-900 mb-2">No Conversation Selected</h3>
-              <p className="text-secondary-600">Select a conversation from the list to start messaging</p>
+              <h3 className="text-xl font-bold text-white mb-2">No Conversation Selected</h3>
+              <p className="text-gray-400">Select a conversation from the list to start messaging</p>
             </div>
           </div>
         )}

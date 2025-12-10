@@ -35,11 +35,11 @@ const ConfirmDialog = ({
 
       {/* Modal */}
       <div className="flex min-h-full items-center justify-center p-4">
-        <div className="relative bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 transform transition-all">
+        <div className="relative glass-card max-w-md w-full p-6 transform transition-all">
           {/* Close button */}
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
+            className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
             disabled={isLoading}
           >
             <X className="w-5 h-5" />
@@ -52,8 +52,8 @@ const ConfirmDialog = ({
 
           {/* Content */}
           <div className="text-center mb-6">
-            <h3 className="text-xl font-bold text-secondary-900 mb-2">{title}</h3>
-            <p className="text-secondary-600">{message}</p>
+            <h3 className="text-xl font-bold text-white mb-2">{title}</h3>
+            <p className="text-gray-300">{message}</p>
           </div>
 
           {/* Actions */}
@@ -61,7 +61,7 @@ const ConfirmDialog = ({
             <button
               onClick={onClose}
               disabled={isLoading}
-              className="flex-1 px-4 py-2.5 border border-gray-300 rounded-xl font-semibold text-secondary-700 hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex-1 px-4 py-2.5 border border-white/20 rounded-xl font-semibold text-gray-300 hover:bg-white/5 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {cancelText}
             </button>

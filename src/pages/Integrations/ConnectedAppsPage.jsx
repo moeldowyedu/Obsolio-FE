@@ -280,8 +280,8 @@ const ConnectedAppsPage = () => {
     <MainLayout>
       <div className="p-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-secondary-900 mb-2">Connected Apps</h1>
-          <p className="text-secondary-600">
+          <h1 className="text-3xl font-bold text-white mb-2">Connected Apps</h1>
+          <p className="text-gray-400">
             Manage your integrated third-party applications
           </p>
         </div>
@@ -295,7 +295,7 @@ const ConnectedAppsPage = () => {
               placeholder="Search connected apps..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+              className="w-full pl-10 pr-4 py-2 border border-white/20 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
             />
           </div>
           <Button onClick={handleOpenConnectModal} icon={<Plus className="w-4 h-4" />}>
@@ -317,10 +317,10 @@ const ConnectedAppsPage = () => {
                         </span>
                       </div>
                       <div>
-                        <h3 className="text-lg font-semibold text-secondary-900 mb-1">
+                        <h3 className="text-lg font-semibold text-white mb-1">
                           {app.name}
                         </h3>
-                        <p className="text-sm text-secondary-600">{app.description}</p>
+                        <p className="text-sm text-gray-400">{app.description}</p>
                       </div>
                     </div>
                     {app.status === 'connected' ? (
@@ -333,25 +333,25 @@ const ConnectedAppsPage = () => {
                   <div className="grid grid-cols-2 gap-4 mb-4">
                     <div>
                       <p className="text-xs text-gray-500 mb-1">Connected</p>
-                      <p className="text-sm font-medium text-secondary-900">
+                      <p className="text-sm font-medium text-white">
                         {app.connectedAt}
                       </p>
                     </div>
                     <div>
                       <p className="text-xs text-gray-500 mb-1">Last Sync</p>
-                      <p className="text-sm font-medium text-secondary-900">
+                      <p className="text-sm font-medium text-white">
                         {app.lastSync}
                       </p>
                     </div>
                   </div>
 
                   {app.error && (
-                    <div className="p-3 bg-red-50 border border-red-200 rounded-lg mb-4">
-                      <p className="text-sm text-red-800">{app.error}</p>
+                    <div className="p-3 bg-red-900/20 border border-red-800 rounded-lg mb-4">
+                      <p className="text-sm text-red-300">{app.error}</p>
                     </div>
                   )}
 
-                  <div className="flex items-center gap-2 pt-4 border-t border-gray-200">
+                  <div className="flex items-center gap-2 pt-4 border-t border-white/10">
                     {app.status === 'error' ? (
                       <Button
                         size="sm"
@@ -384,7 +384,7 @@ const ConnectedAppsPage = () => {
             ))
           ) : (
             <div className="col-span-2 text-center py-12">
-              <p className="text-secondary-600">No connected apps found. Try a different search term.</p>
+              <p className="text-gray-400">No connected apps found. Try a different search term.</p>
             </div>
           )}
         </div>
@@ -397,13 +397,13 @@ const ConnectedAppsPage = () => {
               onClick={() => setIsConnectModalOpen(false)}
             />
             <div className="flex min-h-full items-center justify-center p-4">
-              <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-4xl transform transition-all">
+              <div className="relative glass-card w-full max-w-4xl transform transition-all">
                 <div className="p-6">
-                  <h2 className="text-2xl font-bold text-secondary-900 mb-4">
+                  <h2 className="text-2xl font-bold text-white mb-4">
                     Connect New App
                   </h2>
-                  <p className="text-secondary-600 mb-6">
-                    Choose an application to connect with Aasim AI
+                  <p className="text-gray-400 mb-6">
+                    Choose an application to connect with Obsolio
                   </p>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-h-[60vh] overflow-y-auto">
@@ -419,7 +419,7 @@ const ConnectedAppsPage = () => {
                               <span className="text-3xl">{app.icon}</span>
                             </div>
                             <div className="flex-1">
-                              <h3 className="font-semibold text-secondary-900">
+                              <h3 className="font-semibold text-white">
                                 {app.name}
                               </h3>
                               <Badge color="blue" className="mt-1">
@@ -427,7 +427,7 @@ const ConnectedAppsPage = () => {
                               </Badge>
                             </div>
                           </div>
-                          <p className="text-sm text-secondary-600">
+                          <p className="text-sm text-gray-400">
                             {app.description}
                           </p>
                         </div>
@@ -437,7 +437,7 @@ const ConnectedAppsPage = () => {
 
                   {unconnectedApps.length === 0 && (
                     <div className="text-center py-12">
-                      <p className="text-secondary-600">
+                      <p className="text-gray-400">
                         All available apps are already connected!
                       </p>
                     </div>
@@ -472,50 +472,50 @@ const ConnectedAppsPage = () => {
             size="lg"
           >
             <div className="space-y-4">
-              <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-xl">
+              <div className="flex items-center gap-4 p-4 bg-white/5 rounded-xl">
                 <div className="w-16 h-16 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-lg flex items-center justify-center">
                   <span className="text-4xl">{selectedAppToConnect.icon}</span>
                 </div>
                 <div>
-                  <h3 className="font-semibold text-secondary-900 text-lg">
+                  <h3 className="font-semibold text-white text-lg">
                     {selectedAppToConnect.name}
                   </h3>
-                  <p className="text-sm text-secondary-600">
+                  <p className="text-sm text-gray-400">
                     {selectedAppToConnect.description}
                   </p>
                 </div>
               </div>
 
-              <div className="bg-blue-50 border border-blue-200 rounded-xl p-4">
-                <p className="text-sm text-blue-900 mb-2 font-medium">
+              <div className="bg-blue-900/20 border border-blue-800 rounded-xl p-4">
+                <p className="text-sm text-blue-200 mb-2 font-medium">
                   Authorization Required
                 </p>
-                <p className="text-sm text-blue-800">
-                  You'll be redirected to {selectedAppToConnect.name} to authorize Aasim AI.
+                <p className="text-sm text-blue-100">
+                  You'll be redirected to {selectedAppToConnect.name} to authorize Obsolio.
                   Please grant the required permissions to continue.
                 </p>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-secondary-900 mb-3">
+                <label className="block text-sm font-medium text-white mb-3">
                   Permissions Requested
                 </label>
-                <div className="space-y-2 max-h-64 overflow-y-auto p-3 bg-gray-50 rounded-xl border border-gray-200">
+                <div className="space-y-2 max-h-64 overflow-y-auto p-3 bg-white/5 rounded-xl border border-white/10">
                   {selectedAppToConnect.permissions.map((permission) => (
                     <label
                       key={permission.id}
-                      className="flex items-start gap-3 cursor-pointer hover:bg-white p-3 rounded-lg transition-colors"
+                      className="flex items-start gap-3 cursor-pointer hover:bg-white/5 p-3 rounded-lg transition-colors"
                     >
                       <input
                         type="checkbox"
                         checked={connectFormData.permissions.includes(permission.id)}
                         onChange={() => handlePermissionToggle(permission.id)}
                         disabled={permission.required}
-                        className="mt-0.5 w-4 h-4 text-primary-600 border-gray-300 rounded focus:ring-primary-500"
+                        className="mt-0.5 w-4 h-4 text-primary-600 border-white/20 rounded focus:ring-primary-500"
                       />
                       <div className="flex-1">
                         <div className="flex items-center gap-2">
-                          <span className="text-sm font-medium text-secondary-900">
+                          <span className="text-sm font-medium text-white">
                             {permission.label}
                           </span>
                           {permission.required && (
@@ -524,7 +524,7 @@ const ConnectedAppsPage = () => {
                             </Badge>
                           )}
                         </div>
-                        <p className="text-xs text-secondary-600 mt-1">
+                        <p className="text-xs text-gray-400 mt-1">
                           {permission.id}
                         </p>
                       </div>
@@ -533,11 +533,11 @@ const ConnectedAppsPage = () => {
                 </div>
               </div>
 
-              <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-4">
+              <div className="bg-yellow-900/20 border border-yellow-800 rounded-xl p-4">
                 <div className="flex gap-2">
                   <span className="text-yellow-600 text-lg">⚠️</span>
-                  <p className="text-sm text-yellow-900">
-                    By connecting this app, you authorize Aasim AI to access your{' '}
+                  <p className="text-sm text-yellow-200">
+                    By connecting this app, you authorize Obsolio to access your{' '}
                     {selectedAppToConnect.name} data according to the selected permissions.
                     You can revoke access at any time.
                   </p>
@@ -562,17 +562,17 @@ const ConnectedAppsPage = () => {
             size="lg"
           >
             <div className="space-y-4">
-              <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-xl">
+              <div className="flex items-center gap-4 p-4 bg-white/5 rounded-xl">
                 <div className="w-16 h-16 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-lg flex items-center justify-center">
                   <span className="text-4xl">{managingApp.icon || managingApp.name[0]}</span>
                 </div>
                 <div>
-                  <h3 className="font-semibold text-secondary-900 text-lg">
+                  <h3 className="font-semibold text-white text-lg">
                     {managingApp.name}
                   </h3>
                   <div className="flex items-center gap-2 mt-1">
                     <Badge color="green">Connected</Badge>
-                    <span className="text-xs text-secondary-600">
+                    <span className="text-xs text-gray-400">
                       Since {managingApp.connectedAt}
                     </span>
                   </div>
@@ -580,38 +580,38 @@ const ConnectedAppsPage = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-secondary-900 mb-3">
+                <label className="block text-sm font-medium text-white mb-3">
                   Active Permissions
                 </label>
-                <div className="space-y-2 p-4 bg-gray-50 rounded-xl">
+                <div className="space-y-2 p-4 bg-white/5 rounded-xl">
                   {managingApp.permissions && managingApp.permissions.length > 0 ? (
                     managingApp.permissions.map((perm) => (
                       <div key={perm} className="flex items-center gap-2">
                         <CheckCircle className="w-4 h-4 text-green-600" />
-                        <span className="text-sm text-secondary-700">{perm}</span>
+                        <span className="text-sm text-gray-300">{perm}</span>
                       </div>
                     ))
                   ) : (
-                    <p className="text-sm text-secondary-600">No permissions configured</p>
+                    <p className="text-sm text-gray-400">No permissions configured</p>
                   )}
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-4 p-4 bg-blue-50 border border-blue-200 rounded-xl">
+              <div className="grid grid-cols-2 gap-4 p-4 bg-blue-900/20 border border-blue-800 rounded-xl">
                 <div>
-                  <p className="text-xs text-blue-700 mb-1">Last Synced</p>
-                  <p className="text-sm font-medium text-blue-900">{managingApp.lastSync}</p>
+                  <p className="text-xs text-blue-300 mb-1">Last Synced</p>
+                  <p className="text-sm font-medium text-blue-100">{managingApp.lastSync}</p>
                 </div>
                 <div>
-                  <p className="text-xs text-blue-700 mb-1">Status</p>
+                  <p className="text-xs text-blue-300 mb-1">Status</p>
                   <Badge color={managingApp.status === 'connected' ? 'green' : 'red'}>
                     {managingApp.status}
                   </Badge>
                 </div>
               </div>
 
-              <div className="bg-gray-50 border border-gray-200 rounded-xl p-4">
-                <p className="text-sm text-secondary-600">
+              <div className="bg-white/5 border border-white/10 rounded-xl p-4">
+                <p className="text-sm text-gray-400">
                   To modify permissions, you'll need to reconnect the app. Contact support
                   for advanced configuration options.
                 </p>
@@ -631,7 +631,7 @@ const ConnectedAppsPage = () => {
           title="Disconnect App"
           message={
             disconnectingApp
-              ? `Are you sure you want to disconnect "${disconnectingApp.name}"?\n\nThis will revoke Aasim AI's access to your ${disconnectingApp.name} account. Any workflows or agents using this integration will stop working.`
+              ? `Are you sure you want to disconnect "${disconnectingApp.name}"?\n\nThis will revoke Obsolio's access to your ${disconnectingApp.name} account. Any workflows or agents using this integration will stop working.`
               : ''
           }
           confirmText="Disconnect App"

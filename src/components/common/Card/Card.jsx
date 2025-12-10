@@ -18,7 +18,7 @@ const Card = ({
   return (
     <div
       className={clsx(
-        'bg-white rounded-xl shadow-md border border-gray-100',
+        'glass-card border-none',
         paddings[padding],
         hover && 'hover:shadow-lg transition-shadow duration-200 cursor-pointer',
         onClick && 'cursor-pointer',
