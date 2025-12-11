@@ -12,7 +12,7 @@ import { Quote } from 'lucide-react';
 
 const HomePage = () => {
   return (
-    <MainLayout showSidebar={false} showFooter={false}>
+    <MainLayout showSidebar={false} showFooter={true}>
       <div className="min-h-screen bg-[#0B0E14] text-white selection:bg-primary-500/30">
 
         {/* Hero Section */}
@@ -165,7 +165,7 @@ const HomePage = () => {
         </section>
 
         {/* Domain Sectors */}
-        <section className="py-20 px-6 bg-white/[0.02] border-y border-white/5">
+        <section id="use-cases" className="py-20 px-6 bg-white/[0.02] border-y border-white/5">
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-16">
               <h2 className="text-3xl md:text-4xl font-bold mb-6">
@@ -417,7 +417,7 @@ const HomePage = () => {
         </section>
 
         {/* Pricing / CTA */}
-        <section className="py-24 px-6">
+        <section id="pricing" className="py-24 px-6">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-4xl md:text-5xl font-bold mb-6">Start your <span className="text-primary-400">7 Days Free Trial</span></h2>
             <p className="text-xl text-gray-400 mb-10">
@@ -459,24 +459,7 @@ const HomePage = () => {
           </div>
         </section>
 
-        {/* Footer */}
-        <footer className="py-12 px-6 border-t border-white/5 bg-[#05080f]">
-          <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
-            <div className="flex items-center">
-              <img src={ObsolioLogo} alt="Obsolio" className="h-10 object-contain" />
-            </div>
 
-            <div className="text-sm text-gray-500">
-              &copy; 2026 Obsolio Inc. All rights reserved.
-            </div>
-
-            <div className="flex gap-6 text-sm text-gray-400">
-              <a href="#" className="hover:text-white transition-colors">Privacy</a>
-              <a href="#" className="hover:text-white transition-colors">Terms</a>
-              <a href="#" className="hover:text-white transition-colors">Contact</a>
-            </div>
-          </div>
-        </footer>
 
       </div>
     </MainLayout>

@@ -33,9 +33,9 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <a href="#" className="text-secondary-600 hover:text-primary-600 text-sm transition-colors">
+                <Link to="/#pricing" className="text-secondary-600 hover:text-primary-600 text-sm transition-colors">
                   Pricing
-                </a>
+                </Link>
               </li>
               <li>
                 <a href="#" className="text-secondary-600 hover:text-primary-600 text-sm transition-colors">
@@ -50,9 +50,9 @@ const Footer = () => {
             <h3 className="text-secondary-900 font-semibold mb-4">Company</h3>
             <ul className="space-y-2">
               <li>
-                <a href="#" className="text-secondary-600 hover:text-primary-600 text-sm transition-colors">
+                <Link to="/#features" className="text-secondary-600 hover:text-primary-600 text-sm transition-colors">
                   About Us
-                </a>
+                </Link>
               </li>
               <li>
                 <a href="mailto:info@obsolio.com" className="text-secondary-600 hover:text-primary-600 text-sm transition-colors">
