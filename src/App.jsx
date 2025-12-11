@@ -6,6 +6,8 @@ import LoginPage from './pages/Auth/LoginPage'
 import RegisterPage from './pages/Auth/RegisterPage'
 import ForgotPasswordPage from './pages/Auth/ForgotPasswordPage'
 import ResetPasswordPage from './pages/Auth/ResetPasswordPage'
+import PrivacyPolicyPage from './pages/Public/PrivacyPolicyPage'
+import TermsOfServicePage from './pages/Public/TermsOfServicePage'
 // Onboarding Pages
 import TenantSetupPage from './pages/Onboarding/TenantSetupPage'
 import OrganizationSetupPage from './pages/Onboarding/OrganizationSetupPage'
@@ -100,6 +102,8 @@ function App() {
           <Route path="/register-simple" element={<Navigate to="/register" replace />} />
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
           <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
+          <Route path="/privacy" element={<PrivacyPolicyPage />} />
+          <Route path="/terms" element={<TermsOfServicePage />} />
 
           {/* Onboarding Routes (Post-Registration) */}
           <Route
