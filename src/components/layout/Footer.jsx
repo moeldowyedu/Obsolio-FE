@@ -22,11 +22,8 @@ const Footer = () => {
             <Link to="/" className="flex items-center gap-3 group">
               <div className="relative">
                 <div className="absolute inset-0 bg-primary-500/20 blur-lg rounded-full group-hover:bg-primary-500/30 transition-all duration-500"></div>
-                <img src={ObsolioLogo} alt="Obsolio" className="h-10 w-auto relative z-10" />
+                <img src={ObsolioLogo} alt="Obsolio" className="h-12 w-auto relative z-10" />
               </div>
-              <span className="text-2xl font-bold text-white tracking-tight">
-                OBSOLIO
-              </span>
             </Link>
             <p className="text-gray-400 text-sm leading-relaxed max-w-sm">
               The Precision AI Agent Platform.
