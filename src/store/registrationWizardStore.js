@@ -408,7 +408,7 @@ export const useRegistrationWizardStore = create(
       },
     }),
     {
-      name: 'aasim-registration-wizard-storage',
+      name: 'obsolio-registration-wizard-storage',
       partialize: (state) => ({
         currentStep: state.currentStep,
         totalSteps: state.totalSteps,

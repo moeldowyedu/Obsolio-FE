@@ -100,8 +100,8 @@ api.interceptors.response.use(
           console.error('🔒 Unauthorized access - redirecting to login');
           localStorage.removeItem('auth_token');
           localStorage.removeItem('user');
-          localStorage.removeItem('aasim-auth-storage');
-          localStorage.removeItem('aasim-tenant-storage');
+          localStorage.removeItem('obsolio-auth-storage');
+          localStorage.removeItem('obsolio-tenant-storage');
           if (window.location.pathname !== '/login') {
             window.location.href = '/login';
           }

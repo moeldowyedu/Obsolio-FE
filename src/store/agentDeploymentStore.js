@@ -313,7 +313,7 @@ export const useAgentDeploymentStore = create(
       },
     }),
     {
-      name: 'aasim-agent-deployment-storage',
+      name: 'obsolio-agent-deployment-storage',
       partialize: (state) => ({
         currentStep: state.currentStep,
         agentSource: state.agentSource,

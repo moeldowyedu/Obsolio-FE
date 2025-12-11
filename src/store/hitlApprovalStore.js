@@ -383,7 +383,7 @@ export const useHITLApprovalStore = create(
       },
     }),
     {
-      name: 'aasim-hitl-approval-storage',
+      name: 'obsolio-hitl-approval-storage',
       partialize: (state) => ({
         approvalHistory: state.approvalHistory,
       }),

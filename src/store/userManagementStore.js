@@ -381,7 +381,7 @@ export const useUserManagementStore = create(
       },
     }),
     {
-      name: 'aasim-user-management-storage',
+      name: 'obsolio-user-management-storage',
       partialize: (state) => ({
         users: state.users,
         invitations: state.invitations,

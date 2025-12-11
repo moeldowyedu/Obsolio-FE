@@ -448,7 +448,7 @@ const WhyUsePrecisionAgents = () => {
               <ArrowRight className="w-5 h-5 ml-2" />
             </Link>
             <a
-              href="https://calendly.com/aasim-demo"
+              href="https://calendly.com/obsolio-demo"
               target="_blank"
               rel="noopener noreferrer"
               className="glass-btn-secondary rounded-full px-10 py-4 text-lg inline-flex items-center justify-center border-2 border-primary-600 hover:bg-primary-50"
@@ -473,9 +473,8 @@ const WhyUsePrecisionAgents = () => {
  * ValueCard - Primary value proposition card with icon, metric, and description
  */
 const ValueCard = ({ icon, iconBgColor, title, metric, metricColor, description, featured }) => (
-  <div className={`glass-card rounded-3xl p-8 hover:-translate-y-1 hover:shadow-xl transition-all duration-300 ${
-    featured ? 'border-2 border-primary-400 glow' : ''
-  }`}>
+  <div className={`glass-card rounded-3xl p-8 hover:-translate-y-1 hover:shadow-xl transition-all duration-300 ${featured ? 'border-2 border-primary-400 glow' : ''
+    }`}>
     <div className="flex items-start gap-4 mb-6">
       <div className={`w-14 h-14 rounded-xl ${iconBgColor} flex items-center justify-center flex-shrink-0`}>
         {icon}

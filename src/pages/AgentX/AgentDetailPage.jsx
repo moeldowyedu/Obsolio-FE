@@ -38,7 +38,7 @@ const AgentDetailPage = () => {
       rating: 4.8,
       reviews: 342,
       deployments: 1250,
-      owner: 'Aasim AI',
+      owner: 'Obsolio AI',
       tags: ['chatbot', 'support', 'automation', '24/7', 'multi-channel', 'sentiment-analysis'],
       features: [
         {
@@ -160,11 +160,10 @@ const AgentDetailPage = () => {
         {[...Array(5)].map((_, i) => (
           <Star
             key={i}
-            className={`w-4 h-4 ${
-              i < Math.floor(rating)
+            className={`w-4 h-4 ${i < Math.floor(rating)
                 ? 'fill-yellow-400 text-yellow-400'
                 : 'text-gray-300'
-            }`}
+              }`}
           />
         ))}
       </div>
@@ -209,7 +208,7 @@ const AgentDetailPage = () => {
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-2">
                     <h1 className="text-4xl font-bold text-secondary-900">{agent.name}</h1>
-                    {agent.owner === 'Aasim AI' && (
+                    {agent.owner === 'Obsolio AI' && (
                       <div className="px-3 py-1 bg-primary-100 text-primary-700 text-sm font-bold rounded-lg uppercase">
                         Official
                       </div>
@@ -307,11 +306,10 @@ const AgentDetailPage = () => {
               <button
                 key={tab}
                 onClick={() => setSelectedTab(tab)}
-                className={`pb-4 px-2 font-semibold capitalize transition-colors ${
-                  selectedTab === tab
+                className={`pb-4 px-2 font-semibold capitalize transition-colors ${selectedTab === tab
                     ? 'text-primary-600 border-b-2 border-primary-600'
                     : 'text-secondary-600 hover:text-secondary-900'
-                }`}
+                  }`}
               >
                 {tab.replace('-', ' ')}
               </button>

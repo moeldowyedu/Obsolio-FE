@@ -102,7 +102,7 @@ const CheckoutPage = () => {
       icon: '💬',
       pricing: 99,
       pricingLabel: '$99/mo',
-      owner: 'Aasim AI'
+      owner: 'Obsolio AI'
     };
     setAgent(mockAgent);
 
@@ -253,11 +253,10 @@ const CheckoutPage = () => {
                   <button
                     key={provider.id}
                     onClick={() => setMobileWallet({ ...mobileWallet, provider: provider.id })}
-                    className={`p-4 border-2 rounded-xl flex items-center gap-3 transition-all ${
-                      mobileWallet.provider === provider.id
+                    className={`p-4 border-2 rounded-xl flex items-center gap-3 transition-all ${mobileWallet.provider === provider.id
                         ? 'border-green-500 bg-green-50'
                         : 'border-gray-300 hover:border-green-300'
-                    }`}
+                      }`}
                   >
                     <span className="text-2xl">{provider.logo}</span>
                     <span className="font-semibold text-secondary-900">{provider.name}</span>
@@ -336,11 +335,10 @@ const CheckoutPage = () => {
                   <button
                     key={provider.id}
                     onClick={() => setInstallmentData({ ...installmentData, provider: provider.id })}
-                    className={`p-4 border-2 rounded-xl transition-all ${
-                      installmentData.provider === provider.id
+                    className={`p-4 border-2 rounded-xl transition-all ${installmentData.provider === provider.id
                         ? 'border-purple-500 bg-purple-50'
                         : 'border-gray-300 hover:border-purple-300'
-                    }`}
+                      }`}
                   >
                     <span className="font-semibold text-secondary-900">{provider.name}</span>
                   </button>
@@ -499,11 +497,10 @@ const CheckoutPage = () => {
                   <button
                     key={method.id}
                     onClick={() => setPaymentMethod(method.id)}
-                    className={`p-4 border-2 rounded-xl flex items-start gap-4 transition-all text-left ${
-                      paymentMethod === method.id
+                    className={`p-4 border-2 rounded-xl flex items-start gap-4 transition-all text-left ${paymentMethod === method.id
                         ? `border-${method.color}-500 bg-${method.color}-50`
                         : 'border-gray-300 hover:border-gray-400'
-                    }`}
+                      }`}
                   >
                     <div className={`text-${method.color}-600`}>{method.icon}</div>
                     <div>

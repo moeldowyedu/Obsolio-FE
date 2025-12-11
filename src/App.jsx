@@ -8,6 +8,7 @@ import ForgotPasswordPage from './pages/Auth/ForgotPasswordPage'
 import ResetPasswordPage from './pages/Auth/ResetPasswordPage'
 import PrivacyPolicyPage from './pages/Public/PrivacyPolicyPage'
 import TermsOfServicePage from './pages/Public/TermsOfServicePage'
+import ContactPage from './pages/Public/ContactPage'
 // Onboarding Pages
 import TenantSetupPage from './pages/Onboarding/TenantSetupPage'
 import OrganizationSetupPage from './pages/Onboarding/OrganizationSetupPage'
@@ -104,6 +105,7 @@ function App() {
           <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
           <Route path="/privacy" element={<PrivacyPolicyPage />} />
           <Route path="/terms" element={<TermsOfServicePage />} />
+          <Route path="/contact" element={<ContactPage />} />
 
           {/* Onboarding Routes (Post-Registration) */}
           <Route

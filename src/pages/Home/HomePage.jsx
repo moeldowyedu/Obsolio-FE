@@ -451,9 +451,9 @@ const HomePage = () => {
                 <Link to="/register" className="glass-btn-primary flex-1 flex justify-center items-center gap-2">
                   Start Free Trial
                 </Link>
-                <a href="mailto:sales@obsolio.com" className="glass-btn flex-1 flex justify-center items-center gap-2 text-white hover:bg-white/10">
+                <Link to="/contact" className="glass-btn flex-1 flex justify-center items-center gap-2 text-white hover:bg-white/10">
                   Contact For Enterprise
-                </a>
+                </Link>
               </div>
             </div>
           </div>

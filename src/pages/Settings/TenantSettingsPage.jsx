@@ -88,7 +88,7 @@ const TenantSettingsPage = () => {
 
     // System Info
     plan: 'Enterprise',
-    domain: 'acme.aasim.ai',
+    domain: 'acme.obsolio.ai',
     adminEmail: 'admin@acme.com',
     maxUsers: 100,
     currentUsers: 47,
@@ -482,7 +482,7 @@ const TenantSettingsPage = () => {
                   value={tenantInfo.domain}
                   onChange={(e) => setTenantInfo({ ...tenantInfo, domain: e.target.value })}
                   className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white"
-                  placeholder="company.aasim.ai"
+                  placeholder="company.obsolio.ai"
                 />
               </div>
             </div>

@@ -159,7 +159,7 @@ export const useTenantStore = create(
       clearError: () => set({ error: null }),
     }),
     {
-      name: 'aasim-tenant-storage',
+      name: 'obsolio-tenant-storage',
       partialize: (state) => ({
         currentTenant: state.currentTenant,
       }),

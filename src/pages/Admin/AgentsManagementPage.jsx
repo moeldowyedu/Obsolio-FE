@@ -386,24 +386,22 @@ const AgentsManagementPage = () => {
         <div className="flex space-x-2 bg-gray-800/50 backdrop-blur-sm rounded-xl p-2 border border-gray-700/50">
           <button
             onClick={() => setActiveTab('official')}
-            className={`flex-1 px-6 py-3 rounded-lg font-semibold transition-all ${
-              activeTab === 'official'
+            className={`flex-1 px-6 py-3 rounded-lg font-semibold transition-all ${activeTab === 'official'
                 ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg'
                 : 'text-gray-400 hover:text-white'
-            }`}
+              }`}
           >
             <div className="flex items-center justify-center space-x-2">
               <Crown className="w-5 h-5" />
-              <span>Aasim Official Agents</span>
+              <span>Obsolio Official Agents</span>
             </div>
           </button>
           <button
             onClick={() => setActiveTab('tenant')}
-            className={`flex-1 px-6 py-3 rounded-lg font-semibold transition-all ${
-              activeTab === 'tenant'
+            className={`flex-1 px-6 py-3 rounded-lg font-semibold transition-all ${activeTab === 'tenant'
                 ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg'
                 : 'text-gray-400 hover:text-white'
-            }`}
+              }`}
           >
             <div className="flex items-center justify-center space-x-2">
               <Users className="w-5 h-5" />

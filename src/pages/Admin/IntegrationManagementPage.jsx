@@ -130,7 +130,7 @@ const IntegrationManagementPage = () => {
     {
       id: 2,
       event: 'agent.executed',
-      endpoint: 'https://webhook.example.com/aasim',
+      endpoint: 'https://webhook.example.com/obsolio',
       status: 'Success',
       statusCode: 200,
       timestamp: '5 min ago',
@@ -420,11 +420,10 @@ const IntegrationManagementPage = () => {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center space-x-2 px-6 py-3 rounded-lg font-semibold transition-all whitespace-nowrap ${
-                  activeTab === tab.id
+                className={`flex items-center space-x-2 px-6 py-3 rounded-lg font-semibold transition-all whitespace-nowrap ${activeTab === tab.id
                     ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg'
                     : 'text-gray-400 hover:text-white'
-                }`}
+                  }`}
               >
                 <Icon className="w-5 h-5" />
                 <span>{tab.name}</span>

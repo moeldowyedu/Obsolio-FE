@@ -38,7 +38,7 @@ const AdminLayout = ({ children }) => {
                 <Settings className="w-5 h-5 text-white" />
               </div>
               <div>
-                <h1 className="text-white font-bold text-lg">Aasim System Admin</h1>
+                <h1 className="text-white font-bold text-lg">Obsolio System Admin</h1>
                 <p className="text-xs text-gray-400">Platform Management Console</p>
               </div>
             </div>
@@ -55,7 +55,7 @@ const AdminLayout = ({ children }) => {
               </div>
               <div className="text-left hidden md:block">
                 <div className="text-sm font-semibold text-white">System Admin</div>
-                <div className="text-xs text-gray-400">admin@aasim.com</div>
+                <div className="text-xs text-gray-400">admin@obsolio.com</div>
               </div>
               <ChevronDown className="w-4 h-4 text-gray-400" />
             </button>
@@ -82,9 +82,8 @@ const AdminLayout = ({ children }) => {
       <div className="flex pt-16">
         {/* Sidebar */}
         <aside
-          className={`fixed left-0 top-16 bottom-0 bg-gray-900/95 backdrop-blur-sm border-r border-gray-700/50 transition-all duration-300 ${
-            sidebarOpen ? 'w-64' : 'w-0'
-          } overflow-hidden z-40`}
+          className={`fixed left-0 top-16 bottom-0 bg-gray-900/95 backdrop-blur-sm border-r border-gray-700/50 transition-all duration-300 ${sidebarOpen ? 'w-64' : 'w-0'
+            } overflow-hidden z-40`}
         >
           <nav className="p-4 space-y-2">
             {navigation.map((item) => {
@@ -94,11 +93,10 @@ const AdminLayout = ({ children }) => {
                 <Link
                   key={item.name}
                   to={item.href}
-                  className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-all ${
-                    active
+                  className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-all ${active
                       ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg'
                       : 'text-gray-400 hover:bg-gray-800 hover:text-white'
-                  }`}
+                    }`}
                 >
                   <Icon className="w-5 h-5 flex-shrink-0" />
                   <span className="font-medium whitespace-nowrap">{item.name}</span>
@@ -110,9 +108,8 @@ const AdminLayout = ({ children }) => {
 
         {/* Main Content */}
         <main
-          className={`flex-1 transition-all duration-300 ${
-            sidebarOpen ? 'ml-64' : 'ml-0'
-          }`}
+          className={`flex-1 transition-all duration-300 ${sidebarOpen ? 'ml-64' : 'ml-0'
+            }`}
         >
           <div className="p-8">
             {children}

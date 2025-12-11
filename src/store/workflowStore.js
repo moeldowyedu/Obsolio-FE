@@ -287,7 +287,7 @@ export const useWorkflowStore = create(
       },
     }),
     {
-      name: 'aasim-workflow-storage',
+      name: 'obsolio-workflow-storage',
       partialize: (state) => ({
         workflows: state.workflows,
       }),

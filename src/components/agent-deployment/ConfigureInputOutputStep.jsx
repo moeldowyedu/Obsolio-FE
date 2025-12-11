@@ -99,7 +99,7 @@ const ConfigureInputOutputStep = ({ onNext, onBack }) => {
     {
       id: 'dashboard',
       title: 'Dashboard',
-      description: 'View in Aasim platform',
+      description: 'View in Obsolio platform',
       icon: Settings,
       color: 'bg-indigo-500',
     },
@@ -205,7 +205,7 @@ const ConfigureInputOutputStep = ({ onNext, onBack }) => {
               Your webhook URL will be generated after deployment:
             </p>
             <code className="block bg-white p-2 rounded text-sm text-secondary-800">
-              https://api.aasim.ai/webhooks/[agent-id]
+              https://api.obsolio.ai/webhooks/[agent-id]
             </code>
           </div>
         );
@@ -409,7 +409,7 @@ const ConfigureInputOutputStep = ({ onNext, onBack }) => {
         return (
           <div className="bg-indigo-50 border border-indigo-200 rounded-lg p-4">
             <p className="text-sm text-indigo-700">
-              Results will be available in your Aasim dashboard. No additional configuration needed.
+              Results will be available in your Obsolio dashboard. No additional configuration needed.
             </p>
           </div>
         );
@@ -470,9 +470,8 @@ const ConfigureInputOutputStep = ({ onNext, onBack }) => {
                 <Card
                   key={source.id}
                   onClick={() => handleInputSourceSelect(source.id)}
-                  className={`cursor-pointer transition-all ${
-                    isSelected ? 'border-2 border-primary-600 shadow-md' : 'border border-gray-200 hover:shadow-sm'
-                  }`}
+                  className={`cursor-pointer transition-all ${isSelected ? 'border-2 border-primary-600 shadow-md' : 'border border-gray-200 hover:shadow-sm'
+                    }`}
                 >
                   <div className={`w-10 h-10 ${source.color} rounded-lg flex items-center justify-center mb-3`}>
                     <Icon className="w-5 h-5 text-white" />
@@ -511,9 +510,8 @@ const ConfigureInputOutputStep = ({ onNext, onBack }) => {
                 <Card
                   key={dest.id}
                   onClick={() => handleOutputDestinationSelect(dest.id)}
-                  className={`cursor-pointer transition-all ${
-                    isSelected ? 'border-2 border-primary-600 shadow-md' : 'border border-gray-200 hover:shadow-sm'
-                  }`}
+                  className={`cursor-pointer transition-all ${isSelected ? 'border-2 border-primary-600 shadow-md' : 'border border-gray-200 hover:shadow-sm'
+                    }`}
                 >
                   <div className={`w-10 h-10 ${dest.color} rounded-lg flex items-center justify-center mb-3`}>
                     <Icon className="w-5 h-5 text-white" />

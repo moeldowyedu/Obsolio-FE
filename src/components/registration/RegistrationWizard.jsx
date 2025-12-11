@@ -121,7 +121,7 @@ const RegistrationWizard = () => {
               <div className="w-10 h-10 bg-gradient-to-br from-primary-600 to-primary-700 rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-xl">A</span>
               </div>
-              <span className="text-xl font-bold text-secondary-900">Aasim AI</span>
+              <span className="text-xl font-bold text-secondary-900">Obsolio AI</span>
             </Link>
             <div className="text-sm text-secondary-600">
               Already have an account?{' '}
@@ -156,10 +156,9 @@ const RegistrationWizard = () => {
                     <div
                       className={`
                         w-10 h-10 rounded-full flex items-center justify-center font-semibold text-sm transition-all duration-300
-                        ${
-                          isCompleted
-                            ? 'bg-primary-600 text-white'
-                            : isActive
+                        ${isCompleted
+                          ? 'bg-primary-600 text-white'
+                          : isActive
                             ? 'bg-primary-600 text-white ring-4 ring-primary-100'
                             : 'bg-white border-2 border-gray-300 text-gray-400'
                         }
@@ -173,9 +172,8 @@ const RegistrationWizard = () => {
                     </div>
                     <div className="mt-3 text-center">
                       <p
-                        className={`text-sm font-semibold ${
-                          isActive ? 'text-gray-900' : isCompleted ? 'text-primary-600' : 'text-gray-400'
-                        }`}
+                        className={`text-sm font-semibold ${isActive ? 'text-gray-900' : isCompleted ? 'text-primary-600' : 'text-gray-400'
+                          }`}
                       >
                         {step.title}
                       </p>

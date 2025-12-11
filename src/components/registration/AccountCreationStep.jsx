@@ -115,7 +115,7 @@ const AccountCreationStep = ({ onNext }) => {
       <div className="mb-8">
         <h2 className="text-2xl font-bold text-secondary-900 mb-2">Create Your Account</h2>
         <p className="text-secondary-600">
-          Enter your details to get started with Aasim AI Platform.
+          Enter your details to get started with Obsolio AI Platform.
         </p>
       </div>
 
@@ -207,12 +207,11 @@ const AccountCreationStep = ({ onNext }) => {
             <div className="mt-2">
               <div className="flex items-center justify-between mb-1">
                 <span className="text-xs text-secondary-600">Password Strength</span>
-                <span className={`text-xs font-medium ${
-                  strengthInfo.label === 'Weak' ? 'text-red-500' :
-                  strengthInfo.label === 'Fair' ? 'text-yellow-500' :
-                  strengthInfo.label === 'Good' ? 'text-blue-500' :
-                  'text-green-500'
-                }`}>
+                <span className={`text-xs font-medium ${strengthInfo.label === 'Weak' ? 'text-red-500' :
+                    strengthInfo.label === 'Fair' ? 'text-yellow-500' :
+                      strengthInfo.label === 'Good' ? 'text-blue-500' :
+                        'text-green-500'
+                  }`}>
                   {strengthInfo.label}
                 </span>
               </div>

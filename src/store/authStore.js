@@ -124,7 +124,7 @@ export const useAuthStore = create(
       },
     }),
     {
-      name: 'aasim-auth-storage',
+      name: 'obsolio-auth-storage',
       partialize: (state) => ({
         user: state.user,
         token: state.token,
