@@ -46,97 +46,98 @@ const Footer = () => {
           </div>
 
           {/* Company */}
-          <h3 className="text-secondary-900 font-semibold mb-4">Company</h3>
-          <ul className="space-y-2">
-            <li>
-              <a href="#" className="text-secondary-600 hover:text-primary-600 text-sm transition-colors">
-                About Us
-              </a>
-            </li>
-            <li>
-              <a href="mailto:info@obsolio.com" className="text-secondary-600 hover:text-primary-600 text-sm transition-colors">
-                Contact
-              </a>
-            </li>
-            <li>
-              <Link to="/privacy" className="text-secondary-600 hover:text-primary-600 text-sm transition-colors">
-                Privacy Policy
-              </Link>
-            </li>
-            <li>
-              <Link to="/terms" className="text-secondary-600 hover:text-primary-600 text-sm transition-colors">
-                Terms of Service
-              </Link>
-            </li>
-          </ul>
+          <div>
+            <h3 className="text-secondary-900 font-semibold mb-4">Company</h3>
+            <ul className="space-y-2">
+              <li>
+                <a href="#" className="text-secondary-600 hover:text-primary-600 text-sm transition-colors">
+                  About Us
+                </a>
+              </li>
+              <li>
+                <a href="mailto:info@obsolio.com" className="text-secondary-600 hover:text-primary-600 text-sm transition-colors">
+                  Contact
+                </a>
+              </li>
+              <li>
+                <Link to="/privacy" className="text-secondary-600 hover:text-primary-600 text-sm transition-colors">
+                  Privacy Policy
+                </Link>
+              </li>
+              <li>
+                <Link to="/terms" className="text-secondary-600 hover:text-primary-600 text-sm transition-colors">
+                  Terms of Service
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Connect */}
+          <div>
+            <h3 className="text-secondary-900 font-semibold mb-4">Connect</h3>
+            <ul className="space-y-2">
+              <li>
+                <a href="mailto:info@obsolio.com" className="text-secondary-600 hover:text-primary-600 text-sm transition-colors block mb-2">
+                  <span className="flex items-center gap-2">
+                    <span className="material-icons text-sm">email</span>
+                    info@obsolio.com
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a href="#" className="text-secondary-600 hover:text-primary-600 text-sm transition-colors">
+                  Twitter
+                </a>
+              </li>
+              <li>
+                <a href="#" className="text-secondary-600 hover:text-primary-600 text-sm transition-colors">
+                  LinkedIn
+                </a>
+              </li>
+              <li>
+                <a href="#" className="text-secondary-600 hover:text-primary-600 text-sm transition-colors">
+                  GitHub
+                </a>
+              </li>
+              <li>
+                <a href="#" className="text-secondary-600 hover:text-primary-600 text-sm transition-colors">
+                  Support
+                </a>
+              </li>
+            </ul>
+          </div>
         </div>
 
-        {/* Connect */}
-        <div>
-          <h3 className="text-secondary-900 font-semibold mb-4">Connect</h3>
-          <ul className="space-y-2">
-            <li>
-              <a href="mailto:info@obsolio.com" className="text-secondary-600 hover:text-primary-600 text-sm transition-colors block mb-2">
-                <span className="flex items-center gap-2">
-                  <span className="material-icons text-sm">email</span>
-                  info@obsolio.com
-                </span>
+        {/* Bottom Bar */}
+        <div className="border-t border-gray-200 mt-8 pt-8">
+          <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+            <p className="text-gray-500 text-sm">
+              © {currentYear} Aasim. All rights reserved.
+            </p>
+            <div className="flex items-center space-x-6">
+              <a
+                href="#"
+                className="text-gray-500 hover:text-primary-600 transition-colors"
+              >
+                <span className="material-icons">facebook</span>
               </a>
-            </li>
-            <li>
-              <a href="#" className="text-secondary-600 hover:text-primary-600 text-sm transition-colors">
-                Twitter
+              <a
+                href="#"
+                className="text-gray-500 hover:text-primary-600 transition-colors"
+              >
+                <span className="material-icons">twitter</span>
               </a>
-            </li>
-            <li>
-              <a href="#" className="text-secondary-600 hover:text-primary-600 text-sm transition-colors">
-                LinkedIn
+              <a
+                href="#"
+                className="text-gray-500 hover:text-primary-600 transition-colors"
+              >
+                <span className="material-icons">linkedin</span>
               </a>
-            </li>
-            <li>
-              <a href="#" className="text-secondary-600 hover:text-primary-600 text-sm transition-colors">
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="#" className="text-secondary-600 hover:text-primary-600 text-sm transition-colors">
-                Support
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
-
-      {/* Bottom Bar */}
-      <div className="border-t border-gray-200 mt-8 pt-8">
-        <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-          <p className="text-gray-500 text-sm">
-            © {currentYear} Aasim. All rights reserved.
-          </p>
-          <div className="flex items-center space-x-6">
-            <a
-              href="#"
-              className="text-gray-500 hover:text-primary-600 transition-colors"
-            >
-              <span className="material-icons">facebook</span>
-            </a>
-            <a
-              href="#"
-              className="text-gray-500 hover:text-primary-600 transition-colors"
-            >
-              <span className="material-icons">twitter</span>
-            </a>
-            <a
-              href="#"
-              className="text-gray-500 hover:text-primary-600 transition-colors"
-            >
-              <span className="material-icons">linkedin</span>
-            </a>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    </footer >
+    </footer>
   )
 }
 
