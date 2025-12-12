@@ -23,7 +23,6 @@ const RegisterPage = () => {
     countryCode: '+1', // Default
     email: '',
     password: '',
-    confirmPassword: '',
     // Organization Specific
     organizationName: '',
     organizationShortName: '', // New
@@ -126,8 +125,8 @@ const RegisterPage = () => {
     // Tenant URL Validation
     if (!formData.tenantUrl) {
       newErrors.tenantUrl = 'Workspace URL is required';
-    } else if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(formData.tenantUrl)) {
-      newErrors.tenantUrl = 'Use lowercase letters, numbers, and hyphens only';
+    } else if (!/^[a-z0-9](?:[a-z0-9\-]{0,61}[a-z0-9])?$/.test(formData.tenantUrl)) {
+      newErrors.tenantUrl = 'Invalid format. Use lowercase letters, numbers, and hyphens (hyphens not at start/end).';
     } else if (domainStatus === 'unavailable') {
       newErrors.tenantUrl = 'This URL is already taken';
     }
@@ -215,18 +214,19 @@ const RegisterPage = () => {
           toast.success('Registration successful! Please check your email to verify your account.');
           navigate('/verify-email-sent', { replace: true });
         } else {
-          // Direct login - pass tenant data to onboarding
+          // Direct login - bypass tenant setup as it's handled by backend now
           toast.success('Account created successfully!');
-          navigate('/onboarding/tenant-setup', {
-            replace: true,
-            state: {
-              tenantType: formData.tenantType,
-              organizationName: formData.organizationName,
-              organizationDomain: formData.organizationDomain,
-              userFullName: formData.fullName,
-              tenantUrl: formData.tenantUrl
-            }
-          });
+
+          // Check for workspace URL in response (could be in result directly or result.data based on return structure)
+          const workspaceUrl = result.workspace_url || result.data?.workspace_url;
+
+          if (workspaceUrl) {
+            // Redirect to the new workspace subdomain
+            window.location.href = workspaceUrl;
+          } else {
+            // Fallback to local dashboard
+            navigate('/dashboard', { replace: true });
+          }
         }
       }
     } catch (error) {

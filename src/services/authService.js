@@ -19,11 +19,12 @@ const authService = {
 
     // Core Fields
     formData.append('type', userData.type || 'personal');
-    formData.append('full_name', userData.fullName || userData.firstName + ' ' + userData.lastName);
+    formData.append('fullName', userData.fullName || userData.firstName + ' ' + userData.lastName);
     formData.append('email', userData.email);
     formData.append('password', userData.password);
     formData.append('password_confirmation', userData.password); // Laravel confirmation
-    formData.append('tenant_url', userData.tenantUrl || userData.slug); // Map to backend field
+    // Subdomain is now required for ALL types
+    formData.append('subdomain', userData.tenantUrl || userData.slug || userData.subdomain);
 
     // Extended Fields
     if (userData.country) formData.append('country', userData.country);
@@ -32,18 +33,18 @@ const authService = {
     // Organization Specific Fields
     if (userData.type === 'organization') {
       if (userData.organizationName) {
-        formData.append('organization_name', userData.organizationName);
+        formData.append('organizationFullName', userData.organizationName);
       }
       if (userData.organizationShortName) {
-        formData.append('organization_short_name', userData.organizationShortName);
+        formData.append('organizationShortName', userData.organizationShortName);
       }
       // Handle file upload
       if (userData.organizationLogo instanceof File) {
-        formData.append('organization_logo', userData.organizationLogo);
+        formData.append('organizationLogo', userData.organizationLogo);
       }
       // Legacy/Optional domain field if still used by backend
       if (userData.organizationDomain) {
-        formData.append('organization_domain', userData.organizationDomain);
+        formData.append('organizationDomain', userData.organizationDomain);
       }
     }
 
@@ -68,7 +69,7 @@ const authService = {
     if (response.data.success && response.data.data.token) {
       localStorage.setItem('auth_token', response.data.data.token);
       localStorage.setItem('user', JSON.stringify(response.data.data.user));
-      return response.data.data;
+      return response.data;
     }
 
     return response.data.data;
@@ -145,9 +146,9 @@ const authService = {
   },
 
   // Check Domain Availability
-  checkDomainAvailability: async (slug) => {
+  checkDomainAvailability: async (subdomain) => {
     try {
-      const response = await api.post('/tenants/check-availability', { slug });
+      const response = await api.post('/tenants/check-availability', { subdomain });
       return response.data;
     } catch (error) {
       if (error.response?.status === 404) {
