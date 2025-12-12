@@ -89,8 +89,6 @@ const Header = () => {
 
             {!isAuthenticated && (
               <>
-                <a href="#features" className="text-gray-300 hover:text-white font-medium transition-colors hidden sm:inline">Features</a>
-                <a href="#pricing" className="text-gray-300 hover:text-white font-medium transition-colors hidden sm:inline">Pricing</a>
                 <Link to="/docs/getting-started/introduction" className="text-gray-300 hover:text-white font-medium transition-colors hidden sm:inline">Docs</Link>
               </>
             )}
@@ -289,9 +287,8 @@ const Header = () => {
         {/* Mobile Menu Overlay */}
         {mobileMenuOpen && !isAuthenticated && (
           <div className="sm:hidden absolute top-full left-0 w-full bg-[#0B0E14]/95 backdrop-blur-xl border-t border-white/10 p-6 flex flex-col gap-4 shadow-2xl h-screen">
-            <a href="#features" onClick={() => setMobileMenuOpen(false)} className="text-lg text-gray-300 hover:text-white font-medium">Features</a>
-            <a href="#how-it-works" onClick={() => setMobileMenuOpen(false)} className="text-lg text-gray-300 hover:text-white font-medium">How It Works</a>
-            <a href="#pricing" onClick={() => setMobileMenuOpen(false)} className="text-lg text-gray-300 hover:text-white font-medium">Pricing</a>
+            <Link to="/agentx/hub" onClick={() => setMobileMenuOpen(false)} className="text-lg text-gray-300 hover:text-white font-medium">AgentX HUB</Link>
+            <Link to="/docs/getting-started/introduction" onClick={() => setMobileMenuOpen(false)} className="text-lg text-gray-300 hover:text-white font-medium">Docs</Link>
             <hr className="border-white/10" />
             <Link to="/login" className="text-lg text-gray-200 hover:text-white font-semibold">Sign In</Link>
             <Link to="/register" className="glass-btn-primary text-center justify-center">Start Free Trial</Link>

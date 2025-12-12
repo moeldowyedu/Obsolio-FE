@@ -34,7 +34,7 @@ const DocsPage = () => {
 
     return (
         <MainLayout showSidebar={false}>
-            <div className="min-h-screen bg-[#0B0E14] text-white pt-24">
+            <div className="min-h-screen bg-[#0B0E14] text-white pt-28">
                 {/* Top Bar - Now scrolls with content */}
                 <div className="bg-[#1a1f2e] border-b border-white/10">
                     <div className="max-w-[1800px] mx-auto px-6 py-4">

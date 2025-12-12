@@ -40,6 +40,7 @@ const MarketplacePage = () => {
     tech: false,
     features: false
   });
+  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
   // Data
   const [agents, setAgents] = useState([]);
@@ -560,7 +561,7 @@ const MarketplacePage = () => {
     <MainLayout showSidebar={false}>
       <div className="min-h-screen bg-[#0B0E14]">
         {/* Header - More Professional */}
-        <div className="bg-[#1a1f2e] border-b border-white/10 mt-[150px]">
+        <div className="bg-[#1a1f2e] border-b border-white/10 mt-28 lg:mt-[150px]">
           <div className="max-w-[1600px] mx-auto px-6 py-6">
             <div className="text-center">
               <h1 className="text-2xl md:text-3xl font-bold text-white mb-1.5">AgentX HUB</h1>
@@ -573,10 +574,41 @@ const MarketplacePage = () => {
 
         {/* Main Content */}
         <div className="max-w-[1600px] mx-auto px-6 py-6">
-          <div className="flex gap-6">
+          <div className="flex flex-col lg:flex-row gap-6">
+
+            {/* Mobile Filter Toggle */}
+            <div className="lg:hidden mb-4">
+              <button
+                onClick={() => setMobileFiltersOpen(true)}
+                className="w-full flex items-center justify-between bg-[#1a1f2e] border border-white/10 p-3 rounded-lg text-white font-medium"
+              >
+                <div className="flex items-center gap-2">
+                  <Filter className="w-5 h-5 text-primary-400" />
+                  <span>Filters</span>
+                </div>
+                {getActiveFilterCount() > 0 && (
+                  <span className="bg-primary-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">
+                    {getActiveFilterCount()}
+                  </span>
+                )}
+              </button>
+            </div>
+
             {/* Left Sidebar - Filters */}
-            <aside className="w-80 flex-shrink-0">
-              <div className="bg-[#1a1f2e] rounded-xl border border-white/10 sticky top-24">
+            {/* Mobile Overlay */}
+            {mobileFiltersOpen && (
+              <div
+                className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+                onClick={() => setMobileFiltersOpen(false)}
+              />
+            )}
+
+            <aside className={`
+              fixed inset-y-0 left-0 w-80 bg-[#1a1f2e] z-50 transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:bg-transparent lg:z-auto
+              ${mobileFiltersOpen ? 'translate-x-0' : '-translate-x-full'}
+              lg:block flex-shrink-0
+            `}>
+              <div className="h-full lg:h-auto overflow-y-auto lg:overflow-visible bg-[#1a1f2e] lg:rounded-xl lg:border border-white/10 lg:sticky lg:top-24">
                 {/* Filter Header */}
                 <div className="p-3 border-b border-white/10 flex items-center justify-between flex-shrink-0">
                   <div className="flex items-center gap-2">
@@ -588,14 +620,22 @@ const MarketplacePage = () => {
                       </span>
                     )}
                   </div>
-                  {getActiveFilterCount() > 0 && (
+                  <div className="flex items-center gap-3">
+                    {getActiveFilterCount() > 0 && (
+                      <button
+                        onClick={clearAllFilters}
+                        className="text-xs font-medium text-gray-400 hover:text-white transition-colors"
+                      >
+                        Clear all
+                      </button>
+                    )}
                     <button
-                      onClick={clearAllFilters}
-                      className="text-xs font-medium text-gray-400 hover:text-white transition-colors"
+                      onClick={() => setMobileFiltersOpen(false)}
+                      className="lg:hidden text-gray-400 hover:text-white"
                     >
-                      Clear all
+                      <X className="w-5 h-5" />
                     </button>
-                  )}
+                  </div>
                 </div>
 
                 {/* Filter Sections */}
@@ -845,7 +885,7 @@ const MarketplacePage = () => {
             <div className="flex-1 min-w-0">
               {/* Search and Sort Bar */}
               <div className="bg-[#1a1f2e] rounded-xl border border-white/10 p-4 mb-6">
-                <div className="flex items-center gap-4">
+                <div className="flex flex-col md:flex-row md:items-center gap-4">
                   {/* Search */}
                   <div className="flex-1 relative">
                     <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
