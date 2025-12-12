@@ -66,7 +66,7 @@ const authService = {
     }
 
     // Auto-login after registration by saving token and user
-    if (response.data.success && response.data.data.token) {
+    if (response.data?.success && response.data?.data?.token) {
       localStorage.setItem('auth_token', response.data.data.token);
       localStorage.setItem('user', JSON.stringify(response.data.data.user));
       return response.data;

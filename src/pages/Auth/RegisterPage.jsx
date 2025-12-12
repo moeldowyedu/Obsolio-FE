@@ -234,11 +234,20 @@ const RegisterPage = () => {
 
       // Handle backend validation errors
       if (error.response?.data?.errors) {
+        console.log('Validation Errors:', error.response.data.errors);
         const backendErrors = {};
         Object.keys(error.response.data.errors).forEach(key => {
-          backendErrors[key] = error.response.data.errors[key][0];
+          let stateKey = key;
+          // Map backend keys to frontend state keys
+          if (key === 'subdomain') stateKey = 'tenantUrl';
+          if (key === 'organizationFullName') stateKey = 'organizationName';
+          if (key === 'slug') stateKey = 'tenantUrl'; // Just in case
+
+          backendErrors[stateKey] = error.response.data.errors[key][0];
         });
         setErrors(backendErrors);
+        // Also show a toast generic message so they know something failed
+        toast.error('Please check the form for errors.');
       } else {
         toast.error(error.response?.data?.message || 'Registration failed. Please try again.');
       }
