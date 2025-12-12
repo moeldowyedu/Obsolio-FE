@@ -193,9 +193,9 @@ const RegisterPage = () => {
         <div className="absolute bottom-[-10%] right-[10%] w-[500px] h-[500px] bg-purple-900/30 rounded-full blur-[100px] mix-blend-screen animate-pulse-slow" style={{ animationDelay: '1s' }}></div>
       </div>
 
-      <div className="w-full max-w-2xl relative z-10 animate-fade-in my-8">
+      <div className="w-full max-w-2xl relative z-10 animate-fade-in my-4">
         {/* Logo/Brand */}
-        <div className="text-center mb-8">
+        <div className="text-center mb-6">
           <Link to="/" className="inline-block mb-4">
             <img src={logo} alt="OBSOLIO" className="h-16 mx-auto object-contain" />
           </Link>
@@ -203,13 +203,13 @@ const RegisterPage = () => {
         </div>
 
         {/* Registration Form Card */}
-        <div className="glass-card rounded-3xl p-8 shadow-2xl border border-white/10 relative overflow-hidden backdrop-blur-xl bg-[#1e293b]/40">
+        <div className="glass-card rounded-3xl p-6 sm:p-8 shadow-2xl border border-white/10 relative overflow-hidden backdrop-blur-xl bg-[#1e293b]/40">
           {/* Decor glow */}
           <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary-500 to-transparent opacity-50"></div>
 
-          <h2 className="text-2xl font-bold text-white mb-6 text-center">Sign Up</h2>
+          <h2 className="text-2xl font-bold text-white mb-4 text-center">Sign Up</h2>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-4">
             {/* Tenant Type Selector */}
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-3 ml-1">
@@ -427,7 +427,7 @@ const RegisterPage = () => {
             <Button
               type="submit"
               variant="primary"
-              className="w-full py-4 text-base font-semibold mt-6 shadow-lg shadow-primary-500/25"
+              className="w-full py-4 text-base font-semibold mt-4 shadow-lg shadow-primary-500/25"
               disabled={isLoading}
             >
               {isLoading ? (
@@ -445,7 +445,7 @@ const RegisterPage = () => {
           </form>
 
           {/* Terms */}
-          <p className="text-xs text-center text-gray-500 mt-6">
+          <p className="text-xs text-center text-gray-500 mt-4">
             By signing up, you agree to our{' '}
             <Link to="/terms" className="text-primary-400 hover:text-primary-300 font-medium">
               Terms of Service
@@ -457,7 +457,7 @@ const RegisterPage = () => {
           </p>
 
           {/* Login Link */}
-          <div className="mt-6 pt-6 border-t border-white/10 text-center">
+          <div className="mt-4 pt-4 border-t border-white/10 text-center">
             <p className="text-sm text-gray-400">
               Already have an account?{' '}
               <Link

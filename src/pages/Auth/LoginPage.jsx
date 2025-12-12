@@ -57,19 +57,19 @@ const LoginPage = () => {
 
       {/* Login Card */}
       <div className="w-full max-w-md relative z-10 animate-fade-in">
-        <div className="text-center mb-8">
-          <Link to="/" className="inline-block mb-6">
+        <div className="text-center mb-6">
+          <Link to="/" className="inline-block mb-4">
             <img src={logo} alt="OBSOLIO" className="h-16 mx-auto object-contain" />
           </Link>
           <h2 className="text-3xl font-bold text-white mb-2">Welcome Back</h2>
           <p className="text-gray-400">Sign in to your account to continue</p>
         </div>
 
-        <div className="glass-card p-8 shadow-2xl border border-white/10 relative overflow-hidden backdrop-blur-xl bg-[#1e293b]/40">
+        <div className="glass-card p-6 sm:p-8 shadow-2xl border border-white/10 relative overflow-hidden backdrop-blur-xl bg-[#1e293b]/40">
           {/* Decor glow */}
           <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary-500 to-transparent opacity-50"></div>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-4">
             <Input
               theme="dark"
               label="Email Address"
@@ -123,7 +123,7 @@ const LoginPage = () => {
             </Button>
           </form>
 
-          <div className="mt-8 pt-6 border-t border-white/10 text-center">
+          <div className="mt-6 pt-4 border-t border-white/10 text-center">
             <p className="text-gray-400">
               Don't have an account?{' '}
               <Link
@@ -136,7 +136,7 @@ const LoginPage = () => {
           </div>
         </div>
 
-        <div className="mt-8 text-center">
+        <div className="mt-4 text-center">
           <Link to="/" className="text-sm text-gray-500 hover:text-gray-400 transition-colors">
             ← Back to Home
           </Link>
