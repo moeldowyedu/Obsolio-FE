@@ -50,6 +50,7 @@ import BranchDetailsPage from './pages/Organization/BranchDetailsPage'
 import DepartmentsPage from './pages/Organization/DepartmentsPage'
 import ProjectsPage from './pages/Organization/ProjectsPage'
 import TeamsPage from './pages/Organization/TeamsPage'
+import OrganizationSettingsPage from './pages/Organization/OrganizationSettingsPage'
 // Agent Deployment
 import AgentDeploymentWizard from './components/agent-deployment/AgentDeploymentWizard'
 // Phase 10 Pages - Job Flows
@@ -274,6 +275,14 @@ function App() {
           />
 
           {/* Organization Routes */}
+          <Route
+            path="/organization/settings"
+            element={
+              <ProtectedRoute>
+                <OrganizationSettingsPage />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/organization/branches"
             element={

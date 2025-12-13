@@ -65,6 +65,7 @@ const Sidebar = () => {
         { name: 'Departments', href: '/organization/departments', icon: 'corporate_fare' },
         { name: 'Projects', href: '/organization/projects', icon: 'folder' },
         { name: 'Teams', href: '/organization/teams', icon: 'groups' },
+        { name: 'Settings', href: '/organization/settings', icon: 'settings' },
       ]
     },
     {
@@ -189,8 +190,8 @@ const Sidebar = () => {
       <div className={`${isCollapsed ? 'p-4' : 'p-6'} border-b border-white/10 transition-all duration-300 flex-shrink-0`}>
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary-600 to-primary-800 flex items-center justify-center flex-shrink-0 shadow-lg shadow-primary-900/20">
-            {user?.tenant?.logo_url || user?.tenant?.logo ? (
-              <img src={user?.tenant?.logo_url || user?.tenant?.logo} alt="Tenant Logo" className="w-6 h-6 object-contain" />
+            {user?.tenant?.organizationLogo || user?.tenant?.logo_url || user?.tenant?.logo ? (
+              <img src={user?.tenant?.organizationLogo || user?.tenant?.logo_url || user?.tenant?.logo} alt="Tenant Logo" className="w-full h-full object-cover" />
             ) : (
               <Building2 className="w-6 h-6 text-white" />
             )}

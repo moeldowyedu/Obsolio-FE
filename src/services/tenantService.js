@@ -21,7 +21,13 @@ const tenantService = {
 
   // Update tenant
   updateTenant: async (tenantId, tenantData) => {
-    const response = await api.put(`/tenants/${tenantId}`, tenantData);
+    const isFormData = tenantData instanceof FormData;
+    const config = isFormData ? { headers: { 'Content-Type': 'multipart/form-data' } } : {};
+
+    // If it's FormData, Laravel sometimes needs _method: 'PUT' in the body and a POST request
+    // But let's try standard PUT first, or check if we need to switch to POST
+    // Standard axios PUT with FormData should work if backend handles it
+    const response = await api.post(`/tenants/${tenantId}?_method=PUT`, tenantData, config);
     return response.data;
   },
 

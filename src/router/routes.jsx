@@ -31,6 +31,7 @@ import BranchDetailsPage from '../pages/Organization/BranchDetailsPage';
 import DepartmentsPage from '../pages/Organization/DepartmentsPage';
 import ProjectsPage from '../pages/Organization/ProjectsPage';
 import TeamsPage from '../pages/Organization/TeamsPage';
+import OrganizationSettingsPage from '../pages/Organization/OrganizationSettingsPage';
 
 // Agent Deployment Component
 import AgentDeploymentWizard from '../components/agent-deployment/AgentDeploymentWizard';
@@ -130,6 +131,17 @@ const AppRoutes = () => {
         element={
           <ProtectedRoute>
             <DashboardPage />
+          </ProtectedRoute>
+        }
+      />
+
+
+      {/* Organization Settings - High Priority */}
+      <Route
+        path="/organization/settings"
+        element={
+          <ProtectedRoute>
+            <OrganizationSettingsPage />
           </ProtectedRoute>
         }
       />
@@ -241,6 +253,7 @@ const AppRoutes = () => {
           </ProtectedRoute>
         }
       />
+
 
       {/* Agents Routes - Redirect to AgentX */}
       <Route
@@ -751,7 +764,7 @@ const AppRoutes = () => {
       {/* 404 Not Found */}
       <Route path="/404" element={<NotFoundPage />} />
       <Route path="*" element={<Navigate to="/404" replace />} />
-    </Routes>
+    </Routes >
   );
 };
 
