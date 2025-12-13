@@ -3,7 +3,7 @@ import { Navigate, useLocation } from 'react-router-dom'
 import { useAuthStore } from '../store/authStore'
 import { useTenantStore } from '../store/tenantStore'
 
-const ProtectedRoute = ({ children, requireAdmin = false }) => {
+const ProtectedRoute = ({ children, requireAdmin = false, requireSystemAdmin = false }) => {
   const { isAuthenticated, user } = useAuthStore()
   const { tenants, fetchTenants, isLoading: isTenantLoading } = useTenantStore()
   const location = useLocation()
@@ -24,8 +24,12 @@ const ProtectedRoute = ({ children, requireAdmin = false }) => {
     return <Navigate to="/login" state={{ from: location }} replace />
   }
 
-  if (requireAdmin && user?.role !== 'admin') {
-    // User is authenticated but not an admin
+  if (requireSystemAdmin && !user?.is_system_admin) {
+    return <Navigate to="/dashboard" replace />;
+  }
+
+  if (requireAdmin && user?.role !== 'admin' && !user?.is_system_admin) {
+    // User is authenticated but not an admin (system_admin counts as admin too)
     return <Navigate to="/dashboard" replace />
   }
 
@@ -56,6 +60,14 @@ const ProtectedRoute = ({ children, requireAdmin = false }) => {
   }
 
   return children
+}
+
+import PropTypes from 'prop-types';
+
+ProtectedRoute.propTypes = {
+  children: PropTypes.node.isRequired,
+  requireAdmin: PropTypes.bool,
+  requireSystemAdmin: PropTypes.bool,
 }
 
 export default ProtectedRoute

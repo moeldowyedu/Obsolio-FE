@@ -16,7 +16,11 @@ const LoginPage = () => {
   // Redirect authenticated users to dashboard (only once on mount)
   useEffect(() => {
     if (isAuthenticated) {
-      navigate('/dashboard', { replace: true });
+      if (useAuthStore.getState().user?.is_system_admin) {
+        navigate('/godfather/dashboard', { replace: true });
+      } else {
+        navigate('/dashboard', { replace: true });
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -37,8 +41,8 @@ const LoginPage = () => {
       toast.success('Login successful!');
 
       // Redirect based on role
-      if (data.user.role === 'admin') {
-        navigate('/admin');
+      if (data.user.is_system_admin) {
+        navigate('/godfather/dashboard');
       } else {
         navigate('/dashboard');
       }

@@ -10,7 +10,14 @@ const AdminLayout = ({ children }) => {
   const [profileOpen, setProfileOpen] = useState(false);
   const location = useLocation();
 
-  const navigation = [
+  const isGodfather = location.pathname.startsWith('/godfather');
+
+  const navigation = isGodfather ? [
+    { name: 'Godfather Dashboard', href: '/godfather/dashboard', icon: LayoutDashboard },
+    { name: 'Manage Tenants', href: '/godfather/tenants', icon: Building2 },
+    { name: 'Manage Billing', href: '/godfather/billing', icon: Users }, // Using Users icon as placeholder or appropriate one
+    { name: 'AgentX Stats', href: '/godfather/active-agents', icon: Activity },
+  ] : [
     { name: 'Dashboard', href: '/system-admin/dashboard', icon: LayoutDashboard },
     { name: 'Tenants Management', href: '/system-admin/tenants', icon: Building2 },
     { name: 'Engine Management', href: '/system-admin/engines', icon: Cpu },
@@ -38,8 +45,8 @@ const AdminLayout = ({ children }) => {
                 <Settings className="w-5 h-5 text-white" />
               </div>
               <div>
-                <h1 className="text-white font-bold text-lg">Obsolio System Admin</h1>
-                <p className="text-xs text-gray-400">Platform Management Console</p>
+                <h1 className="text-white font-bold text-lg">{isGodfather ? 'Godfather Console' : 'Obsolio System Admin'}</h1>
+                <p className="text-xs text-gray-400">{isGodfather ? 'Master Control' : 'Platform Management Console'}</p>
               </div>
             </div>
           </div>
@@ -94,8 +101,8 @@ const AdminLayout = ({ children }) => {
                   key={item.name}
                   to={item.href}
                   className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-all ${active
-                      ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg'
-                      : 'text-gray-400 hover:bg-gray-800 hover:text-white'
+                    ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg'
+                    : 'text-gray-400 hover:bg-gray-800 hover:text-white'
                     }`}
                 >
                   <Icon className="w-5 h-5 flex-shrink-0" />

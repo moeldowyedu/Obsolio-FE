@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import MainLayout from '../../components/layout/MainLayout'
-import { Link } from 'react-router-dom'
+import AdminLayout from '../../components/layout/AdminLayout'
+import { Link, useLocation } from 'react-router-dom'
 import { useLanguage } from '../../contexts/LanguageContext'
 import { translations } from '../../translations'
 
@@ -126,8 +127,13 @@ const AdminDashboardPage = () => {
     { name: 'Law', count: 918, percentage: 10, color: 'indigo' },
   ]
 
+
+  const location = useLocation();
+  const isSystemAdminPath = location.pathname.includes('/godfather') || location.pathname.includes('/system-admin');
+  const Layout = isSystemAdminPath ? AdminLayout : MainLayout;
+
   return (
-    <MainLayout>
+    <Layout>
       <div className="py-8">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
@@ -157,9 +163,8 @@ const AdminDashboardPage = () => {
                 <div className={`w-14 h-14 rounded-xl bg-${stat.color}-100 flex items-center justify-center`}>
                   <span className={`material-icons text-2xl text-${stat.color}-600`}>{stat.icon}</span>
                 </div>
-                <div className={`flex items-center text-sm font-semibold ${
-                  stat.trend === 'up' ? 'text-green-600' : 'text-red-600'
-                }`}>
+                <div className={`flex items-center text-sm font-semibold ${stat.trend === 'up' ? 'text-green-600' : 'text-red-600'
+                  }`}>
                   <span className="material-icons text-sm mr-1">
                     {stat.trend === 'up' ? 'trending_up' : 'trending_down'}
                   </span>
@@ -184,9 +189,8 @@ const AdminDashboardPage = () => {
               <div key={index} className="text-center">
                 <div className="text-3xl font-bold text-secondary-900 mb-1">{stat.value}</div>
                 <div className="text-sm text-secondary-600 font-medium mb-2">{stat.label}</div>
-                <div className={`text-sm font-semibold ${
-                  stat.trend === 'up' ? 'text-green-600' : 'text-red-600'
-                }`}>
+                <div className={`text-sm font-semibold ${stat.trend === 'up' ? 'text-green-600' : 'text-red-600'
+                  }`}>
                   {stat.change}
                 </div>
               </div>
@@ -286,11 +290,10 @@ const AdminDashboardPage = () => {
                       <span className="text-primary-600 font-bold">{user.score}</span>
                     </td>
                     <td className="py-4 px-4">
-                      <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                        user.status === 'Premium'
+                      <span className={`px-3 py-1 rounded-full text-xs font-semibold ${user.status === 'Premium'
                           ? 'bg-yellow-100 text-yellow-800'
                           : 'bg-gray-100 text-gray-800'
-                      }`}>
+                        }`}>
                         {user.status}
                       </span>
                     </td>
@@ -322,9 +325,8 @@ const AdminDashboardPage = () => {
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between">
                     <span className="text-secondary-600">{t.statusLabel}</span>
-                    <span className={`font-semibold capitalize ${
-                      service.status === 'healthy' ? 'text-green-600' : 'text-yellow-600'
-                    }`}>
+                    <span className={`font-semibold capitalize ${service.status === 'healthy' ? 'text-green-600' : 'text-yellow-600'
+                      }`}>
                       {service.status}
                     </span>
                   </div>
@@ -378,7 +380,7 @@ const AdminDashboardPage = () => {
           </Link>
         </div>
       </div>
-    </MainLayout>
+    </Layout>
   )
 }
 

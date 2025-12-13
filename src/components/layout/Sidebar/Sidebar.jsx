@@ -182,6 +182,18 @@ const Sidebar = () => {
     },
   ];
 
+  // Determine display name based on length preferences
+  const displayName = (() => {
+    const fullName = user?.tenant?.organization_full_name || user?.tenant?.name || user?.tenant?.company || user?.company || 'My Workspace';
+    const shortName = user?.tenant?.organization_short_name || user?.tenant?.short_name;
+
+    // Use short name if full name is too long (>15 chars) AND short name exists
+    if (fullName.length > 15 && shortName) {
+      return shortName;
+    }
+    return fullName;
+  })();
+
   return (
     <aside
       className={`${isCollapsed ? 'w-20' : 'w-64'} bg-[#0B0E14] border-r border-white/10 h-screen sticky top-0 transition-all duration-300 ease-in-out flex flex-col flex-shrink-0`}
@@ -189,17 +201,21 @@ const Sidebar = () => {
       {/* Tenant Branding */}
       <div className={`${isCollapsed ? 'p-4' : 'p-6'} border-b border-white/10 transition-all duration-300 flex-shrink-0`}>
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary-600 to-primary-800 flex items-center justify-center flex-shrink-0 shadow-lg shadow-primary-900/20">
+          <div className={`${isCollapsed ? 'w-10 h-10 p-1' : 'w-[70px] h-[50px] p-1'} rounded-lg bg-white flex items-center justify-center flex-shrink-0 shadow-lg shadow-gray-200/10 transition-all duration-300`}>
             {user?.tenant?.organizationLogo || user?.tenant?.logo_url || user?.tenant?.logo ? (
-              <img src={user?.tenant?.organizationLogo || user?.tenant?.logo_url || user?.tenant?.logo} alt="Tenant Logo" className="w-full h-full object-cover" />
+              <img
+                src={user?.tenant?.organizationLogo || user?.tenant?.logo_url || user?.tenant?.logo}
+                alt="Tenant Logo"
+                className="w-full h-full object-contain"
+              />
             ) : (
-              <Building2 className="w-6 h-6 text-white" />
+              <Building2 className={`${isCollapsed ? 'w-6 h-6' : 'w-8 h-8'} text-primary-600`} />
             )}
           </div>
           {!isCollapsed && (
             <div className="overflow-hidden">
-              <h1 className="text-sm font-bold text-white truncate">
-                {user?.tenant?.organization_full_name || user?.tenant?.name || user?.tenant?.company || user?.company || 'My Workspace'}
+              <h1 className="text-sm font-bold text-white truncate" title={user?.tenant?.organization_full_name || user?.tenant?.name}>
+                {displayName}
               </h1>
               <div className="flex items-center gap-1.5 mt-0.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-green-500"></span>

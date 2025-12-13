@@ -660,8 +660,49 @@ const AppRoutes = () => {
         }
       />
 
+      {/* Godfather Routes (System Admin) */}
+      <Route
+        path="/godfather"
+        element={
+          <ProtectedRoute requireSystemAdmin>
+            <AdminDashboardPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/godfather/dashboard"
+        element={
+          <ProtectedRoute requireSystemAdmin>
+            <AdminDashboardPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/godfather/tenants"
+        element={
+          <ProtectedRoute requireSystemAdmin>
+            <TenantsManagementPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/godfather/billing"
+        element={
+          <ProtectedRoute requireSystemAdmin>
+            <TenantsManagementPage /> {/* Reusing for now as requested to manage billing/tenants */}
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/godfather/active-agents"
+        element={
+          <ProtectedRoute requireSystemAdmin>
+            <ActiveAgentsMonitorPage />
+          </ProtectedRoute>
+        }
+      />
 
-      {/* System Admin Routes */}
+      {/* System Admin Routes - Legacy/Aliased */}
       <Route
         path="/system-admin"
         element={
