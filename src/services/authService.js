@@ -76,7 +76,7 @@ const authService = {
       return response.data;
     }
 
-    return response.data.data;
+    return response.data;
   },
 
   // Logout

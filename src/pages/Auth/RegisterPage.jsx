@@ -249,7 +249,15 @@ const RegisterPage = () => {
         // Also show a toast generic message so they know something failed
         toast.error('Please check the form for errors.');
       } else {
-        toast.error(error.response?.data?.message || 'Registration failed. Please try again.');
+        // Only show error toast if we haven't already shown a success toast (implying the error happened during redirect/post-success)
+        // Check if authentication succeeded despite the error (e.g. redirect error)
+        if (!useAuthStore.getState().isAuthenticated) {
+          toast.error(error.response?.data?.message || 'Registration failed. Please try again.');
+        } else {
+          console.warn('Error occurred after successful registration (likely redirect issue):', error);
+          // Attempt fallback redirect
+          navigate('/dashboard', { replace: true });
+        }
       }
     }
   };
