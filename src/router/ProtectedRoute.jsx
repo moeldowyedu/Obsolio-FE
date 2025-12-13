@@ -37,6 +37,7 @@ const ProtectedRoute = ({ children, requireAdmin = false, requireSystemAdmin = f
   if (
     isAuthenticated &&
     user?.role !== 'admin' &&
+    !user?.is_system_admin &&
     !location.pathname.startsWith('/onboarding')
   ) {
     // If we have tenants, we're good

@@ -29,14 +29,20 @@ const AdminLayout = ({ children }) => {
   const isActive = (href) => location.pathname === href;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+    <div className={`min-h-screen ${isGodfather ? 'bg-gray-50' : 'bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900'}`}>
       {/* Top Header */}
-      <header className="fixed top-0 left-0 right-0 h-16 bg-gray-900/95 backdrop-blur-sm border-b border-gray-700/50 z-50">
+      <header className={`fixed top-0 left-0 right-0 h-16 backdrop-blur-sm border-b z-50 transition-colors duration-300 ${isGodfather
+          ? 'bg-white/90 border-gray-200'
+          : 'bg-gray-900/95 border-gray-700/50'
+        }`}>
         <div className="h-full px-4 flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <button
               onClick={() => setSidebarOpen(!sidebarOpen)}
-              className="p-2 rounded-lg hover:bg-gray-800 transition-colors text-gray-400 hover:text-white"
+              className={`p-2 rounded-lg transition-colors ${isGodfather
+                  ? 'text-gray-600 hover:bg-gray-100'
+                  : 'text-gray-400 hover:bg-gray-800 hover:text-white'
+                }`}
             >
               {sidebarOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
@@ -45,8 +51,12 @@ const AdminLayout = ({ children }) => {
                 <Settings className="w-5 h-5 text-white" />
               </div>
               <div>
-                <h1 className="text-white font-bold text-lg">{isGodfather ? 'Godfather Console' : 'Obsolio System Admin'}</h1>
-                <p className="text-xs text-gray-400">{isGodfather ? 'Master Control' : 'Platform Management Console'}</p>
+                <h1 className={`font-bold text-lg ${isGodfather ? 'text-gray-900' : 'text-white'}`}>
+                  {isGodfather ? 'Godfather Console' : 'Obsolio System Admin'}
+                </h1>
+                <p className={`text-xs ${isGodfather ? 'text-gray-500' : 'text-gray-400'}`}>
+                  {isGodfather ? 'Master Control' : 'Platform Management Console'}
+                </p>
               </div>
             </div>
           </div>
@@ -55,28 +65,38 @@ const AdminLayout = ({ children }) => {
           <div className="relative">
             <button
               onClick={() => setProfileOpen(!profileOpen)}
-              className="flex items-center space-x-3 px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors"
+              className={`flex items-center space-x-3 px-4 py-2 rounded-lg transition-colors ${isGodfather ? 'hover:bg-gray-100' : 'hover:bg-gray-800'
+                }`}
             >
               <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center">
                 <span className="text-white font-semibold text-sm">SA</span>
               </div>
               <div className="text-left hidden md:block">
-                <div className="text-sm font-semibold text-white">System Admin</div>
-                <div className="text-xs text-gray-400">admin@obsolio.com</div>
+                <div className={`text-sm font-semibold ${isGodfather ? 'text-gray-900' : 'text-white'}`}>System Admin</div>
+                <div className={`text-xs ${isGodfather ? 'text-gray-500' : 'text-gray-400'}`}>admin@obsolio.com</div>
               </div>
-              <ChevronDown className="w-4 h-4 text-gray-400" />
+              <ChevronDown className={`w-4 h-4 ${isGodfather ? 'text-gray-500' : 'text-gray-400'}`} />
             </button>
 
             {profileOpen && (
-              <div className="absolute right-0 mt-2 w-48 bg-gray-800 rounded-lg shadow-xl border border-gray-700 py-2">
+              <div className={`absolute right-0 mt-2 w-48 rounded-lg shadow-xl border py-2 ${isGodfather
+                  ? 'bg-white border-gray-200'
+                  : 'bg-gray-800 border-gray-700'
+                }`}>
                 <Link
                   to="/system-admin/settings"
-                  className="flex items-center space-x-2 px-4 py-2 text-gray-300 hover:bg-gray-700 transition-colors"
+                  className={`flex items-center space-x-2 px-4 py-2 transition-colors ${isGodfather
+                      ? 'text-gray-700 hover:bg-gray-100'
+                      : 'text-gray-300 hover:bg-gray-700'
+                    }`}
                 >
                   <Settings className="w-4 h-4" />
                   <span>Settings</span>
                 </Link>
-                <button className="flex items-center space-x-2 px-4 py-2 text-red-400 hover:bg-gray-700 transition-colors w-full text-left">
+                <button className={`flex items-center space-x-2 px-4 py-2 transition-colors w-full text-left ${isGodfather
+                    ? 'text-red-600 hover:bg-red-50'
+                    : 'text-red-400 hover:bg-gray-700'
+                  }`}>
                   <LogOut className="w-4 h-4" />
                   <span>Logout</span>
                 </button>
@@ -89,8 +109,11 @@ const AdminLayout = ({ children }) => {
       <div className="flex pt-16">
         {/* Sidebar */}
         <aside
-          className={`fixed left-0 top-16 bottom-0 bg-gray-900/95 backdrop-blur-sm border-r border-gray-700/50 transition-all duration-300 ${sidebarOpen ? 'w-64' : 'w-0'
-            } overflow-hidden z-40`}
+          className={`fixed left-0 top-16 bottom-0 backdrop-blur-sm border-r transition-all duration-300 ${sidebarOpen ? 'w-64' : 'w-0'
+            } overflow-hidden z-40 ${isGodfather
+              ? 'bg-white/90 border-gray-200'
+              : 'bg-gray-900/95 border-gray-700/50'
+            }`}
         >
           <nav className="p-4 space-y-2">
             {navigation.map((item) => {
@@ -101,8 +124,10 @@ const AdminLayout = ({ children }) => {
                   key={item.name}
                   to={item.href}
                   className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-all ${active
-                    ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg'
-                    : 'text-gray-400 hover:bg-gray-800 hover:text-white'
+                      ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg'
+                      : isGodfather
+                        ? 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+                        : 'text-gray-400 hover:bg-gray-800 hover:text-white'
                     }`}
                 >
                   <Icon className="w-5 h-5 flex-shrink-0" />

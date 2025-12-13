@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import AdminLayout from '../../components/layout/AdminLayout';
 import {
   Activity, Clock, CheckCircle, XCircle, Loader, PauseCircle,
@@ -11,6 +12,9 @@ const ActiveAgentsMonitorPage = () => {
   const [autoRefresh, setAutoRefresh] = useState(true);
   const [refreshInterval, setRefreshInterval] = useState(10);
   const [lastRefresh, setLastRefresh] = useState(new Date());
+
+  const location = useLocation();
+  const isGodfather = location.pathname.startsWith('/godfather');
 
   // Simulated auto-refresh
   useEffect(() => {
@@ -309,25 +313,37 @@ const ActiveAgentsMonitorPage = () => {
     }
   };
 
+  // Styles
+  const cardClass = isGodfather
+    ? 'bg-white rounded-xl p-6 border border-gray-200 shadow-sm hover:shadow-md transition-all'
+    : 'bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700/50 hover:border-purple-500/50 transition-all';
+
+  const textPrimary = isGodfather ? 'text-gray-900' : 'text-white';
+  const textSecondary = isGodfather ? 'text-gray-500' : 'text-gray-400';
+  const tableHeaderClass = isGodfather ? 'bg-gray-50 text-gray-500' : 'bg-gray-900/80 text-gray-400';
+  const tableRowClass = isGodfather ? 'border-t border-gray-100 hover:bg-gray-50' : 'border-t border-gray-700/50 hover:bg-gray-900/50';
+
   return (
     <AdminLayout>
       <div className="space-y-6">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-white mb-2">Active Agents Monitor</h1>
-            <p className="text-gray-400">Real-time monitoring of agent executions</p>
+            <h1 className={`text-3xl font-bold mb-2 ${textPrimary}`}>Active Agents Monitor</h1>
+            <p className={textSecondary}>Real-time monitoring of agent executions</p>
           </div>
           <div className="mt-4 md:mt-0 flex items-center space-x-3">
             {/* Auto Refresh Toggle */}
-            <div className="flex items-center space-x-2 bg-gray-800 rounded-lg px-4 py-2 border border-gray-700">
-              <RefreshCw className={`w-4 h-4 ${autoRefresh ? 'text-green-400 animate-spin' : 'text-gray-400'}`} />
-              <span className="text-white text-sm font-semibold">Auto-refresh:</span>
+            <div className={`flex items-center space-x-2 rounded-lg px-4 py-2 border ${isGodfather
+                ? 'bg-white border-gray-200'
+                : 'bg-gray-800 border-gray-700'
+              }`}>
+              <RefreshCw className={`w-4 h-4 ${autoRefresh ? 'text-green-500 animate-spin' : textSecondary}`} />
+              <span className={`text-sm font-semibold ${textPrimary}`}>Auto-refresh:</span>
               <button
                 onClick={() => setAutoRefresh(!autoRefresh)}
-                className={`px-3 py-1 rounded text-xs font-bold transition-colors ${
-                  autoRefresh ? 'bg-green-600 text-white' : 'bg-gray-700 text-gray-300'
-                }`}
+                className={`px-3 py-1 rounded text-xs font-bold transition-colors ${autoRefresh ? 'bg-green-600 text-white' : 'bg-gray-700 text-gray-300'
+                  }`}
               >
                 {autoRefresh ? 'ON' : 'OFF'}
               </button>
@@ -338,7 +354,10 @@ const ActiveAgentsMonitorPage = () => {
               <select
                 value={refreshInterval}
                 onChange={(e) => setRefreshInterval(Number(e.target.value))}
-                className="px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white text-sm focus:outline-none focus:border-purple-500"
+                className={`px-4 py-2 border rounded-lg text-sm focus:outline-none focus:border-purple-500 ${isGodfather
+                    ? 'bg-white border-gray-200 text-gray-900'
+                    : 'bg-gray-800 border-gray-700 text-white'
+                  }`}
               >
                 <option value={5}>5s</option>
                 <option value={10}>10s</option>
@@ -349,7 +368,7 @@ const ActiveAgentsMonitorPage = () => {
         </div>
 
         {/* Last Refresh Info */}
-        <div className="text-sm text-gray-400 text-right">
+        <div className={`text-sm text-right ${textSecondary}`}>
           Last updated: {lastRefresh.toLocaleTimeString()}
         </div>
 
@@ -358,14 +377,14 @@ const ActiveAgentsMonitorPage = () => {
           {stats.map((stat, index) => {
             const Icon = stat.icon;
             return (
-              <div key={index} className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700/50 hover:border-purple-500/50 transition-all">
+              <div key={index} className={cardClass}>
                 <div className="flex items-start justify-between mb-4">
                   <div className={`w-12 h-12 rounded-lg bg-gradient-to-br ${stat.color} flex items-center justify-center`}>
                     <Icon className="w-6 h-6 text-white" />
                   </div>
                 </div>
-                <h3 className="text-3xl font-bold text-white mb-1">{stat.value}</h3>
-                <p className="text-gray-400 text-sm font-medium mb-2">{stat.label}</p>
+                <h3 className={`text-3xl font-bold mb-1 ${textPrimary}`}>{stat.value}</h3>
+                <p className={`${textSecondary} text-sm font-medium mb-2`}>{stat.label}</p>
                 <p className="text-gray-500 text-xs">{stat.change}</p>
               </div>
             );
@@ -374,32 +393,32 @@ const ActiveAgentsMonitorPage = () => {
 
         {/* Performance Metrics */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700/50">
+          <div className={cardClass}>
             <div className="flex items-center space-x-2 mb-4">
               <Clock className="w-5 h-5 text-purple-400" />
-              <h3 className="text-lg font-bold text-white">Avg Execution Time</h3>
+              <h3 className={`text-lg font-bold ${textPrimary}`}>Avg Execution Time</h3>
             </div>
-            <div className="text-3xl font-bold text-white">{performanceMetrics.avgExecutionTime}</div>
+            <div className={`text-3xl font-bold ${textPrimary}`}>{performanceMetrics.avgExecutionTime}</div>
           </div>
 
-          <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700/50">
+          <div className={cardClass}>
             <div className="flex items-center space-x-2 mb-4">
               <TrendingUp className="w-5 h-5 text-green-400" />
-              <h3 className="text-lg font-bold text-white">Success Rate</h3>
+              <h3 className={`text-lg font-bold ${textPrimary}`}>Success Rate</h3>
             </div>
             <div className="text-3xl font-bold text-green-400">{performanceMetrics.successRate}</div>
           </div>
 
-          <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700/50">
+          <div className={cardClass}>
             <div className="flex items-center space-x-2 mb-4">
               <Database className="w-5 h-5 text-blue-400" />
-              <h3 className="text-lg font-bold text-white">Engine Usage</h3>
+              <h3 className={`text-lg font-bold ${textPrimary}`}>Engine Usage</h3>
             </div>
             <div className="space-y-1">
               {Object.entries(performanceMetrics.engineUsage).slice(0, 3).map(([engine, percentage]) => (
                 <div key={engine} className="flex items-center justify-between text-sm">
-                  <span className="text-gray-400">{engine}</span>
-                  <span className="text-white font-semibold">{percentage}%</span>
+                  <span className={textSecondary}>{engine}</span>
+                  <span className={`${textPrimary} font-semibold`}>{percentage}%</span>
                 </div>
               ))}
             </div>
@@ -407,22 +426,21 @@ const ActiveAgentsMonitorPage = () => {
         </div>
 
         {/* Filters */}
-        <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-4 border border-gray-700/50">
+        <div className={`${isGodfather ? 'bg-white border-gray-200' : 'bg-gray-800/50 border-gray-700/50'} backdrop-blur-sm rounded-xl p-4 border transition-all`}>
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-2">
-              <Filter className="w-5 h-5 text-gray-400" />
-              <span className="text-white font-semibold">Filter:</span>
+              <Filter className={`w-5 h-5 ${textSecondary}`} />
+              <span className={`${textPrimary} font-semibold`}>Filter:</span>
             </div>
             <div className="flex items-center space-x-2">
               {['all', 'running', 'queued', 'completed', 'failed'].map((status) => (
                 <button
                   key={status}
                   onClick={() => setFilterStatus(status)}
-                  className={`px-4 py-2 rounded-lg text-sm font-semibold capitalize transition-colors ${
-                    filterStatus === status
+                  className={`px-4 py-2 rounded-lg text-sm font-semibold capitalize transition-colors ${filterStatus === status
                       ? 'bg-purple-600 text-white'
                       : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                  }`}
+                    }`}
                 >
                   {status}
                 </button>
@@ -432,30 +450,30 @@ const ActiveAgentsMonitorPage = () => {
         </div>
 
         {/* Active Agents Table */}
-        <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl border border-gray-700/50 overflow-hidden">
+        <div className={`${isGodfather ? 'bg-white border-gray-200' : 'bg-gray-800/50 border-gray-700/50'} backdrop-blur-sm rounded-xl border overflow-hidden`}>
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-gray-900/80">
+              <thead className={tableHeaderClass}>
                 <tr>
-                  <th className="text-left py-4 px-6 text-xs font-bold text-gray-400 uppercase">Agent</th>
-                  <th className="text-left py-4 px-6 text-xs font-bold text-gray-400 uppercase">Tenant</th>
-                  <th className="text-left py-4 px-6 text-xs font-bold text-gray-400 uppercase">Status</th>
-                  <th className="text-left py-4 px-6 text-xs font-bold text-gray-400 uppercase">Progress</th>
-                  <th className="text-left py-4 px-6 text-xs font-bold text-gray-400 uppercase">Started</th>
-                  <th className="text-left py-4 px-6 text-xs font-bold text-gray-400 uppercase">Duration</th>
-                  <th className="text-left py-4 px-6 text-xs font-bold text-gray-400 uppercase">Engine</th>
-                  <th className="text-right py-4 px-6 text-xs font-bold text-gray-400 uppercase">Actions</th>
+                  <th className="text-left py-4 px-6 text-xs font-bold uppercase">Agent</th>
+                  <th className="text-left py-4 px-6 text-xs font-bold uppercase">Tenant</th>
+                  <th className="text-left py-4 px-6 text-xs font-bold uppercase">Status</th>
+                  <th className="text-left py-4 px-6 text-xs font-bold uppercase">Progress</th>
+                  <th className="text-left py-4 px-6 text-xs font-bold uppercase">Started</th>
+                  <th className="text-left py-4 px-6 text-xs font-bold uppercase">Duration</th>
+                  <th className="text-left py-4 px-6 text-xs font-bold uppercase">Engine</th>
+                  <th className="text-right py-4 px-6 text-xs font-bold uppercase">Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {filteredAgents.map((agent) => (
-                  <tr key={agent.id} className="border-t border-gray-700/50 hover:bg-gray-900/50 transition-colors">
+                  <tr key={agent.id} className={`${tableRowClass} transition-colors`}>
                     <td className="py-4 px-6">
-                      <div className="font-semibold text-white">{agent.name}</div>
-                      <div className="text-xs text-gray-400">by {agent.user}</div>
+                      <div className={`font-semibold ${textPrimary}`}>{agent.name}</div>
+                      <div className={`text-xs ${textSecondary}`}>by {agent.user}</div>
                     </td>
                     <td className="py-4 px-6">
-                      <span className="text-white">{agent.tenant}</span>
+                      <span className={textPrimary}>{agent.tenant}</span>
                     </td>
                     <td className="py-4 px-6">
                       <div className="flex items-center space-x-2">
@@ -468,46 +486,49 @@ const ActiveAgentsMonitorPage = () => {
                     <td className="py-4 px-6">
                       <div className="w-full">
                         <div className="flex items-center justify-between mb-1">
-                          <span className="text-xs text-gray-400">{agent.progress}%</span>
+                          <span className={`text-xs ${textSecondary}`}>{agent.progress}%</span>
                         </div>
                         <div className="w-full bg-gray-700 rounded-full h-2">
                           <div
-                            className={`h-2 rounded-full transition-all ${
-                              agent.status === 'Failed' ? 'bg-red-500' :
-                              agent.status === 'Completed' ? 'bg-green-500' :
-                              'bg-blue-500'
-                            }`}
+                            className={`h-2 rounded-full transition-all ${agent.status === 'Failed' ? 'bg-red-500' :
+                                agent.status === 'Completed' ? 'bg-green-500' :
+                                  'bg-blue-500'
+                              }`}
                             style={{ width: `${agent.progress}%` }}
                           />
                         </div>
                       </div>
                     </td>
                     <td className="py-4 px-6">
-                      <span className="text-gray-400 text-sm">{agent.started}</span>
+                      <span className={`${textSecondary} text-sm`}>{agent.started}</span>
                     </td>
                     <td className="py-4 px-6">
-                      <span className="text-white font-mono text-sm">{agent.duration}</span>
+                      <span className={`${textPrimary} font-mono text-sm`}>{agent.duration}</span>
                     </td>
                     <td className="py-4 px-6">
                       <span className="text-purple-400 text-sm">{agent.engine}</span>
                     </td>
                     <td className="py-4 px-6">
                       <div className="flex items-center justify-end space-x-2">
-                        <button className="p-2 hover:bg-gray-700 rounded-lg transition-colors" title="View Logs">
+                        <button className={`p-2 rounded-lg transition-colors ${isGodfather ? 'hover:bg-gray-100' : 'hover:bg-gray-700'
+                          }`} title="View Logs">
                           <FileText className="w-4 h-4 text-blue-400" />
                         </button>
                         {agent.status === 'Running' && (
                           <>
-                            <button className="p-2 hover:bg-gray-700 rounded-lg transition-colors" title="Pause">
+                            <button className={`p-2 rounded-lg transition-colors ${isGodfather ? 'hover:bg-gray-100' : 'hover:bg-gray-700'
+                              }`} title="Pause">
                               <PauseCircle className="w-4 h-4 text-yellow-400" />
                             </button>
-                            <button className="p-2 hover:bg-gray-700 rounded-lg transition-colors" title="Terminate">
+                            <button className={`p-2 rounded-lg transition-colors ${isGodfather ? 'hover:bg-gray-100' : 'hover:bg-gray-700'
+                              }`} title="Terminate">
                               <Square className="w-4 h-4 text-red-400" />
                             </button>
                           </>
                         )}
                         {agent.status === 'Paused' && (
-                          <button className="p-2 hover:bg-gray-700 rounded-lg transition-colors" title="Resume">
+                          <button className={`p-2 rounded-lg transition-colors ${isGodfather ? 'hover:bg-gray-100' : 'hover:bg-gray-700'
+                            }`} title="Resume">
                             <Play className="w-4 h-4 text-green-400" />
                           </button>
                         )}
@@ -521,19 +542,22 @@ const ActiveAgentsMonitorPage = () => {
         </div>
 
         {/* Real-time Activity Feed */}
-        <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700/50">
+        <div className={cardClass}>
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold text-white flex items-center">
+            <h2 className={`text-2xl font-bold ${textPrimary} flex items-center`}>
               <Activity className="w-6 h-6 mr-2 text-purple-400" />
               Real-time Activity Feed
             </h2>
-            <span className="text-sm text-gray-400">Last 20 events</span>
+            <span className={`text-sm ${textSecondary}`}>Last 20 events</span>
           </div>
           <div className="space-y-3">
             {activityFeed.map((activity) => (
               <div
                 key={activity.id}
-                className="flex items-start justify-between p-3 bg-gray-900/50 rounded-lg border border-gray-700/50"
+                className={`flex items-start justify-between p-3 rounded-lg border ${isGodfather
+                    ? 'bg-gray-50 border-gray-100'
+                    : 'bg-gray-900/50 border-gray-700/50'
+                  }`}
               >
                 <div className="flex items-start space-x-3">
                   <div className={`mt-0.5 ${getActivityTypeColor(activity.type)}`}>
@@ -544,11 +568,11 @@ const ActiveAgentsMonitorPage = () => {
                     {activity.type === 'paused' && <PauseCircle className="w-4 h-4" />}
                   </div>
                   <div>
-                    <p className="text-white text-sm">{activity.message}</p>
-                    <p className="text-gray-400 text-xs mt-1">Tenant: {activity.tenant}</p>
+                    <p className={`${textPrimary} text-sm`}>{activity.message}</p>
+                    <p className={`${textSecondary} text-xs mt-1`}>Tenant: {activity.tenant}</p>
                   </div>
                 </div>
-                <span className="text-gray-500 text-xs whitespace-nowrap">{activity.time}</span>
+                <span className={`${textSecondary} text-xs whitespace-nowrap`}>{activity.time}</span>
               </div>
             ))}
           </div>

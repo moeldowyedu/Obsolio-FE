@@ -1,261 +1,156 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import AdminLayout from '../../components/layout/AdminLayout';
+import { useAdminStore } from '../../store/adminStore';
 import {
   Building2, Users, DollarSign, TrendingUp, Search, Filter,
   Download, Plus, Eye, Settings, Ban, CheckCircle, LogIn,
-  Calendar, Crown, Zap, Shield
+  Calendar, Crown, Zap, Shield, Loader2, User, Clock, X
 } from 'lucide-react';
+import { format } from 'date-fns';
+import toast from 'react-hot-toast';
 
 const TenantsManagementPage = () => {
+  const { tenants, fetchAllTenants, isLoading, suspendTenant, activateTenant, updateTenant, pagination } = useAdminStore();
   const [searchTerm, setSearchTerm] = useState('');
   const [filterPlan, setFilterPlan] = useState('all');
   const [filterStatus, setFilterStatus] = useState('all');
+
+  // Modal State
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedTenant, setSelectedTenant] = useState(null);
+  const [newEndDate, setNewEndDate] = useState('');
+
+  // Use store pagination or local if store not fully synced yet
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
-  // Mock Stats
+  const location = useLocation();
+  const isGodfather = location.pathname.startsWith('/godfather');
+
+  useEffect(() => {
+    // Fetch initial data
+    fetchAllTenants({ page: currentPage, search: searchTerm });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentPage]); // Add debounced search dependecy in future
+
+  // Handle Search Enter
+  const handleSearch = (e) => {
+    if (e.key === 'Enter') {
+      setCurrentPage(1);
+      fetchAllTenants({ page: 1, search: searchTerm, plan: filterPlan, status: filterStatus });
+    }
+  };
+
+  const handleAction = async (action, tenantId) => {
+    try {
+      if (action === 'suspend') {
+        await suspendTenant(tenantId);
+        toast.success('Tenant suspended');
+      } else if (action === 'activate') {
+        await activateTenant(tenantId);
+        toast.success('Tenant activated');
+      }
+    } catch (error) {
+      toast.error('Action failed');
+    }
+  };
+
+  const handleOpenModal = (tenant) => {
+    setSelectedTenant(tenant);
+    // Format existing date to YYYY-MM-DD for input or empty
+    const currentEnd = tenant.end_date ? new Date(tenant.end_date).toISOString().split('T')[0] : '';
+    setNewEndDate(currentEnd);
+    setIsModalOpen(true);
+  };
+
+  const handleSaveSubscription = async () => {
+    if (!selectedTenant) return;
+    try {
+      await updateTenant(selectedTenant.id, { end_date: newEndDate });
+      toast.success('Subscription updated successfully');
+      setIsModalOpen(false);
+      setSelectedTenant(null);
+    } catch (error) {
+      console.error('Update failed:', error);
+      toast.error(error.response?.data?.message || 'Failed to update subscription');
+    }
+  };
+
+  // Stats Logic - Calculate from visible tenants or fetch separate stats endpoint
+  // For now using simple calculations on loaded tenants or hardcoded until stats endpoint ready
+  const activeTenantsCount = tenants.filter(t => t.status === 'Active').length;
+
   const stats = [
     {
       label: 'Total Tenants',
-      value: '247',
-      change: '+23 this month',
+      value: pagination.totalItems || tenants.length,
+      change: 'Platform-wide',
       trend: 'up',
       icon: Building2,
       color: 'from-blue-500 to-cyan-500'
     },
     {
       label: 'Active Subscriptions',
-      value: '189',
-      change: '76.5% conversion',
+      value: activeTenantsCount,
+      change: 'Real-time',
       trend: 'up',
       icon: CheckCircle,
       color: 'from-green-500 to-emerald-500'
     },
     {
+      // Placeholder for future billing integration
       label: 'Total Revenue (MRR)',
-      value: '$124,580',
-      change: '+$18,240 vs last month',
-      trend: 'up',
+      value: '$0',
+      change: 'Coming Soon',
+      trend: 'neutral',
       icon: DollarSign,
       color: 'from-purple-500 to-pink-500'
     },
     {
-      label: 'Growth Rate',
-      value: '12.3%',
-      change: '+2.1% from last month',
+      label: 'Avg Users/Tenant',
+      value: tenants.length > 0 ? Math.round(tenants.reduce((acc, t) => acc + (t.total_users || t.users_count || 0), 0) / tenants.length) : 0,
+      change: 'Analytics',
       trend: 'up',
       icon: TrendingUp,
       color: 'from-orange-500 to-red-500'
     }
   ];
 
-  // Mock Tenants Data (15 tenants)
-  const mockTenants = [
-    {
-      id: 1,
-      name: 'TechCorp Industries',
-      email: 'admin@techcorp.com',
-      plan: 'Enterprise',
-      status: 'Active',
-      users: 125,
-      createdDate: '2024-01-15',
-      mrr: 2999,
-      logo: 'TC'
-    },
-    {
-      id: 2,
-      name: 'Innovate Solutions',
-      email: 'contact@innovate.io',
-      plan: 'Pro',
-      status: 'Active',
-      users: 45,
-      createdDate: '2024-02-20',
-      mrr: 499,
-      logo: 'IS'
-    },
-    {
-      id: 3,
-      name: 'StartupHub Inc',
-      email: 'info@startuphub.com',
-      plan: 'Free',
-      status: 'Trial',
-      users: 8,
-      createdDate: '2024-10-05',
-      mrr: 0,
-      logo: 'SH'
-    },
-    {
-      id: 4,
-      name: 'DataDrive Analytics',
-      email: 'admin@datadrive.ai',
-      plan: 'Enterprise',
-      status: 'Active',
-      users: 230,
-      createdDate: '2023-11-10',
-      mrr: 4999,
-      logo: 'DD'
-    },
-    {
-      id: 5,
-      name: 'CloudScale Systems',
-      email: 'hello@cloudscale.com',
-      plan: 'Pro',
-      status: 'Active',
-      users: 67,
-      createdDate: '2024-03-15',
-      mrr: 499,
-      logo: 'CS'
-    },
-    {
-      id: 6,
-      name: 'AgileWorks Ltd',
-      email: 'contact@agileworks.co',
-      plan: 'Pro',
-      status: 'Suspended',
-      users: 34,
-      createdDate: '2024-01-22',
-      mrr: 0,
-      logo: 'AW'
-    },
-    {
-      id: 7,
-      name: 'FinTech Ventures',
-      email: 'admin@fintechventures.io',
-      plan: 'Enterprise',
-      status: 'Active',
-      users: 178,
-      createdDate: '2023-09-08',
-      mrr: 2999,
-      logo: 'FV'
-    },
-    {
-      id: 8,
-      name: 'EduLearn Platform',
-      email: 'support@edulearn.edu',
-      plan: 'Pro',
-      status: 'Active',
-      users: 89,
-      createdDate: '2024-04-12',
-      mrr: 499,
-      logo: 'EL'
-    },
-    {
-      id: 9,
-      name: 'HealthTech Solutions',
-      email: 'info@healthtech.med',
-      plan: 'Enterprise',
-      status: 'Active',
-      users: 312,
-      createdDate: '2023-08-20',
-      mrr: 4999,
-      logo: 'HT'
-    },
-    {
-      id: 10,
-      name: 'RetailBoost Co',
-      email: 'admin@retailboost.shop',
-      plan: 'Free',
-      status: 'Trial',
-      users: 5,
-      createdDate: '2024-10-28',
-      mrr: 0,
-      logo: 'RB'
-    },
-    {
-      id: 11,
-      name: 'DevOps Masters',
-      email: 'team@devopsmasters.dev',
-      plan: 'Pro',
-      status: 'Active',
-      users: 52,
-      createdDate: '2024-05-18',
-      mrr: 499,
-      logo: 'DM'
-    },
-    {
-      id: 12,
-      name: 'Marketing Geniuses',
-      email: 'hello@marketinggeniuses.com',
-      plan: 'Pro',
-      status: 'Active',
-      users: 41,
-      createdDate: '2024-06-25',
-      mrr: 499,
-      logo: 'MG'
-    },
-    {
-      id: 13,
-      name: 'Legal Eagle Partners',
-      email: 'contact@legaleagle.law',
-      plan: 'Enterprise',
-      status: 'Active',
-      users: 95,
-      createdDate: '2024-02-14',
-      mrr: 2999,
-      logo: 'LE'
-    },
-    {
-      id: 14,
-      name: 'Creative Studios XYZ',
-      email: 'info@creativestudios.art',
-      plan: 'Free',
-      status: 'Active',
-      users: 12,
-      createdDate: '2024-09-10',
-      mrr: 0,
-      logo: 'CS'
-    },
-    {
-      id: 15,
-      name: 'LogisticsPro Network',
-      email: 'admin@logisticspro.net',
-      plan: 'Pro',
-      status: 'Active',
-      users: 73,
-      createdDate: '2024-07-03',
-      mrr: 499,
-      logo: 'LP'
-    }
-  ];
-
-  // Filter and search logic
-  const filteredTenants = mockTenants.filter(tenant => {
-    const matchesSearch = tenant.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         tenant.email.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesPlan = filterPlan === 'all' || tenant.plan === filterPlan;
-    const matchesStatus = filterStatus === 'all' || tenant.status === filterStatus;
-    return matchesSearch && matchesPlan && matchesStatus;
-  });
-
-  // Pagination
-  const totalPages = Math.ceil(filteredTenants.length / itemsPerPage);
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const paginatedTenants = filteredTenants.slice(startIndex, startIndex + itemsPerPage);
-
   const getPlanIcon = (plan) => {
-    switch (plan) {
-      case 'Enterprise': return <Shield className="w-4 h-4" />;
-      case 'Pro': return <Zap className="w-4 h-4" />;
+    switch (plan?.toLowerCase()) {
+      case 'enterprise': return <Shield className="w-4 h-4" />;
+      case 'pro': return <Zap className="w-4 h-4" />;
       default: return <Crown className="w-4 h-4" />;
     }
   };
 
   const getPlanColor = (plan) => {
-    switch (plan) {
-      case 'Enterprise': return 'bg-purple-100 text-purple-800 border-purple-200';
-      case 'Pro': return 'bg-blue-100 text-blue-800 border-blue-200';
+    switch (plan?.toLowerCase()) {
+      case 'enterprise': return 'bg-purple-100 text-purple-800 border-purple-200';
+      case 'pro': return 'bg-blue-100 text-blue-800 border-blue-200';
       default: return 'bg-gray-100 text-gray-800 border-gray-200';
     }
   };
 
   const getStatusColor = (status) => {
-    switch (status) {
-      case 'Active': return 'bg-green-100 text-green-800 border-green-200';
-      case 'Trial': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
-      case 'Suspended': return 'bg-red-100 text-red-800 border-red-200';
+    switch (status?.toLowerCase()) {
+      case 'active': return 'bg-green-100 text-green-800 border-green-200';
+      case 'trial': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
+      case 'suspended': return 'bg-red-100 text-red-800 border-red-200';
       default: return 'bg-gray-100 text-gray-800 border-gray-200';
     }
   };
+
+  // Conditional Styles
+  const cardClass = isGodfather
+    ? 'bg-white rounded-xl p-6 border border-gray-200 shadow-sm hover:shadow-md transition-all'
+    : 'bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700/50 hover:border-purple-500/50 transition-all';
+
+  const textPrimary = isGodfather ? 'text-gray-900' : 'text-white';
+  const textSecondary = isGodfather ? 'text-gray-500' : 'text-gray-400';
+  const tableHeaderClass = isGodfather ? 'bg-gray-50 text-gray-500' : 'bg-gray-900/80 text-gray-400';
+  const tableRowClass = isGodfather ? 'border-t border-gray-100 hover:bg-gray-50' : 'border-t border-gray-700/50 hover:bg-gray-900/50';
 
   return (
     <AdminLayout>
@@ -263,8 +158,8 @@ const TenantsManagementPage = () => {
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-white mb-2">Tenants Management</h1>
-            <p className="text-gray-400">Manage all platform tenants and subscriptions</p>
+            <h1 className={`text-3xl font-bold mb-2 ${textPrimary}`}>Tenants Management</h1>
+            <p className={textSecondary}>Manage all platform tenants and subscriptions</p>
           </div>
           <button className="mt-4 md:mt-0 flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg hover:shadow-lg transition-all">
             <Plus className="w-5 h-5" />
@@ -277,14 +172,14 @@ const TenantsManagementPage = () => {
           {stats.map((stat, index) => {
             const Icon = stat.icon;
             return (
-              <div key={index} className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700/50 hover:border-purple-500/50 transition-all">
+              <div key={index} className={cardClass}>
                 <div className="flex items-start justify-between mb-4">
                   <div className={`w-12 h-12 rounded-lg bg-gradient-to-br ${stat.color} flex items-center justify-center`}>
                     <Icon className="w-6 h-6 text-white" />
                   </div>
                 </div>
-                <h3 className="text-3xl font-bold text-white mb-1">{stat.value}</h3>
-                <p className="text-gray-400 text-sm font-medium mb-2">{stat.label}</p>
+                <h3 className={`text-3xl font-bold mb-1 ${textPrimary}`}>{stat.value}</h3>
+                <p className={`${textSecondary} text-sm font-medium mb-2`}>{stat.label}</p>
                 <p className="text-green-400 text-xs font-semibold">{stat.change}</p>
               </div>
             );
@@ -292,29 +187,36 @@ const TenantsManagementPage = () => {
         </div>
 
         {/* Filters and Search */}
-        <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700/50">
+        <div className={cardClass}>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             {/* Search */}
             <div className="md:col-span-2">
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <Search className={`absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 ${textSecondary}`} />
                 <input
                   type="text"
-                  placeholder="Search by tenant name or email..."
+                  placeholder="Search by tenant name, domain or email..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500"
+                  onKeyDown={handleSearch}
+                  className={`w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:border-purple-500 ${isGodfather
+                    ? 'bg-gray-50 border-gray-200 text-gray-900 placeholder-gray-400'
+                    : 'bg-gray-900 border-gray-700 text-white placeholder-gray-400'
+                    }`}
                 />
               </div>
             </div>
 
             {/* Plan Filter */}
             <div className="relative">
-              <Filter className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <Filter className={`absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 ${textSecondary}`} />
               <select
                 value={filterPlan}
                 onChange={(e) => setFilterPlan(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-purple-500 appearance-none"
+                className={`w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:border-purple-500 appearance-none ${isGodfather
+                  ? 'bg-gray-50 border-gray-200 text-gray-900'
+                  : 'bg-gray-900 border-gray-700 text-white'
+                  }`}
               >
                 <option value="all">All Plans</option>
                 <option value="Enterprise">Enterprise</option>
@@ -325,11 +227,14 @@ const TenantsManagementPage = () => {
 
             {/* Status Filter */}
             <div className="relative">
-              <Filter className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <Filter className={`absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 ${textSecondary}`} />
               <select
                 value={filterStatus}
                 onChange={(e) => setFilterStatus(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-purple-500 appearance-none"
+                className={`w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:border-purple-500 appearance-none ${isGodfather
+                  ? 'bg-gray-50 border-gray-200 text-gray-900'
+                  : 'bg-gray-900 border-gray-700 text-white'
+                  }`}
               >
                 <option value="all">All Status</option>
                 <option value="Active">Active</option>
@@ -349,129 +254,238 @@ const TenantsManagementPage = () => {
         </div>
 
         {/* Tenants Table */}
-        <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl border border-gray-700/50 overflow-hidden">
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead className="bg-gray-900/80">
-                <tr>
-                  <th className="text-left py-4 px-6 text-xs font-bold text-gray-400 uppercase">Tenant</th>
-                  <th className="text-left py-4 px-6 text-xs font-bold text-gray-400 uppercase">Plan</th>
-                  <th className="text-left py-4 px-6 text-xs font-bold text-gray-400 uppercase">Status</th>
-                  <th className="text-left py-4 px-6 text-xs font-bold text-gray-400 uppercase">Users</th>
-                  <th className="text-left py-4 px-6 text-xs font-bold text-gray-400 uppercase">Created</th>
-                  <th className="text-left py-4 px-6 text-xs font-bold text-gray-400 uppercase">MRR</th>
-                  <th className="text-right py-4 px-6 text-xs font-bold text-gray-400 uppercase">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {paginatedTenants.map((tenant) => (
-                  <tr key={tenant.id} className="border-t border-gray-700/50 hover:bg-gray-900/50 transition-colors">
-                    <td className="py-4 px-6">
-                      <div className="flex items-center space-x-3">
-                        <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
-                          <span className="text-white font-bold text-sm">{tenant.logo}</span>
-                        </div>
-                        <div>
-                          <div className="font-semibold text-white">{tenant.name}</div>
-                          <div className="text-xs text-gray-400">{tenant.email}</div>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="py-4 px-6">
-                      <span className={`inline-flex items-center space-x-1 px-3 py-1 rounded-full text-xs font-semibold border ${getPlanColor(tenant.plan)}`}>
-                        {getPlanIcon(tenant.plan)}
-                        <span>{tenant.plan}</span>
-                      </span>
-                    </td>
-                    <td className="py-4 px-6">
-                      <span className={`inline-flex px-3 py-1 rounded-full text-xs font-semibold border ${getStatusColor(tenant.status)}`}>
-                        {tenant.status}
-                      </span>
-                    </td>
-                    <td className="py-4 px-6">
-                      <div className="flex items-center space-x-2 text-white">
-                        <Users className="w-4 h-4 text-gray-400" />
-                        <span className="font-semibold">{tenant.users}</span>
-                      </div>
-                    </td>
-                    <td className="py-4 px-6">
-                      <div className="flex items-center space-x-2 text-gray-400">
-                        <Calendar className="w-4 h-4" />
-                        <span className="text-sm">{tenant.createdDate}</span>
-                      </div>
-                    </td>
-                    <td className="py-4 px-6">
-                      <span className="text-white font-bold">
-                        ${tenant.mrr.toLocaleString()}
-                      </span>
-                    </td>
-                    <td className="py-4 px-6">
-                      <div className="flex items-center justify-end space-x-2">
-                        <button className="p-2 hover:bg-gray-700 rounded-lg transition-colors" title="View Details">
-                          <Eye className="w-4 h-4 text-blue-400" />
-                        </button>
-                        <button className="p-2 hover:bg-gray-700 rounded-lg transition-colors" title="Manage Subscription">
-                          <Settings className="w-4 h-4 text-purple-400" />
-                        </button>
-                        <button className="p-2 hover:bg-gray-700 rounded-lg transition-colors" title="Login As">
-                          <LogIn className="w-4 h-4 text-green-400" />
-                        </button>
-                        {tenant.status === 'Active' ? (
-                          <button className="p-2 hover:bg-gray-700 rounded-lg transition-colors" title="Suspend">
-                            <Ban className="w-4 h-4 text-red-400" />
-                          </button>
-                        ) : (
-                          <button className="p-2 hover:bg-gray-700 rounded-lg transition-colors" title="Activate">
-                            <CheckCircle className="w-4 h-4 text-green-400" />
-                          </button>
-                        )}
-                      </div>
-                    </td>
+        <div className={`backdrop-blur-sm rounded-xl border overflow-hidden ${isGodfather ? 'bg-white border-gray-200' : 'bg-gray-800/50 border-gray-700/50'
+          }`}>
+          {isLoading ? (
+            <div className="flex justify-center items-center py-20">
+              <Loader2 className="w-10 h-10 text-purple-500 animate-spin" />
+            </div>
+          ) : tenants.length === 0 ? (
+            <div className={`flex flex-col items-center justify-center py-20 ${textSecondary}`}>
+              <Building2 className="w-16 h-16 mb-4 opacity-20" />
+              <p className="text-lg">No tenants found</p>
+            </div>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead className={tableHeaderClass}>
+                  <tr>
+                    <th className="text-left py-2 px-3 text-xs font-bold uppercase">Tenant</th>
+                    <th className="text-left py-2 px-3 text-xs font-bold uppercase">Admin</th>
+                    <th className="text-left py-2 px-3 text-xs font-bold uppercase">Plan & Trial</th>
+                    <th className="text-left py-2 px-3 text-xs font-bold uppercase">Start Date</th>
+                    <th className="text-left py-2 px-3 text-xs font-bold uppercase">Status</th>
+                    <th className="text-left py-2 px-3 text-xs font-bold uppercase">Users</th>
+                    <th className="text-left py-2 px-3 text-xs font-bold uppercase">End Date</th>
+                    <th className="text-right py-2 px-3 text-xs font-bold uppercase">Actions</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody>
+                  {tenants.map((tenant) => (
+                    <tr key={tenant.id} className={`${tableRowClass} transition-colors`}>
+                      <td className="py-2 px-3">
+                        <div className="flex items-center space-x-2">
+                          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center overflow-hidden">
+                            {tenant.logo_url ? (
+                              <img src={tenant.logo_url} alt={tenant.name} className="w-full h-full object-cover" />
+                            ) : (
+                              <span className="text-white font-bold text-xs">{(tenant.name || 'T')[0]}</span>
+                            )}
+                          </div>
+                          <div>
+                            <div className={`font-semibold text-sm ${textPrimary}`}>{tenant.name || 'Unnamed'}</div>
+                            <div className={`text-xs ${textSecondary}`}>{tenant.subdomain || tenant.domain || 'No Domain'}</div>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="py-2 px-3">
+                        {tenant.tenant_admin ? (
+                          <div className="flex items-center space-x-2">
+                            <div className="w-6 h-6 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
+                              {/* Avatar placeholder or image if available */}
+                              <User className="w-3 h-3 text-gray-500" />
+                            </div>
+                            <div>
+                              <div className={`text-xs font-medium ${textPrimary}`}>{tenant.tenant_admin.name}</div>
+                              <div className={`text-[10px] ${textSecondary}`}>{tenant.tenant_admin.email}</div>
+                            </div>
+                          </div>
+                        ) : (
+                          <span className={`text-xs ${textSecondary}`}>No Admin</span>
+                        )}
+                      </td>
+                      <td className="py-2 px-3">
+                        <div className="flex flex-col space-y-0.5">
+                          <span className={`inline-flex items-center space-x-1 px-2 py-0.5 rounded-full text-[10px] font-semibold w-fit border ${getPlanColor(tenant.plan || 'free')}`}>
+                            {getPlanIcon(tenant.plan || 'free')}
+                            <span className="uppercase">{tenant.plan || 'Free'}</span>
+                          </span>
+                          {(tenant.days_left !== undefined && tenant.days_left !== null && tenant.days_left > 0) && (
+                            <span className={`text-[10px] flex items-center ${textSecondary}`}>
+                              <Clock className="w-3 h-3 mr-1" />
+                              {Math.ceil(tenant.days_left)} days left
+                            </span>
+                          )}
+                        </div>
+                      </td>
+                      <td className="py-2 px-3">
+                        <div className={`flex items-center space-x-2 ${textSecondary}`}>
+                          <Calendar className="w-3 h-3" />
+                          <span className="text-xs">{tenant.start_date ? format(new Date(tenant.start_date), 'MMM d, yyyy') : (tenant.created_at ? format(new Date(tenant.created_at), 'MMM d, yyyy') : '-')}</span>
+                        </div>
+                      </td>
+                      <td className="py-2 px-3">
+                        <span className={`inline-flex px-2 py-0.5 rounded-full text-[10px] font-semibold border ${getStatusColor(tenant.status || 'Active')}`}>
+                          {tenant.status || 'Active'}
+                        </span>
+                      </td>
+                      <td className="py-2 px-3">
+                        <div className={`flex items-center space-x-2 ${textPrimary}`}>
+                          <Users className={`w-3 h-3 ${textSecondary}`} />
+                          <span className="font-semibold text-xs">{tenant.total_users || tenant.users_count || 0}</span>
+                        </div>
+                      </td>
+                      <td className="py-2 px-3">
+                        <div className={`flex items-center space-x-2 ${textSecondary}`}>
+                          <Calendar className="w-3 h-3" />
+                          <span className="text-xs">
+                            {tenant.end_date
+                              ? format(new Date(tenant.end_date), 'MMM d, yyyy')
+                              : '-'}
+                          </span>
+                        </div>
+                      </td>
+                      <td className="py-2 px-3">
+                        <div className="flex items-center justify-end space-x-1">
+                          <button className={`p-1.5 rounded-lg transition-colors ${isGodfather ? 'hover:bg-gray-100' : 'hover:bg-gray-700'
+                            }`} title="View Details">
+                            <Eye className="w-3.5 h-3.5 text-blue-400" />
+                          </button>
+                          <button
+                            onClick={() => handleOpenModal(tenant)}
+                            className={`p-1.5 rounded-lg transition-colors ${isGodfather ? 'hover:bg-gray-100' : 'hover:bg-gray-700'
+                              }`} title="Manage Subscription">
+                            <Settings className="w-3.5 h-3.5 text-purple-400" />
+                          </button>
+                          <button className={`p-1.5 rounded-lg transition-colors ${isGodfather ? 'hover:bg-gray-100' : 'hover:bg-gray-700'
+                            }`} title="Login As">
+                            <LogIn className="w-3.5 h-3.5 text-green-400" />
+                          </button>
+                          {tenant.status === 'Suspended' ? (
+                            <button
+                              onClick={() => handleAction('activate', tenant.id)}
+                              className={`p-1.5 rounded-lg transition-colors ${isGodfather ? 'hover:bg-gray-100' : 'hover:bg-gray-700'
+                                }`}
+                              title="Activate">
+                              <CheckCircle className="w-3.5 h-3.5 text-green-400" />
+                            </button>
+                          ) : (
+                            <button
+                              onClick={() => handleAction('suspend', tenant.id)}
+                              className={`p-1.5 rounded-lg transition-colors ${isGodfather ? 'hover:bg-gray-100' : 'hover:bg-gray-700'
+                                }`}
+                              title="Suspend">
+                              <Ban className="w-3.5 h-3.5 text-red-400" />
+                            </button>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
 
           {/* Pagination */}
-          <div className="bg-gray-900/80 px-6 py-4 flex items-center justify-between border-t border-gray-700/50">
-            <div className="text-sm text-gray-400">
-              Showing {startIndex + 1} to {Math.min(startIndex + itemsPerPage, filteredTenants.length)} of {filteredTenants.length} tenants
-            </div>
-            <div className="flex items-center space-x-2">
-              <button
-                onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
-                disabled={currentPage === 1}
-                className="px-4 py-2 bg-gray-700 hover:bg-gray-600 disabled:bg-gray-800 disabled:text-secondary-600 text-white rounded-lg transition-colors text-sm font-semibold"
-              >
-                Previous
-              </button>
-              <div className="flex items-center space-x-1">
-                {[...Array(totalPages)].map((_, i) => (
-                  <button
-                    key={i}
-                    onClick={() => setCurrentPage(i + 1)}
-                    className={`w-8 h-8 rounded-lg text-sm font-semibold transition-colors ${
-                      currentPage === i + 1
-                        ? 'bg-purple-600 text-white'
-                        : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                    }`}
-                  >
-                    {i + 1}
-                  </button>
-                ))}
+          {tenants.length > 0 && (
+            <div className={`px-6 py-4 flex items-center justify-between border-t ${isGodfather ? 'bg-gray-50 border-gray-100' : 'bg-gray-900/80 border-gray-700/50'
+              }`}>
+              <div className={`text-sm ${textSecondary}`}>
+                Page {pagination.currentPage} of {pagination.totalPages}
               </div>
+              <div className="flex items-center space-x-2">
+                <button
+                  onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
+                  disabled={currentPage === 1}
+                  className={`px-4 py-2 rounded-lg transition-colors text-sm font-semibold ${isGodfather
+                    ? 'bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 disabled:bg-gray-100 disabled:text-gray-400'
+                    : 'bg-gray-700 hover:bg-gray-600 disabled:bg-gray-800 disabled:text-gray-600 text-white'
+                    }`}
+                >
+                  Previous
+                </button>
+                <div className="flex items-center space-x-1">
+                  {/* Simplified pagination dots/numbers could go here */}
+                  <span className={`font-semibold px-2 ${textPrimary}`}>{pagination.currentPage}</span>
+                </div>
+                <button
+                  onClick={() => setCurrentPage(Math.min(pagination.totalPages, currentPage + 1))}
+                  disabled={currentPage === pagination.totalPages}
+                  className={`px-4 py-2 rounded-lg transition-colors text-sm font-semibold ${isGodfather
+                    ? 'bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 disabled:bg-gray-100 disabled:text-gray-400'
+                    : 'bg-gray-700 hover:bg-gray-600 disabled:bg-gray-800 disabled:text-gray-600 text-white'
+                    }`}
+                >
+                  Next
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Subscription Modal */}
+      {isModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+          <div className={`w-full max-w-md p-6 rounded-xl shadow-2xl ${isGodfather ? 'bg-white' : 'bg-gray-800 border border-gray-700'}`}>
+            <div className="flex items-center justify-between mb-6">
+              <h3 className={`text-xl font-bold ${textPrimary}`}>Manage Subscription</h3>
               <button
-                onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
-                disabled={currentPage === totalPages}
-                className="px-4 py-2 bg-gray-700 hover:bg-gray-600 disabled:bg-gray-800 disabled:text-secondary-600 text-white rounded-lg transition-colors text-sm font-semibold"
-              >
-                Next
+                onClick={() => setIsModalOpen(false)}
+                className={`p-1 rounded-full hover:bg-gray-100 transition-colors ${textSecondary}`}>
+                <X className="w-5 h-5" />
               </button>
+            </div>
+
+            <div className="space-y-4">
+              <div>
+                <label className={`block text-sm font-medium mb-1 ${textSecondary}`}>Tenant</label>
+                <div className={`p-3 rounded-lg border ${isGodfather ? 'bg-gray-50 border-gray-200' : 'bg-gray-900 border-gray-700'} ${textPrimary}`}>
+                  {selectedTenant?.name}
+                </div>
+              </div>
+
+              <div>
+                <label className={`block text-sm font-medium mb-1 ${textSecondary}`}>Trial / Subscription End Date</label>
+                <input
+                  type="date"
+                  value={newEndDate}
+                  onChange={(e) => setNewEndDate(e.target.value)}
+                  className={`w-full p-3 rounded-lg border focus:ring-2 focus:ring-purple-500 outline-none ${isGodfather
+                    ? 'bg-white border-gray-300 text-gray-900'
+                    : 'bg-gray-900 border-gray-700 text-white'
+                    }`}
+                />
+                <p className="text-xs text-gray-400 mt-1">Set a future date to extend the trial or subscription.</p>
+              </div>
+
+              <div className="flex items-center justify-end space-x-3 mt-6">
+                <button
+                  onClick={() => setIsModalOpen(false)}
+                  className={`px-4 py-2 rounded-lg font-medium ${isGodfather ? 'text-gray-600 hover:bg-gray-100' : 'text-gray-300 hover:bg-gray-700'}`}>
+                  Cancel
+                </button>
+                <button
+                  onClick={handleSaveSubscription}
+                  className="px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg font-medium hover:shadow-lg hover:opacity-90 transition-all">
+                  Save Changes
+                </button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
     </AdminLayout>
   );
 };

@@ -10,6 +10,11 @@ const AdminDashboardPage = () => {
   const t = translations[language]
   const [selectedPeriod, setSelectedPeriod] = useState('7days')
 
+  const location = useLocation();
+  const isGodfather = location.pathname.startsWith('/godfather');
+  const isSystemAdminPath = isGodfather || location.pathname.includes('/system-admin');
+  const Layout = isSystemAdminPath ? AdminLayout : MainLayout;
+
   const systemStats = [
     {
       label: 'Total Users',
@@ -127,10 +132,20 @@ const AdminDashboardPage = () => {
     { name: 'Law', count: 918, percentage: 10, color: 'indigo' },
   ]
 
+  // Styles
+  const cardClass = isGodfather
+    ? 'bg-white rounded-xl p-6 border border-gray-200 shadow-sm hover:shadow-md transition-all'
+    : 'glass-card rounded-2xl p-6 hover:shadow-xl transition-all';
 
-  const location = useLocation();
-  const isSystemAdminPath = location.pathname.includes('/godfather') || location.pathname.includes('/system-admin');
-  const Layout = isSystemAdminPath ? AdminLayout : MainLayout;
+  const textPrimary = isGodfather ? 'text-gray-900' : 'text-secondary-900';
+  const textSecondary = isGodfather ? 'text-gray-500' : 'text-secondary-600';
+  const tableHeaderBg = isGodfather ? 'bg-gray-50 text-gray-500' : 'bg-gray-50/80 text-secondary-700'; // Note: Original was bg-gray-50/80 too, likely need to check if that looks OK in dark mode or if it was dark themed. Original assumes light mode dashboard? 
+  // Wait, if existing dashboard is light, then I don't need to change much?
+  // User said "make the /godfather all pages inside in light mode". 
+  // If the previous dashboard was dark mode (implied by "glass-card" usually on dark bg), then I need to ensure light mode.
+  // Actually, MainLayout and AdminLayout were dark gradients.
+  // glass-card usually implies translucency over that gradient.
+  // So replacing glass-card with solid white is correct for light mode.
 
   return (
     <Layout>
@@ -138,14 +153,17 @@ const AdminDashboardPage = () => {
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
           <div>
-            <h1 className="text-4xl font-bold text-secondary-900 mb-2 font-heading">{t.adminDashboardTitle}</h1>
-            <p className="text-secondary-600">{t.adminDashboardDesc}</p>
+            <h1 className={`text-4xl font-bold mb-2 font-heading ${textPrimary}`}>{t.adminDashboardTitle}</h1>
+            <p className={textSecondary}>{t.adminDashboardDesc}</p>
           </div>
           <div className="mt-4 md:mt-0">
             <select
               value={selectedPeriod}
               onChange={(e) => setSelectedPeriod(e.target.value)}
-              className="glass-input px-4 py-2 rounded-xl font-semibold"
+              className={`px-4 py-2 rounded-xl font-semibold border ${isGodfather
+                  ? 'bg-white border-gray-200 text-gray-900'
+                  : 'glass-input'
+                }`}
             >
               <option value="24hours">{t.last24HoursOption}</option>
               <option value="7days">{t.last7DaysOption2}</option>
@@ -158,7 +176,7 @@ const AdminDashboardPage = () => {
         {/* System Stats */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {systemStats.map((stat, index) => (
-            <div key={index} className="glass-card rounded-2xl p-6 hover:shadow-xl transition-all">
+            <div key={index} className={cardClass}>
               <div className="flex items-start justify-between mb-4">
                 <div className={`w-14 h-14 rounded-xl bg-${stat.color}-100 flex items-center justify-center`}>
                   <span className={`material-icons text-2xl text-${stat.color}-600`}>{stat.icon}</span>
@@ -171,24 +189,24 @@ const AdminDashboardPage = () => {
                   {stat.percentage}
                 </div>
               </div>
-              <h3 className="text-3xl font-bold text-secondary-900 mb-1">{stat.value}</h3>
-              <p className="text-secondary-600 text-sm font-medium mb-1">{stat.label}</p>
+              <h3 className={`text-3xl font-bold mb-1 ${textPrimary}`}>{stat.value}</h3>
+              <p className={`text-sm font-medium mb-1 ${textSecondary}`}>{stat.label}</p>
               <p className="text-gray-500 text-xs">{stat.change} from last period</p>
             </div>
           ))}
         </div>
 
         {/* Revenue Stats */}
-        <div className="glass-card rounded-2xl p-6 mb-8">
-          <h2 className="text-2xl font-bold text-secondary-900 mb-6 flex items-center">
+        <div className={`${cardClass} mb-8`}>
+          <h2 className={`text-2xl font-bold mb-6 flex items-center ${textPrimary}`}>
             <span className="material-icons text-green-600 mr-2">attach_money</span>
             {t.revenueOverviewTitle}
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             {revenueStats.map((stat, index) => (
               <div key={index} className="text-center">
-                <div className="text-3xl font-bold text-secondary-900 mb-1">{stat.value}</div>
-                <div className="text-sm text-secondary-600 font-medium mb-2">{stat.label}</div>
+                <div className={`text-3xl font-bold mb-1 ${textPrimary}`}>{stat.value}</div>
+                <div className={`text-sm font-medium mb-2 ${textSecondary}`}>{stat.label}</div>
                 <div className={`text-sm font-semibold ${stat.trend === 'up' ? 'text-green-600' : 'text-red-600'
                   }`}>
                   {stat.change}
@@ -201,9 +219,9 @@ const AdminDashboardPage = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
           {/* Recent Activity */}
           <div className="lg:col-span-2">
-            <div className="glass-card rounded-2xl p-6">
+            <div className={cardClass}>
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold text-secondary-900">{t.recentActivityTitle}</h2>
+                <h2 className={`text-2xl font-bold ${textPrimary}`}>{t.recentActivityTitle}</h2>
                 <Link to="/admin/users" className="text-primary-600 hover:text-primary-700 font-semibold text-sm">
                   {t.viewAllLink}
                 </Link>
@@ -217,7 +235,7 @@ const AdminDashboardPage = () => {
                       </span>
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm text-secondary-900">
+                      <p className={`text-sm ${textPrimary}`}>
                         <span className="font-semibold">{activity.user}</span> {activity.action}
                       </p>
                       <p className="text-xs text-gray-500 mt-1">{activity.time}</p>
@@ -230,14 +248,14 @@ const AdminDashboardPage = () => {
 
           {/* Industry Breakdown */}
           <div className="lg:col-span-1">
-            <div className="glass-card rounded-2xl p-6">
-              <h2 className="text-2xl font-bold text-secondary-900 mb-6">{t.industryBreakdownTitle}</h2>
+            <div className={cardClass}>
+              <h2 className={`text-2xl font-bold mb-6 ${textPrimary}`}>{t.industryBreakdownTitle}</h2>
               <div className="space-y-4">
                 {industryBreakdown.map((industry, index) => (
                   <div key={index}>
                     <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm font-medium text-secondary-900">{industry.name}</span>
-                      <span className="text-sm font-bold text-secondary-900">{industry.count}</span>
+                      <span className={`text-sm font-medium ${textPrimary}`}>{industry.name}</span>
+                      <span className={`text-sm font-bold ${textPrimary}`}>{industry.count}</span>
                     </div>
                     <div className="w-full bg-gray-200 rounded-full h-2">
                       <div
@@ -254,23 +272,23 @@ const AdminDashboardPage = () => {
         </div>
 
         {/* Top Users */}
-        <div className="glass-card rounded-2xl p-6 mb-8">
+        <div className={`${cardClass} mb-8`}>
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold text-secondary-900">{t.topUsersTitle}</h2>
+            <h2 className={`text-2xl font-bold ${textPrimary}`}>{t.topUsersTitle}</h2>
             <Link to="/admin/users" className="text-primary-600 hover:text-primary-700 font-semibold text-sm">
               {t.manageUsersLink}
             </Link>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-gray-50/80">
+              <thead className={tableHeaderBg}>
                 <tr>
-                  <th className="text-left py-3 px-4 text-xs font-bold text-secondary-700 uppercase">{t.tableHeaderUser}</th>
-                  <th className="text-left py-3 px-4 text-xs font-bold text-secondary-700 uppercase">{t.tableHeaderEmail}</th>
-                  <th className="text-left py-3 px-4 text-xs font-bold text-secondary-700 uppercase">{t.tableHeaderSubmissions}</th>
-                  <th className="text-left py-3 px-4 text-xs font-bold text-secondary-700 uppercase">{t.tableHeaderAvgScore}</th>
-                  <th className="text-left py-3 px-4 text-xs font-bold text-secondary-700 uppercase">{t.tableHeaderStatus}</th>
-                  <th className="text-right py-3 px-4 text-xs font-bold text-secondary-700 uppercase">{t.tableHeaderActions}</th>
+                  <th className="text-left py-3 px-4 text-xs font-bold uppercase">{t.tableHeaderUser}</th>
+                  <th className="text-left py-3 px-4 text-xs font-bold uppercase">{t.tableHeaderEmail}</th>
+                  <th className="text-left py-3 px-4 text-xs font-bold uppercase">{t.tableHeaderSubmissions}</th>
+                  <th className="text-left py-3 px-4 text-xs font-bold uppercase">{t.tableHeaderAvgScore}</th>
+                  <th className="text-left py-3 px-4 text-xs font-bold uppercase">{t.tableHeaderStatus}</th>
+                  <th className="text-right py-3 px-4 text-xs font-bold uppercase">{t.tableHeaderActions}</th>
                 </tr>
               </thead>
               <tbody>
@@ -281,18 +299,18 @@ const AdminDashboardPage = () => {
                         <div className="w-10 h-10 rounded-full bg-primary-100 flex items-center justify-center mr-3">
                           <span className="text-primary-600 font-semibold">{user.name[0]}</span>
                         </div>
-                        <span className="font-semibold text-secondary-900">{user.name}</span>
+                        <span className={`font-semibold ${textPrimary}`}>{user.name}</span>
                       </div>
                     </td>
-                    <td className="py-4 px-4 text-secondary-600">{user.email}</td>
-                    <td className="py-4 px-4 text-secondary-900 font-semibold">{user.submissions}</td>
+                    <td className={`py-4 px-4 ${textSecondary}`}>{user.email}</td>
+                    <td className={`py-4 px-4 font-semibold ${textPrimary}`}>{user.submissions}</td>
                     <td className="py-4 px-4">
                       <span className="text-primary-600 font-bold">{user.score}</span>
                     </td>
                     <td className="py-4 px-4">
                       <span className={`px-3 py-1 rounded-full text-xs font-semibold ${user.status === 'Premium'
-                          ? 'bg-yellow-100 text-yellow-800'
-                          : 'bg-gray-100 text-gray-800'
+                        ? 'bg-yellow-100 text-yellow-800'
+                        : 'bg-gray-100 text-gray-800'
                         }`}>
                         {user.status}
                       </span>
@@ -310,33 +328,33 @@ const AdminDashboardPage = () => {
         </div>
 
         {/* System Health */}
-        <div className="glass-card rounded-2xl p-6">
-          <h2 className="text-2xl font-bold text-secondary-900 mb-6 flex items-center">
+        <div className={cardClass}>
+          <h2 className={`text-2xl font-bold mb-6 flex items-center ${textPrimary}`}>
             <span className="material-icons text-blue-600 mr-2">monitor_heart</span>
             {t.systemHealthTitle}
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {systemHealth.map((service, index) => (
-              <div key={index} className="glass-card rounded-xl p-4">
+              <div key={index} className={`rounded-xl p-4 ${isGodfather ? 'bg-gray-50' : 'glass-card'}`}>
                 <div className="flex items-center justify-between mb-3">
-                  <h3 className="font-semibold text-secondary-900">{service.name}</h3>
+                  <h3 className={`font-semibold ${textPrimary}`}>{service.name}</h3>
                   <span className={`w-3 h-3 rounded-full bg-${service.color}-500`}></span>
                 </div>
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between">
-                    <span className="text-secondary-600">{t.statusLabel}</span>
+                    <span className={textSecondary}>{t.statusLabel}</span>
                     <span className={`font-semibold capitalize ${service.status === 'healthy' ? 'text-green-600' : 'text-yellow-600'
                       }`}>
                       {service.status}
                     </span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-secondary-600">{t.uptimeLabel}</span>
-                    <span className="font-semibold text-secondary-900">{service.uptime}</span>
+                    <span className={textSecondary}>{t.uptimeLabel}</span>
+                    <span className={`font-semibold ${textPrimary}`}>{service.uptime}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-secondary-600">{t.responseLabel}</span>
-                    <span className="font-semibold text-secondary-900">{service.responseTime}</span>
+                    <span className={textSecondary}>{t.responseLabel}</span>
+                    <span className={`font-semibold ${textPrimary}`}>{service.responseTime}</span>
                   </div>
                 </div>
               </div>
@@ -348,35 +366,35 @@ const AdminDashboardPage = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-8">
           <Link
             to="/admin/users"
-            className="glass-card-hover rounded-2xl p-6 group"
+            className={`${isGodfather ? 'bg-white border border-gray-200 hover:shadow-md' : 'glass-card-hover'} rounded-2xl p-6 group transition-all`}
           >
             <span className="material-icons text-4xl text-primary-600 mb-3">people</span>
-            <h3 className="text-xl font-bold text-secondary-900 mb-2">{t.manageUsersCard}</h3>
-            <p className="text-secondary-600 text-sm">{t.manageUsersCardDesc}</p>
+            <h3 className={`text-xl font-bold mb-2 ${textPrimary}`}>{t.manageUsersCard}</h3>
+            <p className={`${textSecondary} text-sm`}>{t.manageUsersCardDesc}</p>
           </Link>
           <Link
             to="/admin/analytics"
-            className="glass-card-hover rounded-2xl p-6 group"
+            className={`${isGodfather ? 'bg-white border border-gray-200 hover:shadow-md' : 'glass-card-hover'} rounded-2xl p-6 group transition-all`}
           >
             <span className="material-icons text-4xl text-green-600 mb-3">analytics</span>
-            <h3 className="text-xl font-bold text-secondary-900 mb-2">{t.viewAnalyticsCard}</h3>
-            <p className="text-secondary-600 text-sm">{t.viewAnalyticsCardDesc}</p>
+            <h3 className={`text-xl font-bold mb-2 ${textPrimary}`}>{t.viewAnalyticsCard}</h3>
+            <p className={`${textSecondary} text-sm`}>{t.viewAnalyticsCardDesc}</p>
           </Link>
           <Link
             to="/admin/webhooks"
-            className="glass-card-hover rounded-2xl p-6 group"
+            className={`${isGodfather ? 'bg-white border border-gray-200 hover:shadow-md' : 'glass-card-hover'} rounded-2xl p-6 group transition-all`}
           >
             <span className="material-icons text-4xl text-orange-600 mb-3">webhook</span>
-            <h3 className="text-xl font-bold text-secondary-900 mb-2">{t.webhooksTab}</h3>
-            <p className="text-secondary-600 text-sm">{t.webhooksCardDesc}</p>
+            <h3 className={`text-xl font-bold mb-2 ${textPrimary}`}>{t.webhooksTab}</h3>
+            <p className={`${textSecondary} text-sm`}>{t.webhooksCardDesc}</p>
           </Link>
           <Link
             to="/settings/rubrics"
-            className="glass-card-hover rounded-2xl p-6 group"
+            className={`${isGodfather ? 'bg-white border border-gray-200 hover:shadow-md' : 'glass-card-hover'} rounded-2xl p-6 group transition-all`}
           >
             <span className="material-icons text-4xl text-purple-600 mb-3">tune</span>
-            <h3 className="text-xl font-bold text-secondary-900 mb-2">{t.criteria}</h3>
-            <p className="text-secondary-600 text-sm">{t.manageCriteriaCardDesc}</p>
+            <h3 className={`text-xl font-bold mb-2 ${textPrimary}`}>{t.criteria}</h3>
+            <p className={`${textSecondary} text-sm`}>{t.manageCriteriaCardDesc}</p>
           </Link>
         </div>
       </div>
