@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { Mail, Lock, User, Phone, Eye, EyeOff } from 'lucide-react';
 import Input from '../common/Input/Input';
+import Select from '../common/Input/Select';
 import Button from '../common/Button/Button';
 import { useRegistrationWizardStore } from '../../store/registrationWizardStore';
+import { countries } from '../../constants/countries';
 
 const AccountCreationStep = ({ onNext }) => {
   const { accountData, updateAccountData } = useRegistrationWizardStore();
@@ -75,15 +77,20 @@ const AccountCreationStep = ({ onNext }) => {
       newErrors.lastName = 'Last name must be at least 2 characters';
     }
 
+    // Country validation
+    if (!accountData.country) {
+      newErrors.country = 'Please select a country';
+    }
+
     // Phone validation (required)
     if (!accountData.phone) {
       newErrors.phone = 'Phone number is required';
     } else {
-      const phoneRegex = /^[+]?[(]?[0-9]{1,4}[)]?[-\s.]?[(]?[0-9]{1,4}[)]?[-\s.]?[0-9]{1,9}$/;
-      if (!phoneRegex.test(accountData.phone.replace(/\s/g, ''))) {
+      // Simplified phone validation - just check length for now as country code is separate
+      // Remove all non-digit characters
+      const cleanPhone = accountData.phone.replace(/\D/g, '');
+      if (cleanPhone.length < 5) {
         newErrors.phone = 'Please enter a valid phone number';
-      } else if (accountData.phone.replace(/\D/g, '').length < 10) {
-        newErrors.phone = 'Phone number must be at least 10 digits';
       }
     }
 
@@ -161,19 +168,35 @@ const AccountCreationStep = ({ onNext }) => {
           fullWidth
         />
 
-        {/* Phone */}
-        <Input
-          label="Phone Number"
-          type="tel"
-          placeholder="+1 (555) 123-4567"
-          value={accountData.phone}
-          onChange={(e) => handleChange('phone', e.target.value)}
-          leftIcon={<Phone className="w-5 h-5" />}
-          error={errors.phone}
-          helperText="For account recovery and notifications"
-          required
-          fullWidth
-        />
+        {/* Country and Phone */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="md:col-span-1">
+            <Select
+              label="Country"
+              options={countries}
+              value={accountData.country || ''}
+              onChange={(e) => handleChange('country', e.target.value)}
+              error={errors.country}
+              required
+              fullWidth
+              placeholder="Select..."
+            />
+          </div>
+          <div className="md:col-span-2">
+            <Input
+              label="Phone Number"
+              type="tel"
+              placeholder="(555) 123-4567"
+              value={accountData.phone}
+              onChange={(e) => handleChange('phone', e.target.value)}
+              leftIcon={<Phone className="w-5 h-5" />}
+              error={errors.phone}
+              helperText="For account recovery and notifications"
+              required
+              fullWidth
+            />
+          </div>
+        </div>
 
         {/* Password */}
         <div>
@@ -208,9 +231,9 @@ const AccountCreationStep = ({ onNext }) => {
               <div className="flex items-center justify-between mb-1">
                 <span className="text-xs text-secondary-600">Password Strength</span>
                 <span className={`text-xs font-medium ${strengthInfo.label === 'Weak' ? 'text-red-500' :
-                    strengthInfo.label === 'Fair' ? 'text-yellow-500' :
-                      strengthInfo.label === 'Good' ? 'text-blue-500' :
-                        'text-green-500'
+                  strengthInfo.label === 'Fair' ? 'text-yellow-500' :
+                    strengthInfo.label === 'Good' ? 'text-blue-500' :
+                      'text-green-500'
                   }`}>
                   {strengthInfo.label}
                 </span>

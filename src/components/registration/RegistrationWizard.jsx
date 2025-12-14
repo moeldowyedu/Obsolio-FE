@@ -60,6 +60,7 @@ const RegistrationWizard = () => {
         firstName: accountData.firstName,
         lastName: accountData.lastName,
         phone: accountData.phone,
+        country: accountData.country,
         tenantType,
       };
 
