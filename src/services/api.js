@@ -53,6 +53,34 @@ api.interceptors.request.use(
       config.headers['X-Tenant-ID'] = tenantId;
     }
 
+    // Add current subdomain to headers
+    const subdomain = window.location.hostname.split('.')[0];
+    const isLocalhost = window.location.hostname.includes('localhost');
+    const appDomain = import.meta.env.VITE_APP_DOMAIN || 'localhost';
+
+    // Simple extraction logic inline to avoid circular dependencies
+    // If not on main domain (and not www), send subdomain
+    if (window.location.hostname !== appDomain &&
+      window.location.hostname !== `www.${appDomain}` &&
+      // For localhost, check if we have a subdomain part
+      (!isLocalhost || (window.location.hostname.split('.').length > 1 && window.location.hostname !== 'localhost'))) {
+
+      // Extract subdomain
+      let currentSubdomain;
+      if (isLocalhost) {
+        currentSubdomain = window.location.hostname.split('.')[0];
+      } else {
+        const parts = window.location.hostname.split('.');
+        // Start from end, remove domain parts. 
+        // Simplified: just take first part if not main domain
+        currentSubdomain = parts[0];
+      }
+
+      if (currentSubdomain && currentSubdomain !== 'www') {
+        config.headers['X-Tenant-Subdomain'] = currentSubdomain;
+      }
+    }
+
     return config;
   },
   (error) => {

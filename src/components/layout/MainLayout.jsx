@@ -3,14 +3,28 @@ import Footer from './Footer';
 import Sidebar from './Sidebar/Sidebar';
 import { useAuthStore } from '../../store/authStore';
 
+import { useImpersonation } from '../../hooks/useImpersonation';
+
 const MainLayout = ({ children, showFooter = true, showSidebar = true }) => {
   const { isAuthenticated } = useAuthStore();
+  const { isImpersonating, stopImpersonation } = useImpersonation();
 
   // Only show sidebar if authenticated and showSidebar is true
   const shouldShowSidebar = showSidebar && isAuthenticated;
 
   return (
     <div className="min-h-screen flex flex-col">
+      {isImpersonating && (
+        <div className="bg-red-600 text-white px-4 py-2 text-center text-sm font-medium flex items-center justify-center relative z-50">
+          <span className="mr-2">⚠️ You are impersonating a tenant. Actions performed will be logged as System Admin.</span>
+          <button
+            onClick={stopImpersonation}
+            className="bg-white text-red-600 px-3 py-1 rounded text-xs font-bold hover:bg-gray-100 transition-colors uppercase tracking-wider"
+          >
+            Exit Impersonation
+          </button>
+        </div>
+      )}
       {!shouldShowSidebar && <Header />}
       <div className="flex flex-grow">
         {shouldShowSidebar && <Sidebar />}

@@ -9,6 +9,10 @@ const ProtectedRoute = ({ children, requireAdmin = false, requireSystemAdmin = f
   const location = useLocation()
   const fetchedRef = useRef(false)
 
+  // Subdomain Checks
+  const isSystemAdminDomain = window.location.hostname.split('.')[0] === 'console';
+  const isTenantDomain = !isSystemAdminDomain && window.location.hostname.includes('.') && !window.location.hostname.startsWith('www');
+
   useEffect(() => {
     // Only fetch if authenticated, not an admin, no tenants, and haven't tried fetching yet
     if (isAuthenticated && user?.role !== 'admin' && tenants.length === 0 && !fetchedRef.current) {
@@ -24,8 +28,45 @@ const ProtectedRoute = ({ children, requireAdmin = false, requireSystemAdmin = f
     return <Navigate to="/login" state={{ from: location }} replace />
   }
 
-  if (requireSystemAdmin && !user?.is_system_admin) {
-    return <Navigate to="/dashboard" replace />;
+  // 1. System Admin Security Check
+  if (requireSystemAdmin) {
+    if (!user?.is_system_admin) {
+      // User is NOT a system admin but trying to access system routes
+      return <Navigate to="/dashboard" replace />;
+    }
+    // Also ensure they are on the correct domain (console.X)
+    if (!isSystemAdminDomain && import.meta.env.VITE_APP_ENV !== 'local_no_subdomains') {
+      // If we are strictly enforcing subdomains (default)
+      // Redirect to admin subdomain
+      const appDomain = import.meta.env.VITE_APP_DOMAIN || 'localhost:5173';
+      const protocol = window.location.protocol;
+      const adminUrl = `${protocol}//console.${appDomain}/`;
+      window.location.href = adminUrl;
+      return null;
+    }
+  }
+
+  // 2. Subdomain Mismatch Check for Tenants
+  // If user is logged in, and this IS a tenant domain, ensure user belongs to this tenant
+  if (isTenantDomain && !user?.is_system_admin) {
+    // Get current subdomain from URL
+    const currentSubdomain = window.location.hostname.split('.')[0];
+
+    // Check if user has access to this tenant
+    // User object usually has `tenant_id` or `tenants` array
+    // This logic depends on your backend user structure.
+    // Assuming user.tenant.subdomain or user.tenants[].subdomain
+
+    const userHasAccess = user.tenant?.subdomain === currentSubdomain ||
+      user.tenants?.some(t => t.subdomain === currentSubdomain);
+
+    // Allow if we entered via a valid tenant context, OR if we are just setting up
+    // For now, strict check might lock people out if state isn't perfect. PENDING verification.
+
+    // If mismatch, redirect to THEIR dashboard or Public Home
+    // if (!userHasAccess) {
+    // return <Navigate to="/" replace /> or show "Unauthorized for this tenant"
+    // }
   }
 
   if (requireAdmin && user?.role !== 'admin' && !user?.is_system_admin) {

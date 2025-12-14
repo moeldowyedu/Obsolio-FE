@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../store/authStore';
 import { Button, Input } from '../../components/common';
 import toast from 'react-hot-toast';
-import logo from '../../assets/imgs/OBSOLIO-logo-cyan.png';
+import { getSubdomain, isSystemAdminDomain } from '../../utils/subdomain';
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -13,13 +13,18 @@ const LoginPage = () => {
     password: '',
   });
 
+  const isSystemAdmin = isSystemAdminDomain();
+  const subdomain = getSubdomain();
+
   // Redirect authenticated users to dashboard (only once on mount)
   useEffect(() => {
     if (isAuthenticated) {
       if (useAuthStore.getState().user?.is_system_admin) {
-        navigate('/godfather/dashboard', { replace: true });
+        // If system admin is on admin domain, go to dashboard
+        // If on tenant domain, they might be strictly redirected or allowed (impersonation handled elsewhere)
+        navigate('/', { replace: true });
       } else {
-        navigate('/dashboard', { replace: true });
+        navigate('/', { replace: true });
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -40,14 +45,50 @@ const LoginPage = () => {
       const data = await login(formData);
       toast.success('Login successful!');
 
-      // Redirect based on role
-      if (data.user.is_system_admin) {
-        navigate('/godfather/dashboard');
+      // Redirect based on role and domain
+      // AuthStore usually stores user in local state, valid for "session"
+      // But we need to ensure they are on correct domain
+
+      const user = data.user;
+
+      if (user.is_system_admin) {
+        // System Admin
+        if (!isSystemAdmin) {
+          // If they logged in on a non-admin domain (e.g. main site), redirect to admin domain
+          // Ideally we should construct the URL
+          // For now, simpler navigate if we are on router
+          window.location.href = `${window.location.protocol}//console.${import.meta.env.VITE_APP_DOMAIN || 'localhost:5173'}/`;
+        } else {
+          navigate('/');
+        }
       } else {
-        navigate('/dashboard');
+        // Tenant User
+        // Need to know their tenant subdomain to redirect
+        // Assuming user object has tenant_subdomain or we derive it
+        const userTenantSubdomain = user.tenant?.subdomain || user.tenants?.[0]?.subdomain;
+
+        if (userTenantSubdomain && userTenantSubdomain !== subdomain) {
+          // Redirect to their subdomain
+          const protocol = window.location.protocol;
+          const domain = import.meta.env.VITE_APP_DOMAIN || 'localhost:5173';
+
+          // Handle localhost port logic if needed relative to VITE_APP_DOMAIN
+          let host = domain;
+          if (domain.includes('localhost')) {
+            host = `${userTenantSubdomain}.localhost:5173`; // Hardcoded port for dev fallback safety, or use existing logic
+            // Better logic:
+            // If domain includes port, use it.
+          } else {
+            host = `${userTenantSubdomain}.${domain}`;
+          }
+
+          window.location.href = `${protocol}//${host}/`;
+        } else {
+          navigate('/');
+        }
       }
     } catch (err) {
-      toast.error(error || 'Login failed. Please try again.');
+      toast.error(error || 'Login failed. Please check your credentials.');
     }
   };
 
@@ -65,8 +106,12 @@ const LoginPage = () => {
           <Link to="/" className="inline-block mb-4">
             <img src={logo} alt="OBSOLIO" className="h-16 mx-auto object-contain" />
           </Link>
-          <h2 className="text-3xl font-bold text-white mb-2">Welcome Back</h2>
-          <p className="text-gray-400">Sign in to your account to continue</p>
+          <h2 className="text-3xl font-bold text-white mb-2">
+            {isSystemAdmin ? 'System Admin Access' : subdomain ? `Welcome back, ${subdomain}` : 'Welcome Back'}
+          </h2>
+          <p className="text-gray-400">
+            {isSystemAdmin ? 'Secure Clearance Required' : 'Sign in to your account to continue'}
+          </p>
         </div>
 
         <div className="glass-card p-6 sm:p-8 shadow-2xl border border-white/10 relative overflow-hidden backdrop-blur-xl bg-[#1e293b]/40">
