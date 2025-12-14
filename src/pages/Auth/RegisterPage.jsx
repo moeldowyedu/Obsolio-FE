@@ -6,6 +6,7 @@ import Input from '../../components/common/Input/Input';
 import Button from '../../components/common/Button/Button';
 import toast from 'react-hot-toast';
 import logo from '../../assets/imgs/OBSOLIO-logo-cyan.png';
+import { countries } from '../../constants/countries';
 
 const RegisterPage = () => {
   const navigate = useNavigate();
@@ -20,7 +21,7 @@ const RegisterPage = () => {
     fullName: '',
     country: '',
     phone: '',
-    countryCode: '+1', // Default
+    // countryCode: '+1', // Removed as per request
     email: '',
     password: '',
     // Organization Specific
@@ -203,7 +204,7 @@ const RegisterPage = () => {
 
       // Add common extended fields
       payload.country = formData.country;
-      payload.phone = `${formData.countryCode}${formData.phone}`;
+      payload.phone = formData.phone;
 
       // Register user
       const result = await register(payload);
@@ -548,14 +549,11 @@ const RegisterPage = () => {
                     disabled={isLoading}
                   >
                     <option value="" disabled className="text-gray-500 bg-white">Select a country</option>
-                    <option value="United States" className="text-gray-900 bg-white">United States</option>
-                    <option value="United Kingdom" className="text-gray-900 bg-white">United Kingdom</option>
-                    <option value="Canada" className="text-gray-900 bg-white">Canada</option>
-                    <option value="Germany" className="text-gray-900 bg-white">Germany</option>
-                    <option value="France" className="text-gray-900 bg-white">France</option>
-                    <option value="Australia" className="text-gray-900 bg-white">Australia</option>
-                    <option value="Japan" className="text-gray-900 bg-white">Japan</option>
-                    {/* Add more countries as needed - in real app use a library */}
+                    {countries.map((country) => (
+                      <option key={country.value} value={country.value} className="text-gray-900 bg-white">
+                        {country.label}
+                      </option>
+                    ))}
                   </select>
                   <Globe className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500 pointer-events-none" />
                   <div className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none">
@@ -577,7 +575,7 @@ const RegisterPage = () => {
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
-                    placeholder="+1 555-0123"
+                    placeholder="(555) 123-4567"
                     className={`
                             w-full bg-white/5 border rounded-lg py-3 pl-10 pr-4 text-white focus:outline-none focus:ring-2 transition-all placeholder-gray-500
                             ${errors.phone
