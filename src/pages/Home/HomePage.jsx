@@ -220,21 +220,21 @@ const HomePage = () => {
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-20">
               <h2 className="text-3xl md:text-5xl font-bold mb-6 font-heading">
-                Why Choose OBSOLIO Agents?
+                {t.whyChooseTitle}
               </h2>
               <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-                Built for professionals, by professionals.
+                {t.whyChooseSubtitle}
               </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {[
-                { icon: Sparkles, color: "text-blue-400", title: "Domain Expertise Built-In", desc: "Available agents come pre-trained on specific industry standards and requirements." },
-                { icon: Zap, color: "text-yellow-400", title: "Deploy in Minutes", desc: "No complex setup. Select your agent, configure parameters, and start processing." },
-                { icon: Shield, color: "text-green-400", title: "Regulatory Compliance", desc: "Agents designed with compliance in mind (GDPR, ISO, Industry Standards)." },
-                { icon: Eye, color: "text-purple-400", title: "Human-in-the-Loop", desc: "Seamlessly integrate human oversight for critical decisions and quality assurance." },
-                { icon: Users, color: "text-cyan-400", title: "No Bias, No Bad Days", desc: "Consistent, objective analysis every time. No fatigue, no mood swings, no unconscious bias—just reliable, fair decision-making." },
-                { icon: DollarSign, color: "text-orange-400", title: "Transparent ROI", desc: "Measurable efficiency gains in document processing and decision support." },
+                { icon: Sparkles, color: "text-blue-400", title: t.domainExpertiseTitle, desc: t.domainExpertiseDesc },
+                { icon: Zap, color: "text-yellow-400", title: t.deployMinutesTitle, desc: t.deployMinutesDesc },
+                { icon: Shield, color: "text-green-400", title: t.regulatoryComplianceTitle, desc: t.regulatoryComplianceDesc },
+                { icon: Eye, color: "text-purple-400", title: t.humanInLoopTitle, desc: t.humanInLoopDesc },
+                { icon: Users, color: "text-cyan-400", title: t.noBiasBadDaysTitle, desc: t.noBiasBadDaysDesc },
+                { icon: DollarSign, color: "text-orange-400", title: t.transparentRoiTitle, desc: t.transparentRoiDesc },
               ].map((item, idx) => (
                 <div key={idx} className="glass-card hover:bg-white/5 p-8 transition-colors group cursor-default border-t-2 border-transparent hover:border-primary-500/50">
                   <div className={`w-14 h-14 bg-white/5 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
@@ -252,7 +252,7 @@ const HomePage = () => {
         <section className="py-24 px-6 bg-white/[0.02] border-y border-white/5">
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl font-bold mb-6 font-heading">Three Steps to Intelligence</h2>
+              <h2 className="text-3xl md:text-4xl font-bold mb-6 font-heading">{t.howItWorksTitle}</h2>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-12 relative">
@@ -266,9 +266,9 @@ const HomePage = () => {
                   <Search className="w-10 h-10 text-primary-400" />
                   <div className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-primary-600 flex items-center justify-center font-bold text-white border border-black">1</div>
                 </div>
-                <h3 className="text-2xl font-bold mb-3 text-white">Browse AgentX HUB</h3>
+                <h3 className="text-2xl font-bold mb-3 text-white">{t.browseAgentxHubTitle}</h3>
                 <p className="text-gray-400 leading-relaxed px-4">
-                  Find the perfect pre-made agent for your specific industry use case.
+                  {t.browseAgentxHubDesc}
                 </p>
               </div>
 
@@ -278,9 +278,9 @@ const HomePage = () => {
                   <Settings className="w-10 h-10 text-purple-400" />
                   <div className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-purple-600 flex items-center justify-center font-bold text-white border border-black">2</div>
                 </div>
-                <h3 className="text-2xl font-bold mb-3 text-white">Customize</h3>
+                <h3 className="text-2xl font-bold mb-3 text-white">{t.customizeTitle}</h3>
                 <p className="text-gray-400 leading-relaxed px-4">
-                  Tune the agent's parameters and integrate it into your existing workflow.
+                  {t.customizeDesc}
                 </p>
               </div>
 
@@ -290,9 +290,9 @@ const HomePage = () => {
                   <Activity className="w-10 h-10 text-green-400" />
                   <div className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-green-600 flex items-center justify-center font-bold text-white border border-black">3</div>
                 </div>
-                <h3 className="text-2xl font-bold mb-3 text-white">Process & Improve</h3>
+                <h3 className="text-2xl font-bold mb-3 text-white">{t.processImproveTitle}</h3>
                 <p className="text-gray-400 leading-relaxed px-4">
-                  Run your tasks, review outputs, and let the agent learn and adapt.
+                  {t.processImproveDesc}
                 </p>
               </div>
             </div>
@@ -304,20 +304,20 @@ const HomePage = () => {
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-16">
               <h2 className="text-3xl md:text-5xl font-bold mb-6 font-heading">
-                Trusted Across Industries
+                {t.trustedAcrossIndustriesTitle}
               </h2>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {[
-                { icon: LineChart, label: "Tech & Finance", desc: "Competition & Market Analysis", metric: "High Precision" },
-                { icon: GraduationCap, label: "Education", desc: "Admissions & Language Assessment", metric: "CEFR Aligned" },
-                { icon: Gavel, label: "Legal Services", desc: "Contract Analysis (Country-Specific)", metric: "Customizable" },
-                { icon: Stethoscope, label: "Healthcare", desc: "Clinical Data Processing", metric: "Compliant" },
-                { icon: Users, label: "HR & Recruitment", desc: "Candidate Screening", metric: "Bias-Free" },
-                { icon: Building2, label: "Real Estate", desc: "Property Valuation", metric: "Market Data" },
-                { icon: Shield, label: "Insurance", desc: "Claims Processing", metric: "Automated" },
-                { icon: Factory, label: "Manufacturing", desc: "Quality Control", metric: "Real-time" },
+                { icon: LineChart, label: t.techFinanceLabel, desc: t.techFinanceDesc, metric: t.techFinanceMetric },
+                { icon: GraduationCap, label: t.educationLabel, desc: t.educationDesc, metric: t.educationMetric },
+                { icon: Gavel, label: t.legalServicesLabel, desc: t.legalServicesDesc, metric: t.legalServicesMetric },
+                { icon: Stethoscope, label: t.healthcareLabel, desc: t.healthcareDesc, metric: t.healthcareMetric },
+                { icon: Users, label: t.hrRecruitmentLabel, desc: t.hrRecruitmentDesc, metric: t.hrRecruitmentMetric },
+                { icon: Building2, label: t.realEstateLabel, desc: t.realEstateDesc, metric: t.realEstateMetric },
+                { icon: Shield, label: t.insuranceLabel, desc: t.insuranceDesc, metric: t.insuranceMetric },
+                { icon: Factory, label: t.manufacturingLabel, desc: t.manufacturingDesc, metric: t.manufacturingMetric },
               ].map((sector, idx) => (
                 <div key={idx} className="glass-card p-6 hover:bg-white/10 transition-all group border-l-4 border-transparent hover:border-primary-500">
                   <div className="flex items-center gap-4 mb-4">
@@ -338,9 +338,9 @@ const HomePage = () => {
             <div className="mt-16 p-6 bg-yellow-500/10 border border-yellow-500/20 rounded-2xl flex flex-col md:flex-row gap-4 items-start max-w-5xl mx-auto">
               <Shield className="w-6 h-6 text-yellow-500 flex-shrink-0 mt-1" />
               <div>
-                <h4 className="text-yellow-200 font-bold mb-2">Professional Augmentation, Not Replacement</h4>
+                <h4 className="text-yellow-200 font-bold mb-2">{t.professionalDisclaimerTitle}</h4>
                 <p className="text-sm text-yellow-100/90 leading-relaxed">
-                  OBSOLIO Agents are not substitutes for doctors, judges, or lawyers. They serve as intelligent assistants for verification, reducing workload, and saving time through unbiased analysis. All critical decisions require professional human oversight and final approval.
+                  {t.professionalDisclaimerDesc}
                 </p>
               </div>
             </div>
@@ -352,7 +352,7 @@ const HomePage = () => {
           <div className="absolute top-1/2 left-0 w-96 h-96 bg-primary-500/10 rounded-full blur-[100px] pointer-events-none"></div>
           <div className="max-w-7xl mx-auto relative z-10">
             <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-5xl font-bold mb-6 font-heading">Our Partners & Success Stories</h2>
+              <h2 className="text-3xl md:text-5xl font-bold mb-6 font-heading">{t.partnersSuccessStoriesTitle}</h2>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -360,13 +360,13 @@ const HomePage = () => {
               <div className="glass-card p-8 relative group border-t-2 border-transparent hover:border-brand-500/50">
                 <Quote className="absolute top-6 right-6 w-8 h-8 text-primary-500/20 group-hover:text-primary-500/40 transition-colors" />
                 <p className="text-gray-300 italic mb-8 leading-relaxed text-lg">
-                  "The Precision AI Judge Agent has revolutionized how we evaluate tech competition submissions. It provides consistent, unbiased scoring while maintaining the nuanced understanding we need for fair assessment."
+                  "{t.drHebaSalehTestimonial}"
                 </p>
                 <div className="flex items-center gap-4">
                   <img src={DrHebaImage} alt="Dr. Heba Saleh" className="w-16 h-16 rounded-full object-cover border-2 border-primary-500/20" />
                   <div>
                     <h4 className="font-bold text-white text-lg">Dr. Heba Saleh</h4>
-                    <p className="text-sm text-primary-400 uppercase tracking-wider">ITI Chairwoman</p>
+                    <p className="text-sm text-primary-400 uppercase tracking-wider">{t.drHebaSalehTitle}</p>
                   </div>
                 </div>
               </div>
@@ -375,13 +375,13 @@ const HomePage = () => {
               <div className="glass-card p-8 relative group border-t-2 border-transparent hover:border-brand-500/50">
                 <Quote className="absolute top-6 right-6 w-8 h-8 text-primary-500/20 group-hover:text-primary-500/40 transition-colors" />
                 <p className="text-gray-300 italic mb-8 leading-relaxed text-lg">
-                  "The Precision AI Files Agent transformed our document processing workflow. What used to take our team days now happens in minutes, with exceptional accuracy in extracting and categorizing critical business data."
+                  "{t.engAhmedSalahTestimonial}"
                 </p>
                 <div className="flex items-center gap-4">
                   <img src={AhmedSalahImage} alt="Eng. Ahmed Salah" className="w-16 h-16 rounded-full object-cover border-2 border-primary-500/20" />
                   <div>
                     <h4 className="font-bold text-white text-lg">Eng. Ahmed Salah</h4>
-                    <p className="text-sm text-primary-400 uppercase tracking-wider">CEO, GrossMargin</p>
+                    <p className="text-sm text-primary-400 uppercase tracking-wider">{t.engAhmedSalahTitle}</p>
                   </div>
                 </div>
               </div>
@@ -390,13 +390,13 @@ const HomePage = () => {
               <div className="glass-card p-8 relative group border-t-2 border-transparent hover:border-purple-500/50">
                 <Quote className="absolute top-6 right-6 w-8 h-8 text-primary-500/20 group-hover:text-primary-500/40 transition-colors" />
                 <p className="text-gray-300 italic mb-8 leading-relaxed text-lg">
-                  "The CEFR Assessment Agent has brought unprecedented consistency to our language proficiency evaluations. It ensures every candidate is assessed against the same rigorous standards, eliminating subjectivity from our certification process."
+                  "{t.drLauraSchmidtTestimonial}"
                 </p>
                 <div className="flex items-center gap-4">
                   <div className="w-16 h-16 bg-purple-500/20 rounded-full flex items-center justify-center text-purple-400 font-bold text-xl border-2 border-primary-500/20">LS</div>
                   <div>
                     <h4 className="font-bold text-white text-lg">Dr. Laura Schmidt</h4>
-                    <p className="text-sm text-primary-400 uppercase tracking-wider">Director, Language Institute</p>
+                    <p className="text-sm text-primary-400 uppercase tracking-wider">{t.drLauraSchmidtTitle}</p>
                   </div>
                 </div>
               </div>
@@ -408,27 +408,26 @@ const HomePage = () => {
         <section className="py-24 px-6 relative">
           <div className="max-w-4xl mx-auto text-center glass-card p-12 border-primary-500/30 shadow-[0_0_50px_rgba(14,165,233,0.15)]">
             <h2 className="text-4xl md:text-5xl font-bold mb-6 font-heading">
-              Ready to Upgrade Your Workflow?
+              {t.readyToUpgradeTitle}
             </h2>
             <p className="text-xl text-gray-400 mb-10 max-w-2xl mx-auto">
-              Join leading organizations using AgentX HUB Precision Agents.
-              Start with a 14-day free trial.
+              {t.readyToUpgradeSubtitle}
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-10">
               <Link to="/register" className="glass-btn-primary px-8 py-4 text-lg flex items-center justify-center gap-2">
-                Start Free Trial
+                {t.startFreeTrialButton}
                 <ArrowRight className="w-5 h-5" />
               </Link>
               <Link to="/demo" className="glass-btn px-8 py-4 text-lg text-white hover:bg-white/10 flex items-center justify-center gap-2">
-                Schedule a Demo
+                {t.scheduleDemoButton}
               </Link>
             </div>
 
             <div className="flex flex-wrap justify-center gap-6 text-xs text-gray-500 uppercase tracking-wider font-semibold">
-              <span className="flex items-center gap-1"><Shield className="w-3 h-3" /> SOC 2 Type II</span>
-              <span className="flex items-center gap-1"><Shield className="w-3 h-3" /> GDPR Compliant</span>
-              <span className="flex items-center gap-1"><Shield className="w-3 h-3" /> ISO 27001</span>
+              <span className="flex items-center gap-1"><Shield className="w-3 h-3" /> {t.soc2Compliant}</span>
+              <span className="flex items-center gap-1"><Shield className="w-3 h-3" /> {t.gdprCompliant}</span>
+              <span className="flex items-center gap-1"><Shield className="w-3 h-3" /> {t.iso27001Compliant}</span>
             </div>
           </div>
         </section>
