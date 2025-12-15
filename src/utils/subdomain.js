@@ -9,6 +9,10 @@ const APP_DOMAIN = import.meta.env.VITE_APP_DOMAIN || 'localhost:5173';
  * Extracts the subdomain from the current window location
  * @returns {string|null} The subdomain or null if no subdomain (bare domain)
  */
+/**
+ * Extracts the subdomain from the current window location
+ * @returns {string|null} The subdomain or null if no subdomain (bare domain)
+ */
 export const getSubdomain = () => {
     const hostname = window.location.hostname;
 
@@ -21,20 +25,20 @@ export const getSubdomain = () => {
         if (parts.length >= 2 && parts[0] !== 'www') {
             return parts[0];
         }
-        return null;
+        return null; // bare localhost
     }
 
     // Handle production domain
     // Expected format: subdomain.domain.com
-    if (hostname === APP_DOMAIN) {
+    // Use the configured APP_DOMAIN to strip it out
+    const domainParts = APP_DOMAIN.split(':')[0]; // remove port
+
+    if (hostname === domainParts || hostname === `www.${domainParts}`) {
         return null;
     }
 
-    // Check if hostname ends with the app domain
-    // We need to handle port numbers in development if they exist in APP_DOMAIN
-    const domainParts = APP_DOMAIN.split(':')[0]; // remove port if present
-
     if (hostname.endsWith(domainParts)) {
+        // e.g. console.obsolio.com -> replace .obsolio.com -> console
         const subdomainPart = hostname.replace(`.${domainParts}`, '');
         if (subdomainPart && subdomainPart !== 'www') {
             return subdomainPart;
@@ -50,7 +54,7 @@ export const getSubdomain = () => {
  */
 export const isSystemAdminDomain = () => {
     const subdomain = getSubdomain();
-    return subdomain === 'console';
+    return subdomain === 'console'; // Strictly 'console'
 };
 
 /**
@@ -67,7 +71,8 @@ export const isTenantDomain = () => {
  * @returns {boolean}
  */
 export const isPublicDomain = () => {
-    return getSubdomain() === null;
+    const subdomain = getSubdomain();
+    return subdomain === null || subdomain === 'www';
 };
 
 /**
