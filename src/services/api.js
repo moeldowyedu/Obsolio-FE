@@ -47,9 +47,11 @@ api.interceptors.request.use(
       config.headers.Authorization = `Bearer ${token}`;
     }
 
-    // Add tenant ID to requests if available
+    // Add tenant ID to requests if available, BUT skip if on console domain
     const tenantId = localStorage.getItem('current_tenant_id');
-    if (tenantId) {
+    const isConsole = window.location.hostname.startsWith('console.');
+
+    if (tenantId && !isConsole) {
       config.headers['X-Tenant-ID'] = tenantId;
     }
 
