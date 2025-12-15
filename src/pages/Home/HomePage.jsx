@@ -36,12 +36,12 @@ const HomePage = () => {
                   </span>
                 </div>
 
-                <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold mb-8 leading-tight tracking-tight">
+                <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold mb-8 leading-tight tracking-tight">
                   <span className="block text-white">Welcome to OBSOLIO</span>
                   <span className="bg-gradient-to-r from-primary-400 via-cyan-400 to-purple-500 bg-clip-text text-transparent">
                     Your AgentX HUB
                   </span>
-                  <span className="block text-2xl sm:text-3xl md:text-4xl mt-4 text-gray-300 font-normal">
+                  <span className="block text-xl sm:text-2xl md:text-3xl mt-4 text-gray-300 font-normal">
                     for Precision AI Agents
                   </span>
                 </h1>
