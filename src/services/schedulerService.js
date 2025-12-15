@@ -3,74 +3,63 @@ import api from './api';
 const schedulerService = {
   // Get all scheduled jobs
   getScheduledJobs: async (params = {}) => {
-    const response = await api.get('/scheduler/jobs', { params });
-    return response.data;
+    // const response = await api.get('/scheduler/jobs', { params });
+    // return response.data;
+    return Promise.resolve({
+      data: [
+        { id: 'job_1', name: 'Database Cleanup', cron: '0 0 * * SUN', enabled: true }
+      ]
+    });
   },
 
   // Get scheduled job by ID
   getScheduledJob: async (jobId) => {
-    const response = await api.get(`/scheduler/jobs/${jobId}`);
-    return response.data;
+    return Promise.resolve({ data: { id: jobId, name: 'Mock Job', enabled: true } });
   },
 
   // Create scheduled job
   createScheduledJob: async (jobData) => {
-    const response = await api.post('/scheduler/jobs', jobData);
-    return response.data;
+    return Promise.resolve({ data: { id: 'job_' + Date.now(), ...jobData } });
   },
 
   // Update scheduled job
   updateScheduledJob: async (jobId, jobData) => {
-    const response = await api.put(`/scheduler/jobs/${jobId}`, jobData);
-    return response.data;
+    return Promise.resolve({ data: { id: jobId, ...jobData } });
   },
 
   // Delete scheduled job
   deleteScheduledJob: async (jobId) => {
-    const response = await api.delete(`/scheduler/jobs/${jobId}`);
-    return response.data;
+    return Promise.resolve({ success: true });
   },
 
   // Enable/disable scheduled job
   toggleScheduledJob: async (jobId, enabled) => {
-    const response = await api.patch(`/scheduler/jobs/${jobId}/toggle`, {
-      enabled,
-    });
-    return response.data;
+    return Promise.resolve({ data: { id: jobId, enabled } });
   },
 
   // Trigger job manually
   triggerJob: async (jobId) => {
-    const response = await api.post(`/scheduler/jobs/${jobId}/trigger`);
-    return response.data;
+    return Promise.resolve({ success: true, message: 'Job triggered' });
   },
 
   // Get job execution history
   getJobHistory: async (jobId, params = {}) => {
-    const response = await api.get(`/scheduler/jobs/${jobId}/history`, {
-      params,
-    });
-    return response.data;
+    return Promise.resolve({ data: [] });
   },
 
   // Get next scheduled run
   getNextRun: async (jobId) => {
-    const response = await api.get(`/scheduler/jobs/${jobId}/next-run`);
-    return response.data;
+    return Promise.resolve({ data: { nextRun: new Date().toISOString() } });
   },
 
   // Validate cron expression
   validateCron: async (cronExpression) => {
-    const response = await api.post('/scheduler/validate-cron', {
-      cron: cronExpression,
-    });
-    return response.data;
+    return Promise.resolve({ data: { valid: true, description: 'Every day at midnight' } });
   },
 
   // Get cron suggestions
   getCronSuggestions: async () => {
-    const response = await api.get('/scheduler/cron-suggestions');
-    return response.data;
+    return Promise.resolve({ data: ['0 0 * * *', '0 * * * *'] });
   },
 };
 

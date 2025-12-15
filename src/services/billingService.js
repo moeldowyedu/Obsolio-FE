@@ -3,115 +3,111 @@ import api from './api';
 const billingService = {
   // Get subscription plans
   getPlans: async () => {
-    const response = await api.get('/billing/plans');
-    return response.data;
+    // const response = await api.get('/billing/plans');
+    // return response.data;
+    return Promise.resolve({
+      data: [
+        { id: 'free', name: 'Free', price: 0, features: ['Basic Agents', 'Community Support'] },
+        { id: 'pro', name: 'Pro', price: 29, features: ['Unlimited Agents', 'Priority Support'] }
+      ]
+    });
   },
 
   // Get current subscription
   getCurrentSubscription: async () => {
-    const response = await api.get('/billing/subscription');
-    return response.data;
+    // const response = await api.get('/billing/subscription');
+    // return response.data;
+    return Promise.resolve({
+      data: {
+        plan: { id: 'pro', name: 'Pro' },
+        status: 'active',
+        current_period_end: '2024-12-31'
+      }
+    });
   },
 
   // Subscribe to plan
   subscribe: async (planId, paymentMethodId) => {
-    const response = await api.post('/billing/subscribe', {
-      plan_id: planId,
-      payment_method_id: paymentMethodId,
-    });
-    return response.data;
+    return Promise.resolve({ success: true, message: 'Subscribed successfully' });
   },
 
   // Update subscription
   updateSubscription: async (planId) => {
-    const response = await api.put('/billing/subscription', {
-      plan_id: planId,
-    });
-    return response.data;
+    return Promise.resolve({ success: true, message: 'Subscription updated' });
   },
 
   // Cancel subscription
   cancelSubscription: async (reason = '') => {
-    const response = await api.post('/billing/subscription/cancel', {
-      reason,
-    });
-    return response.data;
+    return Promise.resolve({ success: true, message: 'Subscription cancelled' });
   },
 
   // Resume subscription
   resumeSubscription: async () => {
-    const response = await api.post('/billing/subscription/resume');
-    return response.data;
+    return Promise.resolve({ success: true, message: 'Subscription resumed' });
   },
 
   // Get usage data
   getUsage: async (params = {}) => {
-    const response = await api.get('/billing/usage', { params });
-    return response.data;
+    return Promise.resolve({ data: { agents: 5, runs: 120, storage: '1.2GB' } });
   },
 
   // Get invoices
   getInvoices: async (params = {}) => {
-    const response = await api.get('/billing/invoices', { params });
-    return response.data;
+    return Promise.resolve({
+      data: [
+        { id: 'inv_1', amount: 2900, status: 'paid', date: '2023-11-01', pdf_url: '#' },
+        { id: 'inv_2', amount: 2900, status: 'paid', date: '2023-12-01', pdf_url: '#' }
+      ]
+    });
   },
 
   // Get invoice by ID
   getInvoice: async (invoiceId) => {
-    const response = await api.get(`/billing/invoices/${invoiceId}`);
-    return response.data;
+    return Promise.resolve({ data: { id: invoiceId, amount: 2900, status: 'paid' } });
   },
 
   // Download invoice PDF
   downloadInvoice: async (invoiceId) => {
-    const response = await api.get(`/billing/invoices/${invoiceId}/download`, {
-      responseType: 'blob',
-    });
-    return response.data;
+    return Promise.resolve(new Blob(['Mock PDF Content'], { type: 'application/pdf' }));
   },
 
   // Get payment methods
   getPaymentMethods: async () => {
-    const response = await api.get('/billing/payment-methods');
-    return response.data;
+    return Promise.resolve({
+      data: [
+        { id: 'pm_1', brand: 'visa', last4: '4242', exp_month: 12, exp_year: 2025 }
+      ]
+    });
   },
 
   // Add payment method
   addPaymentMethod: async (paymentMethodData) => {
-    const response = await api.post('/billing/payment-methods', paymentMethodData);
-    return response.data;
+    return Promise.resolve({ success: true });
   },
 
   // Update payment method
   updatePaymentMethod: async (paymentMethodId, paymentMethodData) => {
-    const response = await api.put(`/billing/payment-methods/${paymentMethodId}`, paymentMethodData);
-    return response.data;
+    return Promise.resolve({ success: true });
   },
 
   // Delete payment method
   deletePaymentMethod: async (paymentMethodId) => {
-    const response = await api.delete(`/billing/payment-methods/${paymentMethodId}`);
-    return response.data;
+    return Promise.resolve({ success: true });
   },
 
   // Set default payment method
   setDefaultPaymentMethod: async (paymentMethodId) => {
-    const response = await api.post(`/billing/payment-methods/${paymentMethodId}/set-default`);
-    return response.data;
+    return Promise.resolve({ success: true });
   },
 
   // Get billing history
   getBillingHistory: async (params = {}) => {
-    const response = await api.get('/billing/history', { params });
-    return response.data;
+    return Promise.resolve({ data: [] });
   },
 
   // Preview plan change
   previewPlanChange: async (planId) => {
-    const response = await api.post('/billing/preview-plan-change', {
-      plan_id: planId,
-    });
-    return response.data;
+    return Promise.resolve({ data: { immediate_charge: 0, next_charge: 2900 } });
   },
 };
 

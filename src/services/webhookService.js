@@ -3,72 +3,63 @@ import api from './api';
 const webhookService = {
   // Get all webhooks
   getWebhooks: async () => {
-    const response = await api.get('/webhooks');
-    return response.data;
+    // const response = await api.get('/webhooks');
+    // return response.data;
+    return Promise.resolve({
+      data: [
+        { id: 'wh_1', url: 'https://mysite.com/hook', events: ['user.created'], enabled: true }
+      ]
+    });
   },
 
   // Get webhook by ID
   getWebhook: async (webhookId) => {
-    const response = await api.get(`/webhooks/${webhookId}`);
-    return response.data;
+    return Promise.resolve({ data: { id: webhookId, url: 'https://mock.com', events: [] } });
   },
 
   // Create webhook
   createWebhook: async (webhookData) => {
-    const response = await api.post('/webhooks', webhookData);
-    return response.data;
+    return Promise.resolve({ data: { id: 'wh_' + Date.now(), ...webhookData } });
   },
 
   // Update webhook
   updateWebhook: async (webhookId, webhookData) => {
-    const response = await api.put(`/webhooks/${webhookId}`, webhookData);
-    return response.data;
+    return Promise.resolve({ data: { id: webhookId, ...webhookData } });
   },
 
   // Delete webhook
   deleteWebhook: async (webhookId) => {
-    const response = await api.delete(`/webhooks/${webhookId}`);
-    return response.data;
+    return Promise.resolve({ success: true });
   },
 
   // Test webhook
   testWebhook: async (webhookId, testPayload = {}) => {
-    const response = await api.post(`/webhooks/${webhookId}/test`, testPayload);
-    return response.data;
+    return Promise.resolve({ success: true, message: 'Test event sent' });
   },
 
   // Get webhook deliveries
   getWebhookDeliveries: async (webhookId, params = {}) => {
-    const response = await api.get(`/webhooks/${webhookId}/deliveries`, {
-      params,
-    });
-    return response.data;
+    return Promise.resolve({ data: [] });
   },
 
   // Retry webhook delivery
   retryDelivery: async (webhookId, deliveryId) => {
-    const response = await api.post(`/webhooks/${webhookId}/deliveries/${deliveryId}/retry`);
-    return response.data;
+    return Promise.resolve({ success: true });
   },
 
   // Enable/disable webhook
   toggleWebhook: async (webhookId, enabled) => {
-    const response = await api.patch(`/webhooks/${webhookId}/toggle`, {
-      enabled,
-    });
-    return response.data;
+    return Promise.resolve({ data: { id: webhookId, enabled } });
   },
 
   // Get webhook events
   getWebhookEvents: async () => {
-    const response = await api.get('/webhooks/events');
-    return response.data;
+    return Promise.resolve({ data: ['user.created', 'user.updated', 'order.paid'] });
   },
 
   // Regenerate webhook secret
   regenerateSecret: async (webhookId) => {
-    const response = await api.post(`/webhooks/${webhookId}/regenerate-secret`);
-    return response.data;
+    return Promise.resolve({ data: { secret: 'whsec_' + Date.now() } });
   },
 };
 

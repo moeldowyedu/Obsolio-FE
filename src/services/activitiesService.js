@@ -9,70 +9,66 @@ const activitiesService = {
 
   /**
    * Get all activities
-   * GET /api/v1/activities
    */
   getActivities: async (params = {}) => {
-    const response = await api.get('/activities', { params });
-    return response.data;
+    // const response = await api.get('/activities', { params });
+    // return response.data;
+    return Promise.resolve({
+      data: [
+        { id: '1', action: 'login', user: 'John Doe', timestamp: new Date().toISOString() },
+        { id: '2', action: 'page_view', user: 'Jane Smith', timestamp: new Date().toISOString() }
+      ]
+    });
   },
 
   /**
    * Get activity by ID
-   * GET /api/v1/activities/{id}
    */
   getActivityById: async (activityId) => {
-    const response = await api.get(`/activities/${activityId}`);
-    return response.data;
+    return Promise.resolve({ data: { id: activityId, action: 'mock_action' } });
   },
 
   /**
    * Get activities by user
-   * GET /api/v1/activities/user/{userId}
    */
   getActivitiesByUser: async (userId, params = {}) => {
-    const response = await api.get(`/activities/user/${userId}`, { params });
-    return response.data;
+    return Promise.resolve({ data: [] });
   },
 
   /**
    * Export activities
-   * GET /api/v1/activities/export
    */
   exportActivities: async (params = {}) => {
-    const response = await api.get('/activities/export', {
-      params,
-      responseType: 'blob' // For file download
-    });
-    return response.data;
+    return Promise.resolve(new Blob(['id,action,timestamp\n1,login,2023-01-01'], { type: 'text/csv' }));
   },
 
   // ========== Session Management ==========
 
   /**
    * Get all sessions
-   * GET /api/v1/sessions
    */
   getSessions: async (params = {}) => {
-    const response = await api.get('/sessions', { params });
-    return response.data;
+    // const response = await api.get('/sessions', { params });
+    // return response.data;
+    return Promise.resolve({
+      data: [
+        { id: 'sess_1', ip: '192.168.1.1', device: 'Chrome / Windows', last_active: 'Just now' }
+      ]
+    });
   },
 
   /**
    * Get active sessions
-   * GET /api/v1/sessions/active
    */
   getActiveSessions: async () => {
-    const response = await api.get('/sessions/active');
-    return response.data;
+    return Promise.resolve({ data: [{ id: 'sess_current', current: true }] });
   },
 
   /**
    * Terminate session
-   * POST /api/v1/sessions/{id}/terminate
    */
   terminateSession: async (sessionId) => {
-    const response = await api.post(`/sessions/${sessionId}/terminate`);
-    return response.data;
+    return Promise.resolve({ success: true });
   },
 };
 

@@ -3,225 +3,150 @@ import api from './api';
 const engineService = {
   // Get all available engines
   getEngines: async () => {
-    const response = await api.get('/engines');
-    return response.data;
+    // const response = await api.get('/engines');
+    // return response.data;
+    return Promise.resolve({
+      data: [
+        { id: 'gpt-4', name: 'GPT-4', type: 'text', status: 'active' },
+        { id: 'dalle-3', name: 'DALL-E 3', type: 'image', status: 'active' }
+      ]
+    });
   },
 
   // Get engine by ID
   getEngine: async (engineId) => {
-    const response = await api.get(`/engines/${engineId}`);
-    return response.data;
+    return Promise.resolve({ data: { id: engineId, name: 'Mock Engine', type: 'text' } });
   },
 
   // Test engine with sample data
   testEngine: async (engineId, testData) => {
-    const response = await api.post(`/engines/${engineId}/test`, testData);
-    return response.data;
+    return Promise.resolve({ data: { output: 'Mock engine test result', confidence: 0.95 } });
   },
 
   // Get engine capabilities
   getEngineCapabilities: async (engineId) => {
-    const response = await api.get(`/engines/${engineId}/capabilities`);
-    return response.data;
+    return Promise.resolve({ data: { features: ['streaming', 'function_calling'] } });
   },
 
   // Get engine usage stats
   getEngineUsage: async (engineId, params) => {
-    const response = await api.get(`/engines/${engineId}/usage`, { params });
-    return response.data;
+    return Promise.resolve({ data: { requests: 1200, latency: '45ms' } });
   },
 
   // Get recent engine runs
   getRecentRuns: async (engineId, limit = 10) => {
-    const response = await api.get(`/engines/${engineId}/runs`, {
-      params: { limit },
-    });
-    return response.data;
+    return Promise.resolve({ data: [] });
   },
 
   // ========== Rubrics Management ==========
 
   // Get engine rubrics
   getRubrics: async (engineId, params = {}) => {
-    const response = await api.get(`/engines/${engineId}/rubrics`, { params });
-    return response.data;
+    return Promise.resolve({ data: [] });
   },
 
   // Get rubric by ID
   getRubricById: async (engineId, rubricId) => {
-    const response = await api.get(`/engines/${engineId}/rubrics/${rubricId}`);
-    return response.data;
+    return Promise.resolve({ data: { id: rubricId, name: 'Mock Rubric' } });
   },
 
   // Create new rubric
   createRubric: async (engineId, rubricData) => {
-    const response = await api.post(`/engines/${engineId}/rubrics`, rubricData);
-    return response.data;
+    return Promise.resolve({ data: { id: 'rub_' + Date.now(), ...rubricData } });
   },
 
   // Update rubric
   updateRubric: async (engineId, rubricId, rubricData) => {
-    const response = await api.put(`/engines/${engineId}/rubrics/${rubricId}`, rubricData);
-    return response.data;
+    return Promise.resolve({ data: { id: rubricId, ...rubricData } });
   },
 
   // Delete rubric
   deleteRubric: async (engineId, rubricId) => {
-    const response = await api.delete(`/engines/${engineId}/rubrics/${rubricId}`);
-    return response.data;
+    return Promise.resolve({ success: true });
   },
 
   // Vision Engine specific methods
   vision: {
     analyzeImage: async (imageData, options = {}) => {
-      const response = await api.post('/engines/vision/analyze', {
-        image: imageData,
-        ...options,
-      });
-      return response.data;
+      return Promise.resolve({ data: { description: 'A mock image analysis result', tags: ['mock', 'image'] } });
     },
     detectObjects: async (imageData) => {
-      const response = await api.post('/engines/vision/detect-objects', {
-        image: imageData,
-      });
-      return response.data;
+      return Promise.resolve({ data: { objects: [{ label: 'person', box: [0, 0, 100, 100] }] } });
     },
     extractText: async (imageData) => {
-      const response = await api.post('/engines/vision/ocr', {
-        image: imageData,
-      });
-      return response.data;
+      return Promise.resolve({ data: { text: 'Mock OCR Text' } });
     },
   },
 
   // Audio Engine specific methods
   audio: {
     transcribe: async (audioData, options = {}) => {
-      const response = await api.post('/engines/audio/transcribe', {
-        audio: audioData,
-        ...options,
-      });
-      return response.data;
+      return Promise.resolve({ data: { text: 'Mock audio transcription' } });
     },
     analyzeSentiment: async (audioData) => {
-      const response = await api.post('/engines/audio/sentiment', {
-        audio: audioData,
-      });
-      return response.data;
+      return Promise.resolve({ data: { sentiment: 'positive', score: 0.8 } });
     },
   },
 
   // Text Engine specific methods
   text: {
     analyze: async (text, options = {}) => {
-      const response = await api.post('/engines/text/analyze', {
-        text,
-        ...options,
-      });
-      return response.data;
+      return Promise.resolve({ data: { sentiment: 'neutral', entities: [] } });
     },
     extractEntities: async (text) => {
-      const response = await api.post('/engines/text/entities', { text });
-      return response.data;
+      return Promise.resolve({ data: { entities: ['Mock Entity'] } });
     },
     summarize: async (text, maxLength) => {
-      const response = await api.post('/engines/text/summarize', {
-        text,
-        max_length: maxLength,
-      });
-      return response.data;
+      return Promise.resolve({ data: { summary: 'Mock summary of the text.' } });
     },
   },
 
   // Code Engine specific methods
   code: {
     analyze: async (code, language) => {
-      const response = await api.post('/engines/code/analyze', {
-        code,
-        language,
-      });
-      return response.data;
+      return Promise.resolve({ data: { complexity: 'low', issues: [] } });
     },
     detectBugs: async (code, language) => {
-      const response = await api.post('/engines/code/detect-bugs', {
-        code,
-        language,
-      });
-      return response.data;
+      return Promise.resolve({ data: { bugs: [] } });
     },
     optimize: async (code, language) => {
-      const response = await api.post('/engines/code/optimize', {
-        code,
-        language,
-      });
-      return response.data;
+      return Promise.resolve({ data: { optimizedCode: code } });
     },
   },
 
   // Document Engine specific methods
   document: {
     extract: async (documentData, options = {}) => {
-      const response = await api.post('/engines/document/extract', {
-        document: documentData,
-        ...options,
-      });
-      return response.data;
+      return Promise.resolve({ data: { content: 'Mock extracted document content' } });
     },
     getMetadata: async (documentData) => {
-      const response = await api.post('/engines/document/metadata', {
-        document: documentData,
-      });
-      return response.data;
+      return Promise.resolve({ data: { author: 'Mock Author', pages: 5 } });
     },
   },
 
   // Data Engine specific methods
   data: {
     analyze: async (data, options = {}) => {
-      const response = await api.post('/engines/data/analyze', {
-        data,
-        ...options,
-      });
-      return response.data;
+      return Promise.resolve({ data: { summary: 'Mock data analysis' } });
     },
     validate: async (data, schema) => {
-      const response = await api.post('/engines/data/validate', {
-        data,
-        schema,
-      });
-      return response.data;
+      return Promise.resolve({ data: { valid: true } });
     },
     transform: async (data, transformation) => {
-      const response = await api.post('/engines/data/transform', {
-        data,
-        transformation,
-      });
-      return response.data;
+      return Promise.resolve({ data: { transformed: true } });
     },
   },
 
   // Web Engine specific methods
   web: {
     scrape: async (url, options = {}) => {
-      const response = await api.post('/engines/web/scrape', {
-        url,
-        ...options,
-      });
-      return response.data;
+      return Promise.resolve({ data: { title: 'Mock Page Title', content: 'Mock page content' } });
     },
     monitor: async (url, frequency) => {
-      const response = await api.post('/engines/web/monitor', {
-        url,
-        frequency,
-      });
-      return response.data;
+      return Promise.resolve({ success: true, id: 'mon_' + Date.now() });
     },
     screenshot: async (url, options = {}) => {
-      const response = await api.post('/engines/web/screenshot', {
-        url,
-        ...options,
-      });
-      return response.data;
+      return Promise.resolve({ data: { url: 'https://placehold.co/600x400' } });
     },
   },
 };

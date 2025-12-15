@@ -7,74 +7,64 @@ import api from './api';
 const jobFlowService = {
   /**
    * Get all job flows
-   * GET /api/v1/job-flows
    */
   getJobFlows: async (params = {}) => {
-    const response = await api.get('/job-flows', { params });
-    return response.data;
+    // const response = await api.get('/job-flows', { params });
+    // return response.data;
+    return Promise.resolve({
+      data: [
+        { id: 'jf_1', name: 'Daily Backup', schedule: '0 0 * * *', status: 'active' }
+      ]
+    });
   },
 
   /**
    * Get job flow by ID
-   * GET /api/v1/job-flows/{job_flow}
    */
   getJobFlowById: async (jobFlowId) => {
-    const response = await api.get(`/job-flows/${jobFlowId}`);
-    return response.data;
+    return Promise.resolve({ data: { id: jobFlowId, name: 'Mock Job Flow' } });
   },
 
   /**
    * Create new job flow
-   * POST /api/v1/job-flows
    */
   createJobFlow: async (jobFlowData) => {
-    const response = await api.post('/job-flows', jobFlowData);
-    return response.data;
+    return Promise.resolve({ data: { id: 'jf_' + Date.now(), ...jobFlowData } });
   },
 
   /**
    * Update job flow
-   * PUT/PATCH /api/v1/job-flows/{job_flow}
    */
   updateJobFlow: async (jobFlowId, jobFlowData) => {
-    const response = await api.put(`/job-flows/${jobFlowId}`, jobFlowData);
-    return response.data;
+    return Promise.resolve({ data: { id: jobFlowId, ...jobFlowData } });
   },
 
   /**
    * Delete job flow
-   * DELETE /api/v1/job-flows/{job_flow}
    */
   deleteJobFlow: async (jobFlowId) => {
-    const response = await api.delete(`/job-flows/${jobFlowId}`);
-    return response.data;
+    return Promise.resolve({ success: true });
   },
 
   /**
    * Trigger job flow execution
-   * POST /api/v1/job-flows/{id}/trigger
    */
   triggerJobFlow: async (jobFlowId, triggerData = {}) => {
-    const response = await api.post(`/job-flows/${jobFlowId}/trigger`, triggerData);
-    return response.data;
+    return Promise.resolve({ success: true, message: 'Job flow triggered' });
   },
 
   /**
    * Update job flow status
-   * PUT /api/v1/job-flows/{id}/status
    */
   updateJobFlowStatus: async (jobFlowId, status) => {
-    const response = await api.put(`/job-flows/${jobFlowId}/status`, { status });
-    return response.data;
+    return Promise.resolve({ data: { id: jobFlowId, status } });
   },
 
   /**
    * Get job flow statistics
-   * GET /api/v1/job-flows/{id}/stats
    */
   getJobFlowStats: async (jobFlowId) => {
-    const response = await api.get(`/job-flows/${jobFlowId}/stats`);
-    return response.data;
+    return Promise.resolve({ data: { success_rate: '98%', avg_duration: '2m' } });
   },
 };
 
