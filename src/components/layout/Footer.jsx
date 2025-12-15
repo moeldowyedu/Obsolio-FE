@@ -4,8 +4,12 @@ import {
   ExternalLink, Shield, FileText, Activity
 } from 'lucide-react'
 import ObsolioLogo from '../../assets/imgs/OBSOLIO-logo-cyan.png'
+import { useLanguage } from '../../contexts/LanguageContext'
+import { translations } from '../../translations'
 
 const Footer = () => {
+  const { language } = useLanguage()
+  const t = translations[language]
   const currentYear = new Date().getFullYear()
 
   return (
@@ -26,9 +30,9 @@ const Footer = () => {
               </div>
             </Link>
             <p className="text-gray-400 text-sm leading-relaxed max-w-sm">
-              The Precision AI Agent Platform.
+              {t.footerTagline || 'The Precision AI Agent Platform.'}
               <br />
-              Deploy autonomous agents for high-fidelity tasks with Human-in-the-Loop oversight.
+              {t.footerDescription || 'Deploy autonomous agents for high-fidelity tasks with Human-in-the-Loop oversight.'}
             </p>
             <div className="flex items-center gap-4">
               <a href="#" className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/10 transition-all group">
@@ -47,28 +51,28 @@ const Footer = () => {
           <div>
             <h3 className="text-white font-bold mb-6 flex items-center gap-2">
               <Activity className="w-4 h-4 text-primary-500" />
-              Product
+              {t.productTitle || 'Product'}
             </h3>
             <ul className="space-y-4">
               <li>
                 <Link to="/#features" className="text-gray-400 hover:text-primary-400 text-sm transition-colors flex items-center gap-2 w-fit">
-                  Precision Engines
+                  {t.precisionEngines || 'Precision Engines'}
                 </Link>
               </li>
               <li>
                 <Link to="/#use-cases" className="text-gray-400 hover:text-primary-400 text-sm transition-colors flex items-center gap-2 w-fit">
-                  Use Cases
+                  {t.useCasesLink || 'Use Cases'}
                 </Link>
               </li>
               <li>
                 <Link to="/#pricing" className="text-gray-400 hover:text-primary-400 text-sm transition-colors flex items-center gap-2 w-fit">
-                  Pricing
+                  {t.pricingLink || 'Pricing'}
                 </Link>
               </li>
               <li>
                 <Link to="/agentx" className="text-gray-400 hover:text-primary-400 text-sm transition-colors flex items-center gap-2 w-fit">
-                  AgentX Hub
-                  <span className="text-[10px] bg-primary-500/20 text-primary-400 px-1.5 py-0.5 rounded border border-primary-500/20">NEW</span>
+                  {t.agentxHubLink || 'AgentX Hub'}
+                  <span className="text-[10px] bg-primary-500/20 text-primary-400 px-1.5 py-0.5 rounded border border-primary-500/20">{t.newBadge || 'NEW'}</span>
                 </Link>
               </li>
             </ul>
@@ -78,22 +82,22 @@ const Footer = () => {
           <div>
             <h3 className="text-white font-bold mb-6 flex items-center gap-2">
               <Shield className="w-4 h-4 text-primary-500" />
-              Company
+              {t.companyTitle || 'Company'}
             </h3>
             <ul className="space-y-4">
               <li>
                 <Link to="/contact" className="text-gray-400 hover:text-primary-400 text-sm transition-colors flex items-center gap-2 w-fit">
-                  Contact Us
+                  {t.contactUs || 'Contact Us'}
                 </Link>
               </li>
               <li>
                 <Link to="/privacy" className="text-gray-400 hover:text-primary-400 text-sm transition-colors flex items-center gap-2 w-fit">
-                  Privacy Policy
+                  {t.privacyPolicy || 'Privacy Policy'}
                 </Link>
               </li>
               <li>
                 <Link to="/terms" className="text-gray-400 hover:text-primary-400 text-sm transition-colors flex items-center gap-2 w-fit">
-                  Terms of Service
+                  {t.termsOfService || 'Terms of Service'}
                 </Link>
               </li>
             </ul>
@@ -103,7 +107,7 @@ const Footer = () => {
           <div>
             <h3 className="text-white font-bold mb-6 flex items-center gap-2">
               <Mail className="w-4 h-4 text-primary-500" />
-              Get in Touch
+              {t.getInTouchTitle || 'Get in Touch'}
             </h3>
             <ul className="space-y-4">
               <li>
@@ -112,7 +116,7 @@ const Footer = () => {
                     <Mail className="w-4 h-4" />
                   </div>
                   <div>
-                    <span className="block text-sm text-gray-300 group-hover:text-white transition-colors">Email Us</span>
+                    <span className="block text-sm text-gray-300 group-hover:text-white transition-colors">{t.emailUs || 'Email Us'}</span>
                     <span className="text-sm text-gray-500">info@obsolio.com</span>
                   </div>
                 </a>
@@ -123,8 +127,8 @@ const Footer = () => {
                     <Phone className="w-4 h-4" />
                   </div>
                   <div>
-                    <span className="block text-sm text-gray-300 group-hover:text-white transition-colors">Enterprise Sales</span>
-                    <span className="text-sm text-gray-500">Book a Demo</span>
+                    <span className="block text-sm text-gray-300 group-hover:text-white transition-colors">{t.enterpriseSales || 'Enterprise Sales'}</span>
+                    <span className="text-sm text-gray-500">{t.bookDemo || 'Book a Demo'}</span>
                   </div>
                 </Link>
               </li>
@@ -134,8 +138,8 @@ const Footer = () => {
                     <MapPin className="w-4 h-4" />
                   </div>
                   <div>
-                    <span className="block text-sm text-gray-300">Headquarters</span>
-                    <span className="text-sm text-gray-500">Silicon Valley, CA</span>
+                    <span className="block text-sm text-gray-300">{t.headquarters || 'Headquarters'}</span>
+                    <span className="text-sm text-gray-500">{t.location || 'Silicon Valley, CA'}</span>
                   </div>
                 </div>
               </li>
@@ -146,11 +150,11 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-sm text-gray-500">
-            &copy; {currentYear} Obsolio Inc. All rights reserved.
+            &copy; {currentYear} Obsolio Inc. {t.allRightsReserved || 'All rights reserved.'}
           </p>
           <div className="flex items-center gap-6">
             <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-            <span className="text-sm text-gray-400 font-mono">Systems Operational</span>
+            <span className="text-sm text-gray-400 font-mono">{t.systemsOperational || 'Systems Operational'}</span>
           </div>
         </div>
       </div>

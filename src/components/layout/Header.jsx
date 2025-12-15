@@ -85,11 +85,11 @@ const Header = () => {
 
           {/* Desktop Navigation */}
           <div className="flex items-center space-x-6">
-            <Link to="/" className="text-gray-300 hover:text-white font-medium transition-colors hidden sm:inline">Home</Link>
+            <Link to="/" className="text-gray-300 hover:text-white font-medium transition-colors hidden sm:inline">{t.home || 'Home'}</Link>
 
             {!isAuthenticated && (
               <>
-                <Link to="/docs/getting-started/introduction" className="text-gray-300 hover:text-white font-medium transition-colors hidden sm:inline">Docs</Link>
+                <Link to="/docs/getting-started/introduction" className="text-gray-300 hover:text-white font-medium transition-colors hidden sm:inline">{t.docs || 'Docs'}</Link>
               </>
             )}
 
@@ -104,14 +104,14 @@ const Header = () => {
                   className="hidden sm:flex items-center gap-2 px-4 py-2 border-2 border-primary-500 text-primary-400 hover:bg-primary-500 hover:text-white font-semibold rounded-lg transition-all"
                 >
                   <LogIn className="w-4 h-4" />
-                  Sign In
+                  {t.signIn || 'Sign In'}
                 </Link>
 
                 <Link
                   to="/register"
                   className="bg-primary-600 text-white px-6 py-2.5 rounded-lg font-semibold hover:bg-primary-700 transition-colors hidden sm:inline"
                 >
-                  Start Free Trial
+                  {t.startFreeTrial || 'Start Free Trial'}
                 </Link>
 
                 {/* Language Switcher - Moved to end */}
