@@ -78,7 +78,7 @@ api.interceptors.request.use(
         currentSubdomain = parts[0];
       }
 
-      if (currentSubdomain && currentSubdomain !== 'www') {
+      if (currentSubdomain && currentSubdomain !== 'www' && currentSubdomain !== 'console') {
         config.headers['X-Tenant-Subdomain'] = currentSubdomain;
       }
     }
