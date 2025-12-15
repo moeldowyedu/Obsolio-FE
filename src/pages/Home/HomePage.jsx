@@ -330,6 +330,20 @@ const HomePage = () => {
                 </div>
               ))}
             </div>
+
+            {/* Important Disclaimer */}
+            <div className="mt-16 p-6 bg-yellow-500/10 border border-yellow-500/20 rounded-2xl flex flex-col md:flex-row gap-4 items-start max-w-5xl mx-auto">
+              <Shield className="w-6 h-6 text-yellow-500 flex-shrink-0 mt-1" />
+              <div>
+                <h4 className="text-yellow-200 font-bold mb-2">Professional Augmentation, Not Replacement</h4>
+                <p className="text-sm text-yellow-100/90 leading-relaxed">
+                  OBSOLIO Agents are not substitutes for doctors, judges, or lawyers. They serve as intelligent assistants for verification, reducing workload, and saving time through unbiased analysis. All critical decisions require professional human oversight and final approval.
+                </p>
+                <p className="text-xs text-yellow-200/70 mt-2 italic">
+                  وكلاء OBSOLIO ليسوا بديلاً للأطباء أو القضاة أو المحامين، بل أداة للتدقيق وتقليل المجهود وتوفير الوقت باستخدام وكلاء غير متحيزين.
+                </p>
+              </div>
+            </div>
           </div>
         </section>
 
