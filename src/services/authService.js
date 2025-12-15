@@ -106,8 +106,17 @@ const authService = {
   },
 
   // Verify Email
-  verifyEmail: async (token) => {
-    const response = await api.post('/auth/verify-email', { token });
+  verifyEmail: async (id, hash) => {
+    // If backend uses /email/verify/{id}/{hash}, we construct url. 
+    // Or if it uses ?token=... we use that.
+    // Based on user request context: "GET /api/email/verify/{id}/{hash}"
+    const response = await api.get(`/email/verify/${id}/${hash}`);
+    return response.data;
+  },
+
+  // Resend Verification Email
+  resendVerificationEmail: async (email) => {
+    const response = await api.post('/email/resend', { email });
     return response.data;
   },
 

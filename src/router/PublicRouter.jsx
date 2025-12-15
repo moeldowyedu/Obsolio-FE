@@ -12,6 +12,9 @@ import DocsPage from '../pages/Docs/DocsPage';
 import NotFoundPage from '../pages/NotFoundPage';
 import AgentXMarketplacePage from '../pages/AgentX/MarketplacePage';
 import AgentDetailPage from '../pages/AgentX/AgentDetailPage';
+import VerifyEmailSentPage from '../pages/Auth/VerifyEmailSentPage';
+import EmailVerificationPage from '../pages/Auth/EmailVerificationPage';
+import ResendVerificationPage from '../pages/Auth/ResendVerificationPage';
 
 const PublicRouter = () => {
     return (
@@ -25,6 +28,12 @@ const PublicRouter = () => {
             <Route path="/register-simple" element={<Navigate to="/register" replace />} />
             <Route path="/forgot-password" element={<ForgotPasswordPage />} />
             <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
+
+            {/* Email Verification */}
+            <Route path="/verify-email-sent" element={<VerifyEmailSentPage />} />
+            <Route path="/verify-email/:id/:hash" element={<EmailVerificationPage />} />
+            <Route path="/resend-verification" element={<ResendVerificationPage />} />
+
             <Route path="/privacy" element={<PrivacyPolicyPage />} />
             <Route path="/terms" element={<TermsOfServicePage />} />
             <Route path="/contact" element={<ContactPage />} />
