@@ -1194,5 +1194,121 @@
     error400Desc: 'Ø­Ù…ÙˆÙ„Ø© Ø·Ù„Ø¨ ØºÙŠØ± ØµØ§Ù„Ø­Ø©',
     error404Desc: 'Ø§Ù„Ù…ÙˆØ±Ø¯ ØºÙŠØ± Ù…ÙˆØ¬ÙˆØ¯',
     error500Desc: 'Ø®Ø·Ø£ ÙÙŠ Ø§Ù„Ø®Ø§Ø¯Ù…ØŒ ÙŠØ±Ø¬Ù‰ Ø§Ù„Ù…Ø­Ø§ÙˆÙ„Ø© Ù…Ø±Ø© Ø£Ø®Ø±Ù‰',
+
+// Arabic translations to add to src/translations/index.js
+// Add these lines before the closing brace of the 'ar' object (before line 1197: })
+
+// New Landing Page Translations
+landingHeroTagline: 'وكيل الذكاء الاصطناعي الدقيق لمجالك',
+    landingHeroDescription: 'اكتشف وكلاء ذكاء اصطناعي متخصصين مصممين لمجالك. كل وكيل دقيق يفهم اللغة والمعايير والمتطلبات الفريدة لمجالك.',
+        exploreAgentxHub: 'استكشف AgentX HUB',
+            viewAllIndustries: 'عرض جميع الصناعات',
+                domainExpertAi: 'ذكاء اصطناعي خبير بالمجال',
+                    enterpriseGrade: 'مستوى المؤسسات',
+
+                        // AgentX HUB Marketplace
+                        agentxHubMarketplaceTitle: 'وكلاء الذكاء الاصطناعي الدقيقة المميزة',
+                            agentxHubMarketplaceSubtitle: 'وكلاء جاهزون للنشر يحلون تحديات معقدة في التكنولوجيا والتعليم والتوظيف',
+
+                                // Precision AI Judge Agent
+                                precisionJudgeAgentTitle: 'وكيل التحكيم الدقيق بالذكاء الاصطناعي',
+                                    precisionJudgeAgentDesc: 'وكيل متخصص لتقييم مشاركات المسابقات التقنية. يحلل نماذج الأعمال والجدوى التقنية وإمكانات السوق وجودة العرض بتقييم متسق وغير متحيز.',
+                                        precisionJudgeFeature1: 'معايير تقييم موحدة',
+                                            precisionJudgeFeature2: 'تقييم نموذج العمل',
+                                                precisionJudgeFeature3: 'تقييم العرض التقديمي',
+                                                    precisionJudgeRequestedBy: 'طلب من: ITI للمسابقات التقنية',
+                                                        techCompetitionsLabel: 'المسابقات التقنية',
+
+                                                            // CEFR Assessment Agent
+                                                            cefrAgentTitle: 'وكيل تقييم CEFR',
+                                                                cefrAgentDesc: 'وكيل لغوي متخصص يضمن التوافق مع الإطار الأوروبي المرجعي المشترك للغات (CEFR). مضبوط خصيصاً للتقييمات الشفوية والكتابية.',
+                                                                    cefrFeature1: 'تقييم الكفاءة الشفوية',
+                                                                        cefrFeature2: 'دعم متعدد اللغات',
+                                                                            cefrFeature3: 'تقييم موحد',
+                                                                                cefrUsedFor: 'يُستخدم في: شهادات اللغة',
+
+                                                                                    // Precision AI Files Agent
+                                                                                    precisionFilesAgentTitle: 'وكيل معالجة الملفات الدقيق',
+                                                                                        precisionFilesAgentDesc: 'وكيل ذكي لمعالجة المستندات يستخرج ويصنف ويحلل ملفات الأعمال. يتعامل مع العقود والفواتير والتقارير ومستندات الامتثال بدقة عالية.',
+                                                                                            precisionFilesFeature1: 'تصنيف تلقائي للملفات',
+                                                                                                precisionFilesFeature2: 'استخراج وتحقق من البيانات',
+                                                                                                    precisionFilesFeature3: 'فحص الامتثال',
+                                                                                                        precisionFilesRequestedBy: 'طلب من: GrossMargin للعمليات المؤسسية',
+                                                                                                            documentProcessingLabel: 'معالجة المستندات',
+                                                                                                                exploreAllAgentsButton: 'استكشف جميع الوكلاء في AgentX HUB',
+
+                                                                                                                    // Why Choose OBSOLIO
+                                                                                                                    whyChooseTitle: 'لماذا تختار وكلاء OBSOLIO؟',
+                                                                                                                        whyChooseSubtitle: 'مصمم للمحترفين، من قبل المحترفين',
+                                                                                                                            domainExpertiseTitle: 'خبرة مجال مدمجة',
+                                                                                                                                domainExpertiseDesc: 'الوكلاء المتاحون مدربون مسبقاً على معايير ومتطلبات صناعية محددة',
+                                                                                                                                    deployMinutesTitle: 'نشر في دقائق',
+                                                                                                                                        deployMinutesDesc: 'لا يوجد إعداد معقد. اختر وكيلك، اضبط المعاملات، وابدأ المعالجة',
+                                                                                                                                            regulatoryComplianceTitle: 'الامتثال التنظيمي',
+                                                                                                                                                regulatoryComplianceDesc: 'وكلاء مصممون مع مراعاة الامتثال (GDPR، ISO، معايير الصناعة)',
+                                                                                                                                                    humanInLoopTitle: 'الإنسان في الحلقة',
+                                                                                                                                                        humanInLoopDesc: 'دمج سلس للإشراف البشري على القرارات الحرجة وضمان الجودة',
+                                                                                                                                                            noBiasBadDaysTitle: 'لا تحيز، لا أيام سيئة',
+                                                                                                                                                                noBiasBadDaysDesc: 'تحليل متسق وموضوعي في كل مرة. لا إرهاق، لا تقلبات مزاجية، لا تحيز لا واعي—فقط اتخاذ قرارات موثوقة وعادلة',
+                                                                                                                                                                    transparentRoiTitle: 'عائد استثمار شفاف',
+                                                                                                                                                                        transparentRoiDesc: 'مكاسب كفاءة قابلة للقياس في معالجة المستندات ودعم القرار',
+
+                                                                                                                                                                            // How It Works
+                                                                                                                                                                            howItWorksTitle: 'ثلاث خطوات للذكاء',
+                                                                                                                                                                                browseAgentxHubTitle: 'تصفح AgentX HUB',
+                                                                                                                                                                                    browseAgentxHubDesc: 'ابحث عن الوكيل المثالي المُعد مسبقاً لحالة استخدامك الصناعية المحددة',
+                                                                                                                                                                                        customizeTitle: 'تخصيص',
+                                                                                                                                                                                            customizeDesc: 'اضبط معاملات الوكيل وادمجه في سير عملك الحالي',
+                                                                                                                                                                                                processImproveTitle: 'معالجة وتحسين',
+                                                                                                                                                                                                    processImproveDesc: 'نفذ مهامك، راجع النتائج، ودع الوكيل يتعلم ويتكيف',
+
+                                                                                                                                                                                                        // Industries
+                                                                                                                                                                                                        trustedAcrossIndustriesTitle: 'موثوق به عبر الصناعات',
+                                                                                                                                                                                                            techFinanceLabel: 'التكنولوجيا والمالية',
+                                                                                                                                                                                                                techFinanceDesc: 'تحليل المنافسة والسوق',
+                                                                                                                                                                                                                    techFinanceMetric: 'دقة عالية',
+                                                                                                                                                                                                                        educationLabel: 'التعليم',
+                                                                                                                                                                                                                            educationDesc: 'القبول وتقييم اللغة',
+                                                                                                                                                                                                                                educationMetric: 'متوافق مع CEFR',
+                                                                                                                                                                                                                                    legalServicesLabel: 'الخدمات القانونية',
+                                                                                                                                                                                                                                        legalServicesDesc: 'تحليل العقود (خاص بالدولة)',
+                                                                                                                                                                                                                                            legalServicesMetric: 'قابل للتخصيص',
+                                                                                                                                                                                                                                                healthcareLabel: 'الرعاية الصحية',
+                                                                                                                                                                                                                                                    healthcareDesc: 'معالجة البيانات السريرية',
+                                                                                                                                                                                                                                                        healthcareMetric: 'متوافق',
+                                                                                                                                                                                                                                                            hrRecruitmentLabel: 'الموارد البشرية والتوظيف',
+                                                                                                                                                                                                                                                                hrRecruitmentDesc: 'فحص المرشحين',
+                                                                                                                                                                                                                                                                    hrRecruitmentMetric: 'خالٍ من التحيز',
+                                                                                                                                                                                                                                                                        realEstateLabel: 'العقارات',
+                                                                                                                                                                                                                                                                            realEstateDesc: 'تقييم الممتلكات',
+                                                                                                                                                                                                                                                                                realEstateMetric: 'بيانات السوق',
+                                                                                                                                                                                                                                                                                    insuranceLabel: 'التأمين',
+                                                                                                                                                                                                                                                                                        insuranceDesc: 'معالجة المطالبات',
+                                                                                                                                                                                                                                                                                            insuranceMetric: 'تلقائي',
+                                                                                                                                                                                                                                                                                                manufacturingLabel: 'التصنيع',
+                                                                                                                                                                                                                                                                                                    manufacturingDesc: 'مراقبة الجودة',
+                                                                                                                                                                                                                                                                                                        manufacturingMetric: 'في الوقت الفعلي',
+
+                                                                                                                                                                                                                                                                                                            // Professional Disclaimer
+                                                                                                                                                                                                                                                                                                            professionalDisclaimerTitle: 'تعزيز مهني، وليس استبدال',
+                                                                                                                                                                                                                                                                                                                professionalDisclaimerDesc: 'وكلاء OBSOLIO ليسوا بدائل للأطباء أو القضاة أو المحامين. إنهم يعملون كمساعدين أذكياء للتحقق وتقليل عبء العمل وتوفير الوقت من خلال التحليل غير المتحيز. جميع القرارات الحرجة تتطلب إشرافاً بشرياً مهنياً وموافقة نهائية.',
+
+                                                                                                                                                                                                                                                                                                                    // Testimonials
+                                                                                                                                                                                                                                                                                                                    partnersSuccessStoriesTitle: 'شركاؤنا وقصص النجاح',
+                                                                                                                                                                                                                                                                                                                        drHebaSalehTestimonial: 'وكيل التحكيم الدقيق بالذكاء الاصطناعي أحدث ثورة في كيفية تقييمنا لمشاركات المسابقات التقنية. يوفر تقييماً متسقاً وغير متحيز مع الحفاظ على الفهم الدقيق الذي نحتاجه للتقييم العادل.',
+                                                                                                                                                                                                                                                                                                                            drHebaSalehTitle: 'رئيسة ITI',
+                                                                                                                                                                                                                                                                                                                                engAhmedSalahTestimonial: 'وكيل معالجة الملفات الدقيق حوّل سير عمل معالجة المستندات لدينا. ما كان يستغرق فريقنا أياماً يحدث الآن في دقائق، بدقة استثنائية في استخراج وتصنيف بيانات الأعمال الحرجة.',
+                                                                                                                                                                                                                                                                                                                                    engAhmedSalahTitle: 'الرئيس التنفيذي، GrossMargin',
+                                                                                                                                                                                                                                                                                                                                        drLauraSchmidtTestimonial: 'وكيل تقييم CEFR جلب اتساقاً غير مسبوق لتقييمات الكفاءة اللغوية لدينا. يضمن تقييم كل مرشح وفقاً لنفس المعايير الصارمة، مما يزيل الذاتية من عملية الشهادة لدينا.',
+                                                                                                                                                                                                                                                                                                                                            drLauraSchmidtTitle: 'مديرة، معهد اللغات',
+
+                                                                                                                                                                                                                                                                                                                                                // Final CTA
+                                                                                                                                                                                                                                                                                                                                                readyToUpgradeTitle: 'مستعد لترقية سير عملك؟',
+                                                                                                                                                                                                                                                                                                                                                    readyToUpgradeSubtitle: 'انضم إلى المؤسسات الرائدة التي تستخدم وكلاء AgentX HUB الدقيقة. ابدأ بتجربة مجانية لمدة 14 يوماً.',
+                                                                                                                                                                                                                                                                                                                                                        startFreeTrialButton: 'ابدأ التجربة المجانية',
+                                                                                                                                                                                                                                                                                                                                                            scheduleDemoButton: 'حدد موعد عرض توضيحي',
+                                                                                                                                                                                                                                                                                                                                                                soc2Compliant: 'SOC 2 Type II',
+                                                                                                                                                                                                                                                                                                                                                                    gdprCompliant: 'متوافق مع GDPR',
+                                                                                                                                                                                                                                                                                                                                                                        iso27001Compliant: 'ISO 27001',
   }
 }
