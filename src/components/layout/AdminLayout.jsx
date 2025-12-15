@@ -10,8 +10,13 @@ import logo from '../../assets/imgs/OBSOLIO-logo-cyan.png';
 const AdminLayout = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [profileOpen, setProfileOpen] = useState(false);
-  const { user } = useAuthStore();
+  const { user, logout } = useAuthStore();
   const location = useLocation();
+
+  const handleLogout = () => {
+    logout();
+    window.location.href = '/login';
+  };
 
   // We are likely on the console subdomain, so paths are root relative.
   // Or we might be handling legacy/dev envs.
@@ -76,13 +81,17 @@ const AdminLayout = ({ children }) => {
             {profileOpen && (
               <div className={'absolute right-0 mt-2 w-48 rounded-lg shadow-xl border py-2 bg-gray-800 border-gray-700'}>
                 <Link
-                  to="/system-admin/settings"
-                  className={'flex items-center space-x-2 px-4 py-2 transition-colors text-gray-300 hover:bg-gray-700'}
+                  to="#"
+                  className={'flex items-center space-x-2 px-4 py-2 transition-colors text-gray-300 hover:bg-gray-700 opacity-50 cursor-not-allowed'}
+                  title="Global Settings - Coming Soon"
                 >
                   <Settings className="w-4 h-4" />
                   <span>Settings</span>
                 </Link>
-                <button className={'flex items-center space-x-2 px-4 py-2 transition-colors w-full text-left text-red-400 hover:bg-gray-700'}>
+                <button
+                  onClick={handleLogout}
+                  className={'flex items-center space-x-2 px-4 py-2 transition-colors w-full text-left text-red-400 hover:bg-gray-700'}
+                >
                   <LogOut className="w-4 h-4" />
                   <span>Logout</span>
                 </button>

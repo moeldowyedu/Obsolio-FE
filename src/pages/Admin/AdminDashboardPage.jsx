@@ -148,9 +148,7 @@ const AdminDashboardPage = () => {
             <div className={cardClassDark}>
               <div className="flex items-center justify-between mb-6">
                 <h2 className={`text-2xl font-bold ${textPrimaryDark}`}>{t.recentActivityTitle}</h2>
-                <Link to="/admin/users" className="text-primary-400 hover:text-primary-300 font-semibold text-sm">
-                  {t.viewAllLink}
-                </Link>
+
               </div>
               <div className="space-y-4">
                 {recentActivity.map((activity) => (
@@ -201,9 +199,7 @@ const AdminDashboardPage = () => {
         <div className={`${cardClassDark} mb-8`}>
           <div className="flex items-center justify-between mb-6">
             <h2 className={`text-2xl font-bold ${textPrimaryDark}`}>{t.topUsersTitle}</h2>
-            <Link to="/admin/users" className="text-primary-400 hover:text-primary-300 font-semibold text-sm">
-              {t.manageUsersLink}
-            </Link>
+
           </div>
           <div className="overflow-x-auto">
             <table className="w-full">
@@ -253,77 +249,6 @@ const AdminDashboardPage = () => {
           </div>
         </div>
 
-        {/* System Health */}
-        <div className={cardClassDark}>
-          <h2 className={`text-2xl font-bold mb-6 flex items-center ${textPrimaryDark}`}>
-            <span className="material-icons text-blue-500 mr-2">monitor_heart</span>
-            {t.systemHealthTitle}
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {systemHealth.map((service, index) => (
-              <div key={index} className="rounded-xl p-4 bg-white/5 border border-white/10">
-                <div className="flex items-center justify-between mb-3">
-                  <h3 className={`font-semibold ${textPrimaryDark}`}>{service.name}</h3>
-                  <span className={`w-3 h-3 rounded-full bg-${service.color}-500`}></span>
-                </div>
-                <div className="space-y-2 text-sm">
-                  <div className="flex justify-between">
-                    <span className={textSecondaryDark}>{t.statusLabel}</span>
-                    <span className={`font-semibold capitalize ${service.status === 'healthy' ? 'text-green-400' : 'text-yellow-400'
-                      }`}>
-                      {service.status}
-                    </span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className={textSecondaryDark}>{t.uptimeLabel}</span>
-                    <span className={`font-semibold ${textPrimaryDark}`}>{service.uptime}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className={textSecondaryDark}>{t.responseLabel}</span>
-                    <span className={`font-semibold ${textPrimaryDark}`}>{service.responseTime}</span>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Quick Actions */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-8">
-          <Link
-            to="/admin/users"
-            className={`${cardClassDark} group`}
-            style={{}} // Override previous styles
-          >
-            <span className="material-icons text-4xl text-primary-500 mb-3">people</span>
-            <h3 className={`text-xl font-bold mb-2 ${textPrimaryDark}`}>{t.manageUsersCard}</h3>
-            <p className={`${textSecondaryDark} text-sm`}>{t.manageUsersCardDesc}</p>
-          </Link>
-          <Link
-            to="/admin/analytics"
-            className={`${cardClassDark} group`}
-          >
-            <span className="material-icons text-4xl text-green-500 mb-3">analytics</span>
-            <h3 className={`text-xl font-bold mb-2 ${textPrimaryDark}`}>{t.viewAnalyticsCard}</h3>
-            <p className={`${textSecondaryDark} text-sm`}>{t.viewAnalyticsCardDesc}</p>
-          </Link>
-          <Link
-            to="/admin/webhooks"
-            className={`${cardClassDark} group`}
-          >
-            <span className="material-icons text-4xl text-orange-500 mb-3">webhook</span>
-            <h3 className={`text-xl font-bold mb-2 ${textPrimaryDark}`}>{t.webhooksTab}</h3>
-            <p className={`${textSecondaryDark} text-sm`}>{t.webhooksCardDesc}</p>
-          </Link>
-          <Link
-            to="/settings/rubrics"
-            className={`${cardClassDark} group`}
-          >
-            <span className="material-icons text-4xl text-purple-500 mb-3">tune</span>
-            <h3 className={`text-xl font-bold mb-2 ${textPrimaryDark}`}>{t.criteria}</h3>
-            <p className={`${textSecondaryDark} text-sm`}>{t.manageCriteriaCardDesc}</p>
-          </Link>
-        </div>
       </div>
     </Layout>
   )
