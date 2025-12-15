@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
   Building2, Users, Cpu, Bot, Activity, Plug,
   Settings, LogOut, Menu, X, ChevronDown, LayoutDashboard
@@ -12,10 +12,11 @@ const AdminLayout = ({ children }) => {
   const [profileOpen, setProfileOpen] = useState(false);
   const { user, logout } = useAuthStore();
   const location = useLocation();
+  const navigate = useNavigate();
 
-  const handleLogout = () => {
-    logout();
-    window.location.href = '/login';
+  const handleLogout = async () => {
+    await logout();
+    navigate('/login');
   };
 
   // We are likely on the console subdomain, so paths are root relative.
