@@ -32,7 +32,9 @@ const ProtectedRoute = ({ children, requireAdmin = false, requireSystemAdmin = f
   if (requireSystemAdmin) {
     if (!user?.is_system_admin) {
       // User is NOT a system admin but trying to access system routes
-      return <Navigate to="/dashboard" replace />;
+      // Do NOT redirect to /dashboard as that creates a loop or sends to tenant context
+      // Instead, force logout or show access denied
+      return <Navigate to="/login" replace state={{ error: 'Access denied: System Admin privileges required' }} />;
     }
     // Also ensure they are on the correct domain (console.X)
     if (!isSystemAdminDomain && import.meta.env.VITE_APP_ENV !== 'local_no_subdomains') {
