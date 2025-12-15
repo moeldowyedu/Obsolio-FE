@@ -229,7 +229,6 @@ const HomePage = () => {
                 { icon: Zap, color: "text-yellow-400", title: "Deploy in Minutes", desc: "No complex setup. Select your agent, configure parameters, and start processing." },
                 { icon: Shield, color: "text-green-400", title: "Regulatory Compliance", desc: "Agents designed with compliance in mind (GDPR, ISO, Industry Standards)." },
                 { icon: Eye, color: "text-purple-400", title: "Human-in-the-Loop", desc: "Seamlessly integrate human oversight for critical decisions and quality assurance." },
-                { icon: Brain, color: "text-pink-400", title: "Continuous Learning", desc: "Agents adapt to your specific data and feedback loops for improved accuracy." },
                 { icon: Users, color: "text-cyan-400", title: "No Bias, No Bad Days", desc: "Consistent, objective analysis every time. No fatigue, no mood swings, no unconscious bias—just reliable, fair decision-making." },
                 { icon: DollarSign, color: "text-orange-400", title: "Transparent ROI", desc: "Measurable efficiency gains in document processing and decision support." },
               ].map((item, idx) => (
@@ -338,9 +337,6 @@ const HomePage = () => {
                 <h4 className="text-yellow-200 font-bold mb-2">Professional Augmentation, Not Replacement</h4>
                 <p className="text-sm text-yellow-100/90 leading-relaxed">
                   OBSOLIO Agents are not substitutes for doctors, judges, or lawyers. They serve as intelligent assistants for verification, reducing workload, and saving time through unbiased analysis. All critical decisions require professional human oversight and final approval.
-                </p>
-                <p className="text-xs text-yellow-200/70 mt-2 italic">
-                  وكلاء OBSOLIO ليسوا بديلاً للأطباء أو القضاة أو المحامين، بل أداة للتدقيق وتقليل المجهود وتوفير الوقت باستخدام وكلاء غير متحيزين.
                 </p>
               </div>
             </div>
