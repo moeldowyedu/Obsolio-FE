@@ -214,9 +214,6 @@ const Header = () => {
                         {(user?.name || user?.fullName || user?.full_name || 'U').charAt(0).toUpperCase()}
                       </span>
                     </div>
-                    <span className="text-white font-medium hidden sm:block">
-                      {user?.name || user?.fullName || user?.full_name || 'User'}
-                    </span>
                     <span className="material-icons text-gray-300 text-sm">
                       {userMenuOpen ? 'expand_less' : 'expand_more'}
                     </span>
