@@ -1,7 +1,7 @@
 import api from './api';
 
 const adminService = {
-    // Get all system tenants (Godfather only)
+    // Get all system tenants (Console System Admin)
     getAllTenants: async (params = {}) => {
         // const queryString = new URLSearchParams(params).toString();
         // const endpoint = queryString ? `/admin/tenants?${queryString}` : '/admin/tenants';

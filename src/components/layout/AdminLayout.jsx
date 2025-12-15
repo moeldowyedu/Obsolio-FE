@@ -13,20 +13,17 @@ const AdminLayout = ({ children }) => {
   const { user } = useAuthStore();
   const location = useLocation();
 
-  const isGodfather = location.pathname.startsWith('/godfather');
+  // We are likely on the console subdomain, so paths are root relative.
+  // Or we might be handling legacy/dev envs.
+  // Let's standardise on root-relative paths which AdminRouter handles.
 
-  const navigation = isGodfather ? [
-    { name: 'Godfather Dashboard', href: '/godfather/dashboard', icon: LayoutDashboard },
-    { name: 'Manage Tenants', href: '/godfather/tenants', icon: Building2 },
-    { name: 'Manage Billing', href: '/godfather/billing', icon: Users }, // Using Users icon as placeholder or appropriate one
-    { name: 'AgentX Stats', href: '/godfather/active-agents', icon: Activity },
-  ] : [
-    { name: 'Dashboard', href: '/system-admin/dashboard', icon: LayoutDashboard },
-    { name: 'Tenants Management', href: '/system-admin/tenants', icon: Building2 },
-    { name: 'Engine Management', href: '/system-admin/engines', icon: Cpu },
-    { name: 'Agents Management', href: '/system-admin/agents', icon: Bot },
-    { name: 'Active Agents Monitor', href: '/system-admin/active-agents', icon: Activity },
-    { name: 'Integration Management', href: '/system-admin/integrations', icon: Plug },
+  const navigation = [
+    { name: 'Console Dashboard', href: '/', icon: LayoutDashboard },
+    { name: 'Manage Tenants', href: '/tenants', icon: Building2 },
+    { name: 'Manage Engines', href: '/engines', icon: Cpu },
+    { name: 'Manage Agents', href: '/agents', icon: Bot }, // Updated to match AdminRouter path
+    { name: 'Active Agents', href: '/active-agents', icon: Activity },
+    { name: 'Integrations', href: '/integrations', icon: Plug },
   ];
 
   const isActive = (href) => location.pathname === href;
@@ -47,10 +44,10 @@ const AdminLayout = ({ children }) => {
               <img src={logo} alt="Obsolio" className="h-8 w-auto" />
               <div>
                 <h1 className={'font-bold text-lg text-white'}>
-                  {isGodfather ? 'OBSOLIO Console' : 'Obsolio System Admin'}
+                  OBSOLIO Console
                 </h1>
                 <p className={'text-xs text-gray-400'}>
-                  {isGodfather ? 'Master Control' : 'Platform Management Console'}
+                  System Administration
                 </p>
               </div>
             </div>
@@ -99,10 +96,7 @@ const AdminLayout = ({ children }) => {
         {/* Sidebar */}
         <aside
           className={`fixed left-0 top-16 bottom-0 backdrop-blur-sm border-r transition-all duration-300 ${sidebarOpen ? 'w-64' : 'w-0'
-            } overflow-hidden z-40 ${isGodfather
-              ? 'bg-white/90 border-gray-200'
-              : 'bg-gray-900/95 border-gray-700/50'
-            }`}
+            } overflow-hidden z-40 bg-gray-900/95 border-gray-700/50`}
         >
           <nav className="p-4 space-y-2">
             {navigation.map((item) => {
@@ -114,9 +108,7 @@ const AdminLayout = ({ children }) => {
                   to={item.href}
                   className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-all ${active
                     ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg'
-                    : isGodfather
-                      ? 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
-                      : 'text-gray-400 hover:bg-gray-800 hover:text-white'
+                    : 'text-gray-400 hover:bg-gray-800 hover:text-white'
                     }`}
                 >
                   <Icon className="w-5 h-5 flex-shrink-0" />
