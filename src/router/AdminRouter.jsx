@@ -68,7 +68,7 @@ const AdminRouter = () => {
 
             {/* Support legacy routes by redirecting to root or specific pages */}
             <Route path="/dashboard" element={<Navigate to="/" replace />} />
-            <Route path="/godfather/*" element={<Navigate to="/" replace />} />
+
 
             {/* 404 */}
             <Route path="*" element={<NotFoundPage />} />

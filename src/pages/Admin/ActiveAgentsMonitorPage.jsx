@@ -14,7 +14,7 @@ const ActiveAgentsMonitorPage = () => {
   const [lastRefresh, setLastRefresh] = useState(new Date());
 
   const location = useLocation();
-  const isGodfather = location.pathname.startsWith('/godfather');
+
 
   // Simulated auto-refresh
   useEffect(() => {
@@ -314,14 +314,11 @@ const ActiveAgentsMonitorPage = () => {
   };
 
   // Styles
-  const cardClass = isGodfather
-    ? 'bg-white rounded-xl p-6 border border-gray-200 shadow-sm hover:shadow-md transition-all'
-    : 'bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700/50 hover:border-purple-500/50 transition-all';
-
-  const textPrimary = isGodfather ? 'text-gray-900' : 'text-white';
-  const textSecondary = isGodfather ? 'text-gray-500' : 'text-gray-400';
-  const tableHeaderClass = isGodfather ? 'bg-gray-50 text-gray-500' : 'bg-gray-900/80 text-gray-400';
-  const tableRowClass = isGodfather ? 'border-t border-gray-100 hover:bg-gray-50' : 'border-t border-gray-700/50 hover:bg-gray-900/50';
+  const cardClass = 'glass-card rounded-2xl p-6 hover:shadow-xl transition-all border border-white/10 bg-[#1e293b]/40';
+  const textPrimary = 'text-white';
+  const textSecondary = 'text-gray-400';
+  const tableHeaderClass = 'bg-gray-900/80 text-gray-400';
+  const tableRowClass = 'border-t border-gray-700/50 hover:bg-gray-900/50';
 
   return (
     <AdminLayout>
@@ -334,10 +331,7 @@ const ActiveAgentsMonitorPage = () => {
           </div>
           <div className="mt-4 md:mt-0 flex items-center space-x-3">
             {/* Auto Refresh Toggle */}
-            <div className={`flex items-center space-x-2 rounded-lg px-4 py-2 border ${isGodfather
-                ? 'bg-white border-gray-200'
-                : 'bg-gray-800 border-gray-700'
-              }`}>
+            <div className={`flex items-center space-x-2 rounded-lg px-4 py-2 border bg-gray-800 border-gray-700`}>
               <RefreshCw className={`w-4 h-4 ${autoRefresh ? 'text-green-500 animate-spin' : textSecondary}`} />
               <span className={`text-sm font-semibold ${textPrimary}`}>Auto-refresh:</span>
               <button
@@ -354,10 +348,7 @@ const ActiveAgentsMonitorPage = () => {
               <select
                 value={refreshInterval}
                 onChange={(e) => setRefreshInterval(Number(e.target.value))}
-                className={`px-4 py-2 border rounded-lg text-sm focus:outline-none focus:border-purple-500 ${isGodfather
-                    ? 'bg-white border-gray-200 text-gray-900'
-                    : 'bg-gray-800 border-gray-700 text-white'
-                  }`}
+                className={`px-4 py-2 border rounded-lg text-sm focus:outline-none focus:border-purple-500 bg-gray-800 border-gray-700 text-white`}
               >
                 <option value={5}>5s</option>
                 <option value={10}>10s</option>
@@ -426,7 +417,7 @@ const ActiveAgentsMonitorPage = () => {
         </div>
 
         {/* Filters */}
-        <div className={`${isGodfather ? 'bg-white border-gray-200' : 'bg-gray-800/50 border-gray-700/50'} backdrop-blur-sm rounded-xl p-4 border transition-all`}>
+        <div className={`bg-gray-800/50 border-gray-700/50 backdrop-blur-sm rounded-xl p-4 border transition-all`}>
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-2">
               <Filter className={`w-5 h-5 ${textSecondary}`} />
@@ -438,8 +429,8 @@ const ActiveAgentsMonitorPage = () => {
                   key={status}
                   onClick={() => setFilterStatus(status)}
                   className={`px-4 py-2 rounded-lg text-sm font-semibold capitalize transition-colors ${filterStatus === status
-                      ? 'bg-purple-600 text-white'
-                      : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                    ? 'bg-purple-600 text-white'
+                    : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
                     }`}
                 >
                   {status}
@@ -450,7 +441,7 @@ const ActiveAgentsMonitorPage = () => {
         </div>
 
         {/* Active Agents Table */}
-        <div className={`${isGodfather ? 'bg-white border-gray-200' : 'bg-gray-800/50 border-gray-700/50'} backdrop-blur-sm rounded-xl border overflow-hidden`}>
+        <div className={`bg-gray-800/50 border-gray-700/50 backdrop-blur-sm rounded-xl border overflow-hidden`}>
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead className={tableHeaderClass}>
@@ -491,8 +482,8 @@ const ActiveAgentsMonitorPage = () => {
                         <div className="w-full bg-gray-700 rounded-full h-2">
                           <div
                             className={`h-2 rounded-full transition-all ${agent.status === 'Failed' ? 'bg-red-500' :
-                                agent.status === 'Completed' ? 'bg-green-500' :
-                                  'bg-blue-500'
+                              agent.status === 'Completed' ? 'bg-green-500' :
+                                'bg-blue-500'
                               }`}
                             style={{ width: `${agent.progress}%` }}
                           />
@@ -510,25 +501,21 @@ const ActiveAgentsMonitorPage = () => {
                     </td>
                     <td className="py-4 px-6">
                       <div className="flex items-center justify-end space-x-2">
-                        <button className={`p-2 rounded-lg transition-colors ${isGodfather ? 'hover:bg-gray-100' : 'hover:bg-gray-700'
-                          }`} title="View Logs">
+                        <button className={`p-2 rounded-lg transition-colors hover:bg-gray-700`} title="View Logs">
                           <FileText className="w-4 h-4 text-blue-400" />
                         </button>
                         {agent.status === 'Running' && (
                           <>
-                            <button className={`p-2 rounded-lg transition-colors ${isGodfather ? 'hover:bg-gray-100' : 'hover:bg-gray-700'
-                              }`} title="Pause">
+                            <button className={`p-2 rounded-lg transition-colors hover:bg-gray-700`} title="Pause">
                               <PauseCircle className="w-4 h-4 text-yellow-400" />
                             </button>
-                            <button className={`p-2 rounded-lg transition-colors ${isGodfather ? 'hover:bg-gray-100' : 'hover:bg-gray-700'
-                              }`} title="Terminate">
+                            <button className={`p-2 rounded-lg transition-colors hover:bg-gray-700`} title="Terminate">
                               <Square className="w-4 h-4 text-red-400" />
                             </button>
                           </>
                         )}
                         {agent.status === 'Paused' && (
-                          <button className={`p-2 rounded-lg transition-colors ${isGodfather ? 'hover:bg-gray-100' : 'hover:bg-gray-700'
-                            }`} title="Resume">
+                          <button className={`p-2 rounded-lg transition-colors hover:bg-gray-700`} title="Resume">
                             <Play className="w-4 h-4 text-green-400" />
                           </button>
                         )}
@@ -554,10 +541,7 @@ const ActiveAgentsMonitorPage = () => {
             {activityFeed.map((activity) => (
               <div
                 key={activity.id}
-                className={`flex items-start justify-between p-3 rounded-lg border ${isGodfather
-                    ? 'bg-gray-50 border-gray-100'
-                    : 'bg-gray-900/50 border-gray-700/50'
-                  }`}
+                className={`flex items-start justify-between p-3 rounded-lg border bg-gray-900/50 border-gray-700/50`}
               >
                 <div className="flex items-start space-x-3">
                   <div className={`mt-0.5 ${getActivityTypeColor(activity.type)}`}>

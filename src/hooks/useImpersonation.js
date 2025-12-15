@@ -77,7 +77,7 @@ export const useImpersonation = () => {
             const protocol = window.location.protocol;
             const appDomain = import.meta.env.VITE_APP_DOMAIN || 'localhost:5173';
             // Construct admin/console domain
-            const targetUrl = `${protocol}//console.${appDomain}/godfather/dashboard`;
+            const targetUrl = `${protocol}//console.${appDomain}/`;
 
             window.location.href = targetUrl;
 

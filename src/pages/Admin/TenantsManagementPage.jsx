@@ -26,7 +26,7 @@ const TenantsManagementPage = () => {
   const itemsPerPage = 10;
 
   const location = useLocation();
-  const isGodfather = location.pathname.startsWith('/godfather');
+
 
   useEffect(() => {
     // Fetch initial data
@@ -142,15 +142,12 @@ const TenantsManagementPage = () => {
     }
   };
 
-  // Conditional Styles
-  const cardClass = isGodfather
-    ? 'bg-white rounded-xl p-6 border border-gray-200 shadow-sm hover:shadow-md transition-all'
-    : 'bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700/50 hover:border-purple-500/50 transition-all';
-
-  const textPrimary = isGodfather ? 'text-gray-900' : 'text-white';
-  const textSecondary = isGodfather ? 'text-gray-500' : 'text-gray-400';
-  const tableHeaderClass = isGodfather ? 'bg-gray-50 text-gray-500' : 'bg-gray-900/80 text-gray-400';
-  const tableRowClass = isGodfather ? 'border-t border-gray-100 hover:bg-gray-50' : 'border-t border-gray-700/50 hover:bg-gray-900/50';
+  // Styles
+  const cardClass = 'glass-card rounded-2xl p-6 hover:shadow-xl transition-all border border-white/10 bg-[#1e293b]/40';
+  const textPrimary = 'text-white';
+  const textSecondary = 'text-gray-400';
+  const tableHeaderClass = 'bg-gray-900/80 text-gray-400';
+  const tableRowClass = 'border-t border-gray-700/50 hover:bg-gray-900/50';
 
   return (
     <AdminLayout>
@@ -199,10 +196,7 @@ const TenantsManagementPage = () => {
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   onKeyDown={handleSearch}
-                  className={`w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:border-purple-500 ${isGodfather
-                    ? 'bg-gray-50 border-gray-200 text-gray-900 placeholder-gray-400'
-                    : 'bg-gray-900 border-gray-700 text-white placeholder-gray-400'
-                    }`}
+                  className={`w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:border-purple-500 bg-gray-900 border-gray-700 text-white placeholder-gray-400`}
                 />
               </div>
             </div>
@@ -213,10 +207,7 @@ const TenantsManagementPage = () => {
               <select
                 value={filterPlan}
                 onChange={(e) => setFilterPlan(e.target.value)}
-                className={`w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:border-purple-500 appearance-none ${isGodfather
-                  ? 'bg-gray-50 border-gray-200 text-gray-900'
-                  : 'bg-gray-900 border-gray-700 text-white'
-                  }`}
+                className={`w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:border-purple-500 appearance-none bg-gray-900 border-gray-700 text-white`}
               >
                 <option value="all">All Plans</option>
                 <option value="Enterprise">Enterprise</option>
@@ -231,10 +222,7 @@ const TenantsManagementPage = () => {
               <select
                 value={filterStatus}
                 onChange={(e) => setFilterStatus(e.target.value)}
-                className={`w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:border-purple-500 appearance-none ${isGodfather
-                  ? 'bg-gray-50 border-gray-200 text-gray-900'
-                  : 'bg-gray-900 border-gray-700 text-white'
-                  }`}
+                className={`w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:border-purple-500 appearance-none bg-gray-900 border-gray-700 text-white`}
               >
                 <option value="all">All Status</option>
                 <option value="Active">Active</option>
@@ -254,8 +242,7 @@ const TenantsManagementPage = () => {
         </div>
 
         {/* Tenants Table */}
-        <div className={`backdrop-blur-sm rounded-xl border overflow-hidden ${isGodfather ? 'bg-white border-gray-200' : 'bg-gray-800/50 border-gray-700/50'
-          }`}>
+        <div className={`backdrop-blur-sm rounded-xl border overflow-hidden bg-gray-800/50 border-gray-700/50`}>
           {isLoading ? (
             <div className="flex justify-center items-center py-20">
               <Loader2 className="w-10 h-10 text-purple-500 animate-spin" />
@@ -357,33 +344,28 @@ const TenantsManagementPage = () => {
                       </td>
                       <td className="py-2 px-3">
                         <div className="flex items-center justify-end space-x-1">
-                          <button className={`p-1.5 rounded-lg transition-colors ${isGodfather ? 'hover:bg-gray-100' : 'hover:bg-gray-700'
-                            }`} title="View Details">
+                          <button className={`p-1.5 rounded-lg transition-colors hover:bg-gray-700`} title="View Details">
                             <Eye className="w-3.5 h-3.5 text-blue-400" />
                           </button>
                           <button
                             onClick={() => handleOpenModal(tenant)}
-                            className={`p-1.5 rounded-lg transition-colors ${isGodfather ? 'hover:bg-gray-100' : 'hover:bg-gray-700'
-                              }`} title="Manage Subscription">
+                            className={`p-1.5 rounded-lg transition-colors hover:bg-gray-700`} title="Manage Subscription">
                             <Settings className="w-3.5 h-3.5 text-purple-400" />
                           </button>
-                          <button className={`p-1.5 rounded-lg transition-colors ${isGodfather ? 'hover:bg-gray-100' : 'hover:bg-gray-700'
-                            }`} title="Login As">
+                          <button className={`p-1.5 rounded-lg transition-colors hover:bg-gray-700`} title="Login As">
                             <LogIn className="w-3.5 h-3.5 text-green-400" />
                           </button>
                           {tenant.status === 'Suspended' ? (
                             <button
                               onClick={() => handleAction('activate', tenant.id)}
-                              className={`p-1.5 rounded-lg transition-colors ${isGodfather ? 'hover:bg-gray-100' : 'hover:bg-gray-700'
-                                }`}
+                              className={`p-1.5 rounded-lg transition-colors hover:bg-gray-700`}
                               title="Activate">
                               <CheckCircle className="w-3.5 h-3.5 text-green-400" />
                             </button>
                           ) : (
                             <button
                               onClick={() => handleAction('suspend', tenant.id)}
-                              className={`p-1.5 rounded-lg transition-colors ${isGodfather ? 'hover:bg-gray-100' : 'hover:bg-gray-700'
-                                }`}
+                              className={`p-1.5 rounded-lg transition-colors hover:bg-gray-700`}
                               title="Suspend">
                               <Ban className="w-3.5 h-3.5 text-red-400" />
                             </button>
@@ -399,8 +381,7 @@ const TenantsManagementPage = () => {
 
           {/* Pagination */}
           {tenants.length > 0 && (
-            <div className={`px-6 py-4 flex items-center justify-between border-t ${isGodfather ? 'bg-gray-50 border-gray-100' : 'bg-gray-900/80 border-gray-700/50'
-              }`}>
+            <div className={`px-6 py-4 flex items-center justify-between border-t bg-gray-900/80 border-gray-700/50`}>
               <div className={`text-sm ${textSecondary}`}>
                 Page {pagination.currentPage} of {pagination.totalPages}
               </div>
@@ -408,10 +389,7 @@ const TenantsManagementPage = () => {
                 <button
                   onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
                   disabled={currentPage === 1}
-                  className={`px-4 py-2 rounded-lg transition-colors text-sm font-semibold ${isGodfather
-                    ? 'bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 disabled:bg-gray-100 disabled:text-gray-400'
-                    : 'bg-gray-700 hover:bg-gray-600 disabled:bg-gray-800 disabled:text-gray-600 text-white'
-                    }`}
+                  className={`px-4 py-2 rounded-lg transition-colors text-sm font-semibold bg-gray-700 hover:bg-gray-600 disabled:bg-gray-800 disabled:text-gray-600 text-white`}
                 >
                   Previous
                 </button>
@@ -422,10 +400,7 @@ const TenantsManagementPage = () => {
                 <button
                   onClick={() => setCurrentPage(Math.min(pagination.totalPages, currentPage + 1))}
                   disabled={currentPage === pagination.totalPages}
-                  className={`px-4 py-2 rounded-lg transition-colors text-sm font-semibold ${isGodfather
-                    ? 'bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 disabled:bg-gray-100 disabled:text-gray-400'
-                    : 'bg-gray-700 hover:bg-gray-600 disabled:bg-gray-800 disabled:text-gray-600 text-white'
-                    }`}
+                  className={`px-4 py-2 rounded-lg transition-colors text-sm font-semibold bg-gray-700 hover:bg-gray-600 disabled:bg-gray-800 disabled:text-gray-600 text-white`}
                 >
                   Next
                 </button>
@@ -438,7 +413,7 @@ const TenantsManagementPage = () => {
       {/* Subscription Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-          <div className={`w-full max-w-md p-6 rounded-xl shadow-2xl ${isGodfather ? 'bg-white' : 'bg-gray-800 border border-gray-700'}`}>
+          <div className={`w-full max-w-md p-6 rounded-xl shadow-2xl bg-gray-800 border border-gray-700`}>
             <div className="flex items-center justify-between mb-6">
               <h3 className={`text-xl font-bold ${textPrimary}`}>Manage Subscription</h3>
               <button
@@ -451,7 +426,7 @@ const TenantsManagementPage = () => {
             <div className="space-y-4">
               <div>
                 <label className={`block text-sm font-medium mb-1 ${textSecondary}`}>Tenant</label>
-                <div className={`p-3 rounded-lg border ${isGodfather ? 'bg-gray-50 border-gray-200' : 'bg-gray-900 border-gray-700'} ${textPrimary}`}>
+                <div className={`p-3 rounded-lg border bg-gray-900 border-gray-700 ${textPrimary}`}>
                   {selectedTenant?.name}
                 </div>
               </div>
@@ -462,10 +437,7 @@ const TenantsManagementPage = () => {
                   type="date"
                   value={newEndDate}
                   onChange={(e) => setNewEndDate(e.target.value)}
-                  className={`w-full p-3 rounded-lg border focus:ring-2 focus:ring-purple-500 outline-none ${isGodfather
-                    ? 'bg-white border-gray-300 text-gray-900'
-                    : 'bg-gray-900 border-gray-700 text-white'
-                    }`}
+                  className={`w-full p-3 rounded-lg border focus:ring-2 focus:ring-purple-500 outline-none bg-gray-900 border-gray-700 text-white`}
                 />
                 <p className="text-xs text-gray-400 mt-1">Set a future date to extend the trial or subscription.</p>
               </div>
@@ -473,7 +445,7 @@ const TenantsManagementPage = () => {
               <div className="flex items-center justify-end space-x-3 mt-6">
                 <button
                   onClick={() => setIsModalOpen(false)}
-                  className={`px-4 py-2 rounded-lg font-medium ${isGodfather ? 'text-gray-600 hover:bg-gray-100' : 'text-gray-300 hover:bg-gray-700'}`}>
+                  className={`px-4 py-2 rounded-lg font-medium text-gray-300 hover:bg-gray-700`}>
                   Cancel
                 </button>
                 <button

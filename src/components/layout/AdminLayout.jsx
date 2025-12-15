@@ -29,7 +29,7 @@ const AdminLayout = ({ children }) => {
   const isActive = (href) => location.pathname === href;
 
   return (
-    <div className={`min-h-screen ${isGodfather ? 'bg-gray-50' : 'bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900'}`}>
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
       {/* Top Header */}
       <header className={'fixed top-0 left-0 right-0 h-16 backdrop-blur-sm border-b z-50 transition-colors duration-300 bg-gray-900/95 border-gray-700/50'}>
         <div className="h-full px-4 flex items-center justify-between">
