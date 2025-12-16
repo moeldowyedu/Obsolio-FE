@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuthStore } from '../../store/authStore'
+import { useTenantStore } from '../../store/tenantStore'
 import { useLanguage } from '../../contexts/LanguageContext'
 import { translations } from '../../translations'
 import NotificationBell from '../common/NotificationBell/NotificationBell'
@@ -9,6 +10,7 @@ import { Menu, X, LogIn } from 'lucide-react'
 
 const Header = () => {
   const { isAuthenticated, user, logout } = useAuthStore()
+  const { currentTenant } = useTenantStore()
   const { language, changeLanguage } = useLanguage()
   const t = translations[language]
   const navigate = useNavigate()
@@ -229,6 +231,25 @@ const Header = () => {
                         <p className="text-xs text-gray-400 mt-0.5">{user?.email || 'user@example.com'}</p>
                         <p className="text-xs text-primary-400 font-medium mt-1 capitalize">{user?.role || 'User'}</p>
                       </div>
+
+                      {/* Tenant Dashboard Link */}
+                      {currentTenant && (
+                        <a
+                          href={`${window.location.protocol}//${currentTenant.subdomain}.${import.meta.env.VITE_APP_DOMAIN || 'obsolio.com'}/dashboard`}
+                          className="block px-4 py-3 bg-primary-500/10 hover:bg-primary-500/20 text-primary-400 hover:text-primary-300 transition-colors border-b border-white/10"
+                          onClick={() => setUserMenuOpen(false)}
+                        >
+                          <div className="flex items-center gap-2">
+                            <span className="material-icons text-sm">dashboard</span>
+                            <div className="flex flex-col">
+                              <span className="font-semibold text-sm">Dashboard</span>
+                              <span className="text-[10px] opacity-75 leading-none mt-0.5">
+                                {currentTenant.subdomain}.{import.meta.env.VITE_APP_DOMAIN || 'obsolio.com'}
+                              </span>
+                            </div>
+                          </div>
+                        </a>
+                      )}
 
                       <Link
                         to="/profile"
