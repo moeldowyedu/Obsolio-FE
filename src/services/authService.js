@@ -166,9 +166,7 @@ const authService = {
   // Check Domain Availability
   checkDomainAvailability: async (subdomain) => {
     try {
-      const response = await api.get('/tenants/check-availability', {
-        params: { subdomain }
-      });
+      const response = await api.get(`/tenants/check-availability/${subdomain}`);
       return response.data;
     } catch (error) {
       if (error.response?.status === 404) {
