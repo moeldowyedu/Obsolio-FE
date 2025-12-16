@@ -68,6 +68,39 @@ const Header = () => {
     navigate('/login')
   }
 
+  // Hydrate tenant info if missing
+  useEffect(() => {
+    const hydrateTenant = async () => {
+      // If we are authenticated but have no currentTenant in store
+      if (isAuthenticated && !currentTenant) {
+        // Try to get tenant ID from user object or local storage
+        const storedTenantId = user?.tenant_id || user?.tenantId || localStorage.getItem('current_tenant_id');
+
+        if (storedTenantId) {
+          try {
+            // We need to use the store's action to update global state
+            await useTenantStore.getState().setCurrentTenant(storedTenantId);
+          } catch (error) {
+            console.error("Failed to hydrate tenant:", error);
+          }
+        }
+      }
+    };
+
+    hydrateTenant();
+  }, [isAuthenticated, currentTenant, user]);
+
+  // Helper to get display name
+  const getDisplayName = () => {
+    if (!user) return 'Guest';
+    return user.name ||
+      user.fullName ||
+      user.full_name ||
+      (user.first_name ? `${user.first_name} ${user.last_name || ''}` : null) ||
+      user.email?.split('@')[0] ||
+      'User';
+  }
+
   const toggleUserMenu = () => {
     setUserMenuOpen(!userMenuOpen)
   }
@@ -213,7 +246,7 @@ const Header = () => {
                   >
                     <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary-500 to-purple-500 flex items-center justify-center">
                       <span className="text-white font-semibold text-sm">
-                        {(user?.name || user?.fullName || user?.full_name || 'U').charAt(0).toUpperCase()}
+                        {getDisplayName().charAt(0).toUpperCase()}
                       </span>
                     </div>
                     <span className="material-icons text-gray-300 text-sm">
@@ -226,9 +259,9 @@ const Header = () => {
                     <div className="absolute right-0 mt-2 w-56 glass-card bg-[#0B0E14] border border-white/10 rounded-xl overflow-hidden shadow-2xl">
                       <div className="px-4 py-3 border-b border-white/10 bg-white/5">
                         <p className="text-sm font-semibold text-white">
-                          {user?.name || user?.fullName || user?.full_name || 'User'}
+                          {getDisplayName()}
                         </p>
-                        <p className="text-xs text-gray-400 mt-0.5">{user?.email || 'user@example.com'}</p>
+                        <p className="text-xs text-gray-400 mt-0.5">{user?.email || ''}</p>
                         <p className="text-xs text-primary-400 font-medium mt-1 capitalize">{user?.role || 'User'}</p>
                       </div>
 
@@ -314,7 +347,7 @@ const Header = () => {
           </div>
         )}
       </nav>
-    </header>
+    </header >
   )
 }
 
