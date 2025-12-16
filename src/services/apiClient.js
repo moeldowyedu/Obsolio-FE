@@ -10,13 +10,25 @@ const apiClient = axios.create({
   withCredentials: true
 });
 
-// Request interceptor to add auth token
+import { getCurrentTenantId } from '../utils/tenantDetection';
+
+// Request interceptor to add auth token AND tenant ID
 apiClient.interceptors.request.use(
   (config) => {
+    // 1. Add JWT token if available
     const token = localStorage.getItem('auth_token');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
+
+    // 2. ⚠️ CRITICAL: Add X-Tenant-ID header from subdomain
+    const tenantId = getCurrentTenantId();
+    if (tenantId) {
+      config.headers['X-Tenant-ID'] = tenantId;
+      // Optional: Log for debugging (can be removed in production)
+      // console.log('🏢 API Request with Tenant ID:', tenantId);
+    }
+
     return config;
   },
   (error) => {

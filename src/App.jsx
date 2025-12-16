@@ -19,11 +19,29 @@ const LoadingScreen = () => (
   </div>
 );
 
+import { useTenantStore } from './store/tenantStore';
+import { getCurrentTenantId } from './utils/tenantDetection';
+
 function App() {
   const [currentRouter, setCurrentRouter] = useState(null);
+  const { currentTenant } = useTenantStore();
 
   useEffect(() => {
     const subdomain = getSubdomain();
+    const tenantId = getCurrentTenantId();
+
+    // ⚠️ CRITICAL: Initialize tenant in store if on tenant subdomain
+    // This allows the store to be aware of the context immediately
+    if (tenantId && (!currentTenant || currentTenant.id !== tenantId)) {
+      console.log('🏢 Initializing Tenant Store:', tenantId);
+      // We manually set the state here to ensure immediate availability
+      useTenantStore.setState({
+        currentTenant: {
+          id: tenantId,
+          subdomain: tenantId
+        }
+      });
+    }
 
     // Determine which router to mount based on subdomain
     if (isPublicDomain()) {
@@ -36,7 +54,7 @@ function App() {
       console.log(`🏢 Mounting Tenant Router (Subdomain: ${subdomain})`);
       setCurrentRouter(<TenantRouter />);
     }
-  }, []);
+  }, [currentTenant]);
 
   if (!currentRouter) {
     return <LoadingScreen />;
