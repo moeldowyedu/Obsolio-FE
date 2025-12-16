@@ -210,37 +210,34 @@ const RegisterPage = () => {
       const result = await register(payload);
 
       if (result) {
-        if (result) {
-          // Check if verification is required
-          // Handle various response shapes (result directly or result.data)
-          const isVerificationRequired = result.emailVerificationRequired ||
-            result.verification_required ||
-            result.data?.verification_required;
+        // Normalize response data
+        const data = result.data || result;
+        const isVerificationRequired = data.verification_required || result.emailVerificationRequired;
 
-          if (isVerificationRequired) {
-            // Navigate to verification pending page
-            navigate('/verify-email', {
-              state: {
-                email: formData.email,
-                workspacePreview: result.data?.workspace_preview || result.workspace_preview
-              },
-              replace: true
-            });
+        if (isVerificationRequired) {
+          toast.success('Registration successful! Please check your email.');
+
+          // Navigate to verification pending page
+          navigate('/verify-email-sent', { // Updated route name
+            state: {
+              email: formData.email,
+              workspacePreview: data.workspace_preview || data.workspace_url
+            },
+            replace: true
+          });
+        } else {
+          // Direct login - bypass tenant setup
+          toast.success('Account created successfully!');
+
+          // Check for workspace URL in response
+          const workspaceUrl = data.workspace_url || `https://${formData.tenantUrl}.obsolio.com/login`;
+
+          if (workspaceUrl) {
+            // Redirect to the new workspace subdomain
+            window.location.href = workspaceUrl;
           } else {
-            // Direct login - bypass tenant setup as it's handled by backend now
-            toast.success('Account created successfully!');
-
-            // Check for workspace URL in response
-            const workspaceUrl = result.workspace_url || result.data?.workspace_url;
-
-            if (workspaceUrl) {
-              // Redirect to the new workspace subdomain
-              window.location.href = workspaceUrl;
-            } else {
-              // Fallback to login page if no workspace provided (Secure default)
-              // Do NOT go to /dashboard on main domain
-              navigate('/login', { replace: true });
-            }
+            // Fallback
+            navigate('/login', { replace: true });
           }
         }
       }
