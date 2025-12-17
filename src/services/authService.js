@@ -82,11 +82,16 @@ const authService = {
   // Logout
   logout: async () => {
     try {
+      // Attempt server logout, but don't block UI if it fails
       await api.post('/auth/logout');
+    } catch (error) {
+      console.warn('Server logout failed, clearing local session anyway', error);
     } finally {
       localStorage.removeItem('auth_token');
       localStorage.removeItem('user');
       localStorage.removeItem('current_tenant_id');
+      // Force reload to clear any in-memory state
+      window.location.href = '/login';
     }
   },
 
