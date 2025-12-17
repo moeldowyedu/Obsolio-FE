@@ -114,7 +114,7 @@ const authService = {
   verifyEmail: async (id, hash, query) => {
     // Backend uses /auth/email/verify/{id}/{hash} for signed URLs
     // We also add X-Forwarded-Host to ensure the signature validates against the frontend domain
-    const response = await api.get(`/auth/email/verify/${id}/${hash}${query || ''}`, {
+    const response = await api.get(`/verify-email/${id}/${hash}${query || ''}`, {
       headers: {
         'X-Forwarded-Host': window.location.host
       }
