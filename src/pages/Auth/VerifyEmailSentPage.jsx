@@ -61,16 +61,9 @@ const VerifyEmailSentPage = () => {
 
                         {/* Action Buttons */}
                         <div className="space-y-4">
-                            <Button
-                                variant="primary"
-                                className="w-full py-2.5 text-sm font-semibold shadow-lg shadow-primary-500/20"
-                                onClick={() => window.open('https://gmail.com', '_blank')}
-                            >
-                                Open Email App
-                                <ArrowRight className="w-4 h-4 ml-2" />
-                            </Button>
+                            {/* Button Removed as per request */}
 
-                            <div className="flex items-center justify-between text-sm px-1">
+                            <div className="flex items-center justify-between text-sm px-1 pt-2">
                                 <button
                                     onClick={() => navigate('/login')}
                                     className="text-gray-400 hover:text-white flex items-center gap-2 transition-colors"
