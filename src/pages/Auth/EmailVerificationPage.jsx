@@ -11,7 +11,7 @@ const EmailVerificationPage = () => {
     const [status, setStatus] = useState('verifying'); // verifying, success, error
     const [message, setMessage] = useState('Verifying your email address...');
 
-    const location = useLocation();
+    const [targetUrl, setTargetUrl] = useState('/dashboard');
 
     useEffect(() => {
         const verify = async () => {
@@ -23,14 +23,20 @@ const EmailVerificationPage = () => {
 
             try {
                 // Pass query params (expires, signature) to the service
-                await authService.verifyEmail(id, hash, location.search);
+                const response = await authService.verifyEmail(id, hash, location.search);
                 setStatus('success');
-                setMessage('Email verified successfully!');
+                setMessage('Email verified successfully! You can now access your workspace.');
 
-                // Redirect to success page which handles the auto-redirect to login
+                // Determine redirect URL
+                // Backend might return workspace_url, or we construct it if we have tenant context
+                const url = response.workspace_url || response?.data?.workspace_url || '/login';
+                setTargetUrl(url);
+
+                // Optional: Auto-redirect after short delay
                 setTimeout(() => {
-                    navigate('/verification-success');
-                }, 1500);
+                    window.location.href = url;
+                }, 3000);
+
             } catch (error) {
                 console.error("Verification failed", error);
                 setStatus('error');
@@ -56,7 +62,7 @@ const EmailVerificationPage = () => {
                     </Link>
                 </div>
 
-                <div className="glass-card p-8 shadow-2xl border border-white/10 relative overflow-hidden backdrop-blur-xl bg-[#1e293b]/40 rounded-2xl text-center">
+                <div className="glass-card p-8 shadow-2xl border border-white/10 relative overflow-hidden backdrop-blur-xl bg-[#1e293b]/40 rounded-3xl text-center">
                     {/* Decor glow */}
                     <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary-500 to-transparent opacity-50"></div>
 
@@ -67,29 +73,33 @@ const EmailVerificationPage = () => {
                                 <div className="absolute inset-0 border-4 border-primary-500 border-t-transparent rounded-full animate-spin"></div>
                             </div>
                             <h2 className="text-xl font-bold text-white mb-2">Verifying...</h2>
-                            <p className="text-gray-400">{message}</p>
+                            <p className="text-gray-400">Validating your security token</p>
                         </div>
                     )}
 
                     {status === 'success' && (
-                        <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="py-8">
-                            <div className="w-20 h-20 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="py-4">
+                            <div className="w-20 h-20 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-6 shadow-[0_0_30px_rgba(34,197,94,0.2)]">
                                 <CheckCircle className="w-10 h-10 text-green-500" />
                             </div>
-                            <h2 className="text-xl font-bold text-white mb-2">Verified!</h2>
-                            <p className="text-gray-300 mb-6">{message}</p>
+                            <h2 className="text-2xl font-bold text-white mb-2">Verified!</h2>
+                            <p className="text-gray-300 mb-8">{message}</p>
 
-                            <Link
-                                to="/dashboard"
-                                className="inline-flex items-center gap-2 py-3 px-6 bg-primary-600 hover:bg-primary-500 text-white font-semibold rounded-xl transition-all"
+                            <button
+                                onClick={() => window.location.href = targetUrl}
+                                className="w-full inline-flex items-center justify-center gap-2 py-3.5 px-6 bg-primary-600 hover:bg-primary-500 text-white font-semibold rounded-xl transition-all shadow-lg shadow-primary-500/25"
                             >
-                                Go to Dashboard <ArrowRight size={18} />
-                            </Link>
+                                Continue to Workspace <ArrowRight size={18} />
+                            </button>
+
+                            <p className="text-xs text-gray-500 mt-4">
+                                Redirecting automatically...
+                            </p>
                         </motion.div>
                     )}
 
                     {status === 'error' && (
-                        <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="py-8">
+                        <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="py-4">
                             <div className="w-20 h-20 bg-red-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
                                 <XCircle className="w-10 h-10 text-red-500" />
                             </div>
@@ -98,16 +108,9 @@ const EmailVerificationPage = () => {
 
                             <Link
                                 to="/resend-verification"
-                                className="block w-full py-3 px-4 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-xl transition-all border border-white/10"
+                                className="block w-full py-3.5 px-4 bg-white/5 hover:bg-white/10 text-white font-semibold rounded-xl transition-all border border-white/10"
                             >
-                                Resend Verification Email
-                            </Link>
-
-                            <Link
-                                to="/signin"
-                                className="block mt-4 text-sm text-gray-400 hover:text-white"
-                            >
-                                Back to Sign In
+                                Resend Verification Link
                             </Link>
                         </motion.div>
                     )}
