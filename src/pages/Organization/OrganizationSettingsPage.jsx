@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useAuthStore } from '../../store/authStore';
-import tenantService from '../../services/tenantService';
+import { tenantService } from '../../services/tenantService';
 import MainLayout from '../../components/layout/MainLayout';
 import Card from '../../components/common/Card/Card';
 import Input from '../../components/common/Input/Input';

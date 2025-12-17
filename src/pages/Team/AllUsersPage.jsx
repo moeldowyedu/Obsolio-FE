@@ -15,7 +15,7 @@ import {
   //ListFilter // unused
 } from 'lucide-react';
 import { useAuthStore } from '../../store/authStore';
-import tenantService from '../../services/tenantService';
+import { tenantService } from '../../services/tenantService';
 import Button from '../../components/common/Button/Button';
 import Input from '../../components/common/Input/Input';
 import Select from '../../components/common/Input/Select';

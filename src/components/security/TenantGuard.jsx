@@ -1,145 +1,205 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuthStore } from '../../store/authStore';
-import { useTenantStore } from '../../store/tenantStore';
-import tenantService from '../../services/tenantService';
-import { getSubdomain } from '../../utils/subdomain';
-import { Loader } from 'lucide-react';
+import { tenantService } from '../../services/tenantService';
 
-const TenantGuard = ({ children }) => {
+/**
+ * TenantGuard - Protects tenant routes and verifies tenant access
+ * 
+ * Flow:
+ * 1. Resolve tenant by subdomain (public endpoint, no auth required)
+ * 2. Check tenant verification status
+ * 3. If verified, check user authentication
+ * 4. Verify user has access to this tenant
+ * 5. Allow access or show appropriate error page
+ */
+const TenantGuard = ({ children, subdomain }) => {
+    const [loading, setLoading] = useState(true);
+    const [tenant, setTenant] = useState(null);
+    const [error, setError] = useState(null);
     const navigate = useNavigate();
-    const { user, isAuthenticated } = useAuthStore();
-    const { currentTenant, setTenant } = useTenantStore();
-    const [isLoading, setIsLoading] = useState(true);
-    const [status, setStatus] = useState('checking'); // checking, active, inactive, unauthorized, notfound
 
     useEffect(() => {
-        const checkTenantAccess = async () => {
-            const subdomain = getSubdomain();
-
-            // 🔍 Debug Logging
-            console.log('🔐 TenantGuard Check:', { subdomain, isAuthenticated, user });
-
-            if (!subdomain) {
-                console.warn('⚠️ No subdomain detected - should not be in TenantGuard!');
-                setIsLoading(false);
-                return;
-            }
-
+        const verifyTenantAccess = async () => {
             try {
-                // 1. Resolve Tenant Public Info
-                console.log(`📡 Fetching tenant info for: ${subdomain}`);
-                const publicInfo = await tenantService.getPublicTenantInfo(subdomain);
+                console.log('🔐 TenantGuard: Verifying access for subdomain:', subdomain);
 
-                if (!publicInfo) {
-                    console.error('❌ Tenant not found:', subdomain);
-                    setStatus('notfound');
-                    setIsLoading(false);
+                // Step 1: Resolve tenant by subdomain (public endpoint)
+                console.log('📡 Fetching tenant info...');
+
+                // ⚠️ CRITICAL FIX: Ensure tenantService.findBySubdomain is a function
+                if (!tenantService || typeof tenantService.findBySubdomain !== 'function') {
+                    throw new Error('tenantService.findBySubdomain is not available');
+                }
+
+                const tenantData = await tenantService.findBySubdomain(subdomain);
+
+                console.log('✅ Tenant found:', tenantData);
+                setTenant(tenantData);
+
+                // Step 2: Check verification status
+                if (tenantData.requires_verification) {
+                    console.log('⚠️ Tenant requires verification');
+                    // Show "Workspace Incomplete" page
+                    navigate('/workspace-incomplete', {
+                        state: {
+                            tenant: tenantData,
+                            subdomain: subdomain
+                        },
+                        replace: true
+                    });
                     return;
                 }
 
-                console.log('✅ Tenant found:', publicInfo);
+                // Step 3: Check user authentication
+                const user = JSON.parse(localStorage.getItem('user') || 'null');
+                const token = localStorage.getItem('token');
 
-                // 2. Check Verification Status
-                if (publicInfo.status === 'pending_verification' || publicInfo.requires_verification) {
-                    console.warn('⏳ Tenant requires verification');
-                    setStatus('inactive');
-                    setIsLoading(false);
+                if (!user || !token) {
+                    console.log('🔓 User not authenticated, showing login');
+                    // User not authenticated - show tenant login page
+                    setLoading(false);
                     return;
                 }
 
-                // 3. Set Tenant in Store
-                setTenant(publicInfo);
+                // Step 4: Verify user has access to this tenant
+                console.log('👤 Checking user tenant access...');
+                console.log('User tenant_id:', user.tenant_id);
+                console.log('Current tenant_id:', tenantData.id);
 
-                // 4. Check Authentication
-                if (!isAuthenticated || !user) {
-                    console.log('🔓 User not authenticated - allowing access to login page');
-                    setStatus('active');
-                    setIsLoading(false);
+                if (user.tenant_id !== tenantData.id) {
+                    console.error('❌ User does not belong to this tenant');
+                    setError({
+                        type: 'access_denied',
+                        message: 'You do not have access to this workspace',
+                        tenantName: tenantData.name
+                    });
+                    setLoading(false);
                     return;
                 }
 
-                // 5. Strict Membership Check
-                if (user.tenant_id !== publicInfo.id) {
-                    console.error(`🚫 Access Denied: User tenant ${user.tenant_id} != Current tenant ${publicInfo.id}`);
-                    setStatus('unauthorized');
+                // Step 5: All checks passed
+                console.log('✅ Access granted');
+                setLoading(false);
+
+            } catch (err) {
+                console.error('❌ Tenant Guard Error:', err);
+
+                // Handle different error types
+                if (err.response?.status === 404) {
+                    setError({
+                        type: 'not_found',
+                        message: 'Workspace not found',
+                        subdomain: subdomain
+                    });
+                } else if (err.response?.status === 403) {
+                    setError({
+                        type: 'forbidden',
+                        message: 'Access denied to this workspace'
+                    });
                 } else {
-                    console.log('✅ User authorized for this tenant');
-                    setStatus('active');
+                    setError({
+                        type: 'error',
+                        message: err.message || 'Failed to verify workspace access',
+                        details: err.toString()
+                    });
                 }
 
-            } catch (error) {
-                console.error('💥 Tenant Guard Error:', error);
-                setStatus('notfound');
-            } finally {
-                setIsLoading(false);
+                setLoading(false);
             }
         };
 
-        checkTenantAccess();
-    }, [isAuthenticated, user, setTenant]);
+        if (subdomain) {
+            verifyTenantAccess();
+        } else {
+            setError({
+                type: 'invalid',
+                message: 'Invalid workspace URL'
+            });
+            setLoading(false);
+        }
+    }, [subdomain, navigate]);
 
-
-    if (isLoading) {
+    // Loading state
+    if (loading) {
         return (
-            <div className="flex items-center justify-center min-h-screen bg-[#0B0E14]">
-                <Loader className="w-8 h-8 text-primary-500 animate-spin" />
-            </div>
-        );
-    }
-
-    if (status === 'inactive') {
-        // We can redirect or render the component
-        // Since we are inside Router, we can redirect to a special route or just return the component
-        // To be strict, let's redirect to a dedicated public route handled by PublicRouter? 
-        // No, PublicRouter is for www. 
-        // We need a route inside TenantRouter that is "Public" (like Login)
-        // BUT if the workspace is incomplete, we shouldn't even show Login.
-
-        // Dynamic Import to avoid circular deps if needed, or just standard import
-        const WorkspaceIncompletePage = React.lazy(() => import('../../pages/Public/WorkspaceIncompletePage'));
-        return (
-            <React.Suspense fallback={<div />}>
-                <WorkspaceIncompletePage />
-            </React.Suspense>
-        );
-    }
-
-    if (status === 'notfound') {
-        return (
-            <div className="flex flex-col items-center justify-center min-h-screen bg-[#0B0E14] text-white">
-                <h1 className="text-4xl font-bold mb-4">404</h1>
-                <p>Workspace not found.</p>
-                <a href="https://obsolio.com" className="mt-4 text-primary-400 hover:text-primary-300">Go Home</a>
-            </div>
-        );
-    }
-
-    if (status === 'unauthorized') {
-        // User logged in but wrong tenant
-        return (
-            <div className="flex flex-col items-center justify-center min-h-screen bg-[#0B0E14] text-white p-4 text-center">
-                <div className="w-16 h-16 bg-red-500/20 rounded-full flex items-center justify-center mb-6">
-                    <ShieldAlert className="w-8 h-8 text-red-500" />
-                </div>
-                <h1 className="text-2xl font-bold mb-2">Access Denied</h1>
-                <p className="text-gray-400 mb-6">You are logged in, but you do not have access to this workspace.</p>
-                <div className="flex gap-4">
-                    <button onClick={() => navigate('/login')} className="px-4 py-2 bg-white/10 rounded-lg hover:bg-white/20">
-                        Switch Account
-                    </button>
-                    <a href="https://obsolio.com" className="px-4 py-2 bg-primary-600 rounded-lg hover:bg-primary-500">
-                        Go Home
-                    </a>
+            <div className="min-h-screen flex items-center justify-center bg-gray-50">
+                <div className="text-center">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-cyan-600 mx-auto"></div>
+                    <p className="mt-4 text-gray-600">Verifying workspace access...</p>
                 </div>
             </div>
         );
     }
 
-    // Pass through if active (Login check handled by nested ProtectedRoute or route itself)
+    // Error state
+    if (error) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+                <div className="max-w-md w-full bg-white shadow-lg rounded-lg p-8 text-center">
+                    <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100">
+                        <svg
+                            className="h-6 w-6 text-red-600"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M6 18L18 6M6 6l12 12"
+                            />
+                        </svg>
+                    </div>
+
+                    <h2 className="mt-4 text-xl font-bold text-gray-900">
+                        {error.type === 'not_found' && 'Workspace Not Found'}
+                        {error.type === 'access_denied' && 'Access Denied'}
+                        {error.type === 'forbidden' && 'Access Forbidden'}
+                        {error.type === 'invalid' && 'Invalid Workspace'}
+                        {error.type === 'error' && 'Error'}
+                    </h2>
+
+                    <p className="mt-2 text-gray-600">
+                        {error.message}
+                    </p>
+
+                    {error.subdomain && (
+                        <p className="mt-2 text-sm text-gray-500">
+                            Subdomain: <code className="bg-gray-100 px-2 py-1 rounded">{error.subdomain}</code>
+                        </p>
+                    )}
+
+                    {error.tenantName && (
+                        <p className="mt-2 text-sm text-gray-500">
+                            Workspace: {error.tenantName}
+                        </p>
+                    )}
+
+                    {error.details && (
+                        <details className="mt-4 text-left">
+                            <summary className="cursor-pointer text-sm text-gray-500">Technical Details</summary>
+                            <pre className="mt-2 text-xs bg-gray-100 p-2 rounded overflow-auto">
+                                {error.details}
+                            </pre>
+                        </details>
+                    )}
+
+                    <div className="mt-6">
+                        <button
+                            onClick={() => window.location.href = 'https://obsolio.com'}
+                            className="inline-flex justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500"
+                        >
+                            Go to Homepage
+                        </button>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    // Success - render children (protected routes)
     return children;
 };
-
-import { ShieldAlert } from 'lucide-react';
 
 export default TenantGuard;
