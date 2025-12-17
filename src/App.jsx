@@ -30,6 +30,17 @@ function App() {
     const subdomain = getSubdomain();
     const tenantId = getCurrentTenantId();
 
+    // 🔍 Debug Logging
+    console.group('🌐 Subdomain Detection');
+    console.log('Current Hostname:', window.location.hostname);
+    console.log('Detected Subdomain:', subdomain);
+    console.log('Is Public Domain:', isPublicDomain());
+    console.log('Is System Admin:', isSystemAdminDomain());
+    console.log('Is Tenant Domain:', !isPublicDomain() && !isSystemAdminDomain());
+    console.log('Tenant ID:', tenantId);
+    console.log('VITE_APP_DOMAIN:', import.meta.env.VITE_APP_DOMAIN);
+    console.groupEnd();
+
     // ⚠️ CRITICAL: Initialize tenant in store if on tenant subdomain
     // This allows the store to be aware of the context immediately
     if (tenantId && (!currentTenant || currentTenant.id !== tenantId)) {

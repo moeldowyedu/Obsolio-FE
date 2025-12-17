@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import tenantService from '../services/tenantService';
+import { tenantService } from '../services/tenantService';
 
 export const useTenants = () => {
   const [tenants, setTenants] = useState([]);

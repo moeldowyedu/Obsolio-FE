@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import tenantService from '../services/tenantService';
+import { tenantService } from '../services/tenantService';  // ✅ Correct
 
 export const useTenantStore = create(
   persist(
