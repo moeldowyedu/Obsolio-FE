@@ -17,26 +17,32 @@ const TenantGuard = ({ children }) => {
         const checkTenantAccess = async () => {
             const subdomain = getSubdomain();
 
+            // 🔍 Debug Logging
+            console.log('🔐 TenantGuard Check:', { subdomain, isAuthenticated, user });
+
             if (!subdomain) {
-                // Should not happen if routed correctly, but safe guard
+                console.warn('⚠️ No subdomain detected - should not be in TenantGuard!');
                 setIsLoading(false);
                 return;
             }
 
             try {
                 // 1. Resolve Tenant Public Info
-                // We need an endpoint that returns { id, name, status, requires_verification }
+                console.log(`📡 Fetching tenant info for: ${subdomain}`);
                 const publicInfo = await tenantService.getPublicTenantInfo(subdomain);
 
                 if (!publicInfo) {
+                    console.error('❌ Tenant not found:', subdomain);
                     setStatus('notfound');
                     setIsLoading(false);
                     return;
                 }
 
+                console.log('✅ Tenant found:', publicInfo);
+
                 // 2. Check Verification Status
                 if (publicInfo.status === 'pending_verification' || publicInfo.requires_verification) {
-                    // Just set status to inactive, do NOT redirect to a path that triggers this same guard
+                    console.warn('⏳ Tenant requires verification');
                     setStatus('inactive');
                     setIsLoading(false);
                     return;
@@ -45,36 +51,26 @@ const TenantGuard = ({ children }) => {
                 // 3. Set Tenant in Store
                 setTenant(publicInfo);
 
-                // 4. Check Authentication & Membership
+                // 4. Check Authentication
                 if (!isAuthenticated || !user) {
-                    // Redirect to login, preserving intent
-                    // We use window.location to force full reload if needed, but navigate is better for SPA
-                    // But strictly, we want them to login *on this domain*? Yes.
-                    // The Login page handles the subdomains.
-                    setStatus('active'); // Allow rendering, but the ProtectedRoute inside might catch it?
-                    // Actually TenantRouter wraps everything in specific routes. 
-                    // But we want to enforce: You must be logged in to see *anything* except public pages?
-                    // TenantRouter has public routes like Login. We should allow those.
+                    console.log('🔓 User not authenticated - allowing access to login page');
+                    setStatus('active');
                     setIsLoading(false);
                     return;
                 }
 
                 // 5. Strict Membership Check
-                // If logged in, does the user belong to this tenant?
-                // The backend user object should have `tenant_id` or `tenants` array.
-                // Assuming single-tenant user model based on prompt ("user related to that tenant")
                 if (user.tenant_id !== publicInfo.id) {
-                    // Check if it's in their allowed tenants list if multi-tenant
-                    // If strict mismatch:
-                    console.warn(`🔒 Access Denied: User tenant ${user.tenant_id} != Current tenant ${publicInfo.id}`);
+                    console.error(`🚫 Access Denied: User tenant ${user.tenant_id} != Current tenant ${publicInfo.id}`);
                     setStatus('unauthorized');
                 } else {
+                    console.log('✅ User authorized for this tenant');
                     setStatus('active');
                 }
 
             } catch (error) {
-                console.error('Tenant Guard Error:', error);
-                setStatus('notfound'); // Assume 404 or network error implies problem
+                console.error('💥 Tenant Guard Error:', error);
+                setStatus('notfound');
             } finally {
                 setIsLoading(false);
             }
