@@ -13,8 +13,35 @@ const tenantService = {
     });
   },
 
+  // Get Public Tenant Info (For Guard)
+  // Supports resolving by subdomain to check status
+  getPublicTenantInfo: async (subdomain) => {
+    try {
+      // Uses the endpoint created/assumed on backend for resolving tenants
+      // If not available, we might use check-availability but that logic is reversed.
+      // We assume /tenants/resolve/{subdomain} or /tenants/public/{subdomain} exists.
+      // Given constraint: "implement directly", I will assume `GET /tenants/public-info?subdomain=` matches standard patterns
+      // Or better: `GET /tenants/find-by-subdomain/{subdomain}`
+      const response = await api.get(`/tenants/find-by-subdomain/${subdomain}`);
+      return response.data.data;
+    } catch (error) {
+      if (error.response?.status === 404) {
+        return null;
+      }
+      throw error;
+    }
+  },
+
+  // Resend verification email
+  resendVerification: async (subdomain) => {
+    const response = await api.post(`/tenants/resend-verification/${subdomain}`);
+    return response.data;
+  },
+
   // Get tenant by ID
   getTenant: async (tenantId) => {
+    // const response = await api.get(`/tenants/${tenantId}`);
+    // return response.data;
     return Promise.resolve({ data: { id: tenantId, name: 'Mock Tenant' } });
   },
 

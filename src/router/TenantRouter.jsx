@@ -88,9 +88,11 @@ import OrganizationSetupPage from '../pages/Onboarding/OrganizationSetupPage';
 // Security
 import SecurityMiddleware from '../components/security/SecurityMiddleware';
 
+import TenantGuard from '../components/security/TenantGuard';
+
 const TenantRouter = () => {
     return (
-        <>
+        <TenantGuard>
             <SecurityMiddleware />
             <Routes>
                 <Route path="/login" element={<LoginPage />} />
@@ -202,7 +204,7 @@ const TenantRouter = () => {
                 {/* 404 */}
                 <Route path="*" element={<NotFoundPage />} />
             </Routes>
-        </>
+        </TenantGuard>
     );
 };
 

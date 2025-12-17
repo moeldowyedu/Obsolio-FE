@@ -69,7 +69,8 @@ export const isSystemAdminDomain = () => {
  */
 export const isTenantDomain = () => {
     const subdomain = getSubdomain();
-    return subdomain !== null && subdomain !== 'console' && subdomain !== 'www';
+    const reserved = ['console', 'www', 'api', 'precision'];
+    return subdomain !== null && !reserved.includes(subdomain);
 };
 
 /**
