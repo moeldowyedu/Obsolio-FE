@@ -305,7 +305,7 @@ const Header = () => {
                         <div className="px-4 py-3 border-b border-white/10">
                           <p className="text-[10px] uppercase tracking-wider text-gray-500 font-bold mb-2">My Workspace</p>
                           <a
-                            href={`${window.location.protocol}//${currentTenant.subdomain}.${import.meta.env.VITE_APP_DOMAIN || 'obsolio.com'}/dashboard`}
+                            href={`${window.location.protocol}//${currentTenant.subdomain}.${import.meta.env.VITE_APP_DOMAIN || 'obsolio.com'}/dashboard?auth_token=${useAuthStore.getState().token}`}
                             className="group block p-2 -mx-2 rounded-lg hover:bg-white/5 transition-colors"
                             onClick={() => setUserMenuOpen(false)}
                           >

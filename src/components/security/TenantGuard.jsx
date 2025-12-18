@@ -50,15 +50,45 @@ const TenantGuard = ({ children, subdomain }) => {
                     return;
                 }
 
+                // Step 2.5: Check for auth_token in URL (Cross-domain login)
+                const searchParams = new URLSearchParams(window.location.search);
+                const authToken = searchParams.get('auth_token');
+
+                if (authToken) {
+                    console.log('🔑 Detected auth_token in URL, processing login...');
+                    localStorage.setItem('auth_token', authToken);
+
+                    // Update store
+                    const { setToken, fetchUser } = await import('../../store/authStore').then(m => m.useAuthStore.getState());
+                    setToken(authToken);
+
+                    try {
+                        await fetchUser();
+                        console.log('✅ User authenticated via URL token');
+                    } catch (e) {
+                        console.error('Failed to fetch user with provided token:', e);
+                    }
+
+                    // Clean URL
+                    const newUrl = window.location.pathname + window.location.hash;
+                    window.history.replaceState({}, document.title, newUrl);
+                }
+
                 // Step 3: Check user authentication
                 const user = JSON.parse(localStorage.getItem('user') || 'null');
-                const token = localStorage.getItem('token');
+                const token = localStorage.getItem('auth_token');
 
                 if (!user || !token) {
-                    console.log('🔓 User not authenticated, showing login');
-                    // User not authenticated - show tenant login page
-                    setLoading(false);
-                    return;
+                    // Try one last attempt to hydrate from store if localstorage was empty but memory might trigger (unlikely)
+                    const storeUser = await import('../../store/authStore').then(m => m.useAuthStore.getState().user);
+                    if (storeUser) {
+                        console.log('🔄 Recovered user from store state');
+                    } else {
+                        console.log('🔓 User not authenticated, showing login');
+                        // User not authenticated - show tenant login page
+                        setLoading(false);
+                        return;
+                    }
                 }
 
                 // Step 4: Verify user has access to this tenant
@@ -67,18 +97,85 @@ const TenantGuard = ({ children, subdomain }) => {
                 console.log('Current tenant_id:', tenantData.id);
 
                 if (user.tenant_id !== tenantData.id) {
-                    console.error('❌ User does not belong to this tenant');
-                    setError({
-                        type: 'access_denied',
-                        message: 'You do not have access to this workspace',
-                        tenantName: tenantData.name
-                    });
-                    setLoading(false);
-                    return;
+                    console.log(`⚠️ User tenant_id (${user.tenant_id}) mismatch with current (${tenantData.id}). Attempting switch...`);
+
+                    try {
+                        // Attempt to switch context on backend
+                        await tenantService.switchTenant(tenantData.id);
+
+                        // If successful, update local state
+                        user.tenant_id = tenantData.id;
+                        localStorage.setItem('user', JSON.stringify(user));
+
+                        // Update store
+                        const { updateUser } = await import('../../store/authStore').then(m => m.useAuthStore.getState());
+                        updateUser({ tenant_id: tenantData.id });
+
+                        console.log('✅ Switched tenant context successfully');
+                    } catch (switchErr) {
+                        console.error('❌ Failed to switch tenant:', switchErr);
+
+                        // Check if user is System Admin - they might have access even if switch fails (though unlikely)
+                        if (user.role === 'system_admin') {
+                            console.log('🛡️ Allowing System Admin access despite switch failure');
+                        } else {
+                            setError({
+                                type: 'access_denied',
+                                message: 'You do not have access to this workspace',
+                                tenantName: tenantData.name
+                            });
+                            setLoading(false);
+                            return;
+                        }
+                    }
                 }
 
                 // Step 5: All checks passed
                 console.log('✅ Access granted');
+
+                // CRITICAL FIX: Resolve canonical integer ID for API headers
+                // The subdomain lookup might return a string ID but backend endpoints require the Integer ID.
+                let canonicalId = tenantData.id;
+                let canonicalTenant = tenantData;
+
+                try {
+                    // Fetch authentic tenant list to get the integer ID
+                    const allTenants = await tenantService.getTenants();
+                    const tenantsList = Array.isArray(allTenants) ? allTenants : (allTenants.data || []);
+
+                    // Match against the current resolved tenant
+                    const match = tenantsList.find(t =>
+                        t.id === tenantData.id ||
+                        t.subdomain === subdomain ||
+                        t.domain === subdomain ||
+                        (t.subdomain && tenantData.name && t.name === tenantData.name) // Fallback name match
+                    );
+
+                    if (match) {
+                        console.log('🎯 Resolved Canonical Tenant ID:', match.id);
+                        canonicalId = match.id;
+                        canonicalTenant = match;
+                    } else {
+                        console.warn('⚠️ Could not find canonical tenant record in user list');
+                    }
+                } catch (resolveErr) {
+                    console.warn('⚠️ Failed to resolve canonical tenant ID (using fallback):', resolveErr.message);
+                }
+
+                // Sync tenant data to user session
+                if (user) {
+                    user.tenant = canonicalTenant;
+                    user.tenant_id = canonicalId;
+                    localStorage.setItem('user', JSON.stringify(user));
+
+                    // Update store
+                    import('../../store/authStore').then(m => m.useAuthStore.getState().updateUser({
+                        tenant: canonicalTenant,
+                        tenant_id: canonicalId
+                    }));
+                }
+
+                localStorage.setItem('current_tenant_id', canonicalId);
                 setLoading(false);
 
             } catch (err) {
