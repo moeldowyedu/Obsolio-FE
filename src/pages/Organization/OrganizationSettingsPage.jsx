@@ -5,17 +5,89 @@ import MainLayout from '../../components/layout/MainLayout';
 import Card from '../../components/common/Card/Card';
 import Input from '../../components/common/Input/Input';
 import Button from '../../components/common/Button/Button';
-import {
-    Building2, Save, Upload, AlertCircle, CheckCircle,
-    LayoutDashboard, MapPin, Phone, Globe, Briefcase, FileText
-} from 'lucide-react';
+import { Building2, Upload, AlertCircle, CheckCircle } from 'lucide-react';
+
+// --- Data Constants ---
+const INDUSTRIES = [
+    "Software & Technology", "Healthcare", "Finance & Banking", "Education",
+    "Retail & E-commerce", "Manufacturing", "Media & Entertainment", "Real Estate",
+    "Consulting", "Non-Profit", "Logistics & Transportation", "Construction",
+    "Energy & Utilities", "Government", "Hospitality & Tourism", "Legal Services",
+    "Marketing & Advertising", "Telecommunications", "Agriculture", "Other"
+];
+
+const COMPANY_SIZES = [
+    "1-10 employees", "11-50 employees", "51-200 employees",
+    "201-500 employees", "501-1000 employees", "1000-5000 employees", "5000+ employees"
+];
+
+const COUNTRIES = [
+    "Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Antigua and Barbuda", "Argentina", "Armenia", "Australia", "Austria", "Azerbaijan",
+    "Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium", "Belize", "Benin", "Bhutan", "Bolivia", "Bosnia and Herzegovina", "Botswana", "Brazil", "Brunei", "Bulgaria", "Burkina Faso", "Burundi",
+    "Cabo Verde", "Cambodia", "Cameroon", "Canada", "Central African Republic", "Chad", "Chile", "China", "Colombia", "Comoros", "Congo (Congo-Brazzaville)", "Costa Rica", "Croatia", "Cuba", "Cyprus", "Czechia (Czech Republic)",
+    "Democratic Republic of the Congo", "Denmark", "Djibouti", "Dominica", "Dominican Republic",
+    "Ecuador", "Egypt", "El Salvador", "Equatorial Guinea", "Eritrea", "Estonia", "Eswatini (fmr. 'Swaziland')", "Ethiopia",
+    "Fiji", "Finland", "France", "Gabon", "Gambia", "Georgia", "Germany", "Ghana", "Greece", "Grenada", "Guatemala", "Guinea", "Guinea-Bissau", "Guyana",
+    "Haiti", "Holy See", "Honduras", "Hungary", "Iceland", "India", "Indonesia", "Iran", "Iraq", "Ireland", "Israel", "Italy", "Ivory Coast",
+    "Jamaica", "Japan", "Jordan", "Kazakhstan", "Kenya", "Kiribati", "Kuwait", "Kyrgyzstan",
+    "Laos", "Latvia", "Lebanon", "Lesotho", "Liberia", "Libya", "Liechtenstein", "Lithuania", "Luxembourg",
+    "Madagascar", "Malawi", "Malaysia", "Maldives", "Mali", "Malta", "Marshall Islands", "Mauritania", "Mauritius", "Mexico", "Micronesia", "Moldova", "Monaco", "Mongolia", "Montenegro", "Morocco", "Mozambique", "Myanmar (formerly Burma)",
+    "Namibia", "Nauru", "Nepal", "Netherlands", "New Zealand", "Nicaragua", "Niger", "Nigeria", "North Korea", "North Macedonia", "Norway",
+    "Oman", "Pakistan", "Palau", "Palestine State", "Panama", "Papua New Guinea", "Paraguay", "Peru", "Philippines", "Poland", "Portugal",
+    "Qatar", "Romania", "Russia", "Rwanda",
+    "Saint Kitts and Nevis", "Saint Lucia", "Saint Vincent and the Grenadines", "Samoa", "San Marino", "Sao Tome and Principe", "Saudi Arabia", "Senegal", "Serbia", "Seychelles", "Sierra Leone", "Singapore", "Slovakia", "Slovenia", "Solomon Islands", "Somalia", "South Africa", "South Korea", "South Sudan", "Spain", "Sri Lanka", "Sudan", "Suriname", "Sweden", "Switzerland", "Syria",
+    "Tajikistan", "Tanzania", "Thailand", "Timor-Leste", "Togo", "Tonga", "Trinidad and Tobago", "Tunisia", "Turkey", "Turkmenistan", "Tuvalu",
+    "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom", "United States of America", "Uruguay", "Uzbekistan",
+    "Vanuatu", "Venezuela", "Vietnam", "Yemen", "Zambia", "Zimbabwe"
+];
+
+const TIMEZONES = [
+    "UTC-12:00", "UTC-11:00", "UTC-10:00 (Hawaii)", "UTC-09:00 (Alaska)", "UTC-08:00 (Pacific Time)",
+    "UTC-07:00 (Mountain Time)", "UTC-06:00 (Central Time)", "UTC-05:00 (Eastern Time)", "UTC-04:00 (Atlantic Time)",
+    "UTC-03:00 (Brasilia)", "UTC-02:00", "UTC-01:00", "UTC+00:00 (London, Dublin)", "UTC+01:00 (Paris, Berlin)",
+    "UTC+02:00 (Cairo, Al-Quds)", "UTC+03:00 (Moscow, Riyadh)", "UTC+03:30 (Tehran)", "UTC+04:00 (Dubai)",
+    "UTC+05:00 (Karachi)", "UTC+05:30 (New Delhi)", "UTC+06:00 (Dhaka)", "UTC+07:00 (Bangkok)",
+    "UTC+08:00 (Beijing, Singapore)", "UTC+09:00 (Tokyo)", "UTC+09:30 (Adelaide)", "UTC+10:00 (Sydney)",
+    "UTC+11:00", "UTC+12:00"
+];
+
+// --- Local Components ---
+
+const Select = ({ label, name, value, onChange, options, fullWidth, className, required, placeholder = "Select..." }) => (
+    <div className={`flex flex-col gap-1.5 ${fullWidth ? 'w-full' : ''}`}>
+        {label && (
+            <label className="text-sm font-medium ml-1 text-gray-700">
+                {label} {required && <span className="text-red-500">*</span>}
+            </label>
+        )}
+        <div className="relative">
+            <select
+                name={name}
+                value={value}
+                onChange={onChange}
+                className={`w-full px-4 py-3 rounded-xl border border-gray-300 bg-white text-gray-900 focus:outline-none focus:ring-1 focus:ring-black focus:border-black transition-all duration-200 appearance-none ${className}`}
+            >
+                <option value="" disabled>{placeholder}</option>
+                {options.map((opt) => (
+                    <option key={opt} value={opt}>{opt}</option>
+                ))}
+            </select>
+            {/* Custom Arrow */}
+            <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none">
+                <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                </svg>
+            </div>
+        </div>
+    </div>
+);
+
 
 const OrganizationSettingsPage = () => {
     const { user, updateUser } = useAuthStore();
     const fileInputRef = useRef(null);
     const [orgId, setOrgId] = useState(null);
     const [useTenantServiceForUpdate, setUseTenantServiceForUpdate] = useState(false);
-    const [activeTab, setActiveTab] = useState('general');
 
     const [formData, setFormData] = useState({
         organization_full_name: '',
@@ -35,13 +107,6 @@ const OrganizationSettingsPage = () => {
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(null);
 
-    const tabs = [
-        { id: 'general', label: 'General Info', icon: LayoutDashboard },
-        { id: 'branding', label: 'Branding', icon: Building2 },
-        { id: 'contact', label: 'Contact & Location', icon: MapPin },
-        { id: 'details', label: 'Company Profile', icon: Briefcase },
-    ];
-
     useEffect(() => {
         const fetchOrganizationData = async () => {
             try {
@@ -52,7 +117,6 @@ const OrganizationSettingsPage = () => {
 
                 if (orgs.length > 0) {
                     const org = orgs[0];
-                    console.log('🏢 Fetched Organization:', org);
                     setOrgId(org.id);
                     setUseTenantServiceForUpdate(false);
                     setFormData({
@@ -71,8 +135,6 @@ const OrganizationSettingsPage = () => {
                     throw new Error('No organizations found via organizationService');
                 }
             } catch (err) {
-                console.warn('⚠️ Organization API failed, attempting Tenant API fallback:', err.message);
-
                 try {
                     // 2. Try Tenant Service Fallback
                     const response = await tenantService.getTenants();
@@ -86,7 +148,6 @@ const OrganizationSettingsPage = () => {
                     );
 
                     if (match) {
-                        console.log('✅ Found Tenant Match via getTenants:', match);
                         setOrgId(match.id);
                         setUseTenantServiceForUpdate(true);
                         setFormData({
@@ -105,11 +166,7 @@ const OrganizationSettingsPage = () => {
                         throw new Error('Current tenant not found in user tenants list');
                     }
                 } catch (fallbackErr) {
-                    console.error('❌ All fetch strategies failed:', fallbackErr);
-
-                    // 3. Final Fallback to Cached Session Data
                     if (user.tenant) {
-                        console.log('⚠️ Using cached session data as final fallback');
                         setOrgId(user.tenant.id);
                         setUseTenantServiceForUpdate(true);
                         setFormData(prev => ({
@@ -185,16 +242,12 @@ const OrganizationSettingsPage = () => {
             let response;
             try {
                 if (useTenantServiceForUpdate) {
-                    console.log('📝 Attempting Update via Tenant Service...');
                     response = await tenantService.updateTenant(orgId, payload);
                 } else {
-                    console.log('📝 Attempting Update via Organization Service...');
                     response = await organizationService.organizations.update(orgId, payload);
                 }
             } catch (initialErr) {
-                // FALLBACK STRATEGY: If tenant service fails (e.g. 500), try org service
                 if (useTenantServiceForUpdate) {
-                    console.warn('⚠️ Tenant Service update failed. Retrying with Organization Service...', initialErr);
                     response = await organizationService.organizations.update(orgId, payload);
                 } else {
                     throw initialErr;
@@ -203,7 +256,6 @@ const OrganizationSettingsPage = () => {
 
             const updatedData = response.data || response;
 
-            // Update local store
             const updatedUserTenant = {
                 ...user.tenant,
                 name: updatedData.name || updatedData.organization_full_name || formData.organization_full_name,
@@ -212,11 +264,10 @@ const OrganizationSettingsPage = () => {
             };
 
             updateUser({ tenant: updatedUserTenant });
-            setSuccess('Organization settings updated successfully!');
+            setSuccess('Settings updated successfully');
 
         } catch (err) {
-            console.error('Update failed:', err);
-            setError(err.response?.data?.message || 'Failed to update settings. Please try again.');
+            setError(err.response?.data?.message || 'Failed to update settings');
         } finally {
             setLoading(false);
         }
@@ -224,151 +275,11 @@ const OrganizationSettingsPage = () => {
 
     const triggerFileInput = () => fileInputRef.current?.click();
 
-    const renderTabContent = () => {
-        switch (activeTab) {
-            case 'general':
-                return (
-                    <div className="space-y-6 animate-fadeIn">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <Input
-                                label="Organization Name"
-                                name="organization_full_name"
-                                value={formData.organization_full_name}
-                                onChange={handleChange}
-                                placeholder="e.g. Acme Corporation"
-                                required
-                                fullWidth
-                            />
-                            <Input
-                                label="Short Name (Slug)"
-                                name="organization_short_name"
-                                value={formData.organization_short_name}
-                                onChange={handleChange}
-                                placeholder="e.g. Acme"
-                                helperText="Used in URLs and concise views."
-                                fullWidth
-                            />
-                        </div>
-                    </div>
-                );
-            case 'branding':
-                return (
-                    <div className="space-y-6 animate-fadeIn">
-                        <div className="border border-white/5 rounded-2xl p-6 bg-white/5">
-                            <label className="block text-sm font-medium text-gray-300 mb-4">Organization Logo</label>
-                            <div className="flex flex-col items-center sm:flex-row gap-8">
-                                <div className="w-32 h-32 rounded-full bg-black/20 border-2 border-dashed border-white/10 flex items-center justify-center overflow-hidden relative group">
-                                    {formData.logo_preview ? (
-                                        <img
-                                            src={formData.logo_preview}
-                                            alt="Logo Preview"
-                                            className="w-full h-full object-cover"
-                                        />
-                                    ) : (
-                                        <Building2 className="w-12 h-12 text-gray-600" />
-                                    )}
-                                    <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer" onClick={triggerFileInput}>
-                                        <Upload className="w-8 h-8 text-white" />
-                                    </div>
-                                </div>
-                                <div className="space-y-3 text-center sm:text-left">
-                                    <Button variant="outline" onClick={triggerFileInput} type="button">
-                                        <Upload className="w-4 h-4 mr-2" />
-                                        Upload Logo
-                                    </Button>
-                                    <p className="text-xs text-gray-500 max-w-xs">
-                                        Support for PNG, JPG or SVG. Max 5MB.<br />Recommended size: 512x512px.
-                                    </p>
-                                </div>
-                                <input
-                                    type="file"
-                                    ref={fileInputRef}
-                                    className="hidden"
-                                    accept="image/*"
-                                    onChange={handleFileChange}
-                                />
-                            </div>
-                        </div>
-                    </div>
-                );
-            case 'contact':
-                return (
-                    <div className="space-y-6 animate-fadeIn">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <Input
-                                label="Phone Number"
-                                name="phone"
-                                value={formData.phone}
-                                onChange={handleChange}
-                                placeholder="+1 (555) 000-0000"
-                                icon={<Phone className="w-4 h-4" />}
-                                fullWidth
-                            />
-                            <Input
-                                label="Country / Region"
-                                name="country"
-                                value={formData.country}
-                                onChange={handleChange}
-                                placeholder="e.g. United States"
-                                icon={<Globe className="w-4 h-4" />}
-                                fullWidth
-                            />
-                            <Input
-                                label="Timezone"
-                                name="timezone"
-                                value={formData.timezone}
-                                onChange={handleChange}
-                                placeholder="e.g. UTC-5 (EST)"
-                                fullWidth
-                            />
-                        </div>
-                    </div>
-                );
-            case 'details':
-                return (
-                    <div className="space-y-6 animate-fadeIn">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <Input
-                                label="Industry"
-                                name="industry"
-                                value={formData.industry}
-                                onChange={handleChange}
-                                placeholder="e.g. Software, Healthcare"
-                                fullWidth
-                            />
-                            <Input
-                                label="Company Size"
-                                name="company_size"
-                                value={formData.company_size}
-                                onChange={handleChange}
-                                placeholder="e.g. 50-200 employees"
-                                fullWidth
-                            />
-                        </div>
-                        <div className="space-y-2">
-                            <label className="block text-sm font-medium text-gray-300">Description</label>
-                            <textarea
-                                name="description"
-                                value={formData.description}
-                                onChange={handleChange}
-                                rows={6}
-                                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500 transition-all resize-none"
-                                placeholder="Tell us about your organization's mission and values..."
-                            />
-                            <p className="text-xs text-gray-500 text-right">0/500 characters</p>
-                        </div>
-                    </div>
-                );
-            default:
-                return null;
-        }
-    };
-
     if (fetching) {
         return (
             <MainLayout>
-                <div className="flex items-center justify-center h-[calc(100vh-100px)]">
-                    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-cyan-500"></div>
+                <div className="flex items-center justify-center h-[calc(100vh-100px)] bg-gray-50">
+                    <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-gray-900"></div>
                 </div>
             </MainLayout>
         );
@@ -376,99 +287,152 @@ const OrganizationSettingsPage = () => {
 
     return (
         <MainLayout>
-            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                {/* Header */}
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
-                    <div>
-                        <h1 className="text-3xl font-bold text-white tracking-tight">Organization Settings</h1>
-                        <p className="text-gray-400 mt-1">Manage your workspace presence and configuration.</p>
-                    </div>
-                    <div className="flex items-center gap-3">
-                        <Button variant="outline" onClick={() => window.history.back()} type="button">
-                            Cancel
-                        </Button>
-                        <Button onClick={handleSubmit} loading={loading} disabled={loading} className="bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-blue-700 text-white shadow-lg shadow-cyan-900/20">
-                            <Save className="w-4 h-4 mr-2" />
-                            Save Changes
-                        </Button>
-                    </div>
-                </div>
+            <div className="min-h-screen bg-gray-50 py-10 px-4">
+                <div className="max-w-2xl mx-auto">
 
-                {/* Notifications */}
-                {error && (
-                    <div className="mb-6 bg-red-500/10 border border-red-500/20 rounded-xl p-4 flex items-center gap-3 text-red-400 animate-slideIn">
-                        <AlertCircle className="w-5 h-5 flex-shrink-0" />
-                        <p className="font-medium">{error}</p>
+                    <div className="mb-6">
+                        <h1 className="text-xl font-bold text-gray-900">Organization Settings</h1>
                     </div>
-                )}
-                {success && (
-                    <div className="mb-6 bg-green-500/10 border border-green-500/20 rounded-xl p-4 flex items-center gap-3 text-green-400 animate-slideIn">
-                        <CheckCircle className="w-5 h-5 flex-shrink-0" />
-                        <p className="font-medium">{success}</p>
-                    </div>
-                )}
 
-                {/* Main Content Layout */}
-                <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+                    {/* Notifications */}
+                    {error && (
+                        <div className="mb-4 bg-red-50 border border-red-200 rounded p-3 flex items-center gap-2 text-red-700 text-sm">
+                            <AlertCircle className="w-4 h-4" />
+                            <p>{error}</p>
+                        </div>
+                    )}
+                    {success && (
+                        <div className="mb-4 bg-green-50 border border-green-200 rounded p-3 flex items-center gap-2 text-green-700 text-sm">
+                            <CheckCircle className="w-4 h-4" />
+                            <p>{success}</p>
+                        </div>
+                    )}
 
-                    {/* Sidebar Navigation */}
-                    <div className="lg:col-span-1 space-y-2">
-                        {tabs.map((tab) => {
-                            const Icon = tab.icon;
-                            const isActive = activeTab === tab.id;
-                            return (
-                                <button
-                                    key={tab.id}
-                                    onClick={() => setActiveTab(tab.id)}
-                                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-sm font-medium ${isActive
-                                            ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 shadow-sm'
-                                            : 'text-gray-400 hover:bg-white/5 hover:text-gray-200'
-                                        }`}
-                                >
-                                    <Icon className={`w-5 h-5 ${isActive ? 'text-cyan-400' : 'text-gray-500'}`} />
-                                    {tab.label}
-                                </button>
-                            );
-                        })}
+                    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
 
-                        {/* Summary Card */}
-                        <div className="mt-8 p-4 rounded-2xl bg-gradient-to-br from-gray-900 to-black border border-white/5 hidden lg:block">
-                            <div className="flex items-center gap-3 mb-3">
-                                <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-lg font-bold text-white">
-                                    {formData.organization_full_name.charAt(0) || 'O'}
-                                </div>
-                                <div className="overflow-hidden">
-                                    <p className="text-sm font-medium text-white truncate">{formData.organization_full_name || 'Organization'}</p>
-                                    <p className="text-xs text-gray-500 truncate">{orgId}</p>
-                                </div>
+                        {/* Logo Upload - Compact */}
+                        <div className="flex items-center gap-4 mb-6 pb-6 border-b border-gray-100">
+                            <div
+                                onClick={triggerFileInput}
+                                className="w-16 h-16 rounded bg-gray-100 border border-gray-200 flex items-center justify-center cursor-pointer hover:bg-gray-200 transition-colors overflow-hidden relative"
+                            >
+                                {formData.logo_preview ? (
+                                    <img
+                                        src={formData.logo_preview}
+                                        alt="Logo"
+                                        className="w-full h-full object-contain p-1 relative z-10"
+                                    />
+                                ) : (
+                                    <Building2 className="w-6 h-6 text-gray-400" />
+                                )}
                             </div>
-                            <div className="flex items-center gap-2 text-xs text-gray-500">
-                                <span className={`w-2 h-2 rounded-full ${user.tenant?.status === 'active' ? 'bg-green-500' : 'bg-yellow-500'}`}></span>
-                                {user.tenant?.status || 'Active'} Workspace
+                            <div>
+                                <h3 className="text-sm font-medium text-gray-900">Organization Logo</h3>
+                                <button
+                                    type="button"
+                                    onClick={triggerFileInput}
+                                    className="text-xs text-blue-600 hover:text-blue-700 font-medium mt-1"
+                                >
+                                    Change Logo
+                                </button>
+                                <input type="file" ref={fileInputRef} className="hidden" accept="image/*" onChange={handleFileChange} />
                             </div>
                         </div>
-                    </div>
 
-                    {/* Form Content */}
-                    <div className="lg:col-span-3">
-                        <Card className="p-0 overflow-hidden border-white/10 bg-gray-900/50 backdrop-blur-sm">
-                            <div className="p-6 sm:p-8 min-h-[400px]">
-                                <div className="mb-6 pb-6 border-b border-white/5">
-                                    <h2 className="text-xl font-semibold text-white">
-                                        {tabs.find(t => t.id === activeTab)?.label}
-                                    </h2>
-                                    <p className="text-sm text-gray-500 mt-1">
-                                        Update your {tabs.find(t => t.id === activeTab)?.label.toLowerCase()} details.
-                                    </p>
-                                </div>
-                                {renderTabContent()}
-                            </div>
-                            {/* Footer for Form */}
-                            <div className="bg-black/20 p-4 border-t border-white/5 flex justify-between items-center text-xs text-gray-500 px-8">
-                                <span>All changes are saved to the secure cloud.</span>
-                                <span>{new Date().toLocaleDateString()}</span>
-                            </div>
-                        </Card>
+                        {/* Form Inputs - Compact Grid */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                            <Input
+                                label="Name"
+                                name="organization_full_name"
+                                value={formData.organization_full_name}
+                                onChange={handleChange}
+                                required
+                                fullWidth
+                                className="bg-white"
+                            />
+                            <Input
+                                label="Short Name"
+                                name="organization_short_name"
+                                value={formData.organization_short_name}
+                                onChange={handleChange}
+                                fullWidth
+                                className="bg-white"
+                            />
+
+                            <Select
+                                label="Country"
+                                name="country"
+                                value={formData.country}
+                                onChange={handleChange}
+                                options={COUNTRIES}
+                                placeholder="Select Country"
+                                fullWidth
+                            />
+
+                            <Input
+                                label="Phone"
+                                name="phone"
+                                value={formData.phone}
+                                onChange={handleChange}
+                                fullWidth
+                                className="bg-white"
+                            />
+
+                            <Select
+                                label="Industry"
+                                name="industry"
+                                value={formData.industry}
+                                onChange={handleChange}
+                                options={INDUSTRIES}
+                                placeholder="Select Industry"
+                                fullWidth
+                            />
+
+                            <Select
+                                label="Company Size"
+                                name="company_size"
+                                value={formData.company_size}
+                                onChange={handleChange}
+                                options={COMPANY_SIZES}
+                                placeholder="Select Size"
+                                fullWidth
+                            />
+                        </div>
+
+                        <div className="mb-6">
+                            <Select
+                                label="Timezone"
+                                name="timezone"
+                                value={formData.timezone}
+                                onChange={handleChange}
+                                options={TIMEZONES}
+                                placeholder="Select Timezone"
+                                fullWidth
+                            />
+                        </div>
+
+                        <div className="mb-6">
+                            <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                            <textarea
+                                name="description"
+                                value={formData.description}
+                                onChange={handleChange}
+                                rows={3}
+                                className="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-1 focus:ring-black focus:border-black"
+                            />
+                        </div>
+
+                        <div className="flex justify-end pt-2">
+                            <Button
+                                onClick={handleSubmit}
+                                loading={loading}
+                                size="md"
+                                className="bg-black text-white px-8 hover:bg-gray-800"
+                            >
+                                Save Changes
+                            </Button>
+                        </div>
+
                     </div>
                 </div>
             </div>
