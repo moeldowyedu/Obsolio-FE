@@ -21,25 +21,16 @@ const TenantGuard = ({ children, subdomain }) => {
     useEffect(() => {
         const verifyTenantAccess = async () => {
             try {
-                console.log('🔐 TenantGuard: Verifying access for subdomain:', subdomain);
-
                 // Step 1: Resolve tenant by subdomain (public endpoint)
-                console.log('📡 Fetching tenant info...');
-
-                // ⚠️ CRITICAL FIX: Ensure tenantService.findBySubdomain is a function
                 if (!tenantService || typeof tenantService.findBySubdomain !== 'function') {
                     throw new Error('tenantService.findBySubdomain is not available');
                 }
 
                 const tenantData = await tenantService.findBySubdomain(subdomain);
-
-                console.log('✅ Tenant found:', tenantData);
                 setTenant(tenantData);
 
                 // Step 2: Check verification status
                 if (tenantData.requires_verification) {
-                    console.log('⚠️ Tenant requires verification');
-                    // Show "Workspace Incomplete" page
                     navigate('/workspace-incomplete', {
                         state: {
                             tenant: tenantData,
@@ -55,7 +46,6 @@ const TenantGuard = ({ children, subdomain }) => {
                 const authToken = searchParams.get('auth_token');
 
                 if (authToken) {
-                    console.log('🔑 Detected auth_token in URL, processing login...');
                     localStorage.setItem('auth_token', authToken);
 
                     // Update store
@@ -64,9 +54,8 @@ const TenantGuard = ({ children, subdomain }) => {
 
                     try {
                         await fetchUser();
-                        console.log('✅ User authenticated via URL token');
                     } catch (e) {
-                        console.error('Failed to fetch user with provided token:', e);
+                        // Silent fail
                     }
 
                     // Clean URL
@@ -79,12 +68,9 @@ const TenantGuard = ({ children, subdomain }) => {
                 const token = localStorage.getItem('auth_token');
 
                 if (!user || !token) {
-                    // Try one last attempt to hydrate from store if localstorage was empty but memory might trigger (unlikely)
+                    // Try one last attempt to hydrate from store if localstorage was empty
                     const storeUser = await import('../../store/authStore').then(m => m.useAuthStore.getState().user);
-                    if (storeUser) {
-                        console.log('🔄 Recovered user from store state');
-                    } else {
-                        console.log('🔓 User not authenticated, showing login');
+                    if (!storeUser) {
                         // User not authenticated - show tenant login page
                         setLoading(false);
                         return;
@@ -92,13 +78,7 @@ const TenantGuard = ({ children, subdomain }) => {
                 }
 
                 // Step 4: Verify user has access to this tenant
-                console.log('👤 Checking user tenant access...');
-                console.log('User tenant_id:', user.tenant_id);
-                console.log('Current tenant_id:', tenantData.id);
-
                 if (user.tenant_id !== tenantData.id) {
-                    console.log(`⚠️ User tenant_id (${user.tenant_id}) mismatch with current (${tenantData.id}). Attempting switch...`);
-
                     try {
                         // Attempt to switch context on backend
                         await tenantService.switchTenant(tenantData.id);
@@ -111,14 +91,9 @@ const TenantGuard = ({ children, subdomain }) => {
                         const { updateUser } = await import('../../store/authStore').then(m => m.useAuthStore.getState());
                         updateUser({ tenant_id: tenantData.id });
 
-                        console.log('✅ Switched tenant context successfully');
                     } catch (switchErr) {
-                        console.error('❌ Failed to switch tenant:', switchErr);
-
-                        // Check if user is System Admin - they might have access even if switch fails (though unlikely)
-                        if (user.role === 'system_admin') {
-                            console.log('🛡️ Allowing System Admin access despite switch failure');
-                        } else {
+                        // Check if user is System Admin - they might have access even if switch fails
+                        if (user.role !== 'system_admin') {
                             setError({
                                 type: 'access_denied',
                                 message: 'You do not have access to this workspace',
@@ -131,7 +106,6 @@ const TenantGuard = ({ children, subdomain }) => {
                 }
 
                 // Step 5: All checks passed
-                console.log('✅ Access granted');
 
                 // CRITICAL FIX: Resolve canonical integer ID for API headers
                 // The subdomain lookup might return a string ID but backend endpoints require the Integer ID.
@@ -152,14 +126,11 @@ const TenantGuard = ({ children, subdomain }) => {
                     );
 
                     if (match) {
-                        console.log('🎯 Resolved Canonical Tenant ID:', match.id);
                         canonicalId = match.id;
                         canonicalTenant = match;
-                    } else {
-                        console.warn('⚠️ Could not find canonical tenant record in user list');
                     }
                 } catch (resolveErr) {
-                    console.warn('⚠️ Failed to resolve canonical tenant ID (using fallback):', resolveErr.message);
+                    // Silent fail - use fallback
                 }
 
                 // Sync tenant data to user session
@@ -179,8 +150,6 @@ const TenantGuard = ({ children, subdomain }) => {
                 setLoading(false);
 
             } catch (err) {
-                console.error('❌ Tenant Guard Error:', err);
-
                 // Handle different error types
                 if (err.response?.status === 404) {
                     setError({
