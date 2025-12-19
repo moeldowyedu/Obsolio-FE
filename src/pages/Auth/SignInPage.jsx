@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { motion } from 'framer-motion';
 import { ArrowRight, Loader, Mail, AlertCircle, Building, User } from 'lucide-react';
@@ -9,10 +9,11 @@ import { redirectToTenantLogin } from '../../utils/tenantDetection';
 import logo from '../../assets/imgs/OBSOLIO-logo-cyan.png';
 
 const SignInPage = () => {
-    const [step, setStep] = useState('lookup'); // 'lookup', 'selection'
+    // const [step, setStep] = useState('lookup'); // Removed step state
     const [loading, setLoading] = useState(false);
-    const [tenants, setTenants] = useState([]);
+    // const [tenants, setTenants] = useState([]); // Removed tenants state
     const [error, setError] = useState(null);
+    const navigate = useNavigate(); // Added navigate
 
     const { register, handleSubmit, formState: { errors } } = useForm();
 
@@ -30,9 +31,8 @@ const SignInPage = () => {
                     toast.success(`Found your workspace: ${response.tenants[0].name}`);
                     redirectToTenantLogin(response.tenants[0].slug);
                 } else {
-                    // Show selection
-                    setTenants(response.tenants);
-                    setStep('selection');
+                    // Redirect to selection page
+                    navigate('/workspace-selection', { state: { tenants: response.tenants } });
                 }
             } else {
                 setError('No workspace related to that account');
@@ -43,10 +43,6 @@ const SignInPage = () => {
         } finally {
             setLoading(false);
         }
-    };
-
-    const handleSelectTenant = (tenant) => {
-        redirectToTenantLogin(tenant.slug);
     };
 
     return (
@@ -64,12 +60,10 @@ const SignInPage = () => {
                         <img src={logo} alt="OBSOLIO" className="h-16 mx-auto object-contain" />
                     </Link>
                     <h2 className="text-3xl font-bold text-white mb-2">
-                        {step === 'lookup' ? 'Find your workspace' : 'Select your workspace'}
+                        Find your workspace
                     </h2>
                     <p className="text-gray-400">
-                        {step === 'lookup'
-                            ? 'Enter your email to sign in.'
-                            : `Found ${tenants.length} workspaces for your email.`}
+                        Enter your email to sign in.
                     </p>
                 </div>
 
@@ -88,81 +82,47 @@ const SignInPage = () => {
                     {/* Decor glow */}
                     <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary-500 to-transparent opacity-50"></div>
 
-                    {step === 'lookup' && (
-                        <form className="space-y-6" onSubmit={handleSubmit(handleLookup)}>
-                            <div>
-                                <label htmlFor="email" className="block text-sm font-medium text-gray-300">
-                                    Email address
-                                </label>
-                                <div className="mt-1 relative">
-                                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                        <Mail className="h-5 w-5 text-gray-400" />
-                                    </div>
-                                    <input
-                                        id="email"
-                                        name="email"
-                                        type="email"
-                                        autoComplete="email"
-                                        autoFocus // Added autoFocus
-                                        className={`appearance-none block w-full pl-10 px-3 py-3 border ${errors.email ? 'border-red-500/50 focus:ring-red-500 focus:border-red-500' : 'border-white/10 focus:ring-primary-500 focus:border-primary-500'} rounded-xl shadow-sm placeholder-gray-500 focus:outline-none focus:ring-1 sm:text-sm bg-white/5 text-white transition-all caret-primary-500`}
-                                        placeholder="you@company.com"
-                                        {...register('email', {
-                                            required: 'Email is required',
-                                            pattern: {
-                                                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                                                message: "Invalid email address"
-                                            }
-                                        })}
-                                    />
-                                    {errors.email && (
-                                        <p className="mt-1 text-xs text-red-400">{errors.email.message}</p>
-                                    )}
+                    <form className="space-y-6" onSubmit={handleSubmit(handleLookup)}>
+                        <div>
+                            <label htmlFor="email" className="block text-sm font-medium text-gray-300">
+                                Email address
+                            </label>
+                            <div className="mt-1 relative">
+                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <Mail className="h-5 w-5 text-gray-400" />
                                 </div>
+                                <input
+                                    id="email"
+                                    name="email"
+                                    type="email"
+                                    autoComplete="email"
+                                    autoFocus // Added autoFocus
+                                    className={`appearance-none block w-full pl-10 px-3 py-3 border ${errors.email ? 'border-red-500/50 focus:ring-red-500 focus:border-red-500' : 'border-white/10 focus:ring-primary-500 focus:border-primary-500'} rounded-xl shadow-sm placeholder-gray-500 focus:outline-none focus:ring-1 sm:text-sm bg-white/5 text-white transition-all caret-primary-500`}
+                                    placeholder="you@company.com"
+                                    {...register('email', {
+                                        required: 'Email is required',
+                                        pattern: {
+                                            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                                            message: "Invalid email address"
+                                        }
+                                    })}
+                                />
+                                {errors.email && (
+                                    <p className="mt-1 text-xs text-red-400">{errors.email.message}</p>
+                                )}
                             </div>
+                        </div>
 
-                            <div>
-                                <button
-                                    type="submit"
-                                    disabled={loading}
-                                    className="w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-lg shadow-primary-500/20 text-sm font-medium text-white bg-primary-600 hover:bg-primary-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-70 disabled:cursor-not-allowed transition-all"
-                                >
-                                    {loading ? <Loader className="animate-spin h-5 w-5" /> : 'Continue'}
-                                </button>
-                            </div>
-                        </form>
-                    )}
-
-                    {step === 'selection' && (
-                        <div className="space-y-4">
-                            {tenants.map(tenant => (
-                                <motion.button
-                                    key={tenant.id}
-                                    initial={{ opacity: 0, y: 10 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    onClick={() => handleSelectTenant(tenant)}
-                                    className="w-full flex items-center justify-between p-4 border border-white/10 rounded-xl hover:bg-white/5 transition-colors group text-left bg-white/5"
-                                >
-                                    <div className="flex items-center gap-4">
-                                        <div className={`p-2 rounded-lg ${tenant.type === 'ORGANIZATION' ? 'bg-purple-500/20 text-purple-400' : 'bg-primary-500/20 text-primary-400'}`}>
-                                            {tenant.type === 'ORGANIZATION' ? <Building size={20} /> : <User size={20} />}
-                                        </div>
-                                        <div>
-                                            <h3 className="font-semibold text-white">{tenant.name}</h3>
-                                            <p className="text-xs text-gray-400">{tenant.slug}.obsolio.com</p>
-                                        </div>
-                                    </div>
-                                    <ArrowRight size={18} className="text-gray-500 group-hover:text-primary-400 transform group-hover:translate-x-1 transition-all" />
-                                </motion.button>
-                            ))}
-
+                        <div>
                             <button
-                                onClick={() => setStep('lookup')}
-                                className="w-full mt-4 text-center text-sm text-gray-500 hover:text-gray-300 transition-colors"
+                                type="submit"
+                                disabled={loading}
+                                className="w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-lg shadow-primary-500/20 text-sm font-medium text-white bg-primary-600 hover:bg-primary-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-70 disabled:cursor-not-allowed transition-all"
                             >
-                                Use a different email
+                                {loading ? <Loader className="animate-spin h-5 w-5" /> : 'Continue'}
                             </button>
                         </div>
-                    )}
+                    </form>
 
                 </div>
 

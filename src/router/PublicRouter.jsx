@@ -2,6 +2,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import HomePage from '../pages/Home/HomePage';
 import LoginPage from '../pages/Auth/LoginPage';
 import SignInPage from '../pages/Auth/SignInPage'; // Import SignInPage
+import WorkspaceSelectionPage from '../pages/Auth/WorkspaceSelectionPage';
 import RegisterPage from '../pages/Auth/RegisterPage';
 import ForgotPasswordPage from '../pages/Auth/ForgotPasswordPage';
 import ResetPasswordPage from '../pages/Auth/ResetPasswordPage';
@@ -26,6 +27,7 @@ const PublicRouter = () => {
             {/* Redirect /login to /signin on public domain */}
             <Route path="/login" element={<Navigate to="/signin" replace />} />
             <Route path="/signin" element={<SignInPage />} />
+            <Route path="/workspace-selection" element={<WorkspaceSelectionPage />} />
 
             {/* Guard: Redirect /dashboard to /login on public domain to prevent SaaS leak */}
             <Route path="/dashboard" element={<Navigate to="/login" replace />} />
