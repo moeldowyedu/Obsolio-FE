@@ -1,30 +1,69 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowRight, Building, User } from 'lucide-react';
+import { ArrowRight, Building, User, Loader } from 'lucide-react';
 import { redirectToTenantLogin } from '../../utils/tenantDetection';
+import { useAuthStore } from '../../store/authStore';
+import tenantLookupService from '../../services/tenantLookupService';
 import logo from '../../assets/imgs/OBSOLIO-logo-cyan.png';
 
 const WorkspaceSelectionPage = () => {
     const location = useLocation();
     const navigate = useNavigate();
+    const { isAuthenticated, user } = useAuthStore();
     const [tenants, setTenants] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
-        if (location.state?.tenants) {
-            setTenants(location.state.tenants);
-        } else {
-            // If accessed directly without state, redirect to signin
-            navigate('/signin');
-        }
-    }, [location, navigate]);
+        const loadTenants = async () => {
+            // If tenants passed via state (from sign-in flow), use them
+            if (location.state?.tenants) {
+                setTenants(location.state.tenants);
+                setLoading(false);
+                return;
+            }
+
+            // If user is authenticated, fetch their tenants
+            if (isAuthenticated && user?.email) {
+                try {
+                    setLoading(true);
+                    const response = await tenantLookupService.findTenant(user.email);
+
+                    if (response.success && response.tenants?.length > 0) {
+                        setTenants(response.tenants);
+                    } else {
+                        setError('No workspaces found for your account');
+                    }
+                } catch (err) {
+                    console.error('Failed to fetch tenants:', err);
+                    setError('Failed to load workspaces');
+                } finally {
+                    setLoading(false);
+                }
+            } else {
+                // Not authenticated and no state - redirect to signin
+                navigate('/signin');
+            }
+        };
+
+        loadTenants();
+    }, [location, navigate, isAuthenticated, user]);
 
     const handleSelectTenant = (tenant) => {
         redirectToTenantLogin(tenant.slug);
     };
 
-    if (tenants.length === 0) {
-        return null; // Or a loading spinner, but usually redirects fast
+    // Show loading state
+    if (loading) {
+        return (
+            <div className="min-h-screen bg-[#0B0E14] relative flex items-center justify-center p-4">
+                <div className="text-center">
+                    <Loader className="w-12 h-12 text-primary-500 animate-spin mx-auto mb-4" />
+                    <p className="text-gray-400">Loading your workspaces...</p>
+                </div>
+            </div>
+        );
     }
 
     return (
@@ -48,6 +87,12 @@ const WorkspaceSelectionPage = () => {
                         Found {tenants.length} workspaces for your email.
                     </p>
                 </div>
+
+                {error && (
+                    <div className="bg-red-500/10 text-red-400 p-4 rounded-xl flex items-center gap-2 text-sm border border-red-500/20 mb-6">
+                        <span>{error}</span>
+                    </div>
+                )}
 
                 <div className="glass-card p-6 sm:p-8 shadow-2xl border border-white/10 relative overflow-hidden backdrop-blur-xl bg-[#1e293b]/40 rounded-xl">
                     {/* Decor glow */}
