@@ -7,6 +7,7 @@ import { translations } from '../../translations'
 import NotificationBell from '../common/NotificationBell/NotificationBell'
 import logo from '../../assets/imgs/OBSOLIO-logo-cyan.png'
 import { Menu, X, LogIn } from 'lucide-react'
+import { getCookie } from '../../utils/cookieUtils'
 
 const Header = () => {
   const { isAuthenticated, user, logout } = useAuthStore()
@@ -57,6 +58,31 @@ const Header = () => {
       document.removeEventListener('mousedown', handleClickOutside)
     }
   }, [])
+
+  // Hydrate auth from cookie if not in localStorage (cross-domain)
+  useEffect(() => {
+    // Only run if not already authenticated
+    if (!isAuthenticated) {
+      const cookieToken = getCookie('obsolio_auth_token');
+      const cookieUser = getCookie('obsolio_user');
+
+      if (cookieToken && cookieUser) {
+        try {
+          const userData = JSON.parse(cookieUser);
+          console.log('🍪 Hydrating auth from cookie:', userData.email);
+
+          // Update auth store
+          useAuthStore.setState({
+            user: userData,
+            token: cookieToken,
+            isAuthenticated: true,
+          });
+        } catch (e) {
+          console.error('Failed to parse user cookie:', e);
+        }
+      }
+    }
+  }, [isAuthenticated])
 
   const languages = [
     { code: 'en', name: 'English', flag: 'us' },
@@ -282,6 +308,9 @@ const Header = () => {
                         {getDisplayName().charAt(0).toUpperCase()}
                       </span>
                     </div>
+                    <span className="text-sm text-gray-300 hidden md:inline">
+                      Welcome, {getDisplayName().split(' ')[0]}
+                    </span>
                     <span className="material-icons text-gray-300 text-sm">
                       {userMenuOpen ? 'expand_less' : 'expand_more'}
                     </span>
@@ -328,6 +357,17 @@ const Header = () => {
                           </a>
                         </div>
                       )}
+
+                      <Link
+                        to="/workspace-selection"
+                        className="block px-4 py-3 text-gray-300 hover:bg-white/10 hover:text-white transition-colors"
+                        onClick={() => setUserMenuOpen(false)}
+                      >
+                        <div className="flex items-center gap-2">
+                          <span className="material-icons text-sm">apps</span>
+                          <span>Workspaces</span>
+                        </div>
+                      </Link>
 
                       <Link
                         to="/profile"

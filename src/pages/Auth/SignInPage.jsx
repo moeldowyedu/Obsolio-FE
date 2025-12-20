@@ -26,12 +26,8 @@ const SignInPage = () => {
             if (response.success) {
                 if (response.tenants.length === 0) {
                     setError('No workspace related to that account');
-                } else if (response.tenants.length === 1) {
-                    // Auto-redirect
-                    toast.success(`Found your workspace: ${response.tenants[0].name}`);
-                    redirectToTenantLogin(response.tenants[0].slug);
                 } else {
-                    // Redirect to selection page
+                    // Redirect to selection page for any number of tenants (1 or more)
                     navigate('/workspace-selection', { state: { tenants: response.tenants } });
                 }
             } else {

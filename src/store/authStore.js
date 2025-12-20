@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import authService from '../services/authService';
+import { setCookie, getCookie, deleteCookie } from '../utils/cookieUtils';
 
 export const useAuthStore = create(
   persist(
@@ -23,6 +24,11 @@ export const useAuthStore = create(
             isLoading: false,
             error: null,
           });
+
+          // Store token in cookie for cross-domain access
+          setCookie('obsolio_auth_token', data.token, 7);
+          setCookie('obsolio_user', JSON.stringify(data.user), 7);
+
           return data;
         } catch (error) {
           set({
@@ -46,6 +52,11 @@ export const useAuthStore = create(
             isLoading: false,
             error: null,
           });
+
+          // Store token in cookie for cross-domain access
+          setCookie('obsolio_auth_token', data.token, 7);
+          setCookie('obsolio_user', JSON.stringify(data.user), 7);
+
           return data;
         } catch (error) {
           set({
@@ -61,6 +72,10 @@ export const useAuthStore = create(
         try {
           await authService.logout();
         } finally {
+          // Clear cookies
+          deleteCookie('obsolio_auth_token');
+          deleteCookie('obsolio_user');
+
           set({
             user: null,
             token: null,

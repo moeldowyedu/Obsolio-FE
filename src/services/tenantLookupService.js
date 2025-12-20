@@ -13,21 +13,44 @@ const tenantLookupService = {
             // Backend returns { success: true, tenants: [...] }
             // Ensure we handle the response structure correctly
 
-            // Helper to extract slug from login_url if slug is missing
+            console.log('🔍 Tenant Lookup API Response:', response.data);
+
+            // Helper to normalize tenant data - backend may return 'subdomain' or 'slug'
             const tenants = response.data.tenants ? response.data.tenants.map(t => {
-                if (!t.slug && t.login_url) {
-                    try {
-                        const url = new URL(t.login_url);
-                        const hostname = url.hostname; // e.g. tenant.localhost
-                        const parts = hostname.split('.');
-                        if (parts.length >= 2) {
-                            // Assuming first part is slug
-                            t.slug = parts[0];
+                // Ensure we have a slug field - try subdomain field first, then slug, then extract from login_url
+                if (!t.slug) {
+                    if (t.subdomain) {
+                        // Backend returns 'subdomain' field
+                        t.slug = t.subdomain;
+                    } else if (t.login_url && typeof t.login_url === 'string' && t.login_url.trim() !== '') {
+                        // Fallback: try to extract from login_url using string parsing
+                        try {
+                            let urlStr = t.login_url.trim();
+
+                            // Remove protocol (http:// or https://)
+                            urlStr = urlStr.replace(/^https?:\/\//, '');
+
+                            // Remove path (everything after the first /)
+                            urlStr = urlStr.split('/')[0];
+
+                            // Now we have something like: loogentic10.127.0.0.1:port or loogentic10.localhost or subdomain.domain.com
+                            // Split by '.' and check if it's an IP or domain
+                            const parts = urlStr.split('.');
+
+                            // If it looks like an IP address (has numeric parts), take the first part as subdomain
+                            // Examples: loogentic10.127.0.0.1 -> loogentic10
+                            //          subdomain.localhost -> subdomain
+                            //          subdomain.obsolio.com -> subdomain
+                            if (parts.length >= 2) {
+                                t.slug = parts[0];
+                            }
+                        } catch (e) {
+                            console.error("Error parsing login_url for tenant:", t.name, "URL:", t.login_url, "Error:", e);
                         }
-                    } catch (e) {
-                        console.error("Error parsing login_url", e);
                     }
                 }
+
+                console.log('📦 Processed tenant:', { name: t.name, slug: t.slug, subdomain: t.subdomain, login_url: t.login_url });
                 return t;
             }) : [];
 

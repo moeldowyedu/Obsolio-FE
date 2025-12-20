@@ -54,26 +54,32 @@ const WorkspaceSelectionPage = () => {
                     <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary-500 to-transparent opacity-50"></div>
 
                     <div className="space-y-4">
-                        {tenants.map(tenant => (
-                            <motion.button
-                                key={tenant.id}
-                                initial={{ opacity: 0, y: 10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                onClick={() => handleSelectTenant(tenant)}
-                                className="w-full flex items-center justify-between p-4 border border-white/10 rounded-xl hover:bg-white/5 transition-colors group text-left bg-white/5"
-                            >
-                                <div className="flex items-center gap-4">
-                                    <div className={`p-2 rounded-lg ${tenant.type === 'ORGANIZATION' ? 'bg-purple-500/20 text-purple-400' : 'bg-primary-500/20 text-primary-400'}`}>
-                                        {tenant.type === 'ORGANIZATION' ? <Building size={20} /> : <User size={20} />}
+                        {tenants.map(tenant => {
+                            const fullUrl = `${tenant.slug}.${window.location.hostname.includes('localhost') ? 'localhost:5173' : 'obsolio.com'}`;
+
+                            return (
+                                <motion.button
+                                    key={tenant.id}
+                                    initial={{ opacity: 0, y: 10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    onClick={() => handleSelectTenant(tenant)}
+                                    className="w-full flex items-center justify-between p-4 border border-white/10 rounded-xl hover:bg-white/5 transition-colors group text-left bg-white/5"
+                                >
+                                    <div className="flex items-center gap-4 flex-1">
+                                        <div className={`p-2 rounded-lg ${tenant.type === 'ORGANIZATION' ? 'bg-purple-500/20 text-purple-400' : 'bg-primary-500/20 text-primary-400'}`}>
+                                            {tenant.type === 'ORGANIZATION' ? <Building size={20} /> : <User size={20} />}
+                                        </div>
+                                        <div className="flex-1">
+                                            <h3 className="font-semibold text-white">{tenant.name}</h3>
+                                            <p className="text-sm text-primary-400 group-hover:text-primary-300 transition-colors font-mono">
+                                                {fullUrl}
+                                            </p>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <h3 className="font-semibold text-white">{tenant.name}</h3>
-                                        <p className="text-xs text-gray-400">{tenant.slug}.obsolio.com</p>
-                                    </div>
-                                </div>
-                                <ArrowRight size={18} className="text-gray-500 group-hover:text-primary-400 transform group-hover:translate-x-1 transition-all" />
-                            </motion.button>
-                        ))}
+                                    <ArrowRight size={18} className="text-gray-500 group-hover:text-primary-400 transform group-hover:translate-x-1 transition-all" />
+                                </motion.button>
+                            );
+                        })}
 
                         <Link
                             to="/signin"
