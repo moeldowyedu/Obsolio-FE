@@ -360,7 +360,13 @@ const Sidebar = () => {
                 </div>
               </div>
               <button
-                onClick={logout}
+                onClick={async () => {
+                  try {
+                    await logout();
+                  } catch (error) {
+                    console.error('Logout failed:', error);
+                  }
+                }}
                 className="p-1.5 text-gray-400 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
                 title="Logout"
               >
@@ -374,7 +380,13 @@ const Sidebar = () => {
               {(user?.name || user?.fullName || user?.full_name || 'U').charAt(0).toUpperCase()}
             </div>
             <button
-              onClick={logout}
+              onClick={async () => {
+                try {
+                  await logout();
+                } catch (error) {
+                  console.error('Logout failed:', error);
+                }
+              }}
               className="w-10 h-10 mx-auto flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
               title="Logout"
             >

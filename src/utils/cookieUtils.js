@@ -66,20 +66,44 @@ export const getCookie = (name) => {
 };
 
 /**
- * Delete a cookie
+ * Delete a cookie from both current domain and root domain
  * @param {string} name - Cookie name
  */
 export const deleteCookie = (name) => {
     const domain = getRootDomain();
-    const domainAttr = domain.startsWith('.') ? `domain=${domain};` : `domain=.${domain};`;
 
-    // Set expiration to past date
-    const cookieString = window.location.hostname.includes('localhost')
-        ? `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`
-        : `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; ${domainAttr}`;
+    // Delete from current domain (no domain attribute)
+    document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
 
-    document.cookie = cookieString;
-    console.log('🍪 Deleted cookie:', name);
+    // Delete from root domain (with domain attribute)
+    if (!window.location.hostname.includes('localhost')) {
+        const domainAttr = domain.startsWith('.') ? `domain=${domain};` : `domain=.${domain};`;
+        document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; ${domainAttr}`;
+    }
+
+    console.log('🍪 Deleted cookie:', name, 'from domain:', domain);
+};
+
+/**
+ * Delete all authentication-related cookies
+ * Ensures complete logout across all domains
+ */
+export const deleteAllAuthCookies = () => {
+    const authCookies = [
+        'obsolio_auth_token',
+        'obsolio_user',
+        'auth_token',
+        'user',
+        'current_tenant_id',
+        'XSRF-TOKEN',
+        'laravel_session'
+    ];
+
+    authCookies.forEach(cookieName => {
+        deleteCookie(cookieName);
+    });
+
+    console.log('🍪 Cleared all auth cookies');
 };
 
 /**
@@ -90,3 +114,4 @@ export const deleteCookie = (name) => {
 export const hasCookie = (name) => {
     return getCookie(name) !== null;
 };
+

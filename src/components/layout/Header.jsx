@@ -89,9 +89,15 @@ const Header = () => {
     { code: 'ar', name: 'العربية', flag: 'eg' },
   ]
 
-  const handleLogout = () => {
-    logout()
-    navigate('/login')
+  const handleLogout = async () => {
+    try {
+      await logout();
+      // Navigation is handled by the logout function in authStore
+    } catch (error) {
+      console.error('Logout failed:', error);
+      // Still attempt to navigate even if logout fails
+      window.location.href = '/login';
+    }
   }
 
   // Hydrate tenant info if missing

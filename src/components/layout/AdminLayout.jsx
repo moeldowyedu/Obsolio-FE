@@ -15,8 +15,14 @@ const AdminLayout = ({ children }) => {
   const navigate = useNavigate();
 
   const handleLogout = async () => {
-    await logout();
-    navigate('/login');
+    try {
+      await logout();
+      // Navigation is handled by the logout function in authStore
+    } catch (error) {
+      console.error('Logout failed:', error);
+      // Fallback navigation
+      window.location.href = '/login';
+    }
   };
 
   // We are likely on the console subdomain, so paths are root relative.

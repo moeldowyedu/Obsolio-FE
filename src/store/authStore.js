@@ -70,18 +70,46 @@ export const useAuthStore = create(
       // Logout action
       logout: async () => {
         try {
+          // Call authService to clear server session and local data
           await authService.logout();
+        } catch (error) {
+          console.error('Logout error:', error);
+          // Continue with local cleanup even if service call fails
         } finally {
-          // Clear cookies
-          deleteCookie('obsolio_auth_token');
-          deleteCookie('obsolio_user');
+          // Import and use deleteAllAuthCookies for cross-domain cleanup
+          const { deleteAllAuthCookies } = await import('../utils/cookieUtils');
+          deleteAllAuthCookies();
 
+          // Reset Zustand state
           set({
             user: null,
             token: null,
             isAuthenticated: false,
             error: null,
           });
+
+          // Navigate to marketing page login
+          // Check if we're on a tenant subdomain or marketing domain
+          const hostname = window.location.hostname;
+          const isLocalhost = hostname.includes('localhost') || hostname === '127.0.0.1';
+
+          if (isLocalhost) {
+            // Development: just go to /login
+            window.location.href = '/login';
+          } else {
+            // Production: redirect to marketing domain
+            const parts = hostname.split('.');
+            const isTenantSubdomain = parts.length > 2; // e.g., tenant.obsolio.com
+
+            if (isTenantSubdomain) {
+              // Redirect to marketing domain login
+              const rootDomain = parts.slice(-2).join('.'); // obsolio.com
+              window.location.href = `https://${rootDomain}/login`;
+            } else {
+              // Already on marketing domain
+              window.location.href = '/login';
+            }
+          }
         }
       },
 
