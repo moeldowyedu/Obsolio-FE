@@ -10,6 +10,7 @@ import MainLayout from '../../components/layout/MainLayout';
 import ObsolioLogo from '../../assets/imgs/OBSOLIO-logo-cyan.png';
 import DrHebaImage from '../../assets/imgs/heba-saleh.png';
 import AhmedSalahImage from '../../assets/imgs/ahmed-salah.jpg';
+import AnimatedShapes from '../../components/common/AnimatedShapes';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { translations } from '../../translations';
 
@@ -22,15 +23,8 @@ const HomePage = () => {
 
         {/* Hero Section */}
         <section className="relative pt-32 pb-20 px-6 overflow-hidden">
-          {/* Animated Background Elements - Lowest Layer (z-0) */}
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-full opacity-80 pointer-events-none z-0">
-            <div className="absolute top-20 left-20 w-72 h-72 bg-primary-500/50 rounded-full blur-[100px] animate-pulse"></div>
-            <div className="absolute bottom-20 right-20 w-96 h-96 bg-purple-500/50 rounded-full blur-[100px] animate-pulse delay-1000"></div>
-            <div className="absolute top-40 right-32 w-80 h-80 bg-cyan-400/40 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '2s' }}></div>
-            <div className="absolute bottom-32 left-32 w-64 h-64 bg-pink-500/40 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: '3s' }}></div>
-            <div className="absolute top-1/2 left-1/4 w-56 h-56 bg-green-400/30 rounded-full blur-[90px] animate-pulse" style={{ animationDelay: '1.5s' }}></div>
-            <div className="absolute top-1/3 right-1/3 w-72 h-72 bg-orange-400/35 rounded-full blur-[110px] animate-pulse" style={{ animationDelay: '2.5s' }}></div>
-          </div>
+          {/* Animated Shapes Background */}
+          <AnimatedShapes />
 
           {/* Darkness Overlay - Middle Layer (z-[1]) */}
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#0B0E14]/60 pointer-events-none z-[1]"></div>
