@@ -57,18 +57,6 @@ const Sidebar = () => {
       exact: true
     },
     {
-      name: 'Organization',
-      icon: 'business',
-      section: 'organization',
-      children: [
-        { name: 'Branches', href: '/organization/branches', icon: 'account_tree' },
-        { name: 'Departments', href: '/organization/departments', icon: 'corporate_fare' },
-        { name: 'Projects', href: '/organization/projects', icon: 'folder' },
-        { name: 'Teams', href: '/organization/teams', icon: 'groups' },
-        { name: 'Settings', href: '/organization/settings', icon: 'settings' },
-      ]
-    },
-    {
       name: 'AgentX Hub',
       icon: 'smart_toy',
       section: 'agentx',
@@ -81,19 +69,15 @@ const Sidebar = () => {
       ]
     },
     {
-      name: 'Messages',
-      href: '/chat',
-      icon: 'chat',
-      exact: true
-    },
-    {
-      name: 'Job Flows',
-      icon: 'bolt',
-      section: 'jobFlows',
+      name: 'Organization',
+      icon: 'business',
+      section: 'organization',
       children: [
-        { name: 'All Job Flows', href: '/job-flows/all', icon: 'list_alt' },
-        { name: 'Job Calendar', href: '/job-flows/calendar', icon: 'calendar_month' },
-        { name: 'Execution History', href: '/job-flows/history', icon: 'history' },
+        { name: 'Branches', href: '/organization/branches', icon: 'account_tree' },
+        { name: 'Departments', href: '/organization/departments', icon: 'corporate_fare' },
+        { name: 'Projects', href: '/organization/projects', icon: 'folder' },
+        { name: 'Teams', href: '/organization/teams', icon: 'groups' },
+        { name: 'Settings', href: '/organization/settings', icon: 'settings' },
       ]
     },
     {
@@ -104,13 +88,6 @@ const Sidebar = () => {
         { name: 'Workflows', href: '/orchestration/workflows', icon: 'workflow' },
         { name: 'Workflow Builder', href: '/orchestration/builder', icon: 'construction' },
         { name: 'Execution History', href: '/orchestration/history', icon: 'history' },
-      ]
-    },
-    {
-      name: 'Scheduling',
-      icon: 'schedule',
-      section: 'scheduling',
-      children: [
         { name: 'Scheduled Jobs', href: '/scheduling/jobs', icon: 'alarm' },
         { name: 'Calendar View', href: '/scheduling/calendar', icon: 'calendar_today' },
         { name: 'Upcoming Runs', href: '/scheduling/upcoming', icon: 'hourglass_empty' },
@@ -128,24 +105,13 @@ const Sidebar = () => {
       ]
     },
     {
-      name: 'Precision AI Engines',
-      icon: 'precision_manufacturing',
-      section: 'engines',
-      children: ENGINES.map(engine => ({
-        name: engine.shortName,
-        href: `/engines/${engine.id}`,
-        icon: engine.icon
-      }))
-    },
-    {
-      name: 'Integrations',
-      icon: 'extension',
-      section: 'integrations',
+      name: 'Job Flows',
+      icon: 'bolt',
+      section: 'jobFlows',
       children: [
-        { name: 'Connected Apps', href: '/integrations/connected', icon: 'link' },
-        { name: 'API Keys', href: '/integrations/api-keys', icon: 'key' },
-        { name: 'Webhooks', href: '/integrations/webhooks', icon: 'webhook' },
-        { name: 'Browse Integrations', href: '/integrations/browse', icon: 'apps' },
+        { name: 'All Job Flows', href: '/job-flows/all', icon: 'list_alt' },
+        { name: 'Job Calendar', href: '/job-flows/calendar', icon: 'calendar_month' },
+        { name: 'Execution History', href: '/job-flows/history', icon: 'history' },
       ]
     },
     {
@@ -156,6 +122,17 @@ const Sidebar = () => {
         { name: 'All Users', href: '/team-users/all', icon: 'person' },
         { name: 'Roles & Permissions', href: '/team-users/roles', icon: 'admin_panel_settings' },
         { name: 'User Activity', href: '/team-users/activity', icon: 'analytics' },
+      ]
+    },
+    {
+      name: 'Integrations',
+      icon: 'extension',
+      section: 'integrations',
+      children: [
+        { name: 'Connected Apps', href: '/integrations/connected', icon: 'link' },
+        { name: 'API Keys', href: '/integrations/api-keys', icon: 'key' },
+        { name: 'Webhooks', href: '/integrations/webhooks', icon: 'webhook' },
+        { name: 'Browse Integrations', href: '/integrations/browse', icon: 'apps' },
       ]
     },
     {
