@@ -2,7 +2,7 @@
 
 ## Overview
 
-Aasim uses **N8n workflows** with specialized AI agents to handle all evaluation processing. Instead of processing evaluations directly in the backend, the system uses a webhook-based architecture where:
+OBSOLIO uses **N8n workflows** with specialized AI agents to handle all evaluation processing. Instead of processing evaluations directly in the backend, the system uses a webhook-based architecture where:
 
 1. Backend **sends** submission data to N8n workflows via webhook POST
 2. N8n workflows process the content with specialized agents
@@ -22,7 +22,7 @@ This architecture provides:
 ```
 ┌─────────────────┐         POST          ┌─────────────────────┐
 │                 │  ──────────────────>   │                     │
-│  Aasim Backend  │   Submission Data      │   N8n Workflows     │
+│  OBSOLIO Backend  │   Submission Data      │   N8n Workflows     │
 │   (PHP API)     │                        │   (Agent System)    │
 │                 │   <──────────────────  │                     │
 └─────────────────┘    Webhook Callback    └─────────────────────┘
@@ -298,7 +298,7 @@ N8n sends results webhook → Backend receives → Update database → Notify us
 
 ## Webhook Endpoints
 
-### Backend Endpoints (Aasim API)
+### Backend Endpoints (OBSOLIO API)
 
 #### 1. Receive Evaluation Results
 ```
@@ -595,9 +595,10 @@ STORAGE_BASE_URL=https://storage.aasim.app
 ## N8n Workflow Examples
 
 ### 1. Video Analysis Workflow JSON
+{% raw %}
 ```json
 {
-  "name": "Aasim - Video & Audio Analysis",
+  "name": "OBSOLIO - Video & Audio Analysis",
   "nodes": [
     {
       "name": "Webhook Trigger",
@@ -635,6 +636,7 @@ STORAGE_BASE_URL=https://storage.aasim.app
   ]
 }
 ```
+{% endraw %}
 
 ---
 

@@ -298,6 +298,7 @@ export default SubmissionUpload;
 ```
 
 #### ScoreCard Component
+{% raw %}
 ```jsx
 // src/components/features/evaluations/ScoreCard/ScoreCard.jsx
 const ScoreCard = ({ criterion, score, maxScore, weight, comments }) => {
@@ -328,6 +329,7 @@ const ScoreCard = ({ criterion, score, maxScore, weight, comments }) => {
 
 export default ScoreCard;
 ```
+{% endraw %}
 
 ---
 

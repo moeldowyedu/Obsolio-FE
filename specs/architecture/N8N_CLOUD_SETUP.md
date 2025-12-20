@@ -2,7 +2,7 @@
 
 ## Overview
 
-Aasim integrates with **N8n Cloud** for all AI evaluation processing. The workflows are hosted externally on N8n Cloud, providing a managed, scalable solution without requiring self-hosted infrastructure.
+OBSOLIO integrates with **N8n Cloud** for all AI evaluation processing. The workflows are hosted externally on N8n Cloud, providing a managed, scalable solution without requiring self-hosted infrastructure.
 
 **N8n Cloud Instance:** `https://iti-genai.app.n8n.cloud`
 
@@ -13,7 +13,7 @@ Aasim integrates with **N8n Cloud** for all AI evaluation processing. The workfl
 ```
 ┌─────────────────────┐              HTTPS              ┌──────────────────────────┐
 │                     │  ─────────────────────────────>  │                          │
-│   Aasim Backend     │    POST with API Key Auth       │   N8n Cloud Workflows    │
+│   OBSOLIO Backend     │    POST with API Key Auth       │   N8n Cloud Workflows    │
 │  (PHP API Server)   │                                  │  iti-genai.app.n8n.cloud │
 │                     │  <─────────────────────────────  │                          │
 └─────────────────────┘    Webhook Callback              └──────────────────────────┘
@@ -50,7 +50,7 @@ Aasim integrates with **N8n Cloud** for all AI evaluation processing. The workfl
 N8N_CLOUD_URL=https://iti-genai.app.n8n.cloud
 N8N_API_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ODEyMmZkNS05NjQ2LTQ0ODYtOWE5MC1lYzA3NGUxMDFkZDMiLCJpc3MiOiJuOG4iLCJhdWQiOiJwdWJsaWMtYXBpIiwiaWF0IjoxNzYyMzQyODEzLCJleHAiOjE3NzAwNjk2MDB9.OAdGKnXLFBcY20PtlP4nM3h1dkutd3TNUEFeGhXjJ1c
 
-# Webhook Secret (shared between Aasim and N8n)
+# Webhook Secret (shared between OBSOLIO and N8n)
 N8N_WEBHOOK_SECRET=your-secure-shared-secret-key-here
 
 # Backend Callback URL (where N8n sends results)
@@ -84,7 +84,7 @@ You need to create **6 workflows** in N8n Cloud:
 #### Workflow 1: Video & Audio Analysis
 - **Webhook Path:** `/webhook/video-audio-analysis`
 - **Purpose:** Analyze video and audio content
-- **Trigger:** Webhook POST request from Aasim backend
+- **Trigger:** Webhook POST request from OBSOLIO backend
 
 **Workflow Structure:**
 ```
@@ -102,7 +102,7 @@ You need to create **6 workflows** in N8n Cloud:
    ↓
 7. Generate Insights
    ↓
-8. HTTP Request (Send Results to Aasim Backend)
+8. HTTP Request (Send Results to OBSOLIO Backend)
 ```
 
 #### Workflow 2: Document Review
@@ -124,7 +124,7 @@ You need to create **6 workflows** in N8n Cloud:
    ↓
 6. Generate Insights
    ↓
-7. HTTP Request (Send Results to Aasim Backend)
+7. HTTP Request (Send Results to OBSOLIO Backend)
 ```
 
 #### Workflow 3: Source Code Assessment
@@ -146,7 +146,7 @@ You need to create **6 workflows** in N8n Cloud:
    ↓
 6. Generate Insights
    ↓
-7. HTTP Request (Send Results to Aasim Backend)
+7. HTTP Request (Send Results to OBSOLIO Backend)
 ```
 
 #### Workflow 4: Custom Evaluation
@@ -192,7 +192,7 @@ For each workflow in N8n Cloud:
 
 At the end of each workflow, add an HTTP Request node to send results back:
 
-**HTTP Request Node Configuration:**
+{% raw %}
 ```
 Method: POST
 URL: {{$json.callback_url}}
@@ -222,6 +222,7 @@ Body:
   "timestamp": "{{$now}}"
 }
 ```
+{% endraw %}
 
 ---
 
@@ -560,7 +561,7 @@ $workflow = json_decode($response->getBody(), true);
 The webhook secret should be:
 - **Strong:** At least 32 characters
 - **Random:** Use cryptographically secure random generation
-- **Shared:** Same value in both Aasim backend and N8n workflows
+- **Shared:** Same value in both OBSOLIO backend and N8n workflows
 
 **Generate a secure secret:**
 ```bash
@@ -639,7 +640,7 @@ In N8n Cloud:
 
 ### 3. Check Webhook Logs
 
-In your Aasim backend:
+In your OBSOLIO backend:
 ```sql
 SELECT * FROM webhook_logs
 WHERE created_at > NOW() - INTERVAL 1 DAY
@@ -692,7 +693,7 @@ ORDER BY created_at DESC;
 - **Pro:** $50/month (25,000 executions)
 - **Business:** Custom pricing
 
-### Aasim Usage Estimate
+### OBSOLIO Usage Estimate
 - **1 submission** = ~2-3 workflow executions
   - 1 evaluation workflow
   - 1 report generation workflow
@@ -736,7 +737,7 @@ ORDER BY created_at DESC;
 3. ✅ Configure webhook triggers for each workflow
 4. ✅ Add callback HTTP requests with HMAC signatures
 5. ✅ Test each workflow with sample data
-6. ✅ Update Aasim backend `.env` with cloud URLs
+6. ✅ Update OBSOLIO backend `.env` with cloud URLs
 7. ✅ Deploy backend and test end-to-end integration
 
 ---

@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document provides ready-to-import N8n workflow templates for all 6 Aasim evaluation agents.
+This document provides ready-to-import N8n workflow templates for all 6 OBSOLIO evaluation agents.
 
 **N8n Cloud:** `https://iti-genai.app.n8n.cloud`
 
@@ -12,9 +12,10 @@ This document provides ready-to-import N8n workflow templates for all 6 Aasim ev
 
 ### Workflow JSON
 
+{% raw %}
 ```json
 {
-  "name": "Aasim - Video & Audio Analysis",
+  "name": "OBSOLIO - Video & Audio Analysis",
   "nodes": [
     {
       "parameters": {
@@ -75,7 +76,7 @@ This document provides ready-to-import N8n workflow templates for all 6 Aasim ev
             },
             {
               "role": "user",
-              "content": "=Analyze this video transcript and provide scores for: {{$json.criteria}}\n\nTranscript: {{$json.transcription}}"
+              "content": "=Analyze this video transcript and provide scores for: {{$json.criteria}}\\n\\nTranscript: {{$json.transcription}}"
             }
           ]
         },
@@ -96,7 +97,7 @@ This document provides ready-to-import N8n workflow templates for all 6 Aasim ev
     },
     {
       "parameters": {
-        "functionCode": "// Extract scores from AI response\nconst aiResponse = items[0].json.choices[0].message.content;\nconst webhookData = $('Webhook').first().json;\n\n// Parse AI response to extract scores\n// This is a simplified example - adjust based on your AI response format\nconst scores = [\n  {\n    criterion: 'presentation_quality',\n    score: 88.0,\n    weight: 0.3,\n    comments: 'Excellent delivery and visual aids'\n  },\n  {\n    criterion: 'clarity',\n    score: 90.0,\n    weight: 0.25,\n    comments: 'Very clear articulation'\n  },\n  {\n    criterion: 'engagement',\n    score: 85.0,\n    weight: 0.25,\n    comments: 'Good audience engagement'\n  },\n  {\n    criterion: 'professionalism',\n    score: 87.0,\n    weight: 0.2,\n    comments: 'Professional presentation'\n  }\n];\n\n// Calculate overall score\nconst overallScore = scores.reduce((sum, s) => sum + (s.score * s.weight), 0);\n\n// Generate insights\nconst insights = [\n  {\n    type: 'strength',\n    title: 'Strong vocal presence',\n    description: 'Confident delivery with excellent tone',\n    priority: 5\n  },\n  {\n    type: 'recommendation',\n    title: 'Add more visual examples',\n    description: 'Consider including more diagrams and charts',\n    priority: 3\n  }\n];\n\nreturn {\n  json: {\n    submission_id: webhookData.submission_id,\n    callback_url: webhookData.callback_url,\n    overall_score: overallScore.toFixed(2),\n    confidence: 92.0,\n    scores: scores,\n    insights: insights,\n    processing_time: 45,\n    ai_raw_response: aiResponse\n  }\n};"
+        "functionCode": "// Extract scores from AI response\\nconst aiResponse = items[0].json.choices[0].message.content;\\nconst webhookData = $('Webhook').first().json;\\n\\n// Parse AI response to extract scores\\n// This is a simplified example - adjust based on your AI response format\\nconst scores = [\\n  {\\n    criterion: 'presentation_quality',\\n    score: 88.0,\\n    weight: 0.3,\\n    comments: 'Excellent delivery and visual aids'\\n  },\\n  {\\n    criterion: 'clarity',\\n    score: 90.0,\\n    weight: 0.25,\\n    comments: 'Very clear articulation'\\n  },\\n  {\\n    criterion: 'engagement',\\n    score: 85.0,\\n    weight: 0.25,\\n    comments: 'Good audience engagement'\\n  },\\n  {\\n    criterion: 'professionalism',\\n    score: 87.0,\\n    weight: 0.2,\\n    comments: 'Professional presentation'\\n  }\\n];\\n\\n// Calculate overall score\\nconst overallScore = scores.reduce((sum, s) => sum + (s.score * s.weight), 0);\\n\\n// Generate insights\\nconst insights = [\\n  {\\n    type: 'strength',\\n    title: 'Strong vocal presence',\\n    description: 'Confident delivery with excellent tone',\\n    priority: 5\\n  },\\n  {\\n    type: 'recommendation',\\n    title: 'Add more visual examples',\\n    description: 'Consider including more diagrams and charts',\\n    priority: 3\\n  }\\n];\\n\\nreturn {\\n  json: {\\n    submission_id: webhookData.submission_id,\\n    callback_url: webhookData.callback_url,\\n    overall_score: overallScore.toFixed(2),\\n    confidence: 92.0,\\n    scores: scores,\\n    insights: insights,\\n    processing_time: 45,\\n    ai_raw_response: aiResponse\\n  }\\n};"
       },
       "name": "Calculate Scores",
       "type": "n8n-nodes-base.function",
@@ -105,7 +106,7 @@ This document provides ready-to-import N8n workflow templates for all 6 Aasim ev
     },
     {
       "parameters": {
-        "functionCode": "const crypto = require('crypto');\n\n// Prepare payload\nconst payload = {\n  workflow_id: $workflow.id,\n  submission_id: items[0].json.submission_id,\n  status: 'completed',\n  agent: 'video_audio_analysis',\n  results: {\n    overall_score: parseFloat(items[0].json.overall_score),\n    confidence: items[0].json.confidence,\n    scores: items[0].json.scores,\n    insights: items[0].json.insights\n  },\n  processing_time: items[0].json.processing_time,\n  timestamp: new Date().toISOString()\n};\n\n// Your shared webhook secret (same as backend)\nconst secret = 'your-secure-shared-secret-key-here';\n\n// Calculate HMAC-SHA256 signature\nconst signature = crypto\n  .createHmac('sha256', secret)\n  .update(JSON.stringify(payload))\n  .digest('hex');\n\nreturn {\n  json: {\n    payload: payload,\n    signature: signature,\n    callback_url: items[0].json.callback_url\n  }\n};"
+        "functionCode": "const crypto = require('crypto');\\n\\n// Prepare payload\\nconst payload = {\\n  workflow_id: $workflow.id,\\n  submission_id: items[0].json.submission_id,\\n  status: 'completed',\\n  agent: 'video_audio_analysis',\\n  results: {\\n    overall_score: parseFloat(items[0].json.overall_score),\\n    confidence: items[0].json.confidence,\\n    scores: items[0].json.scores,\\n    insights: items[0].json.insights\\n  },\\n  processing_time: items[0].json.processing_time,\\n  timestamp: new Date().toISOString()\\n};\\n\\n// Your shared webhook secret (same as backend)\\nconst secret = 'your-secure-shared-secret-key-here';\\n\\n// Calculate HMAC-SHA256 signature\\nconst signature = crypto\\n  .createHmac('sha256', secret)\\n  .update(JSON.stringify(payload))\\n  .digest('hex');\\n\\nreturn {\\n  json: {\\n    payload: payload,\\n    signature: signature,\\n    callback_url: items[0].json.callback_url\\n  }\\n};"
       },
       "name": "Generate HMAC Signature",
       "type": "n8n-nodes-base.function",
@@ -149,7 +150,7 @@ This document provides ready-to-import N8n workflow templates for all 6 Aasim ev
     },
     {
       "parameters": {
-        "functionCode": "// Error handler\nconst webhookData = $('Webhook').first().json;\nconst errorMessage = $json.error?.message || 'Unknown error';\n\nconst errorPayload = {\n  workflow_id: $workflow.id,\n  submission_id: webhookData.submission_id,\n  agent: 'video_audio_analysis',\n  status: 'failed',\n  error: {\n    code: 'PROCESSING_ERROR',\n    message: errorMessage,\n    details: $json.error?.stack || '',\n    retry_attempted: true,\n    retry_count: 1\n  },\n  timestamp: new Date().toISOString()\n};\n\nreturn {\n  json: {\n    payload: errorPayload,\n    callback_url: webhookData.callback_url\n  }\n};"
+        "functionCode": "// Error handler\\nconst webhookData = $('Webhook').first().json;\\nconst errorMessage = $json.error?.message || 'Unknown error';\\n\\nconst errorPayload = {\\n  workflow_id: $workflow.id,\\n  submission_id: webhookData.submission_id,\\n  agent: 'video_audio_analysis',\\n  status: 'failed',\\n  error: {\\n    code: 'PROCESSING_ERROR',\\n    message: errorMessage,\\n    details: $json.error?.stack || '',\\n    retry_attempted: true,\\n    retry_count: 1\\n  },\\n  timestamp: new Date().toISOString()\\n};\\n\\nreturn {\\n  json: {\\n    payload: errorPayload,\\n    callback_url: webhookData.callback_url\\n  }\\n};"
       },
       "name": "Error Handler",
       "type": "n8n-nodes-base.function",
@@ -257,6 +258,7 @@ This document provides ready-to-import N8n workflow templates for all 6 Aasim ev
   }
 }
 ```
+{% endraw %}
 
 ---
 
