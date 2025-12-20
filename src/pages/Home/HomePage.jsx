@@ -10,6 +10,7 @@ import MainLayout from '../../components/layout/MainLayout';
 import ObsolioLogo from '../../assets/imgs/OBSOLIO-logo-cyan.png';
 import DrHebaImage from '../../assets/imgs/heba-saleh.png';
 import AhmedSalahImage from '../../assets/imgs/ahmed-salah.jpg';
+import AnimatedShapes from '../../components/common/AnimatedShapes';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { translations } from '../../translations';
 
@@ -22,11 +23,8 @@ const HomePage = () => {
 
         {/* Hero Section */}
         <section className="relative pt-32 pb-20 px-6 overflow-hidden">
-          {/* Animated Background Elements */}
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-full opacity-30 pointer-events-none">
-            <div className="absolute top-20 left-20 w-72 h-72 bg-primary-500/20 rounded-full blur-[100px] animate-pulse"></div>
-            <div className="absolute bottom-20 right-20 w-96 h-96 bg-purple-500/20 rounded-full blur-[100px] animate-pulse delay-1000"></div>
-          </div>
+          {/* Animated Shapes Background */}
+          <AnimatedShapes />
 
           <div className="max-w-7xl mx-auto relative z-10">
             <div className="flex flex-col lg:flex-row items-center gap-16">
