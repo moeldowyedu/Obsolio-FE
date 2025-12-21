@@ -1,7 +1,9 @@
 import React, { useEffect, useRef } from 'react';
+import { useTheme } from '../../../contexts/ThemeContext';
 
-const ParticleWaveBackground = () => {
+const AnimatedShapes = () => {
     const canvasRef = useRef(null);
+    const { theme } = useTheme();
 
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -10,6 +12,12 @@ const ParticleWaveBackground = () => {
         const ctx = canvas.getContext('2d');
         let animationFrameId;
         let particles = [];
+
+        // Colors based on theme
+        const isDark = theme === 'dark';
+        const particleColor = isDark ? 'rgba(255, 255, 255, 0.40)' : 'rgba(71, 85, 105, 0.25)'; // Increased opacity for better visibility
+        const lineColor = isDark ? '255, 255, 255' : '99, 102, 241'; // White vs Indigo-500
+        const clearColor = isDark ? 'rgba(11, 14, 20, 0.2)' : 'rgba(248, 250, 252, 0.2)'; // Dark vs Slate-50
 
         // Particle class
         class Particle {
@@ -27,9 +35,9 @@ const ParticleWaveBackground = () => {
             }
 
             draw(ctx) {
-                ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
+                ctx.fillStyle = particleColor;
                 ctx.beginPath();
-                ctx.arc(this.x, this.y, 1, 0, Math.PI * 2);
+                ctx.arc(this.x, this.y, 1.5, 0, Math.PI * 2);
                 ctx.fill();
             }
         }
@@ -37,7 +45,7 @@ const ParticleWaveBackground = () => {
         // Initialize particles - optimized for performance
         const initParticles = () => {
             particles = [];
-            const spacing = 30; // Wider spacing = fewer particles = better performance
+            const spacing = 40; // Spacing
             const cols = Math.ceil(canvas.width / spacing);
             const rows = Math.ceil(canvas.height / spacing);
 
@@ -61,7 +69,7 @@ const ParticleWaveBackground = () => {
 
         // Draw connections - optimized
         const drawConnections = () => {
-            const maxDistance = 60; // Reduced for performance
+            const maxDistance = 70;
 
             for (let i = 0; i < particles.length; i++) {
                 // Only check nearby particles for connections
@@ -71,8 +79,8 @@ const ParticleWaveBackground = () => {
                     const distance = Math.sqrt(dx * dx + dy * dy);
 
                     if (distance < maxDistance) {
-                        const opacity = (1 - distance / maxDistance) * 0.15;
-                        ctx.strokeStyle = `rgba(255, 255, 255, ${opacity})`;
+                        const opacity = (1 - distance / maxDistance) * 0.12; // Increased opacity
+                        ctx.strokeStyle = `rgba(${lineColor}, ${opacity})`;
                         ctx.lineWidth = 0.5;
                         ctx.beginPath();
                         ctx.moveTo(particles[i].x, particles[i].y);
@@ -86,8 +94,8 @@ const ParticleWaveBackground = () => {
         // Animation loop
         let time = 0;
         const animate = () => {
-            // Clear canvas
-            ctx.fillStyle = 'rgba(11, 14, 20, 0.2)';
+            // Clear canvas with trail effect
+            ctx.fillStyle = clearColor;
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
             time += 2;
@@ -112,37 +120,23 @@ const ParticleWaveBackground = () => {
             window.removeEventListener('resize', resizeCanvas);
             cancelAnimationFrame(animationFrameId);
         };
-    }, []);
+    }, [theme]); // Re-run effect when theme changes
 
     return (
-        <>
+        <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
             <canvas
                 ref={canvasRef}
-                style={{
-                    position: 'fixed',
-                    top: 0,
-                    left: 0,
-                    width: '100vw',
-                    height: '100vh',
-                    pointerEvents: 'none',
-                    zIndex: 0,
-                }}
+                className="absolute inset-0"
             />
-            {/* Dark overlay */}
+            {/* Gradient Overlay for Fade Effect */}
             <div
-                style={{
-                    position: 'fixed',
-                    top: 0,
-                    left: 0,
-                    width: '100vw',
-                    height: '100vh',
-                    background: 'linear-gradient(180deg, rgba(11, 14, 20, 0.75) 0%, rgba(11, 14, 20, 0.9) 100%)',
-                    pointerEvents: 'none',
-                    zIndex: 1,
-                }}
+                className={`absolute inset-0 ${theme === 'dark'
+                    ? 'bg-gradient-to-b from-[#0B0E14]/80 via-transparent to-[#0B0E14]/90'
+                    : 'bg-gradient-to-b from-slate-50/80 via-transparent to-slate-50/90'
+                    }`}
             />
-        </>
+        </div>
     );
 };
 
-export default ParticleWaveBackground;
+export default AnimatedShapes;

@@ -10,7 +10,7 @@ import MainLayout from '../../components/layout/MainLayout';
 import ObsolioLogo from '../../assets/imgs/OBSOLIO-logo-cyan.png';
 import DrHebaImage from '../../assets/imgs/heba-saleh.png';
 import AhmedSalahImage from '../../assets/imgs/ahmed-salah.jpg';
-import AnimatedShapes from '../../components/common/AnimatedShapes';
+import TypingEffect from '../../components/common/TypingEffect';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { useTheme } from '../../contexts/ThemeContext';
 import { translations } from '../../translations';
@@ -25,8 +25,6 @@ const HomePage = () => {
 
         {/* Hero Section */}
         <section className="relative pt-32 pb-20 px-6 overflow-hidden">
-          {/* Animated Shapes Background */}
-          <AnimatedShapes />
 
           {/* Light Mode Subtle Gradient - Optional Depth */}
           {theme !== 'dark' && (
@@ -50,8 +48,8 @@ const HomePage = () => {
                   <span className="bg-gradient-to-r from-primary-400 via-cyan-400 to-purple-500 bg-clip-text text-transparent font-thin">
                     OBSOLIO
                   </span>
-                  <span className={`block text-xl sm:text-2xl md:text-3xl mt-4 ${theme === 'dark' ? 'text-white' : 'text-slate-800'} font-medium tracking-wide`}>
-                    {t.landingHeroTagline}
+                  <span className={`block text-xl sm:text-2xl md:text-3xl mt-4 ${theme === 'dark' ? 'text-white' : 'text-slate-800'} font-light tracking-wide`}>
+                    <TypingEffect text={t.landingHeroTagline} speed={40} delay={500} />
                   </span>
                 </h1>
 
@@ -146,66 +144,122 @@ const HomePage = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
 
               {/* Card 1: Precision AI Judge Agent */}
-              <div className={`p-8 group transition-all rounded-2xl ${theme === 'dark' ? 'glass-card hover:border-blue-500/50' : 'bg-white border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] hover:-translate-y-1'}`}>
-                <div className="flex justify-between items-start mb-6">
-                  <div className={`p-3 rounded-xl ${theme === 'dark' ? 'bg-blue-500/20' : 'bg-blue-50'}`}>
-                    <LineChart className={`w-8 h-8 ${theme === 'dark' ? 'text-blue-400' : 'text-blue-600'}`} />
-                  </div>
-                  <span className={`text-xs font-bold px-3 py-1 rounded-full border ${theme === 'dark' ? 'bg-blue-500/10 text-blue-300 border-blue-500/20' : 'bg-blue-50 text-blue-700 border-blue-100'}`}>{t.techCompetitionsLabel}</span>
+              {/* Card 1: Precision AI Judge Agent */}
+              <div className={`p-8 group relative overflow-hidden transition-all rounded-2xl ${theme === 'dark' ? 'glass-card hover:border-blue-500/50' : 'bg-white border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] hover:-translate-y-1'}`}>
+                {/* Active Status Indicator */}
+                <div className={`absolute top-4 right-4 flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono border ${theme === 'dark' ? 'bg-green-500/10 border-green-500/20 text-green-400' : 'bg-green-50 border-green-200 text-green-700'}`}>
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                  </span>
+                  Processing
                 </div>
+
+                <div className="flex justify-between items-start mb-6 mt-2">
+                  <div className={`relative p-3 rounded-xl ${theme === 'dark' ? 'bg-blue-500/20' : 'bg-blue-50'}`}>
+                    <div className={`absolute inset-0 rounded-xl ${theme === 'dark' ? 'bg-blue-500/20' : 'bg-blue-200/50'} animate-ping opacity-20`}></div>
+                    <LineChart className={`relative w-8 h-8 ${theme === 'dark' ? 'text-blue-400' : 'text-blue-600'}`} />
+                  </div>
+                </div>
+
                 <h3 className={`text-2xl font-bold mb-3 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>{t.precisionJudgeAgentTitle}</h3>
                 <p className={`text-sm mb-4 leading-relaxed font-light ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}>
                   {t.precisionJudgeAgentDesc}
                 </p>
-                <div className={`space-y-2 mb-6 text-sm ${theme === 'dark' ? 'text-gray-300' : 'text-slate-600'}`}>
-                  <div className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-blue-500" /> {t.precisionJudgeFeature1}</div>
-                  <div className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-blue-500" /> {t.precisionJudgeFeature2}</div>
-                  <div className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-blue-500" /> {t.precisionJudgeFeature3}</div>
+
+                {/* Terminal-style Output */}
+                <div className={`font-mono text-xs p-3 rounded-lg mb-6 border ${theme === 'dark' ? 'bg-black/40 border-white/5 text-blue-300' : 'bg-slate-50 border-slate-100 text-blue-700'}`}>
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="opacity-50">{">"}</span> <span>Analyzing legal precedents...</span>
+                  </div>
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="opacity-50">{">"}</span> <span>Verifying judgments...</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-green-500">
+                    <span className="opacity-50">{">"}</span> <span>99.8% Accuracy Achieved</span>
+                  </div>
                 </div>
+
                 <div className={`text-xs pt-4 border-t ${theme === 'dark' ? 'text-gray-500 border-white/5' : 'text-slate-400 border-slate-100'}`}>
                   {t.precisionJudgeRequestedBy}
                 </div>
               </div>
 
               {/* Card 2: CEFR Assessment */}
-              <div className={`p-8 group transition-all rounded-2xl ${theme === 'dark' ? 'glass-card hover:border-purple-500/50' : 'bg-white border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] hover:-translate-y-1'}`}>
-                <div className="flex justify-between items-start mb-6">
-                  <div className={`p-3 rounded-xl ${theme === 'dark' ? 'bg-purple-500/20' : 'bg-purple-50'}`}>
-                    <Languages className={`w-8 h-8 ${theme === 'dark' ? 'text-purple-400' : 'text-purple-600'}`} />
+              <div className={`p-8 group relative overflow-hidden transition-all rounded-2xl ${theme === 'dark' ? 'glass-card hover:border-purple-500/50' : 'bg-white border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] hover:-translate-y-1'}`}>
+                {/* Active Status Indicator */}
+                <div className={`absolute top-4 right-4 flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono border ${theme === 'dark' ? 'bg-green-500/10 border-green-500/20 text-green-400' : 'bg-green-50 border-green-200 text-green-700'}`}>
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                  </span>
+                  Active
+                </div>
+
+                <div className="flex justify-between items-start mb-6 mt-2">
+                  <div className={`relative p-3 rounded-xl ${theme === 'dark' ? 'bg-purple-500/20' : 'bg-purple-50'}`}>
+                    <div className={`absolute inset-0 rounded-xl ${theme === 'dark' ? 'bg-purple-500/20' : 'bg-purple-200/50'} animate-ping opacity-20`}></div>
+                    <Languages className={`relative w-8 h-8 ${theme === 'dark' ? 'text-purple-400' : 'text-purple-600'}`} />
                   </div>
-                  <span className={`text-xs font-bold px-3 py-1 rounded-full border ${theme === 'dark' ? 'bg-purple-500/10 text-purple-300 border-purple-500/20' : 'bg-purple-50 text-purple-700 border-purple-100'}`}>{t.educationLabel}</span>
                 </div>
                 <h3 className={`text-2xl font-bold mb-3 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>{t.cefrAgentTitle}</h3>
                 <p className={`text-sm mb-4 leading-relaxed font-light ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}>
                   {t.cefrAgentDesc}
                 </p>
-                <div className={`space-y-2 mb-6 text-sm ${theme === 'dark' ? 'text-gray-300' : 'text-slate-600'}`}>
-                  <div className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-purple-500" /> {t.cefrFeature1}</div>
-                  <div className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-purple-500" /> {t.cefrFeature2}</div>
-                  <div className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-purple-500" /> {t.cefrFeature3}</div>
+
+                {/* Terminal-style Output */}
+                <div className={`font-mono text-xs p-3 rounded-lg mb-6 border ${theme === 'dark' ? 'bg-black/40 border-white/5 text-purple-300' : 'bg-slate-50 border-slate-100 text-purple-700'}`}>
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="opacity-50">{">"}</span> <span>Calibrating linguistic models...</span>
+                  </div>
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="opacity-50">{">"}</span> <span>Assessing proficiency...</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-green-500">
+                    <span className="opacity-50">{">"}</span> <span>Certification Ready</span>
+                  </div>
                 </div>
+
                 <div className={`text-xs pt-4 border-t ${theme === 'dark' ? 'text-gray-500 border-white/5' : 'text-slate-400 border-slate-100'}`}>
                   {t.cefrUsedFor}
                 </div>
               </div>
 
               {/* Card 3: Precision AI Files Agent */}
-              <div className={`p-8 group transition-all rounded-2xl ${theme === 'dark' ? 'glass-card hover:border-green-500/50' : 'bg-white border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] hover:-translate-y-1'}`}>
-                <div className="flex justify-between items-start mb-6">
-                  <div className={`p-3 rounded-xl ${theme === 'dark' ? 'bg-green-500/20' : 'bg-green-50'}`}>
-                    <FileSearch className={`w-8 h-8 ${theme === 'dark' ? 'text-green-400' : 'text-green-600'}`} />
+              <div className={`p-8 group relative overflow-hidden transition-all rounded-2xl ${theme === 'dark' ? 'glass-card hover:border-green-500/50' : 'bg-white border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] hover:-translate-y-1'}`}>
+                {/* Active Status Indicator */}
+                <div className={`absolute top-4 right-4 flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono border ${theme === 'dark' ? 'bg-green-500/10 border-green-500/20 text-green-400' : 'bg-green-50 border-green-200 text-green-700'}`}>
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                  </span>
+                  Indexing
+                </div>
+
+                <div className="flex justify-between items-start mb-6 mt-2">
+                  <div className={`relative p-3 rounded-xl ${theme === 'dark' ? 'bg-green-500/20' : 'bg-green-50'}`}>
+                    <div className={`absolute inset-0 rounded-xl ${theme === 'dark' ? 'bg-green-500/20' : 'bg-green-200/50'} animate-ping opacity-20`}></div>
+                    <FileSearch className={`relative w-8 h-8 ${theme === 'dark' ? 'text-green-400' : 'text-green-600'}`} />
                   </div>
-                  <span className={`text-xs font-bold px-3 py-1 rounded-full border ${theme === 'dark' ? 'bg-green-500/10 text-green-300 border-green-500/20' : 'bg-green-50 text-green-700 border-green-100'}`}>{t.documentProcessingLabel}</span>
                 </div>
                 <h3 className={`text-2xl font-bold mb-3 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>{t.precisionFilesAgentTitle}</h3>
                 <p className={`text-sm mb-4 leading-relaxed font-light ${theme === 'dark' ? 'text-gray-300' : 'text-slate-600'}`}>
                   {t.precisionFilesAgentDesc}
                 </p>
-                <div className={`space-y-2 mb-6 text-sm ${theme === 'dark' ? 'text-gray-300' : 'text-slate-600'}`}>
-                  <div className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-green-500" /> {t.precisionFilesFeature1}</div>
-                  <div className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-green-500" /> {t.precisionFilesFeature2}</div>
-                  <div className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-green-500" /> {t.precisionFilesFeature3}</div>
+
+                {/* Terminal-style Output */}
+                <div className={`font-mono text-xs p-3 rounded-lg mb-6 border ${theme === 'dark' ? 'bg-black/40 border-white/5 text-green-300' : 'bg-slate-50 border-slate-100 text-green-700'}`}>
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="opacity-50">{">"}</span> <span>Scanning document structure...</span>
+                  </div>
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="opacity-50">{">"}</span> <span>Extracting key entities...</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-green-500">
+                    <span className="opacity-50">{">"}</span> <span>Indexing Complete</span>
+                  </div>
                 </div>
+
                 <div className={`text-xs pt-4 border-t ${theme === 'dark' ? 'text-gray-500 border-white/5' : 'text-slate-400 border-slate-100'}`}>
                   {t.precisionFilesRequestedBy}
                 </div>
@@ -222,9 +276,9 @@ const HomePage = () => {
           </div>
         </section>
 
-        {/* Benefits Section */}
-        <section id="features" className="py-24 relative">
-          <div className="max-w-7xl mx-auto">
+        {/* Benefits Section - Enterprise Dashboard Design */}
+        <section id="features" className="py-24 relative overflow-hidden">
+          <div className="max-w-7xl mx-auto z-10 relative">
             <div className="text-center mb-20">
               <h2 className="text-3xl md:text-5xl font-bold mb-6 font-heading">
                 {t.whyChooseTitle}
@@ -234,21 +288,96 @@ const HomePage = () => {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {[
-                { icon: Sparkles, color: "text-blue-400", title: t.domainExpertiseTitle, desc: t.domainExpertiseDesc },
-                { icon: Zap, color: "text-cyan-400", title: t.deployMinutesTitle, desc: t.deployMinutesDesc },
-                { icon: Shield, color: "text-green-400", title: t.regulatoryComplianceTitle, desc: t.regulatoryComplianceDesc },
-                { icon: Eye, color: "text-purple-400", title: t.humanInLoopTitle, desc: t.humanInLoopDesc },
-                { icon: Users, color: "text-cyan-400", title: t.noBiasBadDaysTitle, desc: t.noBiasBadDaysDesc },
-                { icon: DollarSign, color: "text-orange-400", title: t.transparentRoiTitle, desc: t.transparentRoiDesc },
+                {
+                  icon: Sparkles,
+                  color: "text-blue-400",
+                  bg: "bg-blue-400/10",
+                  title: t.domainExpertiseTitle,
+                  desc: t.domainExpertiseDesc,
+                  metricLabel: "Knowledge Base",
+                  metricValue: "100%",
+                  metricColor: "bg-blue-500"
+                },
+                {
+                  icon: Zap,
+                  color: "text-cyan-400",
+                  bg: "bg-cyan-400/10",
+                  title: t.deployMinutesTitle,
+                  desc: t.deployMinutesDesc,
+                  metricLabel: "Avg. Setup Time",
+                  metricValue: "120s",
+                  metricColor: "bg-cyan-500"
+                },
+                {
+                  icon: Shield,
+                  color: "text-green-400",
+                  bg: "bg-green-400/10",
+                  title: t.regulatoryComplianceTitle,
+                  desc: t.regulatoryComplianceDesc,
+                  metricLabel: "Audit Status",
+                  metricValue: "PASSED",
+                  metricColor: "bg-green-500"
+                },
+                {
+                  icon: Eye,
+                  color: "text-purple-400",
+                  bg: "bg-purple-400/10",
+                  title: t.humanInLoopTitle,
+                  desc: t.humanInLoopDesc,
+                  metricLabel: "Oversight Mode",
+                  metricValue: "ACTIVE",
+                  metricColor: "bg-purple-500"
+                },
+                {
+                  icon: Users,
+                  color: "text-orange-400",
+                  bg: "bg-orange-400/10",
+                  title: t.noBiasBadDaysTitle,
+                  desc: t.noBiasBadDaysDesc,
+                  metricLabel: "Fairness Score",
+                  metricValue: "99.9%",
+                  metricColor: "bg-orange-500"
+                },
+                {
+                  icon: DollarSign,
+                  color: "text-emerald-400",
+                  bg: "bg-emerald-400/10",
+                  title: t.transparentRoiTitle,
+                  desc: t.transparentRoiDesc,
+                  metricLabel: "Cost Savings",
+                  metricValue: "+80%",
+                  metricColor: "bg-emerald-500"
+                },
               ].map((item, idx) => (
-                <div key={idx} className={`p-8 transition-colors group cursor-default border-t-2 border-transparent hover:border-primary-500/50 ${theme === 'dark' ? 'glass-card hover:bg-white/5' : 'bg-white border border-slate-100 rounded-2xl shadow-sm hover:shadow-md'}`}>
-                  <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 ${theme === 'dark' ? 'bg-white/5' : 'bg-slate-50'}`}>
-                    <item.icon className={`w-7 h-7 ${item.color}`} />
+                <div key={idx} className={`relative p-6 rounded-xl border transition-all duration-300 group ${theme === 'dark' ? 'bg-white/[0.03] border-white/5 hover:border-white/10' : 'bg-white border-slate-100 shadow-sm hover:shadow-md hover:border-blue-200'}`}>
+                  {/* Header */}
+                  <div className="flex justify-between items-start mb-4">
+                    <div className={`p-2.5 rounded-lg ${item.bg}`}>
+                      <item.icon className={`w-5 h-5 ${item.color}`} />
+                    </div>
+                    {/* Enterprise "Widget" Controls */}
+                    <div className="flex gap-1">
+                      <div className={`w-1 h-1 rounded-full ${theme === 'dark' ? 'bg-white/20' : 'bg-slate-300'}`}></div>
+                      <div className={`w-1 h-1 rounded-full ${theme === 'dark' ? 'bg-white/20' : 'bg-slate-300'}`}></div>
+                      <div className={`w-1 h-1 rounded-full ${theme === 'dark' ? 'bg-white/20' : 'bg-slate-300'}`}></div>
+                    </div>
                   </div>
-                  <h3 className={`text-2xl font-bold mb-3 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>{item.title}</h3>
-                  <p className={`text-sm leading-relaxed ${theme === 'dark' ? 'text-gray-400' : 'text-slate-600'}`}>{item.desc}</p>
+
+                  {/* Content */}
+                  <h3 className={`text-lg font-bold mb-2 font-heading ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>{item.title}</h3>
+                  <p className={`text-sm mb-6 leading-relaxed ${theme === 'dark' ? 'text-gray-400' : 'text-slate-600'}`}>{item.desc}</p>
+
+                  {/* "Data" Footer */}
+                  <div className={`mt-auto pt-4 border-t flex justify-between items-center ${theme === 'dark' ? 'border-white/5 bg-white/[0.02] -mx-6 -mb-6 px-6 py-3' : 'border-slate-50 bg-slate-50/50 -mx-6 -mb-6 px-6 py-3'}`}>
+                    <span className={`text-[10px] uppercase tracking-wider font-semibold ${theme === 'dark' ? 'text-gray-500' : 'text-slate-400'}`}>
+                      {item.metricLabel}
+                    </span>
+                    <span className={`text-xs font-mono font-bold px-2 py-0.5 rounded ${theme === 'dark' ? 'bg-white/10 text-white' : 'bg-white border border-slate-200 text-slate-700'}`}>
+                      {item.metricValue}
+                    </span>
+                  </div>
                 </div>
               ))}
             </div>

@@ -8,7 +8,7 @@ import { useAuthStore } from '../../store/authStore';
 import { useTheme } from '../../contexts/ThemeContext';
 import ThemeToggle from '../common/ThemeToggle';
 import logo from '../../assets/imgs/OBSOLIO-logo-cyan.png';
-import logoDark from '../../assets/imgs/OBSOLIO-logo-black.png';
+import logoDark from '../../assets/imgs/OBSOLIO-logo.png';
 
 const AdminLayout = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -51,16 +51,16 @@ const AdminLayout = ({ children }) => {
 
       {/* Top Header */}
       <header className={`fixed top-0 left-0 right-0 h-16 backdrop-blur-sm border-b z-50 transition-colors duration-300 ${theme === 'dark'
-          ? 'bg-gray-900/95 border-gray-700/50'
-          : 'bg-white/90 border-slate-200'
+        ? 'bg-gray-900/95 border-gray-700/50'
+        : 'bg-white/90 border-slate-200'
         }`}>
         <div className="h-full px-4 flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <button
               onClick={() => setSidebarOpen(!sidebarOpen)}
               className={`p-2 rounded-lg transition-colors ${theme === 'dark'
-                  ? 'text-gray-400 hover:bg-gray-800 hover:text-white'
-                  : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900'
+                ? 'text-gray-400 hover:bg-gray-800 hover:text-white'
+                : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900'
                 }`}
             >
               {sidebarOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -104,8 +104,8 @@ const AdminLayout = ({ children }) => {
 
               {profileOpen && (
                 <div className={`absolute right-0 mt-2 w-48 rounded-lg shadow-xl border py-2 ${theme === 'dark'
-                    ? 'bg-gray-800 border-gray-700'
-                    : 'bg-white border-slate-200'
+                  ? 'bg-gray-800 border-gray-700'
+                  : 'bg-white border-slate-200'
                   }`}>
                   <Link
                     to="#"
