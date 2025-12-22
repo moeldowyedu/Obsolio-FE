@@ -185,7 +185,7 @@ const AgentDetailPage = () => {
 
   return (
     <MainLayout theme={theme}>
-      <div className="py-6 space-y-6">
+      <div className="py-6 space-y-6 mt-28 lg:mt-[120px] max-w-7xl mx-auto px-6">
         {/* Breadcrumb */}
         <div className={`flex items-center gap-2 text-sm ${textSecondary}`}>
           <button onClick={() => navigate('/agentx/marketplace')} className="hover:text-primary-600">

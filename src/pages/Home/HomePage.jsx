@@ -435,106 +435,146 @@ const HomePage = () => {
           </div>
         </section>
 
-        {/* Industries Section - Concise */}
-        <section id="industries" className="py-24 px-6 relative">
-          <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-5xl font-bold mb-6 font-heading">
-                {t.trustedAcrossIndustriesTitle}
-              </h2>
-            </div>
+        {/* Industries Section - Ribbon Style */}
+        <section id="industries" className="py-24 relative overflow-hidden">
+          <div className="text-center mb-16 relative z-10 px-6">
+            <h2 className="text-3xl md:text-5xl font-bold mb-6 font-heading">
+              {t.trustedAcrossIndustriesTitle || 'Trusted Across Industries'}
+            </h2>
+            <p className={`text-xl max-w-2xl mx-auto ${theme === 'dark' ? 'text-gray-400' : 'text-slate-600'}`}>
+              Specialized AI agents tailored for high-stakes environments
+            </p>
+          </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {[
-                { icon: LineChart, label: t.techFinanceLabel, desc: t.techFinanceDesc, metric: t.techFinanceMetric },
-                { icon: GraduationCap, label: t.educationLabel, desc: t.educationDesc, metric: t.educationMetric },
-                { icon: Gavel, label: t.legalServicesLabel, desc: t.legalServicesDesc, metric: t.legalServicesMetric },
-                { icon: Stethoscope, label: t.healthcareLabel, desc: t.healthcareDesc, metric: t.healthcareMetric },
-                { icon: Users, label: t.hrRecruitmentLabel, desc: t.hrRecruitmentDesc, metric: t.hrRecruitmentMetric },
-                { icon: Building2, label: t.realEstateLabel, desc: t.realEstateDesc, metric: t.realEstateMetric },
-                { icon: Shield, label: t.insuranceLabel, desc: t.insuranceDesc, metric: t.insuranceMetric },
-                { icon: Factory, label: t.manufacturingLabel, desc: t.manufacturingDesc, metric: t.manufacturingMetric },
-              ].map((sector, idx) => (
-                <div key={idx} className={`p-6 transition-all group border-l-4 border-transparent hover:border-primary-500 ${theme === 'dark' ? 'glass-card hover:bg-white/10' : 'bg-white border-y border-r border-slate-100 shadow-sm hover:shadow-md'}`}>
-                  <div className="flex items-center gap-4 mb-4">
-                    <div className={`p-2 rounded-lg transition-colors ${theme === 'dark' ? 'bg-white/5 group-hover:bg-primary-500/20' : 'bg-slate-100 group-hover:bg-primary-50'}`}>
-                      <sector.icon className={`w-6 h-6 transition-colors ${theme === 'dark' ? 'text-gray-400 group-hover:text-primary-400' : 'text-slate-500 group-hover:text-primary-600'}`} />
+          <div className="space-y-8 relative">
+            {/* Fade Edges */}
+            <div className={`absolute left-0 top-0 bottom-0 w-32 z-20 bg-gradient-to-r ${theme === 'dark' ? 'from-[#0B0E14] to-transparent' : 'from-slate-50 to-transparent'}`}></div>
+            <div className={`absolute right-0 top-0 bottom-0 w-32 z-20 bg-gradient-to-l ${theme === 'dark' ? 'from-[#0B0E14] to-transparent' : 'from-slate-50 to-transparent'}`}></div>
+
+            {/* Row 1 - Left to Right */}
+            <div className="flex animate-marquee whitespace-nowrap gap-6 hover:[animation-play-state:paused] py-4">
+              {[...Array(2)].map((_, setIndex) => (
+                <div key={setIndex} className="flex gap-6">
+                  {[
+                    { headline: 'Tech & Finance', sub: 'Market & Competition Analysis', tag: 'High Precision', icon: LineChart, color: 'text-blue-400', bg: 'bg-blue-400/10', border: 'border-blue-500/30' },
+                    { headline: 'Education', sub: 'Admissions & Language Assessment', tag: 'CEFR Aligned', icon: GraduationCap, color: 'text-purple-400', bg: 'bg-purple-400/10', border: 'border-purple-500/30' },
+                    { headline: 'Legal Services', sub: 'Contract Analysis (State Specific)', tag: 'Customizable', icon: Gavel, color: 'text-yellow-400', bg: 'bg-yellow-400/10', border: 'border-yellow-500/30' },
+                  ].map((item, idx) => (
+                    <div
+                      key={`r1-${setIndex}-${idx}`}
+                      className={`
+                        w-[400px] p-6 rounded-2xl border transition-all duration-300 transform hover:scale-105 cursor-pointer
+                        ${theme === 'dark'
+                          ? 'bg-white/[0.03] border-white/10 hover:bg-white/[0.08] hover:border-white/20'
+                          : 'bg-white border-slate-100 shadow-md hover:shadow-xl'
+                        }
+                      `}
+                    >
+                      <div className="flex justify-between items-start mb-4">
+                        <div className={`p-3 rounded-xl ${item.bg}`}>
+                          <item.icon className={`w-6 h-6 ${item.color}`} />
+                        </div>
+                        <span className={`text-[10px] uppercase font-bold px-2 py-1 rounded-full border ${item.color} ${item.bg} ${item.border}`}>
+                          {item.tag}
+                        </span>
+                      </div>
+                      <h3 className={`text-xl font-bold mb-1 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
+                        {item.headline}
+                      </h3>
+                      <p className={`text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-slate-500'}`}>
+                        {item.sub}
+                      </p>
                     </div>
-                    <h3 className={`font-bold text-lg ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>{sector.label}</h3>
-                  </div>
-                  <p className={`text-sm mb-3 ${theme === 'dark' ? 'text-gray-400' : 'text-slate-600'}`}>{sector.desc}</p>
-                  <div className={`text-xs font-bold px-2 py-1 rounded inline-block ${theme === 'dark' ? 'text-primary-400 bg-primary-500/5' : 'text-primary-700 bg-primary-50'}`}>
-                    {sector.metric}
-                  </div>
+                  ))}
                 </div>
               ))}
             </div>
 
-            {/* Important Disclaimer */}
-            <div className={`mt-16 p-6 rounded-2xl flex flex-col md:flex-row gap-4 items-start max-w-5xl mx-auto ${theme === 'dark' ? 'bg-yellow-500/10 border border-yellow-500/20' : 'bg-yellow-50 border border-yellow-200'}`}>
-              <Shield className={`w-6 h-6 flex-shrink-0 mt-1 ${theme === 'dark' ? 'text-yellow-500' : 'text-yellow-600'}`} />
-              <div>
-                <h4 className={`font-bold mb-2 ${theme === 'dark' ? 'text-yellow-200' : 'text-black'}`}>{t.professionalDisclaimerTitle}</h4>
-                <p className={`text-sm leading-relaxed ${theme === 'dark' ? 'text-yellow-100/90' : 'text-black'}`}>
-                  {t.professionalDisclaimerDesc}
-                </p>
-              </div>
+            {/* Row 2 - Right to Left (Reverse) */}
+            <div className="flex animate-marquee-reverse whitespace-nowrap gap-6 hover:[animation-play-state:paused] py-4">
+              {[...Array(2)].map((_, setIndex) => (
+                <div key={setIndex} className="flex gap-6">
+                  {[
+                    { headline: 'HR & Recruitment', sub: 'Candidate Screening', tag: 'Bias-Free', icon: Users, color: 'text-pink-400', bg: 'bg-pink-400/10', border: 'border-pink-500/30' },
+                    { headline: 'Insurance', sub: 'Claims Processing', tag: 'Automated', icon: Shield, color: 'text-green-400', bg: 'bg-green-400/10', border: 'border-green-500/30' },
+                    { headline: 'Healthcare', sub: 'Clinical Data Processing', tag: 'Compliant', icon: Stethoscope, color: 'text-red-400', bg: 'bg-red-400/10', border: 'border-red-500/30' },
+                  ].map((item, idx) => (
+                    <div
+                      key={`r2-${setIndex}-${idx}`}
+                      className={`
+                        w-[400px] p-6 rounded-2xl border transition-all duration-300 transform hover:scale-105 cursor-pointer
+                        ${theme === 'dark'
+                          ? 'bg-white/[0.03] border-white/10 hover:bg-white/[0.08] hover:border-white/20'
+                          : 'bg-white border-slate-100 shadow-md hover:shadow-xl'
+                        }
+                      `}
+                    >
+                      <div className="flex justify-between items-start mb-4">
+                        <div className={`p-3 rounded-xl ${item.bg}`}>
+                          <item.icon className={`w-6 h-6 ${item.color}`} />
+                        </div>
+                        <span className={`text-[10px] uppercase font-bold px-2 py-1 rounded-full border ${item.color} ${item.bg} ${item.border}`}>
+                          {item.tag}
+                        </span>
+                      </div>
+                      <h3 className={`text-xl font-bold mb-1 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
+                        {item.headline}
+                      </h3>
+                      <p className={`text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-slate-500'}`}>
+                        {item.sub}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              ))}
             </div>
           </div>
         </section>
 
         {/* Testimonials - Restored */}
-        <section className={`py-24 px-6 relative overflow-hidden border-t ${theme === 'dark' ? 'bg-white/[0.02] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
-          {theme === 'dark' && <div className="absolute top-1/2 left-0 w-96 h-96 bg-primary-500/10 rounded-full blur-[100px] pointer-events-none"></div>}
-          <div className="max-w-7xl mx-auto relative z-10">
-            <div className="text-center mb-16">
-              <h2 className={`text-3xl md:text-5xl font-bold mb-6 font-heading ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>{t.partnersSuccessStoriesTitle}</h2>
+        {/* Partners & Success Stories - Carousel */}
+        <section className={`py-16 relative overflow-hidden border-t ${theme === 'dark' ? 'bg-white/[0.02] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
+          <div className="max-w-7xl mx-auto relative z-10 px-6">
+            <div className="text-center mb-12">
+              <h2 className={`text-2xl md:text-3xl font-bold mb-4 font-heading ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
+                {t.partnersSuccessStoriesTitle || 'Our Partners & Success Stories'}
+              </h2>
+              <p className={`text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-slate-600'}`}>
+                Trusted by innovative companies worldwide
+              </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {/* Dr. Heba Saleh */}
-              <div className={`p-8 relative group border-t-2 border-transparent hover:border-brand-500/50 ${theme === 'dark' ? 'glass-card' : 'bg-white shadow-lg border border-slate-100'}`}>
-                <Quote className="absolute top-6 right-6 w-8 h-8 text-primary-500/20 group-hover:text-primary-500/40 transition-colors" />
-                <p className={`italic mb-8 leading-relaxed text-lg ${theme === 'dark' ? 'text-gray-300' : 'text-slate-600'}`}>
-                  "{t.drHebaSalehTestimonial}"
-                </p>
-                <div className="flex items-center gap-4">
-                  <img src={DrHebaImage} alt="Dr. Heba Saleh" className="w-16 h-16 rounded-full object-cover border-2 border-primary-500/20" />
-                  <div>
-                    <h4 className={`font-bold text-lg ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>Dr. Heba Saleh</h4>
-                    <p className="text-sm text-primary-400 uppercase tracking-wider">{t.drHebaSalehTitle}</p>
-                  </div>
-                </div>
-              </div>
+            <div className="relative w-full overflow-hidden mask-linear-gradient">
+              {/* Fade Edges */}
+              <div className={`absolute left-0 top-0 bottom-0 w-20 z-10 bg-gradient-to-r ${theme === 'dark' ? 'from-[#0B0E14] to-transparent' : 'from-slate-50 to-transparent'}`}></div>
+              <div className={`absolute right-0 top-0 bottom-0 w-20 z-10 bg-gradient-to-l ${theme === 'dark' ? 'from-[#0B0E14] to-transparent' : 'from-slate-50 to-transparent'}`}></div>
 
-              {/* Eng. Ahmed Salah */}
-              <div className={`p-8 relative group border-t-2 border-transparent hover:border-brand-500/50 ${theme === 'dark' ? 'glass-card' : 'bg-white shadow-lg border border-slate-100'}`}>
-                <Quote className="absolute top-6 right-6 w-8 h-8 text-primary-500/20 group-hover:text-primary-500/40 transition-colors" />
-                <p className={`italic mb-8 leading-relaxed text-lg ${theme === 'dark' ? 'text-gray-300' : 'text-slate-600'}`}>
-                  "{t.engAhmedSalahTestimonial}"
-                </p>
-                <div className="flex items-center gap-4">
-                  <img src={AhmedSalahImage} alt="Eng. Ahmed Salah" className="w-16 h-16 rounded-full object-cover border-2 border-primary-500/20" />
-                  <div>
-                    <h4 className={`font-bold text-lg ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>Eng. Ahmed Salah</h4>
-                    <p className="text-sm text-primary-400 uppercase tracking-wider">{t.engAhmedSalahTitle}</p>
+              {/* Scrolling Track */}
+              <div className="flex animate-marquee whitespace-nowrap gap-16 py-4">
+                {/* Double the logos to create seamless loop */}
+                {[...Array(2)].map((_, setIndex) => (
+                  <div key={setIndex} className="flex gap-16 items-center">
+                    {[
+                      { name: 'TechCorp', icon: Building2 },
+                      { name: 'GlobalSystems', icon: Globe },
+                      { name: 'FutureWorks', icon: Zap },
+                      { name: 'DataFlow', icon: Database },
+                      { name: 'HealthPlus', icon: Activity },
+                      { name: 'SecureNet', icon: Shield },
+                      { name: 'EduSmart', icon: GraduationCap },
+                      { name: 'FinTech', icon: DollarSign },
+                    ].map((partner, idx) => (
+                      <div key={`${setIndex}-${idx}`} className="flex items-center gap-3 opacity-50 hover:opacity-100 transition-opacity cursor-pointer group">
+                        <div className={`p-2 rounded-lg ${theme === 'dark' ? 'bg-white/5 group-hover:bg-white/10' : 'bg-white group-hover:bg-blue-50'}`}>
+                          <partner.icon className={`w-6 h-6 ${theme === 'dark' ? 'text-gray-400 group-hover:text-white' : 'text-slate-400 group-hover:text-primary-600'}`} />
+                        </div>
+                        <span className={`text-lg font-bold ${theme === 'dark' ? 'text-gray-500 group-hover:text-white' : 'text-slate-400 group-hover:text-slate-800'}`}>
+                          {partner.name}
+                        </span>
+                      </div>
+                    ))}
                   </div>
-                </div>
-              </div>
-
-              {/* Third Testimonial - CEFR Agent */}
-              <div className={`p-8 relative group border-t-2 border-transparent hover:border-purple-500/50 ${theme === 'dark' ? 'glass-card' : 'bg-white shadow-lg border border-slate-100'}`}>
-                <Quote className="absolute top-6 right-6 w-8 h-8 text-primary-500/20 group-hover:text-primary-500/40 transition-colors" />
-                <p className={`italic mb-8 leading-relaxed text-lg ${theme === 'dark' ? 'text-gray-300' : 'text-slate-600'}`}>
-                  "{t.drLauraSchmidtTestimonial}"
-                </p>
-                <div className="flex items-center gap-4">
-                  <div className="w-16 h-16 bg-purple-500/20 rounded-full flex items-center justify-center text-purple-400 font-bold text-xl border-2 border-primary-500/20">LS</div>
-                  <div>
-                    <h4 className={`font-bold text-lg ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>Dr. Laura Schmidt</h4>
-                    <p className="text-sm text-primary-400 uppercase tracking-wider">{t.drLauraSchmidtTitle}</p>
-                  </div>
-                </div>
+                ))}
               </div>
             </div>
           </div>
