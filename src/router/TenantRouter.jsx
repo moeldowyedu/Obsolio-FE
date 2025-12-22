@@ -82,6 +82,7 @@ import NotFoundPage from '../pages/NotFoundPage';
 // Onboarding
 import TenantSetupPage from '../pages/Onboarding/TenantSetupPage';
 import OrganizationSetupPage from '../pages/Onboarding/OrganizationSetupPage';
+import ContactPage from '../pages/Public/ContactPage';
 
 // Security
 import SecurityMiddleware from '../components/security/SecurityMiddleware';
@@ -90,7 +91,7 @@ import { getSubdomain } from '../utils/subdomain';
 
 const TenantRouter = () => {
     const subdomain = getSubdomain();
-    
+
     return (
         <TenantGuard subdomain={subdomain}>
             <SecurityMiddleware />
@@ -173,6 +174,8 @@ const TenantRouter = () => {
                 <Route path="/engines/text" element={<ProtectedRoute><TextEnginePage /></ProtectedRoute>} />
                 <Route path="/engines/audio" element={<ProtectedRoute><AudioEnginePage /></ProtectedRoute>} />
                 <Route path="/engines/code" element={<ProtectedRoute><CodeEnginePage /></ProtectedRoute>} />
+
+                <Route path="/contact" element={<ContactPage />} />
 
                 <Route path="*" element={<NotFoundPage />} />
             </Routes>

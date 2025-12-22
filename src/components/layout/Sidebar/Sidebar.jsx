@@ -339,11 +339,15 @@ const Sidebar = () => {
         {!isCollapsed ? (
           <div className="p-4 space-y-4">
             {/* Help Box */}
+            {/* Help Box */}
             <div className="bg-gradient-to-r from-primary-900/10 to-blue-900/10 rounded-lg p-3 border border-white/5">
-              <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center justify-between mb-1">
                 <h3 className="text-xs font-semibold text-gray-200">Need Help?</h3>
-                <Link to="/agentx/developer" className="text-[10px] text-primary-400 hover:text-primary-300">Docs →</Link>
+                <Link to="/docs" className="text-[10px] text-primary-400 hover:text-primary-300">Docs →</Link>
               </div>
+              <Link to="/contact" className="text-[10px] text-gray-400 hover:text-white transition-colors">
+                Contact Support
+              </Link>
             </div>
 
             {/* User Profile */}

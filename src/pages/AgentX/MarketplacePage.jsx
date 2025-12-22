@@ -563,13 +563,68 @@ const MarketplacePage = () => {
     <MainLayout showSidebar={false} theme={theme}>
       <div className={`min-h-screen ${theme === 'dark' ? 'bg-[#0B0E14]' : 'bg-slate-50'}`}>
         {/* Header - More Professional */}
-        <div className={`mt-28 lg:mt-[150px] border-b ${theme === 'dark' ? 'bg-[#1a1f2e] border-white/10' : 'bg-white border-slate-200 shadow-sm'}`}>
-          <div className="max-w-[1600px] mx-auto px-6 py-6">
-            <div className="text-center">
-              <h1 className={`text-2xl md:text-3xl font-bold mb-1.5 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>AgentX HUB</h1>
-              <p className={`text-sm ${theme === 'dark' ? 'text-gray-500' : 'text-slate-500'}`}>
-                Discover and deploy pre-built AI agents for your enterprise
-              </p>
+        <div className={`mt-28 lg:mt-[120px] pb-8 border-b ${theme === 'dark' ? 'bg-[#0B0E14] border-white/10' : 'bg-slate-50 border-slate-200'}`}>
+          <div className="max-w-[1600px] mx-auto px-6">
+            <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-6">
+              {/* Title Section */}
+              <div>
+                <h1 className={`text-3xl md:text-4xl font-bold mb-2 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>AgentX HUB</h1>
+                <p className={`text-base ${theme === 'dark' ? 'text-gray-400' : 'text-slate-500'}`}>
+                  Discover and deploy pre-built AI agents for your enterprise
+                </p>
+              </div>
+
+              {/* Search & Controls Section - Dark styled as requested */}
+              <div className="bg-[#1e293b] p-1.5 rounded-xl flex flex-col md:flex-row items-center gap-2 shadow-xl border border-white/5 w-full xl:w-auto">
+                {/* Search Input */}
+                <div className="relative flex-1 xl:min-w-[400px] w-full">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+                  <input
+                    type="text"
+                    placeholder="Search agents by name, description, or tags..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-full pl-9 pr-4 py-2 bg-[#0f172a] border border-white/5 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-primary-500 text-sm"
+                  />
+                </div>
+
+                <div className="w-px h-6 bg-gray-700 hidden md:block"></div>
+
+                {/* Sort */}
+                <div className="hidden md:flex items-center gap-2">
+                  <div className="relative">
+                    <ArrowUpDown className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+                    <select
+                      value={sortBy}
+                      onChange={(e) => setSortBy(e.target.value)}
+                      className="pl-9 pr-8 py-2 bg-[#0f172a] border border-white/5 rounded-lg text-white text-sm focus:outline-none focus:ring-1 focus:ring-primary-500 appearance-none cursor-pointer"
+                    >
+                      <option value="popular">Most Popular</option>
+                      <option value="rating">Highest Rated</option>
+                      <option value="price-low">Price: Low to High</option>
+                      <option value="price-high">Price: High to Low</option>
+                      <option value="newest">Newest</option>
+                    </select>
+                    <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 w-3 h-3 text-gray-400 pointer-events-none" />
+                  </div>
+                </div>
+
+                {/* View Toggle */}
+                <div className="flex items-center bg-[#0f172a] rounded-lg p-1 border border-white/5">
+                  <button
+                    onClick={() => setViewMode('grid')}
+                    className={`p-1.5 rounded transition-colors ${viewMode === 'grid' ? 'bg-[#1e293b] text-white shadow-sm' : 'text-gray-400 hover:text-gray-300'}`}
+                  >
+                    <Grid3x3 className="w-4 h-4" />
+                  </button>
+                  <button
+                    onClick={() => setViewMode('list')}
+                    className={`p-1.5 rounded transition-colors ${viewMode === 'list' ? 'bg-[#1e293b] text-white shadow-sm' : 'text-gray-400 hover:text-gray-300'}`}
+                  >
+                    <List className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -885,54 +940,7 @@ const MarketplacePage = () => {
 
             {/* Main Content Area */}
             <div className="flex-1 min-w-0">
-              {/* Search and Sort Bar */}
-              <div className={`rounded-xl border p-4 mb-6 ${theme === 'dark' ? 'bg-[#1a1f2e] border-white/10' : 'bg-white border-slate-200 shadow-sm'}`}>
-                <div className="flex flex-col md:flex-row md:items-center gap-4">
-                  {/* Search */}
-                  <div className="flex-1 relative">
-                    <Search className={`absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 ${theme === 'dark' ? 'text-gray-400' : 'text-slate-400'}`} />
-                    <input
-                      type="text"
-                      placeholder="Search agents by name, description, or tags..."
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      className={`w-full pl-10 pr-4 py-2.5 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent ${theme === 'dark' ? 'bg-white/5 border-white/10 text-white placeholder-gray-500' : 'bg-slate-50 border-slate-200 text-slate-900 placeholder-slate-400'}`}
-                    />
-                  </div>
 
-                  {/* Sort */}
-                  <div className="flex items-center gap-2">
-                    <ArrowUpDown className={`w-4 h-4 ${theme === 'dark' ? 'text-gray-400' : 'text-slate-400'}`} />
-                    <select
-                      value={sortBy}
-                      onChange={(e) => setSortBy(e.target.value)}
-                      className={`px-4 py-2.5 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent ${theme === 'dark' ? 'bg-white/5 border-white/10 text-white' : 'bg-slate-50 border-slate-200 text-slate-700'}`}
-                    >
-                      <option value="popular">Most Popular</option>
-                      <option value="rating">Highest Rated</option>
-                      <option value="price-low">Price: Low to High</option>
-                      <option value="price-high">Price: High to Low</option>
-                      <option value="newest">Newest</option>
-                    </select>
-                  </div>
-
-                  {/* View Toggle */}
-                  <div className={`flex items-center gap-1 rounded-lg p-1 ${theme === 'dark' ? 'bg-white/5' : 'bg-slate-100'}`}>
-                    <button
-                      onClick={() => setViewMode('grid')}
-                      className={`p-2 rounded transition-colors ${viewMode === 'grid' ? (theme === 'dark' ? 'bg-white/10' : 'bg-white shadow-sm') : ''}`}
-                    >
-                      <Grid3x3 className={`w-4 h-4 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-600'}`} />
-                    </button>
-                    <button
-                      onClick={() => setViewMode('list')}
-                      className={`p-2 rounded transition-colors ${viewMode === 'list' ? (theme === 'dark' ? 'bg-white/10' : 'bg-white shadow-sm') : ''}`}
-                    >
-                      <List className={`w-4 h-4 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-600'}`} />
-                    </button>
-                  </div>
-                </div>
-              </div>
 
               {/* Results Count */}
               <div className="mb-4">
@@ -952,26 +960,37 @@ const MarketplacePage = () => {
                         ? 'bg-[#1a1f2e] border-white/10 hover:border-primary-500/50'
                         : 'bg-white border-slate-100 shadow-[0_4px_20px_rgb(0,0,0,0.05)] hover:border-primary-200'}`}
                     >
-                      {/* Icon */}
-                      <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-3xl mb-4 text-white shadow-lg shadow-blue-500/20">
-                        {agent.icon}
-                      </div>
+                      <div className="flex justify-between items-start mb-4">
+                        <div className="flex gap-3">
+                          {/* Icon */}
+                          <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-lg text-white shadow-lg shadow-blue-500/20 flex-shrink-0">
+                            {agent.icon}
+                          </div>
 
-                      {/* Header */}
-                      <div className="mb-4">
-                        <h3 className={`text-xl font-bold mb-1 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>{agent.name}</h3>
-                        <div className="flex items-center gap-1.5">
-                          <span className={`text-xs ${theme === 'dark' ? 'text-gray-400' : 'text-slate-400'}`}>by</span>
-                          <span className={`text-xs font-semibold ${agent.owner === 'Obsolio' ? 'text-primary-400' : (theme === 'dark' ? 'text-gray-300' : 'text-slate-600')}`}>
-                            {agent.owner}
-                          </span>
-                          {agent.owner === 'Obsolio' && (
-                            <div className="px-1.5 py-0.5 bg-primary-500/20 text-primary-400 text-[10px] font-bold rounded uppercase">
-                              Official
+                          {/* Title & Owner */}
+                          <div>
+                            <h3 className={`text-base font-bold mb-0.5 leading-tight ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>{agent.name}</h3>
+                            <div className="flex items-center gap-1.5">
+                              <span className={`text-[10px] ${theme === 'dark' ? 'text-gray-400' : 'text-slate-400'}`}>by</span>
+                              <span className={`text-[10px] font-semibold ${agent.owner === 'Obsolio' ? 'text-primary-400' : (theme === 'dark' ? 'text-gray-300' : 'text-slate-600')}`}>
+                                {agent.owner}
+                              </span>
+                              {agent.owner === 'Obsolio' && (
+                                <div className="px-1.5 py-0.5 bg-primary-500/20 text-primary-400 text-[10px] font-bold rounded uppercase">
+                                  Official
+                                </div>
+                              )}
                             </div>
-                          )}
+                          </div>
+                        </div>
+
+                        {/* Price */}
+                        <div className="text-right flex-shrink-0">
+                          <div className={`text-base font-bold ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>{agent.pricingLabel}</div>
+                          <div className={`text-[10px] ${theme === 'dark' ? 'text-gray-500' : 'text-slate-400'}`}>per month</div>
                         </div>
                       </div>
+
                       <p className={`text-sm mb-4 line-clamp-2 ${theme === 'dark' ? 'text-gray-400' : 'text-slate-500'}`}>{agent.description}</p>
 
                       {/* Rating */}
@@ -999,38 +1018,30 @@ const MarketplacePage = () => {
                         <div className={`text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-slate-500'}`}>{agent.category}</div>
                       </div>
 
-                      {/* Footer */}
-                      <div>
-                        <div className="flex items-center justify-between mb-3">
-                          <div>
-                            <div className={`text-2xl font-bold ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>{agent.pricingLabel}</div>
-                            <div className={`text-xs ${theme === 'dark' ? 'text-gray-400' : 'text-slate-500'}`}>per month</div>
-                          </div>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleAuthenticatedAction(
-                                () => navigate(`/agentx/hub/checkout/${agent.id}`),
-                                agent.id
-                              );
-                            }}
-                            className="flex-1 px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-semibold hover:shadow-lg hover:shadow-blue-500/30 transition-all text-sm"
-                          >
-                            {isAuthenticated ? 'Deploy' : 'Login to Deploy'}
-                          </button>
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleAuthenticatedAction(() => { }, agent.id);
-                            }}
-                            className={`px-3 py-2 border-2 rounded-xl hover:border-primary-500 hover:bg-primary-500/10 transition-colors group ${theme === 'dark' ? 'border-white/20' : 'border-slate-200'}`}
-                            title="Contact Owner"
-                          >
-                            <MessageCircle className="w-4 h-4 text-gray-400 group-hover:text-primary-400" />
-                          </button>
-                        </div>
+                      {/* Footer Buttons */}
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleAuthenticatedAction(
+                              () => navigate(`/agentx/hub/checkout/${agent.id}`),
+                              agent.id
+                            );
+                          }}
+                          className="flex-1 px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-semibold hover:shadow-lg hover:shadow-blue-500/30 transition-all text-sm"
+                        >
+                          {isAuthenticated ? 'Deploy' : 'Login to Deploy'}
+                        </button>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleAuthenticatedAction(() => { }, agent.id);
+                          }}
+                          className={`px-3 py-2 border-2 rounded-xl hover:border-primary-500 hover:bg-primary-500/10 transition-colors group ${theme === 'dark' ? 'border-white/20' : 'border-slate-200'}`}
+                          title="Contact Owner"
+                        >
+                          <MessageCircle className="w-4 h-4 text-gray-400 group-hover:text-primary-400" />
+                        </button>
                       </div>
                     </div>
                   ))}
