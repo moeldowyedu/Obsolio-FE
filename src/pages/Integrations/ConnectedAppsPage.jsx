@@ -6,8 +6,10 @@ import Badge from '../../components/common/Badge/Badge';
 import Button from '../../components/common/Button/Button';
 import FormModal from '../../components/common/FormModal';
 import ConfirmDialog from '../../components/common/ConfirmDialog';
+import { useTheme } from '../../contexts/ThemeContext';
 
 const ConnectedAppsPage = () => {
+  const { theme } = useTheme();
   const [searchTerm, setSearchTerm] = useState('');
   const [isConnectModalOpen, setIsConnectModalOpen] = useState(false);
   const [isManageModalOpen, setIsManageModalOpen] = useState(false);
@@ -288,15 +290,19 @@ const ConnectedAppsPage = () => {
 
         {/* Actions Bar */}
         <div className="flex items-center gap-4 mb-6">
+          {/* Search */}
           <div className="flex-1 relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-secondary-600 w-5 h-5" />
             <input
               type="text"
               placeholder="Search connected apps..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+              className={`w-full pl-10 pr-4 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all ${theme === 'dark'
+                ? 'bg-gray-800 border-gray-700 text-white placeholder-gray-500'
+                : 'bg-white border-slate-200 text-slate-900 placeholder-slate-400'
+                }`}
             />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
           </div>
           <Button onClick={handleOpenConnectModal} icon={<Plus className="w-4 h-4" />}>
             Connect New App

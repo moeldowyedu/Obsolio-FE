@@ -13,7 +13,7 @@ const MarketplacePage = () => {
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 12;
+  const [itemsPerPage, setItemsPerPage] = useState(12);
 
   // Filter state
   const [filters, setFilters] = useState({
@@ -560,10 +560,10 @@ const MarketplacePage = () => {
   );
 
   return (
-    <MainLayout showSidebar={false} theme={theme}>
+    <MainLayout showSidebar={true} theme={theme}>
       <div className={`min-h-screen ${theme === 'dark' ? 'bg-[#0B0E14]' : 'bg-slate-50'}`}>
         {/* Header - More Professional */}
-        <div className={`mt-28 lg:mt-[120px] pb-8 border-b ${theme === 'dark' ? 'bg-[#0B0E14] border-white/10' : 'bg-slate-50 border-slate-200'}`}>
+        <div className={`mt-6 pb-8 border-b ${theme === 'dark' ? 'bg-[#0B0E14] border-white/10' : 'bg-slate-50 border-slate-200'}`}>
           <div className="max-w-[1600px] mx-auto px-6">
             <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-6">
               {/* Title Section */}
@@ -950,15 +950,17 @@ const MarketplacePage = () => {
               </div>
 
               {/* Agent Grid */}
+              {/* Agents Grid */}
               {currentAgents.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                <div className={`grid grid-cols-1 md:grid-cols-2 gap-6 ${viewMode === 'list' ? 'flex flex-col' : ''}`}>
                   {currentAgents.map((agent) => (
                     <div
                       key={agent.id}
-                      onClick={() => navigate(`/agentx/hub/agent/${agent.id}`)}
-                      className={`border rounded-2xl p-6 transition-all cursor-pointer hover:shadow-xl hover:shadow-primary-500/10 ${theme === 'dark'
-                        ? 'bg-[#1a1f2e] border-white/10 hover:border-primary-500/50'
-                        : 'bg-white border-slate-100 shadow-[0_4px_20px_rgb(0,0,0,0.05)] hover:border-primary-200'}`}
+                      onClick={() => handleAuthenticatedAction(() => navigate(`/agentx/hub/agent/${agent.id}`), agent.id)}
+                      className={`group relative rounded-xl border transition-all duration-300 cursor-pointer overflow-hidden flex flex-col p-6 ${theme === 'dark'
+                        ? 'bg-[#1e293b]/50 border-white/5 hover:border-primary-500/50 hover:bg-[#1e293b]'
+                        : 'bg-white border-slate-200 hover:border-primary-500/50 hover:shadow-lg hover:shadow-primary-500/5'
+                        }`}
                     >
                       <div className="flex justify-between items-start mb-4">
                         <div className="flex gap-3">
@@ -1064,49 +1066,50 @@ const MarketplacePage = () => {
 
               {/* Pagination */}
               {totalPages > 1 && (
-                <div className="flex items-center justify-center gap-2">
-                  <button
-                    onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
-                    disabled={currentPage === 1}
-                    className={`px-4 py-2 border rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-colors ${theme === 'dark' ? 'bg-white/5 border-white/10 text-gray-300 hover:bg-white/10' : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'}`}
-                  >
-                    Previous
-                  </button>
+                <div className="flex flex-col md:flex-row items-center justify-center gap-4 mt-8">
+                  {/* Items Per Page Selector */}
+                  <div className="flex items-center gap-2">
+                    <span className={`text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-slate-500'}`}>Show:</span>
+                    <select
+                      value={itemsPerPage}
+                      onChange={(e) => {
+                        setItemsPerPage(Number(e.target.value));
+                        setCurrentPage(1); // Reset to first page
+                      }}
+                      className={`px-2 py-1 text-sm rounded-lg border focus:outline-none focus:ring-1 focus:ring-primary-500 cursor-pointer ${theme === 'dark'
+                        ? 'bg-[#1e293b] border-white/10 text-white'
+                        : 'bg-white border-slate-200 text-slate-700'
+                        }`}
+                    >
+                      <option value={8}>8</option>
+                      <option value={12}>12</option>
+                      <option value={24}>24</option>
+                      <option value={48}>48</option>
+                    </select>
+                  </div>
 
-                  {[...Array(totalPages)].map((_, i) => {
-                    const pageNum = i + 1;
-                    if (
-                      pageNum === 1 ||
-                      pageNum === totalPages ||
-                      (pageNum >= currentPage - 1 && pageNum <= currentPage + 1)
-                    ) {
-                      return (
-                        <button
-                          key={pageNum}
-                          onClick={() => setCurrentPage(pageNum)}
-                          className={`px-4 py-2 rounded-lg transition-colors ${currentPage === pageNum
-                            ? 'bg-primary-600 text-white'
-                            : (theme === 'dark'
-                              ? 'bg-white/5 border border-white/10 text-gray-300 hover:bg-white/10'
-                              : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50')
-                            }`}
-                        >
-                          {pageNum}
-                        </button>
-                      );
-                    } else if (pageNum === currentPage - 2 || pageNum === currentPage + 2) {
-                      return <span key={pageNum} className={`px-2 ${theme === 'dark' ? 'text-gray-600' : 'text-slate-400'}`}>...</span>;
-                    }
-                    return null;
-                  })}
+                  {/* Page Controls */}
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                      disabled={currentPage === 1}
+                      className={`px-4 py-2 border rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-colors ${theme === 'dark' ? 'bg-white/5 border-white/10 text-gray-300 hover:bg-white/10' : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'}`}
+                    >
+                      Previous
+                    </button>
 
-                  <button
-                    onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
-                    disabled={currentPage === totalPages}
-                    className={`px-4 py-2 border rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-colors ${theme === 'dark' ? 'bg-white/5 border-white/10 text-gray-300 hover:bg-white/10' : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'}`}
-                  >
-                    Next
-                  </button>
+                    <span className={`text-sm font-medium mx-2 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-600'}`}>
+                      Page {currentPage} of {totalPages}
+                    </span>
+
+                    <button
+                      onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+                      disabled={currentPage === totalPages}
+                      className={`px-4 py-2 border rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-colors ${theme === 'dark' ? 'bg-white/5 border-white/10 text-gray-300 hover:bg-white/10' : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'}`}
+                    >
+                      Next
+                    </button>
+                  </div>
                 </div>
               )}
             </div>

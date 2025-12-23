@@ -216,6 +216,14 @@ const Header = () => {
                   {t.startFreeTrial || 'Start Free Trial'}
                 </Link>
 
+                <input
+                  type="text"
+                  placeholder={t.search_placeholder}
+                  className={`w-full pl-10 pr-4 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all ${theme === 'dark'
+                    ? 'bg-gray-800 border-gray-700 text-white placeholder-gray-500'
+                    : 'bg-white border-slate-200 text-slate-900 placeholder-slate-400'
+                    }`}
+                />
                 {/* Theme Toggle Button */}
                 <button
                   onClick={toggleTheme}

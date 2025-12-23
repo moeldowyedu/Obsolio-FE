@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { NavLink, Link, useLocation } from 'react-router-dom';
-import { ChevronLeft, ChevronRight, LogOut, User, Building2, Settings } from 'lucide-react';
+import { ChevronLeft, ChevronRight, LogOut, User, Building2, Settings, Sun, Moon } from 'lucide-react';
 import { useAuthStore } from '../../../store/authStore';
 import { useLayoutStore } from '../../../store/layoutStore';
+import { useTheme } from '../../../contexts/ThemeContext';
 import { PLATFORM, ENGINES } from '../../../utils/constants';
 
 import logo from '../../../assets/imgs/OBSOLIO-logo-cyan.png';
@@ -17,6 +18,8 @@ const Sidebar = () => {
     toggleSection,
     setSectionExpanded
   } = useLayoutStore();
+  const { theme, toggleTheme } = useTheme();
+  const sidebarNavRef = useRef(null);
 
   // Auto-expand sections based on current route
   useEffect(() => {
@@ -36,13 +39,24 @@ const Sidebar = () => {
     else if (path.startsWith('/billing/')) activeSection = 'billing';
     else if (path.startsWith('/settings/')) activeSection = 'settings';
 
-    // If an active section is found, expand it. DO NOT collapse others if they were manually opened.
-    // Or, for stricter navigation behavior, collapse others? The user said "keep sub menu expanded".
-    // A balanced approach: Ensure the active one is true.
-    // If an active section is found, expand it. DO NOT collapse others if they were manually opened.
+    // If an active section is found, expand it.
     if (activeSection) {
       setSectionExpanded(activeSection, true);
     }
+
+    // Scroll active item into view
+    // Use a timeout to allow for expansion animation/rendering to complete
+    setTimeout(() => {
+      if (sidebarNavRef.current) {
+        // Find the active link using the active class (bg-primary-500/10)
+        // We look for the specific visual indicator class used in the NavLinks
+        const activeLink = sidebarNavRef.current.querySelector('.bg-primary-500\\/10');
+        if (activeLink) {
+          activeLink.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+      }
+    }, 300);
+
   }, [location.pathname, setSectionExpanded]);
 
 
@@ -173,7 +187,7 @@ const Sidebar = () => {
 
   return (
     <aside
-      className={`${isCollapsed ? 'w-20' : 'w-64'} bg-[#0B0E14] border-r border-white/10 h-screen sticky top-0 transition-all duration-300 ease-in-out flex flex-col flex-shrink-0`}
+      className={`${isCollapsed ? 'w-20' : 'w-64'} bg-[#0B0E14] border-r border-white/10 h-screen sticky top-0 transition-all duration-300 ease-in-out flex flex-col flex-shrink-0 z-20 no-scrollbar`}
     >
       {/* Tenant Branding */}
       <div className={`${isCollapsed ? 'p-4' : 'p-6'} border-b border-white/10 transition-all duration-300 flex-shrink-0`}>
@@ -219,7 +233,7 @@ const Sidebar = () => {
       </button>
 
       {/* Navigation - Scrollable */}
-      <nav className="p-4 flex-grow overflow-y-auto">
+      <nav className={`flex-grow overflow-y-auto overflow-x-visible no-scrollbar ${isCollapsed ? 'px-2 py-4' : 'p-4'}`} ref={sidebarNavRef}>
         <ul className="space-y-1">
           {navigation.map((item) => {
             if (item.children) {
@@ -231,7 +245,19 @@ const Sidebar = () => {
               return (
                 <li key={item.name}>
                   <button
-                    onClick={() => !isCollapsed && toggleSection(item.section)}
+                    onClick={() => {
+                      if (isCollapsed) {
+                        toggleSidebar();
+                        // Optional: Toggle the section too if you want it to open immediately
+                        // toggleSection(item.section); 
+                        // But maybe better to just expand sidebar first? 
+                        // User asked: "make menu icons clickable and expand" -> implies opening sidebar AND expanding menu?
+                        // Let's expand sidebar and open the section.
+                        toggleSection(item.section);
+                      } else {
+                        toggleSection(item.section);
+                      }
+                    }}
                     className={`w-full flex items-center ${isCollapsed ? 'justify-center' : 'justify-between'} px-3 py-2 text-sm font-medium rounded-lg transition-colors group ${isAnyChildActive ? 'bg-primary-500/10 text-primary-400' : 'text-gray-400 hover:bg-white/5 hover:text-gray-200'
                       }`}
                     title={isCollapsed ? item.name : ''}
@@ -350,6 +376,20 @@ const Sidebar = () => {
               </Link>
             </div>
 
+            {/* Theme Toggle */}
+            <button
+              onClick={toggleTheme}
+              className="w-full flex items-center gap-3 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-white/5 border border-transparent hover:border-white/5 transition-all mb-2"
+              title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+            >
+              <div className="flex items-center justify-center w-5 h-5">
+                {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+              </div>
+              <span className="text-sm font-medium">
+                {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
+              </span>
+            </button>
+
             {/* User Profile */}
             <div className="flex items-center justify-between p-2 rounded-lg bg-white/5 border border-white/5">
               <div className="flex items-center gap-3 overflow-hidden">
@@ -380,6 +420,15 @@ const Sidebar = () => {
           </div>
         ) : (
           <div className="p-2 space-y-2">
+            {/* Collapsed Theme Toggle */}
+            <button
+              onClick={toggleTheme}
+              className="w-10 h-10 mx-auto flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
+              title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+            >
+              {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+            </button>
+
             <div className="w-10 h-10 mx-auto rounded-full bg-gradient-to-tr from-purple-500 to-primary-500 flex items-center justify-center text-white text-xs font-bold" title={user?.name || user?.fullName || user?.full_name}>
               {(user?.name || user?.fullName || user?.full_name || 'U').charAt(0).toUpperCase()}
             </div>
@@ -399,7 +448,7 @@ const Sidebar = () => {
           </div>
         )}
       </div>
-    </aside>
+    </aside >
   );
 };
 

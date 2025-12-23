@@ -101,6 +101,16 @@
     opacity: 1;
   }
 
+  /* Utilities */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
   /* Input with Dark Glass effect */
   .glass-input {
     background: rgba(15, 23, 42, 0.6);

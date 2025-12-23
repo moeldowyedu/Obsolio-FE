@@ -20,18 +20,40 @@ export const useLayoutStore = create(
             },
             toggleSidebar: () => set((state) => ({ isCollapsed: !state.isCollapsed })),
             setCollapsed: (value) => set({ isCollapsed: value }),
-            toggleSection: (section) => set((state) => ({
-                expandedSections: {
-                    ...state.expandedSections,
-                    [section]: !state.expandedSections[section]
+            toggleSection: (section) => set((state) => {
+                const isExpanding = !state.expandedSections[section];
+                // Reset all sections to false
+                const newExpandedSections = Object.keys(state.expandedSections).reduce((acc, key) => {
+                    acc[key] = false;
+                    return acc;
+                }, {});
+
+                // If expanding, set only the target section to true
+                if (isExpanding) {
+                    newExpandedSections[section] = true;
                 }
-            })),
-            setSectionExpanded: (section, value) => set((state) => ({
-                expandedSections: {
-                    ...state.expandedSections,
-                    [section]: value
+
+                return { expandedSections: newExpandedSections };
+            }),
+            setSectionExpanded: (section, value) => set((state) => {
+                if (value) {
+                    // When expanding a section, collapse all others
+                    const newExpandedSections = Object.keys(state.expandedSections).reduce((acc, key) => {
+                        acc[key] = false;
+                        return acc;
+                    }, {});
+                    newExpandedSections[section] = true;
+                    return { expandedSections: newExpandedSections };
                 }
-            })),
+
+                // When collapsing, just update the specific section
+                return {
+                    expandedSections: {
+                        ...state.expandedSections,
+                        [section]: false
+                    }
+                };
+            }),
         }),
         {
             name: 'layout-storage', // unique name for localStorage key

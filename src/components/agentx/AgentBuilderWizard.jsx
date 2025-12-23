@@ -4,8 +4,10 @@ import Button from '../common/Button/Button';
 import Badge from '../common/Badge/Badge';
 import Card from '../common/Card/Card';
 import { ENGINES, HITL_MODES } from '../../utils/constants';
+import { useTheme } from '../../contexts/ThemeContext';
 
 const AgentBuilderWizard = ({ steps = [], onComplete }) => {
+  const { theme } = useTheme();
   const [currentStep, setCurrentStep] = useState(0);
   const [agentConfig, setAgentConfig] = useState({
     name: '',
@@ -97,7 +99,8 @@ const AgentBuilderWizard = ({ steps = [], onComplete }) => {
                 type="text"
                 value={agentConfig.name}
                 onChange={(e) => updateConfig({ name: e.target.value })}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent ${theme === 'dark' ? 'bg-gray-800 border-gray-700 text-white' : 'bg-white border-gray-300 text-gray-900'
+                  }`}
                 placeholder="e.g., Customer Support AI"
               />
             </div>
@@ -109,7 +112,8 @@ const AgentBuilderWizard = ({ steps = [], onComplete }) => {
               <textarea
                 value={agentConfig.description}
                 onChange={(e) => updateConfig({ description: e.target.value })}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent ${theme === 'dark' ? 'bg-gray-800 border-gray-700 text-white' : 'bg-white border-gray-300 text-gray-900'
+                  }`}
                 rows={3}
                 placeholder="Describe what your agent does..."
               />
@@ -124,11 +128,10 @@ const AgentBuilderWizard = ({ steps = [], onComplete }) => {
                   <div
                     key={engine.id}
                     onClick={() => toggleEngine(engine.id)}
-                    className={`p-4 border-2 rounded-lg cursor-pointer transition-all ${
-                      agentConfig.selectedEngines.includes(engine.id)
-                        ? 'border-primary-600 bg-primary-50'
-                        : 'border-gray-200 hover:border-gray-300'
-                    }`}
+                    className={`p-4 border-2 rounded-lg cursor-pointer transition-all ${agentConfig.selectedEngines.includes(engine.id)
+                      ? 'border-primary-600 bg-primary-50'
+                      : 'border-gray-200 hover:border-gray-300'
+                      }`}
                   >
                     <div className="flex items-center gap-3">
                       <span className="text-2xl">{engine.icon}</span>
@@ -249,11 +252,10 @@ const AgentBuilderWizard = ({ steps = [], onComplete }) => {
                 <div
                   key={mode.id}
                   onClick={() => updateConfig({ hitlMode: mode.id })}
-                  className={`p-4 border-2 rounded-lg cursor-pointer transition-all ${
-                    agentConfig.hitlMode === mode.id
-                      ? 'border-primary-600 bg-primary-50'
-                      : 'border-gray-200 hover:border-gray-300'
-                  }`}
+                  className={`p-4 border-2 rounded-lg cursor-pointer transition-all ${agentConfig.hitlMode === mode.id
+                    ? 'border-primary-600 bg-primary-50'
+                    : 'border-gray-200 hover:border-gray-300'
+                    }`}
                 >
                   <div className="flex items-start gap-3">
                     <div className="flex items-center gap-2 flex-grow">
@@ -459,29 +461,26 @@ const AgentBuilderWizard = ({ steps = [], onComplete }) => {
           <div key={index} className="flex items-center flex-1">
             <div className="flex flex-col items-center flex-1">
               <div
-                className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold transition-all ${
-                  index < currentStep
-                    ? 'bg-primary-600 text-white'
-                    : index === currentStep
+                className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold transition-all ${index < currentStep
+                  ? 'bg-primary-600 text-white'
+                  : index === currentStep
                     ? 'bg-primary-600 text-white ring-4 ring-primary-100'
                     : 'bg-gray-200 text-gray-600'
-                }`}
+                  }`}
               >
                 {index < currentStep ? <Check className="w-5 h-5" /> : index + 1}
               </div>
               <p
-                className={`text-xs mt-2 text-center ${
-                  index === currentStep ? 'font-semibold text-gray-900' : 'text-gray-600'
-                }`}
+                className={`text-xs mt-2 text-center ${index === currentStep ? 'font-semibold text-gray-900' : 'text-gray-600'
+                  }`}
               >
                 {step}
               </p>
             </div>
             {index < wizardSteps.length - 1 && (
               <div
-                className={`flex-1 h-1 mx-2 ${
-                  index < currentStep ? 'bg-primary-600' : 'bg-gray-200'
-                }`}
+                className={`flex-1 h-1 mx-2 ${index < currentStep ? 'bg-primary-600' : 'bg-gray-200'
+                  }`}
               />
             )}
           </div>

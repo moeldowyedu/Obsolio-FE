@@ -64,8 +64,8 @@ const OrganizationSettingsPage = () => {
     const textPrimary = theme === 'dark' ? 'text-white' : 'text-slate-900';
     const textSecondary = theme === 'dark' ? 'text-gray-400' : 'text-slate-500';
     const inputClass = `w-full px-4 py-3 rounded-xl border focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all duration-200 appearance-none ${theme === 'dark'
-            ? 'bg-gray-800 border-gray-700 text-white placeholder-gray-500'
-            : 'bg-white border-gray-300 text-gray-900 placeholder-gray-400'
+        ? 'bg-gray-800 border-gray-700 text-white placeholder-gray-500'
+        : 'bg-white border-gray-300 text-gray-900 placeholder-gray-400'
         }`;
     const labelClass = `text-sm font-medium ml-1 ${textSecondary}`;
 
@@ -401,8 +401,8 @@ const OrganizationSettingsPage = () => {
                             <div
                                 onClick={triggerFileInput}
                                 className={`w-20 h-20 rounded-xl border-2 border-dashed flex items-center justify-center cursor-pointer transition-colors overflow-hidden ${theme === 'dark'
-                                        ? 'bg-gray-800 border-gray-700 hover:border-gray-500'
-                                        : 'bg-gray-50 border-gray-200 hover:border-gray-400'
+                                    ? 'bg-gray-800 border-gray-700 hover:border-gray-500'
+                                    : 'bg-gray-50 border-gray-200 hover:border-gray-400'
                                     }`}
                             >
                                 {currentLogoUrl && !imageError ? (
@@ -511,8 +511,8 @@ const OrganizationSettingsPage = () => {
                                 onChange={handleChange}
                                 rows={4}
                                 className={`mt-1.5 w-full rounded-xl border px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all ${theme === 'dark'
-                                        ? 'bg-gray-800 border-gray-700 text-white'
-                                        : 'bg-white border-gray-300 text-gray-900'
+                                    ? 'bg-gray-800 border-gray-700 text-white'
+                                    : 'bg-white border-gray-300 text-gray-900'
                                     }`}
                             />
                         </div>
