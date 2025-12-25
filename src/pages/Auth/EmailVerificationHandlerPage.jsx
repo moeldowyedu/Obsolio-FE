@@ -1,7 +1,5 @@
-import { useEffect, useState } from 'react';
-import { useSearchParams, useNavigate } from 'react-router-dom';
-import { Loader } from 'lucide-react';
-import api from '../../services/api';
+import { useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import logo from '../../assets/imgs/OBSOLIO-logo-cyan.png';
 import { useTheme } from '../../contexts/ThemeContext';
 
@@ -11,75 +9,39 @@ import { useTheme } from '../../contexts/ThemeContext';
  * Handles email verification links with query parameters format:
  * /verify-email?id=2&hash=xxx&expires=xxx&signature=xxx
  *
- * This component calls the backend verification endpoint and lets the backend
- * handle the verification logic, then redirects to the appropriate page.
+ * This component redirects the browser to the backend verification endpoint.
+ * The backend will process the verification and redirect back to:
+ * - /verification-success?workspace={url} (on success)
+ * - /verification-failed?reason={reason} (on failure)
  */
 const EmailVerificationHandlerPage = () => {
     const [searchParams] = useSearchParams();
-    const navigate = useNavigate();
     const { theme } = useTheme();
-    const [status, setStatus] = useState('verifying');
 
     useEffect(() => {
-        const verifyEmail = async () => {
-            try {
-                // Extract all query parameters
-                const id = searchParams.get('id');
-                const hash = searchParams.get('hash');
-                const expires = searchParams.get('expires');
-                const signature = searchParams.get('signature');
+        // Extract all query parameters
+        const id = searchParams.get('id');
+        const hash = searchParams.get('hash');
+        const expires = searchParams.get('expires');
+        const signature = searchParams.get('signature');
 
-                // Validate required parameters
-                if (!id || !hash || !expires || !signature) {
-                    console.error('Missing verification parameters');
-                    navigate('/verification-failed?reason=invalid_link');
-                    return;
-                }
+        // Validate required parameters
+        if (!id || !hash || !expires || !signature) {
+            console.error('Missing verification parameters');
+            window.location.href = '/verification-failed?reason=invalid_link';
+            return;
+        }
 
-                // Call backend verification endpoint
-                // The backend will process the verification and return the result
-                const response = await api.get(`/verify-email/${id}/${hash}`, {
-                    params: { expires, signature },
-                    headers: {
-                        'X-Forwarded-Host': window.location.host
-                    }
-                });
+        // Construct the backend verification URL
+        // The backend will handle verification and redirect back to the frontend
+        const backendUrl = `https://api.obsolio.com/api/v1/verify-email/${id}/${hash}?expires=${expires}&signature=${signature}`;
 
-                // Check response for success
-                if (response.data?.success) {
-                    // Get workspace URL from response if available
-                    const workspaceUrl = response.data?.workspace_url || response.data?.data?.workspace_url;
+        console.log('Redirecting to backend for verification:', backendUrl);
 
-                    if (workspaceUrl) {
-                        // Redirect to verification success page with workspace URL
-                        navigate(`/verification-success?workspace=${encodeURIComponent(workspaceUrl)}`);
-                    } else {
-                        // Redirect to success page without workspace URL
-                        navigate('/verification-success');
-                    }
-                } else {
-                    // Backend returned non-success response
-                    navigate('/verification-failed?reason=server_error');
-                }
+        // Redirect browser to backend (backend will redirect back to frontend)
+        window.location.href = backendUrl;
 
-            } catch (error) {
-                console.error('Email verification error:', error);
-
-                // Handle specific error cases
-                if (error.response?.status === 403) {
-                    navigate('/verification-failed?reason=invalid_hash');
-                } else if (error.response?.status === 410 || error.response?.data?.message?.includes('expired')) {
-                    navigate('/verification-failed?reason=expired');
-                } else if (error.response?.status === 404) {
-                    navigate('/verification-failed?reason=invalid_link');
-                } else {
-                    navigate('/verification-failed?reason=server_error');
-                }
-            }
-        };
-
-        verifyEmail();
-    }, [searchParams, navigate]);
+    }, [searchParams]);
 
     return (
         <div className={`min-h-screen relative flex items-center justify-center p-4 transition-colors duration-300 ${theme === 'dark' ? 'bg-[#0B0E14]' : 'bg-slate-50'}`}>
