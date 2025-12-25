@@ -1,4 +1,5 @@
 import axios from 'axios';
+import notify from '../utils/toast';
 
 // Get API base URL from environment
 // Force relative path to use Vite proxy
@@ -124,39 +125,43 @@ api.interceptors.response.use(
 
     // Handle specific error status codes
     if (error.response) {
-      switch (error.response.status) {
-        case 401:
-          // Unauthorized - clear token and redirect to login
-          console.error('🔒 Unauthorized access - redirecting to login');
-          localStorage.removeItem('auth_token');
-          localStorage.removeItem('user');
-          localStorage.removeItem('obsolio-auth-storage');
-          localStorage.removeItem('obsolio-tenant-storage');
-          if (window.location.pathname !== '/login') {
-            window.location.href = '/login';
-          }
-          break;
-        case 403:
-          // Forbidden - insufficient permissions
-          console.error('⛔ Access forbidden:', error.response.data);
-          break;
-        case 404:
-          // Not found
-          console.error('🔍 Resource not found:', error.response.data);
-          break;
-        case 429:
-          // Too many requests - rate limiting
-          console.error('⏱️ Rate limit exceeded:', error.response.data);
-          break;
-        case 500:
-        case 502:
-        case 503:
-        case 504:
-          // Server errors
-          console.error('🔥 Server error:', error.response.status, error.response.data);
-          break;
-        default:
-          console.error('❌ API error:', error.response.status, error.response.data);
+      // Check if the request explicitly skipped global error handling
+      if (!error.config?.skipErrorToast) {
+        switch (error.response.status) {
+          case 401:
+            // Unauthorized - clear token and redirect to login
+            console.error('🔒 Unauthorized access');
+            localStorage.removeItem('auth_token');
+            localStorage.removeItem('user');
+            localStorage.removeItem('obsolio-auth-storage');
+            localStorage.removeItem('obsolio-tenant-storage');
+            if (window.location.pathname !== '/login') {
+              window.location.href = '/login';
+            }
+            break;
+          case 403:
+            notify.error(error.response.data?.message || 'Access Denied');
+            break;
+          case 404:
+            // notify.error('Resource not found'); // Optional
+            console.error('🔍 Resource not found:', error.response.data);
+            break;
+          case 422:
+            const firstError = error.response.data.errors ? Object.values(error.response.data.errors)[0]?.[0] : null;
+            notify.error(firstError || error.response.data?.message || 'Validation Error');
+            break;
+          case 429:
+            notify.error('Too many requests. Please try again later.');
+            break;
+          case 500:
+          case 502:
+          case 503:
+          case 504:
+            notify.error('Server Error: Something went wrong.');
+            break;
+          default:
+            notify.error(error.response.data?.message || 'An unexpected error occurred.');
+        }
       }
     } else if (error.request) {
       // Request made but no response received

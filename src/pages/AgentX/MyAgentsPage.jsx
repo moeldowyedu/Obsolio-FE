@@ -1,86 +1,73 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { Plus, Play, Pause, Settings, Trash2, TrendingUp, Grid3x3, List, Eye, Activity, AlertCircle, CheckCircle, Clock } from 'lucide-react';
+import {
+  Plus, Play, Pause, Settings, Trash2, TrendingUp, Grid3x3, List,
+  Eye, Activity, AlertCircle, CheckCircle, Clock, Search, Filter, X
+} from 'lucide-react';
 import MainLayout from '../../components/layout/MainLayout';
-import { formatNumber, formatRelativeTime } from '../../utils/formatters';
+import { formatNumber, formatRelativeTime } from '../../utils/formatters'; // Ensure these exist or use date-fns
 import { useAgentStore } from '../../store/agentStore';
 import toast from 'react-hot-toast';
 import { useTheme } from '../../contexts/ThemeContext';
 
 const MyAgentsPage = () => {
-  const [viewMode, setViewMode] = useState('grid');
   const { agents, isLoading, error, fetchAgents, deleteAgent, updateAgentStatus, clearError } = useAgentStore();
   const { theme } = useTheme();
 
-  useEffect(() => {
-    // Fetch agents from backend when component mounts
-    const loadAgents = async () => {
-      try {
-        await fetchAgents();
-      } catch (err) {
-        console.error('Failed to load agents:', err);
-        // Error is already set in the store
-      }
-    };
+  // UI State
+  const [viewMode, setViewMode] = useState('grid');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [statusFilter, setStatusFilter] = useState('all'); // 'all', 'active', 'paused', 'error'
 
-    loadAgents();
+  useEffect(() => {
+    fetchAgents();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // Empty dependency array - only run once on mount
+  }, []);
 
   const handleToggleStatus = async (agentId, currentStatus) => {
     if (currentStatus === 'error') return;
-
     try {
       const newStatus = currentStatus === 'active' ? 'paused' : 'active';
       await updateAgentStatus(agentId, newStatus);
-      toast.success(`Agent ${newStatus === 'active' ? 'activated' : 'paused'} successfully`);
+      toast.success(`Agent ${newStatus === 'active' ? 'activated' : 'paused'}`);
     } catch (error) {
-      toast.error('Failed to update agent status');
+      toast.error('Failed to update status');
     }
   };
 
   const handleDelete = async (agentId, agentName) => {
-    if (confirm(`Are you sure you want to undeploy "${agentName}"? This action cannot be undone.`)) {
+    if (confirm(`Are you sure you want to uninstall "${agentName}"?`)) {
       try {
         await deleteAgent(agentId);
-        toast.success('Agent deleted successfully');
+        toast.success('Agent uninstalled successfully');
       } catch (error) {
-        toast.error('Failed to delete agent');
+        toast.error('Failed to uninstall agent');
       }
     }
   };
 
-  const activeAgents = agents.filter(a => a.status === 'active').length;
-  const totalExecutions = agents.reduce((sum, a) => sum + (a.executions || 0), 0);
-  const avgSuccessRate = agents.length > 0
-    ? agents.reduce((sum, a) => sum + (a.success_rate || 0), 0) / agents.length
-    : 0;
+  // Filter & Search Logic
+  const filteredAgents = useMemo(() => {
+    return agents.filter(agent => {
+      const matchesSearch = agent.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (agent.description && agent.description.toLowerCase().includes(searchQuery.toLowerCase()));
+      const matchesStatus = statusFilter === 'all' || agent.status === statusFilter;
+      return matchesSearch && matchesStatus;
+    });
+  }, [agents, searchQuery, statusFilter]);
 
   const getStatusBadge = (status) => {
     const configs = {
-      active: {
-        icon: CheckCircle,
-        className: theme === 'dark' ? 'bg-green-500/10 text-green-400 border-green-500/20' : 'bg-green-100 text-green-700 border-green-200',
-        label: 'Active'
-      },
-      paused: {
-        icon: Pause,
-        className: theme === 'dark' ? 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20' : 'bg-yellow-100 text-yellow-700 border-yellow-200',
-        label: 'Paused'
-      },
-      error: {
-        icon: AlertCircle,
-        className: theme === 'dark' ? 'bg-red-500/10 text-red-400 border-red-500/20' : 'bg-red-100 text-red-700 border-red-200',
-        label: 'Error'
-      }
+      active: { icon: CheckCircle, color: 'text-green-500', bg: 'bg-green-500/10 border-green-500/20', label: 'Active' },
+      paused: { icon: Pause, color: 'text-yellow-500', bg: 'bg-yellow-500/10 border-yellow-500/20', label: 'Paused' },
+      error: { icon: AlertCircle, color: 'text-red-500', bg: 'bg-red-500/10 border-red-500/20', label: 'Error' }
     };
-
     const config = configs[status] || configs.active;
     const Icon = config.icon;
 
     return (
-      <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold border ${config.className}`}>
-        <Icon className="w-3 h-3" />
+      <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium border ${config.bg} ${config.color}`}>
+        <Icon className="w-3.5 h-3.5" />
         {config.label}
       </span>
     );
@@ -88,224 +75,212 @@ const MyAgentsPage = () => {
 
   return (
     <MainLayout showSidebar={true} theme={theme}>
-      <div className="p-6 space-y-6">
+      <div className={`min-h-screen p-6 ${theme === 'dark' ? 'bg-[#0B0E14]' : 'bg-slate-50'}`}>
+
         {/* Header */}
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
           <div>
-            <h1 className={`text-3xl font-bold mb-2 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>My Agents</h1>
-            <p className={`${theme === 'dark' ? 'text-gray-400' : 'text-slate-600'}`}>
-              Manage your deployed AI agents and monitor their performance
+            <h1 className={`text-2xl font-bold ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>My Agents</h1>
+            <p className={`text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-slate-500'}`}>
+              Manage {agents.length} installed agents
             </p>
           </div>
-          <Link to="/agentx/marketplace">
-            <button className="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-semibold hover:shadow-lg transition-shadow inline-flex items-center gap-2">
-              <Plus className="w-5 h-5" />
-              Deploy New Agent
-            </button>
-          </Link>
-        </div>
-
-        {/* Quick Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          <div className={`rounded-2xl p-6 transition-all duration-300 ${theme === 'dark' ? 'glass-card' : 'bg-white border border-slate-200 shadow-sm hover:shadow-md'}`}>
-            <div className="flex items-center justify-between mb-2">
-              <div className={`text-sm font-medium ${theme === 'dark' ? 'text-gray-400' : 'text-slate-500'}`}>Total Agents</div>
-              <Grid3x3 className="w-5 h-5 text-blue-600" />
-            </div>
-            <div className={`text-3xl font-bold ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>{agents.length}</div>
-            <div className={`text-xs mt-1 ${theme === 'dark' ? 'text-gray-500' : 'text-slate-400'}`}>Deployed agents</div>
-          </div>
-
-          <div className={`rounded-2xl p-6 transition-all duration-300 ${theme === 'dark' ? 'glass-card' : 'bg-white border border-slate-200 shadow-sm hover:shadow-md'}`}>
-            <div className="flex items-center justify-between mb-2">
-              <div className={`text-sm font-medium ${theme === 'dark' ? 'text-gray-400' : 'text-slate-500'}`}>Active</div>
-              <CheckCircle className="w-5 h-5 text-green-600" />
-            </div>
-            <div className="text-3xl font-bold text-green-600">{activeAgents}</div>
-            <div className={`text-xs mt-1 ${theme === 'dark' ? 'text-gray-500' : 'text-slate-400'}`}>Currently running</div>
-          </div>
-
-          <div className={`rounded-2xl p-6 transition-all duration-300 ${theme === 'dark' ? 'glass-card' : 'bg-white border border-slate-200 shadow-sm hover:shadow-md'}`}>
-            <div className="flex items-center justify-between mb-2">
-              <div className={`text-sm font-medium ${theme === 'dark' ? 'text-gray-400' : 'text-slate-500'}`}>Total Executions</div>
-              <Activity className="w-5 h-5 text-purple-600" />
-            </div>
-            <div className={`text-3xl font-bold ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>{formatNumber(totalExecutions)}</div>
-            <div className={`text-xs mt-1 ${theme === 'dark' ? 'text-gray-500' : 'text-slate-400'}`}>All-time runs</div>
-          </div>
-
-          <div className={`rounded-2xl p-6 transition-all duration-300 ${theme === 'dark' ? 'glass-card' : 'bg-white border border-slate-200 shadow-sm hover:shadow-md'}`}>
-            <div className="flex items-center justify-between mb-2">
-              <div className={`text-sm font-medium ${theme === 'dark' ? 'text-gray-400' : 'text-slate-500'}`}>Success Rate</div>
-              <TrendingUp className="w-5 h-5 text-orange-600" />
-            </div>
-            <div className="text-3xl font-bold text-orange-600">{avgSuccessRate.toFixed(1)}%</div>
-            <div className={`text-xs mt-1 ${theme === 'dark' ? 'text-gray-500' : 'text-slate-400'}`}>Average across all agents</div>
-          </div>
-        </div>
-
-        {/* View Toggle */}
-        <div className="flex items-center justify-between">
-          <h2 className={`text-xl font-bold ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>Your Agents</h2>
-          <div className={`flex items-center gap-2 rounded-lg p-1 ${theme === 'dark' ? 'bg-white/5' : 'bg-slate-100'}`}>
-            <button
-              onClick={() => setViewMode('grid')}
-              className={`px-4 py-2 rounded flex items-center gap-2 transition-all ${viewMode === 'grid'
-                  ? theme === 'dark' ? 'bg-white/10 text-white shadow-sm' : 'bg-white text-slate-900 shadow-sm'
-                  : theme === 'dark' ? 'text-gray-400 hover:text-white' : 'text-slate-500 hover:text-slate-900'
-                }`}
-            >
-              <Grid3x3 className="w-4 h-4" />
-              <span className="text-sm font-medium">Grid</span>
-            </button>
-            <button
-              onClick={() => setViewMode('list')}
-              className={`px-4 py-2 rounded flex items-center gap-2 transition-all ${viewMode === 'list'
-                  ? theme === 'dark' ? 'bg-white/10 text-white shadow-sm' : 'bg-white text-slate-900 shadow-sm'
-                  : theme === 'dark' ? 'text-gray-400 hover:text-white' : 'text-slate-500 hover:text-slate-900'
-                }`}
-            >
-              <List className="w-4 h-4" />
-              <span className="text-sm font-medium">List</span>
-            </button>
-          </div>
-        </div>
-
-        {/* Loading State */}
-        {isLoading && (
-          <div className={`rounded-3xl p-12 text-center ${theme === 'dark' ? 'glass-card' : 'bg-white border border-slate-200'}`}>
-            <Activity className="w-16 h-16 text-gray-400 mx-auto mb-4 animate-spin" />
-            <h3 className={`text-xl font-bold mb-2 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>Loading agents...</h3>
-            <p className={`${theme === 'dark' ? 'text-gray-400' : 'text-slate-500'}`}>Please wait while we fetch your agents</p>
-          </div>
-        )}
-
-        {/* Error State */}
-        {!isLoading && error && (
-          <div className={`rounded-3xl p-12 text-center ${theme === 'dark' ? 'glass-card' : 'bg-white border border-slate-200'}`}>
-            <AlertCircle className="w-16 h-16 text-red-500 mx-auto mb-4" />
-            <h3 className={`text-xl font-bold mb-2 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>Failed to load agents</h3>
-            <p className={`mb-6 max-w-md mx-auto ${theme === 'dark' ? 'text-gray-400' : 'text-slate-500'}`}>{error}</p>
-            <div className="flex gap-3 justify-center">
-              <button
-                onClick={() => {
-                  clearError();
-                  fetchAgents();
-                }}
-                className="px-6 py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700"
-              >
-                Try Again
+          <div className="flex items-center gap-3">
+            <Link to="/agentx/marketplace">
+              <button className="px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg font-medium flex items-center gap-2 transition-colors shadow-lg shadow-primary-600/20">
+                <Plus className="w-4 h-4" />
+                <span className="hidden sm:inline">Install New Agent</span>
+                <span className="sm:hidden">Install</span>
               </button>
-              <Link to="/agentx/marketplace">
-                <button className={`px-6 py-3 border rounded-xl font-semibold ${theme === 'dark' ? 'border-white/20 text-white hover:bg-white/5' : 'border-slate-300 text-slate-700 hover:bg-slate-50'}`}>
-                  Browse Marketplace
-                </button>
-              </Link>
+            </Link>
+          </div>
+        </div>
+
+        {/* Filters & Controls */}
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+
+          {/* Search */}
+          <div className="relative flex-1 max-w-md w-full">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+            <input
+              type="text"
+              placeholder="Search installed agents..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className={`w-full pl-10 pr-4 py-2 rounded-xl border focus:outline-none focus:ring-2 focus:ring-primary-500 ${theme === 'dark' ? 'bg-[#1e293b] border-gray-700 text-white placeholder-gray-500' : 'bg-white border-slate-200 text-slate-900'
+                }`}
+            />
+          </div>
+
+          <div className="flex items-center gap-3 w-full md:w-auto">
+            {/* Status Filter */}
+            <div className="relative">
+              <select
+                value={statusFilter}
+                onChange={(e) => setStatusFilter(e.target.value)}
+                className={`appearance-none pl-4 pr-10 py-2 rounded-xl border focus:outline-none focus:ring-2 focus:ring-primary-500 cursor-pointer ${theme === 'dark' ? 'bg-[#1e293b] border-gray-700 text-white' : 'bg-white border-slate-200 text-slate-700'
+                  }`}
+              >
+                <option value="all">All Status</option>
+                <option value="active">Active</option>
+                <option value="paused">Paused</option>
+                <option value="error">Error</option>
+              </select>
+              <Filter className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+            </div>
+
+            {/* View Mode */}
+            <div className={`flex p-1 rounded-lg border ${theme === 'dark' ? 'bg-[#1e293b] border-gray-700' : 'bg-white border-slate-200'}`}>
+              <button
+                onClick={() => setViewMode('grid')}
+                className={`p-1.5 rounded-md transition-all ${viewMode === 'grid' ? (theme === 'dark' ? 'bg-gray-700 text-white' : 'bg-gray-100 text-slate-900') : 'text-gray-400'}`}
+              >
+                <Grid3x3 className="w-4 h-4" />
+              </button>
+              <button
+                onClick={() => setViewMode('list')}
+                className={`p-1.5 rounded-md transition-all ${viewMode === 'list' ? (theme === 'dark' ? 'bg-gray-700 text-white' : 'bg-gray-100 text-slate-900') : 'text-gray-400'}`}
+              >
+                <List className="w-4 h-4" />
+              </button>
             </div>
           </div>
-        )}
+        </div>
 
-        {/* Empty State */}
-        {!isLoading && !error && agents.length === 0 && (
-          <div className={`rounded-3xl p-12 text-center ${theme === 'dark' ? 'glass-card' : 'bg-white border border-slate-200 shadow-sm'}`}>
-            <Grid3x3 className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-            <h3 className={`text-xl font-bold mb-2 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>No agents deployed yet</h3>
-            <p className={`mb-6 max-w-md mx-auto ${theme === 'dark' ? 'text-gray-400' : 'text-slate-500'}`}>
-              Deploy agents from the marketplace or create your own custom agents to get started
-            </p>
-            <div className="flex gap-3 justify-center">
-              <Link to="/agentx/marketplace">
-                <button className={`px-6 py-3 border rounded-xl font-semibold ${theme === 'dark' ? 'border-white/20 text-white hover:bg-white/5' : 'border-slate-300 text-slate-700 hover:bg-slate-50'}`}>
-                  Browse Marketplace
-                </button>
-              </Link>
-              <Link to="/agentx/builder">
-                <button className="px-6 py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700">
-                  Create Agent
-                </button>
-              </Link>
-            </div>
-          </div>
-        )}
-
-        {/* Agents Grid */}
-        {!isLoading && !error && agents.length > 0 && viewMode === 'grid' && (
+        {/* Content */}
+        {isLoading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {agents.map((agent) => (
-              <div key={agent.id} className={`rounded-2xl p-6 transition-all duration-300 ${theme === 'dark'
-                ? 'glass-card hover:shadow-2xl hover:border-white/20'
-                : 'bg-white border border-slate-200 shadow-sm hover:shadow-lg'}`}>
-                {/* Icon and Status */}
-                <div className="flex items-start justify-between mb-4">
-                  <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-3xl shadow-lg">
-                    {agent.icon || '🤖'}
+            {[1, 2, 3].map(i => (
+              <div key={i} className={`h-64 rounded-2xl animate-pulse ${theme === 'dark' ? 'bg-white/5' : 'bg-slate-200'}`} />
+            ))}
+          </div>
+        ) : error ? (
+          <div className="text-center py-20">
+            <AlertCircle className="w-12 h-12 text-red-500 mx-auto mb-4" />
+            <h3 className="text-lg font-bold text-red-500">Failed to load agents</h3>
+            <p className="text-gray-500">{error}</p>
+            <button onClick={fetchAgents} className="mt-4 px-4 py-2 bg-primary-600 text-white rounded-lg">Retry</button>
+          </div>
+        ) : filteredAgents.length === 0 ? (
+          <div className="text-center py-20 rounded-3xl border-2 border-dashed border-gray-200 dark:border-gray-800">
+            <div className="w-16 h-16 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Grid3x3 className="w-8 h-8 text-gray-400" />
+            </div>
+            <h3 className={`text-lg font-bold mb-2 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
+              {searchQuery ? 'No matching agents found' : 'No agents installed'}
+            </h3>
+            <p className="text-gray-500 mb-6 max-w-sm mx-auto">
+              {searchQuery ? 'Try adjusting your search or filters.' : 'Head over to the marketplace to discover and install powerful AI agents.'}
+            </p>
+            {!searchQuery && (
+              <Link to="/agentx/marketplace">
+                <button className="px-6 py-2.5 bg-primary-600 text-white rounded-xl font-medium hover:bg-primary-700 transition-colors">
+                  Browse Marketplace
+                </button>
+              </Link>
+            )}
+            {searchQuery && (
+              <button onClick={() => { setSearchQuery(''); setStatusFilter('all'); }} className="text-primary-500 hover:underline">
+                Clear filters
+              </button>
+            )}
+          </div>
+        ) : (
+          <div className={viewMode === 'grid' ? "grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6" : "space-y-4"}>
+            {filteredAgents.map(agent => (
+              <div
+                key={agent.id}
+                className={`group relative rounded-2xl border transition-all duration-300 ${theme === 'dark'
+                    ? 'bg-[#1e293b]/50 border-white/5 hover:bg-[#1e293b] hover:border-white/10'
+                    : 'bg-white border-slate-200 hover:shadow-lg hover:border-primary-200'
+                  } ${viewMode === 'list' ? 'flex items-center gap-6 p-4' : 'p-6 flex flex-col'}`}
+              >
+                {/* Status absolute for Grid */}
+                {viewMode === 'grid' && (
+                  <div className="absolute top-4 right-4">
+                    {getStatusBadge(agent.status)}
                   </div>
-                  {getStatusBadge(agent.status)}
-                </div>
+                )}
 
-                {/* Name and Description */}
-                <h3 className={`text-xl font-bold mb-2 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>{agent.name}</h3>
-                <p className={`text-sm mb-4 line-clamp-2 ${theme === 'dark' ? 'text-gray-400' : 'text-slate-600'}`}>{agent.description || 'No description provided'}</p>
+                <div className={`flex ${viewMode === 'list' ? 'items-center gap-4 flex-1' : 'items-start gap-4 mb-6'}`}>
+                  {/* Icon */}
+                  <div className={`rounded-xl flex items-center justify-center flex-shrink-0 ${viewMode === 'list' ? 'w-12 h-12 text-2xl' : 'w-14 h-14 text-3xl shadow-lg'
+                    } bg-gradient-to-br from-indigo-500 to-purple-600 text-white`}>
+                    {agent.agent?.icon_url ? <img src={agent.agent.icon_url} className="w-full h-full object-cover rounded-xl" /> : (agent.agent?.name?.[0] || 'A')}
+                  </div>
 
-                {/* Metrics */}
-                <div className={`grid grid-cols-2 gap-4 mb-4 pb-4 border-b ${theme === 'dark' ? 'border-white/10' : 'border-slate-100'}`}>
-                  <div>
-                    <div className={`text-xs mb-1 ${theme === 'dark' ? 'text-gray-500' : 'text-slate-400'}`}>Executions</div>
-                    <div className={`text-lg font-bold ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
-                      {formatNumber(agent.executions || 0)}
+                  <div className="min-w-0">
+                    <h3 className={`font-bold truncate ${theme === 'dark' ? 'text-white' : 'text-slate-900'} ${viewMode === 'grid' ? 'text-lg pr-16' : 'text-base'}`}>
+                      {agent.agent?.name}
+                    </h3>
+                    <div className="flex items-center gap-2 text-sm text-gray-500">
+                      <span>{agent.agent?.category}</span>
+                      {viewMode === 'list' && <span className="w-1 h-1 rounded-full bg-gray-500" />}
+                      {viewMode === 'list' && <span>Installed {new Date(agent.purchased_at).toLocaleDateString()}</span>}
                     </div>
                   </div>
-                  <div>
-                    <div className={`text-xs mb-1 ${theme === 'dark' ? 'text-gray-500' : 'text-slate-400'}`}>Success Rate</div>
-                    <div className="text-lg font-bold text-green-600">
-                      {agent.success_rate || 0}%
+                </div>
+
+                {/* List View Status/Metrics */}
+                {viewMode === 'list' && (
+                  <div className="flex items-center gap-8 mr-6">
+                    <div className="text-center min-w-[80px]">
+                      <div className={`text-sm font-bold ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>{formatNumber(agent.usage_count || 0)}</div>
+                      <div className="text-xs text-gray-500">Uses</div>
+                    </div>
+                    <div className="hidden sm:block text-right min-w-[100px]">
+                      <div className={`text-sm ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>{agent.last_used_at ? new Date(agent.last_used_at).toLocaleDateString() : 'Never'}</div>
+                      <div className="text-xs text-gray-500">Last Used</div>
+                    </div>
+                    <div>
+                      {getStatusBadge(agent.status)}
                     </div>
                   </div>
-                </div>
+                )}
+
+                {/* Grid View Metrics */}
+                {viewMode === 'grid' && (
+                  <div className={`grid grid-cols-2 gap-4 mb-6 py-4 border-y ${theme === 'dark' ? 'border-white/5' : 'border-slate-100'}`}>
+                    <div>
+                      <div className="text-xs text-gray-500 mb-1">Total Usage</div>
+                      <div className={`text-lg font-bold ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
+                        {formatNumber(agent.usage_count || 0)}
+                      </div>
+                    </div>
+                    <div>
+                      <div className="text-xs text-gray-500 mb-1">Last Used</div>
+                      <div className={`text-sm font-medium mt-1 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
+                        {agent.last_used_at ? new Date(agent.last_used_at).toLocaleDateString() : 'Never'}
+                      </div>
+                    </div>
+                  </div>
+                )}
 
                 {/* Actions */}
-                <div className="grid grid-cols-2 gap-2">
-                  <button
-                    onClick={() => handleToggleStatus(agent.id, agent.status)}
-                    disabled={agent.status === 'error'}
-                    className={`px-3 py-2 rounded-lg text-sm font-semibold flex items-center justify-center gap-1 transition-colors ${agent.status === 'active'
-                        ? theme === 'dark' ? 'bg-yellow-500/10 text-yellow-400 hover:bg-yellow-500/20' : 'bg-yellow-100 text-yellow-700 hover:bg-yellow-200'
-                        : agent.status === 'error'
-                          ? theme === 'dark' ? 'bg-white/5 text-gray-400 cursor-not-allowed' : 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                          : theme === 'dark' ? 'bg-green-500/10 text-green-400 hover:bg-green-500/20' : 'bg-green-100 text-green-700 hover:bg-green-200'
-                      }`}
-                  >
-                    {agent.status === 'active' ? (
-                      <><Pause className="w-4 h-4" /> Pause</>
-                    ) : agent.status === 'error' ? (
-                      <><AlertCircle className="w-4 h-4" /> Error</>
-                    ) : (
-                      <><Play className="w-4 h-4" /> Resume</>
-                    )}
-                  </button>
-                  <button className={`px-3 py-2 rounded-lg text-sm font-semibold flex items-center justify-center gap-1 transition-colors ${theme === 'dark' ? 'bg-blue-500/10 text-blue-400 hover:bg-blue-500/20' : 'bg-blue-50 text-blue-700 hover:bg-blue-100'
-                    }`}>
-                    <Settings className="w-4 h-4" />
-                    Configure
-                  </button>
-                  <button className={`px-3 py-2 rounded-lg text-sm font-semibold flex items-center justify-center gap-1 transition-colors border ${theme === 'dark' ? 'border-white/10 text-gray-300 hover:bg-white/5' : 'border-slate-200 text-slate-600 hover:bg-slate-50'
-                    }`}>
-                    <Eye className="w-4 h-4" />
-                    View Logs
-                  </button>
-                  <button
-                    onClick={() => handleDelete(agent.id, agent.name)}
-                    className={`px-3 py-2 rounded-lg text-sm font-semibold flex items-center justify-center gap-1 transition-colors ${theme === 'dark' ? 'bg-red-500/10 text-red-400 hover:bg-red-500/20' : 'bg-red-50 text-red-700 hover:bg-red-100'
-                      }`}
-                  >
-                    <Trash2 className="w-4 h-4" />
-                    Delete
+                <div className={`flex items-center gap-2 ${viewMode === 'list' ? '' : 'mt-auto'}`}>
+                  {agent.status === 'active' ? (
+                    <button onClick={() => handleToggleStatus(agent.id, 'active')} className={`p-2 rounded-lg transition-colors ${theme === 'dark' ? 'hover:bg-white/10 text-yellow-500' : 'hover:bg-yellow-50 text-yellow-600'}`} title="Pause Agent">
+                      <Pause className="w-5 h-5" />
+                    </button>
+                  ) : (
+                    <button onClick={() => handleToggleStatus(agent.id, 'paused')} className={`p-2 rounded-lg transition-colors ${theme === 'dark' ? 'hover:bg-white/10 text-green-500' : 'hover:bg-green-50 text-green-600'}`} title="Resume Agent">
+                      <Play className="w-5 h-5" />
+                    </button>
+                  )}
+
+                  <Link to={`/agentx/hub/agent/${agent.agent?.id}`} className={`p-2 rounded-lg transition-colors ${theme === 'dark' ? 'hover:bg-white/10 text-blue-400' : 'hover:bg-blue-50 text-blue-600'}`} title="View Details">
+                    <Settings className="w-5 h-5" />
+                  </Link>
+
+                  <button onClick={() => handleDelete(agent.id, agent.agent?.name)} className={`p-2 rounded-lg transition-colors ml-auto ${theme === 'dark' ? 'hover:bg-white/10 text-red-400' : 'hover:bg-red-50 text-red-600'}`} title="Uninstall Agent">
+                    <Trash2 className="w-5 h-5" />
                   </button>
                 </div>
               </div>
             ))}
           </div>
         )}
+
       </div>
     </MainLayout>
   );
