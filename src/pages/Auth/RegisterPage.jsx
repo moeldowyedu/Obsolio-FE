@@ -132,10 +132,6 @@ const RegisterPage = () => {
         if (formData.organizationShortName && formData.organizationShortName.length > 20) {
           newErrors.organizationShortName = 'Short name must be less than 20 characters';
         }
-
-        if (formData.organizationDomain && !/^[a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]$/.test(formData.organizationDomain)) {
-          newErrors.organizationDomain = 'Invalid domain format (use alphanumeric and hyphens only)';
-        }
       }
     }
 
@@ -262,6 +258,8 @@ const RegisterPage = () => {
       }
     } catch (error) {
       console.error('Registration failed:', error);
+      console.error('API Error Response:', error.response?.data);
+      console.error('API Validation Errors:', error.response?.data?.errors);
 
       if (error.response?.data?.errors) {
         const backendErrors = {};
@@ -272,6 +270,7 @@ const RegisterPage = () => {
           if (key === 'slug') stateKey = 'tenantUrl';
           backendErrors[stateKey] = error.response.data.errors[key][0];
         });
+        console.log('Mapped frontend errors:', backendErrors);
         setErrors(backendErrors);
         toast.error('Please check the form for errors.');
       } else {
