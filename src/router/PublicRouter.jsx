@@ -9,6 +9,7 @@ import ResetPasswordPage from '../pages/Auth/ResetPasswordPage';
 import PrivacyPolicyPage from '../pages/Public/PrivacyPolicyPage';
 import TermsOfServicePage from '../pages/Public/TermsOfServicePage';
 import ContactPage from '../pages/Public/ContactPage';
+import PricingPage from '../pages/Public/PricingPage';
 import DocsPage from '../pages/Docs/DocsPage';
 import NotFoundPage from '../pages/NotFoundPage';
 import AgentXMarketplacePage from '../pages/AgentX/MarketplacePage';
@@ -48,6 +49,7 @@ const PublicRouter = () => {
             <Route path="/verify-email/:id/:hash" element={<EmailVerificationPage />} />
             <Route path="/resend-verification" element={<ResendVerificationPage />} />
 
+            <Route path="/pricing" element={<PricingPage />} />
             <Route path="/privacy" element={<PrivacyPolicyPage />} />
             <Route path="/terms" element={<TermsOfServicePage />} />
             <Route path="/contact" element={<ContactPage />} />

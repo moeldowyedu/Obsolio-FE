@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Mail, Lock, User, Eye, EyeOff, ArrowRight, Sparkles, Building2, Users, CheckCircle, XCircle, Globe, Phone, Upload, Sun, Moon } from 'lucide-react';
+import { Mail, Lock, User, Eye, EyeOff, ArrowRight, ArrowLeft, Building2, Users, Globe, Phone, Upload, Sun, Moon } from 'lucide-react';
 import { useAuthStore } from '../../store/authStore';
 import Input from '../../components/common/Input/Input';
 import Button from '../../components/common/Button/Button';
+import PlanSelector from '../../components/registration/PlanSelector';
+import RegistrationSteps from '../../components/registration/RegistrationSteps';
 import toast from 'react-hot-toast';
 import logo from '../../assets/imgs/OBSOLIO-logo-cyan.png';
 import { countries } from '../../constants/countries';
@@ -14,28 +16,29 @@ const RegisterPage = () => {
   const { register, isLoading } = useAuthStore();
   const { theme, toggleTheme } = useTheme();
 
+  const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState({
     confirmPassword: '',
-    tenantType: 'personal', // 'personal' or 'organization'
+    tenantType: '', // Will be set in step 1
+    selectedPlan: '', // Will be set in step 2
     tenantUrl: '',
     // Personal & Shared Fields
     fullName: '',
     country: '',
     phone: '',
-    // countryCode: '+1', // Removed as per request
     email: '',
     password: '',
     // Organization Specific
     organizationName: '',
-    organizationShortName: '', // New
-    organizationLogo: null, // New
+    organizationShortName: '',
+    organizationLogo: null,
     organizationDomain: ''
   });
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [checkingDomain, setCheckingDomain] = useState(false);
-  const [domainStatus, setDomainStatus] = useState(null); // 'available', 'unavailable', null
+  const [domainStatus, setDomainStatus] = useState(null);
   const [domainMessage, setDomainMessage] = useState('');
   const [errors, setErrors] = useState({});
 
@@ -63,78 +66,93 @@ const RegisterPage = () => {
 
   const strengthInfo = getPasswordStrengthInfo(passwordStrength);
 
-  const validateForm = () => {
+  const validateStep = (step) => {
     const newErrors = {};
 
-    // Full name validation
-    if (!formData.fullName.trim()) {
-      newErrors.fullName = 'Full name is required';
-    } else if (formData.fullName.trim().length < 2) {
-      newErrors.fullName = 'Full name must be at least 2 characters';
-    }
-
-    // Email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!formData.email) {
-      newErrors.email = 'Email is required';
-    } else if (!emailRegex.test(formData.email)) {
-      newErrors.email = 'Please enter a valid email address';
-    }
-
-    // Password validation
-    if (!formData.password) {
-      newErrors.password = 'Password is required';
-    } else if (formData.password.length < 8) {
-      newErrors.password = 'Password must be at least 8 characters';
-    } else if (passwordStrength < 40) {
-      newErrors.password = 'Password is too weak. Use a mix of letters, numbers, and symbols';
-    }
-
-    // Confirm password validation
-    if (!formData.confirmPassword) {
-      newErrors.confirmPassword = 'Please confirm your password';
-    } else if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = 'Passwords do not match';
-    }
-
-    // Common Validation
-    if (!formData.country) {
-      newErrors.country = 'Country is required';
-    }
-    if (!formData.phone) {
-      newErrors.phone = 'Phone number is required';
-    }
-
-    // Organization-specific validation
-    if (formData.tenantType === 'organization') {
-      if (!formData.organizationName.trim()) {
-        newErrors.organizationName = 'Organization name is required';
-      } else if (formData.organizationName.trim().length < 2) {
-        newErrors.organizationName = 'Organization name must be at least 2 characters';
+    if (step === 1) {
+      // Step 1: Tenant Type Selection
+      if (!formData.tenantType) {
+        newErrors.tenantType = 'Please select an account type';
+      }
+    } else if (step === 2) {
+      // Step 2: Plan Selection
+      if (!formData.selectedPlan) {
+        newErrors.selectedPlan = 'Please select a plan';
+      }
+    } else if (step === 3) {
+      // Step 3: Account Details
+      if (!formData.fullName.trim()) {
+        newErrors.fullName = 'Full name is required';
+      } else if (formData.fullName.trim().length < 2) {
+        newErrors.fullName = 'Full name must be at least 2 characters';
       }
 
-      // Short name optional but good to validate length if present
-      if (formData.organizationShortName && formData.organizationShortName.length > 20) {
-        newErrors.organizationShortName = 'Short name must be less than 20 characters';
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!formData.email) {
+        newErrors.email = 'Email is required';
+      } else if (!emailRegex.test(formData.email)) {
+        newErrors.email = 'Please enter a valid email address';
       }
 
-      // Domain is optional, but if provided, validate format
-      if (formData.organizationDomain && !/^[a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]$/.test(formData.organizationDomain)) {
-        newErrors.organizationDomain = 'Invalid domain format (use alphanumeric and hyphens only)';
+      if (!formData.password) {
+        newErrors.password = 'Password is required';
+      } else if (formData.password.length < 8) {
+        newErrors.password = 'Password must be at least 8 characters';
+      } else if (passwordStrength < 40) {
+        newErrors.password = 'Password is too weak. Use a mix of letters, numbers, and symbols';
       }
-    }
 
-    // Tenant URL Validation
-    if (!formData.tenantUrl) {
-      newErrors.tenantUrl = 'Workspace URL is required';
-    } else if (!/^[a-z0-9](?:[a-z0-9\-]{0,61}[a-z0-9])?$/.test(formData.tenantUrl)) {
-      newErrors.tenantUrl = 'Invalid format. Use lowercase letters, numbers, and hyphens (hyphens not at start/end).';
-    } else if (domainStatus === 'unavailable') {
-      newErrors.tenantUrl = 'This URL is already taken';
+      if (!formData.confirmPassword) {
+        newErrors.confirmPassword = 'Please confirm your password';
+      } else if (formData.password !== formData.confirmPassword) {
+        newErrors.confirmPassword = 'Passwords do not match';
+      }
+
+      if (!formData.country) {
+        newErrors.country = 'Country is required';
+      }
+      if (!formData.phone) {
+        newErrors.phone = 'Phone number is required';
+      }
+    } else if (step === 4) {
+      // Step 4: Workspace Setup
+      if (!formData.tenantUrl) {
+        newErrors.tenantUrl = 'Workspace URL is required';
+      } else if (!/^[a-z0-9](?:[a-z0-9\-]{0,61}[a-z0-9])?$/.test(formData.tenantUrl)) {
+        newErrors.tenantUrl = 'Invalid format. Use lowercase letters, numbers, and hyphens (hyphens not at start/end).';
+      } else if (domainStatus === 'unavailable') {
+        newErrors.tenantUrl = 'This URL is already taken';
+      }
+
+      if (formData.tenantType === 'organization') {
+        if (!formData.organizationName.trim()) {
+          newErrors.organizationName = 'Organization name is required';
+        } else if (formData.organizationName.trim().length < 2) {
+          newErrors.organizationName = 'Organization name must be at least 2 characters';
+        }
+
+        if (formData.organizationShortName && formData.organizationShortName.length > 20) {
+          newErrors.organizationShortName = 'Short name must be less than 20 characters';
+        }
+
+        if (formData.organizationDomain && !/^[a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]$/.test(formData.organizationDomain)) {
+          newErrors.organizationDomain = 'Invalid domain format (use alphanumeric and hyphens only)';
+        }
+      }
     }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
+  };
+
+  const handleNext = () => {
+    if (validateStep(currentStep)) {
+      setCurrentStep(currentStep + 1);
+    }
+  };
+
+  const handleBack = () => {
+    setCurrentStep(currentStep - 1);
   };
 
   const handleTenantUrlChange = (e) => {
@@ -165,7 +183,6 @@ const RegisterPage = () => {
         setDomainMessage(result.message || 'Already taken');
       }
     } catch (error) {
-      // If strict 404 means available check logic in authService
       console.error(error);
       setDomainStatus('unavailable');
       setDomainMessage('Error checking availability');
@@ -177,21 +194,22 @@ const RegisterPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!validateForm()) {
+    if (!validateStep(4)) {
       return;
     }
 
     try {
-      // Prepare registration payload according to API spec
       const payload = {
         type: formData.tenantType,
         fullName: formData.fullName.trim(),
         email: formData.email.trim(),
         password: formData.password,
         tenantUrl: formData.tenantUrl,
+        country: formData.country,
+        phone: formData.phone,
+        plan: formData.selectedPlan, // Include selected plan
       };
 
-      // Add organization fields if organization type
       if (formData.tenantType === 'organization') {
         payload.organizationName = formData.organizationName.trim();
         payload.organizationShortName = formData.organizationShortName.trim();
@@ -203,23 +221,15 @@ const RegisterPage = () => {
         }
       }
 
-      // Add common extended fields
-      payload.country = formData.country;
-      payload.phone = formData.phone;
-
-      // Register user
       const result = await register(payload);
 
       if (result) {
-        // Normalize response data
         const data = result.data || result;
         const isVerificationRequired = data.verification_required || result.emailVerificationRequired;
 
         if (isVerificationRequired) {
           toast.success('Registration successful! Please check your email.');
-
-          // Navigate to verification pending page
-          navigate('/verify-email-sent', { // Updated route name
+          navigate('/verify-email-sent', {
             state: {
               email: formData.email,
               workspacePreview: data.workspace_preview || data.workspace_url
@@ -227,17 +237,11 @@ const RegisterPage = () => {
             replace: true
           });
         } else {
-          // Direct login - bypass tenant setup
           toast.success('Account created successfully!');
-
-          // Check for workspace URL in response
           const workspaceUrl = data.workspace_url || `https://${formData.tenantUrl}.obsolio.com/login`;
-
           if (workspaceUrl) {
-            // Redirect to the new workspace subdomain
             window.location.href = workspaceUrl;
           } else {
-            // Fallback
             navigate('/login', { replace: true });
           }
         }
@@ -245,30 +249,22 @@ const RegisterPage = () => {
     } catch (error) {
       console.error('Registration failed:', error);
 
-      // Handle backend validation errors
       if (error.response?.data?.errors) {
-        console.log('Validation Errors:', error.response.data.errors);
         const backendErrors = {};
         Object.keys(error.response.data.errors).forEach(key => {
           let stateKey = key;
-          // Map backend keys to frontend state keys
           if (key === 'subdomain') stateKey = 'tenantUrl';
           if (key === 'organizationFullName') stateKey = 'organizationName';
-          if (key === 'slug') stateKey = 'tenantUrl'; // Just in case
-          // if (key === 'email') stateKey = 'email'; // Already correct
-
+          if (key === 'slug') stateKey = 'tenantUrl';
           backendErrors[stateKey] = error.response.data.errors[key][0];
         });
         setErrors(backendErrors);
-        // Also show a toast generic message so they know something failed
         toast.error('Please check the form for errors.');
       } else {
-        // Only show error toast if we haven't already shown a success toast
         if (!useAuthStore.getState().isAuthenticated) {
           toast.error(error.response?.data?.message || 'Registration failed. Please try again.');
         } else {
           console.warn('Error occurred after successful registration:', error);
-          // Safe fallback
           navigate('/login', { replace: true });
         }
       }
@@ -278,7 +274,7 @@ const RegisterPage = () => {
   const handleLogoChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      if (file.size > 2 * 1024 * 1024) { // 2MB limit
+      if (file.size > 2 * 1024 * 1024) {
         toast.error('File size must be less than 2MB');
         return;
       }
@@ -289,7 +285,6 @@ const RegisterPage = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
-    // Clear error for this field when user starts typing
     if (errors[name]) {
       setErrors(prev => ({ ...prev, [name]: '' }));
     }
@@ -297,14 +292,13 @@ const RegisterPage = () => {
 
   const handleTenantTypeChange = (type) => {
     setFormData(prev => ({ ...prev, tenantType: type }));
-    // Clear organization-related errors when switching types
-    if (type === 'personal') {
-      setErrors(prev => {
-        const newErrors = { ...prev };
-        delete newErrors.organizationName;
-        delete newErrors.organizationDomain;
-        return newErrors;
-      });
+    setErrors({});
+  };
+
+  const handlePlanSelect = (planId) => {
+    setFormData(prev => ({ ...prev, selectedPlan: planId }));
+    if (errors.selectedPlan) {
+      setErrors(prev => ({ ...prev, selectedPlan: '' }));
     }
   };
 
@@ -336,15 +330,11 @@ const RegisterPage = () => {
         )}
       </div>
 
-      <div className="w-full max-w-2xl relative z-10 animate-fade-in my-4">
+      <div className="w-full max-w-4xl relative z-10 animate-fade-in my-4">
         {/* Logo/Brand */}
         <div className="text-center mb-6">
           <Link to="/" className="inline-block mb-4">
-            {theme === 'light' ? (
-              <img src={logo} alt="OBSOLIO" className="h-16 mx-auto object-contain" />
-            ) : (
-              <img src={logo} alt="OBSOLIO" className="h-16 mx-auto object-contain" />
-            )}
+            <img src={logo} alt="OBSOLIO" className="h-16 mx-auto object-contain" />
           </Link>
           <p className={`mt-2 ${theme === 'dark' ? 'text-gray-400' : 'text-slate-500'}`}>Create your account to get started</p>
         </div>
@@ -359,405 +349,503 @@ const RegisterPage = () => {
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary-500 to-transparent opacity-50"></div>
           )}
 
-          <h2 className={`text-2xl font-bold mb-4 text-center ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>Sign Up</h2>
+          <h2 className={`text-2xl font-bold mb-6 text-center ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>Sign Up</h2>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
-            {/* Tenant Type Selector */}
-            <div>
-              <label className={`block text-sm font-medium mb-3 ml-1 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                Account Type
-              </label>
-              <div className="grid grid-cols-2 gap-4">
-                <button
-                  type="button"
-                  onClick={() => handleTenantTypeChange('personal')}
-                  className={`
-                    relative p-4 rounded-xl border-2 transition-all duration-200 group
-                    ${formData.tenantType === 'personal'
-                      ? 'border-primary-500 bg-primary-500/10'
-                      : (theme === 'dark'
-                        ? 'border-white/5 bg-white/5 hover:bg-white/10 hover:border-white/20'
-                        : 'border-slate-200 bg-slate-50 hover:bg-white hover:border-primary-300 hover:shadow-sm')
-                    }
-                  `}
-                >
-                  <div className="flex flex-col items-center gap-2">
-                    <User className={`w-6 h-6 ${formData.tenantType === 'personal' ? 'text-primary-400' : (theme === 'dark' ? 'text-gray-400' : 'text-slate-400')}`} />
-                    <span className={`font-semibold ${formData.tenantType === 'personal' ? (theme === 'dark' ? 'text-white' : 'text-slate-900') : (theme === 'dark' ? 'text-gray-400 group-hover:text-gray-300' : 'text-slate-500 group-hover:text-slate-700')}`}>
-                      Personal
-                    </span>
-                    <span className={`text-xs text-center ${theme === 'dark' ? 'text-gray-500' : 'text-slate-400'}`}>For individual use</span>
-                  </div>
-                  {formData.tenantType === 'personal' && (
-                    <div className="absolute top-2 right-2 w-5 h-5 bg-primary-500 rounded-full flex items-center justify-center shadow-lg shadow-primary-500/50">
-                      <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                      </svg>
-                    </div>
-                  )}
-                </button>
+          {/* Progress Steps */}
+          <RegistrationSteps currentStep={currentStep} tenantType={formData.tenantType} />
 
-                <button
-                  type="button"
-                  onClick={() => handleTenantTypeChange('organization')}
-                  className={`
-                    relative p-4 rounded-xl border-2 transition-all duration-200 group
-                    ${formData.tenantType === 'organization'
-                      ? 'border-primary-500 bg-primary-500/10'
-                      : (theme === 'dark'
-                        ? 'border-white/5 bg-white/5 hover:bg-white/10 hover:border-white/20'
-                        : 'border-slate-200 bg-slate-50 hover:bg-white hover:border-primary-300 hover:shadow-sm')
-                    }
-                  `}
-                >
-                  <div className="flex flex-col items-center gap-2">
-                    <Building2 className={`w-6 h-6 ${formData.tenantType === 'organization' ? 'text-primary-400' : (theme === 'dark' ? 'text-gray-400' : 'text-slate-400')}`} />
-                    <span className={`font-semibold ${formData.tenantType === 'organization' ? (theme === 'dark' ? 'text-white' : 'text-slate-900') : (theme === 'dark' ? 'text-gray-400 group-hover:text-gray-300' : 'text-slate-500 group-hover:text-slate-700')}`}>
-                      Organization
-                    </span>
-                    <span className={`text-xs text-center ${theme === 'dark' ? 'text-gray-500' : 'text-slate-400'}`}>For teams & companies</span>
-                  </div>
-                  {formData.tenantType === 'organization' && (
-                    <div className="absolute top-2 right-2 w-5 h-5 bg-primary-500 rounded-full flex items-center justify-center shadow-lg shadow-primary-500/50">
-                      <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                      </svg>
-                    </div>
-                  )}
-                </button>
-              </div>
-            </div>
-
-            {/* Tenant URL Field - For All Types */}
-            <div>
-              <label className={`block text-sm font-medium mb-1 ml-1 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                Workspace URL <span className="text-red-400">*</span>
-              </label>
-
-              <div className="flex items-center gap-3">
-                <div className={`
-                    flex-1 flex items-center border rounded-lg overflow-hidden transition-all relative
-                    ${theme === 'dark' ? 'bg-white/5' : 'bg-slate-50'}
-                    ${errors.tenantUrl ? 'border-red-500 focus-within:ring-2 focus-within:ring-red-500/20' :
-                    domainStatus === 'available' ? 'border-green-500 focus-within:ring-2 focus-within:ring-green-500/20' :
-                      (theme === 'dark' ? 'border-white/10' : 'border-slate-200') + ' focus-within:border-primary-500 focus-within:ring-2 focus-within:ring-primary-500/20'}
-                  `}>
-                  <input
-                    type="text"
-                    name="tenantUrl"
-                    value={formData.tenantUrl}
-                    onChange={handleTenantUrlChange}
-                    className={`w-full bg-transparent border-none px-4 py-3 focus:ring-0 focus:outline-none ${theme === 'dark' ? 'text-white placeholder-gray-500' : 'text-slate-900 placeholder-slate-400'}`}
-                    placeholder="your-workspace"
-                    disabled={isLoading}
-                  />
-
-                  {/* Availability Check Button (Inside Input) */}
-                  <div className="pr-2">
+          <form onSubmit={handleSubmit} className="space-y-6 mt-12">
+            {/* STEP 1: Tenant Type Selection */}
+            {currentStep === 1 && (
+              <div className="space-y-6 animate-fade-in">
+                <div>
+                  <label className={`block text-sm font-medium mb-3 ml-1 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
+                    Choose Your Account Type
+                  </label>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <button
                       type="button"
-                      onClick={handleCheckDomain}
-                      disabled={!formData.tenantUrl || checkingDomain || isLoading}
+                      onClick={() => handleTenantTypeChange('personal')}
                       className={`
-                          p-1.5 rounded-md transition-all duration-200 flex items-center gap-1
-                          ${!formData.tenantUrl
-                          ? (theme === 'dark' ? 'opacity-50 text-gray-600' : 'opacity-50 text-slate-400') + ' cursor-not-allowed'
-                          : (theme === 'dark' ? 'opacity-100 hover:bg-white/10 text-primary-400 hover:text-white' : 'opacity-100 hover:bg-slate-200 text-primary-600 hover:text-primary-700') + ' cursor-pointer'
+                        relative p-6 rounded-xl border-2 transition-all duration-200 group
+                        ${formData.tenantType === 'personal'
+                          ? 'border-primary-500 bg-primary-500/10'
+                          : (theme === 'dark'
+                            ? 'border-white/5 bg-white/5 hover:bg-white/10 hover:border-white/20'
+                            : 'border-slate-200 bg-slate-50 hover:bg-white hover:border-primary-300 hover:shadow-sm')
                         }
-                        `}
-                      title="Check Availability"
+                      `}
                     >
-                      {checkingDomain ? (
-                        <div className="w-4 h-4 border-2 border-primary-400 border-t-transparent rounded-full animate-spin" />
-                      ) : (
-                        <span className="text-xs font-bold uppercase tracking-wider">Check</span>
+                      <div className="flex flex-col items-center gap-3">
+                        <User className={`w-8 h-8 ${formData.tenantType === 'personal' ? 'text-primary-400' : (theme === 'dark' ? 'text-gray-400' : 'text-slate-400')}`} />
+                        <span className={`font-semibold text-lg ${formData.tenantType === 'personal' ? (theme === 'dark' ? 'text-white' : 'text-slate-900') : (theme === 'dark' ? 'text-gray-400 group-hover:text-gray-300' : 'text-slate-500 group-hover:text-slate-700')}`}>
+                          Personal
+                        </span>
+                        <span className={`text-xs text-center ${theme === 'dark' ? 'text-gray-500' : 'text-slate-400'}`}>
+                          For individual use and personal projects
+                        </span>
+                      </div>
+                      {formData.tenantType === 'personal' && (
+                        <div className="absolute top-3 right-3 w-6 h-6 bg-primary-500 rounded-full flex items-center justify-center shadow-lg shadow-primary-500/50">
+                          <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                          </svg>
+                        </div>
+                      )}
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => handleTenantTypeChange('organization')}
+                      className={`
+                        relative p-6 rounded-xl border-2 transition-all duration-200 group
+                        ${formData.tenantType === 'organization'
+                          ? 'border-primary-500 bg-primary-500/10'
+                          : (theme === 'dark'
+                            ? 'border-white/5 bg-white/5 hover:bg-white/10 hover:border-white/20'
+                            : 'border-slate-200 bg-slate-50 hover:bg-white hover:border-primary-300 hover:shadow-sm')
+                        }
+                      `}
+                    >
+                      <div className="flex flex-col items-center gap-3">
+                        <Building2 className={`w-8 h-8 ${formData.tenantType === 'organization' ? 'text-primary-400' : (theme === 'dark' ? 'text-gray-400' : 'text-slate-400')}`} />
+                        <span className={`font-semibold text-lg ${formData.tenantType === 'organization' ? (theme === 'dark' ? 'text-white' : 'text-slate-900') : (theme === 'dark' ? 'text-gray-400 group-hover:text-gray-300' : 'text-slate-500 group-hover:text-slate-700')}`}>
+                          Organization
+                        </span>
+                        <span className={`text-xs text-center ${theme === 'dark' ? 'text-gray-500' : 'text-slate-400'}`}>
+                          For teams, companies, and enterprises
+                        </span>
+                      </div>
+                      {formData.tenantType === 'organization' && (
+                        <div className="absolute top-3 right-3 w-6 h-6 bg-primary-500 rounded-full flex items-center justify-center shadow-lg shadow-primary-500/50">
+                          <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                          </svg>
+                        </div>
                       )}
                     </button>
                   </div>
+                  {errors.tenantType && (
+                    <p className="mt-2 text-xs text-red-500 ml-1 animate-fade-in">{errors.tenantType}</p>
+                  )}
                 </div>
 
-                {/* Suffix Outside */}
-                <div className={`font-medium select-none whitespace-nowrap px-4 py-3 border rounded-lg ${theme === 'dark' ? 'text-gray-400 bg-white/5 border-white/10' : 'text-slate-500 bg-slate-50 border-slate-200'}`}>
-                  .obsolio.com
-                </div>
+                <Button
+                  type="button"
+                  onClick={handleNext}
+                  variant="primary"
+                  className="w-full py-4 text-base font-semibold shadow-lg shadow-primary-500/25"
+                  disabled={!formData.tenantType}
+                >
+                  <span className="flex items-center justify-center gap-2">
+                    Continue
+                    <ArrowRight className="w-5 h-5" />
+                  </span>
+                </Button>
               </div>
+            )}
 
-              {/* Status Messages */}
-              {domainStatus === 'available' && !errors.tenantUrl && (
-                <p className="mt-1.5 text-xs text-green-400 ml-1 flex items-center gap-1 animate-fade-in">
-                  <CheckCircle className="w-3 h-3" /> Available
-                </p>
-              )}
-              {domainStatus === 'unavailable' && !errors.tenantUrl && (
-                <p className="mt-1.5 text-xs text-red-400 ml-1 flex items-center gap-1 animate-fade-in">
-                  <XCircle className="w-3 h-3" /> {domainMessage || 'Not available'}
-                </p>
-              )}
-              {errors.tenantUrl && (
-                <p className="mt-1.5 text-xs text-red-500 ml-1 animate-fade-in">{errors.tenantUrl}</p>
-              )}
-            </div>
+            {/* STEP 2: Plan Selection */}
+            {currentStep === 2 && (
+              <div className="space-y-6 animate-fade-in">
+                <PlanSelector
+                  tenantType={formData.tenantType}
+                  selectedPlan={formData.selectedPlan}
+                  onSelectPlan={handlePlanSelect}
+                />
+                {errors.selectedPlan && (
+                  <p className="text-xs text-red-500 text-center animate-fade-in">{errors.selectedPlan}</p>
+                )}
 
-
-            {/* Organization Fields */}
-            {formData.tenantType === 'organization' && (
-              <div className={`space-y-4 pt-2 pb-4 border-b animate-fade-in ${theme === 'dark' ? 'border-white/5' : 'border-slate-100'}`}>
-
-                {/* Organization Name & Short Name */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <Input
-                    theme={theme}
-                    label="Organization Name"
-                    type="text"
-                    name="organizationName"
-                    value={formData.organizationName}
-                    onChange={handleChange}
-                    placeholder="Acme Corp"
-                    icon={Building2}
-                    error={errors.organizationName}
-                    disabled={isLoading}
-                  />
-                  <Input
-                    theme={theme}
-                    label="Short Name (Optional)"
-                    type="text"
-                    name="organizationShortName"
-                    value={formData.organizationShortName}
-                    onChange={handleChange}
-                    placeholder="ACME"
-                    icon={Building2}
-                    error={errors.organizationShortName}
-                    disabled={isLoading}
-                  />
-                </div>
-
-                {/* Enhanced Logo Upload */}
-                <div>
-                  <label className={`block text-sm font-medium mb-2 ml-1 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                    Organization Logo
-                  </label>
-                  <div className="relative group cursor-pointer">
-                    <input
-                      type="file"
-                      className="hidden"
-                      id="org-logo"
-                      accept="image/*"
-                      onChange={handleLogoChange}
-                    />
-                    <label
-                      htmlFor="org-logo"
-                      className={`flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-xl transition-all cursor-pointer ${theme === 'dark' ? 'border-white/10 bg-white/5 hover:bg-white/10 hover:border-primary-500/50' : 'border-slate-200 bg-slate-50 hover:bg-white hover:border-primary-500/50'}`}
-                    >
-                      <div className="w-12 h-12 rounded-full bg-primary-500/20 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
-                        <Upload className="w-6 h-6 text-primary-400" />
-                      </div>
-                      <span className={`text-sm font-medium ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
-                        {formData.organizationLogo ? formData.organizationLogo.name : 'Click to upload logo'}
-                      </span>
-                      <span className={`text-xs mt-1 ${theme === 'dark' ? 'text-gray-500' : 'text-slate-500'}`}>SVG, PNG, JPG (max 2MB)</span>
-                    </label>
-                  </div>
+                <div className="flex gap-3">
+                  <Button
+                    type="button"
+                    onClick={handleBack}
+                    variant="outline"
+                    className="flex-1 py-4"
+                  >
+                    <span className="flex items-center justify-center gap-2">
+                      <ArrowLeft className="w-5 h-5" />
+                      Back
+                    </span>
+                  </Button>
+                  <Button
+                    type="button"
+                    onClick={handleNext}
+                    variant="primary"
+                    className="flex-1 py-4 shadow-lg shadow-primary-500/25"
+                    disabled={!formData.selectedPlan}
+                  >
+                    <span className="flex items-center justify-center gap-2">
+                      Continue
+                      <ArrowRight className="w-5 h-5" />
+                    </span>
+                  </Button>
                 </div>
               </div>
             )}
 
-            {/* Full Name Field */}
-            <div>
-              <Input
-                theme={theme}
-                label="Full Name"
-                type="text"
-                name="fullName"
-                value={formData.fullName}
-                onChange={handleChange}
-                placeholder="John Doe"
-                icon={User}
-                error={errors.fullName}
-                disabled={isLoading}
-              />
-            </div>
+            {/* STEP 3: Account Details */}
+            {currentStep === 3 && (
+              <div className="space-y-4 animate-fade-in">
+                <Input
+                  theme={theme}
+                  label="Full Name"
+                  type="text"
+                  name="fullName"
+                  value={formData.fullName}
+                  onChange={handleChange}
+                  placeholder="John Doe"
+                  icon={User}
+                  error={errors.fullName}
+                  disabled={isLoading}
+                />
 
-            {/* Country and Phone */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className={`block text-sm font-medium mb-1 ml-1 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                  Country
-                </label>
-                <div className="relative">
-                  <select
-                    name="country"
-                    value={formData.country}
-                    onChange={handleChange}
-                    className={`
-                      w-full border rounded-lg py-3 pl-10 pr-4 appearance-none focus:outline-none focus:ring-2 transition-all cursor-pointer
-                      ${theme === 'dark' ? 'bg-white/5 text-white' : 'bg-slate-50 text-slate-900'}
-                      ${errors.country
-                        ? 'border-red-500 focus:ring-red-500/20'
-                        : (theme === 'dark' ? 'border-white/10 focus:border-primary-500 focus:ring-primary-500/20' : 'border-slate-200 focus:border-primary-500 focus:ring-primary-500/20')}
-                    `}
+                <Input
+                  theme={theme}
+                  label="Email Address"
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  placeholder="john@example.com"
+                  icon={Mail}
+                  error={errors.email}
+                  disabled={isLoading}
+                />
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className={`block text-sm font-medium mb-1 ml-1 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
+                      Country
+                    </label>
+                    <div className="relative">
+                      <select
+                        name="country"
+                        value={formData.country}
+                        onChange={handleChange}
+                        className={`
+                          w-full border rounded-lg py-3 pl-10 pr-4 appearance-none focus:outline-none focus:ring-2 transition-all cursor-pointer
+                          ${theme === 'dark' ? 'bg-white/5 text-white' : 'bg-slate-50 text-slate-900'}
+                          ${errors.country
+                            ? 'border-red-500 focus:ring-red-500/20'
+                            : (theme === 'dark' ? 'border-white/10 focus:border-primary-500 focus:ring-primary-500/20' : 'border-slate-200 focus:border-primary-500 focus:ring-primary-500/20')}
+                        `}
+                        disabled={isLoading}
+                      >
+                        <option value="" disabled className={theme === 'dark' ? 'text-gray-500 bg-[#1a1f2e]' : 'text-slate-500 bg-white'}>Select a country</option>
+                        {countries.map((country) => (
+                          <option key={country.value} value={country.value} className={theme === 'dark' ? 'text-gray-900 bg-white' : 'text-slate-900 bg-white'}>
+                            {country.label}
+                          </option>
+                        ))}
+                      </select>
+                      <Globe className={`absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 pointer-events-none ${theme === 'dark' ? 'text-gray-500' : 'text-slate-400'}`} />
+                      <div className={`absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none ${theme === 'dark' ? 'text-gray-500' : 'text-slate-400'}`}>
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+                      </div>
+                    </div>
+                    {errors.country && (
+                      <p className="mt-1 text-xs text-red-500 ml-1 animate-fade-in">{errors.country}</p>
+                    )}
+                  </div>
+
+                  <div>
+                    <label className={`block text-sm font-medium mb-1 ml-1 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
+                      Phone Number
+                    </label>
+                    <div className="relative">
+                      <input
+                        type="tel"
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleChange}
+                        placeholder="(555) 123-4567"
+                        className={`
+                          w-full border rounded-lg py-3 pl-10 pr-4 focus:outline-none focus:ring-2 transition-all
+                          ${theme === 'dark' ? 'bg-white/5 text-white placeholder-gray-500' : 'bg-slate-50 text-slate-900 placeholder-slate-400'}
+                          ${errors.phone
+                            ? 'border-red-500 focus:ring-red-500/20'
+                            : (theme === 'dark' ? 'border-white/10 focus:border-primary-500 focus:ring-primary-500/20' : 'border-slate-200 focus:border-primary-500 focus:ring-primary-500/20')
+                          }
+                        `}
+                        disabled={isLoading}
+                      />
+                      <Phone className={`absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 pointer-events-none ${theme === 'dark' ? 'text-gray-500' : 'text-slate-400'}`} />
+                    </div>
+                    {errors.phone && (
+                      <p className="mt-1 text-xs text-red-500 ml-1 animate-fade-in">{errors.phone}</p>
+                    )}
+                  </div>
+                </div>
+
+                <div>
+                  <div className="relative">
+                    <Input
+                      theme={theme}
+                      label="Password"
+                      type={showPassword ? 'text' : 'password'}
+                      name="password"
+                      value={formData.password}
+                      onChange={handleChange}
+                      placeholder="Create a strong password"
+                      icon={Lock}
+                      error={errors.password}
+                      disabled={isLoading}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className={`absolute right-3 top-[38px] transition-colors ${theme === 'dark' ? 'text-gray-400 hover:text-gray-300' : 'text-slate-400 hover:text-slate-600'}`}
+                      tabIndex={-1}
+                    >
+                      {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                    </button>
+                  </div>
+
+                  {formData.password && (
+                    <div className="mt-2 pl-1">
+                      <div className="flex items-center justify-between mb-1">
+                        <span className={`text-xs ${theme === 'dark' ? 'text-gray-400' : 'text-slate-500'}`}>Password Strength</span>
+                        <span className={`text-xs font-medium ${passwordStrength < 40 ? 'text-red-400' :
+                          passwordStrength < 70 ? 'text-yellow-400' :
+                            passwordStrength < 90 ? 'text-blue-400' :
+                              'text-green-400'
+                          }`}>
+                          {strengthInfo.label}
+                        </span>
+                      </div>
+                      <div className={`w-full rounded-full h-1.5 overflow-hidden ${theme === 'dark' ? 'bg-gray-700' : 'bg-slate-200'}`}>
+                        <div
+                          className={`h-full transition-all duration-300 ${strengthInfo.color}`}
+                          style={{ width: `${passwordStrength}%` }}
+                        />
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                <div>
+                  <div className="relative">
+                    <Input
+                      theme={theme}
+                      label="Confirm Password"
+                      type={showConfirmPassword ? 'text' : 'password'}
+                      name="confirmPassword"
+                      value={formData.confirmPassword}
+                      onChange={handleChange}
+                      placeholder="Re-enter your password"
+                      icon={Lock}
+                      error={errors.confirmPassword}
+                      disabled={isLoading}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                      className={`absolute right-3 top-[38px] transition-colors ${theme === 'dark' ? 'text-gray-400 hover:text-gray-300' : 'text-slate-400 hover:text-slate-600'}`}
+                      tabIndex={-1}
+                    >
+                      {showConfirmPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                    </button>
+                  </div>
+                </div>
+
+                <div className="flex gap-3">
+                  <Button
+                    type="button"
+                    onClick={handleBack}
+                    variant="outline"
+                    className="flex-1 py-4"
+                  >
+                    <span className="flex items-center justify-center gap-2">
+                      <ArrowLeft className="w-5 h-5" />
+                      Back
+                    </span>
+                  </Button>
+                  <Button
+                    type="button"
+                    onClick={handleNext}
+                    variant="primary"
+                    className="flex-1 py-4 shadow-lg shadow-primary-500/25"
+                  >
+                    <span className="flex items-center justify-center gap-2">
+                      Continue
+                      <ArrowRight className="w-5 h-5" />
+                    </span>
+                  </Button>
+                </div>
+              </div>
+            )}
+
+            {/* STEP 4: Workspace Setup */}
+            {currentStep === 4 && (
+              <div className="space-y-4 animate-fade-in">
+                <div>
+                  <label className={`block text-sm font-medium mb-1 ml-1 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
+                    Choose Your Workspace URL <span className="text-red-400">*</span>
+                  </label>
+                  <p className={`text-xs mb-2 ml-1 ${theme === 'dark' ? 'text-gray-500' : 'text-slate-500'}`}>
+                    This will be your workspace: <strong>{formData.tenantUrl || 'yourname'}.obsolio.com</strong>
+                    <br />
+                    You can join other workspaces after registration.
+                  </p>
+
+                  <div className="flex items-center gap-3">
+                    <div className={`
+                      flex-1 flex items-center border rounded-lg overflow-hidden transition-all relative
+                      ${theme === 'dark' ? 'bg-white/5' : 'bg-slate-50'}
+                      ${errors.tenantUrl ? 'border-red-500 focus-within:ring-2 focus-within:ring-red-500/20' :
+                        domainStatus === 'available' ? 'border-green-500 focus-within:ring-2 focus-within:ring-green-500/20' :
+                          (theme === 'dark' ? 'border-white/10' : 'border-slate-200') + ' focus-within:border-primary-500 focus-within:ring-2 focus-within:ring-primary-500/20'}
+                    `}>
+                      <input
+                        type="text"
+                        name="tenantUrl"
+                        value={formData.tenantUrl}
+                        onChange={handleTenantUrlChange}
+                        className={`w-full bg-transparent border-none px-4 py-3 focus:ring-0 focus:outline-none ${theme === 'dark' ? 'text-white placeholder-gray-500' : 'text-slate-900 placeholder-slate-400'}`}
+                        placeholder="your-workspace"
+                        disabled={isLoading}
+                      />
+
+                      <div className="pr-2">
+                        <button
+                          type="button"
+                          onClick={handleCheckDomain}
+                          disabled={!formData.tenantUrl || checkingDomain || isLoading}
+                          className={`
+                            p-1.5 rounded-md transition-all duration-200 flex items-center gap-1
+                            ${!formData.tenantUrl
+                              ? (theme === 'dark' ? 'opacity-50 text-gray-600' : 'opacity-50 text-slate-400') + ' cursor-not-allowed'
+                              : (theme === 'dark' ? 'opacity-100 hover:bg-white/10 text-primary-400 hover:text-white' : 'opacity-100 hover:bg-slate-200 text-primary-600 hover:text-primary-700') + ' cursor-pointer'
+                            }
+                          `}
+                          title="Check Availability"
+                        >
+                          {checkingDomain ? (
+                            <div className="w-4 h-4 border-2 border-primary-400 border-t-transparent rounded-full animate-spin" />
+                          ) : (
+                            <span className="text-xs font-bold uppercase tracking-wider">Check</span>
+                          )}
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className={`font-medium select-none whitespace-nowrap px-4 py-3 border rounded-lg ${theme === 'dark' ? 'text-gray-400 bg-white/5 border-white/10' : 'text-slate-500 bg-slate-50 border-slate-200'}`}>
+                      .obsolio.com
+                    </div>
+                  </div>
+
+                  {domainStatus === 'available' && !errors.tenantUrl && (
+                    <p className="mt-1.5 text-xs text-green-400 ml-1 flex items-center gap-1 animate-fade-in">
+                      ✓ Available
+                    </p>
+                  )}
+                  {domainStatus === 'unavailable' && !errors.tenantUrl && (
+                    <p className="mt-1.5 text-xs text-red-400 ml-1 flex items-center gap-1 animate-fade-in">
+                      ✗ {domainMessage || 'Not available'}
+                    </p>
+                  )}
+                  {errors.tenantUrl && (
+                    <p className="mt-1.5 text-xs text-red-500 ml-1 animate-fade-in">{errors.tenantUrl}</p>
+                  )}
+                </div>
+
+                {formData.tenantType === 'organization' && (
+                  <div className={`space-y-4 pt-2 pb-4 border-t animate-fade-in ${theme === 'dark' ? 'border-white/5' : 'border-slate-100'}`}>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <Input
+                        theme={theme}
+                        label="Organization Name"
+                        type="text"
+                        name="organizationName"
+                        value={formData.organizationName}
+                        onChange={handleChange}
+                        placeholder="Acme Corp"
+                        icon={Building2}
+                        error={errors.organizationName}
+                        disabled={isLoading}
+                      />
+                      <Input
+                        theme={theme}
+                        label="Short Name (Optional)"
+                        type="text"
+                        name="organizationShortName"
+                        value={formData.organizationShortName}
+                        onChange={handleChange}
+                        placeholder="ACME"
+                        icon={Building2}
+                        error={errors.organizationShortName}
+                        disabled={isLoading}
+                      />
+                    </div>
+
+                    <div>
+                      <label className={`block text-sm font-medium mb-2 ml-1 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
+                        Organization Logo (Optional)
+                      </label>
+                      <div className="relative group cursor-pointer">
+                        <input
+                          type="file"
+                          className="hidden"
+                          id="org-logo"
+                          accept="image/*"
+                          onChange={handleLogoChange}
+                        />
+                        <label
+                          htmlFor="org-logo"
+                          className={`flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-xl transition-all cursor-pointer ${theme === 'dark' ? 'border-white/10 bg-white/5 hover:bg-white/10 hover:border-primary-500/50' : 'border-slate-200 bg-slate-50 hover:bg-white hover:border-primary-500/50'}`}
+                        >
+                          <div className="w-12 h-12 rounded-full bg-primary-500/20 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                            <Upload className="w-6 h-6 text-primary-400" />
+                          </div>
+                          <span className={`text-sm font-medium ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
+                            {formData.organizationLogo ? formData.organizationLogo.name : 'Click to upload logo'}
+                          </span>
+                          <span className={`text-xs mt-1 ${theme === 'dark' ? 'text-gray-500' : 'text-slate-500'}`}>SVG, PNG, JPG (max 2MB)</span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                <div className="flex gap-3">
+                  <Button
+                    type="button"
+                    onClick={handleBack}
+                    variant="outline"
+                    className="flex-1 py-4"
+                  >
+                    <span className="flex items-center justify-center gap-2">
+                      <ArrowLeft className="w-5 h-5" />
+                      Back
+                    </span>
+                  </Button>
+                  <Button
+                    type="submit"
+                    variant="primary"
+                    className="flex-1 py-4 text-base font-semibold shadow-lg shadow-primary-500/25"
                     disabled={isLoading}
                   >
-                    <option value="" disabled className={theme === 'dark' ? 'text-gray-500 bg-[#1a1f2e]' : 'text-slate-500 bg-white'}>Select a country</option>
-                    {countries.map((country) => (
-                      <option key={country.value} value={country.value} className={theme === 'dark' ? 'text-gray-900 bg-white' : 'text-slate-900 bg-white'}>
-                        {country.label}
-                      </option>
-                    ))}
-                  </select>
-                  <Globe className={`absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 pointer-events-none ${theme === 'dark' ? 'text-gray-500' : 'text-slate-400'}`} />
-                  <div className={`absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none ${theme === 'dark' ? 'text-gray-500' : 'text-slate-400'}`}>
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
-                  </div>
+                    {isLoading ? (
+                      <span className="flex items-center justify-center gap-2">
+                        <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                        Creating Account...
+                      </span>
+                    ) : (
+                      <span className="flex items-center justify-center gap-2">
+                        Create Account
+                        <ArrowRight className="w-5 h-5" />
+                      </span>
+                    )}
+                  </Button>
                 </div>
-                {errors.country && (
-                  <p className="mt-1 text-xs text-red-500 ml-1 animate-fade-in">{errors.country}</p>
-                )}
               </div>
-
-              <div>
-                <label className={`block text-sm font-medium mb-1 ml-1 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                  Phone Number
-                </label>
-                <div className="relative">
-                  <input
-                    type="tel"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    placeholder="(555) 123-4567"
-                    className={`
-                            w-full border rounded-lg py-3 pl-10 pr-4 focus:outline-none focus:ring-2 transition-all
-                            ${theme === 'dark' ? 'bg-white/5 text-white placeholder-gray-500' : 'bg-slate-50 text-slate-900 placeholder-slate-400'}
-                            ${errors.phone
-                        ? 'border-red-500 focus:ring-red-500/20'
-                        : (theme === 'dark' ? 'border-white/10 focus:border-primary-500 focus:ring-primary-500/20' : 'border-slate-200 focus:border-primary-500 focus:ring-primary-500/20')
-                      }
-                        `}
-                    disabled={isLoading}
-                  />
-                  <Phone className={`absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 pointer-events-none ${theme === 'dark' ? 'text-gray-500' : 'text-slate-400'}`} />
-                </div>
-                {errors.phone && (
-                  <p className="mt-1 text-xs text-red-500 ml-1 animate-fade-in">{errors.phone}</p>
-                )}
-              </div>
-            </div>
-
-            {/* Email Field */}
-            <div>
-              <Input
-                theme={theme}
-                label="Email Address"
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="john@example.com"
-                icon={Mail}
-                error={errors.email}
-                disabled={isLoading}
-              />
-            </div>
-
-            {/* Password Field */}
-            <div>
-              <div className="relative">
-                <Input
-                  theme={theme}
-                  label="Password"
-                  type={showPassword ? 'text' : 'password'}
-                  name="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  placeholder="Create a strong password"
-                  icon={Lock}
-                  error={errors.password}
-                  disabled={isLoading}
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className={`absolute right-3 top-[38px] transition-colors ${theme === 'dark' ? 'text-gray-400 hover:text-gray-300' : 'text-slate-400 hover:text-slate-600'}`}
-                  tabIndex={-1}
-                >
-                  {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
-                </button>
-              </div>
-
-              {/* Password Strength Indicator */}
-              {formData.password && (
-                <div className="mt-2 pl-1">
-                  <div className="flex items-center justify-between mb-1">
-                    <span className={`text-xs ${theme === 'dark' ? 'text-gray-400' : 'text-slate-500'}`}>Password Strength</span>
-                    <span className={`text-xs font-medium ${passwordStrength < 40 ? 'text-red-400' :
-                      passwordStrength < 70 ? 'text-yellow-400' :
-                        passwordStrength < 90 ? 'text-blue-400' :
-                          'text-green-400'
-                      }`}>
-                      {strengthInfo.label}
-                    </span>
-                  </div>
-                  <div className={`w-full rounded-full h-1.5 overflow-hidden ${theme === 'dark' ? 'bg-gray-700' : 'bg-slate-200'}`}>
-                    <div
-                      className={`h-full transition-all duration-300 ${strengthInfo.color}`}
-                      style={{ width: `${passwordStrength}%` }}
-                    />
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* Confirm Password Field */}
-            <div>
-              <div className="relative">
-                <Input
-                  theme={theme}
-                  label="Confirm Password"
-                  type={showConfirmPassword ? 'text' : 'password'}
-                  name="confirmPassword"
-                  value={formData.confirmPassword}
-                  onChange={handleChange}
-                  placeholder="Re-enter your password"
-                  icon={Lock}
-                  error={errors.confirmPassword}
-                  disabled={isLoading}
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className={`absolute right-3 top-[38px] transition-colors ${theme === 'dark' ? 'text-gray-400 hover:text-gray-300' : 'text-slate-400 hover:text-slate-600'}`}
-                  tabIndex={-1}
-                >
-                  {showConfirmPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
-                </button>
-              </div>
-            </div>
-
-
-
-            {/* Submit Button */}
-            <Button
-              type="submit"
-              variant="primary"
-              className="w-full py-4 text-base font-semibold mt-4 shadow-lg shadow-primary-500/25"
-              disabled={isLoading}
-            >
-              {isLoading ? (
-                <span className="flex items-center justify-center gap-2">
-                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                  Creating Account...
-                </span>
-              ) : (
-                <span className="flex items-center justify-center gap-2">
-                  Create Account
-                  <ArrowRight className="w-5 h-5" />
-                </span>
-              )}
-            </Button>
+            )}
           </form>
 
           {/* Terms */}
-          <p className={`text-xs text-center mt-4 ${theme === 'dark' ? 'text-gray-500' : 'text-slate-500'}`}>
+          <p className={`text-xs text-center mt-6 ${theme === 'dark' ? 'text-gray-500' : 'text-slate-500'}`}>
             By signing up, you agree to our{' '}
             <Link to="/terms" className="text-primary-400 hover:text-primary-300 font-medium">
               Terms of Service

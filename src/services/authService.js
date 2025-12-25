@@ -81,27 +81,30 @@ const authService = {
 
   // Logout
   logout: async () => {
-    try {
-      // Call server logout endpoint to destroy session
-      await api.post('/auth/logout');
-      console.log('✅ Server session destroyed');
-    } catch (error) {
-      // Don't block logout if server call fails
-      console.warn('⚠️ Server logout failed, clearing local session anyway', error);
-    }
+    // IMPORTANT: Clear local state FIRST for instant logout UX
+    // Then call server in background (fire and forget)
 
-    // Clear all localStorage items related to auth
+    // Step 1: Clear all localStorage items immediately
     const authKeys = ['auth_token', 'user', 'current_tenant_id', 'obsolio-auth-storage'];
     authKeys.forEach(key => {
       localStorage.removeItem(key);
     });
 
-    // Clear all auth cookies (cross-domain)
-    // Import deleteAllAuthCookies at the top of the file
+    // Step 2: Clear all auth cookies immediately
     const { deleteAllAuthCookies } = await import('../utils/cookieUtils');
     deleteAllAuthCookies();
 
-    console.log('✅ Local session cleared (localStorage + cookies)');
+    console.log('✅ Local session cleared instantly (localStorage + cookies)');
+
+    // Step 3: Call server logout in background (don't await - fire and forget)
+    // This ensures fast logout even if server is slow
+    api.post('/auth/logout')
+      .then(() => {
+        console.log('✅ Server session destroyed');
+      })
+      .catch((error) => {
+        console.warn('⚠️ Server logout failed (non-blocking):', error);
+      });
 
     // Note: We don't redirect here - let the caller handle navigation
     // This allows different contexts (tenant vs marketing) to redirect appropriately

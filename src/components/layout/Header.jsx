@@ -191,6 +191,7 @@ const Header = () => {
 
             {!isAuthenticated && (
               <>
+                <Link to="/pricing" className={`${theme === 'dark' ? 'text-gray-300 hover:text-white' : 'text-slate-600 hover:text-slate-900'} font-medium transition-colors hidden sm:inline`}>Pricing</Link>
                 <Link to="/docs/getting-started/introduction" className={`${theme === 'dark' ? 'text-gray-300 hover:text-white' : 'text-slate-600 hover:text-slate-900'} font-medium transition-colors hidden sm:inline`}>{t.docs || 'Docs'}</Link>
               </>
             )}
@@ -449,6 +450,7 @@ const Header = () => {
         {/* Mobile Menu Overlay */}
         {mobileMenuOpen && !isAuthenticated && (
           <div className="sm:hidden absolute top-full left-0 w-full bg-[#0B0E14]/95 backdrop-blur-xl border-t border-white/10 p-6 flex flex-col gap-4 shadow-2xl h-screen">
+            <Link to="/pricing" onClick={() => setMobileMenuOpen(false)} className="text-lg text-gray-300 hover:text-white font-medium">Pricing</Link>
             <Link to="/agentx/hub" onClick={() => setMobileMenuOpen(false)} className="text-lg text-gray-300 hover:text-white font-medium">AgentX HUB</Link>
             <Link to="/docs/getting-started/introduction" onClick={() => setMobileMenuOpen(false)} className="text-lg text-gray-300 hover:text-white font-medium">Docs</Link>
             <hr className="border-white/10" />
