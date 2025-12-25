@@ -1,175 +1,375 @@
 import api from './api';
+import notify from '../utils/toast';
 
-const MOCK_MARKETPLACE_AGENTS = [
-  {
-    id: '1',
-    name: 'Customer Support Pro',
-    icon: '💬',
-    description: 'AI-powered customer support agent that handles inquiries 24/7.',
-    category: 'Support',
-    industry: 'Tech',
-    pricing: 99,
-    price: 99,
-    rating: 4.8,
-    reviews: 342,
-    deployments: 1250,
-    owner: 'Obsolio',
-    features: ['Multi-channel', 'Sentiment Analysis'],
-  },
-  {
-    id: '2',
-    name: 'Sales Outreach Bot',
-    icon: '📧',
-    description: 'Automated sales outreach and follow-up agent.',
-    category: 'Sales',
-    industry: 'Marketing',
-    pricing: 149,
-    price: 149,
-    rating: 4.6,
-    reviews: 120,
-    deployments: 800,
-    owner: 'SalesFlow',
-    features: ['Email Automation', 'CRM Integration'],
-  }
-];
-
+/**
+ * Marketplace Service
+ * Connects to OBSOLIO Backend API for Agent Marketplace
+ */
 const marketplaceService = {
-  // Browse marketplace agents
+  /**
+   * Browse all marketplace agents
+   * @param {Object} params - Query parameters for filtering
+   * @returns {Promise} Agent list
+   */
   browseAgents: async (params = {}) => {
-    // const response = await api.get('/marketplace/agents', { params });
-    // return response.data;
-    console.log('Using mock browseAgents', params);
-    return new Promise((resolve) => {
-      setTimeout(() => resolve({ data: MOCK_MARKETPLACE_AGENTS }), 500);
-    });
+    try {
+      const response = await api.get('/marketplace', { params });
+      return response.data;
+    } catch (error) {
+      console.error('Error browsing agents:', error);
+      throw error;
+    }
   },
 
-  // Get marketplace agent details
+  /**
+   * Get marketplace agent details
+   * @param {string} agentId - Agent UUID
+   * @returns {Promise} Agent details
+   */
   getMarketplaceAgent: async (agentId) => {
-    // const response = await api.get(`/marketplace/agents/${agentId}`);
-    // return response.data;
-    console.log(`Using mock getMarketplaceAgent ${agentId}`);
-    const agent = MOCK_MARKETPLACE_AGENTS.find(a => a.id === agentId) || MOCK_MARKETPLACE_AGENTS[0];
-    return new Promise((resolve) => {
-      setTimeout(() => resolve({
-        data: {
-          ...agent,
-          longDescription: agent.description + ' Extended description details here.',
-          techStack: [{ name: 'GPT-4', category: 'AI Model' }],
-          reviewsList: []
-        }
-      }), 500);
-    });
+    try {
+      const response = await api.get(`/marketplace/${agentId}`);
+      return response.data;
+    } catch (error) {
+      console.error(`Error getting agent ${agentId}:`, error);
+      throw error;
+    }
   },
 
-  // Search marketplace
+  /**
+   * Search marketplace agents
+   * @param {string} query - Search query
+   * @param {Object} filters - Additional filters
+   * @returns {Promise} Search results
+   */
   searchAgents: async (query, filters = {}) => {
-    // const response = await api.get('/marketplace/search', { params: ... });
-    console.log('Using mock searchAgents', query);
-    return new Promise((resolve) => {
-      const results = MOCK_MARKETPLACE_AGENTS.filter(a => a.name.toLowerCase().includes(query.toLowerCase()));
-      setTimeout(() => resolve({ data: results }), 400);
-    });
+    try {
+      const params = { q: query, ...filters };
+      const response = await api.get('/marketplace', { params });
+      return response.data;
+    } catch (error) {
+      console.error('Error searching agents:', error);
+      throw error;
+    }
   },
 
-  // Get featured agents
+  /**
+   * Get featured agents
+   * @returns {Promise} Featured agents list
+   */
   getFeaturedAgents: async () => {
-    console.log('Using mock getFeaturedAgents');
-    return Promise.resolve({ data: MOCK_MARKETPLACE_AGENTS.slice(0, 1) });
+    try {
+      const response = await api.get('/marketplace/featured');
+      return response.data;
+    } catch (error) {
+      console.error('Error getting featured agents:', error);
+      throw error;
+    }
   },
 
-  // Get popular agents
+  /**
+   * Get popular agents
+   * @param {number} limit - Number of agents to return
+   * @returns {Promise} Popular agents
+   */
   getPopularAgents: async (limit = 10) => {
-    console.log('Using mock getPopularAgents');
-    return Promise.resolve({ data: MOCK_MARKETPLACE_AGENTS });
+    try {
+      const response = await api.get('/marketplace', {
+        params: { limit, sort: 'popular' }
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Error getting popular agents:', error);
+      throw error;
+    }
   },
 
-  // Get agents by category
+  /**
+   * Get agents by category
+   * @param {string} category - Category name
+   * @param {Object} params - Additional parameters
+   * @returns {Promise} Agents in category
+   */
   getAgentsByCategory: async (category, params = {}) => {
-    return Promise.resolve({ data: MOCK_MARKETPLACE_AGENTS.filter(a => a.category === category) });
+    try {
+      const response = await api.get(`/marketplace/category/${category}`, { params });
+      return response.data;
+    } catch (error) {
+      console.error(`Error getting agents in category ${category}:`, error);
+      throw error;
+    }
   },
 
-  // Get agents by industry
+  /**
+   * Install an agent (Example with Toast)
+   * @param {string} agentId 
+   * @returns {Promise}
+   */
+  installAgent: async (agentId) => {
+    const promise = api.post(`/marketplace/${agentId}/install`);
+
+    return notify.promise(promise, {
+      loading: 'Installing agent...',
+      success: 'Agent installed successfully!',
+      error: (err) => err.response?.data?.message || 'Failed to install agent.'
+    }).then(response => response.data);
+  },
+
+  /**
+   * Get all marketplace categories
+   * @returns {Promise} Categories list with counts
+   */
+  getCategories: async () => {
+    try {
+      const response = await api.get('/marketplace/categories');
+      return response.data;
+    } catch (error) {
+      console.error('Error getting categories:', error);
+      throw error;
+    }
+  },
+
+  /**
+   * Get marketplace statistics
+   * @returns {Promise} Marketplace stats
+   */
+  getStats: async () => {
+    try {
+      const response = await api.get('/marketplace/stats');
+      return response.data;
+    } catch (error) {
+      console.error('Error getting marketplace stats:', error);
+      throw error;
+    }
+  },
+
+  /**
+   * Get agents by industry (mapped from category)
+   * @param {string} industry - Industry name
+   * @param {Object} params - Additional parameters
+   * @returns {Promise} Agents in industry
+   */
   getAgentsByIndustry: async (industry, params = {}) => {
-    return Promise.resolve({ data: MOCK_MARKETPLACE_AGENTS.filter(a => a.industry === industry) });
+    // Industry is same as category in backend
+    return marketplaceService.getAgentsByCategory(industry, params);
   },
 
-  // Purchase/deploy agent
+  /**
+   * Purchase/Install agent (will be implemented with Stripe)
+   * @param {string} agentId - Agent UUID
+   * @param {Object} purchaseData - Purchase details
+   * @returns {Promise} Transaction result
+   */
   purchaseAgent: async (agentId, purchaseData = {}) => {
-    console.log('Using mock purchaseAgent', agentId);
-    return new Promise((resolve) => {
-      setTimeout(() => resolve({ success: true, transactionId: 'txn_mock_123' }), 1000);
-    });
+    try {
+      const response = await api.post(`/agents/${agentId}/install`, purchaseData);
+      return response.data;
+    } catch (error) {
+      console.error(`Error purchasing agent ${agentId}:`, error);
+      throw error;
+    }
   },
 
-  // Get my purchased agents
+  /**
+   * Get my purchased agents (redirects to agentService)
+   * @returns {Promise} User's agents
+   */
   getMyPurchases: async () => {
-    return Promise.resolve({ data: [] });
+    try {
+      const response = await api.get('/agents');
+      return response.data;
+    } catch (error) {
+      console.error('Error getting my purchases:', error);
+      throw error;
+    }
   },
 
-  // Get agent reviews
+  /**
+   * Get agent reviews (placeholder - will be implemented)
+   * @param {string} agentId - Agent UUID
+   * @param {Object} params - Query parameters
+   * @returns {Promise} Reviews list
+   */
   getAgentReviews: async (agentId, params = {}) => {
-    return Promise.resolve({ data: [] });
+    try {
+      // TODO: Implement reviews endpoint in backend
+      const response = await api.get(`/marketplace/${agentId}/reviews`, { params });
+      return response.data;
+    } catch (error) {
+      console.error(`Error getting reviews for agent ${agentId}:`, error);
+      // Return empty array if endpoint not implemented yet
+      return { data: [] };
+    }
   },
 
-  // Submit agent review
+  /**
+   * Submit agent review (placeholder - will be implemented)
+   * @param {string} agentId - Agent UUID
+   * @param {Object} reviewData - Review content
+   * @returns {Promise} Created review
+   */
   submitReview: async (agentId, reviewData) => {
-    return Promise.resolve({ success: true, data: reviewData });
+    try {
+      // TODO: Implement reviews endpoint in backend
+      const response = await api.post(`/marketplace/${agentId}/reviews`, reviewData);
+      return response.data;
+    } catch (error) {
+      console.error(`Error submitting review for agent ${agentId}:`, error);
+      throw error;
+    }
   },
 
-  // Update review
+  /**
+   * Update review (placeholder - will be implemented)
+   * @param {string} agentId - Agent UUID
+   * @param {string} reviewId - Review ID
+   * @param {Object} reviewData - Updated review content
+   * @returns {Promise} Updated review
+   */
   updateReview: async (agentId, reviewId, reviewData) => {
-    return Promise.resolve({ success: true, data: reviewData });
+    try {
+      const response = await api.put(`/marketplace/${agentId}/reviews/${reviewId}`, reviewData);
+      return response.data;
+    } catch (error) {
+      console.error(`Error updating review ${reviewId}:`, error);
+      throw error;
+    }
   },
 
-  // Delete review
+  /**
+   * Delete review (placeholder - will be implemented)
+   * @param {string} agentId - Agent UUID
+   * @param {string} reviewId - Review ID
+   * @returns {Promise} Deletion confirmation
+   */
   deleteReview: async (agentId, reviewId) => {
-    return Promise.resolve({ success: true });
+    try {
+      const response = await api.delete(`/marketplace/${agentId}/reviews/${reviewId}`);
+      return response.data;
+    } catch (error) {
+      console.error(`Error deleting review ${reviewId}:`, error);
+      throw error;
+    }
   },
 
-  // Get my listings (as seller)
+  // Seller/Developer Portal methods (for future implementation)
+
+  /**
+   * Get my listings as seller (placeholder)
+   */
   getMyListings: async () => {
-    return Promise.resolve({ data: [] });
+    try {
+      // TODO: Implement seller dashboard
+      const response = await api.get('/developer/agents');
+      return response.data;
+    } catch (error) {
+      console.error('Error getting my listings:', error);
+      return { data: [] };
+    }
   },
 
-  // Get listing analytics
+  /**
+   * Get listing analytics (placeholder)
+   */
   getListingAnalytics: async (agentId) => {
-    return Promise.resolve({ data: { views: 100, sales: 5 } });
+    try {
+      const response = await api.get(`/developer/agents/${agentId}/analytics`);
+      return response.data;
+    } catch (error) {
+      console.error('Error getting listing analytics:', error);
+      return { data: { views: 0, sales: 0 } };
+    }
   },
 
-  // Get seller dashboard stats
+  /**
+   * Get seller dashboard stats (placeholder)
+   */
   getSellerStats: async () => {
-    return Promise.resolve({ data: { totalSales: 500, totalRevenue: 5000 } });
+    try {
+      const response = await api.get('/developer/stats');
+      return response.data;
+    } catch (error) {
+      console.error('Error getting seller stats:', error);
+      return { data: { totalSales: 0, totalRevenue: 0 } };
+    }
   },
 
-  // Get revenue data
+  /**
+   * Get revenue data (placeholder)
+   */
   getRevenue: async (params = {}) => {
-    return Promise.resolve({ data: [] });
+    try {
+      const response = await api.get('/developer/revenue', { params });
+      return response.data;
+    } catch (error) {
+      console.error('Error getting revenue data:', error);
+      return { data: [] };
+    }
   },
 
-  // Get sales history
+  /**
+   * Get sales history (placeholder)
+   */
   getSalesHistory: async (params = {}) => {
-    return Promise.resolve({ data: [] });
+    try {
+      const response = await api.get('/developer/sales', { params });
+      return response.data;
+    } catch (error) {
+      console.error('Error getting sales history:', error);
+      return { data: [] };
+    }
   },
 
-  // Get payout history
+  /**
+   * Get payout history (placeholder)
+   */
   getPayoutHistory: async () => {
-    return Promise.resolve({ data: [] });
+    try {
+      const response = await api.get('/developer/payouts');
+      return response.data;
+    } catch (error) {
+      console.error('Error getting payout history:', error);
+      return { data: [] };
+    }
   },
 
-  // Request payout
+  /**
+   * Request payout (placeholder)
+   */
   requestPayout: async (amount) => {
-    return Promise.resolve({ success: true });
+    try {
+      const response = await api.post('/developer/payouts', { amount });
+      return response.data;
+    } catch (error) {
+      console.error('Error requesting payout:', error);
+      throw error;
+    }
   },
 
-  // Update listing pricing
+  /**
+   * Update listing pricing (placeholder)
+   */
   updatePricing: async (agentId, pricingData) => {
-    return Promise.resolve({ success: true });
+    try {
+      const response = await api.put(`/developer/agents/${agentId}/pricing`, pricingData);
+      return response.data;
+    } catch (error) {
+      console.error('Error updating pricing:', error);
+      throw error;
+    }
   },
 
-  // Update listing visibility
+  /**
+   * Update listing visibility (placeholder)
+   */
   updateVisibility: async (agentId, isPublic) => {
-    return Promise.resolve({ success: true });
+    try {
+      const response = await api.put(`/developer/agents/${agentId}/visibility`, { is_public: isPublic });
+      return response.data;
+    } catch (error) {
+      console.error('Error updating visibility:', error);
+      throw error;
+    }
   },
 };
 

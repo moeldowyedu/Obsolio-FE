@@ -1,136 +1,106 @@
 import { useNavigate } from 'react-router-dom';
-import { Card, Badge } from '../common';
-import { Star, Download, DollarSign, User, Zap } from 'lucide-react';
+import { Star, Download, TrendingUp, BadgeCheck, MessageCircle } from 'lucide-react';
+import Badge from '../common/Badge/Badge';
+import Button from '../common/Button/Button';
+import { useTheme } from '../../contexts/ThemeContext';
+import { useAuthStore } from '../../store/authStore';
 
-const AgentCard = ({ agent, featured = false }) => {
+const AgentCard = ({ agent }) => {
   const navigate = useNavigate();
+  const { theme } = useTheme();
+  const { isAuthenticated } = useAuthStore();
 
-  const getPriceDisplay = () => {
-    if (agent.price === 0 || agent.price === 'free') {
-      return 'Free';
+  const handleInstall = (e) => {
+    e.stopPropagation();
+    if (!isAuthenticated) {
+      navigate(`/login?returnUrl=/agentx/hub/agent/${agent.id}`);
+      return;
     }
-    return `$${agent.price}`;
-  };
-
-  const getEngineColor = (engineId) => {
-    const colors = {
-      vision: '#3b82f6',
-      audio: '#8b5cf6',
-      text: '#06b6d4',
-      code: '#14b8a6',
-      document: '#f59e0b',
-      data: '#10b981',
-      web: '#ec4899',
-    };
-    return colors[engineId] || '#6b7280';
+    // Navigate to checkout or install flow
+    navigate(`/agentx/hub/checkout/${agent.id}`);
   };
 
   return (
-    <Card
-      onClick={() => navigate(`/agentx/marketplace/agent/${agent.id}`)}
-      padding="none"
-      hover
-      className={`cursor-pointer transition-all duration-300 overflow-hidden ${
-        featured ? 'ring-2 ring-primary-500 shadow-lg' : ''
-      }`}
+    <div
+      onClick={() => navigate(`/agentx/hub/agent/${agent.id}`)}
+      className={`group relative flex flex-col p-6 rounded-2xl border transition-all duration-300 cursor-pointer overflow-hidden ${theme === 'dark'
+          ? 'bg-[#1e293b]/50 border-white/5 hover:border-primary-500/50 hover:bg-[#1e293b]'
+          : 'bg-white border-slate-200 hover:border-primary-500/50 hover:shadow-xl hover:shadow-primary-500/10'
+        }`}
     >
-      {/* Image/Banner */}
-      <div
-        className="h-40 bg-gradient-to-br from-primary-500 to-secondary-500 relative"
-        style={{
-          backgroundImage: agent.banner
-            ? `url(${agent.banner})`
-            : 'linear-gradient(135deg, #3b82f6 0%, #22c55e 100%)',
-        }}
-      >
-        {featured && (
-          <div className="absolute top-3 right-3">
-            <Badge variant="warning" size="sm" className="font-semibold">
-              Featured
-            </Badge>
+      {/* Header */}
+      <div className="flex justify-between items-start mb-4">
+        <div className="flex gap-4">
+          {/* Icon */}
+          <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-primary-500/20 flex-shrink-0 text-2xl text-white">
+            {agent.icon_url ? <img src={agent.icon_url} alt={agent.name} className="w-8 h-8 object-contain" /> : (agent.icon || agent.name[0])}
           </div>
-        )}
-        <div className="absolute top-3 left-3">
-          <Badge
-            variant={agent.price === 0 ? 'success' : 'default'}
-            size="md"
-            className="font-semibold"
-          >
-            {getPriceDisplay()}
-          </Badge>
+
+          <div>
+            <h3 className={`font-bold text-lg mb-1 leading-tight ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
+              {agent.name}
+            </h3>
+            <div className="flex items-center gap-2">
+              {/* Featured Badge */}
+              {agent.is_featured && (
+                <Badge className="bg-amber-500/10 text-amber-500 border-amber-500/20 px-1.5 py-0.5 text-[10px] uppercase font-bold">
+                  <TrendingUp className="w-3 h-3 mr-1" />
+                  Featured
+                </Badge>
+              )}
+              <span className={`text-xs ${theme === 'dark' ? 'text-gray-400' : 'text-slate-500'}`}>
+                v{agent.version || '1.0.0'}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Price */}
+        <div className="text-right">
+          <div className={`font-bold text-lg ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
+            ${agent.monthly_price || 0}
+          </div>
+          <div className={`text-xs ${theme === 'dark' ? 'text-gray-500' : 'text-slate-400'}`}>
+            /mo
+          </div>
         </div>
       </div>
 
-      <div className="p-4">
-        {/* Title and Author */}
-        <div className="mb-3">
-          <h3 className="text-lg font-heading font-bold text-secondary-900 mb-1 line-clamp-1">
-            {agent.name}
-          </h3>
-          <div className="flex items-center gap-2 text-sm text-secondary-600">
-            <User className="w-4 h-4" />
-            <span>{agent.author}</span>
-          </div>
+      {/* Description */}
+      <p className={`text-sm mb-6 line-clamp-2 flex-grow ${theme === 'dark' ? 'text-gray-300' : 'text-slate-600'}`}>
+        {agent.description}
+      </p>
+
+      {/* Stats */}
+      <div className={`flex items-center gap-4 mb-6 pb-4 border-b ${theme === 'dark' ? 'border-white/10' : 'border-slate-100'}`}>
+        <div className="flex items-center gap-1.5">
+          <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
+          <span className={`text-sm font-semibold ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>{agent.rating}</span>
+          <span className={`text-xs ${theme === 'dark' ? 'text-gray-500' : 'text-slate-400'}`}>({agent.review_count})</span>
         </div>
-
-        {/* Description */}
-        <p className="text-sm text-secondary-600 mb-4 line-clamp-2">
-          {agent.description}
-        </p>
-
-        {/* Engines */}
-        <div className="mb-4">
-          <div className="flex flex-wrap gap-1">
-            {agent.engines?.slice(0, 3).map((engineId, idx) => (
-              <span
-                key={idx}
-                className="text-xs px-2 py-1 rounded text-white font-medium"
-                style={{ backgroundColor: getEngineColor(engineId) }}
-              >
-                {engineId}
-              </span>
-            ))}
-            {agent.engines?.length > 3 && (
-              <span className="text-xs px-2 py-1 bg-gray-100 text-secondary-600 rounded">
-                +{agent.engines.length - 3}
-              </span>
-            )}
-          </div>
+        <div className="flex items-center gap-1.5">
+          <Download className={`w-4 h-4 ${theme === 'dark' ? 'text-gray-500' : 'text-slate-400'}`} />
+          <span className={`text-sm ${theme === 'dark' ? 'text-gray-300' : 'text-slate-600'}`}>{agent.total_installs > 1000 ? (agent.total_installs / 1000).toFixed(1) + 'k' : agent.total_installs}</span>
         </div>
+      </div>
 
-        {/* Stats */}
-        <div className="flex items-center justify-between pt-3 border-t border-gray-200">
-          <div className="flex items-center gap-4 text-sm text-secondary-600">
-            <div className="flex items-center gap-1">
-              <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
-              <span className="font-medium">{agent.rating || '5.0'}</span>
-            </div>
-            <div className="flex items-center gap-1">
-              <Download className="w-4 h-4" />
-              <span>{agent.downloads || 0}</span>
-            </div>
-          </div>
-
-          {agent.category && (
-            <Badge variant="default" size="sm">
-              {agent.category}
-            </Badge>
-          )}
-        </div>
-
-        {/* Quick Deploy */}
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            // Handle quick deploy
-          }}
-          className="w-full mt-4 py-2 px-4 bg-primary-600 text-white rounded-lg font-medium hover:bg-primary-600 transition-colors flex items-center justify-center gap-2"
+      {/* Footer / Actions */}
+      <div className="flex items-center justify-between gap-3 mt-auto">
+        <Button
+          onClick={handleInstall}
+          className="flex-1 py-2 text-sm font-semibold shadow-lg shadow-primary-500/20"
         >
-          <Zap className="w-4 h-4" />
-          Quick Deploy
+          Install Agent
+        </Button>
+        <button
+          className={`p-2 rounded-lg border transition-colors ${theme === 'dark' ? 'border-white/10 hover:bg-white/5 text-gray-400' : 'border-slate-200 hover:bg-slate-50 text-slate-500'}`}
+          onClick={(e) => { e.stopPropagation(); /* Wishlist */ }}
+        >
+          <BadgeCheck className="w-5 h-5" />
         </button>
       </div>
-    </Card>
+
+    </div>
   );
 };
 

@@ -1,484 +1,332 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+// import ReactMarkdown from 'react-markdown';
+import {
+  Star, Download, Shield, Zap, CheckCircle, Clock,
+  TrendingUp, Award, MessageCircle, Share2, Heart,
+  ChevronRight, Globe, Code, Layers, AlertCircle, ShoppingCart
+} from 'lucide-react';
+
 import MainLayout from '../../components/layout/MainLayout';
 import { useTheme } from '../../contexts/ThemeContext';
-import {
-  Star,
-  Download,
-  Users,
-  Shield,
-  Zap,
-  CheckCircle,
-  Clock,
-  TrendingUp,
-  Award,
-  MessageCircle,
-  Share2,
-  Heart,
-  ChevronRight
-} from 'lucide-react';
+import marketplaceService from '../../services/marketplaceService';
+import Button from '../../components/common/Button/Button';
+import Badge from '../../components/common/Badge/Badge';
+import Tabs from '../../components/common/Tabs/Tabs';
+import Skeleton from '../../components/common/Skeleton/Skeleton'; // Assuming Skeleton exists
+import { useAuthStore } from '../../store/authStore';
 
 const AgentDetailPage = () => {
   const { agentId } = useParams();
   const navigate = useNavigate();
   const { theme } = useTheme();
+  const { isAuthenticated } = useAuthStore();
+
   const [agent, setAgent] = useState(null);
-  const [selectedTab, setSelectedTab] = useState('overview');
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [isAnnual, setIsAnnual] = useState(true);
+  const [activeTab, setActiveTab] = useState('overview');
 
   useEffect(() => {
-    // Mock agent data - in production, fetch from API
-    const mockAgent = {
-      id: agentId,
-      name: 'Customer Support Pro',
-      icon: '💬',
-      description: 'AI-powered customer support with multi-channel integration, sentiment analysis, and automated ticketing',
-      longDescription: 'Transform your customer support operations with our advanced AI-powered agent. Customer Support Pro seamlessly integrates with your existing channels, providing 24/7 automated support while maintaining a human touch. Built on state-of-the-art natural language processing, it understands context, sentiment, and intent to deliver accurate, empathetic responses.',
-      category: 'Support',
-      industry: 'Technology',
-      pricing: 99,
-      pricingLabel: '$99/mo',
-      rating: 4.8,
-      reviews: 342,
-      deployments: 1250,
-      owner: 'Obsolio AI',
-      tags: ['chatbot', 'support', 'automation', '24/7', 'multi-channel', 'sentiment-analysis'],
-      features: [
-        {
-          title: 'Multi-channel Support',
-          description: 'Seamlessly handle inquiries across email, chat, social media, and phone',
-          icon: <MessageCircle className="w-5 h-5" />
-        },
-        {
-          title: 'Sentiment Analysis',
-          description: 'Automatically detect urgency and emotion to prioritize critical issues',
-          icon: <Heart className="w-5 h-5" />
-        },
-        {
-          title: 'Smart Routing',
-          description: 'Intelligent ticket assignment based on issue type and difficulty',
-          icon: <TrendingUp className="w-5 h-5" />
-        },
-        {
-          title: 'Knowledge Base',
-          description: 'Auto-learns from resolved tickets to improve future responses',
-          icon: <Zap className="w-5 h-5" />
+    const fetchAgent = async () => {
+      setLoading(true);
+      try {
+        const response = await marketplaceService.getMarketplaceAgent(agentId);
+        if (response.success) {
+          setAgent(response.data);
+        } else {
+          setError("Failed to load agent details.");
         }
-      ],
-      techStack: [
-        { name: 'Python', category: 'Language', icon: '🐍' },
-        { name: 'TensorFlow', category: 'ML Framework', icon: '🧠' },
-        { name: 'React', category: 'Frontend', icon: '⚛️' },
-        { name: 'PostgreSQL', category: 'Database', icon: '🐘' },
-        { name: 'Redis', category: 'Caching', icon: '📦' },
-        { name: 'Docker', category: 'Container', icon: '🐳' }
-      ],
-      useCases: [
-        'Automated FAQ responses',
-        'Order status tracking',
-        'Refund processing',
-        'Technical troubleshooting',
-        'Appointment scheduling'
-      ],
-      reviewsList: [
-        {
-          id: 1,
-          author: 'Sarah Johnson',
-          company: 'TechCorp',
-          role: 'Customer Success Manager',
-          rating: 5,
-          date: '2024-01-15',
-          title: 'Transformed our support workflow',
-          content: 'We\'ve reduced response times by 70% and customer satisfaction has increased significantly. The sentiment analysis feature is incredibly accurate and helps us prioritize urgent issues.',
-          helpful: 45,
-          verified: true
-        },
-        {
-          id: 2,
-          author: 'Michael Chen',
-          company: 'RetailHub Inc',
-          role: 'Operations Director',
-          rating: 5,
-          date: '2024-01-10',
-          title: 'Excellent ROI and easy integration',
-          content: 'Setup was straightforward, and we saw immediate value. The multi-channel support works flawlessly across our email, chat, and social media platforms. Highly recommended!',
-          helpful: 38,
-          verified: true
-        },
-        {
-          id: 3,
-          author: 'Emily Rodriguez',
-          company: 'HealthTech Innovations',
-          role: 'CTO',
-          rating: 4,
-          date: '2024-01-05',
-          title: 'Powerful but needs customization',
-          content: 'The agent is very capable out of the box, but we needed some customization for our healthcare-specific use cases. Support team was helpful in getting us set up. Four stars because of the initial configuration complexity.',
-          helpful: 22,
-          verified: true
-        },
-        {
-          id: 4,
-          author: 'David Kim',
-          company: 'StartupXYZ',
-          role: 'CEO',
-          rating: 5,
-          date: '2023-12-28',
-          title: 'Perfect for startups',
-          content: 'As a growing startup, we couldn\'t afford a large support team. This agent handles 80% of our inquiries automatically, allowing our team to focus on complex issues. Best investment we\'ve made!',
-          helpful: 56,
-          verified: true
-        }
-      ],
-      stats: {
-        avgResponseTime: '< 2 seconds',
-        successRate: '94%',
-        uptime: '99.9%',
-        languages: '25+'
-      },
-      changelog: [
-        { version: '2.1.0', date: '2024-01-20', changes: ['Added voice call support', 'Improved sentiment detection accuracy', 'New dashboard analytics'] },
-        { version: '2.0.0', date: '2023-12-15', changes: ['Major UI overhaul', 'Multi-language support', 'Custom branding options'] },
-        { version: '1.5.0', date: '2023-11-01', changes: ['WhatsApp integration', 'Enhanced knowledge base search', 'Bug fixes'] }
-      ]
+      } catch (err) {
+        console.error("Error fetching agent details:", err);
+        setError("An error occurred while loading the agent.");
+      } finally {
+        setLoading(false);
+      }
     };
 
-    setAgent(mockAgent);
+    if (agentId) {
+      fetchAgent();
+    }
   }, [agentId]);
 
-  const renderStars = (rating) => {
-    return (
-      <div className="flex items-center gap-1">
-        {[...Array(5)].map((_, i) => (
-          <Star
-            key={i}
-            className={`w-4 h-4 ${i < Math.floor(rating)
-              ? 'fill-yellow-400 text-yellow-400'
-              : 'text-gray-300'
-              }`}
-          />
-        ))}
-      </div>
-    );
+  const handleInstall = () => {
+    if (!isAuthenticated) {
+      navigate(`/login?returnUrl=/agentx/hub/agent/${agentId}`);
+      return;
+    }
+    // Redirect to checkout or install logic
+    console.log("Installing agent:", agentId, isAnnual ? 'Annual' : 'Monthly');
+    navigate(`/agentx/hub/checkout/${agentId}?billing=${isAnnual ? 'annual' : 'monthly'}`);
   };
 
-  const handleDeploy = () => {
-    navigate(`/agentx/marketplace/checkout/${agentId}`);
-  };
-
-  if (!agent) {
+  if (loading) {
     return (
-      <MainLayout theme={theme}>
-        <div className="flex items-center justify-center min-h-screen">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
+      <MainLayout>
+        <div className={`min-h-screen p-8 ${theme === 'dark' ? 'bg-[#0B0E14]' : 'bg-slate-50'}`}>
+          <div className="max-w-7xl mx-auto space-y-8 animate-pulse">
+            <div className="h-64 rounded-3xl bg-gray-200 dark:bg-gray-800 w-full" />
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+              <div className="lg:col-span-2 h-96 bg-gray-200 dark:bg-gray-800 rounded-3xl" />
+              <div className="h-96 bg-gray-200 dark:bg-gray-800 rounded-3xl" />
+            </div>
+          </div>
         </div>
       </MainLayout>
     );
   }
 
-  // Theme Helpers
-  const textPrimary = theme === 'dark' ? 'text-white' : 'text-slate-900';
-  const textSecondary = theme === 'dark' ? 'text-gray-400' : 'text-slate-500';
-  const cardClass = theme === 'dark'
-    ? 'glass-card border-white/10'
-    : 'bg-white border border-slate-200 shadow-sm';
-  const bgSubtle = theme === 'dark' ? 'bg-white/5' : 'bg-slate-50';
+  if (error || !agent) {
+    return (
+      <MainLayout>
+        <div className={`min-h-screen flex items-center justify-center ${theme === 'dark' ? 'bg-[#0B0E14]' : 'bg-slate-50'}`}>
+          <div className="text-center">
+            <AlertCircle className="w-16 h-16 text-red-500 mx-auto mb-4" />
+            <h2 className={`text-2xl font-bold mb-2 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>Error Loading Agent</h2>
+            <p className="text-gray-500 mb-6">{error || "Agent not found"}</p>
+            <Button onClick={() => navigate('/agentx/hub')}>Back to Marketplace</Button>
+          </div>
+        </div>
+      </MainLayout>
+    );
+  }
+
+  const price = isAnnual ? agent.annual_price : agent.monthly_price;
+  const priceLabel = isAnnual ? '/year' : '/month';
+
+  const tabs = [
+    { id: 'overview', label: 'Overview' },
+    { id: 'features', label: 'Features' },
+    { id: 'reviews', label: 'Reviews' },
+    { id: 'pricing', label: 'Pricing' }
+  ];
 
   return (
-    <MainLayout theme={theme}>
-      <div className="py-6 space-y-6 mt-28 lg:mt-[120px] max-w-7xl mx-auto px-6">
-        {/* Breadcrumb */}
-        <div className={`flex items-center gap-2 text-sm ${textSecondary}`}>
-          <button onClick={() => navigate('/agentx/marketplace')} className="hover:text-primary-600">
-            Marketplace
-          </button>
-          <ChevronRight className="w-4 h-4" />
-          <span className={`${theme === 'dark' ? 'text-white' : 'text-slate-900'} font-medium`}>{agent.name}</span>
-        </div>
+    <MainLayout>
+      <div className={`min-h-screen pb-20 ${theme === 'dark' ? 'bg-[#0B0E14]' : 'bg-slate-50'}`}>
 
-        {/* Hero Section */}
-        <div className={`${cardClass} rounded-2xl p-8`}>
-          <div className="flex flex-col lg:flex-row gap-8">
-            {/* Left: Agent Info */}
-            <div className="flex-1">
-              <div className="flex items-start gap-6 mb-6">
-                <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-5xl flex-shrink-0 text-white shadow-lg">
-                  {agent.icon}
-                </div>
-                <div className="flex-1">
-                  <div className="flex items-center gap-3 mb-2">
-                    <h1 className={`text-4xl font-bold ${textPrimary}`}>{agent.name}</h1>
-                    {agent.owner === 'Obsolio AI' && (
-                      <div className="px-3 py-1 bg-primary-100 text-primary-700 text-sm font-bold rounded-lg uppercase">
-                        Official
-                      </div>
-                    )}
-                  </div>
-                  <p className={`${textSecondary} mb-3`}>
-                    by <span className="font-semibold text-primary-600">{agent.owner}</span>
-                  </p>
-                  <div className="flex items-center gap-6 mb-4">
-                    <div className="flex items-center gap-2">
-                      {renderStars(agent.rating)}
-                      <span className={`text-lg font-bold ${textPrimary}`}>{agent.rating}</span>
-                      <span className={textSecondary}>({agent.reviews} reviews)</span>
-                    </div>
-                    <div className={`flex items-center gap-2 ${textSecondary}`}>
-                      <Download className="w-5 h-5" />
-                      <span className="font-semibold">{agent.deployments.toLocaleString()}</span>
-                      <span>deployments</span>
-                    </div>
-                  </div>
-                  <p className={`text-lg leading-relaxed ${theme === 'dark' ? 'text-gray-300' : 'text-slate-600'}`}>
-                    {agent.description}
-                  </p>
+        {/* Banner / Hero Section */}
+        <div className="relative h-64 md:h-80 w-full overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-900 to-indigo-900 opacity-90" />
+          {agent.banner_url && (
+            <img
+              src={agent.banner_url}
+              alt={`${agent.name} banner`}
+              className="absolute inset-0 w-full h-full object-cover mix-blend-overlay opacity-50"
+            />
+          )}
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0B0E14] to-transparent" />
+
+          <div className="absolute bottom-0 left-0 w-full p-6 md:p-8">
+            <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-6 items-start md:items-end">
+              {/* Icon */}
+              <div className="w-24 h-24 md:w-32 md:h-32 rounded-2xl bg-white p-2 shadow-2xl flex-shrink-0 relative z-10 -mb-12 md:-mb-16">
+                <div className="w-full h-full rounded-xl bg-gradient-to-br from-primary-500 to-indigo-600 flex items-center justify-center text-4xl text-white overflow-hidden">
+                  {agent.icon_url ? <img src={agent.icon_url} alt={agent.name} className="w-full h-full object-cover" /> : (agent.icon || agent.name[0])}
                 </div>
               </div>
 
-              {/* Tags */}
-              <div className="flex flex-wrap gap-2 mb-6">
-                {agent.tags.map((tag, idx) => (
-                  <span
-                    key={idx}
-                    className={`px-4 py-2 text-sm rounded-lg font-medium ${theme === 'dark' ? 'bg-blue-500/10 text-blue-400' : 'bg-blue-50 text-blue-700'}`}
+              <div className="flex-grow pb-2">
+                <div className="flex items-center gap-3 mb-2">
+                  <Badge className="bg-primary-500/20 text-primary-300 border-primary-500/30 uppercase text-xs font-bold px-2 py-0.5">
+                    {agent.category}
+                  </Badge>
+                  <div className="flex items-center gap-1 text-amber-400 text-sm font-bold">
+                    <Star className="w-4 h-4 fill-current" />
+                    <span>{agent.rating}</span>
+                    <span className="text-gray-400 font-normal">({agent.review_count} reviews)</span>
+                  </div>
+                  <div className="flex items-center gap-1 text-gray-400 text-sm">
+                    <Download className="w-4 h-4" />
+                    <span>{agent.total_installs} installs</span>
+                  </div>
+                </div>
+                <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">{agent.name}</h1>
+                <p className="text-gray-300 max-w-2xl line-clamp-1">{agent.description}</p>
+              </div>
+
+              <div className="flex flex-col items-end gap-3 pb-2 ml-auto">
+                <div className="flex items-baseline gap-1">
+                  <span className="text-3xl font-bold text-white">${price}</span>
+                  <span className="text-gray-400">{priceLabel}</span>
+                </div>
+                <div className="flex items-center gap-2 bg-white/10 rounded-lg p-1">
+                  <button
+                    onClick={() => setIsAnnual(false)}
+                    className={`px-3 py-1 rounded-md text-sm font-medium transition-all ${!isAnnual ? 'bg-primary-600 text-white' : 'text-gray-300 hover:text-white'}`}
                   >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-
-              {/* Action Buttons */}
-              <div className="flex items-center gap-3">
-                <button className={`p-3 border-2 rounded-xl transition-colors ${theme === 'dark' ? 'border-white/10 hover:bg-white/5' : 'border-gray-200 hover:bg-gray-50'}`}>
-                  <Heart className={`w-5 h-5 ${textSecondary}`} />
-                </button>
-                <button className={`p-3 border-2 rounded-xl transition-colors ${theme === 'dark' ? 'border-white/10 hover:bg-white/5' : 'border-gray-200 hover:bg-gray-50'}`}>
-                  <Share2 className={`w-5 h-5 ${textSecondary}`} />
-                </button>
+                    Monthly
+                  </button>
+                  <button
+                    onClick={() => setIsAnnual(true)}
+                    className={`px-3 py-1 rounded-md text-sm font-medium transition-all ${isAnnual ? 'bg-primary-600 text-white' : 'text-gray-300 hover:text-white'}`}
+                  >
+                    Annual
+                  </button>
+                </div>
+                <Button size="lg" className="w-full md:w-auto shadow-lg shadow-primary-500/25" onClick={handleInstall}>
+                  <ShoppingCart className="w-4 h-4 mr-2" />
+                  Install Agent
+                </Button>
               </div>
             </div>
+          </div>
+        </div>
 
-            {/* Right: Pricing Card */}
-            <div className="lg:w-96">
-              <div className={`rounded-2xl p-6 border-2 ${theme === 'dark' ? 'bg-white/5 border-primary-500/20' : 'bg-gradient-to-br from-blue-50 to-purple-50 border-blue-200'}`}>
-                <div className="text-center mb-6">
-                  <div className={`text-5xl font-bold mb-2 ${textPrimary}`}>{agent.pricingLabel}</div>
-                  <div className={textSecondary}>per month</div>
-                </div>
+        {/* Content Layout */}
+        <div className="max-w-7xl mx-auto px-6 mt-20 md:mt-24 grid grid-cols-1 lg:grid-cols-3 gap-8">
 
+          {/* Main Content (Tabs) */}
+          <div className="lg:col-span-2 space-y-8">
+            {/* Custom Tab Implementation or use Tabs component */}
+            <div className="flex border-b border-gray-200 dark:border-gray-800 mb-6 overflow-x-auto">
+              {tabs.map(tab => (
                 <button
-                  onClick={handleDeploy}
-                  className="w-full py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-bold text-lg hover:shadow-xl transition-shadow mb-3"
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`px-6 py-3 text-sm font-medium border-b-2 transition-colors whitespace-nowrap ${activeTab === tab.id
+                    ? 'border-primary-500 text-primary-500'
+                    : 'border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'
+                    }`}
                 >
-                  Deploy Now
+                  {tab.label}
                 </button>
-                <button className={`w-full py-3 border-2 rounded-xl font-semibold transition-colors ${theme === 'dark' ? 'border-white/20 text-white hover:bg-white/10' : 'border-gray-300 text-slate-700 hover:bg-white'}`}>
-                  Try Demo
-                </button>
-
-                <div className={`mt-6 pt-6 border-t space-y-3 ${theme === 'dark' ? 'border-white/10' : 'border-gray-200'}`}>
-                  <div className="flex items-center justify-between text-sm">
-                    <span className={textSecondary}>Response Time</span>
-                    <span className={`font-semibold ${textPrimary}`}>{agent.stats.avgResponseTime}</span>
-                  </div>
-                  <div className="flex items-center justify-between text-sm">
-                    <span className={textSecondary}>Success Rate</span>
-                    <span className="font-semibold text-green-600">{agent.stats.successRate}</span>
-                  </div>
-                  <div className="flex items-center justify-between text-sm">
-                    <span className={textSecondary}>Uptime</span>
-                    <span className={`font-semibold ${textPrimary}`}>{agent.stats.uptime}</span>
-                  </div>
-                  <div className="flex items-center justify-between text-sm">
-                    <span className={textSecondary}>Languages</span>
-                    <span className={`font-semibold ${textPrimary}`}>{agent.stats.languages}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Tabs */}
-        <div className={`border-b ${theme === 'dark' ? 'border-white/10' : 'border-gray-200'}`}>
-          <div className="flex gap-6">
-            {['overview', 'features', 'tech-stack', 'reviews'].map((tab) => (
-              <button
-                key={tab}
-                onClick={() => setSelectedTab(tab)}
-                className={`pb-4 px-2 font-semibold capitalize transition-colors ${selectedTab === tab
-                  ? 'text-primary-600 border-b-2 border-primary-600'
-                  : `${textSecondary} hover:${textPrimary}`
-                  }`}
-              >
-                {tab.replace('-', ' ')}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Tab Content */}
-        {selectedTab === 'overview' && (
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div className="lg:col-span-2 space-y-6">
-              <div className={`${cardClass} rounded-2xl p-6`}>
-                <h2 className={`text-2xl font-bold ${textPrimary} mb-4`}>About This Agent</h2>
-                <p className={`${theme === 'dark' ? 'text-gray-300' : 'text-slate-600'} leading-relaxed mb-6`}>{agent.longDescription}</p>
-
-                <h3 className={`text-xl font-bold ${textPrimary} mb-3`}>Use Cases</h3>
-                <ul className="space-y-2">
-                  {agent.useCases.map((useCase, idx) => (
-                    <li key={idx} className={`flex items-center gap-3 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-600'}`}>
-                      <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
-                      {useCase}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-
-            <div className="space-y-6">
-              <div className={`${cardClass} rounded-2xl p-6`}>
-                <h3 className={`text-lg font-bold ${textPrimary} mb-4`}>Quick Stats</h3>
-                <div className="space-y-4">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center">
-                      <Users className="w-5 h-5 text-blue-600" />
-                    </div>
-                    <div>
-                      <div className={`text-2xl font-bold ${textPrimary}`}>{agent.deployments.toLocaleString()}</div>
-                      <div className={`text-sm ${textSecondary}`}>Active Deployments</div>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-yellow-100 flex items-center justify-center">
-                      <Star className="w-5 h-5 text-yellow-600" />
-                    </div>
-                    <div>
-                      <div className={`text-2xl font-bold ${textPrimary}`}>{agent.rating}/5</div>
-                      <div className={`text-sm ${textSecondary}`}>{agent.reviews} Reviews</div>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-green-100 flex items-center justify-center">
-                      <Award className="w-5 h-5 text-green-600" />
-                    </div>
-                    <div>
-                      <div className={`text-2xl font-bold ${textPrimary}`}>{agent.stats.successRate}</div>
-                      <div className={`text-sm ${textSecondary}`}>Success Rate</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {selectedTab === 'features' && (
-          <div className={`${cardClass} rounded-2xl p-6`}>
-            <h2 className={`text-2xl font-bold ${textPrimary} mb-6`}>Key Features</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {agent.features.map((feature, idx) => (
-                <div key={idx} className={`flex gap-4 p-4 rounded-xl ${bgSubtle}`}>
-                  <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white flex-shrink-0">
-                    {feature.icon}
-                  </div>
-                  <div>
-                    <h3 className={`text-lg font-bold ${textPrimary} mb-1`}>{feature.title}</h3>
-                    <p className={textSecondary}>{feature.description}</p>
-                  </div>
-                </div>
               ))}
             </div>
-          </div>
-        )}
 
-        {selectedTab === 'tech-stack' && (
-          <div className={`${cardClass} rounded-2xl p-6`}>
-            <h2 className={`text-2xl font-bold ${textPrimary} mb-6`}>Technology Stack</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {agent.techStack.map((tech, idx) => (
-                <div key={idx} className={`flex items-center gap-4 p-4 rounded-xl ${bgSubtle}`}>
-                  <div className="text-3xl">{tech.icon}</div>
-                  <div>
-                    <div className={`font-bold ${textPrimary}`}>{tech.name}</div>
-                    <div className={`text-sm ${textSecondary}`}>{tech.category}</div>
+            {activeTab === 'overview' && (
+              <div className={`space-y-8 animate-in fade-in duration-300`}>
+                <div className={`p-8 rounded-2xl border ${theme === 'dark' ? 'bg-[#1e293b]/30 border-white/5' : 'bg-white border-slate-200'}`}>
+                  <h3 className={`text-xl font-bold mb-4 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>About this Agent</h3>
+                  <div className={`prose max-w-none ${theme === 'dark' ? 'prose-invert' : 'prose-slate'}`}>
+                    {/* <ReactMarkdown>{agent.long_description || agent.description}</ReactMarkdown> */}
+                    <div className="whitespace-pre-wrap">{agent.long_description || agent.description}</div>
                   </div>
                 </div>
-              ))}
-            </div>
-          </div>
-        )}
 
-        {selectedTab === 'reviews' && (
-          <div className="space-y-6">
-            {/* Reviews Summary */}
-            <div className={`${cardClass} rounded-2xl p-6`}>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div className="text-center">
-                  <div className={`text-6xl font-bold ${textPrimary} mb-2`}>{agent.rating}</div>
-                  <div className="flex justify-center mb-2">{renderStars(agent.rating)}</div>
-                  <div className={textSecondary}>Based on {agent.reviews} reviews</div>
-                </div>
-                <div className="space-y-2">
-                  {[5, 4, 3, 2, 1].map((star) => {
-                    const count = agent.reviewsList.filter((r) => Math.floor(r.rating) === star).length;
-                    const percentage = (count / agent.reviewsList.length) * 100;
-                    return (
-                      <div key={star} className="flex items-center gap-3">
-                        <span className={`text-sm font-medium ${textSecondary} w-8`}>{star} ★</span>
-                        <div className={`flex-1 h-2 rounded-full overflow-hidden ${theme === 'dark' ? 'bg-white/10' : 'bg-gray-200'}`}>
-                          <div
-                            className="h-full bg-yellow-400"
-                            style={{ width: `${percentage}%` }}
-                          />
-                        </div>
-                        <span className={`text-sm ${textSecondary} w-12`}>{count}</span>
+                <div className={`p-8 rounded-2xl border ${theme === 'dark' ? 'bg-[#1e293b]/30 border-white/5' : 'bg-white border-slate-200'}`}>
+                  <h3 className={`text-xl font-bold mb-6 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>Capabilities</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {agent.capabilities?.map((cap, idx) => (
+                      <div key={idx} className={`flex items-start gap-3 p-4 rounded-xl ${theme === 'dark' ? 'bg-white/5' : 'bg-slate-50'}`}>
+                        <CheckCircle className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
+                        <span className={`${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>{cap}</span>
                       </div>
-                    );
-                  })}
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
 
-            {/* Individual Reviews */}
-            <div className="space-y-4">
-              {agent.reviewsList.map((review) => (
-                <div key={review.id} className={`${cardClass} rounded-2xl p-6`}>
-                  <div className="flex items-start justify-between mb-4">
-                    <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold text-lg">
-                        {review.author.charAt(0)}
+            {activeTab === 'features' && (
+              <div className={`p-8 rounded-2xl border space-y-6 animate-in fade-in duration-300 ${theme === 'dark' ? 'bg-[#1e293b]/30 border-white/5' : 'bg-white border-slate-200'}`}>
+                <h3 className={`text-xl font-bold ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>Technical Features</h3>
+                <div className="grid grid-cols-1 gap-6">
+                  <div className="flex items-center gap-4">
+                    <Globe className="w-6 h-6 text-primary-500" />
+                    <div>
+                      <h4 className={`font-semibold ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>Supported Languages</h4>
+                      <div className="flex gap-2 mt-1">
+                        {agent.supported_languages?.map(lang => (
+                          <Badge key={lang} variant="outline" className="uppercase">{lang}</Badge>
+                        ))}
                       </div>
-                      <div>
+                    </div>
+                  </div>
+                  {/* Add more feature details if available in API */}
+                </div>
+              </div>
+            )}
+
+            {activeTab === 'reviews' && (
+              <div className={`p-8 rounded-2xl border space-y-6 animate-in fade-in duration-300 ${theme === 'dark' ? 'bg-[#1e293b]/30 border-white/5' : 'bg-white border-slate-200'}`}>
+                <div className="flex items-center justify-between">
+                  <h3 className={`text-xl font-bold ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>User Reviews</h3>
+                  <Button variant="outline" size="sm">Write a Review</Button>
+                </div>
+                {agent.review_count > 0 ? (
+                  <div className="divide-y dark:divide-gray-800">
+                    {/* Placeholder for reviews list - would map through reviews fetched separately if needed */}
+                    <div className="py-6">
+                      <div className="flex items-center justify-between mb-2">
                         <div className="flex items-center gap-2">
-                          <span className={`font-bold ${textPrimary}`}>{review.author}</span>
-                          {review.verified && (
-                            <CheckCircle className="w-4 h-4 text-green-500" title="Verified Purchase" />
-                          )}
+                          <div className="w-8 h-8 rounded-full bg-primary-100 flex items-center justify-center text-primary-600 font-bold">JD</div>
+                          <span className={`font-semibold ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>John Doe</span>
                         </div>
-                        <div className={`text-sm ${textSecondary}`}>
-                          {review.role} at {review.company}
-                        </div>
+                        <span className="text-gray-500 text-sm">2 days ago</span>
                       </div>
+                      <div className="flex items-center gap-1 text-amber-400 mb-2">
+                        <Star className="w-4 h-4 fill-current" /><Star className="w-4 h-4 fill-current" /><Star className="w-4 h-4 fill-current" /><Star className="w-4 h-4 fill-current" /><Star className="w-4 h-4 fill-current" />
+                      </div>
+                      <p className={`${theme === 'dark' ? 'text-gray-300' : 'text-slate-600'}`}>Great agent! Really helped streamline our workflow.</p>
                     </div>
-                    <div className={`text-sm ${textSecondary}`}>{review.date}</div>
                   </div>
-                  <div className="flex items-center gap-2 mb-3">
-                    {renderStars(review.rating)}
-                    <span className={`font-bold ${textPrimary}`}>{review.rating}.0</span>
+                ) : (
+                  <div className="text-center py-12 text-gray-500">
+                    <MessageCircle className="w-12 h-12 mx-auto mb-3 opacity-50" />
+                    <p>No reviews yet. Be the first to review this agent!</p>
                   </div>
-                  <h3 className={`font-bold ${textPrimary} mb-2`}>{review.title}</h3>
-                  <p className={`mb-4 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-600'}`}>{review.content}</p>
-                  <div className="flex items-center gap-4 text-sm">
-                    <button className={`${textSecondary} hover:text-primary-600 flex items-center gap-1`}>
-                      <span>Helpful ({review.helpful})</span>
-                    </button>
+                )}
+              </div>
+            )}
+
+            {activeTab === 'pricing' && (
+              <div className={`p-8 rounded-2xl border animate-in fade-in duration-300 ${theme === 'dark' ? 'bg-[#1e293b]/30 border-white/5' : 'bg-white border-slate-200'}`}>
+                <h3 className={`text-xl font-bold mb-6 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>Pricing Plans</h3>
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div className={`p-6 rounded-xl border ${theme === 'dark' ? 'bg-white/5 border-white/10' : 'bg-slate-50 border-slate-200'}`}>
+                    <h4 className={`font-bold mb-2 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>Monthly Subscription</h4>
+                    <div className="text-3xl font-bold text-primary-500 mb-4">${agent.monthly_price}<span className="text-sm text-gray-500 font-normal">/mo</span></div>
+                    <Button onClick={() => { setIsAnnual(false); handleInstall(); }} className="w-full">Select Monthly</Button>
+                  </div>
+                  <div className={`p-6 rounded-xl border relative overflow-hidden ${theme === 'dark' ? 'bg-primary-900/10 border-primary-500/30' : 'bg-primary-50 border-primary-100'}`}>
+                    <div className="absolute top-3 right-3 bg-green-500 text-white text-xs font-bold px-2 py-0.5 rounded">SAVE 17%</div>
+                    <h4 className={`font-bold mb-2 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>Annual Subscription</h4>
+                    <div className="text-3xl font-bold text-primary-500 mb-4">${agent.annual_price}<span className="text-sm text-gray-500 font-normal">/yr</span></div>
+                    <Button onClick={() => { setIsAnnual(true); handleInstall(); }} className="w-full" variant="outline">Select Annual</Button>
                   </div>
                 </div>
-              ))}
+              </div>
+            )}
+          </div>
+
+          {/* Sidebar */}
+          <div className="space-y-6">
+            {/* Key Info */}
+            <div className={`p-6 rounded-2xl border ${theme === 'dark' ? 'bg-[#1e293b]/50 border-white/5' : 'bg-white border-slate-200'}`}>
+              <h3 className={`font-bold mb-4 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>Key Information</h3>
+              <div className="space-y-4">
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-500 text-sm">Version</span>
+                  <span className={`font-medium ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>{agent.version || '1.0.0'}</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-500 text-sm">Last Updated</span>
+                  <span className={`font-medium ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>{agent.updated_at ? new Date(agent.updated_at).toLocaleDateString() : 'Recently'}</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-500 text-sm">License</span>
+                  <span className={`font-medium ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>Standard</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Developer Info */}
+            <div className={`p-6 rounded-2xl border ${theme === 'dark' ? 'bg-[#1e293b]/50 border-white/5' : 'bg-white border-slate-200'}`}>
+              <h3 className={`font-bold mb-4 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>Developer</h3>
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-700" /> {/* Placeholder avatar */}
+                <div>
+                  <div className={`font-semibold ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>Obsolio Team</div>
+                  <div className="text-xs text-green-500 flex items-center gap-1"><CheckCircle className="w-3 h-3" /> Verified Publisher</div>
+                </div>
+              </div>
+              <Button variant="outline" className="w-full text-sm">Contact Developer</Button>
             </div>
           </div>
-        )}
+        </div>
+
       </div>
     </MainLayout>
   );
