@@ -197,6 +197,20 @@ const RegisterPage = () => {
 
     try {
       // Build payload matching API spec exactly
+      // Get country dial code for phone formatting
+      const selectedCountry = countries.find(c => c.value === formData.country);
+      const dialCode = selectedCountry?.dialCode || '';
+
+      // Format phone with country code if not already included
+      let formattedPhone = formData.phone.trim();
+      if (dialCode && !formattedPhone.startsWith('+')) {
+        // Remove leading zero if present (common in local phone numbers)
+        if (formattedPhone.startsWith('0')) {
+          formattedPhone = formattedPhone.substring(1);
+        }
+        formattedPhone = dialCode + formattedPhone;
+      }
+
       const payload = {
         type: formData.tenantType,
         fullName: formData.fullName.trim(),
@@ -204,7 +218,7 @@ const RegisterPage = () => {
         password: formData.password,
         subdomain: formData.tenantUrl,
         country: formData.country,
-        phone: formData.phone,
+        phone: formattedPhone,
       };
 
       // Add organization-specific required field
