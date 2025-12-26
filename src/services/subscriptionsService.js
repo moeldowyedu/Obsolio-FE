@@ -109,53 +109,16 @@ const subscriptionsService = {
   },
 
   /**
-   * Cancel subscription
-   * @returns {Promise} Cancellation confirmation
-   */
-  cancelSubscription: async () => {
-    try {
-      const response = await api.post('/subscriptions/cancel');
-      return response.data;
-    } catch (error) {
-      console.error('Error canceling subscription:', error);
-      throw error;
-    }
-  },
-
-  /**
-   * Resume subscription
-   * @returns {Promise} Resumed subscription
-   */
-  resumeSubscription: async () => {
-    try {
-      const response = await api.post('/subscriptions/resume');
-      return response.data;
-    } catch (error) {
-      console.error('Error resuming subscription:', error);
-      throw error;
-    }
-  },
-
-  /**
    * Get billing history (invoices)
    * @returns {Promise} Billing history list
    */
   getBillingHistory: async () => {
     try {
-      const response = await api.get('/invoices'); // Common convention
+      const response = await api.get('/invoices');
       return response.data;
     } catch (error) {
       console.error('Error getting billing history:', error);
       return { data: [] };
-    }
-  },
-  changePlan: async (planData) => {
-    try {
-      const response = await api.put('/subscriptions/change-plan', planData);
-      return response.data;
-    } catch (error) {
-      console.error('Error changing plan:', error);
-      throw error;
     }
   },
 
