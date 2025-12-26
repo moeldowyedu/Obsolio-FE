@@ -4,6 +4,7 @@ import adminService from '../../services/adminService';
 import subscriptionsService from '../../services/subscriptionsService';
 import toast from 'react-hot-toast';
 import { useTheme } from '../../contexts/ThemeContext';
+import AdminLayout from '../../components/layout/AdminLayout';
 
 const TenantsManagement = () => {
   const { theme } = useTheme();
@@ -136,7 +137,7 @@ const TenantsManagement = () => {
   };
 
   return (
-    <div className={`min-h-screen p-6 ${theme === 'dark' ? 'bg-[#0B0E14]' : 'bg-slate-50'}`}>
+    <AdminLayout>
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
@@ -403,7 +404,7 @@ const TenantsManagement = () => {
           />
         )}
       </div>
-    </div>
+    </AdminLayout>
   );
 };
 

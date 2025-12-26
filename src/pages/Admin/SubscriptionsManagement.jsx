@@ -3,6 +3,7 @@ import { Plus, Edit2, Trash2, Eye, DollarSign, Users } from 'lucide-react';
 import adminService from '../../services/adminService';
 import toast from 'react-hot-toast';
 import { useTheme } from '../../contexts/ThemeContext';
+import AdminLayout from '../../components/layout/AdminLayout';
 
 const SubscriptionsManagement = () => {
   const { theme } = useTheme();
@@ -140,7 +141,7 @@ const SubscriptionsManagement = () => {
   };
 
   return (
-    <div className={`min-h-screen p-6 ${theme === 'dark' ? 'bg-[#0B0E14]' : 'bg-slate-50'}`}>
+    <AdminLayout>
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
@@ -283,7 +284,7 @@ const SubscriptionsManagement = () => {
           />
         )}
       </div>
-    </div>
+    </AdminLayout>
   );
 };
 
