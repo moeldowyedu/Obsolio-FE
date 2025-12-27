@@ -43,14 +43,27 @@ const TenantsManagement = () => {
       console.log('response.tenants:', response?.tenants);
 
       // Handle different response structures
-      const tenantsData = response.data || response.tenants || response || [];
-      const metaData = response.meta || response.pagination || {};
+      // API returns: { success: true, data: { data: [...], current_page, total, ... } }
+      let tenantsData = [];
+      let metaData = {};
+
+      // Check if response has success wrapper with data.data structure
+      if (response.data && response.data.data && Array.isArray(response.data.data)) {
+        tenantsData = response.data.data;
+        metaData = response.data;
+      } else if (response.data && Array.isArray(response.data)) {
+        // response.data is directly an array
+        tenantsData = response.data;
+      } else if (response.tenants && Array.isArray(response.tenants)) {
+        tenantsData = response.tenants;
+        metaData = response.meta || response.pagination || {};
+      }
 
       console.log('Parsed tenantsData:', tenantsData);
       console.log('tenantsData is array?', Array.isArray(tenantsData));
       console.log('tenantsData length:', tenantsData?.length);
 
-      setTenants(Array.isArray(tenantsData) ? tenantsData : []);
+      setTenants(tenantsData);
       setTotalPages(metaData.last_page || metaData.total_pages || 1);
     } catch (error) {
       console.error('Error fetching tenants:', error);
