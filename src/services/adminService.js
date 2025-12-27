@@ -491,6 +491,86 @@ const adminService = {
         const response = await api.post('/auth/lookup-tenant', { identifier });
         return response.data;
     },
+
+    // ==================== ANALYTICS ====================
+
+    /**
+     * Get analytics overview
+     * High-level statistics for the admin dashboard
+     */
+    getAnalyticsOverview: async () => {
+        const response = await api.get('/admin/analytics/overview');
+        return response.data;
+    },
+
+    /**
+     * Get revenue analytics
+     * @param {Object} params - Query parameters (period: day | week | month | year)
+     */
+    getRevenueAnalytics: async (params = {}) => {
+        const response = await api.get('/admin/analytics/revenue', { params });
+        return response.data;
+    },
+
+    /**
+     * Get agent analytics
+     * Analytics by category and top performing agents
+     */
+    getAgentAnalytics: async () => {
+        const response = await api.get('/admin/analytics/agents');
+        return response.data;
+    },
+
+    // ==================== ACTIVITY & AUDIT LOGS ====================
+
+    /**
+     * Get activity logs with filters
+     * @param {Object} params - Query parameters (user_id, action, page)
+     */
+    getActivityLogs: async (params = {}) => {
+        const response = await api.get('/admin/activity-logs', { params });
+        return response.data;
+    },
+
+    /**
+     * Get impersonation logs
+     * @param {Object} params - Query parameters (page)
+     */
+    getImpersonationLogs: async (params = {}) => {
+        const response = await api.get('/admin/impersonation-logs', { params });
+        return response.data;
+    },
+
+    // ==================== AGENT RUNS STATISTICS ====================
+
+    /**
+     * Get agent runs statistics
+     * @param {Object} params - Query parameters (agent_id, date_from, date_to)
+     */
+    getAgentRunsStatistics: async (params = {}) => {
+        const response = await api.get('/admin/agent-runs/statistics', { params });
+        return response.data;
+    },
+
+    // ==================== BULK ACTIONS ====================
+
+    /**
+     * Bulk activate agents
+     * @param {Array} agentIds - Array of agent UUIDs
+     */
+    bulkActivateAgents: async (agentIds) => {
+        const response = await api.post('/admin/agents/bulk-activate', { agent_ids: agentIds });
+        return response.data;
+    },
+
+    /**
+     * Bulk deactivate agents
+     * @param {Array} agentIds - Array of agent UUIDs
+     */
+    bulkDeactivateAgents: async (agentIds) => {
+        const response = await api.post('/admin/agents/bulk-deactivate', { agent_ids: agentIds });
+        return response.data;
+    },
 };
 
 export default adminService;

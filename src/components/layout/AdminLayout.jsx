@@ -49,6 +49,8 @@ const AdminLayout = ({ children }) => {
     { name: 'Active Agents', href: '/active-agents', icon: Activity },
   ];
 
+  const agentsParentName = 'Agents Management';
+
   const isActive = (href) => location.pathname === href;
   const isAgentsMenuActive = agentsSubMenu.some(item => isActive(item.href));
 
@@ -149,27 +151,52 @@ const AdminLayout = ({ children }) => {
             }`}
         >
           <nav className="p-4 space-y-2">
-            {navigation.map((item) => {
-              const Icon = item.icon;
-              const active = isActive(item.href);
-              return (
-                <Link
-                  key={item.name}
-                  to={item.href}
-                  className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-all ${active
-                    ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg'
-                    : theme === 'dark'
-                      ? 'text-gray-400 hover:bg-gray-800 hover:text-white'
-                      : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900'
-                    }`}
-                >
-                  <Icon className="w-5 h-5 flex-shrink-0" />
-                  <span className="font-medium whitespace-nowrap">{item.name}</span>
-                </Link>
-              );
-            })}
+            {/* Console Dashboard */}
+            <Link
+              to="/"
+              className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-all ${
+                isActive('/')
+                  ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg'
+                  : theme === 'dark'
+                    ? 'text-gray-400 hover:bg-gray-800 hover:text-white'
+                    : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900'
+              }`}
+            >
+              <LayoutDashboard className="w-5 h-5 flex-shrink-0" />
+              <span className="font-medium whitespace-nowrap">Console Dashboard</span>
+            </Link>
 
-            {/* Agents Hierarchical Menu */}
+            {/* Manage Tenants */}
+            <Link
+              to="/tenants"
+              className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-all ${
+                isActive('/tenants')
+                  ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg'
+                  : theme === 'dark'
+                    ? 'text-gray-400 hover:bg-gray-800 hover:text-white'
+                    : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900'
+              }`}
+            >
+              <Building2 className="w-5 h-5 flex-shrink-0" />
+              <span className="font-medium whitespace-nowrap">Manage Tenants</span>
+            </Link>
+
+            {/* Manage Subscriptions */}
+            <Link
+              to="/subscriptions"
+              className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-all ${
+                isActive('/subscriptions')
+                  ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg'
+                  : theme === 'dark'
+                    ? 'text-gray-400 hover:bg-gray-800 hover:text-white'
+                    : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900'
+              }`}
+            >
+              <CreditCard className="w-5 h-5 flex-shrink-0" />
+              <span className="font-medium whitespace-nowrap">Manage Subscriptions</span>
+            </Link>
+
+            {/* Agents Management - Hierarchical Menu */}
             <div className="space-y-1">
               <button
                 onClick={() => setAgentsMenuOpen(!agentsMenuOpen)}
@@ -183,7 +210,7 @@ const AdminLayout = ({ children }) => {
               >
                 <div className="flex items-center space-x-3">
                   <Bot className="w-5 h-5 flex-shrink-0" />
-                  <span className="font-medium whitespace-nowrap">Agents</span>
+                  <span className="font-medium whitespace-nowrap">{agentsParentName}</span>
                 </div>
                 <ChevronRight
                   className={`w-4 h-4 transition-transform ${
@@ -219,6 +246,21 @@ const AdminLayout = ({ children }) => {
                 </div>
               )}
             </div>
+
+            {/* Integrations */}
+            <Link
+              to="/integrations"
+              className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-all ${
+                isActive('/integrations')
+                  ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg'
+                  : theme === 'dark'
+                    ? 'text-gray-400 hover:bg-gray-800 hover:text-white'
+                    : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900'
+              }`}
+            >
+              <Plug className="w-5 h-5 flex-shrink-0" />
+              <span className="font-medium whitespace-nowrap">Integrations</span>
+            </Link>
           </nav>
         </aside>
 
