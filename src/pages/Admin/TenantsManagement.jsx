@@ -37,10 +37,18 @@ const TenantsManagement = () => {
 
       const response = await adminService.getAllTenants(params);
       console.log('Tenants API Response:', response);
+      console.log('Response type:', typeof response);
+      console.log('Response keys:', Object.keys(response || {}));
+      console.log('response.data:', response?.data);
+      console.log('response.tenants:', response?.tenants);
 
       // Handle different response structures
       const tenantsData = response.data || response.tenants || response || [];
       const metaData = response.meta || response.pagination || {};
+
+      console.log('Parsed tenantsData:', tenantsData);
+      console.log('tenantsData is array?', Array.isArray(tenantsData));
+      console.log('tenantsData length:', tenantsData?.length);
 
       setTenants(Array.isArray(tenantsData) ? tenantsData : []);
       setTotalPages(metaData.last_page || metaData.total_pages || 1);
