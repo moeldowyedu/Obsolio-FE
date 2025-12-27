@@ -2,6 +2,19 @@
 
 This document outlines the API endpoints that need to be implemented in the backend to support the full Admin Console functionality.
 
+## Quick Summary
+
+**New Pages Implemented (Frontend Ready):**
+1. ✅ **Agent Categories Management** (`/agent-categories`) - Full CRUD UI ready
+2. ✅ **Agent Runs Monitoring** (`/agent-runs`) - Execution history tracking UI ready
+3. ✅ **Hierarchical Agents Menu** - Navigation structure with Categories → Agents → Agent Runs → Active Agents
+
+**Backend APIs Needed Immediately (Phase 1):**
+- `/admin/agent-categories` - CRUD operations (4 endpoints)
+- `/admin/agent-runs` - List and statistics (3 endpoints)
+- `/admin/agents` - CRUD operations (6 endpoints)
+- `/admin/subscription-plans` - CRUD operations (4 endpoints)
+
 ## Current Status
 
 Based on the OpenAPI specification at `https://api.obsolio.com/docs?api-docs.json`, the following endpoints are **already available**:
@@ -218,6 +231,9 @@ Response: 200 OK
 **List Categories**
 ```http
 GET /admin/agent-categories
+Query Parameters:
+  - search: string (search by name, slug, description)
+  - sort: string (display_order, name_asc, name_desc, agents_count_desc)
 
 Response: 200 OK
 {
@@ -228,9 +244,11 @@ Response: 200 OK
       "name": "Data Processing",
       "slug": "data-processing",
       "description": "Category description",
-      "icon": "icon-name",
+      "icon": "database",
+      "display_order": 1,
       "agents_count": 25,
-      "created_at": "2024-01-01T00:00:00Z"
+      "created_at": "2024-01-01T00:00:00Z",
+      "updated_at": "2024-01-01T00:00:00Z"
     }
   ]
 }
@@ -246,23 +264,205 @@ Body:
   "name": "Category Name",
   "slug": "category-slug",
   "description": "Description",
-  "icon": "icon-name"
+  "icon": "icon-name",
+  "display_order": 1
+}
+
+Response: 201 Created
+{
+  "success": true,
+  "data": {
+    "id": "uuid",
+    "name": "Category Name",
+    "slug": "category-slug",
+    "description": "Description",
+    "icon": "icon-name",
+    "display_order": 1,
+    "agents_count": 0,
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z"
+  }
 }
 ```
 
 **Update Category**
 ```http
 PUT /admin/agent-categories/{id}
+Content-Type: application/json
+
+Body:
+{
+  "name": "Updated Category Name",
+  "slug": "updated-category-slug",
+  "description": "Updated description",
+  "icon": "updated-icon",
+  "display_order": 2
+}
+
+Response: 200 OK
+{
+  "success": true,
+  "data": { ... updated category object }
+}
 ```
 
 **Delete Category**
 ```http
 DELETE /admin/agent-categories/{id}
+
+Response: 200 OK
+{
+  "success": true,
+  "message": "Category deleted successfully"
+}
+
+Note: Should check if category has agents assigned. If yes, either:
+- Return error 422: "Cannot delete category with assigned agents"
+- OR reassign agents to "Uncategorized" before deletion
 ```
+
+**Validation Rules for Agent Categories:**
+- `name`: required, string, max:255
+- `slug`: required, string, unique, lowercase, alphanumeric + hyphens
+- `description`: nullable, string
+- `icon`: nullable, string, max:100 (lucide-react icon name)
+- `display_order`: integer, min:1
 
 ---
 
-### 3. Subscription Plans Management
+### 3. Agent Runs (Execution History)
+
+#### Base Path: `/admin/agent-runs`
+
+**List Agent Runs**
+```http
+GET /admin/agent-runs
+Query Parameters:
+  - page: integer (default: 1)
+  - per_page: integer (default: 20)
+  - agent_id: uuid (filter by specific agent)
+  - status: string (pending, running, completed, failed)
+  - date_from: datetime (YYYY-MM-DD HH:mm:ss or YYYY-MM-DD)
+  - date_to: datetime (YYYY-MM-DD HH:mm:ss or YYYY-MM-DD)
+  - search: string (search by agent name or run ID)
+  - sort: string (started_at_desc, started_at_asc, duration_desc)
+
+Response: 200 OK
+{
+  "success": true,
+  "data": {
+    "data": [
+      {
+        "id": "uuid",
+        "agent_id": "uuid",
+        "agent_name": "Data ETL Pipeline",
+        "status": "completed",
+        "input": "{\"source\":\"database_a\",\"destination\":\"warehouse\"}",
+        "output": "{\"processed\":1500,\"errors\":0}",
+        "error": null,
+        "started_at": "2024-01-27T10:30:00Z",
+        "completed_at": "2024-01-27T10:30:04Z",
+        "duration_ms": 4532,
+        "triggered_by": {
+          "id": "uuid",
+          "name": "User Name",
+          "email": "user@example.com"
+        }
+      }
+    ],
+    "current_page": 1,
+    "last_page": 10,
+    "per_page": 20,
+    "total": 200
+  }
+}
+```
+
+**Get Agent Run Details**
+```http
+GET /admin/agent-runs/{run_id}
+
+Response: 200 OK
+{
+  "success": true,
+  "data": {
+    "id": "uuid",
+    "agent_id": "uuid",
+    "agent_name": "Data ETL Pipeline",
+    "status": "completed",
+    "input": "{...}",
+    "output": "{...}",
+    "error": null,
+    "started_at": "2024-01-27T10:30:00Z",
+    "completed_at": "2024-01-27T10:30:04Z",
+    "duration_ms": 4532,
+    "triggered_by": {
+      "id": "uuid",
+      "name": "User Name",
+      "email": "user@example.com"
+    },
+    "logs": [
+      {
+        "timestamp": "2024-01-27T10:30:01Z",
+        "level": "info",
+        "message": "Starting ETL process..."
+      }
+    ]
+  }
+}
+```
+
+**Get Agent Runs Statistics**
+```http
+GET /admin/agent-runs/statistics
+Query Parameters:
+  - agent_id: uuid (optional, filter by specific agent)
+  - date_from: datetime
+  - date_to: datetime
+
+Response: 200 OK
+{
+  "success": true,
+  "data": {
+    "total": 1234,
+    "completed": 1100,
+    "running": 12,
+    "failed": 102,
+    "pending": 20,
+    "success_rate": 91.5,
+    "avg_duration_ms": 5432,
+    "total_duration_ms": 6700000
+  }
+}
+```
+
+**Database Schema for Agent Runs:**
+```sql
+-- agent_runs table (may already exist, verify fields)
+id: uuid, primary key
+agent_id: uuid, foreign key (agents.id)
+status: enum('pending', 'running', 'completed', 'failed')
+input: json or text
+output: json or text, nullable
+error: text, nullable
+started_at: timestamp
+completed_at: timestamp, nullable
+duration_ms: integer, nullable
+triggered_by_user_id: uuid, nullable, foreign key (users.id)
+created_at: timestamp
+updated_at: timestamp
+```
+
+**Notes on Agent Runs:**
+- Runs should be **read-only** from the admin panel (no create/update/delete)
+- The `POST /agents/{id}/run` endpoint (already exists) creates new runs
+- Agent runs should be retained for analytics (consider archiving old runs after 90 days)
+- Consider indexing on: agent_id, status, started_at for performance
+- Consider adding pagination limit (max 100 per page) for performance
+
+---
+
+### 4. Subscription Plans Management
 
 #### Base Path: `/admin/subscription-plans`
 
@@ -340,7 +540,7 @@ DELETE /admin/subscription-plans/{id}
 
 ---
 
-### 4. User Management
+### 5. User Management
 
 #### Base Path: `/admin/users`
 
@@ -428,7 +628,7 @@ Response: 200 OK
 
 ---
 
-### 5. Payment Transactions
+### 6. Payment Transactions
 
 #### Base Path: `/admin/payment-transactions`
 
@@ -493,7 +693,7 @@ Response: 200 OK
 
 ---
 
-### 6. Enhanced Tenant Management
+### 7. Enhanced Tenant Management
 
 The following tenant-specific admin endpoints are missing:
 
@@ -665,19 +865,40 @@ All responses should follow this format:
 
 ## Implementation Priority
 
-### Phase 1 (High Priority)
-1. Agent CRUD endpoints - Required for Agents Management page
-2. Agent Categories - Required for agent filtering
-3. Subscription Plans CRUD - Required for Subscriptions Management page
+### Phase 1 (High Priority - Required for Current UI)
+1. **Agent Categories CRUD** (`/admin/agent-categories/*`) - Required for Agent Categories management page
+   - GET /admin/agent-categories (list with search, sort)
+   - POST /admin/agent-categories (create)
+   - PUT /admin/agent-categories/{id} (update)
+   - DELETE /admin/agent-categories/{id} (delete)
+
+2. **Agent Runs List** (`/admin/agent-runs`) - Required for Agent Runs monitoring page
+   - GET /admin/agent-runs (list with filters, pagination)
+   - GET /admin/agent-runs/{run_id} (details - may already exist)
+   - GET /admin/agent-runs/statistics (stats)
+
+3. **Agent CRUD endpoints** (`/admin/agents/*`) - Required for Agents Management page
+   - GET /admin/agents (list with filters, search, sort)
+   - POST /admin/agents (create)
+   - PUT /admin/agents/{id} (update)
+   - DELETE /admin/agents/{id} (delete)
+   - POST /admin/agents/bulk-activate (bulk action)
+   - POST /admin/agents/bulk-deactivate (bulk action)
+
+4. **Subscription Plans CRUD** (`/admin/subscription-plans/*`) - Required for Subscriptions Management page
+   - GET /admin/subscription-plans (list with filters)
+   - POST /admin/subscription-plans (create)
+   - PUT /admin/subscription-plans/{id} (update)
+   - DELETE /admin/subscription-plans/{id} (delete)
 
 ### Phase 2 (Medium Priority)
-4. User Management CRUD - Required for Users & Permissions page
-5. Enhanced Tenant Management (subscription changes, trial extension, suspend/activate)
-6. Tenant Statistics endpoint
+5. User Management CRUD - Required for Users & Permissions page
+6. Enhanced Tenant Management (subscription changes, trial extension, suspend/activate)
+7. Tenant Statistics endpoint
 
 ### Phase 3 (Low Priority)
-7. Payment Transactions - Required for Transactions page
-8. Refund functionality
+8. Payment Transactions - Required for Transactions page
+9. Refund functionality
 
 ---
 
