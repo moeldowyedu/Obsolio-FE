@@ -359,13 +359,16 @@ const PlanModal = ({ mode, formData, setFormData, theme, onClose, onSubmit }) =>
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4 overflow-y-auto">
-      <div className={`w-full max-w-2xl rounded-2xl p-6 my-8 ${theme === 'dark' ? 'bg-[#1a1f2e] border border-white/10' : 'bg-white border border-slate-200'}`}>
-        <h3 className={`text-2xl font-bold mb-6 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
-          {mode === 'create' ? 'Create New Plan' : 'Edit Plan'}
-        </h3>
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+      <div className={`w-full max-w-2xl max-h-[90vh] rounded-2xl overflow-hidden ${theme === 'dark' ? 'bg-[#1a1f2e] border border-white/10' : 'bg-white border border-slate-200'}`}>
+        <div className={`px-6 py-4 border-b ${theme === 'dark' ? 'border-white/10' : 'border-slate-200'}`}>
+          <h3 className={`text-2xl font-bold ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
+            {mode === 'create' ? 'Create New Plan' : 'Edit Plan'}
+          </h3>
+        </div>
 
-        <form onSubmit={onSubmit} className="space-y-4">
+        <form onSubmit={onSubmit} className="flex flex-col max-h-[calc(90vh-5rem)]">
+          <div className="overflow-y-auto px-6 py-4 space-y-4">
           {/* Plan Name */}
           <div>
             <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
@@ -640,9 +643,10 @@ const PlanModal = ({ mode, formData, setFormData, theme, onClose, onSubmit }) =>
               Publish plan (make visible to users)
             </label>
           </div>
+          </div>
 
           {/* Actions */}
-          <div className="flex gap-3 pt-6 border-t border-white/10">
+          <div className={`flex gap-3 px-6 py-4 border-t ${theme === 'dark' ? 'border-white/10' : 'border-slate-200'} bg-opacity-95 backdrop-blur-sm`}>
             <button
               type="button"
               onClick={onClose}
