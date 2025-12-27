@@ -6,7 +6,6 @@ import LoginPage from '../pages/Auth/LoginPage';
 import AdminDashboardPage from '../pages/Admin/AdminDashboardPage';
 import TenantsManagement from '../pages/Admin/TenantsManagement';
 import SubscriptionsManagement from '../pages/Admin/SubscriptionsManagement';
-import EngineManagementPage from '../pages/Admin/EngineManagementPage';
 import AgentsManagementPage from '../pages/Admin/AgentsManagementPage';
 import ActiveAgentsMonitorPage from '../pages/Admin/ActiveAgentsMonitorPage';
 import IntegrationManagementPage from '../pages/Admin/IntegrationManagementPage';
@@ -39,13 +38,6 @@ const AdminRouter = () => {
             <Route path="/subscriptions" element={
                 <ProtectedRoute requireSystemAdmin>
                     <SubscriptionsManagement />
-                </ProtectedRoute>
-            } />
-
-            {/* Manage Engines */}
-            <Route path="/engines" element={
-                <ProtectedRoute requireSystemAdmin>
-                    <EngineManagementPage />
                 </ProtectedRoute>
             } />
 

@@ -36,11 +36,19 @@ const TenantsManagement = () => {
       };
 
       const response = await adminService.getAllTenants(params);
-      setTenants(response.data || []);
-      setTotalPages(response.meta?.last_page || 1);
+      console.log('Tenants API Response:', response);
+
+      // Handle different response structures
+      const tenantsData = response.data || response.tenants || response || [];
+      const metaData = response.meta || response.pagination || {};
+
+      setTenants(Array.isArray(tenantsData) ? tenantsData : []);
+      setTotalPages(metaData.last_page || metaData.total_pages || 1);
     } catch (error) {
       console.error('Error fetching tenants:', error);
-      toast.error('Failed to load tenants');
+      console.error('Error details:', error.response?.data);
+      toast.error(error.response?.data?.message || 'Failed to load tenants');
+      setTenants([]); // Set empty array on error to prevent crash
     } finally {
       setLoading(false);
     }
