@@ -37,10 +37,27 @@ const SubscriptionsManagement = () => {
     setLoading(true);
     try {
       const response = await adminService.getAllPlans();
-      setPlans(response.data || []);
+      console.log('Plans API Response:', response);
+      console.log('Response keys:', Object.keys(response || {}));
+      console.log('response.data:', response?.data);
+
+      // Handle different response structures
+      // API may return: { success: true, data: [...] } or { data: [...] } or [...]
+      let plansData = [];
+
+      if (response.data && Array.isArray(response.data)) {
+        plansData = response.data;
+      } else if (Array.isArray(response)) {
+        plansData = response;
+      }
+
+      console.log('Parsed plansData:', plansData);
+      console.log('plansData length:', plansData.length);
+      setPlans(plansData);
     } catch (error) {
       console.error('Error fetching plans:', error);
       toast.error('Failed to load subscription plans');
+      setPlans([]); // Set empty array on error
     } finally {
       setLoading(false);
     }
@@ -168,6 +185,23 @@ const SubscriptionsManagement = () => {
             <div className="inline-block w-8 h-8 border-4 border-primary-500 border-t-transparent rounded-full animate-spin"></div>
             <p className={`mt-4 ${theme === 'dark' ? 'text-gray-400' : 'text-slate-600'}`}>Loading plans...</p>
           </div>
+        ) : plans.length === 0 ? (
+          <div className={`text-center py-12 rounded-xl ${theme === 'dark' ? 'bg-white/5 border border-white/10' : 'bg-white border border-slate-200'}`}>
+            <DollarSign className={`w-12 h-12 mx-auto mb-4 ${theme === 'dark' ? 'text-gray-600' : 'text-slate-400'}`} />
+            <h3 className={`text-lg font-medium mb-2 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
+              No subscription plans yet
+            </h3>
+            <p className={`mb-6 ${theme === 'dark' ? 'text-gray-400' : 'text-slate-600'}`}>
+              Create your first subscription plan to get started
+            </p>
+            <button
+              onClick={handleCreate}
+              className="inline-flex items-center gap-2 px-4 py-2.5 bg-primary-600 hover:bg-primary-500 text-white rounded-lg font-medium transition-colors"
+            >
+              <Plus className="w-5 h-5" />
+              Create Plan
+            </button>
+          </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {plans.map((plan) => (
@@ -200,6 +234,13 @@ const SubscriptionsManagement = () => {
                     </span>
                   )}
                 </div>
+
+                {/* Description */}
+                {plan.description && (
+                  <p className={`text-sm mb-4 ${theme === 'dark' ? 'text-gray-400' : 'text-slate-600'}`}>
+                    {plan.description}
+                  </p>
+                )}
 
                 {/* Pricing */}
                 <div className="mb-4">
@@ -332,6 +373,24 @@ const PlanModal = ({ mode, formData, setFormData, theme, onClose, onSubmit }) =>
                   : 'bg-white border-slate-200 text-slate-900 focus:ring-primary-500/50'
               }`}
               required
+            />
+          </div>
+
+          {/* Description */}
+          <div>
+            <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
+              Description
+            </label>
+            <textarea
+              value={formData.description}
+              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+              rows={3}
+              className={`w-full px-4 py-2.5 rounded-lg border focus:outline-none focus:ring-2 ${
+                theme === 'dark'
+                  ? 'bg-white/5 border-white/10 text-white focus:ring-primary-500/50'
+                  : 'bg-white border-slate-200 text-slate-900 focus:ring-primary-500/50'
+              }`}
+              placeholder="Brief description of the plan..."
             />
           </div>
 
@@ -497,6 +556,65 @@ const PlanModal = ({ mode, formData, setFormData, theme, onClose, onSubmit }) =>
                     : 'bg-white border-slate-200 text-slate-900 focus:ring-primary-500/50'
                 }`}
               />
+            </div>
+          </div>
+
+          {/* Features */}
+          <div>
+            <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
+              Features
+            </label>
+            <div className="space-y-2">
+              {formData.features.map((feature, index) => (
+                <div key={index} className="flex items-center gap-2">
+                  <input
+                    type="text"
+                    value={feature}
+                    readOnly
+                    className={`flex-1 px-3 py-2 rounded-lg border ${
+                      theme === 'dark'
+                        ? 'bg-white/5 border-white/10 text-white'
+                        : 'bg-slate-50 border-slate-200 text-slate-900'
+                    }`}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => removeFeature(index)}
+                    className={`px-3 py-2 rounded-lg transition-colors ${
+                      theme === 'dark'
+                        ? 'bg-red-500/20 hover:bg-red-500/30 text-red-400'
+                        : 'bg-red-50 hover:bg-red-100 text-red-600'
+                    }`}
+                  >
+                    Remove
+                  </button>
+                </div>
+              ))}
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={featureInput}
+                  onChange={(e) => setFeatureInput(e.target.value)}
+                  onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addFeature())}
+                  placeholder="Add a feature..."
+                  className={`flex-1 px-4 py-2.5 rounded-lg border focus:outline-none focus:ring-2 ${
+                    theme === 'dark'
+                      ? 'bg-white/5 border-white/10 text-white focus:ring-primary-500/50'
+                      : 'bg-white border-slate-200 text-slate-900 focus:ring-primary-500/50'
+                  }`}
+                />
+                <button
+                  type="button"
+                  onClick={addFeature}
+                  className={`px-4 py-2.5 rounded-lg font-medium transition-colors ${
+                    theme === 'dark'
+                      ? 'bg-white/10 hover:bg-white/20 text-white'
+                      : 'bg-slate-100 hover:bg-slate-200 text-slate-900'
+                  }`}
+                >
+                  Add
+                </button>
+              </div>
             </div>
           </div>
 
