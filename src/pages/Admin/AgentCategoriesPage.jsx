@@ -15,76 +15,6 @@ import {
 import adminService from '../../services/adminService';
 import notify from '../../utils/toast';
 
-// Mock data for agent categories
-const mockCategories = [
-  {
-    id: '1',
-    name: 'Data Processing',
-    slug: 'data-processing',
-    description: 'Agents specialized in data transformation, ETL, and data pipeline operations',
-    icon: 'database',
-    display_order: 1,
-    agents_count: 12,
-    created_at: '2024-01-15T10:00:00Z',
-    updated_at: '2024-01-20T14:30:00Z',
-  },
-  {
-    id: '2',
-    name: 'AI & Machine Learning',
-    slug: 'ai-ml',
-    description: 'Machine learning models, neural networks, and AI-powered agents',
-    icon: 'brain',
-    display_order: 2,
-    agents_count: 8,
-    created_at: '2024-01-16T11:00:00Z',
-    updated_at: '2024-01-22T09:15:00Z',
-  },
-  {
-    id: '3',
-    name: 'API Integration',
-    slug: 'api-integration',
-    description: 'Agents that connect and interact with external APIs and services',
-    icon: 'plug',
-    display_order: 3,
-    agents_count: 15,
-    created_at: '2024-01-17T09:30:00Z',
-    updated_at: '2024-01-23T16:45:00Z',
-  },
-  {
-    id: '4',
-    name: 'Automation',
-    slug: 'automation',
-    description: 'Task automation, workflow orchestration, and scheduled operations',
-    icon: 'zap',
-    display_order: 4,
-    agents_count: 10,
-    created_at: '2024-01-18T13:00:00Z',
-    updated_at: '2024-01-24T11:20:00Z',
-  },
-  {
-    id: '5',
-    name: 'Analytics',
-    slug: 'analytics',
-    description: 'Business intelligence, reporting, and data analytics agents',
-    icon: 'chart',
-    display_order: 5,
-    agents_count: 6,
-    created_at: '2024-01-19T14:30:00Z',
-    updated_at: '2024-01-25T10:00:00Z',
-  },
-  {
-    id: '6',
-    name: 'Communication',
-    slug: 'communication',
-    description: 'Email, messaging, notification, and communication workflow agents',
-    icon: 'mail',
-    display_order: 6,
-    agents_count: 9,
-    created_at: '2024-01-20T10:00:00Z',
-    updated_at: '2024-01-26T15:30:00Z',
-  },
-];
-
 const AgentCategoriesPage = () => {
   const { theme } = useTheme();
   const [categories, setCategories] = useState([]);
@@ -122,51 +52,34 @@ const AgentCategoriesPage = () => {
   const fetchCategories = async () => {
     setLoading(true);
     try {
-      // TODO: Replace with real API call when backend is ready
-      // const response = await adminService.getAgentCategories();
+      const params = {
+        search: searchQuery || undefined,
+        sort: `${sortBy}_${sortOrder}`
+      };
 
-      // Use mock data for now
-      let filtered = [...mockCategories];
+      const response = await adminService.getAgentCategories(params);
 
-      // Apply search
-      if (searchQuery) {
-        filtered = filtered.filter(
-          (cat) =>
-            cat.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            cat.slug.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            cat.description.toLowerCase().includes(searchQuery.toLowerCase())
-        );
+      // Handle different response structures
+      let categoriesData = [];
+      if (response.data && Array.isArray(response.data)) {
+        categoriesData = response.data;
+      } else if (Array.isArray(response)) {
+        categoriesData = response;
       }
 
-      // Apply sorting
-      filtered.sort((a, b) => {
-        let aValue = a[sortBy];
-        let bValue = b[sortBy];
-
-        if (sortBy === 'name' || sortBy === 'slug') {
-          aValue = aValue.toLowerCase();
-          bValue = bValue.toLowerCase();
-        }
-
-        if (sortOrder === 'asc') {
-          return aValue > bValue ? 1 : -1;
-        } else {
-          return aValue < bValue ? 1 : -1;
-        }
-      });
-
-      setCategories(filtered);
+      setCategories(categoriesData);
 
       // Calculate stats
-      const totalAgents = filtered.reduce((sum, cat) => sum + cat.agents_count, 0);
+      const totalAgents = categoriesData.reduce((sum, cat) => sum + (cat.agents_count || 0), 0);
       setStats({
-        total: filtered.length,
+        total: categoriesData.length,
         totalAgents: totalAgents,
-        avgAgentsPerCategory: filtered.length > 0 ? Math.round(totalAgents / filtered.length) : 0,
+        avgAgentsPerCategory: categoriesData.length > 0 ? Math.round(totalAgents / categoriesData.length) : 0,
       });
     } catch (error) {
       console.error('Error fetching categories:', error);
       notify.error('Failed to load agent categories');
+      setCategories([]);
     } finally {
       setLoading(false);
     }
@@ -174,48 +87,52 @@ const AgentCategoriesPage = () => {
 
   const handleCreateCategory = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
-      // TODO: Replace with real API call
-      // await adminService.createAgentCategory(formData);
-
+      await adminService.createAgentCategory(formData);
       notify.success('Category created successfully');
       setShowCreateModal(false);
       resetForm();
       fetchCategories();
     } catch (error) {
       console.error('Error creating category:', error);
-      notify.error('Failed to create category');
+      notify.error(error.response?.data?.message || 'Failed to create category');
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleUpdateCategory = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
-      // TODO: Replace with real API call
-      // await adminService.updateAgentCategory(selectedCategory.id, formData);
-
+      await adminService.updateAgentCategory(selectedCategory.id, formData);
       notify.success('Category updated successfully');
       setShowEditModal(false);
+      setSelectedCategory(null);
       resetForm();
       fetchCategories();
     } catch (error) {
       console.error('Error updating category:', error);
-      notify.error('Failed to update category');
+      notify.error(error.response?.data?.message || 'Failed to update category');
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleDeleteCategory = async () => {
+    setLoading(true);
     try {
-      // TODO: Replace with real API call
-      // await adminService.deleteAgentCategory(selectedCategory.id);
-
+      await adminService.deleteAgentCategory(selectedCategory.id);
       notify.success('Category deleted successfully');
       setShowDeleteModal(false);
       setSelectedCategory(null);
       fetchCategories();
     } catch (error) {
       console.error('Error deleting category:', error);
-      notify.error('Failed to delete category');
+      notify.error(error.response?.data?.message || 'Failed to delete category');
+    } finally {
+      setLoading(false);
     }
   };
 
