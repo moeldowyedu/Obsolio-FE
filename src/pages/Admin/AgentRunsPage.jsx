@@ -17,106 +17,6 @@ import {
 import adminService from '../../services/adminService';
 import notify from '../../utils/toast';
 
-// Mock data for agent runs
-const mockAgentRuns = [
-  {
-    id: '1',
-    agent_id: 'agent-1',
-    agent_name: 'Data ETL Pipeline',
-    status: 'completed',
-    input: JSON.stringify({ source: 'database_a', destination: 'warehouse', records: 1500 }),
-    output: JSON.stringify({ processed: 1500, errors: 0, duration_ms: 4532 }),
-    error: null,
-    started_at: '2024-01-27T10:30:00Z',
-    completed_at: '2024-01-27T10:30:04Z',
-    duration_ms: 4532,
-  },
-  {
-    id: '2',
-    agent_id: 'agent-2',
-    agent_name: 'ML Model Trainer',
-    status: 'running',
-    input: JSON.stringify({ dataset: 'sales_2024.csv', epochs: 100, batch_size: 32 }),
-    output: null,
-    error: null,
-    started_at: '2024-01-27T10:35:00Z',
-    completed_at: null,
-    duration_ms: null,
-  },
-  {
-    id: '3',
-    agent_id: 'agent-3',
-    agent_name: 'Email Notifier',
-    status: 'failed',
-    input: JSON.stringify({ recipients: ['user@example.com'], template: 'welcome' }),
-    output: null,
-    error: 'SMTP connection failed: Connection timeout after 30s',
-    started_at: '2024-01-27T10:25:00Z',
-    completed_at: '2024-01-27T10:25:30Z',
-    duration_ms: 30000,
-  },
-  {
-    id: '4',
-    agent_id: 'agent-1',
-    agent_name: 'Data ETL Pipeline',
-    status: 'completed',
-    input: JSON.stringify({ source: 'database_b', destination: 'warehouse', records: 2340 }),
-    output: JSON.stringify({ processed: 2340, errors: 0, duration_ms: 6821 }),
-    error: null,
-    started_at: '2024-01-27T09:15:00Z',
-    completed_at: '2024-01-27T09:15:06Z',
-    duration_ms: 6821,
-  },
-  {
-    id: '5',
-    agent_id: 'agent-4',
-    agent_name: 'API Data Sync',
-    status: 'pending',
-    input: JSON.stringify({ endpoint: '/api/v1/products', method: 'GET' }),
-    output: null,
-    error: null,
-    started_at: '2024-01-27T10:40:00Z',
-    completed_at: null,
-    duration_ms: null,
-  },
-  {
-    id: '6',
-    agent_id: 'agent-5',
-    agent_name: 'Report Generator',
-    status: 'completed',
-    input: JSON.stringify({ report_type: 'monthly_sales', format: 'pdf', month: '2024-01' }),
-    output: JSON.stringify({ file_path: '/reports/monthly_sales_2024-01.pdf', pages: 15 }),
-    error: null,
-    started_at: '2024-01-27T08:00:00Z',
-    completed_at: '2024-01-27T08:00:12Z',
-    duration_ms: 12456,
-  },
-  {
-    id: '7',
-    agent_id: 'agent-6',
-    agent_name: 'Slack Integrator',
-    status: 'failed',
-    input: JSON.stringify({ channel: '#alerts', message: 'System health check failed' }),
-    output: null,
-    error: 'Slack API error: invalid_auth',
-    started_at: '2024-01-27T07:45:00Z',
-    completed_at: '2024-01-27T07:45:02Z',
-    duration_ms: 2100,
-  },
-  {
-    id: '8',
-    agent_id: 'agent-2',
-    agent_name: 'ML Model Trainer',
-    status: 'completed',
-    input: JSON.stringify({ dataset: 'customer_churn.csv', epochs: 50, batch_size: 16 }),
-    output: JSON.stringify({ accuracy: 0.89, loss: 0.24, model_path: '/models/churn_v2.h5' }),
-    error: null,
-    started_at: '2024-01-27T06:00:00Z',
-    completed_at: '2024-01-27T06:45:00Z',
-    duration_ms: 2700000,
-  },
-];
-
 const AgentRunsPage = () => {
   const { theme } = useTheme();
   const [runs, setRuns] = useState([]);
@@ -147,58 +47,40 @@ const AgentRunsPage = () => {
   const fetchRuns = async () => {
     setLoading(true);
     try {
-      // TODO: Replace with real API call when backend is ready
-      // const response = await adminService.getAllAgentRuns({ status: statusFilter });
+      const params = {
+        search: searchQuery || undefined,
+        status: statusFilter !== 'all' ? statusFilter : undefined,
+        sort: `${sortBy}_${sortOrder}`,
+      };
 
-      // Use mock data for now
-      let filtered = [...mockAgentRuns];
+      const response = await adminService.getAllAgentRuns(params);
 
-      // Apply search
-      if (searchQuery) {
-        filtered = filtered.filter(
-          (run) =>
-            run.agent_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            run.id.toLowerCase().includes(searchQuery.toLowerCase())
-        );
+      // Handle different response structures
+      let runsData = [];
+      if (response.data && response.data.data && Array.isArray(response.data.data)) {
+        runsData = response.data.data;
+      } else if (response.data && Array.isArray(response.data)) {
+        runsData = response.data;
+      } else if (Array.isArray(response)) {
+        runsData = response;
       }
 
-      // Apply status filter
-      if (statusFilter !== 'all') {
-        filtered = filtered.filter((run) => run.status === statusFilter);
-      }
+      setRuns(runsData);
 
-      // Apply sorting
-      filtered.sort((a, b) => {
-        let aValue = a[sortBy];
-        let bValue = b[sortBy];
-
-        if (sortBy === 'agent_name') {
-          aValue = aValue.toLowerCase();
-          bValue = bValue.toLowerCase();
-        }
-
-        if (sortOrder === 'asc') {
-          return aValue > bValue ? 1 : -1;
-        } else {
-          return aValue < bValue ? 1 : -1;
-        }
-      });
-
-      setRuns(filtered);
-
-      // Calculate stats
-      const total = mockAgentRuns.length;
-      const completed = mockAgentRuns.filter((r) => r.status === 'completed').length;
-      const running = mockAgentRuns.filter((r) => r.status === 'running').length;
-      const failed = mockAgentRuns.filter((r) => r.status === 'failed').length;
-      const pending = mockAgentRuns.filter((r) => r.status === 'pending').length;
+      // Calculate stats from actual data
+      const total = runsData.length;
+      const completed = runsData.filter((r) => r.status === 'completed').length;
+      const running = runsData.filter((r) => r.status === 'running').length;
+      const failed = runsData.filter((r) => r.status === 'failed').length;
+      const pending = runsData.filter((r) => r.status === 'pending').length;
       const successRate =
-        total > 0 ? Math.round((completed / (completed + failed)) * 100) : 0;
+        completed + failed > 0 ? Math.round((completed / (completed + failed)) * 100) : 0;
 
       setStats({ total, completed, running, failed, pending, successRate });
     } catch (error) {
       console.error('Error fetching agent runs:', error);
       notify.error('Failed to load agent runs');
+      setRuns([]);
     } finally {
       setLoading(false);
     }
