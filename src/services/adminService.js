@@ -239,6 +239,59 @@ const adminService = {
         return response.data;
     },
 
+    // ==================== AGENT ENDPOINTS MANAGEMENT ====================
+
+    /**
+     * Get all agent endpoints (to be implemented in backend)
+     * @param {Object} params - Query parameters (page, per_page, search, status, method)
+     */
+    getAgentEndpoints: async (params = {}) => {
+        // TODO: Implement in backend API
+        const response = await api.get('/admin/agent-endpoints', { params });
+        return response.data;
+    },
+
+    /**
+     * Get agent endpoint details (to be implemented in backend)
+     * @param {string} endpointId - Endpoint ID
+     */
+    getAgentEndpoint: async (endpointId) => {
+        // TODO: Implement in backend API
+        const response = await api.get(`/admin/agent-endpoints/${endpointId}`);
+        return response.data;
+    },
+
+    /**
+     * Create agent endpoint (to be implemented in backend)
+     * @param {Object} data - Endpoint data (name, slug, path, method, description, etc.)
+     */
+    createAgentEndpoint: async (data) => {
+        // TODO: Implement in backend API
+        const response = await api.post('/admin/agent-endpoints', data);
+        return response.data;
+    },
+
+    /**
+     * Update agent endpoint (to be implemented in backend)
+     * @param {string} endpointId - Endpoint ID
+     * @param {Object} data - Updated endpoint data
+     */
+    updateAgentEndpoint: async (endpointId, data) => {
+        // TODO: Implement in backend API
+        const response = await api.put(`/admin/agent-endpoints/${endpointId}`, data);
+        return response.data;
+    },
+
+    /**
+     * Delete agent endpoint (to be implemented in backend)
+     * @param {string} endpointId - Endpoint ID
+     */
+    deleteAgentEndpoint: async (endpointId) => {
+        // TODO: Implement in backend API
+        const response = await api.delete(`/admin/agent-endpoints/${endpointId}`);
+        return response.data;
+    },
+
     // ==================== ROLES AND PERMISSIONS ====================
 
     /**

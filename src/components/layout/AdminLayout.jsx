@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
   Building2, Users, CreditCard, Bot, Activity, Plug,
   Settings, LogOut, Menu, X, ChevronDown, LayoutDashboard,
-  FolderTree, ChevronRight
+  FolderTree, ChevronRight, Link2
 } from 'lucide-react';
 import { useAuthStore } from '../../store/authStore';
 import { useTheme } from '../../contexts/ThemeContext';
@@ -45,6 +45,7 @@ const AdminLayout = ({ children }) => {
   const agentsSubMenu = [
     { name: 'Categories', href: '/agent-categories', icon: FolderTree },
     { name: 'Agents', href: '/agents', icon: Bot },
+    { name: 'Agent Endpoints', href: '/agent-endpoints', icon: Link2 },
     { name: 'Agent Runs', href: '/agent-runs', icon: Activity },
     { name: 'Active Agents', href: '/active-agents', icon: Activity },
   ];
