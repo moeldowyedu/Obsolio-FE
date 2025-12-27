@@ -134,6 +134,16 @@ const adminService = {
         return response.data;
     },
 
+    /**
+     * Get all agent runs (to be implemented in backend)
+     * @param {Object} params - Query parameters (page, per_page, agent_id, status, date_from, date_to)
+     */
+    getAllAgentRuns: async (params = {}) => {
+        // TODO: Implement in backend API
+        const response = await api.get('/admin/agent-runs', { params });
+        return response.data;
+    },
+
     // Note: The OpenAPI spec doesn't include CRUD endpoints for agents themselves
     // These would need to be added to the backend API
     // Placeholder methods for future implementation:
@@ -195,6 +205,37 @@ const adminService = {
     getAgentCategories: async () => {
         // TODO: Implement in backend API
         const response = await api.get('/admin/agent-categories');
+        return response.data;
+    },
+
+    /**
+     * Create agent category (to be implemented in backend)
+     * @param {Object} data - Category data (name, slug, description, icon, display_order)
+     */
+    createAgentCategory: async (data) => {
+        // TODO: Implement in backend API
+        const response = await api.post('/admin/agent-categories', data);
+        return response.data;
+    },
+
+    /**
+     * Update agent category (to be implemented in backend)
+     * @param {string} categoryId - Category ID
+     * @param {Object} data - Updated category data
+     */
+    updateAgentCategory: async (categoryId, data) => {
+        // TODO: Implement in backend API
+        const response = await api.put(`/admin/agent-categories/${categoryId}`, data);
+        return response.data;
+    },
+
+    /**
+     * Delete agent category (to be implemented in backend)
+     * @param {string} categoryId - Category ID
+     */
+    deleteAgentCategory: async (categoryId) => {
+        // TODO: Implement in backend API
+        const response = await api.delete(`/admin/agent-categories/${categoryId}`);
         return response.data;
     },
 

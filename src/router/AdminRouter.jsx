@@ -7,6 +7,8 @@ import AdminDashboardPage from '../pages/Admin/AdminDashboardPage';
 import TenantsManagement from '../pages/Admin/TenantsManagement';
 import SubscriptionsManagement from '../pages/Admin/SubscriptionsManagement';
 import AgentsManagementPage from '../pages/Admin/AgentsManagementPage';
+import AgentCategoriesPage from '../pages/Admin/AgentCategoriesPage';
+import AgentRunsPage from '../pages/Admin/AgentRunsPage';
 import ActiveAgentsMonitorPage from '../pages/Admin/ActiveAgentsMonitorPage';
 import IntegrationManagementPage from '../pages/Admin/IntegrationManagementPage';
 import UserManagementPage from '../pages/Admin/UserManagementPage';
@@ -41,10 +43,22 @@ const AdminRouter = () => {
                 </ProtectedRoute>
             } />
 
-            {/* Manage Platform Agents */}
+            {/* Manage Platform Agents - Hierarchical Routes */}
+            <Route path="/agent-categories" element={
+                <ProtectedRoute requireSystemAdmin>
+                    <AgentCategoriesPage />
+                </ProtectedRoute>
+            } />
+
             <Route path="/agents" element={
                 <ProtectedRoute requireSystemAdmin>
                     <AgentsManagementPage />
+                </ProtectedRoute>
+            } />
+
+            <Route path="/agent-runs" element={
+                <ProtectedRoute requireSystemAdmin>
+                    <AgentRunsPage />
                 </ProtectedRoute>
             } />
 
