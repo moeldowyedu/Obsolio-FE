@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import adminService from '../../services/adminService';
 import notify from '../../utils/toast';
+import AdminLayout from '../../components/layout/AdminLayout';
 
 const AgentRunsPage = () => {
   const { theme } = useTheme();
@@ -139,7 +140,7 @@ const AgentRunsPage = () => {
   };
 
   return (
-    <div className="min-h-screen p-8">
+    <AdminLayout>
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
@@ -638,7 +639,7 @@ const AgentRunsPage = () => {
           </div>
         </div>
       )}
-    </div>
+    </AdminLayout>
   );
 };
 

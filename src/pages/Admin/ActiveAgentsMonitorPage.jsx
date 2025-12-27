@@ -64,235 +64,55 @@ const ActiveAgentsMonitorPage = () => {
     }
   }, [autoRefresh, refreshInterval]);
 
-  // Mock Stats
-  const stats = [
+  // TODO: Backend API needed - GET /admin/agent-runs/active-statistics
+  // This endpoint should return real-time statistics of currently running agents
+  const [stats, setStats] = useState([
     {
       label: 'Currently Running',
-      value: '34',
+      value: '0',
       change: 'Active executions',
       icon: Play,
-      color: 'blue' // Simplified from gradient strings
+      color: 'blue'
     },
     {
       label: 'Queued',
-      value: '12',
+      value: '0',
       change: 'Waiting to execute',
       icon: Clock,
       color: 'orange'
     },
     {
       label: 'Completed Today',
-      value: '1,247',
-      change: '98.6% success rate',
+      value: '0',
+      change: '0% success rate',
       icon: CheckCircle,
       color: 'green'
     },
     {
       label: 'Failed Today',
-      value: '18',
-      change: '1.4% error rate',
+      value: '0',
+      change: '0% error rate',
       icon: XCircle,
       color: 'red'
     }
-  ];
+  ]);
 
-  // Mock Active Agents
-  const activeAgents = [
-    {
-      id: 1,
-      name: 'Customer Support Agent',
-      tenant: 'TechCorp Industries',
-      status: 'Running',
-      progress: 65,
-      started: '5 min ago',
-      duration: '5m 23s',
-      engine: 'Text Engine',
-      user: 'John Doe'
-    },
-    {
-      id: 2,
-      name: 'Code Review Agent',
-      tenant: 'DataDrive Analytics',
-      status: 'Running',
-      progress: 42,
-      started: '12 min ago',
-      duration: '12m 08s',
-      engine: 'Code Engine',
-      user: 'Sarah Johnson'
-    },
-    {
-      id: 3,
-      name: 'Data Analysis Agent',
-      tenant: 'FinTech Ventures',
-      status: 'Queued',
-      progress: 0,
-      started: 'In queue',
-      duration: '-',
-      engine: 'Data Engine',
-      user: 'Mike Chen'
-    },
-    {
-      id: 4,
-      name: 'Content Writer Agent',
-      tenant: 'Marketing Geniuses',
-      status: 'Running',
-      progress: 88,
-      started: '3 min ago',
-      duration: '3m 45s',
-      engine: 'Text Engine',
-      user: 'Emily Davis'
-    },
-    {
-      id: 5,
-      name: 'Email Assistant Agent',
-      tenant: 'CloudScale Systems',
-      status: 'Completed',
-      progress: 100,
-      started: '15 min ago',
-      duration: '2m 18s',
-      engine: 'Text Engine',
-      user: 'Tom Wilson'
-    },
-    {
-      id: 6,
-      name: 'Research Agent',
-      tenant: 'EduLearn Platform',
-      status: 'Running',
-      progress: 23,
-      started: '18 min ago',
-      duration: '18m 34s',
-      engine: 'Web Engine',
-      user: 'Lisa Anderson'
-    },
-    {
-      id: 7,
-      name: 'Sales Intelligence Agent',
-      tenant: 'Innovate Solutions',
-      status: 'Failed',
-      progress: 45,
-      started: '8 min ago',
-      duration: '7m 56s',
-      engine: 'Data Engine',
-      user: 'David Brown'
-    },
-    {
-      id: 8,
-      name: 'HR Screening Agent',
-      tenant: 'TechCorp Industries',
-      status: 'Running',
-      progress: 76,
-      started: '6 min ago',
-      duration: '6m 12s',
-      engine: 'Document Engine',
-      user: 'Jennifer White'
-    },
-    {
-      id: 9,
-      name: 'Translation Agent',
-      tenant: 'HealthTech Solutions',
-      status: 'Queued',
-      progress: 0,
-      started: 'In queue',
-      duration: '-',
-      engine: 'Text Engine',
-      user: 'Robert Garcia'
-    },
-    {
-      id: 10,
-      name: 'Sentiment Analysis Agent',
-      tenant: 'RetailBoost Co',
-      status: 'Running',
-      progress: 54,
-      started: '9 min ago',
-      duration: '9m 28s',
-      engine: 'Text Engine',
-      user: 'Maria Rodriguez'
-    },
-    {
-      id: 11,
-      name: 'Financial Advisor Agent',
-      tenant: 'FinTech Ventures',
-      status: 'Completed',
-      progress: 100,
-      started: '20 min ago',
-      duration: '5m 42s',
-      engine: 'Data Engine',
-      user: 'James Martinez'
-    },
-    {
-      id: 12,
-      name: 'Healthcare Diagnosis Assistant',
-      tenant: 'HealthTech Solutions',
-      status: 'Running',
-      progress: 31,
-      started: '14 min ago',
-      duration: '14m 19s',
-      engine: 'Vision Engine',
-      user: 'Patricia Lee'
-    },
-    {
-      id: 13,
-      name: 'E-commerce Product Recommender',
-      tenant: 'RetailBoost Co',
-      status: 'Queued',
-      progress: 0,
-      started: 'In queue',
-      duration: '-',
-      engine: 'Data Engine',
-      user: 'Michael Taylor'
-    },
-    {
-      id: 14,
-      name: 'Legal Document Agent',
-      tenant: 'Legal Eagle Partners',
-      status: 'Running',
-      progress: 67,
-      started: '7 min ago',
-      duration: '7m 03s',
-      engine: 'Document Engine',
-      user: 'Linda Thomas'
-    },
-    {
-      id: 15,
-      name: 'DevOps Pipeline Monitor',
-      tenant: 'DevOps Masters',
-      status: 'Failed',
-      progress: 28,
-      started: '11 min ago',
-      duration: '10m 45s',
-      engine: 'Code Engine',
-      user: 'Charles Jackson'
-    }
-  ];
+  // TODO: Backend API needed - GET /admin/agent-runs/active (real-time)
+  // This endpoint should return currently executing agents with WebSocket updates or short polling
+  // Expected response: array of { id, name, tenant, status, progress, started_at, duration_ms, engine, triggered_by_user }
+  const [activeAgents, setActiveAgents] = useState([]);
 
-  // Mock Activity Feed
-  const activityFeed = [
-    { id: 1, type: 'completed', message: 'Customer Support Agent completed successfully', time: '30s ago', tenant: 'TechCorp' },
-    { id: 2, type: 'started', message: 'Data Analysis Agent started execution', time: '1m ago', tenant: 'FinTech' },
-    { id: 3, type: 'failed', message: 'Code Review Agent failed with error', time: '2m ago', tenant: 'DataDrive' },
-    { id: 4, type: 'queued', message: 'Translation Agent added to queue', time: '3m ago', tenant: 'HealthTech' },
-    { id: 5, type: 'completed', message: 'Email Assistant Agent completed', time: '4m ago', tenant: 'CloudScale' },
-    { id: 6, type: 'started', message: 'Research Agent started execution', time: '5m ago', tenant: 'EduLearn' },
-    { id: 7, type: 'paused', message: 'Sentiment Analysis Agent paused by user', time: '6m ago', tenant: 'RetailBoost' },
-    { id: 8, type: 'completed', message: 'HR Screening Agent completed', time: '7m ago', tenant: 'TechCorp' },
-    { id: 9, type: 'started', message: 'Financial Advisor Agent started', time: '8m ago', tenant: 'FinTech' },
-    { id: 10, type: 'failed', message: 'Sales Intelligence Agent encountered error', time: '9m ago', tenant: 'Innovate' }
-  ];
+  // TODO: Backend API needed - GET /admin/agent-runs/activity-feed (real-time)
+  // This endpoint should return recent agent activity events (started, completed, failed, queued)
+  const [activityFeed, setActivityFeed] = useState([]);
 
-  // Performance Metrics
-  const performanceMetrics = {
-    avgExecutionTime: '4m 32s',
-    successRate: '98.6%',
-    engineUsage: {
-      'Text Engine': 42,
-      'Data Engine': 28,
-      'Code Engine': 15,
-      'Document Engine': 8,
-      'Web Engine': 4,
-      'Vision Engine': 2,
-      'Audio Engine': 1
-    }
-  };
+  // TODO: Backend API needed - GET /admin/agent-runs/performance-metrics
+  // This endpoint should return aggregated performance metrics
+  const [performanceMetrics, setPerformanceMetrics] = useState({
+    avgExecutionTime: '-',
+    successRate: '0%',
+    engineUsage: {}
+  });
 
   // Filter logic
   const filteredAgents = activeAgents.filter(agent => {
