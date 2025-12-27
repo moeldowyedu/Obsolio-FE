@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
-  Building2, Users, Cpu, Bot, Activity, Plug,
+  Building2, Users, CreditCard, Bot, Activity, Plug,
   Settings, LogOut, Menu, X, ChevronDown, LayoutDashboard
 } from 'lucide-react';
 import { useAuthStore } from '../../store/authStore';
@@ -36,8 +36,8 @@ const AdminLayout = ({ children }) => {
   const navigation = [
     { name: 'Console Dashboard', href: '/', icon: LayoutDashboard },
     { name: 'Manage Tenants', href: '/tenants', icon: Building2 },
-    { name: 'Manage Engines', href: '/engines', icon: Cpu },
-    { name: 'Manage Agents', href: '/agents', icon: Bot }, // Updated to match AdminRouter path
+    { name: 'Manage Subscriptions', href: '/subscriptions', icon: CreditCard },
+    { name: 'Manage Agents', href: '/agents', icon: Bot },
     { name: 'Active Agents', href: '/active-agents', icon: Activity },
     { name: 'Integrations', href: '/integrations', icon: Plug },
   ];
