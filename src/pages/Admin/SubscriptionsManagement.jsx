@@ -17,19 +17,18 @@ const SubscriptionsManagement = () => {
   const [formData, setFormData] = useState({
     name: '',
     type: 'personal',
-    tier: 'free',
+    tier: 'starter',
     description: '',
-    monthly_price: 0,
-    annual_price: 0,
+    price_monthly: '0',
+    price_annual: '0',
     trial_days: 14,
     is_published: true,
-    display_order: 1,
+    is_active: true,
+    display_order: 0,
     features: [],
-    limits: {
-      max_users: 1,
-      max_agents: 10,
-      max_storage_gb: 5,
-    },
+    max_users: 1,
+    max_agents: 10,
+    storage_gb: 5,
   });
 
   // Fetch plans
@@ -73,19 +72,18 @@ const SubscriptionsManagement = () => {
     setFormData({
       name: '',
       type: 'personal',
-      tier: 'free',
+      tier: 'starter',
       description: '',
-      monthly_price: 0,
-      annual_price: 0,
+      price_monthly: '0',
+      price_annual: '0',
       trial_days: 14,
       is_published: true,
-      display_order: 1,
+      is_active: true,
+      display_order: 0,
       features: [],
-      limits: {
-        max_users: 1,
-        max_agents: 10,
-        max_storage_gb: 5,
-      },
+      max_users: 1,
+      max_agents: 10,
+      storage_gb: 5,
     });
     setShowModal(true);
   };
@@ -99,17 +97,16 @@ const SubscriptionsManagement = () => {
       type: plan.type,
       tier: plan.tier,
       description: plan.description || '',
-      monthly_price: plan.monthly_price,
-      annual_price: plan.annual_price,
+      price_monthly: plan.price_monthly || plan.monthly_price || '0',
+      price_annual: plan.price_annual || plan.annual_price || '0',
       trial_days: plan.trial_days || 14,
-      is_published: plan.is_published,
-      display_order: plan.display_order || 1,
+      is_published: plan.is_published !== undefined ? plan.is_published : true,
+      is_active: plan.is_active !== undefined ? plan.is_active : true,
+      display_order: plan.display_order || 0,
       features: plan.features || [],
-      limits: plan.limits || {
-        max_users: 1,
-        max_agents: 10,
-        max_storage_gb: 5,
-      },
+      max_users: plan.max_users || plan.limits?.max_users || 1,
+      max_agents: plan.max_agents || plan.limits?.max_agents || 10,
+      storage_gb: plan.storage_gb || plan.limits?.max_storage_gb || 5,
     });
     setShowModal(true);
   };
@@ -148,13 +145,12 @@ const SubscriptionsManagement = () => {
 
   const getTierColor = (tier) => {
     const colors = {
-      free: 'bg-gray-500/20 text-gray-400',
       starter: 'bg-green-500/20 text-green-400',
-      professional: 'bg-blue-500/20 text-blue-400',
-      enterprise: 'bg-purple-500/20 text-purple-400',
-      custom: 'bg-yellow-500/20 text-yellow-400',
+      pro: 'bg-blue-500/20 text-blue-400',
+      team: 'bg-purple-500/20 text-purple-400',
+      enterprise: 'bg-yellow-500/20 text-yellow-400',
     };
-    return colors[tier] || 'bg-gray-500/20 text-gray-400';
+    return colors[tier?.toLowerCase()] || 'bg-gray-500/20 text-gray-400';
   };
 
   return (
@@ -203,113 +199,125 @@ const SubscriptionsManagement = () => {
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {plans.map((plan) => (
-              <div
-                key={plan.id}
-                className={`rounded-xl p-6 ${
-                  theme === 'dark'
-                    ? 'bg-white/5 border border-white/10 hover:bg-white/10'
-                    : 'bg-white border border-slate-200 hover:shadow-lg'
-                } transition-all`}
-              >
-                {/* Plan Header */}
-                <div className="flex items-start justify-between mb-4">
-                  <div>
-                    <h3 className={`text-xl font-bold mb-1 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
-                      {plan.name}
-                    </h3>
-                    <div className="flex gap-2">
-                      <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${getTierColor(plan.tier)}`}>
-                        {plan.tier}
-                      </span>
-                      <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${plan.type === 'organization' ? 'bg-blue-500/20 text-blue-400' : 'bg-purple-500/20 text-purple-400'}`}>
-                        {plan.type}
-                      </span>
-                    </div>
-                  </div>
-                  {!plan.is_published && (
-                    <span className="px-2 py-1 bg-red-500/20 text-red-400 rounded text-xs font-medium">
-                      Draft
-                    </span>
-                  )}
-                </div>
-
-                {/* Description */}
-                {plan.description && (
-                  <p className={`text-sm mb-4 ${theme === 'dark' ? 'text-gray-400' : 'text-slate-600'}`}>
-                    {plan.description}
-                  </p>
-                )}
-
-                {/* Pricing */}
-                <div className="mb-4">
-                  <div className={`text-3xl font-bold ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
-                    ${(plan.monthly_price / 100).toFixed(0)}
-                    <span className={`text-sm font-normal ${theme === 'dark' ? 'text-gray-400' : 'text-slate-500'}`}>/mo</span>
-                  </div>
-                  {plan.annual_price > 0 && (
-                    <div className={`text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-slate-500'}`}>
-                      ${(plan.annual_price / 100).toFixed(0)}/year (save {Math.round((1 - (plan.annual_price / 12) / plan.monthly_price) * 100)}%)
-                    </div>
-                  )}
-                </div>
-
-                {/* Stats */}
-                <div className="space-y-2 mb-4 pb-4 border-b border-white/5">
-                  <div className="flex items-center justify-between text-sm">
-                    <span className={theme === 'dark' ? 'text-gray-400' : 'text-slate-600'}>Max Users</span>
-                    <span className={`font-medium ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
-                      {plan.limits?.max_users || 'Unlimited'}
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between text-sm">
-                    <span className={theme === 'dark' ? 'text-gray-400' : 'text-slate-600'}>Max Agents</span>
-                    <span className={`font-medium ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
-                      {plan.limits?.max_agents || 'Unlimited'}
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between text-sm">
-                    <span className={theme === 'dark' ? 'text-gray-400' : 'text-slate-600'}>Storage</span>
-                    <span className={`font-medium ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
-                      {plan.limits?.max_storage_gb}GB
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between text-sm">
-                    <span className={theme === 'dark' ? 'text-gray-400' : 'text-slate-600'}>Trial Days</span>
-                    <span className={`font-medium ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
-                      {plan.trial_days || 0}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Actions */}
-                <div className="flex gap-2">
-                  <button
-                    onClick={() => handleEdit(plan)}
-                    className={`flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-lg font-medium transition-colors ${
-                      theme === 'dark'
-                        ? 'bg-white/10 hover:bg-white/20 text-white'
-                        : 'bg-slate-100 hover:bg-slate-200 text-slate-900'
-                    }`}
-                  >
-                    <Edit2 className="w-4 h-4" />
-                    Edit
-                  </button>
-                  <button
-                    onClick={() => handleDelete(plan.id)}
-                    className={`flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-lg font-medium transition-colors ${
-                      theme === 'dark'
-                        ? 'bg-red-500/20 hover:bg-red-500/30 text-red-400'
-                        : 'bg-red-50 hover:bg-red-100 text-red-600'
-                    }`}
-                  >
-                    <Trash2 className="w-4 h-4" />
-                    Delete
-                  </button>
-                </div>
-              </div>
-            ))}
+          <div className={`rounded-xl overflow-hidden ${theme === 'dark' ? 'bg-white/5 border border-white/10' : 'bg-white border border-slate-200'}`}>
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead className={theme === 'dark' ? 'bg-white/5' : 'bg-slate-50'}>
+                  <tr>
+                    <th className={`px-6 py-4 text-left text-xs font-semibold uppercase ${theme === 'dark' ? 'text-gray-400' : 'text-slate-600'}`}>
+                      Plan Name
+                    </th>
+                    <th className={`px-6 py-4 text-left text-xs font-semibold uppercase ${theme === 'dark' ? 'text-gray-400' : 'text-slate-600'}`}>
+                      Type
+                    </th>
+                    <th className={`px-6 py-4 text-left text-xs font-semibold uppercase ${theme === 'dark' ? 'text-gray-400' : 'text-slate-600'}`}>
+                      Tier
+                    </th>
+                    <th className={`px-6 py-4 text-left text-xs font-semibold uppercase ${theme === 'dark' ? 'text-gray-400' : 'text-slate-600'}`}>
+                      Monthly Price
+                    </th>
+                    <th className={`px-6 py-4 text-left text-xs font-semibold uppercase ${theme === 'dark' ? 'text-gray-400' : 'text-slate-600'}`}>
+                      Annual Price
+                    </th>
+                    <th className={`px-6 py-4 text-left text-xs font-semibold uppercase ${theme === 'dark' ? 'text-gray-400' : 'text-slate-600'}`}>
+                      Limits
+                    </th>
+                    <th className={`px-6 py-4 text-left text-xs font-semibold uppercase ${theme === 'dark' ? 'text-gray-400' : 'text-slate-600'}`}>
+                      Status
+                    </th>
+                    <th className={`px-6 py-4 text-right text-xs font-semibold uppercase ${theme === 'dark' ? 'text-gray-400' : 'text-slate-600'}`}>
+                      Actions
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-white/5">
+                  {plans.map((plan) => (
+                    <tr key={plan.id} className={theme === 'dark' ? 'hover:bg-white/5' : 'hover:bg-slate-50'}>
+                      <td className="px-6 py-4">
+                        <div>
+                          <div className={`font-medium ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
+                            {plan.name}
+                          </div>
+                          {plan.description && (
+                            <div className={`text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-slate-500'}`}>
+                              {plan.description}
+                            </div>
+                          )}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                          plan.type === 'organization' ? 'bg-blue-500/20 text-blue-400' : 'bg-purple-500/20 text-purple-400'
+                        }`}>
+                          {plan.type}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4">
+                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getTierColor(plan.tier)}`}>
+                          {plan.tier}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className={`font-medium ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
+                          ${parseFloat(plan.price_monthly || plan.monthly_price || 0).toFixed(2)}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className={`font-medium ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
+                          ${parseFloat(plan.price_annual || plan.annual_price || 0).toFixed(2)}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className={`text-sm ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
+                          <div>{plan.max_users || plan.limits?.max_users || 0} users</div>
+                          <div>{plan.max_agents || plan.limits?.max_agents || 0} agents</div>
+                          <div>{plan.storage_gb || plan.limits?.max_storage_gb || 0}GB storage</div>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="space-y-1">
+                          {plan.is_published ? (
+                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-500/20 text-green-400">
+                              Published
+                            </span>
+                          ) : (
+                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-500/20 text-yellow-400">
+                              Draft
+                            </span>
+                          )}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="flex items-center justify-end gap-2">
+                          <button
+                            onClick={() => handleEdit(plan)}
+                            className={`p-2 rounded-lg transition-colors ${
+                              theme === 'dark'
+                                ? 'hover:bg-white/10 text-blue-400'
+                                : 'hover:bg-slate-100 text-blue-600'
+                            }`}
+                            title="Edit Plan"
+                          >
+                            <Edit2 className="w-4 h-4" />
+                          </button>
+                          <button
+                            onClick={() => handleDelete(plan.id)}
+                            className={`p-2 rounded-lg transition-colors ${
+                              theme === 'dark'
+                                ? 'hover:bg-white/10 text-red-400'
+                                : 'hover:bg-slate-100 text-red-600'
+                            }`}
+                            title="Delete Plan"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         )}
 
@@ -426,11 +434,10 @@ const PlanModal = ({ mode, formData, setFormData, theme, onClose, onSubmit }) =>
                     : 'bg-white border-slate-200 text-slate-900 focus:ring-primary-500/50'
                 }`}
               >
-                <option value="free">Free</option>
                 <option value="starter">Starter</option>
-                <option value="professional">Professional</option>
+                <option value="pro">Pro</option>
+                <option value="team">Team</option>
                 <option value="enterprise">Enterprise</option>
-                <option value="custom">Custom</option>
               </select>
             </div>
           </div>
@@ -439,13 +446,14 @@ const PlanModal = ({ mode, formData, setFormData, theme, onClose, onSubmit }) =>
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                Monthly Price (cents) *
+                Monthly Price ($) *
               </label>
               <input
                 type="number"
+                step="0.01"
                 min="0"
-                value={formData.monthly_price}
-                onChange={(e) => setFormData({ ...formData, monthly_price: parseInt(e.target.value) })}
+                value={formData.price_monthly}
+                onChange={(e) => setFormData({ ...formData, price_monthly: e.target.value })}
                 className={`w-full px-4 py-2.5 rounded-lg border focus:outline-none focus:ring-2 ${
                   theme === 'dark'
                     ? 'bg-white/5 border-white/10 text-white focus:ring-primary-500/50'
@@ -455,13 +463,14 @@ const PlanModal = ({ mode, formData, setFormData, theme, onClose, onSubmit }) =>
             </div>
             <div>
               <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                Annual Price (cents) *
+                Annual Price ($) *
               </label>
               <input
                 type="number"
+                step="0.01"
                 min="0"
-                value={formData.annual_price}
-                onChange={(e) => setFormData({ ...formData, annual_price: parseInt(e.target.value) })}
+                value={formData.price_annual}
+                onChange={(e) => setFormData({ ...formData, price_annual: e.target.value })}
                 className={`w-full px-4 py-2.5 rounded-lg border focus:outline-none focus:ring-2 ${
                   theme === 'dark'
                     ? 'bg-white/5 border-white/10 text-white focus:ring-primary-500/50'
@@ -480,8 +489,8 @@ const PlanModal = ({ mode, formData, setFormData, theme, onClose, onSubmit }) =>
               <input
                 type="number"
                 min="1"
-                value={formData.limits.max_users}
-                onChange={(e) => setFormData({ ...formData, limits: { ...formData.limits, max_users: parseInt(e.target.value) } })}
+                value={formData.max_users}
+                onChange={(e) => setFormData({ ...formData, max_users: parseInt(e.target.value) })}
                 className={`w-full px-4 py-2.5 rounded-lg border focus:outline-none focus:ring-2 ${
                   theme === 'dark'
                     ? 'bg-white/5 border-white/10 text-white focus:ring-primary-500/50'
@@ -496,8 +505,8 @@ const PlanModal = ({ mode, formData, setFormData, theme, onClose, onSubmit }) =>
               <input
                 type="number"
                 min="1"
-                value={formData.limits.max_agents}
-                onChange={(e) => setFormData({ ...formData, limits: { ...formData.limits, max_agents: parseInt(e.target.value) } })}
+                value={formData.max_agents}
+                onChange={(e) => setFormData({ ...formData, max_agents: parseInt(e.target.value) })}
                 className={`w-full px-4 py-2.5 rounded-lg border focus:outline-none focus:ring-2 ${
                   theme === 'dark'
                     ? 'bg-white/5 border-white/10 text-white focus:ring-primary-500/50'
@@ -512,8 +521,8 @@ const PlanModal = ({ mode, formData, setFormData, theme, onClose, onSubmit }) =>
               <input
                 type="number"
                 min="1"
-                value={formData.limits.max_storage_gb}
-                onChange={(e) => setFormData({ ...formData, limits: { ...formData.limits, max_storage_gb: parseInt(e.target.value) } })}
+                value={formData.storage_gb}
+                onChange={(e) => setFormData({ ...formData, storage_gb: parseInt(e.target.value) })}
                 className={`w-full px-4 py-2.5 rounded-lg border focus:outline-none focus:ring-2 ${
                   theme === 'dark'
                     ? 'bg-white/5 border-white/10 text-white focus:ring-primary-500/50'
