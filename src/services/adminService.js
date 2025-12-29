@@ -667,6 +667,65 @@ const adminService = {
         const response = await api.post('/admin/agents/bulk-deactivate', { agent_ids: agentIds });
         return response.data;
     },
+
+    // ==================== IMPERSONATION ====================
+
+    /**
+     * Start impersonation session
+     * @param {string} tenantId - Tenant UUID
+     * @param {Object} data - { reason?: string }
+     */
+    startImpersonation: async (tenantId, data = {}) => {
+        const response = await api.post(`/admin/tenants/${tenantId}/impersonate`, data);
+        return response.data;
+    },
+
+    /**
+     * End impersonation session
+     * @param {string} sessionId - Impersonation session ID
+     */
+    endImpersonation: async (sessionId) => {
+        const response = await api.post(`/admin/impersonation-sessions/${sessionId}/end`);
+        return response.data;
+    },
+
+    // ==================== RBAC ====================
+
+    /**
+     * Get all permissions
+     */
+    getPermissions: async () => {
+        const response = await api.get('/admin/permissions');
+        return response.data;
+    },
+
+    /**
+     * Create role
+     * @param {Object} data - { name, description, permissions }
+     */
+    createRole: async (data) => {
+        const response = await api.post('/admin/roles', data);
+        return response.data;
+    },
+
+    /**
+     * Update role
+     * @param {string} roleId - Role ID
+     * @param {Object} data - Updated role data
+     */
+    updateRole: async (roleId, data) => {
+        const response = await api.put(`/admin/roles/${roleId}`, data);
+        return response.data;
+    },
+
+    /**
+     * Delete role
+     * @param {string} roleId - Role ID
+     */
+    deleteRole: async (roleId) => {
+        const response = await api.delete(`/admin/roles/${roleId}`);
+        return response.data;
+    },
 };
 
 export default adminService;

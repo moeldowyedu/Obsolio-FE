@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
   Building2, Users, CreditCard, Bot, Activity, Plug,
   Settings, LogOut, Menu, X, ChevronDown, LayoutDashboard,
-  FolderTree, ChevronRight, Link2, BarChart3, List
+  FolderTree, ChevronRight, Link2, BarChart3, List, UserCheck, Shield
 } from 'lucide-react';
 import { useAuthStore } from '../../store/authStore';
 import { useTheme } from '../../contexts/ThemeContext';
@@ -304,6 +304,66 @@ const AdminLayout = ({ children }) => {
             >
               <Plug className="w-5 h-5 flex-shrink-0" />
               <span className="font-medium whitespace-nowrap">Integrations</span>
+            </Link>
+
+            {/* Analytics */}
+            <Link
+              to="/analytics"
+              className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-all ${
+                isActive('/analytics')
+                  ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg'
+                  : theme === 'dark'
+                    ? 'text-gray-400 hover:bg-gray-800 hover:text-white'
+                    : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900'
+              }`}
+            >
+              <BarChart3 className="w-5 h-5 flex-shrink-0" />
+              <span className="font-medium whitespace-nowrap">Analytics</span>
+            </Link>
+
+            {/* Impersonation */}
+            <Link
+              to="/impersonation"
+              className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-all ${
+                isActive('/impersonation')
+                  ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg'
+                  : theme === 'dark'
+                    ? 'text-gray-400 hover:bg-gray-800 hover:text-white'
+                    : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900'
+              }`}
+            >
+              <UserCheck className="w-5 h-5 flex-shrink-0" />
+              <span className="font-medium whitespace-nowrap">Impersonation</span>
+            </Link>
+
+            {/* Audit Logs */}
+            <Link
+              to="/audit-logs"
+              className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-all ${
+                isActive('/audit-logs')
+                  ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg'
+                  : theme === 'dark'
+                    ? 'text-gray-400 hover:bg-gray-800 hover:text-white'
+                    : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900'
+              }`}
+            >
+              <Shield className="w-5 h-5 flex-shrink-0" />
+              <span className="font-medium whitespace-nowrap">Audit Logs</span>
+            </Link>
+
+            {/* RBAC */}
+            <Link
+              to="/rbac"
+              className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-all ${
+                isActive('/rbac')
+                  ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg'
+                  : theme === 'dark'
+                    ? 'text-gray-400 hover:bg-gray-800 hover:text-white'
+                    : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900'
+              }`}
+            >
+              <Users className="w-5 h-5 flex-shrink-0" />
+              <span className="font-medium whitespace-nowrap">RBAC</span>
             </Link>
           </nav>
         </aside>

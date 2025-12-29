@@ -15,6 +15,9 @@ import ActiveAgentsMonitorPage from '../pages/Admin/ActiveAgentsMonitorPage';
 import IntegrationManagementPage from '../pages/Admin/IntegrationManagementPage';
 import UserManagementPage from '../pages/Admin/UserManagementPage';
 import AnalyticsPage from '../pages/Admin/AnalyticsPage';
+import ImpersonationPage from '../pages/Admin/ImpersonationPage';
+import AuditLogsPage from '../pages/Admin/AuditLogsPage';
+import RBACManagementPage from '../pages/Admin/RBACManagementPage';
 import N8nWebhookManagementPage from '../pages/Admin/N8nWebhookManagementPage';
 import TenantSettingsPage from '../pages/Settings/TenantSettingsPage';
 import NotFoundPage from '../pages/NotFoundPage';
@@ -86,6 +89,32 @@ const AdminRouter = () => {
             <Route path="/integrations" element={
                 <ProtectedRoute requireSystemAdmin>
                     <IntegrationManagementPage />
+                </ProtectedRoute>
+            } />
+
+            {/* Analytics & Monitoring */}
+            <Route path="/analytics" element={
+                <ProtectedRoute requireSystemAdmin>
+                    <AnalyticsPage />
+                </ProtectedRoute>
+            } />
+
+            <Route path="/impersonation" element={
+                <ProtectedRoute requireSystemAdmin>
+                    <ImpersonationPage />
+                </ProtectedRoute>
+            } />
+
+            <Route path="/audit-logs" element={
+                <ProtectedRoute requireSystemAdmin>
+                    <AuditLogsPage />
+                </ProtectedRoute>
+            } />
+
+            {/* RBAC */}
+            <Route path="/rbac" element={
+                <ProtectedRoute requireSystemAdmin>
+                    <RBACManagementPage />
                 </ProtectedRoute>
             } />
 
