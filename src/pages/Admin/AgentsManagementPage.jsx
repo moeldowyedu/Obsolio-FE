@@ -787,12 +787,17 @@ const AgentsManagementPage = () => {
                               });
                             }
                           }}
-                          className={`w-full bg-transparent border-none focus:ring-0 p-0 text-sm ${theme === 'dark' ? 'text-white' : 'text-slate-900'
+                          className={`w-full bg-transparent border-none focus:ring-0 p-0 text-sm cursor-pointer ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'
                             }`}
                         >
-                          <option value="">Add category...</option>
+                          <option value="" className={theme === 'dark' ? 'bg-gray-800' : 'bg-white'}>+ Add category...</option>
                           {categories.map(cat => (
-                            <option key={cat.id} value={cat.id} disabled={formData.categories.includes(cat.id)}>
+                            <option
+                              key={cat.id}
+                              value={cat.id}
+                              disabled={formData.categories.includes(cat.id)}
+                              className={theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-white text-slate-900'}
+                            >
                               {cat.name}
                             </option>
                           ))}
