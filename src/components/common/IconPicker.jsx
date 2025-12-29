@@ -3,7 +3,9 @@ import * as LucideIcons from 'lucide-react';
 import { Search, X, Check } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
 
-const IconPicker = ({ onSelect, selectedIcon, onClose }) => {
+const IconPicker = ({ onSelect, selectedIcon, onClose, isOpen }) => {
+    if (!isOpen) return null;
+
     const { theme } = useTheme();
     const [searchQuery, setSearchQuery] = useState('');
 
