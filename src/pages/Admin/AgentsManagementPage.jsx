@@ -309,7 +309,9 @@ const AgentsManagementPage = () => {
     setFormData({
       name: agent.name,
       slug: agent.slug,
-      categories: agent.categories?.map(c => c.id) || [],
+      categories: Array.isArray(agent.categories)
+        ? agent.categories.map(c => (typeof c === 'object' ? c.id : c))
+        : [],
       description: agent.description,
       long_description: agent.long_description || '',
       runtime_type: agent.runtime_type,
@@ -697,12 +699,15 @@ const AgentsManagementPage = () => {
                       <td className="px-4 py-4">
                         <div className="flex flex-wrap gap-1">
                           {Array.isArray(agent.categories) && agent.categories.length > 0 ? (
-                            agent.categories.map((cat, idx) => (
-                              <span key={idx} className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${theme === 'dark' ? 'bg-gray-800 text-gray-300' : 'bg-gray-100 text-gray-700'
-                                }`}>
-                                {cat.name}
-                              </span>
-                            ))
+                            agent.categories.map((cat, idx) => {
+                              const catName = typeof cat === 'object' ? cat.name : (categories.find(c => c.id === cat)?.name || 'Unknown');
+                              return (
+                                <span key={idx} className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${theme === 'dark' ? 'bg-gray-800 text-gray-300' : 'bg-gray-100 text-gray-700'
+                                  }`}>
+                                  {catName}
+                                </span>
+                              );
+                            })
                           ) : (
                             <span className={`text-sm ${theme === 'dark' ? 'text-gray-500' : 'text-slate-400'}`}>-</span>
                           )}

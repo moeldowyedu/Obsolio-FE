@@ -7,26 +7,21 @@ import {
   Trash2,
   X,
   Link2,
-  Code,
-  CheckCircle,
-  XCircle,
-  Activity,
+  Eye,
+  EyeOff,
   Globe,
-  Lock,
-  Unlock,
+  Key
 } from 'lucide-react';
 import adminService from '../../services/adminService';
 import notify from '../../utils/toast';
 import AdminLayout from '../../components/layout/AdminLayout';
-import { safeFormatNumber } from '../../utils/numberFormatter';
 
 const AgentEndpointsPage = () => {
   const { theme } = useTheme();
   const [endpoints, setEndpoints] = useState([]);
+  const [agents, setAgents] = useState([]);
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [statusFilter, setStatusFilter] = useState('all');
-  const [methodFilter, setMethodFilter] = useState('all');
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage] = useState(20);
 
@@ -36,30 +31,36 @@ const AgentEndpointsPage = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedEndpoint, setSelectedEndpoint] = useState(null);
 
+  // UI States
+  const [showSecret, setShowSecret] = useState({});
+
   // Form state
   const [formData, setFormData] = useState({
-    name: '',
-    slug: '',
-    path: '',
-    method: 'GET',
-    description: '',
-    is_active: true,
-    requires_auth: true,
-    rate_limit: 100,
-    timeout_seconds: 30,
-  });
-
-  // Statistics
-  const [stats, setStats] = useState({
-    total: 0,
-    active: 0,
-    inactive: 0,
-    totalRequests: 0,
+    agent_id: '',
+    type: 'primary',
+    url: '',
+    secret: '',
+    is_active: true
   });
 
   useEffect(() => {
+    fetchAgents();
     fetchEndpoints();
-  }, [currentPage, searchQuery, statusFilter, methodFilter]);
+  }, [currentPage, searchQuery]);
+
+  const fetchAgents = async () => {
+    try {
+      const response = await adminService.getAllAgents({ per_page: 100 });
+      if (response.data && Array.isArray(response.data)) {
+        setAgents(response.data);
+      } else if (Array.isArray(response)) {
+        setAgents(response);
+      }
+    } catch (error) {
+      console.error('Error fetching agents:', error);
+      notify.error('Failed to load agents list');
+    }
+  };
 
   const fetchEndpoints = async () => {
     setLoading(true);
@@ -67,9 +68,7 @@ const AgentEndpointsPage = () => {
       const params = {
         page: currentPage,
         per_page: perPage,
-        search: searchQuery || undefined,
-        status: statusFilter !== 'all' ? statusFilter : undefined,
-        method: methodFilter !== 'all' ? methodFilter : undefined,
+        search: searchQuery || undefined
       };
 
       const response = await adminService.getAgentEndpoints(params);
@@ -85,17 +84,6 @@ const AgentEndpointsPage = () => {
       }
 
       setEndpoints(endpointsData);
-
-      // Calculate stats
-      const activeCount = endpointsData.filter(e => e.is_active).length;
-      const totalRequests = endpointsData.reduce((sum, e) => sum + (e.total_requests || 0), 0);
-
-      setStats({
-        total: endpointsData.length,
-        active: activeCount,
-        inactive: endpointsData.length - activeCount,
-        totalRequests: totalRequests,
-      });
     } catch (error) {
       console.error('Error fetching agent endpoints:', error);
       notify.error('Failed to load agent endpoints');
@@ -157,15 +145,11 @@ const AgentEndpointsPage = () => {
 
   const resetForm = () => {
     setFormData({
-      name: '',
-      slug: '',
-      path: '',
-      method: 'GET',
-      description: '',
-      is_active: true,
-      requires_auth: true,
-      rate_limit: 100,
-      timeout_seconds: 30,
+      agent_id: '',
+      type: 'primary',
+      url: '',
+      secret: '',
+      is_active: true
     });
     setSelectedEndpoint(null);
   };
@@ -173,15 +157,11 @@ const AgentEndpointsPage = () => {
   const openEditModal = (endpoint) => {
     setSelectedEndpoint(endpoint);
     setFormData({
-      name: endpoint.name,
-      slug: endpoint.slug,
-      path: endpoint.path,
-      method: endpoint.method,
-      description: endpoint.description || '',
-      is_active: endpoint.is_active,
-      requires_auth: endpoint.requires_auth,
-      rate_limit: endpoint.rate_limit || 100,
-      timeout_seconds: endpoint.timeout_seconds || 30,
+      agent_id: endpoint.agent_id,
+      type: endpoint.type,
+      url: endpoint.url,
+      secret: endpoint.secret,
+      is_active: endpoint.is_active
     });
     setShowEditModal(true);
   };
@@ -191,15 +171,16 @@ const AgentEndpointsPage = () => {
     setShowDeleteModal(true);
   };
 
-  const getMethodBadgeColor = (method) => {
-    const colors = {
-      GET: 'bg-blue-500/10 text-blue-500 border-blue-500/20',
-      POST: 'bg-green-500/10 text-green-500 border-green-500/20',
-      PUT: 'bg-orange-500/10 text-orange-500 border-orange-500/20',
-      PATCH: 'bg-yellow-500/10 text-yellow-500 border-yellow-500/20',
-      DELETE: 'bg-red-500/10 text-red-500 border-red-500/20',
-    };
-    return colors[method] || 'bg-gray-500/10 text-gray-500 border-gray-500/20';
+  const toggleSecretVisibility = (id) => {
+    setShowSecret(prev => ({
+      ...prev,
+      [id]: !prev[id]
+    }));
+  };
+
+  const getAgentName = (agentId) => {
+    const agent = agents.find(a => a.id === agentId);
+    return agent ? agent.name : 'Unknown Agent';
   };
 
   return (
@@ -212,7 +193,7 @@ const AgentEndpointsPage = () => {
               Agent Endpoints
             </h1>
             <p className={theme === 'dark' ? 'text-gray-400' : 'text-slate-600'}>
-              Manage API endpoints that agents can access
+              Manage external endpoints for your agents
             </p>
           </div>
           <button
@@ -224,49 +205,6 @@ const AgentEndpointsPage = () => {
           </button>
         </div>
 
-        {/* Statistics Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <div className={`p-6 rounded-xl border ${theme === 'dark' ? 'bg-gray-800/50 border-gray-700' : 'bg-white border-slate-200'}`}>
-            <div className="flex items-center justify-between mb-2">
-              <Link2 className="w-8 h-8 text-blue-500" />
-              <span className={`text-2xl font-bold ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
-                {stats.total}
-              </span>
-            </div>
-            <p className={`text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-slate-600'}`}>Total Endpoints</p>
-          </div>
-
-          <div className={`p-6 rounded-xl border ${theme === 'dark' ? 'bg-gray-800/50 border-gray-700' : 'bg-white border-slate-200'}`}>
-            <div className="flex items-center justify-between mb-2">
-              <CheckCircle className="w-8 h-8 text-green-500" />
-              <span className={`text-2xl font-bold ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
-                {stats.active}
-              </span>
-            </div>
-            <p className={`text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-slate-600'}`}>Active</p>
-          </div>
-
-          <div className={`p-6 rounded-xl border ${theme === 'dark' ? 'bg-gray-800/50 border-gray-700' : 'bg-white border-slate-200'}`}>
-            <div className="flex items-center justify-between mb-2">
-              <XCircle className="w-8 h-8 text-red-500" />
-              <span className={`text-2xl font-bold ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
-                {stats.inactive}
-              </span>
-            </div>
-            <p className={`text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-slate-600'}`}>Inactive</p>
-          </div>
-
-          <div className={`p-6 rounded-xl border ${theme === 'dark' ? 'bg-gray-800/50 border-gray-700' : 'bg-white border-slate-200'}`}>
-            <div className="flex items-center justify-between mb-2">
-              <Activity className="w-8 h-8 text-purple-500" />
-              <span className={`text-2xl font-bold ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
-                {safeFormatNumber(stats.totalRequests)}
-              </span>
-            </div>
-            <p className={`text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-slate-600'}`}>Total Requests</p>
-          </div>
-        </div>
-
         {/* Filters */}
         <div className={`p-6 rounded-xl border mb-6 ${theme === 'dark' ? 'bg-gray-800/50 border-gray-700' : 'bg-white border-slate-200'}`}>
           <div className="flex flex-col md:flex-row gap-4">
@@ -275,55 +213,21 @@ const AgentEndpointsPage = () => {
               <Search className={`absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 ${theme === 'dark' ? 'text-gray-400' : 'text-slate-400'}`} />
               <input
                 type="text"
-                placeholder="Search endpoints by name or path..."
+                placeholder="Search endpoints by type or URL..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className={`w-full pl-10 pr-4 py-2 rounded-lg border ${
-                  theme === 'dark'
+                className={`w-full pl-10 pr-4 py-2 rounded-lg border ${theme === 'dark'
                     ? 'bg-gray-900 border-gray-700 text-white placeholder-gray-500'
                     : 'bg-white border-slate-300 text-slate-900 placeholder-slate-400'
-                } focus:outline-none focus:ring-2 focus:ring-purple-500`}
+                  } focus:outline-none focus:ring-2 focus:ring-purple-500`}
               />
             </div>
-
-            {/* Status Filter */}
-            <select
-              value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value)}
-              className={`px-4 py-2 rounded-lg border ${
-                theme === 'dark'
-                  ? 'bg-gray-900 border-gray-700 text-white'
-                  : 'bg-white border-slate-300 text-slate-900'
-              } focus:outline-none focus:ring-2 focus:ring-purple-500`}
-            >
-              <option value="all">All Status</option>
-              <option value="active">Active</option>
-              <option value="inactive">Inactive</option>
-            </select>
-
-            {/* Method Filter */}
-            <select
-              value={methodFilter}
-              onChange={(e) => setMethodFilter(e.target.value)}
-              className={`px-4 py-2 rounded-lg border ${
-                theme === 'dark'
-                  ? 'bg-gray-900 border-gray-700 text-white'
-                  : 'bg-white border-slate-300 text-slate-900'
-              } focus:outline-none focus:ring-2 focus:ring-purple-500`}
-            >
-              <option value="all">All Methods</option>
-              <option value="GET">GET</option>
-              <option value="POST">POST</option>
-              <option value="PUT">PUT</option>
-              <option value="PATCH">PATCH</option>
-              <option value="DELETE">DELETE</option>
-            </select>
           </div>
         </div>
 
         {/* Endpoints Table */}
         <div className={`rounded-xl border overflow-hidden ${theme === 'dark' ? 'bg-gray-800/50 border-gray-700' : 'bg-white border-slate-200'}`}>
-          {loading ? (
+          {loading && endpoints.length === 0 ? (
             <div className="flex items-center justify-center py-12">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-500"></div>
             </div>
@@ -340,19 +244,16 @@ const AgentEndpointsPage = () => {
                 <thead className={theme === 'dark' ? 'bg-gray-900/50' : 'bg-slate-50'}>
                   <tr>
                     <th className={`px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider ${theme === 'dark' ? 'text-gray-400' : 'text-slate-600'}`}>
-                      Endpoint
+                      Agent
                     </th>
                     <th className={`px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider ${theme === 'dark' ? 'text-gray-400' : 'text-slate-600'}`}>
-                      Method
+                      Type
                     </th>
                     <th className={`px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider ${theme === 'dark' ? 'text-gray-400' : 'text-slate-600'}`}>
-                      Path
+                      URL
                     </th>
                     <th className={`px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider ${theme === 'dark' ? 'text-gray-400' : 'text-slate-600'}`}>
-                      Auth
-                    </th>
-                    <th className={`px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider ${theme === 'dark' ? 'text-gray-400' : 'text-slate-600'}`}>
-                      Requests
+                      Secret
                     </th>
                     <th className={`px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider ${theme === 'dark' ? 'text-gray-400' : 'text-slate-600'}`}>
                       Status
@@ -366,52 +267,42 @@ const AgentEndpointsPage = () => {
                   {endpoints.map((endpoint) => (
                     <tr key={endpoint.id} className={theme === 'dark' ? 'hover:bg-gray-900/30' : 'hover:bg-slate-50'}>
                       <td className="px-6 py-4">
-                        <div className="flex items-center space-x-3">
-                          <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
-                            endpoint.is_active
-                              ? 'bg-purple-500/10 text-purple-500'
-                              : 'bg-gray-500/10 text-gray-500'
+                        <span className={`font-medium ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
+                          {getAgentName(endpoint.agent_id)}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4">
+                        <span className={`px-3 py-1 rounded-full text-xs font-medium border ${theme === 'dark' ? 'bg-blue-500/10 text-blue-400 border-blue-500/20' : 'bg-blue-50 text-blue-600 border-blue-200'
                           }`}>
-                            <Link2 className="w-5 h-5" />
-                          </div>
-                          <div>
-                            <div className={`font-medium ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
-                              {endpoint.name}
-                            </div>
-                            <div className={`text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-slate-500'}`}>
-                              {endpoint.slug}
-                            </div>
-                          </div>
+                          {endpoint.type}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="flex items-center space-x-2">
+                          <Globe className={`w-4 h-4 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-500'}`} />
+                          <span className={`text-sm ${theme === 'dark' ? 'text-gray-300' : 'text-slate-600'}`}>
+                            {endpoint.url}
+                          </span>
                         </div>
                       </td>
                       <td className="px-6 py-4">
-                        <span className={`px-3 py-1 rounded-full text-xs font-medium border ${getMethodBadgeColor(endpoint.method)}`}>
-                          {endpoint.method}
-                        </span>
+                        <div className="flex items-center space-x-2">
+                          <code className={`text-xs px-2 py-1 rounded ${theme === 'dark' ? 'bg-gray-900 text-gray-400' : 'bg-slate-100 text-slate-600'}`}>
+                            {showSecret[endpoint.id] ? endpoint.secret : '••••••••••••••••'}
+                          </code>
+                          <button
+                            onClick={() => toggleSecretVisibility(endpoint.id)}
+                            className={`p-1 rounded hover:bg-opacity-20 ${theme === 'dark' ? 'hover:bg-gray-500 text-gray-400' : 'hover:bg-slate-200 text-gray-500'}`}
+                          >
+                            {showSecret[endpoint.id] ? <EyeOff className="w-3 h-3" /> : <Eye className="w-3 h-3" />}
+                          </button>
+                        </div>
                       </td>
                       <td className="px-6 py-4">
-                        <code className={`text-sm ${theme === 'dark' ? 'text-gray-300' : 'text-slate-600'}`}>
-                          {endpoint.path}
-                        </code>
-                      </td>
-                      <td className="px-6 py-4">
-                        {endpoint.requires_auth ? (
-                          <Lock className="w-4 h-4 text-orange-500" />
-                        ) : (
-                          <Unlock className="w-4 h-4 text-gray-500" />
-                        )}
-                      </td>
-                      <td className="px-6 py-4">
-                        <span className={theme === 'dark' ? 'text-gray-300' : 'text-slate-600'}>
-                          {(endpoint.total_requests || 0).toLocaleString()}
-                        </span>
-                      </td>
-                      <td className="px-6 py-4">
-                        <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                          endpoint.is_active
+                        <span className={`px-3 py-1 rounded-full text-xs font-medium ${endpoint.is_active
                             ? 'bg-green-500/10 text-green-500'
                             : 'bg-red-500/10 text-red-500'
-                        }`}>
+                          }`}>
                           {endpoint.is_active ? 'Active' : 'Inactive'}
                         </span>
                       </td>
@@ -419,11 +310,10 @@ const AgentEndpointsPage = () => {
                         <div className="flex items-center justify-end space-x-2">
                           <button
                             onClick={() => openEditModal(endpoint)}
-                            className={`p-2 rounded-lg transition-colors ${
-                              theme === 'dark'
+                            className={`p-2 rounded-lg transition-colors ${theme === 'dark'
                                 ? 'hover:bg-gray-700 text-gray-400 hover:text-white'
                                 : 'hover:bg-slate-100 text-slate-400 hover:text-slate-900'
-                            }`}
+                              }`}
                             title="Edit endpoint"
                           >
                             <Edit2 className="w-4 h-4" />
@@ -445,164 +335,114 @@ const AgentEndpointsPage = () => {
           )}
         </div>
 
-        {/* Create Modal */}
-        {showCreateModal && (
+        {/* Create/Edit Modal */}
+        {(showCreateModal || showEditModal) && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-            <div className={`w-full max-w-2xl rounded-xl ${theme === 'dark' ? 'bg-gray-800' : 'bg-white'}`}>
+            <div className={`w-full max-w-lg rounded-xl ${theme === 'dark' ? 'bg-gray-800' : 'bg-white'}`}>
               <div className="flex items-center justify-between p-6 border-b border-gray-700">
                 <h2 className={`text-xl font-semibold ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
-                  Create New Endpoint
+                  {showCreateModal ? 'Create Endpoint' : 'Edit Endpoint'}
                 </h2>
                 <button
                   onClick={() => {
                     setShowCreateModal(false);
+                    setShowEditModal(false);
                     resetForm();
                   }}
-                  className={`p-2 rounded-lg transition-colors ${
-                    theme === 'dark'
+                  className={`p-2 rounded-lg transition-colors ${theme === 'dark'
                       ? 'hover:bg-gray-700 text-gray-400'
                       : 'hover:bg-slate-100 text-slate-400'
-                  }`}
+                    }`}
                 >
                   <X className="w-5 h-5" />
                 </button>
               </div>
 
-              <form onSubmit={handleCreateEndpoint} className="p-6 space-y-4">
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                      Endpoint Name *
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className={`w-full px-4 py-2 rounded-lg border ${
-                        theme === 'dark'
-                          ? 'bg-gray-900 border-gray-700 text-white'
-                          : 'bg-white border-slate-300 text-slate-900'
-                      } focus:outline-none focus:ring-2 focus:ring-purple-500`}
-                      placeholder="e.g., Weather API"
-                    />
-                  </div>
+              <form onSubmit={showCreateModal ? handleCreateEndpoint : handleUpdateEndpoint} className="p-6 space-y-4">
 
-                  <div>
-                    <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                      Slug *
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      value={formData.slug}
-                      onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
-                      className={`w-full px-4 py-2 rounded-lg border ${
-                        theme === 'dark'
-                          ? 'bg-gray-900 border-gray-700 text-white'
-                          : 'bg-white border-slate-300 text-slate-900'
-                      } focus:outline-none focus:ring-2 focus:ring-purple-500`}
-                      placeholder="e.g., weather-api"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                      HTTP Method *
-                    </label>
-                    <select
-                      required
-                      value={formData.method}
-                      onChange={(e) => setFormData({ ...formData, method: e.target.value })}
-                      className={`w-full px-4 py-2 rounded-lg border ${
-                        theme === 'dark'
-                          ? 'bg-gray-900 border-gray-700 text-white'
-                          : 'bg-white border-slate-300 text-slate-900'
-                      } focus:outline-none focus:ring-2 focus:ring-purple-500`}
-                    >
-                      <option value="GET">GET</option>
-                      <option value="POST">POST</option>
-                      <option value="PUT">PUT</option>
-                      <option value="PATCH">PATCH</option>
-                      <option value="DELETE">DELETE</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                      API Path *
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      value={formData.path}
-                      onChange={(e) => setFormData({ ...formData, path: e.target.value })}
-                      className={`w-full px-4 py-2 rounded-lg border ${
-                        theme === 'dark'
-                          ? 'bg-gray-900 border-gray-700 text-white'
-                          : 'bg-white border-slate-300 text-slate-900'
-                      } focus:outline-none focus:ring-2 focus:ring-purple-500`}
-                      placeholder="/api/weather"
-                    />
-                  </div>
-                </div>
-
+                {/* Agent Selection */}
                 <div>
                   <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                    Description
+                    Select Agent *
                   </label>
-                  <textarea
-                    value={formData.description}
-                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                    rows={3}
-                    className={`w-full px-4 py-2 rounded-lg border ${
-                      theme === 'dark'
+                  <select
+                    required
+                    value={formData.agent_id}
+                    onChange={(e) => setFormData({ ...formData, agent_id: e.target.value })}
+                    className={`w-full px-4 py-2 rounded-lg border ${theme === 'dark'
                         ? 'bg-gray-900 border-gray-700 text-white'
                         : 'bg-white border-slate-300 text-slate-900'
-                    } focus:outline-none focus:ring-2 focus:ring-purple-500`}
-                    placeholder="Endpoint description..."
+                      } focus:outline-none focus:ring-2 focus:ring-purple-500`}
+                  >
+                    <option value="">Choose an agent...</option>
+                    {agents.map(agent => (
+                      <option key={agent.id} value={agent.id}>{agent.name} ({agent.slug})</option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Endpoint Type */}
+                <div>
+                  <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
+                    Type *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={formData.type}
+                    onChange={(e) => setFormData({ ...formData, type: e.target.value })}
+                    className={`w-full px-4 py-2 rounded-lg border ${theme === 'dark'
+                        ? 'bg-gray-900 border-gray-700 text-white'
+                        : 'bg-white border-slate-300 text-slate-900'
+                      } focus:outline-none focus:ring-2 focus:ring-purple-500`}
+                    placeholder="e.g., primary, webhook, analytics"
                   />
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                      Rate Limit (requests/min)
-                    </label>
+                {/* URL */}
+                <div>
+                  <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
+                    URL *
+                  </label>
+                  <div className="relative">
+                    <Globe className={`absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 ${theme === 'dark' ? 'text-gray-500' : 'text-gray-400'}`} />
                     <input
-                      type="number"
-                      min="1"
-                      value={formData.rate_limit}
-                      onChange={(e) => setFormData({ ...formData, rate_limit: parseInt(e.target.value) })}
-                      className={`w-full px-4 py-2 rounded-lg border ${
-                        theme === 'dark'
+                      type="url"
+                      required
+                      value={formData.url}
+                      onChange={(e) => setFormData({ ...formData, url: e.target.value })}
+                      className={`w-full pl-10 pr-4 py-2 rounded-lg border ${theme === 'dark'
                           ? 'bg-gray-900 border-gray-700 text-white'
                           : 'bg-white border-slate-300 text-slate-900'
-                      } focus:outline-none focus:ring-2 focus:ring-purple-500`}
-                    />
-                  </div>
-
-                  <div>
-                    <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                      Timeout (seconds)
-                    </label>
-                    <input
-                      type="number"
-                      min="1"
-                      value={formData.timeout_seconds}
-                      onChange={(e) => setFormData({ ...formData, timeout_seconds: parseInt(e.target.value) })}
-                      className={`w-full px-4 py-2 rounded-lg border ${
-                        theme === 'dark'
-                          ? 'bg-gray-900 border-gray-700 text-white'
-                          : 'bg-white border-slate-300 text-slate-900'
-                      } focus:outline-none focus:ring-2 focus:ring-purple-500`}
+                        } focus:outline-none focus:ring-2 focus:ring-purple-500`}
+                      placeholder="https://api.example.com/endpoint"
                     />
                   </div>
                 </div>
 
-                <div className="flex items-center space-x-6">
+                {/* Secret */}
+                <div>
+                  <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
+                    Secret *
+                  </label>
+                  <div className="relative">
+                    <Key className={`absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 ${theme === 'dark' ? 'text-gray-500' : 'text-gray-400'}`} />
+                    <input
+                      type="text"
+                      required
+                      value={formData.secret}
+                      onChange={(e) => setFormData({ ...formData, secret: e.target.value })}
+                      className={`w-full pl-10 pr-4 py-2 rounded-lg border ${theme === 'dark'
+                          ? 'bg-gray-900 border-gray-700 text-white'
+                          : 'bg-white border-slate-300 text-slate-900'
+                        } focus:outline-none focus:ring-2 focus:ring-purple-500`}
+                      placeholder="Endpoint secret key"
+                    />
+                  </div>
+                </div>
+
+                {/* Is Active */}
+                <div className="pt-2">
                   <label className="flex items-center space-x-2 cursor-pointer">
                     <input
                       type="checkbox"
@@ -614,249 +454,30 @@ const AgentEndpointsPage = () => {
                       Active
                     </span>
                   </label>
-
-                  <label className="flex items-center space-x-2 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={formData.requires_auth}
-                      onChange={(e) => setFormData({ ...formData, requires_auth: e.target.checked })}
-                      className="w-4 h-4 rounded border-gray-600 text-purple-600 focus:ring-purple-500"
-                    />
-                    <span className={`text-sm ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                      Requires Authentication
-                    </span>
-                  </label>
                 </div>
 
-                <div className="flex justify-end space-x-3 pt-4">
+                {/* Actions */}
+                <div className="flex justify-end space-x-3 pt-6 border-t border-gray-700">
                   <button
                     type="button"
                     onClick={() => {
                       setShowCreateModal(false);
-                      resetForm();
-                    }}
-                    className={`px-6 py-2 rounded-lg font-medium transition-colors ${
-                      theme === 'dark'
-                        ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                        : 'bg-slate-200 text-slate-700 hover:bg-slate-300'
-                    }`}
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="submit"
-                    disabled={loading}
-                    className="px-6 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg font-medium hover:shadow-lg transition-all disabled:opacity-50"
-                  >
-                    {loading ? 'Creating...' : 'Create Endpoint'}
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
-        )}
-
-        {/* Edit Modal - Similar structure to Create Modal */}
-        {showEditModal && (
-          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-            <div className={`w-full max-w-2xl rounded-xl ${theme === 'dark' ? 'bg-gray-800' : 'bg-white'}`}>
-              <div className="flex items-center justify-between p-6 border-b border-gray-700">
-                <h2 className={`text-xl font-semibold ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
-                  Edit Endpoint
-                </h2>
-                <button
-                  onClick={() => {
-                    setShowEditModal(false);
-                    resetForm();
-                  }}
-                  className={`p-2 rounded-lg transition-colors ${
-                    theme === 'dark'
-                      ? 'hover:bg-gray-700 text-gray-400'
-                      : 'hover:bg-slate-100 text-slate-400'
-                  }`}
-                >
-                  <X className="w-5 h-5" />
-                </button>
-              </div>
-
-              <form onSubmit={handleUpdateEndpoint} className="p-6 space-y-4">
-                {/* Same form fields as Create Modal */}
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                      Endpoint Name *
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className={`w-full px-4 py-2 rounded-lg border ${
-                        theme === 'dark'
-                          ? 'bg-gray-900 border-gray-700 text-white'
-                          : 'bg-white border-slate-300 text-slate-900'
-                      } focus:outline-none focus:ring-2 focus:ring-purple-500`}
-                    />
-                  </div>
-
-                  <div>
-                    <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                      Slug *
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      value={formData.slug}
-                      onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
-                      className={`w-full px-4 py-2 rounded-lg border ${
-                        theme === 'dark'
-                          ? 'bg-gray-900 border-gray-700 text-white'
-                          : 'bg-white border-slate-300 text-slate-900'
-                      } focus:outline-none focus:ring-2 focus:ring-purple-500`}
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                      HTTP Method *
-                    </label>
-                    <select
-                      required
-                      value={formData.method}
-                      onChange={(e) => setFormData({ ...formData, method: e.target.value })}
-                      className={`w-full px-4 py-2 rounded-lg border ${
-                        theme === 'dark'
-                          ? 'bg-gray-900 border-gray-700 text-white'
-                          : 'bg-white border-slate-300 text-slate-900'
-                      } focus:outline-none focus:ring-2 focus:ring-purple-500`}
-                    >
-                      <option value="GET">GET</option>
-                      <option value="POST">POST</option>
-                      <option value="PUT">PUT</option>
-                      <option value="PATCH">PATCH</option>
-                      <option value="DELETE">DELETE</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                      API Path *
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      value={formData.path}
-                      onChange={(e) => setFormData({ ...formData, path: e.target.value })}
-                      className={`w-full px-4 py-2 rounded-lg border ${
-                        theme === 'dark'
-                          ? 'bg-gray-900 border-gray-700 text-white'
-                          : 'bg-white border-slate-300 text-slate-900'
-                      } focus:outline-none focus:ring-2 focus:ring-purple-500`}
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                    Description
-                  </label>
-                  <textarea
-                    value={formData.description}
-                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                    rows={3}
-                    className={`w-full px-4 py-2 rounded-lg border ${
-                      theme === 'dark'
-                        ? 'bg-gray-900 border-gray-700 text-white'
-                        : 'bg-white border-slate-300 text-slate-900'
-                    } focus:outline-none focus:ring-2 focus:ring-purple-500`}
-                  />
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                      Rate Limit (requests/min)
-                    </label>
-                    <input
-                      type="number"
-                      min="1"
-                      value={formData.rate_limit}
-                      onChange={(e) => setFormData({ ...formData, rate_limit: parseInt(e.target.value) })}
-                      className={`w-full px-4 py-2 rounded-lg border ${
-                        theme === 'dark'
-                          ? 'bg-gray-900 border-gray-700 text-white'
-                          : 'bg-white border-slate-300 text-slate-900'
-                      } focus:outline-none focus:ring-2 focus:ring-purple-500`}
-                    />
-                  </div>
-
-                  <div>
-                    <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                      Timeout (seconds)
-                    </label>
-                    <input
-                      type="number"
-                      min="1"
-                      value={formData.timeout_seconds}
-                      onChange={(e) => setFormData({ ...formData, timeout_seconds: parseInt(e.target.value) })}
-                      className={`w-full px-4 py-2 rounded-lg border ${
-                        theme === 'dark'
-                          ? 'bg-gray-900 border-gray-700 text-white'
-                          : 'bg-white border-slate-300 text-slate-900'
-                      } focus:outline-none focus:ring-2 focus:ring-purple-500`}
-                    />
-                  </div>
-                </div>
-
-                <div className="flex items-center space-x-6">
-                  <label className="flex items-center space-x-2 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={formData.is_active}
-                      onChange={(e) => setFormData({ ...formData, is_active: e.target.checked })}
-                      className="w-4 h-4 rounded border-gray-600 text-purple-600 focus:ring-purple-500"
-                    />
-                    <span className={`text-sm ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                      Active
-                    </span>
-                  </label>
-
-                  <label className="flex items-center space-x-2 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={formData.requires_auth}
-                      onChange={(e) => setFormData({ ...formData, requires_auth: e.target.checked })}
-                      className="w-4 h-4 rounded border-gray-600 text-purple-600 focus:ring-purple-500"
-                    />
-                    <span className={`text-sm ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                      Requires Authentication
-                    </span>
-                  </label>
-                </div>
-
-                <div className="flex justify-end space-x-3 pt-4">
-                  <button
-                    type="button"
-                    onClick={() => {
                       setShowEditModal(false);
                       resetForm();
                     }}
-                    className={`px-6 py-2 rounded-lg font-medium transition-colors ${
-                      theme === 'dark'
+                    className={`px-4 py-2 rounded-lg font-medium transition-colors ${theme === 'dark'
                         ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
                         : 'bg-slate-200 text-slate-700 hover:bg-slate-300'
-                    }`}
+                      }`}
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
                     disabled={loading}
-                    className="px-6 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg font-medium hover:shadow-lg transition-all disabled:opacity-50"
+                    className="px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg font-medium hover:shadow-lg transition-all disabled:opacity-50"
                   >
-                    {loading ? 'Updating...' : 'Update Endpoint'}
+                    {loading ? 'Saving...' : (showCreateModal ? 'Create Endpoint' : 'Update Endpoint')}
                   </button>
                 </div>
               </form>
@@ -868,30 +489,31 @@ const AgentEndpointsPage = () => {
         {showDeleteModal && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
             <div className={`w-full max-w-md rounded-xl p-6 ${theme === 'dark' ? 'bg-gray-800' : 'bg-white'}`}>
-              <h2 className={`text-xl font-semibold mb-4 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
-                Delete Endpoint
-              </h2>
+              <div className="flex items-center space-x-3 mb-4">
+                <div className="p-3 rounded-full bg-red-500/10 text-red-500">
+                  <Trash2 className="w-6 h-6" />
+                </div>
+                <h3 className={`text-xl font-bold ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
+                  Delete Endpoint
+                </h3>
+              </div>
               <p className={`mb-6 ${theme === 'dark' ? 'text-gray-400' : 'text-slate-600'}`}>
-                Are you sure you want to delete "{selectedEndpoint?.name}"? This action cannot be undone.
+                Are you sure you want to delete this endpoint? This action cannot be undone.
               </p>
               <div className="flex justify-end space-x-3">
                 <button
-                  onClick={() => {
-                    setShowDeleteModal(false);
-                    setSelectedEndpoint(null);
-                  }}
-                  className={`px-6 py-2 rounded-lg font-medium transition-colors ${
-                    theme === 'dark'
+                  onClick={() => setShowDeleteModal(false)}
+                  className={`px-4 py-2 rounded-lg font-medium transition-colors ${theme === 'dark'
                       ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
                       : 'bg-slate-200 text-slate-700 hover:bg-slate-300'
-                  }`}
+                    }`}
                 >
                   Cancel
                 </button>
                 <button
                   onClick={handleDeleteEndpoint}
                   disabled={loading}
-                  className="px-6 py-2 bg-red-600 text-white rounded-lg font-medium hover:bg-red-700 transition-colors disabled:opacity-50"
+                  className="px-4 py-2 bg-red-500 text-white rounded-lg font-medium hover:bg-red-600 transition-colors disabled:opacity-50"
                 >
                   {loading ? 'Deleting...' : 'Delete'}
                 </button>
