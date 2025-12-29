@@ -51,11 +51,17 @@ const AgentEndpointsPage = () => {
   const fetchAgents = async () => {
     try {
       const response = await adminService.getAllAgents({ per_page: 100 });
-      if (response.data && Array.isArray(response.data)) {
-        setAgents(response.data);
+      let agentsData = [];
+
+      if (response.data && response.data.data && Array.isArray(response.data.data)) {
+        agentsData = response.data.data;
+      } else if (response.data && Array.isArray(response.data)) {
+        agentsData = response.data;
       } else if (Array.isArray(response)) {
-        setAgents(response);
+        agentsData = response;
       }
+
+      setAgents(agentsData);
     } catch (error) {
       console.error('Error fetching agents:', error);
       notify.error('Failed to load agents list');
@@ -217,8 +223,8 @@ const AgentEndpointsPage = () => {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className={`w-full pl-10 pr-4 py-2 rounded-lg border ${theme === 'dark'
-                    ? 'bg-gray-900 border-gray-700 text-white placeholder-gray-500'
-                    : 'bg-white border-slate-300 text-slate-900 placeholder-slate-400'
+                  ? 'bg-gray-900 border-gray-700 text-white placeholder-gray-500'
+                  : 'bg-white border-slate-300 text-slate-900 placeholder-slate-400'
                   } focus:outline-none focus:ring-2 focus:ring-purple-500`}
               />
             </div>
@@ -300,8 +306,8 @@ const AgentEndpointsPage = () => {
                       </td>
                       <td className="px-6 py-4">
                         <span className={`px-3 py-1 rounded-full text-xs font-medium ${endpoint.is_active
-                            ? 'bg-green-500/10 text-green-500'
-                            : 'bg-red-500/10 text-red-500'
+                          ? 'bg-green-500/10 text-green-500'
+                          : 'bg-red-500/10 text-red-500'
                           }`}>
                           {endpoint.is_active ? 'Active' : 'Inactive'}
                         </span>
@@ -311,8 +317,8 @@ const AgentEndpointsPage = () => {
                           <button
                             onClick={() => openEditModal(endpoint)}
                             className={`p-2 rounded-lg transition-colors ${theme === 'dark'
-                                ? 'hover:bg-gray-700 text-gray-400 hover:text-white'
-                                : 'hover:bg-slate-100 text-slate-400 hover:text-slate-900'
+                              ? 'hover:bg-gray-700 text-gray-400 hover:text-white'
+                              : 'hover:bg-slate-100 text-slate-400 hover:text-slate-900'
                               }`}
                             title="Edit endpoint"
                           >
@@ -350,8 +356,8 @@ const AgentEndpointsPage = () => {
                     resetForm();
                   }}
                   className={`p-2 rounded-lg transition-colors ${theme === 'dark'
-                      ? 'hover:bg-gray-700 text-gray-400'
-                      : 'hover:bg-slate-100 text-slate-400'
+                    ? 'hover:bg-gray-700 text-gray-400'
+                    : 'hover:bg-slate-100 text-slate-400'
                     }`}
                 >
                   <X className="w-5 h-5" />
@@ -370,8 +376,8 @@ const AgentEndpointsPage = () => {
                     value={formData.agent_id}
                     onChange={(e) => setFormData({ ...formData, agent_id: e.target.value })}
                     className={`w-full px-4 py-2 rounded-lg border ${theme === 'dark'
-                        ? 'bg-gray-900 border-gray-700 text-white'
-                        : 'bg-white border-slate-300 text-slate-900'
+                      ? 'bg-gray-900 border-gray-700 text-white'
+                      : 'bg-white border-slate-300 text-slate-900'
                       } focus:outline-none focus:ring-2 focus:ring-purple-500`}
                   >
                     <option value="">Choose an agent...</option>
@@ -392,8 +398,8 @@ const AgentEndpointsPage = () => {
                     value={formData.type}
                     onChange={(e) => setFormData({ ...formData, type: e.target.value })}
                     className={`w-full px-4 py-2 rounded-lg border ${theme === 'dark'
-                        ? 'bg-gray-900 border-gray-700 text-white'
-                        : 'bg-white border-slate-300 text-slate-900'
+                      ? 'bg-gray-900 border-gray-700 text-white'
+                      : 'bg-white border-slate-300 text-slate-900'
                       } focus:outline-none focus:ring-2 focus:ring-purple-500`}
                     placeholder="e.g., primary, webhook, analytics"
                   />
@@ -412,8 +418,8 @@ const AgentEndpointsPage = () => {
                       value={formData.url}
                       onChange={(e) => setFormData({ ...formData, url: e.target.value })}
                       className={`w-full pl-10 pr-4 py-2 rounded-lg border ${theme === 'dark'
-                          ? 'bg-gray-900 border-gray-700 text-white'
-                          : 'bg-white border-slate-300 text-slate-900'
+                        ? 'bg-gray-900 border-gray-700 text-white'
+                        : 'bg-white border-slate-300 text-slate-900'
                         } focus:outline-none focus:ring-2 focus:ring-purple-500`}
                       placeholder="https://api.example.com/endpoint"
                     />
@@ -433,8 +439,8 @@ const AgentEndpointsPage = () => {
                       value={formData.secret}
                       onChange={(e) => setFormData({ ...formData, secret: e.target.value })}
                       className={`w-full pl-10 pr-4 py-2 rounded-lg border ${theme === 'dark'
-                          ? 'bg-gray-900 border-gray-700 text-white'
-                          : 'bg-white border-slate-300 text-slate-900'
+                        ? 'bg-gray-900 border-gray-700 text-white'
+                        : 'bg-white border-slate-300 text-slate-900'
                         } focus:outline-none focus:ring-2 focus:ring-purple-500`}
                       placeholder="Endpoint secret key"
                     />
@@ -466,8 +472,8 @@ const AgentEndpointsPage = () => {
                       resetForm();
                     }}
                     className={`px-4 py-2 rounded-lg font-medium transition-colors ${theme === 'dark'
-                        ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                        : 'bg-slate-200 text-slate-700 hover:bg-slate-300'
+                      ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                      : 'bg-slate-200 text-slate-700 hover:bg-slate-300'
                       }`}
                   >
                     Cancel
@@ -504,8 +510,8 @@ const AgentEndpointsPage = () => {
                 <button
                   onClick={() => setShowDeleteModal(false)}
                   className={`px-4 py-2 rounded-lg font-medium transition-colors ${theme === 'dark'
-                      ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                      : 'bg-slate-200 text-slate-700 hover:bg-slate-300'
+                    ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                    : 'bg-slate-200 text-slate-700 hover:bg-slate-300'
                     }`}
                 >
                   Cancel
