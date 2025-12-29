@@ -16,8 +16,18 @@ const adminService = {
      * @param {Object} params - Query parameters (page, per_page, type, status, search)
      */
     getAllTenants: async (params = {}) => {
-        // Use /tenants endpoint - admin will see all tenants
-        const response = await api.get('/tenants', { params });
+        // Backend endpoint: GET /api/v1/admin/tenants
+        const response = await api.get('/admin/tenants', { params });
+        return response.data;
+    },
+
+    /**
+     * Get tenant statistics
+     * Backend endpoint: GET /api/v1/admin/tenants/statistics
+     * @returns {Promise} TenantStatisticsResponse
+     */
+    getTenantStatistics: async () => {
+        const response = await api.get('/admin/tenants/statistics');
         return response.data;
     },
 
@@ -53,6 +63,54 @@ const adminService = {
      */
     switchTenant: async (tenantId) => {
         const response = await api.post(`/tenants/${tenantId}/switch`);
+        return response.data;
+    },
+
+    /**
+     * Suspend tenant
+     * Backend endpoint: PUT /api/v1/admin/tenants/{id}/status
+     * @param {string} tenantId - Tenant UUID
+     * @param {Object} data - { reason?: string }
+     */
+    suspendTenant: async (tenantId, data = {}) => {
+        const response = await api.put(`/admin/tenants/${tenantId}/status`, {
+            status: 'suspended',
+            reason: data.reason
+        });
+        return response.data;
+    },
+
+    /**
+     * Activate tenant
+     * Backend endpoint: PUT /api/v1/admin/tenants/{id}/status
+     * @param {string} tenantId - Tenant UUID
+     */
+    activateTenant: async (tenantId) => {
+        const response = await api.put(`/admin/tenants/${tenantId}/status`, {
+            status: 'active'
+        });
+        return response.data;
+    },
+
+    /**
+     * Change tenant subscription
+     * Backend endpoint: PUT /api/v1/admin/tenants/{id}/subscription
+     * @param {string} tenantId - Tenant UUID
+     * @param {Object} data - { plan_id, billing_cycle, starts_immediately, reason }
+     */
+    changeTenantSubscription: async (tenantId, data) => {
+        const response = await api.put(`/admin/tenants/${tenantId}/subscription`, data);
+        return response.data;
+    },
+
+    /**
+     * Extend trial period
+     * Backend endpoint: POST /api/v1/admin/tenants/{id}/extend-trial
+     * @param {string} tenantId - Tenant UUID
+     * @param {Object} data - { days, reason }
+     */
+    extendTrial: async (tenantId, data) => {
+        const response = await api.post(`/admin/tenants/${tenantId}/extend-trial`, data);
         return response.data;
     },
 
