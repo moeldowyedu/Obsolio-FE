@@ -16,18 +16,82 @@ const adminTenantsService = {
    * @returns {Promise} TenantListResponse
    */
   listTenants: async (params = {}) => {
-    const response = await api.get('/admin/tenants', { params });
+    // Backend uses /tenants endpoint (returns all tenants for system admin)
+    const response = await api.get('/tenants', { params });
     return response.data;
   },
 
   /**
    * 2. Get Tenant Statistics
    * Get dashboard statistics for all tenants
+   * Note: Backend doesn't have /admin/tenants/statistics yet
+   * Using organization and subscription statistics as fallback
    * @returns {Promise} TenantStatisticsResponse
    */
   getTenantStatistics: async () => {
-    const response = await api.get('/admin/tenants/statistics');
-    return response.data;
+    try {
+      // Try to get combined statistics from multiple endpoints
+      const [tenantsResponse, orgStatsResponse, subStatsResponse] = await Promise.allSettled([
+        api.get('/tenants'),
+        api.get('/admin/organizations/statistics'),
+        api.get('/admin/subscriptions/statistics')
+      ]);
+
+      const tenants = tenantsResponse.status === 'fulfilled' ? tenantsResponse.value.data.data : [];
+      const orgStats = orgStatsResponse.status === 'fulfilled' ? orgStatsResponse.value.data : {};
+      const subStats = subStatsResponse.status === 'fulfilled' ? subStatsResponse.value.data : {};
+
+      // Calculate statistics from tenant list
+      const total_tenants = tenants.length || 0;
+      const active_tenants = tenants.filter(t => t.status === 'active').length || 0;
+      const suspended_tenants = tenants.filter(t => t.status === 'suspended').length || 0;
+      const inactive_tenants = tenants.filter(t => t.status === 'inactive').length || 0;
+
+      // Use subscription stats if available
+      const trial_tenants = subStats.trial_subscriptions || 0;
+      const paid_tenants = subStats.active_subscriptions || 0;
+
+      // Calculate new tenants this month
+      const now = new Date();
+      const thisMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+      const new_tenants_this_month = tenants.filter(t =>
+        new Date(t.created_at) >= thisMonth
+      ).length || 0;
+
+      return {
+        success: true,
+        data: {
+          total_tenants,
+          active_tenants,
+          suspended_tenants,
+          inactive_tenants,
+          trial_tenants,
+          paid_tenants,
+          new_tenants_this_month,
+          revenue_this_month: subStats.monthly_revenue || 0,
+          churn_rate: subStats.churn_rate || 0,
+          by_plan: subStats.by_plan || []
+        }
+      };
+    } catch (error) {
+      console.error('Error fetching tenant statistics:', error);
+      // Return empty statistics instead of throwing
+      return {
+        success: false,
+        data: {
+          total_tenants: 0,
+          active_tenants: 0,
+          suspended_tenants: 0,
+          inactive_tenants: 0,
+          trial_tenants: 0,
+          paid_tenants: 0,
+          new_tenants_this_month: 0,
+          revenue_this_month: 0,
+          churn_rate: 0,
+          by_plan: []
+        }
+      };
+    }
   },
 
   /**
@@ -67,13 +131,22 @@ const adminTenantsService = {
   /**
    * 6. Update Tenant Status
    * Update tenant status (active/inactive/suspended)
+   * Note: Backend doesn't have PATCH /status endpoint
+   * Use deactivate/reactivate endpoints instead
    * @param {string} tenantId - Tenant UUID
    * @param {Object} data - UpdateTenantStatusRequest
    * @returns {Promise} TenantDetailResponse
    */
   updateTenantStatus: async (tenantId, data) => {
-    const response = await api.patch(`/admin/tenants/${tenantId}/status`, data);
-    return response.data;
+    const { status, reason } = data;
+
+    if (status === 'active') {
+      return adminTenantsService.reactivateTenant(tenantId);
+    } else if (status === 'suspended' || status === 'inactive') {
+      return adminTenantsService.deactivateTenant(tenantId, { reason });
+    }
+
+    throw new Error(`Unsupported status: ${status}`);
   },
 
   /**
