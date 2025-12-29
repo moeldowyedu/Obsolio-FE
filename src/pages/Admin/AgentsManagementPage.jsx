@@ -49,7 +49,7 @@ const AgentsManagementPage = () => {
   const [formData, setFormData] = useState({
     name: '',
     slug: '',
-    category_id: '',
+    categories: [],
     description: '',
     long_description: '',
     runtime_type: 'python',
@@ -67,7 +67,6 @@ const AgentsManagementPage = () => {
     is_active: true,
     is_featured: false,
     icon_url: '',
-    banner_url: '',
     documentation: ''
   });
 
@@ -310,7 +309,7 @@ const AgentsManagementPage = () => {
     setFormData({
       name: agent.name,
       slug: agent.slug,
-      category_id: agent.category_id || agent.category?.id || '',
+      categories: agent.categories?.map(c => c.id) || [],
       description: agent.description,
       long_description: agent.long_description || '',
       runtime_type: agent.runtime_type,
@@ -328,7 +327,6 @@ const AgentsManagementPage = () => {
       is_active: agent.is_active !== undefined ? agent.is_active : (agent.status === 'active'),
       is_featured: agent.is_featured,
       icon_url: agent.icon_url || '',
-      banner_url: agent.banner_url || '',
       documentation: agent.documentation || ''
     });
     setShowEditModal(true);
@@ -343,7 +341,7 @@ const AgentsManagementPage = () => {
     setFormData({
       name: '',
       slug: '',
-      category_id: '',
+      categories: [],
       description: '',
       long_description: '',
       runtime_type: 'python',
@@ -361,7 +359,6 @@ const AgentsManagementPage = () => {
       is_active: true,
       is_featured: false,
       icon_url: '',
-      banner_url: '',
       documentation: ''
     });
   };
@@ -638,7 +635,7 @@ const AgentsManagementPage = () => {
                       Agent Name
                     </th>
                     <th className={`px-4 py-3 text-left text-sm font-semibold ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                      Category
+                      Categories
                     </th>
                     <th className={`px-4 py-3 text-left text-sm font-semibold ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
                       Runtime
@@ -698,9 +695,18 @@ const AgentsManagementPage = () => {
                         </div>
                       </td>
                       <td className="px-4 py-4">
-                        <span className={`text-sm ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                          {agent.category}
-                        </span>
+                        <div className="flex flex-wrap gap-1">
+                          {Array.isArray(agent.categories) && agent.categories.length > 0 ? (
+                            agent.categories.map((cat, idx) => (
+                              <span key={idx} className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${theme === 'dark' ? 'bg-gray-800 text-gray-300' : 'bg-gray-100 text-gray-700'
+                                }`}>
+                                {cat.name}
+                              </span>
+                            ))
+                          ) : (
+                            <span className={`text-sm ${theme === 'dark' ? 'text-gray-500' : 'text-slate-400'}`}>-</span>
+                          )}
+                        </div>
                       </td>
                       <td className="px-4 py-4">
                         <div className="flex items-center space-x-2">
@@ -851,24 +857,51 @@ const AgentsManagementPage = () => {
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                        Category *
+                        Categories *
                       </label>
-                      <select
-                        required
-                        value={formData.category_id}
-                        onChange={(e) => setFormData({ ...formData, category_id: e.target.value })}
-                        className={`w-full px-4 py-2 rounded-lg border ${theme === 'dark'
-                          ? 'bg-gray-800 border-white/10 text-white'
-                          : 'bg-white border-slate-200 text-slate-900'
-                          }`}
-                      >
-                        <option value="">Select category...</option>
-                        {categories.map((cat) => (
-                          <option key={cat.id} value={cat.id}>
-                            {cat.name}
-                          </option>
-                        ))}
-                      </select>
+                      <div className="space-y-3">
+                        <select
+                          value=""
+                          onChange={(e) => {
+                            const catId = e.target.value;
+                            if (catId && !formData.categories.includes(catId)) {
+                              setFormData({ ...formData, categories: [...formData.categories, catId] });
+                            }
+                          }}
+                          className={`w-full px-4 py-2 rounded-lg border ${theme === 'dark'
+                            ? 'bg-gray-800 border-white/10 text-white'
+                            : 'bg-white border-slate-200 text-slate-900'
+                            }`}
+                        >
+                          <option value="">Add category...</option>
+                          {categories.map((cat) => (
+                            <option key={cat.id} value={cat.id} disabled={formData.categories.includes(cat.id)}>
+                              {cat.name}
+                            </option>
+                          ))}
+                        </select>
+                        <div className="flex flex-wrap gap-2">
+                          {formData.categories.map((catId) => {
+                            const category = categories.find(c => c.id === catId);
+                            return (
+                              <span key={catId} className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium ${theme === 'dark' ? 'bg-purple-500/20 text-purple-300' : 'bg-purple-100 text-purple-700'
+                                }`}>
+                                {category?.name || 'Unknown'}
+                                <button
+                                  type="button"
+                                  onClick={() => setFormData({
+                                    ...formData,
+                                    categories: formData.categories.filter(id => id !== catId)
+                                  })}
+                                  className="hover:text-red-500"
+                                >
+                                  <X className="w-3 h-3" />
+                                </button>
+                              </span>
+                            );
+                          })}
+                        </div>
+                      </div>
                     </div>
 
                     <div>
@@ -966,22 +999,6 @@ const AgentsManagementPage = () => {
                     />
                   )}
 
-                  {/* Banner URL */}
-                  <div>
-                    <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                      Banner URL
-                    </label>
-                    <input
-                      type="text"
-                      value={formData.banner_url}
-                      onChange={(e) => setFormData({ ...formData, banner_url: e.target.value })}
-                      className={`w-full px-4 py-2 rounded-lg border ${theme === 'dark'
-                        ? 'bg-gray-800 border-white/10 text-white'
-                        : 'bg-white border-slate-200 text-slate-900'
-                        }`}
-                      placeholder="https://..."
-                    />
-                  </div>
 
                   {/* Description */}
                   <div>
