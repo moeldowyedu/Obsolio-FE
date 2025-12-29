@@ -428,14 +428,12 @@ const adminService = {
     },
 
     // ==================== DASHBOARD STATISTICS ====================
-
-    /**
-     * Get dashboard statistics
-     */
-    getDashboardStats: async () => {
-        const response = await api.get('/dashboard/stats');
-        return response.data;
-    },
+    // Note: /dashboard/stats endpoint does not exist
+    // Use specific statistics endpoints instead:
+    // - getTenantStatistics()
+    // - getOrganizationStatistics()
+    // - getSubscriptionStatistics()
+    // - getAgentRunsStatistics()
 
     // ==================== SUBSCRIPTION PLANS MANAGEMENT ====================
     // Note: These endpoints are not in the OpenAPI spec and need to be implemented in the backend

@@ -41,8 +41,10 @@ const DashboardPage = () => {
   const fetchDashboardStats = async () => {
     try {
       setIsLoadingStats(true);
-      const response = await authService.getDashboardStats();
-      setStats(response.data || response);
+      // Note: /dashboard/stats endpoint does not exist
+      // TODO: Implement tenant-specific statistics endpoint in backend
+      // For now, using default/mock stats
+      console.log('Dashboard stats endpoint not implemented - using default stats');
     } catch (error) {
       console.error('Failed to fetch dashboard stats:', error);
       // Keep default stats if fetch fails

@@ -201,10 +201,8 @@ const authService = {
   },
 
   // Get Dashboard Stats
-  getDashboardStats: async () => {
-    const response = await api.get('/dashboard/stats');
-    return response.data;
-  },
+  // Note: /dashboard/stats endpoint does not exist
+  // This method is deprecated - use specific statistics endpoints from adminService instead
 };
 
 export default authService;

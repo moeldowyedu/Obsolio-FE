@@ -13,7 +13,8 @@
       "Bash(git push:*)",
       "Bash(npm run build:*)",
       "Bash(mkdir:*)",
-      "WebFetch(domain:api.obsolio.com)"
+      "WebFetch(domain:api.obsolio.com)",
+      "Bash(ls -la \"D:\\\\Antigravity\\\\OBSOLIO-FE\\\\src\\\\pages\\\\Admin\"\" | grep -i \"analytics|audit|log|imperson|rbac|role|permission \")"
     ]
   }
 }
