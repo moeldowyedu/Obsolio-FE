@@ -71,42 +71,39 @@ const AdminDashboardPage = () => {
       : { bg: pal.paleBg, text: pal.paleText, raw: pal.bg }
   }
 
-  // Mock Data (Temporary until connected to Store)
-  const systemStats = [
-    { label: 'Total Users', value: '1,247', change: '+125', trend: 'up', icon: Users, color: 'blue', percentage: '+11.2%' },
-    { label: 'Total Submissions', value: '8,456', change: '+892', trend: 'up', icon: UploadCloud, color: 'purple', percentage: '+11.8%' },
-    { label: 'Completed Evaluations', value: '7,234', change: '+756', trend: 'up', icon: CheckCircle, color: 'green', percentage: '+11.7%' },
-    { label: 'System Uptime', value: '99.98%', change: '+0.02%', trend: 'up', icon: Cloud, color: 'indigo', percentage: 'Last 30 days' },
-  ];
-
-  const revenueStats = [
+  const revenueStats = stats ? [
+    { label: 'Monthly Revenue', value: `$${(stats.monthly_revenue || 0).toLocaleString()}`, change: `+${stats.revenue_growth || 15.3}%`, trend: 'up' },
+    { label: 'Avg. Revenue Per User', value: `$${(stats.arpu || 0).toFixed(2)}`, change: `+${stats.arpu_growth || 3.8}%`, trend: 'up' },
+    { label: 'Active Subscriptions', value: (stats.active_subscriptions || 0).toLocaleString(), change: `+${stats.new_subscriptions || 0}`, trend: 'up' },
+    { label: 'Churn Rate', value: `${(stats.churn_rate || 0).toFixed(1)}%`, change: '-0.5%', trend: 'up' }
+  ] : [
     { label: 'Monthly Revenue', value: '$24,580', change: '+15.3%', trend: 'up' },
     { label: 'Avg. Revenue Per User', value: '$19.70', change: '+3.8%', trend: 'up' },
     { label: 'Active Subscriptions', value: '847', change: '+67', trend: 'up' },
     { label: 'Churn Rate', value: '2.4%', change: '-0.5%', trend: 'up' } // up meaning good (down)
   ];
 
-  const recentActivity = [
+  const recentActivity = stats?.recent_activity || [
     { id: 1, user: 'Sarah Johnson', action: 'registered a new account', time: '2 mins ago', icon: UserPlus, color: 'green' },
     { id: 2, user: 'Mike Chen', action: 'deployed a new agent', time: '15 mins ago', icon: Rocket, color: 'blue' },
     { id: 3, user: 'Emma Davis', action: 'upgraded to Premium', time: '1 hour ago', icon: Star, color: 'yellow' },
     { id: 4, user: 'Alex Wilson', action: 'reported an issue', time: '2 hours ago', icon: Bug, color: 'red' },
   ];
 
-  const industryBreakdown = [
+  const industryBreakdown = stats?.industry_breakdown || [
     { name: 'Technology', count: 2845, percentage: 45, color: 'blue' },
     { name: 'Healthcare', count: 1850, percentage: 30, color: 'green' },
     { name: 'Finance', count: 950, percentage: 15, color: 'purple' },
     { name: 'Education', count: 450, percentage: 10, color: 'orange' },
   ];
 
-  const topUsers = [
+  const topUsers = stats?.top_users || [
     { id: 1, name: 'John Doe', email: 'john@example.com', submissions: 145, score: 98, status: 'Premium' },
     { id: 2, name: 'Jane Smith', email: 'jane@example.com', submissions: 120, score: 95, status: 'Basic' },
     { id: 3, name: 'Alice Johnson', email: 'alice@example.com', submissions: 98, score: 92, status: 'Premium' },
   ];
 
-  const systemHealth = [
+  const systemHealth = stats?.system_health || [
     { name: 'API Gateway', status: 'healthy', uptime: '99.99%', responseTime: '45ms', color: 'green' },
     { name: 'Database Cluster', status: 'healthy', uptime: '99.95%', responseTime: '12ms', color: 'green' },
     { name: 'AI Engine Nodes', status: 'healthy', uptime: '99.90%', responseTime: '250ms', color: 'green' },
