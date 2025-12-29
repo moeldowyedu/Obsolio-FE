@@ -197,7 +197,6 @@ const adminService = {
      * @param {Object} params - Query parameters (page, per_page, agent_id, status, date_from, date_to)
      */
     getAllAgentRuns: async (params = {}) => {
-        // TODO: Implement in backend API
         const response = await api.get('/admin/agent-runs', { params });
         return response.data;
     },
@@ -211,7 +210,6 @@ const adminService = {
      * @param {Object} params - Query parameters (page, per_page, status, category, runtime_type, search)
      */
     getAllAgents: async (params = {}) => {
-        // TODO: Implement in backend API
         const response = await api.get('/admin/agents', { params });
         return response.data;
     },
@@ -221,7 +219,6 @@ const adminService = {
      * @param {string} agentId - Agent UUID
      */
     getAgent: async (agentId) => {
-        // TODO: Implement in backend API
         const response = await api.get(`/admin/agents/${agentId}`);
         return response.data;
     },
@@ -231,7 +228,6 @@ const adminService = {
      * @param {Object} data - Agent data
      */
     createAgent: async (data) => {
-        // TODO: Implement in backend API
         const response = await api.post('/admin/agents', data);
         return response.data;
     },
@@ -242,7 +238,6 @@ const adminService = {
      * @param {Object} data - Updated agent data
      */
     updateAgent: async (agentId, data) => {
-        // TODO: Implement in backend API
         const response = await api.put(`/admin/agents/${agentId}`, data);
         return response.data;
     },
@@ -252,7 +247,6 @@ const adminService = {
      * @param {string} agentId - Agent UUID
      */
     deleteAgent: async (agentId) => {
-        // TODO: Implement in backend API
         const response = await api.delete(`/admin/agents/${agentId}`);
         return response.data;
     },
@@ -260,9 +254,8 @@ const adminService = {
     /**
      * Get agent categories (to be implemented in backend)
      */
-    getAgentCategories: async () => {
-        // TODO: Implement in backend API
-        const response = await api.get('/admin/agent-categories');
+    getAgentCategories: async (params = {}) => {
+        const response = await api.get('/admin/agent-categories', { params });
         return response.data;
     },
 
@@ -271,7 +264,6 @@ const adminService = {
      * @param {Object} data - Category data (name, slug, description, icon, display_order)
      */
     createAgentCategory: async (data) => {
-        // TODO: Implement in backend API
         const response = await api.post('/admin/agent-categories', data);
         return response.data;
     },
@@ -282,7 +274,6 @@ const adminService = {
      * @param {Object} data - Updated category data
      */
     updateAgentCategory: async (categoryId, data) => {
-        // TODO: Implement in backend API
         const response = await api.put(`/admin/agent-categories/${categoryId}`, data);
         return response.data;
     },
@@ -292,7 +283,6 @@ const adminService = {
      * @param {string} categoryId - Category ID
      */
     deleteAgentCategory: async (categoryId) => {
-        // TODO: Implement in backend API
         const response = await api.delete(`/admin/agent-categories/${categoryId}`);
         return response.data;
     },
@@ -304,7 +294,6 @@ const adminService = {
      * @param {Object} params - Query parameters (page, per_page, search, status, method)
      */
     getAgentEndpoints: async (params = {}) => {
-        // TODO: Implement in backend API
         const response = await api.get('/admin/agent-endpoints', { params });
         return response.data;
     },
@@ -314,7 +303,6 @@ const adminService = {
      * @param {string} endpointId - Endpoint ID
      */
     getAgentEndpoint: async (endpointId) => {
-        // TODO: Implement in backend API
         const response = await api.get(`/admin/agent-endpoints/${endpointId}`);
         return response.data;
     },
@@ -324,7 +312,6 @@ const adminService = {
      * @param {Object} data - Endpoint data (name, slug, path, method, description, etc.)
      */
     createAgentEndpoint: async (data) => {
-        // TODO: Implement in backend API
         const response = await api.post('/admin/agent-endpoints', data);
         return response.data;
     },
@@ -335,7 +322,6 @@ const adminService = {
      * @param {Object} data - Updated endpoint data
      */
     updateAgentEndpoint: async (endpointId, data) => {
-        // TODO: Implement in backend API
         const response = await api.put(`/admin/agent-endpoints/${endpointId}`, data);
         return response.data;
     },
@@ -345,7 +331,6 @@ const adminService = {
      * @param {string} endpointId - Endpoint ID
      */
     deleteAgentEndpoint: async (endpointId) => {
-        // TODO: Implement in backend API
         const response = await api.delete(`/admin/agent-endpoints/${endpointId}`);
         return response.data;
     },
