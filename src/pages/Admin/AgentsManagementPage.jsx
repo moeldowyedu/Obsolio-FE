@@ -3,6 +3,7 @@ import { useTheme } from '../../contexts/ThemeContext';
 import AdminLayout from '../../components/layout/AdminLayout';
 import adminService from '../../services/adminService';
 import notify from '../../utils/toast';
+import { safeFormatNumber } from '../../utils/numberFormatter';
 import {
   Bot, Plus, Search, Filter, Download, Trash2, Edit,
   Power, PlayCircle, BarChart3, X, Code, Package, AlertCircle,
@@ -75,12 +76,20 @@ const AgentsManagementPage = () => {
     try {
       const response = await adminService.getAgentCategories();
 
+      // Check for HTML response (indicates API error/fallback)
+      if (typeof response === 'string' && response.trim().startsWith('<')) {
+        console.error('API returned HTML instead of JSON for categories');
+        return;
+      }
+
       // Handle different response structures
       let categoriesData = [];
-      if (response.data && Array.isArray(response.data)) {
+      if (response && response.data && Array.isArray(response.data)) {
         categoriesData = response.data;
       } else if (Array.isArray(response)) {
         categoriesData = response;
+      } else if (response && response.data && Array.isArray(response.data.data)) {
+        categoriesData = response.data.data;
       }
 
       setCategories(categoriesData);
@@ -105,17 +114,30 @@ const AgentsManagementPage = () => {
 
       const response = await adminService.getAllAgents(params);
 
+      // Check for HTML response (indicates API error/fallback)
+      if (typeof response === 'string' && response.trim().startsWith('<')) {
+        console.error('API returned HTML instead of JSON for agents');
+        notify.error('API Error: Received Invalid Response');
+        setAgents([]);
+        return;
+      }
+
       // Handle different response structures
       let agentsData = [];
       let pagination = {};
 
-      if (response.data && response.data.data && Array.isArray(response.data.data)) {
-        agentsData = response.data.data;
-        pagination = response.data;
-      } else if (response.data && Array.isArray(response.data)) {
-        agentsData = response.data;
+      if (response && response.data && (Array.isArray(response.data) || Array.isArray(response.data.data))) {
+        if (Array.isArray(response.data.data)) {
+          agentsData = response.data.data;
+          pagination = response.data;
+        } else {
+          agentsData = response.data;
+        }
       } else if (Array.isArray(response)) {
         agentsData = response;
+      } else if (response && response.data) {
+        // Fallback for wrapped data
+        agentsData = Array.isArray(response.data) ? response.data : [];
       }
 
       setAgents(agentsData);
@@ -391,22 +413,20 @@ const AgentsManagementPage = () => {
                 placeholder="Search agents by name, slug, or description..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className={`w-full pl-10 pr-4 py-2 rounded-lg border ${
-                  theme === 'dark'
+                className={`w-full pl-10 pr-4 py-2 rounded-lg border ${theme === 'dark'
                     ? 'bg-gray-800 border-white/10 text-white placeholder-gray-400'
                     : 'bg-slate-50 border-slate-200 text-slate-900 placeholder-slate-400'
-                }`}
+                  }`}
               />
             </div>
 
             {/* Filter Toggle */}
             <button
               onClick={() => setShowFilters(!showFilters)}
-              className={`flex items-center space-x-2 px-4 py-2 rounded-lg border ${
-                theme === 'dark'
+              className={`flex items-center space-x-2 px-4 py-2 rounded-lg border ${theme === 'dark'
                   ? 'bg-gray-800 border-white/10 text-white hover:bg-gray-700'
                   : 'bg-slate-50 border-slate-200 text-slate-900 hover:bg-slate-100'
-              }`}
+                }`}
             >
               <Filter className="w-5 h-5" />
               <span>Filters</span>
@@ -418,21 +438,19 @@ const AgentsManagementPage = () => {
               <div className="flex items-center space-x-2">
                 <button
                   onClick={handleBulkActivate}
-                  className={`px-4 py-2 rounded-lg border ${
-                    theme === 'dark'
+                  className={`px-4 py-2 rounded-lg border ${theme === 'dark'
                       ? 'bg-green-500/10 border-green-500/20 text-green-400 hover:bg-green-500/20'
                       : 'bg-green-50 border-green-200 text-green-700 hover:bg-green-100'
-                  }`}
+                    }`}
                 >
                   Activate ({selectedAgents.length})
                 </button>
                 <button
                   onClick={handleBulkDeactivate}
-                  className={`px-4 py-2 rounded-lg border ${
-                    theme === 'dark'
+                  className={`px-4 py-2 rounded-lg border ${theme === 'dark'
                       ? 'bg-red-500/10 border-red-500/20 text-red-400 hover:bg-red-500/20'
                       : 'bg-red-50 border-red-200 text-red-700 hover:bg-red-100'
-                  }`}
+                    }`}
                 >
                   Deactivate ({selectedAgents.length})
                 </button>
@@ -442,11 +460,10 @@ const AgentsManagementPage = () => {
             {/* Export */}
             <button
               onClick={handleExport}
-              className={`flex items-center space-x-2 px-4 py-2 rounded-lg border ${
-                theme === 'dark'
+              className={`flex items-center space-x-2 px-4 py-2 rounded-lg border ${theme === 'dark'
                   ? 'bg-gray-800 border-white/10 text-white hover:bg-gray-700'
                   : 'bg-slate-50 border-slate-200 text-slate-900 hover:bg-slate-100'
-              }`}
+                }`}
             >
               <Download className="w-5 h-5" />
               <span>Export</span>
@@ -464,11 +481,10 @@ const AgentsManagementPage = () => {
                 <select
                   value={statusFilter}
                   onChange={(e) => setStatusFilter(e.target.value)}
-                  className={`w-full px-3 py-2 rounded-lg border ${
-                    theme === 'dark'
+                  className={`w-full px-3 py-2 rounded-lg border ${theme === 'dark'
                       ? 'bg-gray-800 border-white/10 text-white'
                       : 'bg-white border-slate-200 text-slate-900'
-                  }`}
+                    }`}
                 >
                   <option value="all">All Status</option>
                   <option value="active">Active</option>
@@ -484,11 +500,10 @@ const AgentsManagementPage = () => {
                 <select
                   value={runtimeFilter}
                   onChange={(e) => setRuntimeFilter(e.target.value)}
-                  className={`w-full px-3 py-2 rounded-lg border ${
-                    theme === 'dark'
+                  className={`w-full px-3 py-2 rounded-lg border ${theme === 'dark'
                       ? 'bg-gray-800 border-white/10 text-white'
                       : 'bg-white border-slate-200 text-slate-900'
-                  }`}
+                    }`}
                 >
                   <option value="all">All Runtimes</option>
                   <option value="python">Python</option>
@@ -504,11 +519,10 @@ const AgentsManagementPage = () => {
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
-                  className={`w-full px-3 py-2 rounded-lg border ${
-                    theme === 'dark'
+                  className={`w-full px-3 py-2 rounded-lg border ${theme === 'dark'
                       ? 'bg-gray-800 border-white/10 text-white'
                       : 'bg-white border-slate-200 text-slate-900'
-                  }`}
+                    }`}
                 >
                   <option value="created_desc">Newest First</option>
                   <option value="created_asc">Oldest First</option>
@@ -529,11 +543,10 @@ const AgentsManagementPage = () => {
                     setRuntimeFilter('all');
                     setSortBy('created_desc');
                   }}
-                  className={`w-full px-4 py-2 rounded-lg border ${
-                    theme === 'dark'
+                  className={`w-full px-4 py-2 rounded-lg border ${theme === 'dark'
                       ? 'bg-gray-800 border-white/10 text-gray-300 hover:bg-gray-700'
                       : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100'
-                  }`}
+                    }`}
                 >
                   Clear Filters
                 </button>
@@ -655,18 +668,17 @@ const AgentsManagementPage = () => {
                       </td>
                       <td className="px-4 py-4">
                         <span
-                          className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                            agent.status === 'active'
+                          className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${agent.status === 'active'
                               ? 'bg-green-500/10 text-green-500'
                               : 'bg-red-500/10 text-red-500'
-                          }`}
+                            }`}
                         >
                           {agent.status}
                         </span>
                       </td>
                       <td className="px-4 py-4">
                         <span className={`text-sm ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                          {agent.total_runs.toLocaleString()}
+                          {safeFormatNumber(agent.total_runs)}
                         </span>
                       </td>
                       <td className="px-4 py-4">
@@ -691,22 +703,20 @@ const AgentsManagementPage = () => {
                         <div className="flex items-center justify-end space-x-2">
                           <button
                             onClick={() => openEditModal(agent)}
-                            className={`p-2 rounded-lg ${
-                              theme === 'dark'
+                            className={`p-2 rounded-lg ${theme === 'dark'
                                 ? 'text-gray-400 hover:bg-gray-800 hover:text-white'
                                 : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900'
-                            }`}
+                              }`}
                             title="Edit Agent"
                           >
                             <Edit className="w-4 h-4" />
                           </button>
                           <button
                             onClick={() => openDeleteModal(agent)}
-                            className={`p-2 rounded-lg ${
-                              theme === 'dark'
+                            className={`p-2 rounded-lg ${theme === 'dark'
                                 ? 'text-gray-400 hover:bg-red-500/10 hover:text-red-400'
                                 : 'text-slate-500 hover:bg-red-50 hover:text-red-600'
-                            }`}
+                              }`}
                             title="Delete Agent"
                           >
                             <Trash2 className="w-4 h-4" />
@@ -724,13 +734,11 @@ const AgentsManagementPage = () => {
         {/* Create/Edit Agent Modal */}
         {(showCreateModal || showEditModal) && (
           <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-            <div className={`w-full max-w-3xl max-h-[90vh] rounded-2xl overflow-hidden ${
-              theme === 'dark' ? 'bg-[#1a1f2e] border border-white/10' : 'bg-white border border-slate-200'
-            }`}>
-              {/* Modal Header */}
-              <div className={`px-6 py-4 border-b flex items-center justify-between ${
-                theme === 'dark' ? 'border-white/10' : 'border-slate-200'
+            <div className={`w-full max-w-3xl max-h-[90vh] rounded-2xl overflow-hidden ${theme === 'dark' ? 'bg-[#1a1f2e] border border-white/10' : 'bg-white border border-slate-200'
               }`}>
+              {/* Modal Header */}
+              <div className={`px-6 py-4 border-b flex items-center justify-between ${theme === 'dark' ? 'border-white/10' : 'border-slate-200'
+                }`}>
                 <h3 className={`text-2xl font-bold ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
                   {showCreateModal ? 'Create New Agent' : 'Edit Agent'}
                 </h3>
@@ -740,9 +748,8 @@ const AgentsManagementPage = () => {
                     setShowEditModal(false);
                     resetForm();
                   }}
-                  className={`p-2 rounded-lg ${
-                    theme === 'dark' ? 'hover:bg-gray-800' : 'hover:bg-slate-100'
-                  }`}
+                  className={`p-2 rounded-lg ${theme === 'dark' ? 'hover:bg-gray-800' : 'hover:bg-slate-100'
+                    }`}
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -761,11 +768,10 @@ const AgentsManagementPage = () => {
                       required
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className={`w-full px-4 py-2 rounded-lg border ${
-                        theme === 'dark'
+                      className={`w-full px-4 py-2 rounded-lg border ${theme === 'dark'
                           ? 'bg-gray-800 border-white/10 text-white'
                           : 'bg-white border-slate-200 text-slate-900'
-                      }`}
+                        }`}
                       placeholder="e.g., Web Scraper Pro"
                     />
                   </div>
@@ -780,11 +786,10 @@ const AgentsManagementPage = () => {
                       required
                       value={formData.slug}
                       onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
-                      className={`w-full px-4 py-2 rounded-lg border ${
-                        theme === 'dark'
+                      className={`w-full px-4 py-2 rounded-lg border ${theme === 'dark'
                           ? 'bg-gray-800 border-white/10 text-white'
                           : 'bg-white border-slate-200 text-slate-900'
-                      }`}
+                        }`}
                       placeholder="e.g., web-scraper-pro"
                     />
                   </div>
@@ -799,11 +804,10 @@ const AgentsManagementPage = () => {
                         required
                         value={formData.category_id}
                         onChange={(e) => setFormData({ ...formData, category_id: e.target.value })}
-                        className={`w-full px-4 py-2 rounded-lg border ${
-                          theme === 'dark'
+                        className={`w-full px-4 py-2 rounded-lg border ${theme === 'dark'
                             ? 'bg-gray-800 border-white/10 text-white'
                             : 'bg-white border-slate-200 text-slate-900'
-                        }`}
+                          }`}
                       >
                         <option value="">Select category...</option>
                         {categories.map((cat) => (
@@ -822,11 +826,10 @@ const AgentsManagementPage = () => {
                         required
                         value={formData.runtime_type}
                         onChange={(e) => setFormData({ ...formData, runtime_type: e.target.value })}
-                        className={`w-full px-4 py-2 rounded-lg border ${
-                          theme === 'dark'
+                        className={`w-full px-4 py-2 rounded-lg border ${theme === 'dark'
                             ? 'bg-gray-800 border-white/10 text-white'
                             : 'bg-white border-slate-200 text-slate-900'
-                        }`}
+                          }`}
                       >
                         <option value="python">Python</option>
                         <option value="nodejs">Node.js</option>
@@ -844,11 +847,10 @@ const AgentsManagementPage = () => {
                       required
                       value={formData.version}
                       onChange={(e) => setFormData({ ...formData, version: e.target.value })}
-                      className={`w-full px-4 py-2 rounded-lg border ${
-                        theme === 'dark'
+                      className={`w-full px-4 py-2 rounded-lg border ${theme === 'dark'
                           ? 'bg-gray-800 border-white/10 text-white'
                           : 'bg-white border-slate-200 text-slate-900'
-                      }`}
+                        }`}
                       placeholder="e.g., 1.0.0"
                     />
                   </div>
@@ -863,11 +865,10 @@ const AgentsManagementPage = () => {
                       rows={3}
                       value={formData.description}
                       onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                      className={`w-full px-4 py-2 rounded-lg border ${
-                        theme === 'dark'
+                      className={`w-full px-4 py-2 rounded-lg border ${theme === 'dark'
                           ? 'bg-gray-800 border-white/10 text-white'
                           : 'bg-white border-slate-200 text-slate-900'
-                      }`}
+                        }`}
                       placeholder="Brief description of what this agent does..."
                     />
                   </div>
@@ -900,9 +901,8 @@ const AgentsManagementPage = () => {
                 </div>
 
                 {/* Modal Footer - Fixed */}
-                <div className={`px-6 py-4 border-t flex items-center justify-end space-x-3 ${
-                  theme === 'dark' ? 'border-white/10 bg-gray-800/30' : 'border-slate-200 bg-slate-50'
-                }`}>
+                <div className={`px-6 py-4 border-t flex items-center justify-end space-x-3 ${theme === 'dark' ? 'border-white/10 bg-gray-800/30' : 'border-slate-200 bg-slate-50'
+                  }`}>
                   <button
                     type="button"
                     onClick={() => {
@@ -910,11 +910,10 @@ const AgentsManagementPage = () => {
                       setShowEditModal(false);
                       resetForm();
                     }}
-                    className={`px-6 py-2 rounded-lg ${
-                      theme === 'dark'
+                    className={`px-6 py-2 rounded-lg ${theme === 'dark'
                         ? 'bg-gray-800 text-gray-300 hover:bg-gray-700'
                         : 'bg-slate-200 text-slate-700 hover:bg-slate-300'
-                    }`}
+                      }`}
                   >
                     Cancel
                   </button>
@@ -934,9 +933,8 @@ const AgentsManagementPage = () => {
         {/* Delete Confirmation Modal */}
         {showDeleteModal && selectedAgent && (
           <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-            <div className={`w-full max-w-md rounded-2xl p-6 ${
-              theme === 'dark' ? 'bg-[#1a1f2e] border border-white/10' : 'bg-white border border-slate-200'
-            }`}>
+            <div className={`w-full max-w-md rounded-2xl p-6 ${theme === 'dark' ? 'bg-[#1a1f2e] border border-white/10' : 'bg-white border border-slate-200'
+              }`}>
               <div className="flex items-center space-x-4 mb-4">
                 <div className="p-3 bg-red-500/10 rounded-lg">
                   <AlertCircle className="w-6 h-6 text-red-500" />
@@ -959,11 +957,10 @@ const AgentsManagementPage = () => {
                     setShowDeleteModal(false);
                     setSelectedAgent(null);
                   }}
-                  className={`px-6 py-2 rounded-lg ${
-                    theme === 'dark'
+                  className={`px-6 py-2 rounded-lg ${theme === 'dark'
                       ? 'bg-gray-800 text-gray-300 hover:bg-gray-700'
                       : 'bg-slate-200 text-slate-700 hover:bg-slate-300'
-                  }`}
+                    }`}
                 >
                   Cancel
                 </button>

@@ -18,6 +18,7 @@ import {
 import adminService from '../../services/adminService';
 import notify from '../../utils/toast';
 import AdminLayout from '../../components/layout/AdminLayout';
+import { safeFormatNumber } from '../../utils/numberFormatter';
 
 const AgentEndpointsPage = () => {
   const { theme } = useTheme();
@@ -259,7 +260,7 @@ const AgentEndpointsPage = () => {
             <div className="flex items-center justify-between mb-2">
               <Activity className="w-8 h-8 text-purple-500" />
               <span className={`text-2xl font-bold ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
-                {stats.totalRequests.toLocaleString()}
+                {safeFormatNumber(stats.totalRequests)}
               </span>
             </div>
             <p className={`text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-slate-600'}`}>Total Requests</p>
