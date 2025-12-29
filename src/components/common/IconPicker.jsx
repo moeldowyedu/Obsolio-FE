@@ -26,12 +26,41 @@ const IconPicker = ({ onSelect, selectedIcon, onClose }) => {
             .sort();
     }, []);
 
+    // Pagination state
+    const [displayLimit, setDisplayLimit] = useState(60);
+    const observerTarget = useRef(null);
+
     // Filter icons based on search query
     const filteredIcons = useMemo(() => {
         if (!searchQuery) return iconList;
         const lowerQuery = searchQuery.toLowerCase();
         return iconList.filter((name) => name.toLowerCase().includes(lowerQuery));
     }, [searchQuery, iconList]);
+
+    // Reset display limit when search changes
+    useEffect(() => {
+        setDisplayLimit(60);
+    }, [searchQuery]);
+
+    // Infinite scroll observer
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                if (entries[0].isIntersecting) {
+                    setDisplayLimit((prev) => Math.min(prev + 60, filteredIcons.length));
+                }
+            },
+            { threshold: 0.5, rootMargin: '100px' }
+        );
+
+        if (observerTarget.current) {
+            observer.observe(observerTarget.current);
+        }
+
+        return () => observer.disconnect();
+    }, [filteredIcons.length]);
+
+    const visibleIcons = filteredIcons.slice(0, displayLimit);
 
     const handleSelectIcon = (iconName) => {
         // Generate the CDN URL for the selected icon
@@ -91,12 +120,8 @@ const IconPicker = ({ onSelect, selectedIcon, onClose }) => {
                 {/* Icon Grid */}
                 <div className="flex-1 overflow-y-auto p-4 custom-scrollbar">
                     <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-3">
-                        {filteredIcons.map((iconName) => {
+                        {visibleIcons.map((iconName) => {
                             const IconComponent = LucideIcons[iconName];
-
-                            // Helper to check if this icon corresponds to the currently selected URL
-                            // This is a rough check since we store URL not name, but good for UI feedback if strict
-                            const isActive = false;
 
                             if (!IconComponent) return null;
 
@@ -104,9 +129,7 @@ const IconPicker = ({ onSelect, selectedIcon, onClose }) => {
                                 <button
                                     key={iconName}
                                     onClick={() => handleSelectIcon(iconName)}
-                                    className={`flex flex-col items-center justify-center p-3 rounded-xl transition-all duration-200 group ${isActive
-                                        ? 'bg-purple-600 text-white shadow-lg scale-105'
-                                        : theme === 'dark'
+                                    className={`flex flex-col items-center justify-center p-3 rounded-xl transition-all duration-200 group ${theme === 'dark'
                                             ? 'bg-gray-800/50 hover:bg-purple-600/20 hover:text-purple-400 text-gray-400'
                                             : 'bg-slate-50 hover:bg-purple-50 hover:text-purple-600 text-slate-600'
                                         }`}
@@ -120,6 +143,13 @@ const IconPicker = ({ onSelect, selectedIcon, onClose }) => {
                             );
                         })}
                     </div>
+
+                    {/* Intersection Observer Target */}
+                    {displayLimit < filteredIcons.length && (
+                        <div ref={observerTarget} className="h-10 w-full flex items-center justify-center mt-4">
+                            <div className="w-6 h-6 border-2 border-purple-500 border-t-transparent rounded-full animate-spin"></div>
+                        </div>
+                    )}
 
                     {filteredIcons.length === 0 && (
                         <div className="flex flex-col items-center justify-center h-full text-center py-12">

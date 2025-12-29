@@ -277,14 +277,14 @@ const AgentsManagementPage = () => {
     setFormData({
       name: agent.name,
       slug: agent.slug,
-      category_id: agent.category_id,
+      category_id: agent.category_id || agent.category?.id || '',
       description: agent.description,
       runtime_type: agent.runtime_type,
       version: agent.version,
       code: agent.code || '',
       requirements: agent.requirements || '',
       config_schema: agent.config_schema || '{}',
-      is_active: agent.status === 'active',
+      is_active: agent.is_active !== undefined ? agent.is_active : (agent.status === 'active'),
       is_featured: agent.is_featured,
       icon_url: agent.icon_url || '',
       documentation: agent.documentation || ''
@@ -881,8 +881,8 @@ const AgentsManagementPage = () => {
                         type="button"
                         onClick={() => setShowIconPicker(true)}
                         className={`px-4 py-2 rounded-lg font-medium transition-colors ${theme === 'dark'
-                            ? 'bg-purple-600/20 text-purple-400 hover:bg-purple-600/30 border border-purple-500/30'
-                            : 'bg-purple-50 text-purple-600 hover:bg-purple-100 border border-purple-200'
+                          ? 'bg-purple-600/20 text-purple-400 hover:bg-purple-600/30 border border-purple-500/30'
+                          : 'bg-purple-50 text-purple-600 hover:bg-purple-100 border border-purple-200'
                           }`}
                       >
                         Choose Icon
