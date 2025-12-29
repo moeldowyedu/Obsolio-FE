@@ -14,14 +14,20 @@ const ProtectedRoute = ({ children, requireAdmin = false, requireSystemAdmin = f
   const isTenantDomain = !isSystemAdminDomain && window.location.hostname.includes('.') && !window.location.hostname.startsWith('www');
 
   useEffect(() => {
-    // Only fetch if authenticated, not an admin, no tenants, and haven't tried fetching yet
-    if (isAuthenticated && user?.role !== 'admin' && tenants.length === 0 && !fetchedRef.current) {
+    // Only fetch if authenticated, NOT a system admin, NOT on console domain, no tenants, and haven't tried fetching yet
+    // System admins should never fetch regular tenant data
+    if (isAuthenticated &&
+        !user?.is_system_admin &&
+        !isSystemAdminDomain &&
+        user?.role !== 'admin' &&
+        tenants.length === 0 &&
+        !fetchedRef.current) {
       fetchedRef.current = true
       fetchTenants().catch(() => {
         // Error handling if needed
       })
     }
-  }, [isAuthenticated, user?.role, tenants.length, fetchTenants])
+  }, [isAuthenticated, user?.is_system_admin, user?.role, tenants.length, fetchTenants, isSystemAdminDomain])
 
   if (!isAuthenticated) {
     // Redirect to login page while saving the attempted location
