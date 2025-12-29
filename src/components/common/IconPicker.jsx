@@ -10,7 +10,19 @@ const IconPicker = ({ onSelect, selectedIcon, onClose }) => {
     // Get all valid icon names from LucideIcons
     const iconList = useMemo(() => {
         return Object.keys(LucideIcons)
-            .filter((key) => key !== 'createLucideIcon' && key !== 'default' && isNaN(Number(key))) // Filter out non-component exports
+            .filter((key) => {
+                const exportItem = LucideIcons[key];
+                // Filter out non-component exports
+                // Must be a function (functional component) or an object with $$typeof (forwardRef)
+                // Explicitly exclude known non-component exports like 'icons', 'createLucideIcon', 'default'
+                return (
+                    key !== 'createLucideIcon' &&
+                    key !== 'default' &&
+                    key !== 'icons' &&
+                    isNaN(Number(key)) &&
+                    (typeof exportItem === 'function' || (typeof exportItem === 'object' && exportItem?.$$typeof))
+                );
+            })
             .sort();
     }, []);
 
@@ -68,8 +80,8 @@ const IconPicker = ({ onSelect, selectedIcon, onClose }) => {
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                             className={`w-full pl-10 pr-4 py-3 rounded-lg border ${theme === 'dark'
-                                    ? 'bg-gray-800 border-white/10 text-white placeholder-gray-500'
-                                    : 'bg-slate-50 border-slate-200 text-slate-900 placeholder-slate-400'
+                                ? 'bg-gray-800 border-white/10 text-white placeholder-gray-500'
+                                : 'bg-slate-50 border-slate-200 text-slate-900 placeholder-slate-400'
                                 } focus:outline-none focus:ring-2 focus:ring-purple-500`}
                             autoFocus
                         />
@@ -93,10 +105,10 @@ const IconPicker = ({ onSelect, selectedIcon, onClose }) => {
                                     key={iconName}
                                     onClick={() => handleSelectIcon(iconName)}
                                     className={`flex flex-col items-center justify-center p-3 rounded-xl transition-all duration-200 group ${isActive
-                                            ? 'bg-purple-600 text-white shadow-lg scale-105'
-                                            : theme === 'dark'
-                                                ? 'bg-gray-800/50 hover:bg-purple-600/20 hover:text-purple-400 text-gray-400'
-                                                : 'bg-slate-50 hover:bg-purple-50 hover:text-purple-600 text-slate-600'
+                                        ? 'bg-purple-600 text-white shadow-lg scale-105'
+                                        : theme === 'dark'
+                                            ? 'bg-gray-800/50 hover:bg-purple-600/20 hover:text-purple-400 text-gray-400'
+                                            : 'bg-slate-50 hover:bg-purple-50 hover:text-purple-600 text-slate-600'
                                         }`}
                                     title={iconName}
                                 >
