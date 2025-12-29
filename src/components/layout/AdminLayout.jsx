@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
   Building2, Users, CreditCard, Bot, Activity, Plug,
   Settings, LogOut, Menu, X, ChevronDown, LayoutDashboard,
-  FolderTree, ChevronRight, Link2
+  FolderTree, ChevronRight, Link2, BarChart3, List
 } from 'lucide-react';
 import { useAuthStore } from '../../store/authStore';
 import { useTheme } from '../../contexts/ThemeContext';
@@ -14,6 +14,7 @@ import logoDark from '../../assets/imgs/OBSOLIO-logo.png';
 const AdminLayout = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [profileOpen, setProfileOpen] = useState(false);
+  const [tenantsMenuOpen, setTenantsMenuOpen] = useState(true);
   const [agentsMenuOpen, setAgentsMenuOpen] = useState(true);
   const { user, logout } = useAuthStore();
   const { theme } = useTheme();
@@ -37,9 +38,13 @@ const AdminLayout = ({ children }) => {
 
   const navigation = [
     { name: 'Console Dashboard', href: '/', icon: LayoutDashboard },
-    { name: 'Manage Tenants', href: '/tenants', icon: Building2 },
     { name: 'Manage Subscriptions', href: '/subscriptions', icon: CreditCard },
     { name: 'Integrations', href: '/integrations', icon: Plug },
+  ];
+
+  const tenantsSubMenu = [
+    { name: 'Dashboard', href: '/tenants/dashboard', icon: BarChart3 },
+    { name: 'Tenants List', href: '/tenants', icon: List },
   ];
 
   const agentsSubMenu = [
@@ -50,9 +55,11 @@ const AdminLayout = ({ children }) => {
     { name: 'Active Agents', href: '/active-agents', icon: Activity },
   ];
 
+  const tenantsParentName = 'Manage Tenants';
   const agentsParentName = 'Agents Management';
 
   const isActive = (href) => location.pathname === href;
+  const isTenantsMenuActive = tenantsSubMenu.some(item => isActive(item.href));
   const isAgentsMenuActive = agentsSubMenu.some(item => isActive(item.href));
 
   return (
@@ -167,20 +174,56 @@ const AdminLayout = ({ children }) => {
               <span className="font-medium whitespace-nowrap">Console Dashboard</span>
             </Link>
 
-            {/* Manage Tenants */}
-            <Link
-              to="/tenants"
-              className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-all ${
-                isActive('/tenants')
-                  ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg'
-                  : theme === 'dark'
-                    ? 'text-gray-400 hover:bg-gray-800 hover:text-white'
-                    : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900'
-              }`}
-            >
-              <Building2 className="w-5 h-5 flex-shrink-0" />
-              <span className="font-medium whitespace-nowrap">Manage Tenants</span>
-            </Link>
+            {/* Manage Tenants - Hierarchical Menu */}
+            <div className="space-y-1">
+              <button
+                onClick={() => setTenantsMenuOpen(!tenantsMenuOpen)}
+                className={`w-full flex items-center justify-between px-4 py-3 rounded-lg transition-all ${
+                  isTenantsMenuActive
+                    ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg'
+                    : theme === 'dark'
+                      ? 'text-gray-400 hover:bg-gray-800 hover:text-white'
+                      : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900'
+                }`}
+              >
+                <div className="flex items-center space-x-3">
+                  <Building2 className="w-5 h-5 flex-shrink-0" />
+                  <span className="font-medium whitespace-nowrap">{tenantsParentName}</span>
+                </div>
+                <ChevronRight
+                  className={`w-4 h-4 transition-transform ${
+                    tenantsMenuOpen ? 'rotate-90' : ''
+                  }`}
+                />
+              </button>
+
+              {tenantsMenuOpen && (
+                <div className="ml-4 space-y-1 border-l-2 border-gray-700 pl-2">
+                  {tenantsSubMenu.map((item) => {
+                    const Icon = item.icon;
+                    const active = isActive(item.href);
+                    return (
+                      <Link
+                        key={item.name}
+                        to={item.href}
+                        className={`flex items-center space-x-3 px-4 py-2.5 rounded-lg transition-all text-sm ${
+                          active
+                            ? theme === 'dark'
+                              ? 'bg-gray-800 text-purple-400 font-medium'
+                              : 'bg-slate-100 text-purple-600 font-medium'
+                            : theme === 'dark'
+                              ? 'text-gray-400 hover:bg-gray-800/50 hover:text-white'
+                              : 'text-slate-500 hover:bg-slate-50 hover:text-slate-900'
+                        }`}
+                      >
+                        <Icon className="w-4 h-4 flex-shrink-0" />
+                        <span className="whitespace-nowrap">{item.name}</span>
+                      </Link>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
 
             {/* Manage Subscriptions */}
             <Link

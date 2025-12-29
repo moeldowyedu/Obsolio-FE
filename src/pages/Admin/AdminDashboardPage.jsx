@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import MainLayout from '../../components/layout/MainLayout'
 import AdminLayout from '../../components/layout/AdminLayout'
 import { Card } from '../../components/common'
@@ -6,6 +6,8 @@ import { Link, useLocation } from 'react-router-dom'
 import { useLanguage } from '../../contexts/LanguageContext'
 import { translations } from '../../translations'
 import { useTheme } from '../../contexts/ThemeContext'
+import dashboardService from '../../services/dashboardService'
+import toast from 'react-hot-toast'
 import {
   Users, UploadCloud, CheckCircle, Cloud,
   DollarSign, TrendingUp, TrendingDown,
@@ -18,6 +20,31 @@ const AdminDashboardPage = () => {
   const { theme } = useTheme()
   const t = translations[language]
   const [selectedPeriod, setSelectedPeriod] = useState('7days')
+  const [stats, setStats] = useState(null)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    loadDashboardStats()
+
+    // Auto-refresh every 30 seconds
+    const interval = setInterval(loadDashboardStats, 30000)
+    return () => clearInterval(interval)
+  }, [])
+
+  const loadDashboardStats = async () => {
+    try {
+      setLoading(true)
+      const response = await dashboardService.getStats()
+      setStats(response.data || response)
+    } catch (error) {
+      console.error('Error loading dashboard stats:', error)
+      if (!stats) {
+        toast.error('Failed to load dashboard statistics')
+      }
+    } finally {
+      setLoading(false)
+    }
+  }
 
   const h1Class = `text-4xl font-bold mb-2 font-heading ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`;
   const pClass = theme === 'dark' ? 'text-gray-400' : 'text-slate-600';
@@ -89,6 +116,36 @@ const AdminDashboardPage = () => {
   // Force AdminLayout for Console Dashboard
   const Layout = AdminLayout;
 
+  // Use real stats or fallback to mock data
+  const systemStats = stats ? [
+    { label: 'Total Users', value: (stats.total_users || 0).toLocaleString(), change: `+${stats.new_users_this_month || 0}`, trend: 'up', icon: Users, color: 'blue', percentage: `+${((stats.new_users_this_month || 0) / (stats.total_users || 1) * 100).toFixed(1)}%` },
+    { label: 'Total Submissions', value: (stats.total_submissions || 0).toLocaleString(), change: `+${stats.new_submissions_this_month || 0}`, trend: 'up', icon: UploadCloud, color: 'purple', percentage: `+${((stats.new_submissions_this_month || 0) / (stats.total_submissions || 1) * 100).toFixed(1)}%` },
+    { label: 'Completed Evaluations', value: (stats.completed_evaluations || 0).toLocaleString(), change: `+${stats.completed_this_month || 0}`, trend: 'up', icon: CheckCircle, color: 'green', percentage: `+${((stats.completed_this_month || 0) / (stats.completed_evaluations || 1) * 100).toFixed(1)}%` },
+    { label: 'System Uptime', value: `${(stats.system_uptime || 99.98).toFixed(2)}%`, change: '+0.02%', trend: 'up', icon: Cloud, color: 'indigo', percentage: 'Last 30 days' },
+  ] : [
+    { label: 'Total Users', value: '0', change: '+0', trend: 'up', icon: Users, color: 'blue', percentage: '+0%' },
+    { label: 'Total Submissions', value: '0', change: '+0', trend: 'up', icon: UploadCloud, color: 'purple', percentage: '+0%' },
+    { label: 'Completed Evaluations', value: '0', change: '+0', trend: 'up', icon: CheckCircle, color: 'green', percentage: '+0%' },
+    { label: 'System Uptime', value: '99.98%', change: '+0.02%', trend: 'up', icon: Cloud, color: 'indigo', percentage: 'Last 30 days' },
+  ];
+
+  if (loading && !stats) {
+    return (
+      <Layout>
+        <div className="py-8">
+          <div className="animate-pulse space-y-6">
+            <div className="h-8 bg-gray-300 dark:bg-gray-700 rounded w-1/3"></div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {[1, 2, 3, 4].map((i) => (
+                <div key={i} className="h-32 bg-gray-300 dark:bg-gray-700 rounded-xl"></div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </Layout>
+    );
+  }
+
   return (
     <Layout>
       <div className="py-8">
@@ -98,6 +155,17 @@ const AdminDashboardPage = () => {
             <h1 className={h1Class}>{t.adminDashboardTitle}</h1>
             <p className={pClass}>{t.adminDashboardDesc}</p>
           </div>
+          <button
+            onClick={loadDashboardStats}
+            disabled={loading}
+            className={`mt-4 md:mt-0 px-4 py-2 rounded-lg font-semibold transition-colors ${
+              theme === 'dark'
+                ? 'bg-gray-800 text-white hover:bg-gray-700'
+                : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+            } ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+          >
+            {loading ? 'Refreshing...' : 'Refresh'}
+          </button>
           <div className="mt-4 md:mt-0">
             <select
               value={selectedPeriod}
