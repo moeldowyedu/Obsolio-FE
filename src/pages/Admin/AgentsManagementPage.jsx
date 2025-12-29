@@ -4,10 +4,11 @@ import AdminLayout from '../../components/layout/AdminLayout';
 import adminService from '../../services/adminService';
 import notify from '../../utils/toast';
 import { safeFormatNumber } from '../../utils/numberFormatter';
+import IconPicker from '../../components/common/IconPicker';
 import {
   Bot, Plus, Search, Filter, Download, Trash2, Edit,
   Power, PlayCircle, BarChart3, X, Code, Package, AlertCircle,
-  ChevronDown, ChevronUp, MoreVertical, Check
+  ChevronDown, ChevronUp, MoreVertical, Check, Image as ImageIcon
 } from 'lucide-react';
 
 const AgentsManagementPage = () => {
@@ -23,6 +24,7 @@ const AgentsManagementPage = () => {
   const [runtimeFilter, setRuntimeFilter] = useState('all');
   const [sortBy, setSortBy] = useState('created_desc');
   const [showFilters, setShowFilters] = useState(false);
+  const [showIconPicker, setShowIconPicker] = useState(false);
 
   // Modal States
   const [showCreateModal, setShowCreateModal] = useState(false);
@@ -414,8 +416,8 @@ const AgentsManagementPage = () => {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className={`w-full pl-10 pr-4 py-2 rounded-lg border ${theme === 'dark'
-                    ? 'bg-gray-800 border-white/10 text-white placeholder-gray-400'
-                    : 'bg-slate-50 border-slate-200 text-slate-900 placeholder-slate-400'
+                  ? 'bg-gray-800 border-white/10 text-white placeholder-gray-400'
+                  : 'bg-slate-50 border-slate-200 text-slate-900 placeholder-slate-400'
                   }`}
               />
             </div>
@@ -424,8 +426,8 @@ const AgentsManagementPage = () => {
             <button
               onClick={() => setShowFilters(!showFilters)}
               className={`flex items-center space-x-2 px-4 py-2 rounded-lg border ${theme === 'dark'
-                  ? 'bg-gray-800 border-white/10 text-white hover:bg-gray-700'
-                  : 'bg-slate-50 border-slate-200 text-slate-900 hover:bg-slate-100'
+                ? 'bg-gray-800 border-white/10 text-white hover:bg-gray-700'
+                : 'bg-slate-50 border-slate-200 text-slate-900 hover:bg-slate-100'
                 }`}
             >
               <Filter className="w-5 h-5" />
@@ -439,8 +441,8 @@ const AgentsManagementPage = () => {
                 <button
                   onClick={handleBulkActivate}
                   className={`px-4 py-2 rounded-lg border ${theme === 'dark'
-                      ? 'bg-green-500/10 border-green-500/20 text-green-400 hover:bg-green-500/20'
-                      : 'bg-green-50 border-green-200 text-green-700 hover:bg-green-100'
+                    ? 'bg-green-500/10 border-green-500/20 text-green-400 hover:bg-green-500/20'
+                    : 'bg-green-50 border-green-200 text-green-700 hover:bg-green-100'
                     }`}
                 >
                   Activate ({selectedAgents.length})
@@ -448,8 +450,8 @@ const AgentsManagementPage = () => {
                 <button
                   onClick={handleBulkDeactivate}
                   className={`px-4 py-2 rounded-lg border ${theme === 'dark'
-                      ? 'bg-red-500/10 border-red-500/20 text-red-400 hover:bg-red-500/20'
-                      : 'bg-red-50 border-red-200 text-red-700 hover:bg-red-100'
+                    ? 'bg-red-500/10 border-red-500/20 text-red-400 hover:bg-red-500/20'
+                    : 'bg-red-50 border-red-200 text-red-700 hover:bg-red-100'
                     }`}
                 >
                   Deactivate ({selectedAgents.length})
@@ -461,8 +463,8 @@ const AgentsManagementPage = () => {
             <button
               onClick={handleExport}
               className={`flex items-center space-x-2 px-4 py-2 rounded-lg border ${theme === 'dark'
-                  ? 'bg-gray-800 border-white/10 text-white hover:bg-gray-700'
-                  : 'bg-slate-50 border-slate-200 text-slate-900 hover:bg-slate-100'
+                ? 'bg-gray-800 border-white/10 text-white hover:bg-gray-700'
+                : 'bg-slate-50 border-slate-200 text-slate-900 hover:bg-slate-100'
                 }`}
             >
               <Download className="w-5 h-5" />
@@ -482,8 +484,8 @@ const AgentsManagementPage = () => {
                   value={statusFilter}
                   onChange={(e) => setStatusFilter(e.target.value)}
                   className={`w-full px-3 py-2 rounded-lg border ${theme === 'dark'
-                      ? 'bg-gray-800 border-white/10 text-white'
-                      : 'bg-white border-slate-200 text-slate-900'
+                    ? 'bg-gray-800 border-white/10 text-white'
+                    : 'bg-white border-slate-200 text-slate-900'
                     }`}
                 >
                   <option value="all">All Status</option>
@@ -501,8 +503,8 @@ const AgentsManagementPage = () => {
                   value={runtimeFilter}
                   onChange={(e) => setRuntimeFilter(e.target.value)}
                   className={`w-full px-3 py-2 rounded-lg border ${theme === 'dark'
-                      ? 'bg-gray-800 border-white/10 text-white'
-                      : 'bg-white border-slate-200 text-slate-900'
+                    ? 'bg-gray-800 border-white/10 text-white'
+                    : 'bg-white border-slate-200 text-slate-900'
                     }`}
                 >
                   <option value="all">All Runtimes</option>
@@ -520,8 +522,8 @@ const AgentsManagementPage = () => {
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
                   className={`w-full px-3 py-2 rounded-lg border ${theme === 'dark'
-                      ? 'bg-gray-800 border-white/10 text-white'
-                      : 'bg-white border-slate-200 text-slate-900'
+                    ? 'bg-gray-800 border-white/10 text-white'
+                    : 'bg-white border-slate-200 text-slate-900'
                     }`}
                 >
                   <option value="created_desc">Newest First</option>
@@ -544,8 +546,8 @@ const AgentsManagementPage = () => {
                     setSortBy('created_desc');
                   }}
                   className={`w-full px-4 py-2 rounded-lg border ${theme === 'dark'
-                      ? 'bg-gray-800 border-white/10 text-gray-300 hover:bg-gray-700'
-                      : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100'
+                    ? 'bg-gray-800 border-white/10 text-gray-300 hover:bg-gray-700'
+                    : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100'
                     }`}
                 >
                   Clear Filters
@@ -669,8 +671,8 @@ const AgentsManagementPage = () => {
                       <td className="px-4 py-4">
                         <span
                           className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${agent.status === 'active'
-                              ? 'bg-green-500/10 text-green-500'
-                              : 'bg-red-500/10 text-red-500'
+                            ? 'bg-green-500/10 text-green-500'
+                            : 'bg-red-500/10 text-red-500'
                             }`}
                         >
                           {agent.status}
@@ -704,8 +706,8 @@ const AgentsManagementPage = () => {
                           <button
                             onClick={() => openEditModal(agent)}
                             className={`p-2 rounded-lg ${theme === 'dark'
-                                ? 'text-gray-400 hover:bg-gray-800 hover:text-white'
-                                : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900'
+                              ? 'text-gray-400 hover:bg-gray-800 hover:text-white'
+                              : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900'
                               }`}
                             title="Edit Agent"
                           >
@@ -714,8 +716,8 @@ const AgentsManagementPage = () => {
                           <button
                             onClick={() => openDeleteModal(agent)}
                             className={`p-2 rounded-lg ${theme === 'dark'
-                                ? 'text-gray-400 hover:bg-red-500/10 hover:text-red-400'
-                                : 'text-slate-500 hover:bg-red-50 hover:text-red-600'
+                              ? 'text-gray-400 hover:bg-red-500/10 hover:text-red-400'
+                              : 'text-slate-500 hover:bg-red-50 hover:text-red-600'
                               }`}
                             title="Delete Agent"
                           >
@@ -769,8 +771,8 @@ const AgentsManagementPage = () => {
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                       className={`w-full px-4 py-2 rounded-lg border ${theme === 'dark'
-                          ? 'bg-gray-800 border-white/10 text-white'
-                          : 'bg-white border-slate-200 text-slate-900'
+                        ? 'bg-gray-800 border-white/10 text-white'
+                        : 'bg-white border-slate-200 text-slate-900'
                         }`}
                       placeholder="e.g., Web Scraper Pro"
                     />
@@ -787,8 +789,8 @@ const AgentsManagementPage = () => {
                       value={formData.slug}
                       onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
                       className={`w-full px-4 py-2 rounded-lg border ${theme === 'dark'
-                          ? 'bg-gray-800 border-white/10 text-white'
-                          : 'bg-white border-slate-200 text-slate-900'
+                        ? 'bg-gray-800 border-white/10 text-white'
+                        : 'bg-white border-slate-200 text-slate-900'
                         }`}
                       placeholder="e.g., web-scraper-pro"
                     />
@@ -805,8 +807,8 @@ const AgentsManagementPage = () => {
                         value={formData.category_id}
                         onChange={(e) => setFormData({ ...formData, category_id: e.target.value })}
                         className={`w-full px-4 py-2 rounded-lg border ${theme === 'dark'
-                            ? 'bg-gray-800 border-white/10 text-white'
-                            : 'bg-white border-slate-200 text-slate-900'
+                          ? 'bg-gray-800 border-white/10 text-white'
+                          : 'bg-white border-slate-200 text-slate-900'
                           }`}
                       >
                         <option value="">Select category...</option>
@@ -827,8 +829,8 @@ const AgentsManagementPage = () => {
                         value={formData.runtime_type}
                         onChange={(e) => setFormData({ ...formData, runtime_type: e.target.value })}
                         className={`w-full px-4 py-2 rounded-lg border ${theme === 'dark'
-                            ? 'bg-gray-800 border-white/10 text-white'
-                            : 'bg-white border-slate-200 text-slate-900'
+                          ? 'bg-gray-800 border-white/10 text-white'
+                          : 'bg-white border-slate-200 text-slate-900'
                           }`}
                       >
                         <option value="python">Python</option>
@@ -848,12 +850,70 @@ const AgentsManagementPage = () => {
                       value={formData.version}
                       onChange={(e) => setFormData({ ...formData, version: e.target.value })}
                       className={`w-full px-4 py-2 rounded-lg border ${theme === 'dark'
-                          ? 'bg-gray-800 border-white/10 text-white'
-                          : 'bg-white border-slate-200 text-slate-900'
+                        ? 'bg-gray-800 border-white/10 text-white'
+                        : 'bg-white border-slate-200 text-slate-900'
                         }`}
                       placeholder="e.g., 1.0.0"
                     />
                   </div>
+
+                  {/* Icon */}
+                  <div>
+                    <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
+                      Icon
+                    </label>
+                    <div className="flex gap-3">
+                      <div className="relative flex-1">
+                        <ImageIcon className={`absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-500'}`} />
+                        <input
+                          type="text"
+                          name="icon_url"
+                          value={formData.icon_url}
+                          readOnly
+                          className={`w-full pl-10 pr-4 py-2.5 rounded-lg border ${theme === 'dark'
+                            ? 'bg-gray-900 border-white/10 text-white cursor-not-allowed opacity-70'
+                            : 'bg-slate-50 border-slate-200 text-slate-900 cursor-not-allowed opacity-70'
+                            }`}
+                          placeholder="Select an icon..."
+                        />
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => setShowIconPicker(true)}
+                        className={`px-4 py-2 rounded-lg font-medium transition-colors ${theme === 'dark'
+                            ? 'bg-purple-600/20 text-purple-400 hover:bg-purple-600/30 border border-purple-500/30'
+                            : 'bg-purple-50 text-purple-600 hover:bg-purple-100 border border-purple-200'
+                          }`}
+                      >
+                        Choose Icon
+                      </button>
+                    </div>
+                    {formData.icon_url && (
+                      <div className="mt-2 flex items-center gap-2">
+                        <p className={`text-xs ${theme === 'dark' ? 'text-gray-500' : 'text-slate-500'}`}>
+                          Preview:
+                        </p>
+                        <img
+                          src={formData.icon_url}
+                          alt="Icon Preview"
+                          className="w-8 h-8 p-1 rounded bg-gray-100 dark:bg-gray-800 border dark:border-gray-700"
+                          onError={(e) => {
+                            e.target.onerror = null;
+                            e.target.src = 'https://unpkg.com/lucide-static@latest/icons/help-circle.svg';
+                          }}
+                        />
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Icon Picker Modal */}
+                  {showIconPicker && (
+                    <IconPicker
+                      onSelect={(url) => setFormData({ ...formData, icon_url: url })}
+                      onClose={() => setShowIconPicker(false)}
+                      selectedIcon={formData.icon_url}
+                    />
+                  )}
 
                   {/* Description */}
                   <div>
@@ -866,8 +926,8 @@ const AgentsManagementPage = () => {
                       value={formData.description}
                       onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                       className={`w-full px-4 py-2 rounded-lg border ${theme === 'dark'
-                          ? 'bg-gray-800 border-white/10 text-white'
-                          : 'bg-white border-slate-200 text-slate-900'
+                        ? 'bg-gray-800 border-white/10 text-white'
+                        : 'bg-white border-slate-200 text-slate-900'
                         }`}
                       placeholder="Brief description of what this agent does..."
                     />
@@ -911,8 +971,8 @@ const AgentsManagementPage = () => {
                       resetForm();
                     }}
                     className={`px-6 py-2 rounded-lg ${theme === 'dark'
-                        ? 'bg-gray-800 text-gray-300 hover:bg-gray-700'
-                        : 'bg-slate-200 text-slate-700 hover:bg-slate-300'
+                      ? 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+                      : 'bg-slate-200 text-slate-700 hover:bg-slate-300'
                       }`}
                   >
                     Cancel
@@ -958,8 +1018,8 @@ const AgentsManagementPage = () => {
                     setSelectedAgent(null);
                   }}
                   className={`px-6 py-2 rounded-lg ${theme === 'dark'
-                      ? 'bg-gray-800 text-gray-300 hover:bg-gray-700'
-                      : 'bg-slate-200 text-slate-700 hover:bg-slate-300'
+                    ? 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+                    : 'bg-slate-200 text-slate-700 hover:bg-slate-300'
                     }`}
                 >
                   Cancel

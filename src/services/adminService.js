@@ -201,12 +201,8 @@ const adminService = {
         return response.data;
     },
 
-    // Note: The OpenAPI spec doesn't include CRUD endpoints for agents themselves
-    // These would need to be added to the backend API
-    // Placeholder methods for future implementation:
-
     /**
-     * Get all agents (to be implemented in backend)
+     * Get all agents
      * @param {Object} params - Query parameters (page, per_page, status, category, runtime_type, search)
      */
     getAllAgents: async (params = {}) => {
