@@ -509,63 +509,63 @@ const adminService = {
     // Note: These endpoints are not in the OpenAPI spec and need to be implemented in the backend
 
     /**
-     * Get all users (to be implemented in backend)
-     * @param {Object} params - Query parameters (page, per_page, role, status, search)
+     * Get all users
+     * Backend endpoint: GET /api/v1/admin/users
+     * @param {Object} params - Query parameters (page, per_page, role, status, search, tenant_id)
      */
     getAllUsers: async (params = {}) => {
-        // TODO: Implement in backend API
         const response = await api.get('/admin/users', { params });
         return response.data;
     },
 
     /**
-     * Get user details (to be implemented in backend)
+     * Get user details
+     * Backend endpoint: GET /api/v1/admin/users/{id}
      * @param {string} userId - User ID
      */
     getUser: async (userId) => {
-        // TODO: Implement in backend API
         const response = await api.get(`/admin/users/${userId}`);
         return response.data;
     },
 
     /**
-     * Update user (to be implemented in backend)
+     * Update user
+     * Backend endpoint: PUT /api/v1/admin/users/{id}
      * @param {string} userId - User ID
-     * @param {Object} data - Updated user data
+     * @param {Object} data - Updated user data (name, email, phone, roles, status)
      */
     updateUser: async (userId, data) => {
-        // TODO: Implement in backend API
         const response = await api.put(`/admin/users/${userId}`, data);
         return response.data;
     },
 
     /**
-     * Delete user (to be implemented in backend)
+     * Delete user
+     * Backend endpoint: DELETE /api/v1/admin/users/{id}
      * @param {string} userId - User ID
      */
     deleteUser: async (userId) => {
-        // TODO: Implement in backend API
         const response = await api.delete(`/admin/users/${userId}`);
         return response.data;
     },
 
     /**
-     * Suspend user account (to be implemented in backend)
+     * Suspend user account
+     * Backend endpoint: POST /api/v1/admin/users/{id}/suspend
      * @param {string} userId - User ID
-     * @param {Object} data - { reason }
+     * @param {Object} data - { reason?: string }
      */
     suspendUser: async (userId, data = {}) => {
-        // TODO: Implement in backend API
         const response = await api.post(`/admin/users/${userId}/suspend`, data);
         return response.data;
     },
 
     /**
-     * Activate user account (to be implemented in backend)
+     * Activate user account
+     * Backend endpoint: POST /api/v1/admin/users/{id}/activate
      * @param {string} userId - User ID
      */
     activateUser: async (userId) => {
-        // TODO: Implement in backend API
         const response = await api.post(`/admin/users/${userId}/activate`);
         return response.data;
     },
@@ -724,6 +724,156 @@ const adminService = {
      */
     deleteRole: async (roleId) => {
         const response = await api.delete(`/admin/roles/${roleId}`);
+        return response.data;
+    },
+
+    // ==================== ORGANIZATION MANAGEMENT ====================
+
+    /**
+     * Get all organizations
+     * Backend endpoint: GET /api/v1/admin/organizations
+     */
+    getOrganizations: async (params = {}) => {
+        const response = await api.get('/admin/organizations', { params });
+        return response.data;
+    },
+
+    /**
+     * Get organization details
+     * Backend endpoint: GET /api/v1/admin/organizations/{id}
+     */
+    getOrganization: async (orgId) => {
+        const response = await api.get(`/admin/organizations/${orgId}`);
+        return response.data;
+    },
+
+    /**
+     * Create organization
+     * Backend endpoint: POST /api/v1/admin/organizations
+     */
+    createOrganization: async (data) => {
+        const response = await api.post('/admin/organizations', data);
+        return response.data;
+    },
+
+    /**
+     * Update organization
+     * Backend endpoint: PUT /api/v1/admin/organizations/{id}
+     */
+    updateOrganization: async (orgId, data) => {
+        const response = await api.put(`/admin/organizations/${orgId}`, data);
+        return response.data;
+    },
+
+    /**
+     * Delete organization
+     * Backend endpoint: DELETE /api/v1/admin/organizations/{id}
+     */
+    deleteOrganization: async (orgId) => {
+        const response = await api.delete(`/admin/organizations/${orgId}`);
+        return response.data;
+    },
+
+    /**
+     * Update organization status
+     * Backend endpoint: PUT /api/v1/admin/organizations/{id}/status
+     */
+    updateOrganizationStatus: async (orgId, data) => {
+        const response = await api.put(`/admin/organizations/${orgId}/status`, data);
+        return response.data;
+    },
+
+    // ==================== ACTIVE SUBSCRIPTIONS MANAGEMENT ====================
+
+    /**
+     * Get all active subscriptions
+     * Backend endpoint: GET /api/v1/admin/subscriptions
+     */
+    getSubscriptions: async (params = {}) => {
+        const response = await api.get('/admin/subscriptions', { params });
+        return response.data;
+    },
+
+    /**
+     * Get subscription details
+     * Backend endpoint: GET /api/v1/admin/subscriptions/{id}
+     */
+    getSubscription: async (subscriptionId) => {
+        const response = await api.get(`/admin/subscriptions/${subscriptionId}`);
+        return response.data;
+    },
+
+    /**
+     * Get subscription statistics
+     * Backend endpoint: GET /api/v1/admin/subscriptions/statistics
+     */
+    getSubscriptionStatistics: async () => {
+        const response = await api.get('/admin/subscriptions/statistics');
+        return response.data;
+    },
+
+    /**
+     * Cancel subscription
+     * Backend endpoint: POST /api/v1/admin/subscriptions/{id}/cancel
+     */
+    cancelSubscription: async (subscriptionId, data = {}) => {
+        const response = await api.post(`/admin/subscriptions/${subscriptionId}/cancel`, data);
+        return response.data;
+    },
+
+    /**
+     * Reactivate subscription
+     * Backend endpoint: POST /api/v1/admin/subscriptions/{id}/reactivate
+     */
+    reactivateSubscription: async (subscriptionId) => {
+        const response = await api.post(`/admin/subscriptions/${subscriptionId}/reactivate`);
+        return response.data;
+    },
+
+    /**
+     * Update subscription
+     * Backend endpoint: PUT /api/v1/admin/subscriptions/{id}
+     */
+    updateSubscription: async (subscriptionId, data) => {
+        const response = await api.put(`/admin/subscriptions/${subscriptionId}`, data);
+        return response.data;
+    },
+
+    /**
+     * Change subscription plan
+     * Backend endpoint: PUT /api/v1/admin/subscriptions/{id}/change-plan
+     */
+    changeSubscriptionPlan: async (subscriptionId, data) => {
+        const response = await api.put(`/admin/subscriptions/${subscriptionId}/change-plan`, data);
+        return response.data;
+    },
+
+    // ==================== SUBSCRIPTION PLANS MANAGEMENT ====================
+
+    /**
+     * Create subscription plan
+     * Backend endpoint: POST /api/v1/admin/subscription-plans
+     */
+    createPlan: async (data) => {
+        const response = await api.post('/admin/subscription-plans', data);
+        return response.data;
+    },
+
+    /**
+     * Update subscription plan
+     * Backend endpoint: PUT /api/v1/admin/subscription-plans/{id}
+     */
+    updatePlan: async (planId, data) => {
+        const response = await api.put(`/admin/subscription-plans/${planId}`, data);
+        return response.data;
+    },
+
+    /**
+     * Delete subscription plan
+     * Backend endpoint: DELETE /api/v1/admin/subscription-plans/{id}
+     */
+    deletePlan: async (planId) => {
+        const response = await api.delete(`/admin/subscription-plans/${planId}`);
         return response.data;
     },
 };
