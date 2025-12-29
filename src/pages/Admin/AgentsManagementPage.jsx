@@ -1,43 +1,88 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTheme } from '../../contexts/ThemeContext';
-import AdminLayout from '../../components/layout/AdminLayout';
+import {
+  Plus,
+  Search,
+  Filter,
+  MoreVertical,
+  Edit2,
+  Trash2,
+  X,
+  CheckCircle,
+  XCircle,
+  Cloud,
+  Cpu,
+  Zap,
+  Tag,
+  Hash,
+  Activity,
+  Calendar,
+  Code
+} from 'lucide-react';
 import adminService from '../../services/adminService';
 import notify from '../../utils/toast';
-import { safeFormatNumber } from '../../utils/numberFormatter';
+import AdminLayout from '../../components/layout/AdminLayout';
 import IconPicker from '../../components/common/IconPicker';
-import {
-  Bot, Plus, Search, Filter, Download, Trash2, Edit,
-  Power, PlayCircle, BarChart3, X, Code, Package, AlertCircle,
-  ChevronDown, ChevronUp, MoreVertical, Check, Image as ImageIcon
-} from 'lucide-react';
+import { safeFormatNumber } from '../../utils/numberFormatter';
 
 const AgentsManagementPage = () => {
   const { theme } = useTheme();
-  const [loading, setLoading] = useState(false);
   const [agents, setAgents] = useState([]);
-  const [selectedAgents, setSelectedAgents] = useState([]);
-
-  // Filter & Search States
+  const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
+  const [categories, setCategories] = useState([]);
+
+  // Filters
   const [statusFilter, setStatusFilter] = useState('all');
   const [categoryFilter, setCategoryFilter] = useState([]);
   const [runtimeFilter, setRuntimeFilter] = useState('all');
-  const [sortBy, setSortBy] = useState('created_desc');
-  const [showFilters, setShowFilters] = useState(false);
-  const [showIconPicker, setShowIconPicker] = useState(false);
+  const [sortBy, setSortBy] = useState('created_at:desc');
 
-  // Modal States
+  // Pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [perPage, setPerPage] = useState(10);
+
+  // Selection
+  const [selectedAgents, setSelectedAgents] = useState([]);
+
+  // Modal states
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedAgent, setSelectedAgent] = useState(null);
 
-  // Pagination
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const [perPage, setPerPage] = useState(20);
+  // Icon Picker state
+  const [showIconPicker, setShowIconPicker] = useState(false);
 
-  // Statistics
+  // Form state
+  const [formData, setFormData] = useState({
+    name: '',
+    slug: '',
+    description: '',
+    short_description: '',
+    long_description: '',
+    categories: [], // Array of UUIDs
+    is_active: true,
+    is_featured: false,
+    version: '1.0.0',
+    developer: '',
+    website_url: '',
+    documentation_url: '',
+    icon_url: '',
+    pricing_model: 'free',
+    pricing_tier: 'free',
+    hourly_rate: 0,
+    monthly_price: 0,
+    runtime_type: 'cloud',
+    config_schema: '{}', // JSON string
+    capabilities: '{}', // JSON string
+    max_instances: 1,
+    supported_languages: '["en"]', // JSON string
+    extra_configuration: '{}' // JSON string
+  });
+
+  // Stats
   const [stats, setStats] = useState({
     total: 0,
     active: 0,
@@ -45,67 +90,41 @@ const AgentsManagementPage = () => {
     featured: 0
   });
 
-  // Form State for Create/Edit
-  const [formData, setFormData] = useState({
-    name: '',
-    slug: '',
-    categories: [],
-    description: '',
-    long_description: '',
-    runtime_type: 'python',
-    version: '1.0.0',
-    code: '',
-    requirements: '',
-    config_schema: '{}',
-    capabilities: '{}',
-    supported_languages: '["en"]',
-    price_model: 'free',
-    base_price: 0,
-    monthly_price: '',
-    annual_price: '',
-    execution_timeout_ms: 30000,
-    is_active: true,
-    is_featured: false,
-    icon_url: '',
-    documentation: ''
-  });
-
-  // Categories State
-  const [categories, setCategories] = useState([]);
-
-  // Fetch agents data
-  useEffect(() => {
-    fetchAgents();
-  }, [currentPage, perPage, statusFilter, categoryFilter, runtimeFilter, sortBy, searchQuery]);
-
   useEffect(() => {
     fetchCategories();
   }, []);
 
+  useEffect(() => {
+    fetchAgents();
+  }, [currentPage, searchQuery, statusFilter, categoryFilter, runtimeFilter, sortBy]);
+
   const fetchCategories = async () => {
     try {
       const response = await adminService.getAgentCategories();
+      // Handle both array directly or nested data structure
+      let categoriesData = [];
 
-      // Check for HTML response (indicates API error/fallback)
+      // Check for HTML response (safety check)
       if (typeof response === 'string' && response.trim().startsWith('<')) {
         console.error('API returned HTML instead of JSON for categories');
+        setCategories([]);
         return;
       }
 
-      // Handle different response structures
-      let categoriesData = [];
-      if (response && response.data && Array.isArray(response.data)) {
-        categoriesData = response.data;
-      } else if (Array.isArray(response)) {
+      if (response && Array.isArray(response)) {
         categoriesData = response;
-      } else if (response && response.data && Array.isArray(response.data.data)) {
-        categoriesData = response.data.data;
+      } else if (response && response.data && Array.isArray(response.data)) {
+        categoriesData = response.data;
+      } else if (response && response.data) {
+        // Fallback for object with data property
+        categoriesData = [];
       }
 
       setCategories(categoriesData);
     } catch (error) {
       console.error('Error fetching categories:', error);
-      // Don't show error toast for categories as it's not critical
+      // Don't show toast error here to avoid spamming usage
+      setCategories([]);
     }
   };
 
@@ -145,8 +164,10 @@ const AgentsManagementPage = () => {
         }
       } else if (Array.isArray(response)) {
         agentsData = response;
-      } else if (response && response.data) {
-        // Fallback for wrapped data
+      } else if (response && Array.isArray(response.data)) {
+        agentsData = response.data;
+      } else {
+        // Fallback if structure is unknown but arguably array-like in data
         agentsData = Array.isArray(response.data) ? response.data : [];
       }
 
@@ -200,6 +221,9 @@ const AgentsManagementPage = () => {
         config_schema: JSON.parse(formData.config_schema || '{}'),
         capabilities: JSON.parse(formData.capabilities || '{}'),
         supported_languages: JSON.parse(formData.supported_languages || '["en"]'),
+        extra_configuration: JSON.parse(formData.extra_configuration || '{}'),
+        categories: formData.categories, // Send as array of UUIDs
+        category_ids: formData.categories // Send as category_ids alias for backend sync compatibility
       };
 
       await adminService.createAgent(payload);
@@ -229,6 +253,9 @@ const AgentsManagementPage = () => {
         config_schema: JSON.parse(formData.config_schema || '{}'),
         capabilities: JSON.parse(formData.capabilities || '{}'),
         supported_languages: JSON.parse(formData.supported_languages || '["en"]'),
+        extra_configuration: JSON.parse(formData.extra_configuration || '{}'),
+        categories: formData.categories, // Send as array of UUIDs
+        category_ids: formData.categories // Send as category_ids alias for backend sync compatibility
       };
 
       await adminService.updateAgent(selectedAgent.id, payload);
@@ -265,71 +292,71 @@ const AgentsManagementPage = () => {
     }
   };
 
-  const handleBulkActivate = async () => {
-    if (selectedAgents.length === 0) return;
-
-    setLoading(true);
-    try {
-      await adminService.bulkActivateAgents(selectedAgents);
-      notify.success(`${selectedAgents.length} agent(s) activated successfully`);
-      setSelectedAgents([]);
-      fetchAgents();
-    } catch (error) {
-      console.error('Error activating agents:', error);
-      notify.error('Failed to activate agents');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleBulkDeactivate = async () => {
-    if (selectedAgents.length === 0) return;
-
-    setLoading(true);
-    try {
-      await adminService.bulkDeactivateAgents(selectedAgents);
-      notify.success(`${selectedAgents.length} agent(s) deactivated successfully`);
-      setSelectedAgents([]);
-      fetchAgents();
-    } catch (error) {
-      console.error('Error deactivating agents:', error);
-      notify.error('Failed to deactivate agents');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleExport = () => {
-    console.log('Exporting agents...');
-    // TODO: Implement export functionality
+  const resetForm = () => {
+    setFormData({
+      name: '',
+      slug: '',
+      description: '',
+      short_description: '',
+      long_description: '',
+      categories: [],
+      is_active: true,
+      is_featured: false,
+      version: '1.0.0',
+      developer: '',
+      website_url: '',
+      documentation_url: '',
+      icon_url: '',
+      pricing_model: 'free',
+      pricing_tier: 'free',
+      hourly_rate: 0,
+      monthly_price: 0,
+      runtime_type: 'cloud',
+      config_schema: '{}',
+      capabilities: '{}',
+      max_instances: 1,
+      supported_languages: '["en"]',
+      extra_configuration: '{}'
+    });
+    setSelectedAgent(null);
   };
 
   const openEditModal = (agent) => {
+    // Handle categories (ensure array of IDs)
+    let agentCategories = [];
+    if (agent.categories && Array.isArray(agent.categories)) {
+      agentCategories = agent.categories.map(cat =>
+        typeof cat === 'object' ? cat.id : cat
+      );
+    } else if (agent.category_id) {
+      agentCategories = [agent.category_id]; // Fallback
+    }
+
     setSelectedAgent(agent);
     setFormData({
       name: agent.name,
       slug: agent.slug,
-      categories: Array.isArray(agent.categories)
-        ? agent.categories.map(c => (typeof c === 'object' ? c.id : c))
-        : [],
-      description: agent.description,
+      description: agent.description || '',
+      short_description: agent.short_description || '',
       long_description: agent.long_description || '',
-      runtime_type: agent.runtime_type,
-      version: agent.version,
-      code: agent.code || '',
-      requirements: agent.requirements || '',
+      categories: agentCategories,
+      is_active: agent.is_active || agent.status === 'active',
+      is_featured: agent.is_featured || false,
+      version: agent.version || '1.0.0',
+      developer: agent.developer || '',
+      website_url: agent.website_url || '',
+      documentation_url: agent.documentation_url || '',
+      icon_url: agent.icon_url || '',
+      pricing_model: agent.pricing_model || 'free',
+      pricing_tier: agent.pricing_tier || 'free',
+      hourly_rate: agent.hourly_rate || 0,
+      monthly_price: agent.monthly_price || 0,
+      runtime_type: agent.runtime_type || 'cloud',
       config_schema: typeof agent.config_schema === 'object' ? JSON.stringify(agent.config_schema, null, 2) : (agent.config_schema || '{}'),
       capabilities: typeof agent.capabilities === 'object' ? JSON.stringify(agent.capabilities, null, 2) : (agent.capabilities || '{}'),
-      supported_languages: typeof agent.supported_languages === 'object' ? JSON.stringify(agent.supported_languages, null, 2) : (agent.supported_languages || '["en"]'),
-      price_model: agent.price_model || 'free',
-      base_price: agent.base_price || 0,
-      monthly_price: agent.monthly_price || '',
-      annual_price: agent.annual_price || '',
-      execution_timeout_ms: agent.execution_timeout_ms || 30000,
-      is_active: agent.is_active !== undefined ? agent.is_active : (agent.status === 'active'),
-      is_featured: agent.is_featured,
-      icon_url: agent.icon_url || '',
-      documentation: agent.documentation || ''
+      max_instances: agent.max_instances || 1,
+      supported_languages: typeof agent.supported_languages === 'object' ? JSON.stringify(agent.supported_languages) : (agent.supported_languages || '["en"]'),
+      extra_configuration: typeof agent.extra_configuration === 'object' ? JSON.stringify(agent.extra_configuration, null, 2) : (agent.extra_configuration || '{}')
     });
     setShowEditModal(true);
   };
@@ -339,56 +366,41 @@ const AgentsManagementPage = () => {
     setShowDeleteModal(true);
   };
 
-  const resetForm = () => {
+  const handleIconSelect = (iconUrl) => {
     setFormData({
-      name: '',
-      slug: '',
-      categories: [],
-      description: '',
-      long_description: '',
-      runtime_type: 'python',
-      version: '1.0.0',
-      code: '',
-      requirements: '',
-      config_schema: '{}',
-      capabilities: '{}',
-      supported_languages: '["en"]',
-      price_model: 'free',
-      base_price: 0,
-      monthly_price: '',
-      annual_price: '',
-      execution_timeout_ms: 30000,
-      is_active: true,
-      is_featured: false,
-      icon_url: '',
-      documentation: ''
+      ...formData,
+      icon_url: iconUrl
     });
+    setShowIconPicker(false);
   };
 
-  const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric'
+  // Helper for category display
+  const getCategoryNames = (catIdsOrObjects) => {
+    if (!catIdsOrObjects || !Array.isArray(catIdsOrObjects)) return 'Uncategorized';
+
+    return catIdsOrObjects.map(cat => {
+      const id = typeof cat === 'object' ? cat.id : cat;
+      const foundCat = categories.find(c => c.id === id);
+      return foundCat ? foundCat.name : 'Unknown';
     });
   };
 
   return (
     <AdminLayout>
-      <div className="space-y-6">
+      <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="flex items-center justify-between">
+        <div className="flex justify-between items-start mb-8">
           <div>
-            <h1 className={`text-3xl font-bold ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
-              Agents Management
+            <h1 className={`text-3xl font-bold mb-2 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
+              Agents List
             </h1>
-            <p className={`mt-2 ${theme === 'dark' ? 'text-gray-400' : 'text-slate-600'}`}>
-              Manage platform agents, versions, and configurations
+            <p className={theme === 'dark' ? 'text-gray-400' : 'text-slate-600'}>
+              Manage and configure AI agents available in the marketplace
             </p>
           </div>
           <button
             onClick={() => setShowCreateModal(true)}
-            className="flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all shadow-lg"
+            className="px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg font-medium hover:shadow-lg transition-all flex items-center space-x-2"
           >
             <Plus className="w-5 h-5" />
             <span>Create Agent</span>
@@ -396,509 +408,368 @@ const AgentsManagementPage = () => {
         </div>
 
         {/* Statistics Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          <div className={`p-6 rounded-xl border ${theme === 'dark' ? 'bg-[#1a1f2e] border-white/10' : 'bg-white border-slate-200'}`}>
-            <div className="flex items-center justify-between">
-              <div>
-                <p className={`text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-slate-600'}`}>Total Agents</p>
-                <p className={`text-3xl font-bold mt-2 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
-                  {stats.total}
-                </p>
-              </div>
-              <div className="p-3 bg-blue-500/10 rounded-lg">
-                <Bot className="w-8 h-8 text-blue-500" />
-              </div>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+          <div className={`p-6 rounded-xl border ${theme === 'dark' ? 'bg-gray-800/50 border-gray-700' : 'bg-white border-slate-200'}`}>
+            <div className="flex items-center justify-between mb-2">
+              <Cpu className="w-8 h-8 text-blue-500" />
+              <span className={`text-2xl font-bold ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
+                {stats.total}
+              </span>
             </div>
+            <p className={`text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-slate-600'}`}>Total Agents</p>
           </div>
 
-          <div className={`p-6 rounded-xl border ${theme === 'dark' ? 'bg-[#1a1f2e] border-white/10' : 'bg-white border-slate-200'}`}>
-            <div className="flex items-center justify-between">
-              <div>
-                <p className={`text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-slate-600'}`}>Active</p>
-                <p className={`text-3xl font-bold mt-2 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
-                  {stats.active}
-                </p>
-              </div>
-              <div className="p-3 bg-green-500/10 rounded-lg">
-                <Power className="w-8 h-8 text-green-500" />
-              </div>
+          <div className={`p-6 rounded-xl border ${theme === 'dark' ? 'bg-gray-800/50 border-gray-700' : 'bg-white border-slate-200'}`}>
+            <div className="flex items-center justify-between mb-2">
+              <CheckCircle className="w-8 h-8 text-green-500" />
+              <span className={`text-2xl font-bold ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
+                {stats.active}
+              </span>
             </div>
+            <p className={`text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-slate-600'}`}>Active</p>
           </div>
 
-          <div className={`p-6 rounded-xl border ${theme === 'dark' ? 'bg-[#1a1f2e] border-white/10' : 'bg-white border-slate-200'}`}>
-            <div className="flex items-center justify-between">
-              <div>
-                <p className={`text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-slate-600'}`}>Inactive</p>
-                <p className={`text-3xl font-bold mt-2 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
-                  {stats.inactive}
-                </p>
-              </div>
-              <div className="p-3 bg-red-500/10 rounded-lg">
-                <AlertCircle className="w-8 h-8 text-red-500" />
-              </div>
+          <div className={`p-6 rounded-xl border ${theme === 'dark' ? 'bg-gray-800/50 border-gray-700' : 'bg-white border-slate-200'}`}>
+            <div className="flex items-center justify-between mb-2">
+              <XCircle className="w-8 h-8 text-red-500" />
+              <span className={`text-2xl font-bold ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
+                {stats.inactive}
+              </span>
             </div>
+            <p className={`text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-slate-600'}`}>Inactive</p>
           </div>
 
-          <div className={`p-6 rounded-xl border ${theme === 'dark' ? 'bg-[#1a1f2e] border-white/10' : 'bg-white border-slate-200'}`}>
-            <div className="flex items-center justify-between">
-              <div>
-                <p className={`text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-slate-600'}`}>Featured</p>
-                <p className={`text-3xl font-bold mt-2 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
-                  {stats.featured}
-                </p>
-              </div>
-              <div className="p-3 bg-purple-500/10 rounded-lg">
-                <BarChart3 className="w-8 h-8 text-purple-500" />
-              </div>
+          <div className={`p-6 rounded-xl border ${theme === 'dark' ? 'bg-gray-800/50 border-gray-700' : 'bg-white border-slate-200'}`}>
+            <div className="flex items-center justify-between mb-2">
+              <Zap className="w-8 h-8 text-yellow-500" />
+              <span className={`text-2xl font-bold ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
+                {stats.featured}
+              </span>
             </div>
+            <p className={`text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-slate-600'}`}>Featured</p>
           </div>
         </div>
 
-        {/* Filters Bar */}
-        <div className={`p-4 rounded-xl border ${theme === 'dark' ? 'bg-[#1a1f2e] border-white/10' : 'bg-white border-slate-200'}`}>
-          <div className="flex flex-col lg:flex-row gap-4">
+        {/* Filters */}
+        <div className={`p-6 rounded-xl border mb-6 ${theme === 'dark' ? 'bg-gray-800/50 border-gray-700' : 'bg-white border-slate-200'}`}>
+          <div className="flex flex-col md:flex-row gap-4">
             {/* Search */}
             <div className="flex-1 relative">
-              <Search className={`absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 ${theme === 'dark' ? 'text-gray-400' : 'text-slate-400'}`} />
+              <Search className={`absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 ${theme === 'dark' ? 'text-gray-400' : 'text-slate-400'}`} />
               <input
                 type="text"
-                placeholder="Search agents by name, slug, or description..."
+                placeholder="Search agents by name, tag, or description..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className={`w-full pl-10 pr-4 py-2 rounded-lg border ${theme === 'dark'
-                  ? 'bg-gray-800 border-white/10 text-white placeholder-gray-400'
-                  : 'bg-slate-50 border-slate-200 text-slate-900 placeholder-slate-400'
-                  }`}
+                    ? 'bg-gray-900 border-gray-700 text-white placeholder-gray-500'
+                    : 'bg-white border-slate-300 text-slate-900 placeholder-slate-400'
+                  } focus:outline-none focus:ring-2 focus:ring-purple-500`}
               />
             </div>
 
-            {/* Filter Toggle */}
-            <button
-              onClick={() => setShowFilters(!showFilters)}
-              className={`flex items-center space-x-2 px-4 py-2 rounded-lg border ${theme === 'dark'
-                ? 'bg-gray-800 border-white/10 text-white hover:bg-gray-700'
-                : 'bg-slate-50 border-slate-200 text-slate-900 hover:bg-slate-100'
-                }`}
+            {/* Status Filter */}
+            <select
+              value={statusFilter}
+              onChange={(e) => setStatusFilter(e.target.value)}
+              className={`px-4 py-2 rounded-lg border ${theme === 'dark'
+                  ? 'bg-gray-900 border-gray-700 text-white'
+                  : 'bg-white border-slate-300 text-slate-900'
+                } focus:outline-none focus:ring-2 focus:ring-purple-500`}
             >
-              <Filter className="w-5 h-5" />
-              <span>Filters</span>
-              {showFilters ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-            </button>
+              <option value="all">All Status</option>
+              <option value="active">Active</option>
+              <option value="inactive">Inactive</option>
+            </select>
 
-            {/* Bulk Actions */}
-            {selectedAgents.length > 0 && (
-              <div className="flex items-center space-x-2">
-                <button
-                  onClick={handleBulkActivate}
-                  className={`px-4 py-2 rounded-lg border ${theme === 'dark'
-                    ? 'bg-green-500/10 border-green-500/20 text-green-400 hover:bg-green-500/20'
-                    : 'bg-green-50 border-green-200 text-green-700 hover:bg-green-100'
-                    }`}
-                >
-                  Activate ({selectedAgents.length})
-                </button>
-                <button
-                  onClick={handleBulkDeactivate}
-                  className={`px-4 py-2 rounded-lg border ${theme === 'dark'
-                    ? 'bg-red-500/10 border-red-500/20 text-red-400 hover:bg-red-500/20'
-                    : 'bg-red-50 border-red-200 text-red-700 hover:bg-red-100'
-                    }`}
-                >
-                  Deactivate ({selectedAgents.length})
-                </button>
-              </div>
-            )}
-
-            {/* Export */}
-            <button
-              onClick={handleExport}
-              className={`flex items-center space-x-2 px-4 py-2 rounded-lg border ${theme === 'dark'
-                ? 'bg-gray-800 border-white/10 text-white hover:bg-gray-700'
-                : 'bg-slate-50 border-slate-200 text-slate-900 hover:bg-slate-100'
-                }`}
+            {/* Runtime Filter */}
+            <select
+              value={runtimeFilter}
+              onChange={(e) => setRuntimeFilter(e.target.value)}
+              className={`px-4 py-2 rounded-lg border ${theme === 'dark'
+                  ? 'bg-gray-900 border-gray-700 text-white'
+                  : 'bg-white border-slate-300 text-slate-900'
+                } focus:outline-none focus:ring-2 focus:ring-purple-500`}
             >
-              <Download className="w-5 h-5" />
-              <span>Export</span>
-            </button>
+              <option value="all">All Runtimes</option>
+              <option value="cloud">Cloud</option>
+              <option value="edge">Edge</option>
+              <option value="hybrid">Hybrid</option>
+            </select>
           </div>
-
-          {/* Expanded Filters */}
-          {showFilters && (
-            <div className={`mt-4 pt-4 border-t grid grid-cols-1 md:grid-cols-4 gap-4 ${theme === 'dark' ? 'border-white/10' : 'border-slate-200'}`}>
-              {/* Status Filter */}
-              <div>
-                <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                  Status
-                </label>
-                <select
-                  value={statusFilter}
-                  onChange={(e) => setStatusFilter(e.target.value)}
-                  className={`w-full px-3 py-2 rounded-lg border ${theme === 'dark'
-                    ? 'bg-gray-800 border-white/10 text-white'
-                    : 'bg-white border-slate-200 text-slate-900'
-                    }`}
-                >
-                  <option value="all">All Status</option>
-                  <option value="active">Active</option>
-                  <option value="inactive">Inactive</option>
-                </select>
-              </div>
-
-              {/* Runtime Filter */}
-              <div>
-                <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                  Runtime Type
-                </label>
-                <select
-                  value={runtimeFilter}
-                  onChange={(e) => setRuntimeFilter(e.target.value)}
-                  className={`w-full px-3 py-2 rounded-lg border ${theme === 'dark'
-                    ? 'bg-gray-800 border-white/10 text-white'
-                    : 'bg-white border-slate-200 text-slate-900'
-                    }`}
-                >
-                  <option value="all">All Runtimes</option>
-                  <option value="python">Python</option>
-                  <option value="nodejs">Node.js</option>
-                </select>
-              </div>
-
-              {/* Sort By */}
-              <div>
-                <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                  Sort By
-                </label>
-                <select
-                  value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value)}
-                  className={`w-full px-3 py-2 rounded-lg border ${theme === 'dark'
-                    ? 'bg-gray-800 border-white/10 text-white'
-                    : 'bg-white border-slate-200 text-slate-900'
-                    }`}
-                >
-                  <option value="created_desc">Newest First</option>
-                  <option value="created_asc">Oldest First</option>
-                  <option value="name_asc">Name A-Z</option>
-                  <option value="name_desc">Name Z-A</option>
-                  <option value="runs_desc">Most Runs</option>
-                  <option value="runs_asc">Least Runs</option>
-                </select>
-              </div>
-
-              {/* Clear Filters */}
-              <div className="flex items-end">
-                <button
-                  onClick={() => {
-                    setSearchQuery('');
-                    setStatusFilter('all');
-                    setCategoryFilter([]);
-                    setRuntimeFilter('all');
-                    setSortBy('created_desc');
-                  }}
-                  className={`w-full px-4 py-2 rounded-lg border ${theme === 'dark'
-                    ? 'bg-gray-800 border-white/10 text-gray-300 hover:bg-gray-700'
-                    : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100'
-                    }`}
-                >
-                  Clear Filters
-                </button>
-              </div>
-            </div>
-          )}
         </div>
 
         {/* Agents Table */}
-        <div className={`rounded-xl border overflow-hidden ${theme === 'dark' ? 'bg-[#1a1f2e] border-white/10' : 'bg-white border-slate-200'}`}>
-          {loading ? (
-            <div className="flex items-center justify-center py-12">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"></div>
-            </div>
-          ) : agents.length === 0 ? (
-            <div className="text-center py-12">
-              <Bot className={`w-16 h-16 mx-auto mb-4 ${theme === 'dark' ? 'text-gray-600' : 'text-slate-300'}`} />
-              <p className={`text-lg ${theme === 'dark' ? 'text-gray-400' : 'text-slate-500'}`}>
-                No agents found
-              </p>
-            </div>
-          ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead className={`${theme === 'dark' ? 'bg-gray-800/50' : 'bg-slate-50'}`}>
+        <div className={`rounded-xl border overflow-hidden ${theme === 'dark' ? 'bg-gray-800/50 border-gray-700' : 'bg-white border-slate-200'}`}>
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead className={theme === 'dark' ? 'bg-gray-900/50' : 'bg-slate-50'}>
+                <tr>
+                  <th className="px-6 py-4 text-left">
+                    <input
+                      type="checkbox"
+                      onChange={handleSelectAll}
+                      checked={selectedAgents.length === agents.length && agents.length > 0}
+                      className="rounded border-gray-600 text-purple-600 focus:ring-purple-500"
+                    />
+                  </th>
+                  <th className={`px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider ${theme === 'dark' ? 'text-gray-400' : 'text-slate-600'}`}>
+                    Agent Details
+                  </th>
+                  <th className={`px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider ${theme === 'dark' ? 'text-gray-400' : 'text-slate-600'}`}>
+                    Categories
+                  </th>
+                  <th className={`px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider ${theme === 'dark' ? 'text-gray-400' : 'text-slate-600'}`}>
+                    Status
+                  </th>
+                  <th className={`px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider ${theme === 'dark' ? 'text-gray-400' : 'text-slate-600'}`}>
+                    Pricing
+                  </th>
+                  <th className={`px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider ${theme === 'dark' ? 'text-gray-400' : 'text-slate-600'}`}>
+                    Runtime
+                  </th>
+                  <th className={`px-6 py-4 text-right text-xs font-semibold uppercase tracking-wider ${theme === 'dark' ? 'text-gray-400' : 'text-slate-600'}`}>
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+              <tbody className={`divide-y ${theme === 'dark' ? 'divide-gray-700' : 'divide-slate-200'}`}>
+                {loading ? (
+                  Array.from({ length: 5 }).map((_, i) => (
+                    <tr key={i}>
+                      <td colSpan="7" className="px-6 py-4">
+                        <div className="animate-pulse flex space-x-4">
+                          <div className="rounded-full bg-gray-700 h-10 w-10"></div>
+                          <div className="flex-1 space-y-2 py-1">
+                            <div className="h-4 bg-gray-700 rounded w-3/4"></div>
+                            <div className="h-4 bg-gray-700 rounded w-1/2"></div>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  ))
+                ) : agents.length === 0 ? (
                   <tr>
-                    <th className="px-4 py-3 text-left">
-                      <input
-                        type="checkbox"
-                        checked={selectedAgents.length === agents.length}
-                        onChange={handleSelectAll}
-                        className="rounded border-gray-300"
-                      />
-                    </th>
-                    <th className={`px-4 py-3 text-left text-sm font-semibold ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                      Agent Name
-                    </th>
-                    <th className={`px-4 py-3 text-left text-sm font-semibold ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                      Categories
-                    </th>
-                    <th className={`px-4 py-3 text-left text-sm font-semibold ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                      Runtime
-                    </th>
-                    <th className={`px-4 py-3 text-left text-sm font-semibold ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                      Version
-                    </th>
-                    <th className={`px-4 py-3 text-left text-sm font-semibold ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                      Status
-                    </th>
-                    <th className={`px-4 py-3 text-left text-sm font-semibold ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                      Total Runs
-                    </th>
-                    <th className={`px-4 py-3 text-left text-sm font-semibold ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                      Success Rate
-                    </th>
-                    <th className={`px-4 py-3 text-left text-sm font-semibold ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                      Created
-                    </th>
-                    <th className={`px-4 py-3 text-right text-sm font-semibold ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                      Actions
-                    </th>
+                    <td colSpan="7" className={`px-6 py-12 text-center ${theme === 'dark' ? 'text-gray-400' : 'text-slate-600'}`}>
+                      No agents found matching your criteria
+                    </td>
                   </tr>
-                </thead>
-                <tbody className={`divide-y ${theme === 'dark' ? 'divide-white/5' : 'divide-slate-200'}`}>
-                  {agents.map((agent) => (
-                    <tr
-                      key={agent.id}
-                      className={`${theme === 'dark' ? 'hover:bg-gray-800/30' : 'hover:bg-slate-50'} transition-colors`}
-                    >
-                      <td className="px-4 py-4">
+                ) : (
+                  agents.map((agent) => (
+                    <tr key={agent.id} className={theme === 'dark' ? 'hover:bg-gray-900/30' : 'hover:bg-slate-50'}>
+                      <td className="px-6 py-4">
                         <input
                           type="checkbox"
                           checked={selectedAgents.includes(agent.id)}
                           onChange={() => handleSelectAgent(agent.id)}
-                          className="rounded border-gray-300"
+                          className="rounded border-gray-600 text-purple-600 focus:ring-purple-500"
                         />
                       </td>
-                      <td className="px-4 py-4">
+                      <td className="px-6 py-4">
                         <div className="flex items-center space-x-3">
-                          <div className="p-2 rounded-lg bg-gradient-to-br from-purple-500/10 to-pink-500/10">
-                            <Bot className="w-5 h-5 text-purple-500" />
-                          </div>
+                          <img
+                            src={agent.icon_url || 'https://via.placeholder.com/40'}
+                            alt={agent.name}
+                            className="w-10 h-10 rounded-lg object-cover"
+                            onError={(e) => {
+                              e.target.src = 'https://via.placeholder.com/40?text=AI';
+                            }}
+                          />
                           <div>
                             <div className={`font-medium ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
                               {agent.name}
-                              {agent.is_featured && (
-                                <span className="ml-2 px-2 py-0.5 text-xs bg-yellow-500/10 text-yellow-500 rounded">
-                                  Featured
-                                </span>
-                              )}
                             </div>
                             <div className={`text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-slate-500'}`}>
-                              {agent.slug}
+                              v{agent.version} • {agent.developer}
                             </div>
                           </div>
                         </div>
                       </td>
-                      <td className="px-4 py-4">
+                      <td className="px-6 py-4">
                         <div className="flex flex-wrap gap-1">
-                          {Array.isArray(agent.categories) && agent.categories.length > 0 ? (
-                            agent.categories.map((cat, idx) => {
-                              const catName = typeof cat === 'object' ? cat.name : (categories.find(c => c.id === cat)?.name || 'Unknown');
-                              return (
-                                <span key={idx} className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${theme === 'dark' ? 'bg-gray-800 text-gray-300' : 'bg-gray-100 text-gray-700'
-                                  }`}>
-                                  {catName}
-                                </span>
-                              );
-                            })
-                          ) : (
-                            <span className={`text-sm ${theme === 'dark' ? 'text-gray-500' : 'text-slate-400'}`}>-</span>
-                          )}
+                          {getCategoryNames(agent.categories).map((catName, idx) => (
+                            <span key={idx} className={`px-2 py-0.5 rounded text-xs font-medium border ${theme === 'dark'
+                                ? 'bg-blue-500/10 text-blue-400 border-blue-500/20'
+                                : 'bg-blue-50 text-blue-600 border-blue-200'
+                              }`}>
+                              {catName}
+                            </span>
+                          ))}
                         </div>
                       </td>
-                      <td className="px-4 py-4">
-                        <div className="flex items-center space-x-2">
-                          {agent.runtime_type === 'python' ? (
-                            <Code className="w-4 h-4 text-blue-500" />
-                          ) : (
-                            <Package className="w-4 h-4 text-green-500" />
-                          )}
-                          <span className={`text-sm ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                            {agent.runtime_type}
-                          </span>
-                        </div>
-                      </td>
-                      <td className="px-4 py-4">
-                        <span className={`text-sm ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                          v{agent.version}
-                        </span>
-                      </td>
-                      <td className="px-4 py-4">
-                        <span
-                          className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${agent.status === 'active'
+                      <td className="px-6 py-4">
+                        <span className={`px-3 py-1 rounded-full text-xs font-medium ${agent.is_active
                             ? 'bg-green-500/10 text-green-500'
                             : 'bg-red-500/10 text-red-500'
-                            }`}
-                        >
-                          {agent.status}
+                          }`}>
+                          {agent.is_active ? 'Active' : 'Inactive'}
                         </span>
                       </td>
-                      <td className="px-4 py-4">
-                        <span className={`text-sm ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                          {safeFormatNumber(agent.total_runs)}
-                        </span>
+                      <td className="px-6 py-4">
+                        <div className={`text-sm ${theme === 'dark' ? 'text-gray-300' : 'text-slate-600'}`}>
+                          {agent.pricing_model === 'free' ? (
+                            'Free'
+                          ) : (
+                            <span>
+                              {safeFormatNumber(agent.monthly_price)}/mo
+                              <span className="text-xs opacity-60 block">
+                                + {safeFormatNumber(agent.hourly_rate)}/hr
+                              </span>
+                            </span>
+                          )}
+                        </div>
                       </td>
-                      <td className="px-4 py-4">
+                      <td className="px-6 py-4">
                         <div className="flex items-center space-x-2">
-                          <div className="w-16 h-2 bg-gray-700 rounded-full overflow-hidden">
-                            <div
-                              className="h-full bg-gradient-to-r from-green-500 to-emerald-500"
-                              style={{ width: `${agent.success_rate}%` }}
-                            />
-                          </div>
-                          <span className={`text-sm ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                            {agent.success_rate}%
+                          {agent.runtime_type === 'cloud' && <Cloud className="w-4 h-4 text-blue-500" />}
+                          {agent.runtime_type === 'edge' && <Cpu className="w-4 h-4 text-purple-500" />}
+                          {agent.runtime_type === 'hybrid' && <Zap className="w-4 h-4 text-yellow-500" />}
+                          <span className={`text-sm ${theme === 'dark' ? 'text-gray-300' : 'text-slate-600'}`}>
+                            {agent.runtime_type.charAt(0).toUpperCase() + agent.runtime_type.slice(1)}
                           </span>
                         </div>
                       </td>
-                      <td className="px-4 py-4">
-                        <span className={`text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-slate-500'}`}>
-                          {formatDate(agent.created_at)}
-                        </span>
-                      </td>
-                      <td className="px-4 py-4">
+                      <td className="px-6 py-4 text-right">
                         <div className="flex items-center justify-end space-x-2">
                           <button
                             onClick={() => openEditModal(agent)}
-                            className={`p-2 rounded-lg ${theme === 'dark'
-                              ? 'text-gray-400 hover:bg-gray-800 hover:text-white'
-                              : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900'
+                            className={`p-2 rounded-lg transition-colors ${theme === 'dark'
+                                ? 'hover:bg-gray-700 text-gray-400 hover:text-white'
+                                : 'hover:bg-slate-100 text-slate-400 hover:text-slate-900'
                               }`}
-                            title="Edit Agent"
                           >
-                            <Edit className="w-4 h-4" />
+                            <Edit2 className="w-4 h-4" />
                           </button>
                           <button
                             onClick={() => openDeleteModal(agent)}
-                            className={`p-2 rounded-lg ${theme === 'dark'
-                              ? 'text-gray-400 hover:bg-red-500/10 hover:text-red-400'
-                              : 'text-slate-500 hover:bg-red-50 hover:text-red-600'
-                              }`}
-                            title="Delete Agent"
+                            className="p-2 rounded-lg transition-colors hover:bg-red-500/10 text-red-500"
                           >
                             <Trash2 className="w-4 h-4" />
                           </button>
                         </div>
                       </td>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
 
-        {/* Create/Edit Agent Modal */}
+        {/* Create/Edit Modal */}
         {(showCreateModal || showEditModal) && (
-          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-            <div className={`w-full max-w-3xl max-h-[90vh] rounded-2xl overflow-hidden ${theme === 'dark' ? 'bg-[#1a1f2e] border border-white/10' : 'bg-white border border-slate-200'
-              }`}>
-              {/* Modal Header */}
-              <div className={`px-6 py-4 border-b flex items-center justify-between ${theme === 'dark' ? 'border-white/10' : 'border-slate-200'
-                }`}>
-                <h3 className={`text-2xl font-bold ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+            <div className={`w-full max-w-4xl rounded-xl max-h-[90vh] overflow-y-auto ${theme === 'dark' ? 'bg-gray-800' : 'bg-white'}`}>
+              <div className="sticky top-0 z-10 flex items-center justify-between p-6 border-b border-gray-700 bg-inherit rounded-t-xl">
+                <h2 className={`text-xl font-semibold ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
                   {showCreateModal ? 'Create New Agent' : 'Edit Agent'}
-                </h3>
+                </h2>
                 <button
                   onClick={() => {
                     setShowCreateModal(false);
                     setShowEditModal(false);
                     resetForm();
                   }}
-                  className={`p-2 rounded-lg ${theme === 'dark' ? 'hover:bg-gray-800' : 'hover:bg-slate-100'
+                  className={`p-2 rounded-lg transition-colors ${theme === 'dark'
+                      ? 'hover:bg-gray-700 text-gray-400'
+                      : 'hover:bg-slate-100 text-slate-400'
                     }`}
                 >
                   <X className="w-5 h-5" />
                 </button>
               </div>
 
-              {/* Modal Body - Scrollable */}
-              <form onSubmit={showCreateModal ? handleCreateAgent : handleEditAgent} className="flex flex-col max-h-[80vh]">
-                <div className="overflow-y-auto px-6 py-4 space-y-4 custom-scrollbar flex-1">
-                  {/* Name */}
-                  <div>
-                    <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                      Agent Name *
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className={`w-full px-4 py-2 rounded-lg border ${theme === 'dark'
-                        ? 'bg-gray-800 border-white/10 text-white'
-                        : 'bg-white border-slate-200 text-slate-900'
-                        }`}
-                      placeholder="e.g., Web Scraper Pro"
-                    />
-                  </div>
+              <form onSubmit={showCreateModal ? handleCreateAgent : handleEditAgent} className="p-6 space-y-6">
 
-                  {/* Slug */}
-                  <div>
-                    <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                      Slug *
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      value={formData.slug}
-                      onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
-                      className={`w-full px-4 py-2 rounded-lg border ${theme === 'dark'
-                        ? 'bg-gray-800 border-white/10 text-white'
-                        : 'bg-white border-slate-200 text-slate-900'
-                        }`}
-                      placeholder="e.g., web-scraper-pro"
-                    />
-                  </div>
+                {/* Basic Information */}
+                <div className="space-y-4">
+                  <h3 className={`text-lg font-medium ${theme === 'dark' ? 'text-white' : 'text-slate-900'} border-b border-gray-700 pb-2`}>
+                    Basic Information
+                  </h3>
 
-                  {/* Category and Runtime */}
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                        Categories *
+                        Name *
                       </label>
-                      <div className="space-y-3">
-                        <select
-                          value=""
-                          onChange={(e) => {
-                            const catId = e.target.value;
-                            if (catId && !formData.categories.includes(catId)) {
-                              setFormData({ ...formData, categories: [...formData.categories, catId] });
-                            }
-                          }}
-                          className={`w-full px-4 py-2 rounded-lg border ${theme === 'dark'
-                            ? 'bg-gray-800 border-white/10 text-white'
-                            : 'bg-white border-slate-200 text-slate-900'
-                            }`}
-                        >
-                          <option value="">Add category...</option>
-                          {categories.map((cat) => (
-                            <option key={cat.id} value={cat.id} disabled={formData.categories.includes(cat.id)}>
-                              {cat.name}
-                            </option>
-                          ))}
-                        </select>
-                        <div className="flex flex-wrap gap-2">
-                          {formData.categories.map((catId) => {
-                            const category = categories.find(c => c.id === catId);
+                      <input
+                        type="text"
+                        required
+                        value={formData.name}
+                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                        className={`w-full px-4 py-2 rounded-lg border ${theme === 'dark'
+                            ? 'bg-gray-900 border-gray-700 text-white'
+                            : 'bg-white border-slate-300 text-slate-900'
+                          } focus:outline-none focus:ring-2 focus:ring-purple-500`}
+                      />
+                    </div>
+                    <div>
+                      <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
+                        Slug *
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={formData.slug}
+                        onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
+                        className={`w-full px-4 py-2 rounded-lg border ${theme === 'dark'
+                            ? 'bg-gray-900 border-gray-700 text-white'
+                            : 'bg-white border-slate-300 text-slate-900'
+                          } focus:outline-none focus:ring-2 focus:ring-purple-500`}
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
+                      Short Description
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.short_description}
+                      onChange={(e) => setFormData({ ...formData, short_description: e.target.value })}
+                      className={`w-full px-4 py-2 rounded-lg border ${theme === 'dark'
+                          ? 'bg-gray-900 border-gray-700 text-white'
+                          : 'bg-white border-slate-300 text-slate-900'
+                        } focus:outline-none focus:ring-2 focus:ring-purple-500`}
+                    />
+                  </div>
+
+                  <div>
+                    <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
+                      Long Description
+                    </label>
+                    <textarea
+                      rows={4}
+                      value={formData.long_description}
+                      onChange={(e) => setFormData({ ...formData, long_description: e.target.value })}
+                      className={`w-full px-4 py-2 rounded-lg border ${theme === 'dark'
+                          ? 'bg-gray-900 border-gray-700 text-white'
+                          : 'bg-white border-slate-300 text-slate-900'
+                        } focus:outline-none focus:ring-2 focus:ring-purple-500`}
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
+                        Categories
+                      </label>
+                      <div className={`p-3 rounded-lg border ${theme === 'dark' ? 'bg-gray-900 border-gray-700' : 'bg-white border-slate-300'
+                        }`}>
+                        <div className="mb-2 flex flex-wrap gap-2">
+                          {formData.categories.map(catId => {
+                            const cat = categories.find(c => c.id === catId);
                             return (
-                              <span key={catId} className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium ${theme === 'dark' ? 'bg-purple-500/20 text-purple-300' : 'bg-purple-100 text-purple-700'
-                                }`}>
-                                {category?.name || 'Unknown'}
+                              <span key={catId} className="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-purple-500/20 text-purple-400 border border-purple-500/30">
+                                {cat ? cat.name : 'Unknown'}
                                 <button
                                   type="button"
                                   onClick={() => setFormData({
                                     ...formData,
                                     categories: formData.categories.filter(id => id !== catId)
                                   })}
-                                  className="hover:text-red-500"
+                                  className="ml-1 hover:text-white"
                                 >
                                   <X className="w-3 h-3" />
                                 </button>
@@ -906,303 +777,184 @@ const AgentsManagementPage = () => {
                             );
                           })}
                         </div>
+                        <select
+                          value=""
+                          onChange={(e) => {
+                            if (e.target.value && !formData.categories.includes(e.target.value)) {
+                              setFormData({
+                                ...formData,
+                                categories: [...formData.categories, e.target.value]
+                              });
+                            }
+                          }}
+                          className={`w-full bg-transparent border-none focus:ring-0 p-0 text-sm ${theme === 'dark' ? 'text-white' : 'text-slate-900'
+                            }`}
+                        >
+                          <option value="">Add category...</option>
+                          {categories.map(cat => (
+                            <option key={cat.id} value={cat.id} disabled={formData.categories.includes(cat.id)}>
+                              {cat.name}
+                            </option>
+                          ))}
+                        </select>
                       </div>
                     </div>
 
                     <div>
                       <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                        Runtime Type *
+                        Icon
                       </label>
-                      <select
-                        required
-                        value={formData.runtime_type}
-                        onChange={(e) => setFormData({ ...formData, runtime_type: e.target.value })}
-                        className={`w-full px-4 py-2 rounded-lg border ${theme === 'dark'
-                          ? 'bg-gray-800 border-white/10 text-white'
-                          : 'bg-white border-slate-200 text-slate-900'
-                          }`}
-                      >
-                        <option value="python">Python</option>
-                        <option value="nodejs">Node.js</option>
-                      </select>
-                    </div>
-                  </div>
-
-                  {/* Version */}
-                  <div>
-                    <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                      Version *
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      value={formData.version}
-                      onChange={(e) => setFormData({ ...formData, version: e.target.value })}
-                      className={`w-full px-4 py-2 rounded-lg border ${theme === 'dark'
-                        ? 'bg-gray-800 border-white/10 text-white'
-                        : 'bg-white border-slate-200 text-slate-900'
-                        }`}
-                      placeholder="e.g., 1.0.0"
-                    />
-                  </div>
-
-                  {/* Icon */}
-                  <div>
-                    <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                      Icon
-                    </label>
-                    <div className="flex gap-3">
-                      <div className="relative flex-1">
-                        <ImageIcon className={`absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-500'}`} />
+                      <div className="flex space-x-2">
+                        <div className={`w-10 h-10 rounded border flex items-center justify-center overflow-hidden ${theme === 'dark' ? 'border-gray-700 bg-gray-900' : 'border-slate-300 bg-white'
+                          }`}>
+                          {formData.icon_url ? (
+                            <img src={formData.icon_url} alt="Icon" className="w-full h-full object-cover" />
+                          ) : (
+                            <span className="text-xs text-gray-500">No Icon</span>
+                          )}
+                        </div>
                         <input
                           type="text"
-                          name="icon_url"
-                          value={formData.icon_url}
                           readOnly
-                          className={`w-full pl-10 pr-4 py-2.5 rounded-lg border ${theme === 'dark'
-                            ? 'bg-gray-900 border-white/10 text-white cursor-not-allowed opacity-70'
-                            : 'bg-slate-50 border-slate-200 text-slate-900 cursor-not-allowed opacity-70'
-                            }`}
+                          value={formData.icon_url}
+                          className={`flex-1 px-4 py-2 rounded-lg border ${theme === 'dark'
+                              ? 'bg-gray-900 border-gray-700 text-white'
+                              : 'bg-white border-slate-300 text-slate-900'
+                            } focus:outline-none focus:ring-2 focus:ring-purple-500`}
                           placeholder="Select an icon..."
                         />
-                      </div>
-                      <button
-                        type="button"
-                        onClick={() => setShowIconPicker(true)}
-                        className={`px-4 py-2 rounded-lg font-medium transition-colors ${theme === 'dark'
-                          ? 'bg-purple-600/20 text-purple-400 hover:bg-purple-600/30 border border-purple-500/30'
-                          : 'bg-purple-50 text-purple-600 hover:bg-purple-100 border border-purple-200'
-                          }`}
-                      >
-                        Choose Icon
-                      </button>
-                    </div>
-                    {formData.icon_url && (
-                      <div className="mt-2 flex items-center gap-2">
-                        <p className={`text-xs ${theme === 'dark' ? 'text-gray-500' : 'text-slate-500'}`}>
-                          Preview:
-                        </p>
-                        <img
-                          src={formData.icon_url}
-                          alt="Icon Preview"
-                          className="w-8 h-8 p-1 rounded bg-gray-100 dark:bg-gray-800 border dark:border-gray-700"
-                          onError={(e) => {
-                            e.target.onerror = null;
-                            e.target.src = 'https://unpkg.com/lucide-static@latest/icons/help-circle.svg';
-                          }}
-                        />
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Icon Picker Modal */}
-                  {showIconPicker && (
-                    <IconPicker
-                      onSelect={(url) => setFormData({ ...formData, icon_url: url })}
-                      onClose={() => setShowIconPicker(false)}
-                      selectedIcon={formData.icon_url}
-                    />
-                  )}
-
-
-                  {/* Description */}
-                  <div>
-                    <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                      Description *
-                    </label>
-                    <textarea
-                      required
-                      value={formData.description}
-                      onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                      rows={3}
-                      className={`w-full px-4 py-2 rounded-lg border ${theme === 'dark'
-                        ? 'bg-gray-800 border-white/10 text-white'
-                        : 'bg-white border-slate-200 text-slate-900'
-                        }`}
-                      placeholder="Short description of the agent..."
-                    />
-                  </div>
-
-                  {/* Long Description */}
-                  <div>
-                    <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                      Long Description
-                    </label>
-                    <textarea
-                      value={formData.long_description}
-                      onChange={(e) => setFormData({ ...formData, long_description: e.target.value })}
-                      rows={5}
-                      className={`w-full px-4 py-2 rounded-lg border ${theme === 'dark'
-                        ? 'bg-gray-800 border-white/10 text-white'
-                        : 'bg-white border-slate-200 text-slate-900'
-                        }`}
-                      placeholder="Detailed description and usage instructions..."
-                    />
-                  </div>
-
-                  {/* Pricing Section */}
-                  <div className={`p-4 rounded-lg border ${theme === 'dark' ? 'bg-gray-800/50 border-white/10' : 'bg-slate-50 border-slate-200'}`}>
-                    <h4 className={`text-sm font-bold mb-4 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>Pricing Configuration</h4>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div>
-                        <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                          Price Model *
-                        </label>
-                        <select
-                          required
-                          value={formData.price_model}
-                          onChange={(e) => setFormData({ ...formData, price_model: e.target.value })}
-                          className={`w-full px-4 py-2 rounded-lg border ${theme === 'dark'
-                            ? 'bg-gray-800 border-white/10 text-white'
-                            : 'bg-white border-slate-200 text-slate-900'
+                        <button
+                          type="button"
+                          onClick={() => setShowIconPicker(true)}
+                          className={`px-4 py-2 rounded-lg border ${theme === 'dark'
+                              ? 'border-gray-600 hover:bg-gray-700 text-gray-300'
+                              : 'border-slate-300 hover:bg-slate-100 text-slate-600'
                             }`}
                         >
-                          <option value="free">Free</option>
-                          <option value="one_time">One Time</option>
-                          <option value="subscription">Subscription</option>
-                          <option value="usage_based">Usage Based</option>
-                        </select>
-                      </div>
-                      <div>
-                        <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                          Base Price
-                        </label>
-                        <input
-                          type="number"
-                          min="0"
-                          step="0.01"
-                          value={formData.base_price}
-                          onChange={(e) => setFormData({ ...formData, base_price: parseFloat(e.target.value) || 0 })}
-                          className={`w-full px-4 py-2 rounded-lg border ${theme === 'dark'
-                            ? 'bg-gray-800 border-white/10 text-white'
-                            : 'bg-white border-slate-200 text-slate-900'
-                            }`}
-                        />
-                      </div>
-                      {formData.price_model === 'subscription' && (
-                        <>
-                          <div>
-                            <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                              Monthly Price
-                            </label>
-                            <input
-                              type="number"
-                              min="0"
-                              step="0.01"
-                              value={formData.monthly_price}
-                              onChange={(e) => setFormData({ ...formData, monthly_price: parseFloat(e.target.value) || '' })}
-                              className={`w-full px-4 py-2 rounded-lg border ${theme === 'dark'
-                                ? 'bg-gray-800 border-white/10 text-white'
-                                : 'bg-white border-slate-200 text-slate-900'
-                                }`}
-                            />
-                          </div>
-                          <div>
-                            <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                              Annual Price
-                            </label>
-                            <input
-                              type="number"
-                              min="0"
-                              step="0.01"
-                              value={formData.annual_price}
-                              onChange={(e) => setFormData({ ...formData, annual_price: parseFloat(e.target.value) || '' })}
-                              className={`w-full px-4 py-2 rounded-lg border ${theme === 'dark'
-                                ? 'bg-gray-800 border-white/10 text-white'
-                                : 'bg-white border-slate-200 text-slate-900'
-                                }`}
-                            />
-                          </div>
-                        </>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Advanced Configuration */}
-                  <div className={`p-4 rounded-lg border ${theme === 'dark' ? 'bg-gray-800/50 border-white/10' : 'bg-slate-50 border-slate-200'}`}>
-                    <h4 className={`text-sm font-bold mb-4 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>Execution & Configuration</h4>
-
-                    <div className="space-y-4">
-                      <div>
-                        <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                          Execution Timeout (ms)
-                        </label>
-                        <input
-                          type="number"
-                          value={formData.execution_timeout_ms}
-                          onChange={(e) => setFormData({ ...formData, execution_timeout_ms: parseInt(e.target.value) || 30000 })}
-                          className={`w-full px-4 py-2 rounded-lg border ${theme === 'dark'
-                            ? 'bg-gray-800 border-white/10 text-white'
-                            : 'bg-white border-slate-200 text-slate-900'
-                            }`}
-                        />
-                      </div>
-
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                          <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                            Capabilities (JSON)
-                          </label>
-                          <textarea
-                            value={formData.capabilities}
-                            onChange={(e) => setFormData({ ...formData, capabilities: e.target.value })}
-                            rows={3}
-                            className={`w-full px-4 py-2 rounded-lg border font-mono text-xs ${theme === 'dark'
-                              ? 'bg-gray-800 border-white/10 text-white'
-                              : 'bg-white border-slate-200 text-slate-900'
-                              }`}
-                            placeholder="{}"
-                          />
-                        </div>
-                        <div>
-                          <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                            Supported Languages (JSON Array)
-                          </label>
-                          <textarea
-                            value={formData.supported_languages}
-                            onChange={(e) => setFormData({ ...formData, supported_languages: e.target.value })}
-                            rows={3}
-                            className={`w-full px-4 py-2 rounded-lg border font-mono text-xs ${theme === 'dark'
-                              ? 'bg-gray-800 border-white/10 text-white'
-                              : 'bg-white border-slate-200 text-slate-900'
-                              }`}
-                            placeholder='["en"]'
-                          />
-                        </div>
+                          Choose
+                        </button>
                       </div>
                     </div>
-                  </div>
-
-                  {/* Checkboxes */}
-                  <div className="flex items-center space-x-6">
-                    <label className="flex items-center space-x-2">
-                      <input
-                        type="checkbox"
-                        checked={formData.is_active}
-                        onChange={(e) => setFormData({ ...formData, is_active: e.target.checked })}
-                        className="rounded border-gray-300"
-                      />
-                      <span className={`text-sm ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                        Active
-                      </span>
-                    </label>
-                    <label className="flex items-center space-x-2">
-                      <input
-                        type="checkbox"
-                        checked={formData.is_featured}
-                        onChange={(e) => setFormData({ ...formData, is_featured: e.target.checked })}
-                        className="rounded border-gray-300"
-                      />
-                      <span className={`text-sm ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                        Featured
-                      </span>
-                    </label>
                   </div>
                 </div>
 
-                {/* Modal Footer - Fixed */}
-                <div className={`px-6 py-4 border-t flex items-center justify-end space-x-3 ${theme === 'dark' ? 'border-white/10 bg-gray-800/30' : 'border-slate-200 bg-slate-50'
-                  }`}>
+                {/* Configuration */}
+                <div className="space-y-4">
+                  <h3 className={`text-lg font-medium ${theme === 'dark' ? 'text-white' : 'text-slate-900'} border-b border-gray-700 pb-2`}>
+                    Configuration & Schema
+                  </h3>
+
+                  <div>
+                    <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
+                      Config Schema (JSON)
+                    </label>
+                    <div className="relative">
+                      <Code className={`absolute left-3 top-3 w-4 h-4 ${theme === 'dark' ? 'text-gray-500' : 'text-gray-400'}`} />
+                      <textarea
+                        rows={4}
+                        value={formData.config_schema}
+                        onChange={(e) => setFormData({ ...formData, config_schema: e.target.value })}
+                        className={`w-full pl-10 pr-4 py-2 rounded-lg border font-mono text-sm ${theme === 'dark'
+                            ? 'bg-gray-900 border-gray-700 text-gray-300'
+                            : 'bg-white border-slate-300 text-slate-800'
+                          } focus:outline-none focus:ring-2 focus:ring-purple-500`}
+                        spellCheck="false"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
+                      Extra Configuration (JSON)
+                    </label>
+                    <div className="relative">
+                      <Code className={`absolute left-3 top-3 w-4 h-4 ${theme === 'dark' ? 'text-gray-500' : 'text-gray-400'}`} />
+                      <textarea
+                        rows={4}
+                        value={formData.extra_configuration}
+                        onChange={(e) => setFormData({ ...formData, extra_configuration: e.target.value })}
+                        className={`w-full pl-10 pr-4 py-2 rounded-lg border font-mono text-sm ${theme === 'dark'
+                            ? 'bg-gray-900 border-gray-700 text-gray-300'
+                            : 'bg-white border-slate-300 text-slate-800'
+                          } focus:outline-none focus:ring-2 focus:ring-purple-500`}
+                        spellCheck="false"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Pricing & Limits */}
+                <div className="space-y-4">
+                  <h3 className={`text-lg font-medium ${theme === 'dark' ? 'text-white' : 'text-slate-900'} border-b border-gray-700 pb-2`}>
+                    Pricing & Limits
+                  </h3>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
+                        Pricing Model
+                      </label>
+                      <select
+                        value={formData.pricing_model}
+                        onChange={(e) => setFormData({ ...formData, pricing_model: e.target.value })}
+                        className={`w-full px-4 py-2 rounded-lg border ${theme === 'dark'
+                            ? 'bg-gray-900 border-gray-700 text-white'
+                            : 'bg-white border-slate-300 text-slate-900'
+                          } focus:outline-none focus:ring-2 focus:ring-purple-500`}
+                      >
+                        <option value="free">Free</option>
+                        <option value="subscription">Subscription</option>
+                        <option value="usage">Usage Based</option>
+                        <option value="hybrid">Hybrid</option>
+                      </select>
+                    </div>
+
+                    <div>
+                      <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
+                        Monthly Price ($)
+                      </label>
+                      <input
+                        type="number"
+                        min="0"
+                        step="0.01"
+                        value={formData.monthly_price}
+                        onChange={(e) => setFormData({ ...formData, monthly_price: parseFloat(e.target.value) })}
+                        className={`w-full px-4 py-2 rounded-lg border ${theme === 'dark'
+                            ? 'bg-gray-900 border-gray-700 text-white'
+                            : 'bg-white border-slate-300 text-slate-900'
+                          } focus:outline-none focus:ring-2 focus:ring-purple-500`}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex items-center space-x-6 pt-4">
+                  <label className="flex items-center space-x-2 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={formData.is_active}
+                      onChange={(e) => setFormData({ ...formData, is_active: e.target.checked })}
+                      className="w-4 h-4 rounded border-gray-600 text-purple-600 focus:ring-purple-500"
+                    />
+                    <span className={`text-sm ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
+                      Active
+                    </span>
+                  </label>
+
+                  <label className="flex items-center space-x-2 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={formData.is_featured}
+                      onChange={(e) => setFormData({ ...formData, is_featured: e.target.checked })}
+                      className="w-4 h-4 rounded border-gray-600 text-purple-600 focus:ring-purple-500"
+                    />
+                    <span className={`text-sm ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
+                      Featured
+                    </span>
+                  </label>
+                </div>
+
+                <div className="flex justify-end space-x-3 pt-6 border-t border-gray-700">
                   <button
                     type="button"
                     onClick={() => {
@@ -1210,9 +962,9 @@ const AgentsManagementPage = () => {
                       setShowEditModal(false);
                       resetForm();
                     }}
-                    className={`px-6 py-2 rounded-lg ${theme === 'dark'
-                      ? 'bg-gray-800 text-gray-300 hover:bg-gray-700'
-                      : 'bg-slate-200 text-slate-700 hover:bg-slate-300'
+                    className={`px-6 py-2 rounded-lg font-medium transition-colors ${theme === 'dark'
+                        ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                        : 'bg-slate-200 text-slate-700 hover:bg-slate-300'
                       }`}
                   >
                     Cancel
@@ -1220,9 +972,9 @@ const AgentsManagementPage = () => {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="px-6 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg hover:from-purple-700 hover:to-pink-700 disabled:opacity-50"
+                    className="px-6 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg font-medium hover:shadow-lg transition-all disabled:opacity-50"
                   >
-                    {loading ? 'Saving...' : showCreateModal ? 'Create Agent' : 'Update Agent'}
+                    {loading ? 'Saving...' : (showCreateModal ? 'Create Agent' : 'Update Agent')}
                   </button>
                 </div>
               </form>
@@ -1230,36 +982,27 @@ const AgentsManagementPage = () => {
           </div>
         )}
 
-        {/* Delete Confirmation Modal */}
-        {showDeleteModal && selectedAgent && (
-          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-            <div className={`w-full max-w-md rounded-2xl p-6 ${theme === 'dark' ? 'bg-[#1a1f2e] border border-white/10' : 'bg-white border border-slate-200'
-              }`}>
-              <div className="flex items-center space-x-4 mb-4">
-                <div className="p-3 bg-red-500/10 rounded-lg">
-                  <AlertCircle className="w-6 h-6 text-red-500" />
+        {/* Delete Modal */}
+        {showDeleteModal && (
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+            <div className={`w-full max-w-md rounded-xl p-6 ${theme === 'dark' ? 'bg-gray-800' : 'bg-white'}`}>
+              <div className="flex items-center space-x-3 mb-4">
+                <div className="p-3 rounded-full bg-red-500/10 text-red-500">
+                  <Trash2 className="w-6 h-6" />
                 </div>
-                <div>
-                  <h3 className={`text-xl font-bold ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
-                    Delete Agent
-                  </h3>
-                  <p className={`text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-slate-500'}`}>
-                    This action cannot be undone
-                  </p>
-                </div>
+                <h3 className={`text-xl font-bold ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
+                  Delete Agent
+                </h3>
               </div>
-              <p className={`mb-6 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                Are you sure you want to delete <strong>{selectedAgent.name}</strong>? All associated data will be permanently removed.
+              <p className={`mb-6 ${theme === 'dark' ? 'text-gray-400' : 'text-slate-600'}`}>
+                Are you sure you want to delete this agent? This action cannot be undone.
               </p>
-              <div className="flex items-center justify-end space-x-3">
+              <div className="flex justify-end space-x-3">
                 <button
-                  onClick={() => {
-                    setShowDeleteModal(false);
-                    setSelectedAgent(null);
-                  }}
-                  className={`px-6 py-2 rounded-lg ${theme === 'dark'
-                    ? 'bg-gray-800 text-gray-300 hover:bg-gray-700'
-                    : 'bg-slate-200 text-slate-700 hover:bg-slate-300'
+                  onClick={() => setShowDeleteModal(false)}
+                  className={`px-4 py-2 rounded-lg font-medium transition-colors ${theme === 'dark'
+                      ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                      : 'bg-slate-200 text-slate-700 hover:bg-slate-300'
                     }`}
                 >
                   Cancel
@@ -1267,14 +1010,22 @@ const AgentsManagementPage = () => {
                 <button
                   onClick={handleDeleteAgent}
                   disabled={loading}
-                  className="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 disabled:opacity-50"
+                  className="px-4 py-2 bg-red-500 text-white rounded-lg font-medium hover:bg-red-600 transition-colors disabled:opacity-50"
                 >
-                  {loading ? 'Deleting...' : 'Delete Agent'}
+                  {loading ? 'Deleting...' : 'Delete'}
                 </button>
               </div>
             </div>
           </div>
         )}
+
+        {/* Icon Picker Modal */}
+        <IconPicker
+          isOpen={showIconPicker}
+          onClose={() => setShowIconPicker(false)}
+          onSelect={handleIconSelect}
+        />
+
       </div>
     </AdminLayout>
   );
