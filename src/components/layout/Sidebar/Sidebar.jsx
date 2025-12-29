@@ -6,7 +6,8 @@ import { useLayoutStore } from '../../../store/layoutStore';
 import { useTheme } from '../../../contexts/ThemeContext';
 import { PLATFORM, ENGINES } from '../../../utils/constants';
 
-import logo from '../../../assets/imgs/OBSOLIO-logo-cyan.png';
+import logo from '../../../assets/OBSOLIO-logo-light.png';
+import logoDark from '../../../assets/OBSOLIO-logo-new.png';
 
 const Sidebar = () => {
   const location = useLocation();
@@ -389,6 +390,15 @@ const Sidebar = () => {
                 {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
               </span>
             </button>
+
+            {/* Logo Area */}
+            <div className={`p-6 flex items-center justify-between ${!isCollapsed ? 'px-6' : 'px-4 justify-center'}`}>
+              {!isCollapsed && (
+                <Link to="/" className="flex items-center gap-2">
+                  <img src={theme === 'dark' ? logoDark : logo} alt="Obsolio" className="h-8 object-contain" />
+                </Link>
+              )}
+            </div>
 
             {/* User Profile */}
             <div className="flex items-center justify-between p-2 rounded-lg bg-white/5 border border-white/5">

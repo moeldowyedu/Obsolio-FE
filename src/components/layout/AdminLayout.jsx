@@ -9,7 +9,7 @@ import {
 import { useAuthStore } from '../../store/authStore';
 import { useTheme } from '../../contexts/ThemeContext';
 import ThemeToggle from '../common/ThemeToggle';
-import logo from '../../assets/OBSOLIO-logo-new.png';
+import logo from '../../assets/OBSOLIO-logo-light.png';
 import logoDark from '../../assets/OBSOLIO-logo-new.png';
 
 const AdminLayout = ({ children }) => {

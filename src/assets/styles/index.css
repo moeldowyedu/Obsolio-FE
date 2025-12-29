@@ -21,6 +21,16 @@
   html {
     @apply scroll-smooth;
     color-scheme: dark;
+    /* Light Mode Brand Colors */
+    --brand-blue: #1274C6;
+    --brand-orange: #EAA906;
+  }
+
+  /* Dark Mode Overrides */
+  .dark {
+    --brand-blue: #2A94C7;
+    --brand-orange: #FFC31F;
+    color-scheme: dark;
   }
 }
 
@@ -73,11 +83,12 @@
 
   /* Primary button with Blue/Orange glow (Obsolio style) */
   .glass-btn-primary {
-    background: linear-gradient(135deg, #2A94C7 0%, #2583b0 100%);
+    background: linear-gradient(135deg, var(--brand-blue) 0%, #2583b0 100%);
     position: relative;
     overflow: hidden;
     @apply text-white font-bold px-8 py-3 rounded-xl border-none;
-    box-shadow: 0 0 20px rgba(42, 148, 199, 0.3);
+    box-shadow: 0 0 20px rgba(18, 116, 198, 0.3);
+    /* Fallback/Base shadow */
   }
 
   .glass-btn-primary::before {

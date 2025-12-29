@@ -5,13 +5,14 @@ import { ArrowRight, Building, User, Loader, Sun, Moon } from 'lucide-react';
 import { redirectToTenantLogin } from '../../utils/tenantDetection';
 import { useAuthStore } from '../../store/authStore';
 import tenantLookupService from '../../services/tenantLookupService';
-import logo from '../../assets/imgs/OBSOLIO-logo-cyan.png';
+import logo from '../../assets/OBSOLIO-logo-light.png';
+import logoDark from '../../assets/OBSOLIO-logo-new.png'; // Updated asset name
 import { useTheme } from '../../contexts/ThemeContext';
 
 const WorkspaceSelectionPage = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    const { isAuthenticated, user } = useAuthStore();
+    const { login } = useAuthStore();
     const [tenants, setTenants] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -91,11 +92,11 @@ const WorkspaceSelectionPage = () => {
             )}
 
             <div className="w-full max-w-md relative z-10 animate-fade-in">
-                <div className="text-center mb-6">
+                <div className="text-center mb-8">
                     {/* Logo */}
-                    <Link to="/" className="inline-block mb-4">
-                        <img src={logo} alt="OBSOLIO" className="h-16 mx-auto object-contain" />
-                    </Link>
+                    <div className="inline-block mb-4">
+                        <img src={theme === 'dark' ? logoDark : logo} alt="OBSOLIO" className="h-16 mx-auto object-contain" />
+                    </div>
                     <h2 className={`text-3xl font-bold mb-2 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
                         Select your workspace
                     </h2>

@@ -23,8 +23,8 @@ export default {
 					foreground: '#ffffff'
 				},
 				brand: {
-					blue: '#2A94C7',
-					orange: '#FFC31F'
+					blue: 'var(--brand-blue)',
+					orange: 'var(--brand-orange)'
 				},
 				secondary: {
 					'50': '#f8fafc',

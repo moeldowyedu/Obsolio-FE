@@ -6,7 +6,8 @@ import Input from '../../components/common/Input/Input';
 import Button from '../../components/common/Button/Button';
 import RegistrationSteps from '../../components/registration/RegistrationSteps';
 import toast from 'react-hot-toast';
-import logo from '../../assets/imgs/OBSOLIO-logo-cyan.png';
+import logo from '../../assets/OBSOLIO-logo-light.png';
+import logoDark from '../../assets/OBSOLIO-logo-new.png';
 import { countries } from '../../constants/countries';
 import { useTheme } from '../../contexts/ThemeContext';
 
@@ -344,7 +345,7 @@ const RegisterPage = () => {
         {/* Logo/Brand */}
         <div className="text-center mb-6">
           <Link to="/" className="inline-block mb-4">
-            <img src={logo} alt="OBSOLIO" className="h-16 mx-auto object-contain" />
+            <img src={theme === 'dark' ? logoDark : logo} alt="OBSOLIO" className="h-16 mx-auto object-contain" />
           </Link>
           <p className={`mt-2 ${theme === 'dark' ? 'text-gray-400' : 'text-slate-500'}`}>Create your account to get started</p>
         </div>

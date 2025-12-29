@@ -6,7 +6,8 @@ import { ArrowRight, Loader, Mail, AlertCircle, Building, User, Sun, Moon } from
 import toast from 'react-hot-toast';
 import tenantLookupService from '../../services/tenantLookupService';
 import { redirectToTenantLogin } from '../../utils/tenantDetection';
-import logo from '../../assets/imgs/OBSOLIO-logo-cyan.png';
+import logo from '../../assets/OBSOLIO-logo-light.png';
+import logoDark from '../../assets/OBSOLIO-logo-new.png';
 import { useTheme } from '../../contexts/ThemeContext';
 
 const SignInPage = () => {
@@ -69,7 +70,7 @@ const SignInPage = () => {
                 <div className="text-center mb-6">
                     {/* Logo */}
                     <Link to="/" className="inline-block mb-4">
-                        <img src={logo} alt="OBSOLIO" className="h-16 mx-auto object-contain" />
+                        <img src={theme === 'dark' ? logoDark : logo} alt="OBSOLIO" className="h-16 mx-auto object-contain" />
                     </Link>
                     <h2 className={`text-3xl font-bold mb-2 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
                         Find your workspace
