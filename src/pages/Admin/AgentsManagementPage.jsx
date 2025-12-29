@@ -25,6 +25,7 @@ import adminService from '../../services/adminService';
 import notify from '../../utils/toast';
 import AdminLayout from '../../components/layout/AdminLayout';
 import IconPicker from '../../components/common/IconPicker';
+import AgentFormModal from '../../components/admin/AgentFormModal';
 import { safeFormatNumber } from '../../utils/numberFormatter';
 
 const AgentsManagementPage = () => {
@@ -57,32 +58,8 @@ const AgentsManagementPage = () => {
   // Icon Picker state
   const [showIconPicker, setShowIconPicker] = useState(false);
 
-  // Form state
-  const [formData, setFormData] = useState({
-    name: '',
-    slug: '',
-    description: '',
-    short_description: '',
-    long_description: '',
-    categories: [], // Array of UUIDs
-    is_active: true,
-    is_featured: false,
-    version: '1.0.0',
-    developer: '',
-    website_url: '',
-    documentation_url: '',
-    icon_url: '',
-    pricing_model: 'free',
-    pricing_tier: 'free',
-    hourly_rate: 0,
-    monthly_price: 0,
-    runtime_type: 'cloud',
-    config_schema: '{}', // JSON string
-    capabilities: '{}', // JSON string
-    max_instances: 1,
-    supported_languages: '["en"]', // JSON string
-    extra_configuration: '{}' // JSON string
-  });
+  // Form state - Passed down to Modal now, mostly handled there but we need initial
+  const [modalInitialData, setModalInitialData] = useState(null);
 
   // Stats
   const [stats, setStats] = useState({
@@ -213,8 +190,7 @@ const AgentsManagementPage = () => {
     }
   };
 
-  const handleCreateAgent = async (e) => {
-    e.preventDefault();
+  const handleCreateAgent = async (formData) => {
     setLoading(true);
     try {
       // Parse JSON fields
@@ -232,7 +208,7 @@ const AgentsManagementPage = () => {
       await adminService.createAgent(payload);
       notify.success('Agent created successfully');
       setShowCreateModal(false);
-      resetForm();
+      setModalInitialData(null);
       fetchAgents();
     } catch (error) {
       console.error('Error creating agent:', error);
@@ -246,8 +222,7 @@ const AgentsManagementPage = () => {
     }
   };
 
-  const handleEditAgent = async (e) => {
-    e.preventDefault();
+  const handleEditAgent = async (formData) => {
     setLoading(true);
     try {
       // Parse JSON fields
@@ -266,7 +241,7 @@ const AgentsManagementPage = () => {
       notify.success('Agent updated successfully');
       setShowEditModal(false);
       setSelectedAgent(null);
-      resetForm();
+      setModalInitialData(null);
       fetchAgents();
     } catch (error) {
       console.error('Error updating agent:', error);
@@ -319,39 +294,15 @@ const AgentsManagementPage = () => {
   };
 
   const resetForm = () => {
-    setFormData({
-      name: '',
-      slug: '',
-      description: '',
-      short_description: '',
-      long_description: '',
-      categories: [],
-      is_active: true,
-      is_featured: false,
-      version: '1.0.0',
-      developer: '',
-      website_url: '',
-      documentation_url: '',
-      icon_url: '',
-      pricing_model: 'free',
-      pricing_tier: 'free',
-      hourly_rate: 0,
-      monthly_price: 0,
-      runtime_type: 'cloud',
-      config_schema: '{}',
-      capabilities: '{}',
-      max_instances: 1,
-      supported_languages: '["en"]',
-      extra_configuration: '{}'
-    });
+    setModalInitialData(null);
     setSelectedAgent(null);
   };
 
   const openEditModal = async (agent) => {
-    // 1. Set basic info first (so UI doesn't lag)
+    // 1. Set basic info first
     setSelectedAgent(agent);
 
-    // Initial categories from row data (fallback)
+    // Initial categories
     let initialCategories = [];
     if (agent.categories && Array.isArray(agent.categories)) {
       initialCategories = agent.categories.map(cat => typeof cat === 'object' ? cat.id : cat);
@@ -359,7 +310,7 @@ const AgentsManagementPage = () => {
       initialCategories = [agent.category_id];
     }
 
-    setFormData({
+    const initialData = {
       name: agent.name,
       slug: agent.slug,
       description: agent.description || '',
@@ -373,25 +324,26 @@ const AgentsManagementPage = () => {
       website_url: agent.website_url || '',
       documentation_url: agent.documentation_url || '',
       icon_url: agent.icon_url || '',
-      pricing_model: agent.pricing_model || agent.price_model || 'free', // Fallback to price_model
+      pricing_model: agent.pricing_model || agent.price_model || 'free',
       pricing_tier: agent.pricing_tier || 'free',
       hourly_rate: agent.hourly_rate || 0,
       monthly_price: agent.monthly_price || 0,
       runtime_type: agent.runtime_type || 'cloud',
-      config_schema: typeof agent.config_schema === 'object' ? JSON.stringify(agent.config_schema, null, 2) : (agent.config_schema || '{}'),
-      capabilities: typeof agent.capabilities === 'object' ? JSON.stringify(agent.capabilities, null, 2) : (agent.capabilities || '{}'),
+      config_schema: agent.config_schema, // Pass as object if object
+      capabilities: agent.capabilities,
       max_instances: agent.max_instances || 1,
-      supported_languages: typeof agent.supported_languages === 'object' ? JSON.stringify(agent.supported_languages) : (agent.supported_languages || '["en"]'),
-      extra_configuration: typeof agent.extra_configuration === 'object' ? JSON.stringify(agent.extra_configuration, null, 2) : (agent.extra_configuration || '{}')
-    });
+      supported_languages: agent.supported_languages,
+      extra_configuration: agent.extra_configuration
+    };
 
+    setModalInitialData(initialData);
     setShowEditModal(true);
 
-    // 2. Fetch fresh categories from endpoint
+    // 2. Fetch fresh categories
     try {
       const freshCategories = await adminService.getAgentCategoriesById(agent.id);
       if (freshCategories && Array.isArray(freshCategories)) {
-        setFormData(prev => ({
+        setModalInitialData(prev => ({
           ...prev,
           categories: freshCategories.map(c => c.id)
         }));
@@ -443,7 +395,10 @@ const AgentsManagementPage = () => {
             </p>
           </div>
           <button
-            onClick={() => setShowCreateModal(true)}
+            onClick={() => {
+              setModalInitialData(null);
+              setShowCreateModal(true);
+            }}
             className="px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg font-medium hover:shadow-lg transition-all flex items-center space-x-2"
           >
             <Plus className="w-5 h-5" />
@@ -719,379 +674,56 @@ const AgentsManagementPage = () => {
         </div>
 
         {/* Create/Edit Modal */}
-        {(showCreateModal || showEditModal) && (
-          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-            <div className={`w-full max-w-4xl rounded-xl max-h-[90vh] overflow-y-auto ${theme === 'dark' ? 'bg-gray-800' : 'bg-white'}`}>
-              <div className="sticky top-0 z-10 flex items-center justify-between p-5 border-b border-gray-700 bg-inherit rounded-t-xl">
-                <h2 className={`text-xl font-semibold ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
-                  {showCreateModal ? 'Create New Agent' : 'Edit Agent'}
-                </h2>
-                <button
-                  onClick={() => {
-                    setShowCreateModal(false);
-                    setShowEditModal(false);
-                    resetForm();
-                  }}
-                  className={`p-2 rounded-lg transition-colors ${theme === 'dark'
-                    ? 'hover:bg-gray-700 text-gray-400'
-                    : 'hover:bg-slate-100 text-slate-400'
-                    }`}
-                >
-                  <X className="w-5 h-5" />
-                </button>
-              </div>
+        <AgentFormModal
+          isOpen={showCreateModal || showEditModal}
+          onClose={() => {
+            setShowCreateModal(false);
+            setShowEditModal(false);
+            setModalInitialData(null);
+          }}
+          onSubmit={showEditModal ? handleEditAgent : handleCreateAgent}
+          initialData={modalInitialData}
+          categories={categories}
+          loading={loading}
+        />
 
-              <form onSubmit={showCreateModal ? handleCreateAgent : handleEditAgent} className="p-5 space-y-6">
-
-                {/* Basic Information */}
-                <div className="space-y-4">
-                  <h3 className={`text-lg font-medium ${theme === 'dark' ? 'text-white' : 'text-slate-900'} border-b border-gray-700 pb-2`}>
-                    Basic Information
-                  </h3>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                        Name *
-                      </label>
-                      <input
-                        type="text"
-                        required
-                        value={formData.name}
-                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        className={`w-full px-4 py-2 rounded-lg border ${theme === 'dark'
-                          ? 'bg-gray-900 border-gray-700 text-white'
-                          : 'bg-white border-slate-300 text-slate-900'
-                          } focus:outline-none focus:ring-2 focus:ring-purple-500`}
-                      />
-                    </div>
-                    <div>
-                      <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                        Slug *
-                      </label>
-                      <input
-                        type="text"
-                        required
-                        value={formData.slug}
-                        onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
-                        className={`w-full px-4 py-2 rounded-lg border ${theme === 'dark'
-                          ? 'bg-gray-900 border-gray-700 text-white'
-                          : 'bg-white border-slate-300 text-slate-900'
-                          } focus:outline-none focus:ring-2 focus:ring-purple-500`}
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                      Short Description
-                    </label>
-                    <input
-                      type="text"
-                      value={formData.short_description}
-                      onChange={(e) => setFormData({ ...formData, short_description: e.target.value })}
-                      className={`w-full px-4 py-2 rounded-lg border ${theme === 'dark'
-                        ? 'bg-gray-900 border-gray-700 text-white'
-                        : 'bg-white border-slate-300 text-slate-900'
-                        } focus:outline-none focus:ring-2 focus:ring-purple-500`}
-                    />
-                  </div>
-
-                  <div>
-                    <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                      Long Description
-                    </label>
-                    <textarea
-                      rows={4}
-                      value={formData.long_description}
-                      onChange={(e) => setFormData({ ...formData, long_description: e.target.value })}
-                      className={`w-full px-4 py-2 rounded-lg border ${theme === 'dark'
-                        ? 'bg-gray-900 border-gray-700 text-white'
-                        : 'bg-white border-slate-300 text-slate-900'
-                        } focus:outline-none focus:ring-2 focus:ring-purple-500`}
-                    />
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                        Categories
-                      </label>
-                      <div className={`p-3 rounded-lg border ${theme === 'dark' ? 'bg-gray-900 border-gray-700' : 'bg-white border-slate-300'
-                        }`}>
-                        <div className="mb-2 flex flex-wrap gap-2">
-                          {formData.categories.map(catId => {
-                            const cat = categories.find(c => c.id === catId);
-                            return (
-                              <span key={catId} className="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-purple-500/20 text-purple-400 border border-purple-500/30">
-                                {cat ? cat.name : 'Unknown'}
-                                <button
-                                  type="button"
-                                  onClick={() => setFormData({
-                                    ...formData,
-                                    categories: formData.categories.filter(id => id !== catId)
-                                  })}
-                                  className="ml-1 hover:text-white"
-                                >
-                                  <X className="w-3 h-3" />
-                                </button>
-                              </span>
-                            );
-                          })}
-                        </div>
-                        <select
-                          value=""
-                          onChange={(e) => {
-                            if (e.target.value && !formData.categories.includes(e.target.value)) {
-                              setFormData({
-                                ...formData,
-                                categories: [...formData.categories, e.target.value]
-                              });
-                            }
-                          }}
-                          className={`w-full bg-transparent border-none focus:ring-0 p-0 text-sm cursor-pointer ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'
-                            }`}
-                        >
-                          <option value="" className={theme === 'dark' ? 'bg-gray-800' : 'bg-white'}>+ Add category...</option>
-                          {categories.map(cat => (
-                            <option
-                              key={cat.id}
-                              value={cat.id}
-                              disabled={formData.categories.includes(cat.id)}
-                              className={theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-white text-slate-900'}
-                            >
-                              {cat.name}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-                    </div>
-
-                    <div>
-                      <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                        Icon
-                      </label>
-                      <div className="flex space-x-2">
-                        <div className={`w-10 h-10 rounded border flex items-center justify-center overflow-hidden ${theme === 'dark' ? 'border-gray-700 bg-gray-900' : 'border-slate-300 bg-white'
-                          }`}>
-                          {formData.icon_url ? (
-                            <img src={formData.icon_url} alt="Icon" className="w-full h-full object-cover" />
-                          ) : (
-                            <span className="text-xs text-gray-500">No Icon</span>
-                          )}
-                        </div>
-                        <input
-                          type="text"
-                          readOnly
-                          value={formData.icon_url}
-                          className={`flex-1 px-4 py-2 rounded-lg border ${theme === 'dark'
-                            ? 'bg-gray-900 border-gray-700 text-white'
-                            : 'bg-white border-slate-300 text-slate-900'
-                            } focus:outline-none focus:ring-2 focus:ring-purple-500`}
-                          placeholder="Select an icon..."
-                        />
-                        <button
-                          type="button"
-                          onClick={() => setShowIconPicker(true)}
-                          className={`px-4 py-2 rounded-lg border ${theme === 'dark'
-                            ? 'border-gray-600 hover:bg-gray-700 text-gray-300'
-                            : 'border-slate-300 hover:bg-slate-100 text-slate-600'
-                            }`}
-                        >
-                          Choose
-                        </button>
-                      </div>
-                    </div>
-                  </div>
+        {/* Delete Confirmation Modal */}
+        {showDeleteModal && selectedAgent && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+            <div className={`w-full max-w-md rounded-2xl shadow-xl p-6 ${theme === 'dark' ? 'bg-gray-900 border border-gray-800' : 'bg-white'}`}>
+              <div className="text-center mb-6">
+                <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Trash2 className="w-8 h-8 text-red-600" />
                 </div>
-
-                {/* Configuration */}
-                <div className="space-y-4">
-                  <h3 className={`text-lg font-medium ${theme === 'dark' ? 'text-white' : 'text-slate-900'} border-b border-gray-700 pb-2`}>
-                    Configuration & Schema
-                  </h3>
-
-                  <div>
-                    <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                      Config Schema (JSON)
-                    </label>
-                    <div className="relative">
-                      <Code className={`absolute left-3 top-3 w-4 h-4 ${theme === 'dark' ? 'text-gray-500' : 'text-gray-400'}`} />
-                      <textarea
-                        rows={4}
-                        value={formData.config_schema}
-                        onChange={(e) => setFormData({ ...formData, config_schema: e.target.value })}
-                        className={`w-full pl-10 pr-4 py-2 rounded-lg border font-mono text-sm ${theme === 'dark'
-                          ? 'bg-gray-900 border-gray-700 text-gray-300'
-                          : 'bg-white border-slate-300 text-slate-800'
-                          } focus:outline-none focus:ring-2 focus:ring-purple-500`}
-                        spellCheck="false"
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                      Extra Configuration (JSON)
-                    </label>
-                    <div className="relative">
-                      <Code className={`absolute left-3 top-3 w-4 h-4 ${theme === 'dark' ? 'text-gray-500' : 'text-gray-400'}`} />
-                      <textarea
-                        rows={4}
-                        value={formData.extra_configuration}
-                        onChange={(e) => setFormData({ ...formData, extra_configuration: e.target.value })}
-                        className={`w-full pl-10 pr-4 py-2 rounded-lg border font-mono text-sm ${theme === 'dark'
-                          ? 'bg-gray-900 border-gray-700 text-gray-300'
-                          : 'bg-white border-slate-300 text-slate-800'
-                          } focus:outline-none focus:ring-2 focus:ring-purple-500`}
-                        spellCheck="false"
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                {/* Pricing & Limits */}
-                <div className="space-y-4">
-                  <h3 className={`text-lg font-medium ${theme === 'dark' ? 'text-white' : 'text-slate-900'} border-b border-gray-700 pb-2`}>
-                    Pricing & Limits
-                  </h3>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                        Pricing Model
-                      </label>
-                      <select
-                        value={formData.pricing_model}
-                        onChange={(e) => setFormData({ ...formData, pricing_model: e.target.value })}
-                        className={`w-full px-4 py-2 rounded-lg border ${theme === 'dark'
-                          ? 'bg-gray-900 border-gray-700 text-white'
-                          : 'bg-white border-slate-300 text-slate-900'
-                          } focus:outline-none focus:ring-2 focus:ring-purple-500`}
-                      >
-                        <option value="free">Free</option>
-                        <option value="subscription">Subscription</option>
-                        <option value="usage">Usage Based</option>
-                        <option value="hybrid">Hybrid</option>
-                      </select>
-                    </div>
-
-                    <div>
-                      <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                        Monthly Price ($)
-                      </label>
-                      <input
-                        type="number"
-                        min="0"
-                        step="0.01"
-                        value={formData.monthly_price}
-                        onChange={(e) => setFormData({ ...formData, monthly_price: parseFloat(e.target.value) })}
-                        className={`w-full px-4 py-2 rounded-lg border ${theme === 'dark'
-                          ? 'bg-gray-900 border-gray-700 text-white'
-                          : 'bg-white border-slate-300 text-slate-900'
-                          } focus:outline-none focus:ring-2 focus:ring-purple-500`}
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex items-center space-x-6 pt-4">
-                  <label className="flex items-center space-x-2 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={formData.is_active}
-                      onChange={(e) => setFormData({ ...formData, is_active: e.target.checked })}
-                      className="w-4 h-4 rounded border-gray-600 text-purple-600 focus:ring-purple-500"
-                    />
-                    <span className={`text-sm ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                      Active
-                    </span>
-                  </label>
-
-                  <label className="flex items-center space-x-2 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={formData.is_featured}
-                      onChange={(e) => setFormData({ ...formData, is_featured: e.target.checked })}
-                      className="w-4 h-4 rounded border-gray-600 text-purple-600 focus:ring-purple-500"
-                    />
-                    <span className={`text-sm ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
-                      Featured
-                    </span>
-                  </label>
-                </div>
-
-                <div className="flex justify-end space-x-3 pt-6 border-t border-gray-700">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setShowCreateModal(false);
-                      setShowEditModal(false);
-                      resetForm();
-                    }}
-                    className={`px-6 py-2 rounded-lg font-medium transition-colors ${theme === 'dark'
-                      ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                      : 'bg-slate-200 text-slate-700 hover:bg-slate-300'
-                      }`}
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="submit"
-                    disabled={loading}
-                    className="px-6 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg font-medium hover:shadow-lg transition-all disabled:opacity-50"
-                  >
-                    {loading ? 'Saving...' : (showCreateModal ? 'Create Agent' : 'Update Agent')}
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
-        )}
-
-        {/* Delete Modal */}
-        {showDeleteModal && (
-          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-            <div className={`w-full max-w-md rounded-xl p-6 ${theme === 'dark' ? 'bg-gray-800' : 'bg-white'}`}>
-              <div className="flex items-center space-x-3 mb-4">
-                <div className="p-3 rounded-full bg-red-500/10 text-red-500">
-                  <Trash2 className="w-6 h-6" />
-                </div>
-                <h3 className={`text-xl font-bold ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
-                  Delete Agent
+                <h3 className={`text-xl font-bold mb-2 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
+                  {statusFilter === 'trash' ? 'Permanently Delete Agent?' : 'Move to Trash?'}
                 </h3>
+                <p className={theme === 'dark' ? 'text-gray-400' : 'text-slate-500'}>
+                  {statusFilter === 'trash'
+                    ? `Are you sure you want to permanently delete "${selectedAgent.name}"? This action cannot be undone.`
+                    : `Are you sure you want to move "${selectedAgent.name}" to the trash? You can restore it later.`}
+                </p>
               </div>
-              <p className={`mb-6 ${theme === 'dark' ? 'text-gray-400' : 'text-slate-600'}`}>
-                Are you sure you want to delete this agent? This action cannot be undone.
-              </p>
-              <div className="flex justify-end space-x-3">
+              <div className="flex space-x-4">
                 <button
                   onClick={() => setShowDeleteModal(false)}
-                  className={`px-4 py-2 rounded-lg font-medium transition-colors ${theme === 'dark'
-                    ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                    : 'bg-slate-200 text-slate-700 hover:bg-slate-300'
+                  className={`flex-1 py-3 rounded-lg font-medium transition-colors ${theme === 'dark'
+                    ? 'bg-gray-800 text-white hover:bg-gray-700'
+                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
                     }`}
                 >
                   Cancel
                 </button>
                 <button
                   onClick={handleDeleteAgent}
-                  disabled={loading}
-                  className="px-4 py-2 bg-red-500 text-white rounded-lg font-medium hover:bg-red-600 transition-colors disabled:opacity-50"
+                  className="flex-1 py-3 bg-red-600 text-white rounded-lg font-medium hover:bg-red-700 transition-colors shadow-lg shadow-red-600/20"
                 >
-                  {loading ? 'Deleting...' : 'Delete'}
+                  {statusFilter === 'trash' ? 'Force Delete' : 'Move to Trash'}
                 </button>
               </div>
             </div>
           </div>
         )}
-
-        {/* Icon Picker Modal */}
-        <IconPicker
-          isOpen={showIconPicker}
-          onClose={() => setShowIconPicker(false)}
-          onSelect={handleIconSelect}
-        />
 
       </div>
     </AdminLayout>
