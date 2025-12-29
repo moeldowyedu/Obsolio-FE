@@ -22,6 +22,12 @@ import N8nWebhookManagementPage from '../pages/Admin/N8nWebhookManagementPage';
 import TenantSettingsPage from '../pages/Settings/TenantSettingsPage';
 import NotFoundPage from '../pages/NotFoundPage';
 
+// New Admin Console Management Pages
+import ConsoleUsersPage from '../pages/Admin/ConsoleUsersPage';
+import OrganizationManagementPage from '../pages/Admin/OrganizationManagementPage';
+import ActiveSubscriptionsPage from '../pages/Admin/ActiveSubscriptionsPage';
+import SubscriptionPlansPage from '../pages/Admin/SubscriptionPlansPage';
+
 const AdminRouter = () => {
     return (
         <Routes>
@@ -121,6 +127,32 @@ const AdminRouter = () => {
             <Route path="/settings" element={
                 <ProtectedRoute requireSystemAdmin>
                     <TenantSettingsPage />
+                </ProtectedRoute>
+            } />
+
+            {/* User & Organization Management */}
+            <Route path="/console-users" element={
+                <ProtectedRoute requireSystemAdmin>
+                    <ConsoleUsersPage />
+                </ProtectedRoute>
+            } />
+
+            <Route path="/organizations" element={
+                <ProtectedRoute requireSystemAdmin>
+                    <OrganizationManagementPage />
+                </ProtectedRoute>
+            } />
+
+            {/* Subscription Management */}
+            <Route path="/active-subscriptions" element={
+                <ProtectedRoute requireSystemAdmin>
+                    <ActiveSubscriptionsPage />
+                </ProtectedRoute>
+            } />
+
+            <Route path="/subscription-plans" element={
+                <ProtectedRoute requireSystemAdmin>
+                    <SubscriptionPlansPage />
                 </ProtectedRoute>
             } />
 

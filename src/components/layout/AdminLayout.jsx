@@ -3,7 +3,8 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
   Building2, Users, CreditCard, Bot, Activity, Plug,
   Settings, LogOut, Menu, X, ChevronDown, LayoutDashboard,
-  FolderTree, ChevronRight, Link2, BarChart3, List, UserCheck, Shield
+  FolderTree, ChevronRight, Link2, BarChart3, List, UserCheck, Shield,
+  UserCog, Building, DollarSign, Package
 } from 'lucide-react';
 import { useAuthStore } from '../../store/authStore';
 import { useTheme } from '../../contexts/ThemeContext';
@@ -364,6 +365,69 @@ const AdminLayout = ({ children }) => {
             >
               <Users className="w-5 h-5 flex-shrink-0" />
               <span className="font-medium whitespace-nowrap">RBAC</span>
+            </Link>
+
+            {/* Divider */}
+            <div className={`my-4 border-t ${theme === 'dark' ? 'border-gray-700' : 'border-slate-200'}`}></div>
+
+            {/* Console Users */}
+            <Link
+              to="/console-users"
+              className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-all ${
+                isActive('/console-users')
+                  ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg'
+                  : theme === 'dark'
+                    ? 'text-gray-400 hover:bg-gray-800 hover:text-white'
+                    : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900'
+              }`}
+            >
+              <UserCog className="w-5 h-5 flex-shrink-0" />
+              <span className="font-medium whitespace-nowrap">Console Users</span>
+            </Link>
+
+            {/* Organizations */}
+            <Link
+              to="/organizations"
+              className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-all ${
+                isActive('/organizations')
+                  ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg'
+                  : theme === 'dark'
+                    ? 'text-gray-400 hover:bg-gray-800 hover:text-white'
+                    : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900'
+              }`}
+            >
+              <Building className="w-5 h-5 flex-shrink-0" />
+              <span className="font-medium whitespace-nowrap">Organizations</span>
+            </Link>
+
+            {/* Active Subscriptions */}
+            <Link
+              to="/active-subscriptions"
+              className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-all ${
+                isActive('/active-subscriptions')
+                  ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg'
+                  : theme === 'dark'
+                    ? 'text-gray-400 hover:bg-gray-800 hover:text-white'
+                    : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900'
+              }`}
+            >
+              <DollarSign className="w-5 h-5 flex-shrink-0" />
+              <span className="font-medium whitespace-nowrap">Active Subscriptions</span>
+            </Link>
+
+            {/* Subscription Plans */}
+            <Link
+              to="/subscription-plans"
+              className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-all ${
+                isActive('/subscription-plans')
+                  ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg'
+                  : theme === 'dark'
+                    ? 'text-gray-400 hover:bg-gray-800 hover:text-white'
+                    : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900'
+              }`}
+            >
+              <Package className="w-5 h-5 flex-shrink-0" />
+              <span className="font-medium whitespace-nowrap">Subscription Plans</span>
             </Link>
           </nav>
         </aside>
