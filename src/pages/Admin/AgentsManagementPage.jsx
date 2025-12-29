@@ -379,6 +379,10 @@ const AgentsManagementPage = () => {
     if (!catIdsOrObjects || !Array.isArray(catIdsOrObjects)) return ['Uncategorized'];
 
     return catIdsOrObjects.map(cat => {
+      // If cat is an object with a name, use it directly (API now returns full objects)
+      if (typeof cat === 'object' && cat.name) return cat.name;
+
+      // Fallback: If it's an object without name (just ID wrapper) or a string ID, look it up
       const id = typeof cat === 'object' ? cat.id : cat;
       const foundCat = categories.find(c => c.id === id);
       return foundCat ? foundCat.name : 'Unknown';
