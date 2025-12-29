@@ -368,7 +368,7 @@ const AgentFormModal = ({ isOpen, onClose, onSubmit, initialData = null, categor
             />
 
             <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-                <div className={`w-full max-w-4xl max-h-[90vh] rounded-2xl shadow-xl flex flex-col ${theme === 'dark' ? 'bg-gray-900 border border-gray-800' : 'bg-white'}`}>
+                <div className={`w-full max-w-5xl h-[90vh] rounded-2xl shadow-xl flex flex-col ${theme === 'dark' ? 'bg-gray-900 border border-gray-800' : 'bg-white'}`}>
 
                     {/* Header */}
                     <div className={`p-6 border-b flex justify-between items-center ${theme === 'dark' ? 'border-gray-800' : 'border-slate-100'}`}>
@@ -395,8 +395,8 @@ const AgentFormModal = ({ isOpen, onClose, onSubmit, initialData = null, categor
                                         key={tab.id}
                                         onClick={() => setActiveTab(tab.id)}
                                         className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-sm font-medium transition-all ${activeTab === tab.id
-                                                ? 'bg-purple-600 text-white shadow-md'
-                                                : `${theme === 'dark' ? 'text-gray-400 hover:bg-gray-800' : 'text-slate-600 hover:bg-slate-100'}`
+                                            ? 'bg-purple-600 text-white shadow-md'
+                                            : `${theme === 'dark' ? 'text-gray-400 hover:bg-gray-800' : 'text-slate-600 hover:bg-slate-100'}`
                                             }`}
                                     >
                                         <tab.icon className="w-5 h-5" />
