@@ -51,14 +51,23 @@ const AgentsManagementPage = () => {
     slug: '',
     category_id: '',
     description: '',
+    long_description: '',
     runtime_type: 'python',
     version: '1.0.0',
     code: '',
     requirements: '',
     config_schema: '{}',
+    capabilities: '{}',
+    supported_languages: '["en"]',
+    price_model: 'free',
+    base_price: 0,
+    monthly_price: '',
+    annual_price: '',
+    execution_timeout_ms: 30000,
     is_active: true,
     is_featured: false,
     icon_url: '',
+    banner_url: '',
     documentation: ''
   });
 
@@ -186,14 +195,26 @@ const AgentsManagementPage = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      await adminService.createAgent(formData);
+      // Parse JSON fields
+      const payload = {
+        ...formData,
+        config_schema: JSON.parse(formData.config_schema || '{}'),
+        capabilities: JSON.parse(formData.capabilities || '{}'),
+        supported_languages: JSON.parse(formData.supported_languages || '["en"]'),
+      };
+
+      await adminService.createAgent(payload);
       notify.success('Agent created successfully');
       setShowCreateModal(false);
       resetForm();
       fetchAgents();
     } catch (error) {
       console.error('Error creating agent:', error);
-      notify.error(error.response?.data?.message || 'Failed to create agent');
+      if (error instanceof SyntaxError) {
+        notify.error('Invalid JSON in Configuration fields');
+      } else {
+        notify.error(error.response?.data?.message || 'Failed to create agent');
+      }
     } finally {
       setLoading(false);
     }
@@ -203,7 +224,15 @@ const AgentsManagementPage = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      await adminService.updateAgent(selectedAgent.id, formData);
+      // Parse JSON fields
+      const payload = {
+        ...formData,
+        config_schema: JSON.parse(formData.config_schema || '{}'),
+        capabilities: JSON.parse(formData.capabilities || '{}'),
+        supported_languages: JSON.parse(formData.supported_languages || '["en"]'),
+      };
+
+      await adminService.updateAgent(selectedAgent.id, payload);
       notify.success('Agent updated successfully');
       setShowEditModal(false);
       setSelectedAgent(null);
@@ -211,7 +240,11 @@ const AgentsManagementPage = () => {
       fetchAgents();
     } catch (error) {
       console.error('Error updating agent:', error);
-      notify.error(error.response?.data?.message || 'Failed to update agent');
+      if (error instanceof SyntaxError) {
+        notify.error('Invalid JSON in Configuration fields');
+      } else {
+        notify.error(error.response?.data?.message || 'Failed to update agent');
+      }
     } finally {
       setLoading(false);
     }
@@ -279,14 +312,23 @@ const AgentsManagementPage = () => {
       slug: agent.slug,
       category_id: agent.category_id || agent.category?.id || '',
       description: agent.description,
+      long_description: agent.long_description || '',
       runtime_type: agent.runtime_type,
       version: agent.version,
       code: agent.code || '',
       requirements: agent.requirements || '',
-      config_schema: agent.config_schema || '{}',
+      config_schema: typeof agent.config_schema === 'object' ? JSON.stringify(agent.config_schema, null, 2) : (agent.config_schema || '{}'),
+      capabilities: typeof agent.capabilities === 'object' ? JSON.stringify(agent.capabilities, null, 2) : (agent.capabilities || '{}'),
+      supported_languages: typeof agent.supported_languages === 'object' ? JSON.stringify(agent.supported_languages, null, 2) : (agent.supported_languages || '["en"]'),
+      price_model: agent.price_model || 'free',
+      base_price: agent.base_price || 0,
+      monthly_price: agent.monthly_price || '',
+      annual_price: agent.annual_price || '',
+      execution_timeout_ms: agent.execution_timeout_ms || 30000,
       is_active: agent.is_active !== undefined ? agent.is_active : (agent.status === 'active'),
       is_featured: agent.is_featured,
       icon_url: agent.icon_url || '',
+      banner_url: agent.banner_url || '',
       documentation: agent.documentation || ''
     });
     setShowEditModal(true);
@@ -303,14 +345,23 @@ const AgentsManagementPage = () => {
       slug: '',
       category_id: '',
       description: '',
+      long_description: '',
       runtime_type: 'python',
       version: '1.0.0',
       code: '',
       requirements: '',
       config_schema: '{}',
+      capabilities: '{}',
+      supported_languages: '["en"]',
+      price_model: 'free',
+      base_price: 0,
+      monthly_price: '',
+      annual_price: '',
+      execution_timeout_ms: 30000,
       is_active: true,
       is_featured: false,
       icon_url: '',
+      banner_url: '',
       documentation: ''
     });
   };
@@ -758,8 +809,8 @@ const AgentsManagementPage = () => {
               </div>
 
               {/* Modal Body - Scrollable */}
-              <form onSubmit={showCreateModal ? handleCreateAgent : handleEditAgent} className="flex flex-col max-h-[calc(90vh-5rem)]">
-                <div className="overflow-y-auto px-6 py-4 space-y-4">
+              <form onSubmit={showCreateModal ? handleCreateAgent : handleEditAgent} className="flex flex-col max-h-[80vh]">
+                <div className="overflow-y-auto px-6 py-4 space-y-4 custom-scrollbar flex-1">
                   {/* Name */}
                   <div>
                     <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
@@ -915,6 +966,23 @@ const AgentsManagementPage = () => {
                     />
                   )}
 
+                  {/* Banner URL */}
+                  <div>
+                    <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
+                      Banner URL
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.banner_url}
+                      onChange={(e) => setFormData({ ...formData, banner_url: e.target.value })}
+                      className={`w-full px-4 py-2 rounded-lg border ${theme === 'dark'
+                        ? 'bg-gray-800 border-white/10 text-white'
+                        : 'bg-white border-slate-200 text-slate-900'
+                        }`}
+                      placeholder="https://..."
+                    />
+                  </div>
+
                   {/* Description */}
                   <div>
                     <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
@@ -922,15 +990,165 @@ const AgentsManagementPage = () => {
                     </label>
                     <textarea
                       required
-                      rows={3}
                       value={formData.description}
                       onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                      rows={3}
                       className={`w-full px-4 py-2 rounded-lg border ${theme === 'dark'
                         ? 'bg-gray-800 border-white/10 text-white'
                         : 'bg-white border-slate-200 text-slate-900'
                         }`}
-                      placeholder="Brief description of what this agent does..."
+                      placeholder="Short description of the agent..."
                     />
+                  </div>
+
+                  {/* Long Description */}
+                  <div>
+                    <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
+                      Long Description
+                    </label>
+                    <textarea
+                      value={formData.long_description}
+                      onChange={(e) => setFormData({ ...formData, long_description: e.target.value })}
+                      rows={5}
+                      className={`w-full px-4 py-2 rounded-lg border ${theme === 'dark'
+                        ? 'bg-gray-800 border-white/10 text-white'
+                        : 'bg-white border-slate-200 text-slate-900'
+                        }`}
+                      placeholder="Detailed description and usage instructions..."
+                    />
+                  </div>
+
+                  {/* Pricing Section */}
+                  <div className={`p-4 rounded-lg border ${theme === 'dark' ? 'bg-gray-800/50 border-white/10' : 'bg-slate-50 border-slate-200'}`}>
+                    <h4 className={`text-sm font-bold mb-4 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>Pricing Configuration</h4>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
+                          Price Model *
+                        </label>
+                        <select
+                          required
+                          value={formData.price_model}
+                          onChange={(e) => setFormData({ ...formData, price_model: e.target.value })}
+                          className={`w-full px-4 py-2 rounded-lg border ${theme === 'dark'
+                            ? 'bg-gray-800 border-white/10 text-white'
+                            : 'bg-white border-slate-200 text-slate-900'
+                            }`}
+                        >
+                          <option value="free">Free</option>
+                          <option value="one_time">One Time</option>
+                          <option value="subscription">Subscription</option>
+                          <option value="usage_based">Usage Based</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
+                          Base Price
+                        </label>
+                        <input
+                          type="number"
+                          min="0"
+                          step="0.01"
+                          value={formData.base_price}
+                          onChange={(e) => setFormData({ ...formData, base_price: parseFloat(e.target.value) || 0 })}
+                          className={`w-full px-4 py-2 rounded-lg border ${theme === 'dark'
+                            ? 'bg-gray-800 border-white/10 text-white'
+                            : 'bg-white border-slate-200 text-slate-900'
+                            }`}
+                        />
+                      </div>
+                      {formData.price_model === 'subscription' && (
+                        <>
+                          <div>
+                            <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
+                              Monthly Price
+                            </label>
+                            <input
+                              type="number"
+                              min="0"
+                              step="0.01"
+                              value={formData.monthly_price}
+                              onChange={(e) => setFormData({ ...formData, monthly_price: parseFloat(e.target.value) || '' })}
+                              className={`w-full px-4 py-2 rounded-lg border ${theme === 'dark'
+                                ? 'bg-gray-800 border-white/10 text-white'
+                                : 'bg-white border-slate-200 text-slate-900'
+                                }`}
+                            />
+                          </div>
+                          <div>
+                            <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
+                              Annual Price
+                            </label>
+                            <input
+                              type="number"
+                              min="0"
+                              step="0.01"
+                              value={formData.annual_price}
+                              onChange={(e) => setFormData({ ...formData, annual_price: parseFloat(e.target.value) || '' })}
+                              className={`w-full px-4 py-2 rounded-lg border ${theme === 'dark'
+                                ? 'bg-gray-800 border-white/10 text-white'
+                                : 'bg-white border-slate-200 text-slate-900'
+                                }`}
+                            />
+                          </div>
+                        </>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Advanced Configuration */}
+                  <div className={`p-4 rounded-lg border ${theme === 'dark' ? 'bg-gray-800/50 border-white/10' : 'bg-slate-50 border-slate-200'}`}>
+                    <h4 className={`text-sm font-bold mb-4 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>Execution & Configuration</h4>
+
+                    <div className="space-y-4">
+                      <div>
+                        <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
+                          Execution Timeout (ms)
+                        </label>
+                        <input
+                          type="number"
+                          value={formData.execution_timeout_ms}
+                          onChange={(e) => setFormData({ ...formData, execution_timeout_ms: parseInt(e.target.value) || 30000 })}
+                          className={`w-full px-4 py-2 rounded-lg border ${theme === 'dark'
+                            ? 'bg-gray-800 border-white/10 text-white'
+                            : 'bg-white border-slate-200 text-slate-900'
+                            }`}
+                        />
+                      </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
+                            Capabilities (JSON)
+                          </label>
+                          <textarea
+                            value={formData.capabilities}
+                            onChange={(e) => setFormData({ ...formData, capabilities: e.target.value })}
+                            rows={3}
+                            className={`w-full px-4 py-2 rounded-lg border font-mono text-xs ${theme === 'dark'
+                              ? 'bg-gray-800 border-white/10 text-white'
+                              : 'bg-white border-slate-200 text-slate-900'
+                              }`}
+                            placeholder="{}"
+                          />
+                        </div>
+                        <div>
+                          <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
+                            Supported Languages (JSON Array)
+                          </label>
+                          <textarea
+                            value={formData.supported_languages}
+                            onChange={(e) => setFormData({ ...formData, supported_languages: e.target.value })}
+                            rows={3}
+                            className={`w-full px-4 py-2 rounded-lg border font-mono text-xs ${theme === 'dark'
+                              ? 'bg-gray-800 border-white/10 text-white'
+                              : 'bg-white border-slate-200 text-slate-900'
+                              }`}
+                            placeholder='["en"]'
+                          />
+                        </div>
+                      </div>
+                    </div>
                   </div>
 
                   {/* Checkboxes */}
