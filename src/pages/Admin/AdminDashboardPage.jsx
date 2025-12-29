@@ -90,9 +90,9 @@ const AdminDashboardPage = () => {
       : { bg: pal.paleBg, text: pal.paleText, raw: pal.bg }
   }
 
-  // Calculate console users stats
-  const totalConsoleUsers = stats.users?.total || 0
-  const systemAdmins = stats.users?.data?.filter(u => u.role === 'system_admin')?.length || 0
+  // Calculate console users stats (with safe fallbacks to prevent undefined errors)
+  const totalConsoleUsers = (stats.users?.total || stats.users?.meta?.total || 0)
+  const systemAdmins = stats.users?.data?.filter(u => u.role === 'system_admin' || u.is_system_admin)?.length || 0
   const tenantAdmins = stats.users?.data?.filter(u => u.role === 'tenant_admin')?.length || 0
 
   // Build system stats from real data
@@ -117,7 +117,7 @@ const AdminDashboardPage = () => {
     },
     {
       label: 'Console Users',
-      value: totalConsoleUsers.toLocaleString(),
+      value: Number(totalConsoleUsers || 0).toLocaleString(),
       change: `${systemAdmins} admins`,
       trend: 'up',
       icon: UserCog,
@@ -362,21 +362,21 @@ const AdminDashboardPage = () => {
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
               <div className="text-center">
                 <div className={`text-3xl font-bold mb-1 ${textPrimary}`}>
-                  ${((stats.subscriptions.monthly_recurring_revenue || 0) / 100).toLocaleString()}
+                  ${((stats.subscriptions?.monthly_recurring_revenue || 0) / 100).toLocaleString()}
                 </div>
                 <div className={`text-sm font-medium mb-2 ${textSecondary}`}>Monthly Recurring Revenue</div>
                 <div className="text-sm font-semibold text-green-500">MRR</div>
               </div>
               <div className="text-center">
                 <div className={`text-3xl font-bold mb-1 ${textPrimary}`}>
-                  ${((stats.subscriptions.total_revenue || 0) / 100).toLocaleString()}
+                  ${((stats.subscriptions?.total_revenue || 0) / 100).toLocaleString()}
                 </div>
                 <div className={`text-sm font-medium mb-2 ${textSecondary}`}>Total Revenue</div>
                 <div className="text-sm font-semibold text-green-500">All Time</div>
               </div>
               <div className="text-center">
                 <div className={`text-3xl font-bold mb-1 ${textPrimary}`}>
-                  {stats.subscriptions.active_subscriptions || 0}
+                  {stats.subscriptions?.active_subscriptions || 0}
                 </div>
                 <div className={`text-sm font-medium mb-2 ${textSecondary}`}>Active Subscriptions</div>
                 <div className="text-sm font-semibold text-blue-500">Paying</div>
