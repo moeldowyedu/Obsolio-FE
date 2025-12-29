@@ -3,8 +3,8 @@ import {
   Github, Twitter, Linkedin, Mail, MapPin, Phone,
   ExternalLink, Shield, FileText, Activity
 } from 'lucide-react'
-import ObsolioLogo from '../../assets/OBSOLIO-logo-light.png'
-import ObsolioLogoDark from '../../assets/OBSOLIO-logo-new.png'
+import ObsolioLogo from '../../assets/imgs/OBSOLIO-logo-light.png'
+import ObsolioLogoDark from '../../assets/imgs/OBSOLIO-logo-new.png'
 import { useLanguage } from '../../contexts/LanguageContext'
 import { useTheme } from '../../contexts/ThemeContext'
 import { translations } from '../../translations'

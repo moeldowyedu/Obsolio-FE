@@ -6,8 +6,8 @@ import { ArrowRight, Loader, Mail, AlertCircle, Building, User, Sun, Moon } from
 import toast from 'react-hot-toast';
 import tenantLookupService from '../../services/tenantLookupService';
 import { redirectToTenantLogin } from '../../utils/tenantDetection';
-import logo from '../../assets/OBSOLIO-logo-light.png';
-import logoDark from '../../assets/OBSOLIO-logo-new.png';
+import logo from '../../assets/imgs/OBSOLIO-logo-light.png';
+import logoDark from '../../assets/imgs/OBSOLIO-logo-new.png';
 import { useTheme } from '../../contexts/ThemeContext';
 
 const SignInPage = () => {

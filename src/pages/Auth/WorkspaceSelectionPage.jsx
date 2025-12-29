@@ -5,8 +5,8 @@ import { ArrowRight, Building, User, Loader, Sun, Moon } from 'lucide-react';
 import { redirectToTenantLogin } from '../../utils/tenantDetection';
 import { useAuthStore } from '../../store/authStore';
 import tenantLookupService from '../../services/tenantLookupService';
-import logo from '../../assets/OBSOLIO-logo-light.png';
-import logoDark from '../../assets/OBSOLIO-logo-new.png'; // Updated asset name
+import logo from '../../assets/imgs/OBSOLIO-logo-light.png';
+import logoDark from '../../assets/imgs/OBSOLIO-logo-new.png'; // Updated asset name
 import { useTheme } from '../../contexts/ThemeContext';
 
 const WorkspaceSelectionPage = () => {
