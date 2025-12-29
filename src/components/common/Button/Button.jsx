@@ -17,8 +17,8 @@ const Button = ({
   const baseStyles = 'font-medium rounded-lg transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed';
 
   const variants = {
-    primary: 'bg-primary-600 text-white hover:bg-primary-500 active:bg-primary-700 shadow-lg shadow-primary-500/20',
-    secondary: 'bg-white/10 text-white hover:bg-white/20 active:bg-white/5 border border-white/10 backdrop-blur-sm',
+    primary: `bg-brand-blue text-white hover:bg-sky-600 focus:ring-brand-blue shadow-lg shadow-brand-blue/20`,
+    secondary: 'bg-white text-slate-900 border border-slate-200 hover:bg-slate-50 hover:text-brand-blue focus:ring-slate-200',
     outline: 'border-2 border-primary-500 text-primary-400 hover:bg-primary-500/10 active:bg-primary-500/20',
     ghost: 'text-gray-400 hover:text-white hover:bg-white/5 active:bg-white/10',
     danger: 'bg-red-500/10 text-red-400 border border-red-500/20 hover:bg-red-500/20 active:bg-red-500/30',

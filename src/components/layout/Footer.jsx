@@ -3,7 +3,8 @@ import {
   Github, Twitter, Linkedin, Mail, MapPin, Phone,
   ExternalLink, Shield, FileText, Activity
 } from 'lucide-react'
-import ObsolioLogo from '../../assets/imgs/OBSOLIO-logo-cyan.png'
+import ObsolioLogo from '../../assets/OBSOLIO-logo-light.png'
+import ObsolioLogoDark from '../../assets/OBSOLIO-logo-new.png'
 import { useLanguage } from '../../contexts/LanguageContext'
 import { useTheme } from '../../contexts/ThemeContext'
 import { translations } from '../../translations'
@@ -30,7 +31,7 @@ const Footer = () => {
             <Link to="/" className="flex items-center gap-3 group">
               <div className="relative">
                 <div className="absolute inset-0 bg-primary-500/20 blur-lg rounded-full group-hover:bg-primary-500/30 transition-all duration-500"></div>
-                <img src={ObsolioLogo} alt="Obsolio" className="h-12 w-auto relative z-10" />
+                <img src={theme === 'dark' ? ObsolioLogoDark : ObsolioLogo} alt="Obsolio" className="h-12 w-auto relative z-10" />
               </div>
             </Link>
             <p className={`text-sm leading-relaxed max-w-sm ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
@@ -54,7 +55,7 @@ const Footer = () => {
           {/* Product Links */}
           <div>
             <h3 className={`font-bold mb-6 flex items-center gap-2 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
-              <Activity className="w-4 h-4 text-primary-500" />
+              <Activity className="w-4 h-4 text-brand-blue" />
               {t.productTitle || 'Product'}
             </h3>
             <ul className="space-y-4">
@@ -85,7 +86,7 @@ const Footer = () => {
           {/* Company Links */}
           <div>
             <h3 className={`font-bold mb-6 flex items-center gap-2 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
-              <Shield className="w-4 h-4 text-primary-500" />
+              <Shield className="w-4 h-4 text-brand-blue" />
               {t.companyTitle || 'Company'}
             </h3>
             <ul className="space-y-4">
@@ -110,7 +111,7 @@ const Footer = () => {
           {/* Contact Info */}
           <div>
             <h3 className={`font-bold mb-6 flex items-center gap-2 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
-              <Mail className="w-4 h-4 text-primary-500" />
+              <Mail className="w-4 h-4 text-brand-blue" />
               {t.getInTouchTitle || 'Get in Touch'}
             </h3>
             <ul className="space-y-4">

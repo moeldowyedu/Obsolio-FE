@@ -14,8 +14,8 @@ const NotFoundPage = () => {
         {/* Animated Background Elements */}
         {theme === 'dark' && (
           <div className="absolute inset-0 opacity-30 pointer-events-none">
-            <div className="absolute top-1/2 left-1/4 w-96 h-96 bg-primary-500/20 rounded-full blur-[120px] animate-pulse"></div>
-            <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-purple-500/20 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: '1s' }}></div>
+            <div className="absolute top-1/2 left-1/4 w-96 h-96 bg-brand-blue/20 rounded-full blur-[120px] animate-pulse"></div>
+            <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-brand-orange/20 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: '1s' }}></div>
           </div>
         )}
 
@@ -28,14 +28,14 @@ const NotFoundPage = () => {
                 }`}></div>
               <div className={`relative backdrop-blur-md border rounded-full p-8 ${theme === 'dark' ? 'bg-white/5 border-white/10' : 'bg-white border-slate-200 shadow-xl'
                 }`}>
-                <AlertCircle className={`w-24 h-24 ${theme === 'dark' ? 'text-primary-400' : 'text-primary-600'}`} strokeWidth={1.5} />
+                <AlertCircle className={`w-24 h-24 ${theme === 'dark' ? 'text-brand-blue' : 'text-brand-blue'}`} strokeWidth={1.5} />
               </div>
             </div>
           </div>
 
           {/* 404 Heading with Gradient */}
           <h1 className="text-8xl md:text-9xl font-bold mb-6 animate-fade-in">
-            <span className="bg-gradient-to-r from-primary-400 via-cyan-400 to-purple-500 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-brand-blue via-sky-400 to-brand-orange bg-clip-text text-transparent">
               404
             </span>
           </h1>
@@ -57,7 +57,7 @@ const NotFoundPage = () => {
             {/* Primary CTA - Go Home */}
             <Link
               to="/"
-              className="glass-btn-primary group flex items-center gap-3 min-w-[200px] justify-center px-6 py-3 rounded-lg font-semibold bg-primary-600 text-white hover:bg-primary-700 shadow-lg transition-all"
+              className="glass-btn-primary group flex items-center gap-3 min-w-[200px] justify-center px-6 py-3 rounded-lg font-semibold bg-brand-blue text-white hover:bg-sky-600 shadow-lg transition-all"
             >
               <Home className="w-5 h-5" />
               Go Home

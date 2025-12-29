@@ -6,7 +6,8 @@ import { useLanguage } from '../../contexts/LanguageContext'
 import { useTheme } from '../../contexts/ThemeContext'
 import { translations } from '../../translations'
 import NotificationBell from '../common/NotificationBell/NotificationBell'
-import logo from '../../assets/imgs/OBSOLIO-logo-cyan.png'
+import logo from '../../assets/OBSOLIO-logo-light.png'
+import logoDark from '../../assets/OBSOLIO-logo-new.png'
 import { Menu, X, LogIn, Sun, Moon } from 'lucide-react'
 import { getCookie } from '../../utils/cookieUtils'
 
@@ -179,7 +180,7 @@ const Header = () => {
           {/* Logo - Always links to homepage */}
           <Link to="/" className="flex items-center gap-2">
             <img
-              src={logo}
+              src={theme === 'dark' ? logoDark : logo}
               alt="OBSOLIO Logo"
               className={`transition-all duration-500 object-contain ${isScrolled ? 'h-10' : 'h-14'}`}
             />
@@ -204,7 +205,7 @@ const Header = () => {
               <>
                 <Link
                   to="/signin"
-                  className={`hidden sm:flex items-center gap-2 px-4 py-2 border-2 border-primary-500 ${theme === 'dark' ? 'text-primary-400' : 'text-primary-600'} hover:bg-primary-500 hover:text-white font-semibold rounded-lg transition-all`}
+                  className={`hidden sm:flex items-center gap-2 px-4 py-2 border-2 border-brand-blue ${theme === 'dark' ? 'text-primary-400' : 'text-brand-blue'} hover:bg-brand-blue hover:text-white font-semibold rounded-lg transition-all`}
                 >
                   <LogIn className="w-4 h-4" />
                   {t.signIn || 'Sign In'}
@@ -212,7 +213,7 @@ const Header = () => {
 
                 <Link
                   to="/register"
-                  className="bg-primary-600 text-white px-6 py-2.5 rounded-lg font-semibold hover:bg-primary-700 transition-colors hidden sm:inline"
+                  className="bg-brand-blue text-white px-6 py-2.5 rounded-lg font-semibold hover:bg-sky-600 transition-colors hidden sm:inline"
                 >
                   {t.startFreeTrial || 'Start Free Trial'}
                 </Link>
