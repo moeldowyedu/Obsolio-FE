@@ -45,7 +45,7 @@ const TenantsDashboardPage = () => {
       style: 'currency',
       currency: 'USD',
       minimumFractionDigits: 0,
-    }).format(amount);
+    }).format(amount || 0);
   };
 
   const textPrimary = theme === 'dark' ? 'text-white' : 'text-slate-900';
@@ -68,16 +68,17 @@ const TenantsDashboardPage = () => {
     );
   }
 
-  const stats = statistics || {
-    total_tenants: 0,
-    active_tenants: 0,
-    suspended_tenants: 0,
-    trial_tenants: 0,
-    paid_tenants: 0,
-    new_tenants_this_month: 0,
-    revenue_this_month: 0,
-    churn_rate: 0,
-    by_plan: [],
+  // Provide safe defaults for all statistics
+  const stats = {
+    total_tenants: statistics?.total_tenants ?? 0,
+    active_tenants: statistics?.active_tenants ?? 0,
+    suspended_tenants: statistics?.suspended_tenants ?? 0,
+    trial_tenants: statistics?.trial_tenants ?? 0,
+    paid_tenants: statistics?.paid_tenants ?? 0,
+    new_tenants_this_month: statistics?.new_tenants_this_month ?? 0,
+    revenue_this_month: statistics?.revenue_this_month ?? 0,
+    churn_rate: statistics?.churn_rate ?? 0,
+    by_plan: statistics?.by_plan ?? [],
   };
 
   return (
@@ -111,42 +112,42 @@ const TenantsDashboardPage = () => {
           <StatCard
             icon={Users}
             label="Total Tenants"
-            value={stats.total_tenants.toLocaleString()}
+            value={(stats.total_tenants || 0).toLocaleString()}
             color="blue"
           />
 
           <StatCard
             icon={Activity}
             label="Active Tenants"
-            value={stats.active_tenants.toLocaleString()}
+            value={(stats.active_tenants || 0).toLocaleString()}
             color="green"
           />
 
           <StatCard
             icon={Building2}
             label="Suspended Tenants"
-            value={stats.suspended_tenants.toLocaleString()}
+            value={(stats.suspended_tenants || 0).toLocaleString()}
             color="red"
           />
 
           <StatCard
             icon={Clock}
             label="Trial Tenants"
-            value={stats.trial_tenants.toLocaleString()}
+            value={(stats.trial_tenants || 0).toLocaleString()}
             color="yellow"
           />
 
           <StatCard
             icon={DollarSign}
             label="Paid Tenants"
-            value={stats.paid_tenants.toLocaleString()}
+            value={(stats.paid_tenants || 0).toLocaleString()}
             color="purple"
           />
 
           <StatCard
             icon={TrendingUp}
             label="New This Month"
-            value={stats.new_tenants_this_month.toLocaleString()}
+            value={(stats.new_tenants_this_month || 0).toLocaleString()}
             color="teal"
           />
         </div>
@@ -177,7 +178,7 @@ const TenantsDashboardPage = () => {
             </h2>
             <div className="flex items-baseline gap-3">
               <div className={`text-4xl font-bold ${textPrimary}`}>
-                {stats.churn_rate.toFixed(1)}%
+                {(stats.churn_rate || 0).toFixed(1)}%
               </div>
               <div className="flex items-center gap-1 text-green-500 text-sm font-semibold">
                 <TrendingUp className="w-4 h-4" />
