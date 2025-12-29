@@ -256,6 +256,15 @@ const adminService = {
     },
 
     /**
+     * Get categories for a specific agent
+     * @param {string} agentId - Agent UUID
+     */
+    getAgentCategoriesById: async (agentId) => {
+        const response = await api.get(`/admin/agents/${agentId}/categories`);
+        return response.data; // Expecting array of category objects
+    },
+
+    /**
      * Create agent category (to be implemented in backend)
      * @param {Object} data - Category data (name, slug, description, icon, display_order)
      */

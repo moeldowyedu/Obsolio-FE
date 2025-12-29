@@ -17,7 +17,9 @@ import {
   Hash,
   Activity,
   Calendar,
-  Code
+  Code,
+  RotateCcw,
+  Bot
 } from 'lucide-react';
 import adminService from '../../services/adminService';
 import notify from '../../utils/toast';
@@ -223,7 +225,8 @@ const AgentsManagementPage = () => {
         supported_languages: JSON.parse(formData.supported_languages || '["en"]'),
         extra_configuration: JSON.parse(formData.extra_configuration || '{}'),
         categories: formData.categories, // Send as array of UUIDs
-        category_ids: formData.categories // Send as category_ids alias for backend sync compatibility
+        category_ids: formData.categories, // Send as category_ids alias for backend sync compatibility
+        price_model: formData.pricing_model // Map to backend expected field
       };
 
       await adminService.createAgent(payload);
@@ -255,7 +258,8 @@ const AgentsManagementPage = () => {
         supported_languages: JSON.parse(formData.supported_languages || '["en"]'),
         extra_configuration: JSON.parse(formData.extra_configuration || '{}'),
         categories: formData.categories, // Send as array of UUIDs
-        category_ids: formData.categories // Send as category_ids alias for backend sync compatibility
+        category_ids: formData.categories, // Send as category_ids alias for backend sync compatibility
+        price_model: formData.pricing_model // Map to backend expected field
       };
 
       await adminService.updateAgent(selectedAgent.id, payload);
@@ -279,14 +283,36 @@ const AgentsManagementPage = () => {
   const handleDeleteAgent = async () => {
     setLoading(true);
     try {
-      await adminService.deleteAgent(selectedAgent.id);
-      notify.success('Agent deleted successfully');
+      if (statusFilter === 'trash') {
+        // Force Delete
+        await adminService.deleteAgent(selectedAgent.id);
+        notify.success('Agent permanently deleted');
+      } else {
+        // Soft Delete (Move to Trash)
+        await adminService.updateAgent(selectedAgent.id, { status: 'trash' });
+        notify.success('Agent moved to trash');
+      }
       setShowDeleteModal(false);
       setSelectedAgent(null);
       fetchAgents();
     } catch (error) {
       console.error('Error deleting agent:', error);
       notify.error(error.response?.data?.message || 'Failed to delete agent');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleRestoreAgent = async (agent) => {
+    if (!window.confirm('Are you sure you want to restore this agent?')) return;
+    setLoading(true);
+    try {
+      await adminService.updateAgent(agent.id, { status: 'active' });
+      notify.success('Agent restored successfully');
+      fetchAgents();
+    } catch (error) {
+      console.error('Error restoring agent:', error);
+      notify.error('Failed to restore agent');
     } finally {
       setLoading(false);
     }
@@ -321,25 +347,25 @@ const AgentsManagementPage = () => {
     setSelectedAgent(null);
   };
 
-  const openEditModal = (agent) => {
-    // Handle categories (ensure array of IDs)
-    let agentCategories = [];
+  const openEditModal = async (agent) => {
+    // 1. Set basic info first (so UI doesn't lag)
+    setSelectedAgent(agent);
+
+    // Initial categories from row data (fallback)
+    let initialCategories = [];
     if (agent.categories && Array.isArray(agent.categories)) {
-      agentCategories = agent.categories.map(cat =>
-        typeof cat === 'object' ? cat.id : cat
-      );
+      initialCategories = agent.categories.map(cat => typeof cat === 'object' ? cat.id : cat);
     } else if (agent.category_id) {
-      agentCategories = [agent.category_id]; // Fallback
+      initialCategories = [agent.category_id];
     }
 
-    setSelectedAgent(agent);
     setFormData({
       name: agent.name,
       slug: agent.slug,
       description: agent.description || '',
       short_description: agent.short_description || '',
       long_description: agent.long_description || '',
-      categories: agentCategories,
+      categories: initialCategories,
       is_active: agent.is_active || agent.status === 'active',
       is_featured: agent.is_featured || false,
       version: agent.version || '1.0.0',
@@ -347,7 +373,7 @@ const AgentsManagementPage = () => {
       website_url: agent.website_url || '',
       documentation_url: agent.documentation_url || '',
       icon_url: agent.icon_url || '',
-      pricing_model: agent.pricing_model || 'free',
+      pricing_model: agent.pricing_model || agent.price_model || 'free', // Fallback to price_model
       pricing_tier: agent.pricing_tier || 'free',
       hourly_rate: agent.hourly_rate || 0,
       monthly_price: agent.monthly_price || 0,
@@ -358,7 +384,21 @@ const AgentsManagementPage = () => {
       supported_languages: typeof agent.supported_languages === 'object' ? JSON.stringify(agent.supported_languages) : (agent.supported_languages || '["en"]'),
       extra_configuration: typeof agent.extra_configuration === 'object' ? JSON.stringify(agent.extra_configuration, null, 2) : (agent.extra_configuration || '{}')
     });
+
     setShowEditModal(true);
+
+    // 2. Fetch fresh categories from endpoint
+    try {
+      const freshCategories = await adminService.getAgentCategoriesById(agent.id);
+      if (freshCategories && Array.isArray(freshCategories)) {
+        setFormData(prev => ({
+          ...prev,
+          categories: freshCategories.map(c => c.id)
+        }));
+      }
+    } catch (err) {
+      console.error("Failed to fetch latest agent categories", err);
+    }
   };
 
   const openDeleteModal = (agent) => {
@@ -484,6 +524,7 @@ const AgentsManagementPage = () => {
               <option value="all">All Status</option>
               <option value="active">Active</option>
               <option value="inactive">Inactive</option>
+              <option value="trash">Trash</option>
             </select>
 
             {/* Runtime Filter */}
@@ -571,16 +612,21 @@ const AgentsManagementPage = () => {
                       </td>
                       <td className="px-6 py-3">
                         <div className="flex items-center space-x-3">
-                          <img
-                            src={agent.icon_url || 'https://via.placeholder.com/40'}
-                            alt={agent.name}
-                            className="w-10 h-10 rounded-lg object-cover dark:invert transition-opacity duration-300"
-                            loading="lazy"
-                            onError={(e) => {
-                              e.target.src = 'https://via.placeholder.com/40?text=AI';
-                              e.target.className = "w-10 h-10 rounded-lg object-cover grayscale opacity-50";
-                            }}
-                          />
+                          <div className="relative w-10 h-10 flex-shrink-0">
+                            <img
+                              src={agent.icon_url || 'https://via.placeholder.com/40'}
+                              alt={agent.name}
+                              className={`w-full h-full rounded-lg object-cover dark:invert transition-opacity duration-300 ${!agent.icon_url ? 'hidden' : ''}`}
+                              loading="lazy"
+                              onError={(e) => {
+                                e.target.style.display = 'none';
+                                e.target.nextSibling.style.display = 'flex';
+                              }}
+                            />
+                            <div className={`absolute inset-0 w-full h-full rounded-lg bg-gray-200 dark:bg-gray-700 flex items-center justify-center ${agent.icon_url ? 'hidden' : 'flex'}`}>
+                              <Bot className="w-6 h-6 text-gray-500 dark:text-gray-400" />
+                            </div>
+                          </div>
                           <div>
                             <div className={`font-medium ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
                               {agent.name}
@@ -646,9 +692,19 @@ const AgentsManagementPage = () => {
                           >
                             <Edit2 className="w-4 h-4" />
                           </button>
+                          {statusFilter === 'trash' ? (
+                            <button
+                              onClick={() => handleRestoreAgent(agent)}
+                              className="p-2 rounded-lg transition-colors hover:bg-green-500/10 text-green-500"
+                              title="Restore"
+                            >
+                              <RotateCcw className="w-4 h-4" />
+                            </button>
+                          ) : null}
                           <button
                             onClick={() => openDeleteModal(agent)}
                             className="p-2 rounded-lg transition-colors hover:bg-red-500/10 text-red-500"
+                            title={statusFilter === 'trash' ? "Force Delete" : "Move to Trash"}
                           >
                             <Trash2 className="w-4 h-4" />
                           </button>
