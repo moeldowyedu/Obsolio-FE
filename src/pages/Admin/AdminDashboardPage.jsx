@@ -91,9 +91,10 @@ const AdminDashboardPage = () => {
   }
 
   // Calculate console users stats (with safe fallbacks to prevent undefined errors)
-  const totalConsoleUsers = (stats.users?.total || stats.users?.meta?.total || 0)
-  const systemAdmins = stats.users?.data?.filter(u => u.role === 'system_admin' || u.is_system_admin)?.length || 0
-  const tenantAdmins = stats.users?.data?.filter(u => u.role === 'tenant_admin')?.length || 0
+  // Ensure all values are numbers to prevent toLocaleString errors
+  const totalConsoleUsers = Number(stats.users?.total || stats.users?.meta?.total || 0)
+  const systemAdmins = Number(stats.users?.data?.filter(u => u.role === 'system_admin' || u.is_system_admin)?.length || 0)
+  const tenantAdmins = Number(stats.users?.data?.filter(u => u.role === 'tenant_admin')?.length || 0)
 
   // Build system stats from real data
   const systemStats = [
@@ -117,7 +118,7 @@ const AdminDashboardPage = () => {
     },
     {
       label: 'Console Users',
-      value: Number(totalConsoleUsers || 0).toLocaleString(),
+      value: totalConsoleUsers.toLocaleString(),
       change: `${systemAdmins} admins`,
       trend: 'up',
       icon: UserCog,
