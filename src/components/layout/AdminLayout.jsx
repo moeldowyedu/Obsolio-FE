@@ -9,8 +9,8 @@ import {
 import { useAuthStore } from '../../store/authStore';
 import { useTheme } from '../../contexts/ThemeContext';
 import ThemeToggle from '../common/ThemeToggle';
-import logo from '../../assets/imgs/OBSOLIO-logo-cyan.png';
-import logoDark from '../../assets/imgs/OBSOLIO-logo.png'; // Fallback to existing logo as copy failed
+import logo from '../../assets/OBSOLIO-logo-new.png';
+import logoDark from '../../assets/OBSOLIO-logo-new.png';
 
 const AdminLayout = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(true); // true = Expanded (w-64), false = Minimized (w-20)
@@ -184,7 +184,7 @@ const AdminLayout = ({ children }) => {
             <Link
               to="/"
               className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-all ${isActive('/')
-                ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg'
+                ? 'bg-gradient-to-r from-brand-blue to-cyan-500 text-white shadow-lg shadow-brand-blue/20'
                 : 'text-white hover:bg-gray-800'
                 } ${!sidebarOpen ? 'justify-center px-2' : ''}`}
               title={!sidebarOpen ? "Dashboard" : ""}
@@ -204,7 +204,7 @@ const AdminLayout = ({ children }) => {
             <Link
               to="/console-users"
               className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-all ${isActive('/console-users')
-                ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg'
+                ? 'bg-gradient-to-r from-brand-blue to-cyan-500 text-white shadow-lg shadow-brand-blue/20'
                 : 'text-white hover:bg-gray-800'
                 } ${!sidebarOpen ? 'justify-center px-2' : ''}`}
               title={!sidebarOpen ? "Console Users" : ""}
@@ -216,7 +216,7 @@ const AdminLayout = ({ children }) => {
             <Link
               to="/rbac"
               className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-all ${isActive('/rbac')
-                ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg'
+                ? 'bg-gradient-to-r from-brand-blue to-cyan-500 text-white shadow-lg shadow-brand-blue/20'
                 : 'text-white hover:bg-gray-800'
                 } ${!sidebarOpen ? 'justify-center px-2' : ''}`}
               title={!sidebarOpen ? "RBAC" : ""}
@@ -228,7 +228,7 @@ const AdminLayout = ({ children }) => {
             <Link
               to="/impersonation"
               className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-all ${isActive('/impersonation')
-                ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg'
+                ? 'bg-gradient-to-r from-brand-blue to-cyan-500 text-white shadow-lg shadow-brand-blue/20'
                 : 'text-white hover:bg-gray-800'
                 } ${!sidebarOpen ? 'justify-center px-2' : ''}`}
               title={!sidebarOpen ? "Impersonation" : ""}
@@ -250,9 +250,9 @@ const AdminLayout = ({ children }) => {
               <button
                 onClick={() => toggleSection('tenants')}
                 className={`w-full flex items-center justify-between px-4 py-3 rounded-lg transition-all ${(isActive('/tenants') || activeSection === 'tenants') && !sidebarOpen
-                  ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg'
+                  ? 'bg-gradient-to-r from-brand-blue to-cyan-500 text-white shadow-lg shadow-brand-blue/20'
                   : isSectionActive('tenants')
-                    ? 'text-purple-400'
+                    ? 'text-brand-orange'
                     : 'text-white hover:bg-gray-800'
                   } ${!sidebarOpen ? 'justify-center px-2' : ''}`}
                 title={!sidebarOpen ? "Tenants" : ""}
@@ -279,7 +279,7 @@ const AdminLayout = ({ children }) => {
                         key={item.name}
                         to={item.href}
                         className={`flex items-center space-x-3 px-4 py-2.5 rounded-lg transition-all text-sm ${active
-                          ? 'bg-gray-800 text-purple-400 font-medium'
+                          ? 'bg-gray-800 text-brand-orange font-medium border-l-2 border-brand-orange'
                           : 'text-gray-300 hover:bg-gray-800/50 hover:text-white'
                           }`}
                       >
@@ -295,7 +295,7 @@ const AdminLayout = ({ children }) => {
             <Link
               to="/organizations"
               className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-all ${isActive('/organizations')
-                ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg'
+                ? 'bg-gradient-to-r from-brand-blue to-cyan-500 text-white shadow-lg shadow-brand-blue/20'
                 : 'text-white hover:bg-gray-800'
                 } ${!sidebarOpen ? 'justify-center px-2' : ''}`}
               title={!sidebarOpen ? "Organizations" : ""}
@@ -317,9 +317,9 @@ const AdminLayout = ({ children }) => {
               <button
                 onClick={() => toggleSection('subscriptions')}
                 className={`w-full flex items-center justify-between px-4 py-3 rounded-lg transition-all ${(isActive('/subscriptions') || activeSection === 'subscriptions') && !sidebarOpen
-                  ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg'
+                  ? 'bg-gradient-to-r from-brand-blue to-cyan-500 text-white shadow-lg shadow-brand-blue/20'
                   : isSectionActive('subscriptions')
-                    ? 'text-purple-400'
+                    ? 'text-brand-orange'
                     : 'text-white hover:bg-gray-800'
                   } ${!sidebarOpen ? 'justify-center px-2' : ''}`}
                 title={!sidebarOpen ? "Subscriptions" : ""}
@@ -346,7 +346,7 @@ const AdminLayout = ({ children }) => {
                         key={item.name}
                         to={item.href}
                         className={`flex items-center space-x-3 px-4 py-2.5 rounded-lg transition-all text-sm ${active
-                          ? 'bg-gray-800 text-purple-400 font-medium'
+                          ? 'bg-gray-800 text-brand-orange font-medium border-l-2 border-brand-orange'
                           : 'text-gray-300 hover:bg-gray-800/50 hover:text-white'
                           }`}
                       >
@@ -372,9 +372,9 @@ const AdminLayout = ({ children }) => {
               <button
                 onClick={() => toggleSection('agents')}
                 className={`w-full flex items-center justify-between px-4 py-3 rounded-lg transition-all ${(isActive('/agents') || activeSection === 'agents') && !sidebarOpen
-                  ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg'
+                  ? 'bg-gradient-to-r from-brand-blue to-cyan-500 text-white shadow-lg shadow-brand-blue/20'
                   : isSectionActive('agents')
-                    ? 'text-purple-400'
+                    ? 'text-brand-orange'
                     : 'text-white hover:bg-gray-800'
                   } ${!sidebarOpen ? 'justify-center px-2' : ''}`}
                 title={!sidebarOpen ? "Agents" : ""}
@@ -401,7 +401,7 @@ const AdminLayout = ({ children }) => {
                         key={item.name}
                         to={item.href}
                         className={`flex items-center space-x-3 px-4 py-2.5 rounded-lg transition-all text-sm ${active
-                          ? 'bg-gray-800 text-purple-400 font-medium'
+                          ? 'bg-gray-800 text-brand-orange font-medium border-l-2 border-brand-orange'
                           : 'text-gray-300 hover:bg-gray-800/50 hover:text-white'
                           }`}
                       >
@@ -425,7 +425,7 @@ const AdminLayout = ({ children }) => {
             <Link
               to="/integrations"
               className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-all ${isActive('/integrations')
-                ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg'
+                ? 'bg-gradient-to-r from-brand-blue to-cyan-500 text-white shadow-lg shadow-brand-blue/20'
                 : 'text-white hover:bg-gray-800'
                 } ${!sidebarOpen ? 'justify-center px-2' : ''}`}
               title={!sidebarOpen ? "Integrations" : ""}
@@ -437,7 +437,7 @@ const AdminLayout = ({ children }) => {
             <Link
               to="/analytics"
               className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-all ${isActive('/analytics')
-                ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg'
+                ? 'bg-gradient-to-r from-brand-blue to-cyan-500 text-white shadow-lg shadow-brand-blue/20'
                 : 'text-white hover:bg-gray-800'
                 } ${!sidebarOpen ? 'justify-center px-2' : ''}`}
               title={!sidebarOpen ? "Analytics" : ""}
@@ -449,7 +449,7 @@ const AdminLayout = ({ children }) => {
             <Link
               to="/audit-logs"
               className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-all ${isActive('/audit-logs')
-                ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg'
+                ? 'bg-gradient-to-r from-brand-blue to-cyan-500 text-white shadow-lg shadow-brand-blue/20'
                 : 'text-white hover:bg-gray-800'
                 } ${!sidebarOpen ? 'justify-center px-2' : ''}`}
               title={!sidebarOpen ? "Audit Logs" : ""}

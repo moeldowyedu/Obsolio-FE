@@ -9,18 +9,22 @@ export default {
 		extend: {
 			colors: {
 				primary: {
-					'50': '#F0FDFA',
-					'100': '#CCFBF1',
-					'200': '#99F6E4',
-					'300': '#5EEAD4',
-					'400': '#2DD4BF',
-					'500': '#14B8A6',
-					'600': '#0D9488',
-					'700': '#0F766E',
-					'800': '#115E59',
-					'900': '#134E4A',
-					DEFAULT: 'hsl(var(--primary))',
-					foreground: 'hsl(var(--primary-foreground))'
+					'50': '#f0f9ff',
+					'100': '#e0f2fe',
+					'200': '#bae6fd',
+					'300': '#7dd3fc',
+					'400': '#38bdf8',
+					'500': '#2A94C7', // Brand Blue
+					'600': '#0284c7',
+					'700': '#0369a1',
+					'800': '#075985',
+					'900': '#0c4a6e',
+					DEFAULT: '#2A94C7',
+					foreground: '#ffffff'
+				},
+				brand: {
+					blue: '#2A94C7',
+					orange: '#FFC31F'
 				},
 				secondary: {
 					'50': '#f8fafc',

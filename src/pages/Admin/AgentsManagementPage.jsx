@@ -193,18 +193,34 @@ const AgentsManagementPage = () => {
   const handleCreateAgent = async (formData) => {
     setLoading(true);
     try {
-      // Parse JSON fields
+      // Parse JSON fields and construct clean payload
       const payload = {
-        ...formData,
+        name: formData.name,
+        slug: formData.slug,
+        short_description: formData.short_description,
+        long_description: formData.long_description,
+        is_active: formData.is_active,
+        is_featured: formData.is_featured,
+        version: formData.version,
+        developer: formData.developer,
+        website_url: formData.website_url,
+        documentation_url: formData.documentation_url,
+        icon_url: formData.icon_url,
+        // Map pricing fields
+        price_model: formData.pricing_model,
+        monthly_price: formData.monthly_price,
+        hourly_rate: formData.hourly_rate,
+        runtime_type: formData.runtime_type,
+        // Categories - send only IDs
+        category_ids: formData.categories,
+        // JSON Configurations
         config_schema: JSON.parse(formData.config_schema || '{}'),
         capabilities: JSON.parse(formData.capabilities || '{}'),
         supported_languages: JSON.parse(formData.supported_languages || '["en"]'),
         extra_configuration: JSON.parse(formData.extra_configuration || '{}'),
-        categories: formData.categories, // Send as array of UUIDs
-        category_ids: formData.categories, // Send as category_ids alias for backend sync compatibility
-        price_model: formData.pricing_model // Map to backend expected field
       };
 
+      console.log('Creating Agent Payload:', payload);
       await adminService.createAgent(payload);
       notify.success('Agent created successfully');
       setShowCreateModal(false);
@@ -225,18 +241,34 @@ const AgentsManagementPage = () => {
   const handleEditAgent = async (formData) => {
     setLoading(true);
     try {
-      // Parse JSON fields
+      // Parse JSON fields and construct clean payload
       const payload = {
-        ...formData,
+        name: formData.name,
+        slug: formData.slug,
+        short_description: formData.short_description,
+        long_description: formData.long_description,
+        is_active: formData.is_active,
+        is_featured: formData.is_featured,
+        version: formData.version,
+        developer: formData.developer,
+        website_url: formData.website_url,
+        documentation_url: formData.documentation_url,
+        icon_url: formData.icon_url,
+        // Map pricing fields
+        price_model: formData.pricing_model,
+        monthly_price: formData.monthly_price,
+        hourly_rate: formData.hourly_rate,
+        runtime_type: formData.runtime_type,
+        // Categories - send only IDs
+        category_ids: formData.categories,
+        // JSON Configurations
         config_schema: JSON.parse(formData.config_schema || '{}'),
         capabilities: JSON.parse(formData.capabilities || '{}'),
         supported_languages: JSON.parse(formData.supported_languages || '["en"]'),
         extra_configuration: JSON.parse(formData.extra_configuration || '{}'),
-        categories: formData.categories, // Send as array of UUIDs
-        category_ids: formData.categories, // Send as category_ids alias for backend sync compatibility
-        price_model: formData.pricing_model // Map to backend expected field
       };
 
+      console.log('Updating Agent Payload:', payload);
       await adminService.updateAgent(selectedAgent.id, payload);
       notify.success('Agent updated successfully');
       setShowEditModal(false);
@@ -248,6 +280,7 @@ const AgentsManagementPage = () => {
       if (error instanceof SyntaxError) {
         notify.error('Invalid JSON in Configuration fields');
       } else {
+
         notify.error(error.response?.data?.message || 'Failed to update agent');
       }
     } finally {

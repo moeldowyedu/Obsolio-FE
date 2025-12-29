@@ -102,8 +102,18 @@ const AgentFormModal = ({ isOpen, onClose, onSubmit, initialData = null, categor
                                     type="text"
                                     required
                                     value={formData.name}
-                                    onChange={e => setFormData({ ...formData, name: e.target.value })}
-                                    className={`w-full px-4 py-2 rounded-lg border ${theme === 'dark' ? 'bg-gray-800 border-gray-700 text-white' : 'bg-white border-slate-300'} focus:ring-2 focus:ring-purple-500`}
+                                    onChange={e => {
+                                        const newName = e.target.value;
+                                        setFormData({
+                                            ...formData,
+                                            name: newName,
+                                            // Auto-generate slug if it's a new agent or if the user hasn't heavily modified it
+                                            // For simplicity, we'll always auto-gen locally unless we want more complex logic.
+                                            // User request implies direct binding.
+                                            slug: newName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '')
+                                        });
+                                    }}
+                                    className={`w-full px-4 py-2 rounded-lg border ${theme === 'dark' ? 'bg-gray-800 border-gray-700 text-white' : 'bg-white border-slate-300'} focus:ring-2 focus:ring-brand-blue`}
                                 />
                             </div>
                             <div>
@@ -142,7 +152,7 @@ const AgentFormModal = ({ isOpen, onClose, onSubmit, initialData = null, categor
                                     type="checkbox"
                                     checked={formData.is_active}
                                     onChange={(e) => setFormData({ ...formData, is_active: e.target.checked })}
-                                    className="rounded text-purple-600 focus:ring-purple-500"
+                                    className="rounded text-brand-blue focus:ring-brand-blue"
                                 />
                                 <span className={theme === 'dark' ? 'text-white' : 'text-slate-900'}>Active</span>
                             </label>
@@ -151,7 +161,7 @@ const AgentFormModal = ({ isOpen, onClose, onSubmit, initialData = null, categor
                                     type="checkbox"
                                     checked={formData.is_featured}
                                     onChange={(e) => setFormData({ ...formData, is_featured: e.target.checked })}
-                                    className="rounded text-purple-600 focus:ring-purple-500"
+                                    className="rounded text-brand-blue focus:ring-brand-blue"
                                 />
                                 <span className={theme === 'dark' ? 'text-white' : 'text-slate-900'}>Featured</span>
                             </label>
@@ -183,7 +193,7 @@ const AgentFormModal = ({ isOpen, onClose, onSubmit, initialData = null, categor
                                         <button
                                             type="button"
                                             onClick={() => setShowIconPicker(true)}
-                                            className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700"
+                                            className="px-4 py-2 bg-brand-blue text-white rounded-lg hover:bg-sky-600"
                                         >
                                             Browse
                                         </button>
@@ -242,7 +252,7 @@ const AgentFormModal = ({ isOpen, onClose, onSubmit, initialData = null, categor
                                     {formData.categories.map(catId => {
                                         const cat = categories.find(c => c.id === catId);
                                         return (
-                                            <span key={catId} className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800 dark:bg-purple-900/40 dark:text-purple-300 border border-purple-200 dark:border-purple-700">
+                                            <span key={catId} className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-sky-100 text-sky-800 dark:bg-sky-900/40 dark:text-sky-300 border border-sky-200 dark:border-sky-700">
                                                 {cat ? cat.name : 'Unknown'}
                                                 <button
                                                     type="button"
@@ -395,7 +405,7 @@ const AgentFormModal = ({ isOpen, onClose, onSubmit, initialData = null, categor
                                         key={tab.id}
                                         onClick={() => setActiveTab(tab.id)}
                                         className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-sm font-medium transition-all ${activeTab === tab.id
-                                            ? 'bg-purple-600 text-white shadow-md'
+                                            ? 'bg-brand-blue text-white shadow-md'
                                             : `${theme === 'dark' ? 'text-gray-400 hover:bg-gray-800' : 'text-slate-600 hover:bg-slate-100'}`
                                             }`}
                                     >
@@ -420,7 +430,7 @@ const AgentFormModal = ({ isOpen, onClose, onSubmit, initialData = null, categor
                         <button
                             onClick={handleSubmit}
                             disabled={loading}
-                            className="px-6 py-2 bg-purple-600 text-white rounded-lg font-medium hover:bg-purple-700 shadow-lg shadow-purple-600/20 flex items-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="px-6 py-2 bg-brand-blue text-white rounded-lg font-medium hover:bg-sky-600 shadow-lg shadow-brand-blue/20 flex items-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                             {loading ? (
                                 <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
