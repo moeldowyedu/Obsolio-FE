@@ -376,7 +376,7 @@ const AgentsManagementPage = () => {
 
   // Helper for category display
   const getCategoryNames = (catIdsOrObjects) => {
-    if (!catIdsOrObjects || !Array.isArray(catIdsOrObjects)) return 'Uncategorized';
+    if (!catIdsOrObjects || !Array.isArray(catIdsOrObjects)) return ['Uncategorized'];
 
     return catIdsOrObjects.map(cat => {
       const id = typeof cat === 'object' ? cat.id : cat;
@@ -462,8 +462,8 @@ const AgentsManagementPage = () => {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className={`w-full pl-10 pr-4 py-2 rounded-lg border ${theme === 'dark'
-                    ? 'bg-gray-900 border-gray-700 text-white placeholder-gray-500'
-                    : 'bg-white border-slate-300 text-slate-900 placeholder-slate-400'
+                  ? 'bg-gray-900 border-gray-700 text-white placeholder-gray-500'
+                  : 'bg-white border-slate-300 text-slate-900 placeholder-slate-400'
                   } focus:outline-none focus:ring-2 focus:ring-purple-500`}
               />
             </div>
@@ -473,8 +473,8 @@ const AgentsManagementPage = () => {
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
               className={`px-4 py-2 rounded-lg border ${theme === 'dark'
-                  ? 'bg-gray-900 border-gray-700 text-white'
-                  : 'bg-white border-slate-300 text-slate-900'
+                ? 'bg-gray-900 border-gray-700 text-white'
+                : 'bg-white border-slate-300 text-slate-900'
                 } focus:outline-none focus:ring-2 focus:ring-purple-500`}
             >
               <option value="all">All Status</option>
@@ -487,8 +487,8 @@ const AgentsManagementPage = () => {
               value={runtimeFilter}
               onChange={(e) => setRuntimeFilter(e.target.value)}
               className={`px-4 py-2 rounded-lg border ${theme === 'dark'
-                  ? 'bg-gray-900 border-gray-700 text-white'
-                  : 'bg-white border-slate-300 text-slate-900'
+                ? 'bg-gray-900 border-gray-700 text-white'
+                : 'bg-white border-slate-300 text-slate-900'
                 } focus:outline-none focus:ring-2 focus:ring-purple-500`}
             >
               <option value="all">All Runtimes</option>
@@ -589,8 +589,8 @@ const AgentsManagementPage = () => {
                         <div className="flex flex-wrap gap-1">
                           {getCategoryNames(agent.categories).map((catName, idx) => (
                             <span key={idx} className={`px-2 py-0.5 rounded text-xs font-medium border ${theme === 'dark'
-                                ? 'bg-blue-500/10 text-blue-400 border-blue-500/20'
-                                : 'bg-blue-50 text-blue-600 border-blue-200'
+                              ? 'bg-blue-500/10 text-blue-400 border-blue-500/20'
+                              : 'bg-blue-50 text-blue-600 border-blue-200'
                               }`}>
                               {catName}
                             </span>
@@ -599,8 +599,8 @@ const AgentsManagementPage = () => {
                       </td>
                       <td className="px-6 py-4">
                         <span className={`px-3 py-1 rounded-full text-xs font-medium ${agent.is_active
-                            ? 'bg-green-500/10 text-green-500'
-                            : 'bg-red-500/10 text-red-500'
+                          ? 'bg-green-500/10 text-green-500'
+                          : 'bg-red-500/10 text-red-500'
                           }`}>
                           {agent.is_active ? 'Active' : 'Inactive'}
                         </span>
@@ -634,8 +634,8 @@ const AgentsManagementPage = () => {
                           <button
                             onClick={() => openEditModal(agent)}
                             className={`p-2 rounded-lg transition-colors ${theme === 'dark'
-                                ? 'hover:bg-gray-700 text-gray-400 hover:text-white'
-                                : 'hover:bg-slate-100 text-slate-400 hover:text-slate-900'
+                              ? 'hover:bg-gray-700 text-gray-400 hover:text-white'
+                              : 'hover:bg-slate-100 text-slate-400 hover:text-slate-900'
                               }`}
                           >
                             <Edit2 className="w-4 h-4" />
@@ -671,8 +671,8 @@ const AgentsManagementPage = () => {
                     resetForm();
                   }}
                   className={`p-2 rounded-lg transition-colors ${theme === 'dark'
-                      ? 'hover:bg-gray-700 text-gray-400'
-                      : 'hover:bg-slate-100 text-slate-400'
+                    ? 'hover:bg-gray-700 text-gray-400'
+                    : 'hover:bg-slate-100 text-slate-400'
                     }`}
                 >
                   <X className="w-5 h-5" />
@@ -698,8 +698,8 @@ const AgentsManagementPage = () => {
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                         className={`w-full px-4 py-2 rounded-lg border ${theme === 'dark'
-                            ? 'bg-gray-900 border-gray-700 text-white'
-                            : 'bg-white border-slate-300 text-slate-900'
+                          ? 'bg-gray-900 border-gray-700 text-white'
+                          : 'bg-white border-slate-300 text-slate-900'
                           } focus:outline-none focus:ring-2 focus:ring-purple-500`}
                       />
                     </div>
@@ -713,8 +713,8 @@ const AgentsManagementPage = () => {
                         value={formData.slug}
                         onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
                         className={`w-full px-4 py-2 rounded-lg border ${theme === 'dark'
-                            ? 'bg-gray-900 border-gray-700 text-white'
-                            : 'bg-white border-slate-300 text-slate-900'
+                          ? 'bg-gray-900 border-gray-700 text-white'
+                          : 'bg-white border-slate-300 text-slate-900'
                           } focus:outline-none focus:ring-2 focus:ring-purple-500`}
                       />
                     </div>
@@ -729,8 +729,8 @@ const AgentsManagementPage = () => {
                       value={formData.short_description}
                       onChange={(e) => setFormData({ ...formData, short_description: e.target.value })}
                       className={`w-full px-4 py-2 rounded-lg border ${theme === 'dark'
-                          ? 'bg-gray-900 border-gray-700 text-white'
-                          : 'bg-white border-slate-300 text-slate-900'
+                        ? 'bg-gray-900 border-gray-700 text-white'
+                        : 'bg-white border-slate-300 text-slate-900'
                         } focus:outline-none focus:ring-2 focus:ring-purple-500`}
                     />
                   </div>
@@ -744,8 +744,8 @@ const AgentsManagementPage = () => {
                       value={formData.long_description}
                       onChange={(e) => setFormData({ ...formData, long_description: e.target.value })}
                       className={`w-full px-4 py-2 rounded-lg border ${theme === 'dark'
-                          ? 'bg-gray-900 border-gray-700 text-white'
-                          : 'bg-white border-slate-300 text-slate-900'
+                        ? 'bg-gray-900 border-gray-700 text-white'
+                        : 'bg-white border-slate-300 text-slate-900'
                         } focus:outline-none focus:ring-2 focus:ring-purple-500`}
                     />
                   </div>
@@ -818,8 +818,8 @@ const AgentsManagementPage = () => {
                           readOnly
                           value={formData.icon_url}
                           className={`flex-1 px-4 py-2 rounded-lg border ${theme === 'dark'
-                              ? 'bg-gray-900 border-gray-700 text-white'
-                              : 'bg-white border-slate-300 text-slate-900'
+                            ? 'bg-gray-900 border-gray-700 text-white'
+                            : 'bg-white border-slate-300 text-slate-900'
                             } focus:outline-none focus:ring-2 focus:ring-purple-500`}
                           placeholder="Select an icon..."
                         />
@@ -827,8 +827,8 @@ const AgentsManagementPage = () => {
                           type="button"
                           onClick={() => setShowIconPicker(true)}
                           className={`px-4 py-2 rounded-lg border ${theme === 'dark'
-                              ? 'border-gray-600 hover:bg-gray-700 text-gray-300'
-                              : 'border-slate-300 hover:bg-slate-100 text-slate-600'
+                            ? 'border-gray-600 hover:bg-gray-700 text-gray-300'
+                            : 'border-slate-300 hover:bg-slate-100 text-slate-600'
                             }`}
                         >
                           Choose
@@ -855,8 +855,8 @@ const AgentsManagementPage = () => {
                         value={formData.config_schema}
                         onChange={(e) => setFormData({ ...formData, config_schema: e.target.value })}
                         className={`w-full pl-10 pr-4 py-2 rounded-lg border font-mono text-sm ${theme === 'dark'
-                            ? 'bg-gray-900 border-gray-700 text-gray-300'
-                            : 'bg-white border-slate-300 text-slate-800'
+                          ? 'bg-gray-900 border-gray-700 text-gray-300'
+                          : 'bg-white border-slate-300 text-slate-800'
                           } focus:outline-none focus:ring-2 focus:ring-purple-500`}
                         spellCheck="false"
                       />
@@ -874,8 +874,8 @@ const AgentsManagementPage = () => {
                         value={formData.extra_configuration}
                         onChange={(e) => setFormData({ ...formData, extra_configuration: e.target.value })}
                         className={`w-full pl-10 pr-4 py-2 rounded-lg border font-mono text-sm ${theme === 'dark'
-                            ? 'bg-gray-900 border-gray-700 text-gray-300'
-                            : 'bg-white border-slate-300 text-slate-800'
+                          ? 'bg-gray-900 border-gray-700 text-gray-300'
+                          : 'bg-white border-slate-300 text-slate-800'
                           } focus:outline-none focus:ring-2 focus:ring-purple-500`}
                         spellCheck="false"
                       />
@@ -898,8 +898,8 @@ const AgentsManagementPage = () => {
                         value={formData.pricing_model}
                         onChange={(e) => setFormData({ ...formData, pricing_model: e.target.value })}
                         className={`w-full px-4 py-2 rounded-lg border ${theme === 'dark'
-                            ? 'bg-gray-900 border-gray-700 text-white'
-                            : 'bg-white border-slate-300 text-slate-900'
+                          ? 'bg-gray-900 border-gray-700 text-white'
+                          : 'bg-white border-slate-300 text-slate-900'
                           } focus:outline-none focus:ring-2 focus:ring-purple-500`}
                       >
                         <option value="free">Free</option>
@@ -920,8 +920,8 @@ const AgentsManagementPage = () => {
                         value={formData.monthly_price}
                         onChange={(e) => setFormData({ ...formData, monthly_price: parseFloat(e.target.value) })}
                         className={`w-full px-4 py-2 rounded-lg border ${theme === 'dark'
-                            ? 'bg-gray-900 border-gray-700 text-white'
-                            : 'bg-white border-slate-300 text-slate-900'
+                          ? 'bg-gray-900 border-gray-700 text-white'
+                          : 'bg-white border-slate-300 text-slate-900'
                           } focus:outline-none focus:ring-2 focus:ring-purple-500`}
                       />
                     </div>
@@ -963,8 +963,8 @@ const AgentsManagementPage = () => {
                       resetForm();
                     }}
                     className={`px-6 py-2 rounded-lg font-medium transition-colors ${theme === 'dark'
-                        ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                        : 'bg-slate-200 text-slate-700 hover:bg-slate-300'
+                      ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                      : 'bg-slate-200 text-slate-700 hover:bg-slate-300'
                       }`}
                   >
                     Cancel
@@ -1001,8 +1001,8 @@ const AgentsManagementPage = () => {
                 <button
                   onClick={() => setShowDeleteModal(false)}
                   className={`px-4 py-2 rounded-lg font-medium transition-colors ${theme === 'dark'
-                      ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                      : 'bg-slate-200 text-slate-700 hover:bg-slate-300'
+                    ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                    : 'bg-slate-200 text-slate-700 hover:bg-slate-300'
                     }`}
                 >
                   Cancel
