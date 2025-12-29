@@ -6,6 +6,7 @@ import StatCard from '../../components/admin/tenants/StatCard';
 import { useTheme } from '../../contexts/ThemeContext';
 import { Card } from '../../components/common';
 import toast from 'react-hot-toast';
+import { safeFormatNumber } from '../../utils/numberFormatter';
 
 /**
  * TenantsDashboardPage
@@ -112,42 +113,42 @@ const TenantsDashboardPage = () => {
           <StatCard
             icon={Users}
             label="Total Tenants"
-            value={(stats.total_tenants || 0).toLocaleString()}
+            value={safeFormatNumber(stats.total_tenants)}
             color="blue"
           />
 
           <StatCard
             icon={Activity}
             label="Active Tenants"
-            value={(stats.active_tenants || 0).toLocaleString()}
+            value={safeFormatNumber(stats.active_tenants)}
             color="green"
           />
 
           <StatCard
             icon={Building2}
             label="Suspended Tenants"
-            value={(stats.suspended_tenants || 0).toLocaleString()}
+            value={safeFormatNumber(stats.suspended_tenants)}
             color="red"
           />
 
           <StatCard
             icon={Clock}
             label="Trial Tenants"
-            value={(stats.trial_tenants || 0).toLocaleString()}
+            value={safeFormatNumber(stats.trial_tenants)}
             color="yellow"
           />
 
           <StatCard
             icon={DollarSign}
             label="Paid Tenants"
-            value={(stats.paid_tenants || 0).toLocaleString()}
+            value={safeFormatNumber(stats.paid_tenants)}
             color="purple"
           />
 
           <StatCard
             icon={TrendingUp}
             label="New This Month"
-            value={(stats.new_tenants_this_month || 0).toLocaleString()}
+            value={safeFormatNumber(stats.new_tenants_this_month)}
             color="teal"
           />
         </div>
@@ -210,7 +211,7 @@ const TenantsDashboardPage = () => {
                         {plan.plan_name}
                       </span>
                       <span className={`text-sm font-bold ${textPrimary}`}>
-                        {plan.count.toLocaleString()} ({percentage.toFixed(1)}%)
+                        {safeFormatNumber(plan.count)} ({percentage.toFixed(1)}%)
                       </span>
                     </div>
                     <div

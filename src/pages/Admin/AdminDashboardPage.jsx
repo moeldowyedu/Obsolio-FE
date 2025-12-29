@@ -6,6 +6,7 @@ import { translations } from '../../translations'
 import { useTheme } from '../../contexts/ThemeContext'
 import adminService from '../../services/adminService'
 import toast from 'react-hot-toast'
+import { safeFormatNumber } from '../../utils/numberFormatter'
 import {
   Users, Building2, CreditCard, Bot,
   Activity, TrendingUp, TrendingDown,
@@ -90,16 +91,6 @@ const AdminDashboardPage = () => {
       : { bg: pal.paleBg, text: pal.paleText, raw: pal.bg }
   }
 
-  // Safe number formatting - prevents ALL toLocaleString errors
-  const safeFormat = (val) => {
-    try {
-      const num = Number(val);
-      return isNaN(num) ? '0' : num.toLocaleString();
-    } catch {
-      return '0';
-    }
-  };
-
   // Calculate console users stats (with safe fallbacks to prevent undefined errors)
   // Ensure all values are numbers to prevent toLocaleString errors
   const totalConsoleUsers = Number(stats.users?.total || stats.users?.meta?.total || 0)
@@ -110,7 +101,7 @@ const AdminDashboardPage = () => {
   const systemStats = [
     {
       label: 'Total Tenants',
-      value: safeFormat(stats.tenants?.total_tenants),
+      value: safeFormatNumber(stats.tenants?.total_tenants),
       change: `${stats.tenants?.active_tenants || 0} active`,
       trend: 'up',
       icon: Building2,
@@ -119,7 +110,7 @@ const AdminDashboardPage = () => {
     },
     {
       label: 'Organizations',
-      value: safeFormat(stats.organizations?.total_organizations),
+      value: safeFormatNumber(stats.organizations?.total_organizations),
       change: `${stats.organizations?.active_organizations || 0} active`,
       trend: 'up',
       icon: Building,
@@ -128,7 +119,7 @@ const AdminDashboardPage = () => {
     },
     {
       label: 'Console Users',
-      value: safeFormat(totalConsoleUsers),
+      value: safeFormatNumber(totalConsoleUsers),
       change: `${systemAdmins} admins`,
       trend: 'up',
       icon: UserCog,
@@ -137,7 +128,7 @@ const AdminDashboardPage = () => {
     },
     {
       label: 'Subscriptions',
-      value: safeFormat(stats.subscriptions?.total_subscriptions),
+      value: safeFormatNumber(stats.subscriptions?.total_subscriptions),
       change: `${stats.subscriptions?.active_subscriptions || 0} active`,
       trend: 'up',
       icon: CreditCard,
@@ -149,7 +140,7 @@ const AdminDashboardPage = () => {
   const agentStats = [
     {
       label: 'Total Agent Runs',
-      value: safeFormat(stats.agentRuns?.total_runs),
+      value: safeFormatNumber(stats.agentRuns?.total_runs),
       change: `${stats.agentRuns?.successful_runs || 0} successful`,
       trend: 'up',
       icon: Play,
@@ -158,7 +149,7 @@ const AdminDashboardPage = () => {
     },
     {
       label: 'Active Agents',
-      value: safeFormat(stats.agentRuns?.active_agents),
+      value: safeFormatNumber(stats.agentRuns?.active_agents),
       change: `${stats.agentRuns?.total_agents || 0} total`,
       trend: 'up',
       icon: Bot,
@@ -176,7 +167,7 @@ const AdminDashboardPage = () => {
     },
     {
       label: 'Running Now',
-      value: safeFormat(stats.agentRuns?.running_agents),
+      value: safeFormatNumber(stats.agentRuns?.running_agents),
       change: 'live status',
       trend: 'up',
       icon: Activity,
@@ -373,14 +364,14 @@ const AdminDashboardPage = () => {
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
               <div className="text-center">
                 <div className={`text-3xl font-bold mb-1 ${textPrimary}`}>
-                  ${safeFormat((stats.subscriptions?.monthly_recurring_revenue || 0) / 100)}
+                  ${safeFormatNumber((stats.subscriptions?.monthly_recurring_revenue || 0) / 100)}
                 </div>
                 <div className={`text-sm font-medium mb-2 ${textSecondary}`}>Monthly Recurring Revenue</div>
                 <div className="text-sm font-semibold text-green-500">MRR</div>
               </div>
               <div className="text-center">
                 <div className={`text-3xl font-bold mb-1 ${textPrimary}`}>
-                  ${safeFormat((stats.subscriptions?.total_revenue || 0) / 100)}
+                  ${safeFormatNumber((stats.subscriptions?.total_revenue || 0) / 100)}
                 </div>
                 <div className={`text-sm font-medium mb-2 ${textSecondary}`}>Total Revenue</div>
                 <div className="text-sm font-semibold text-green-500">All Time</div>
