@@ -17,6 +17,7 @@ const AdminLayout = ({ children }) => {
   const [profileOpen, setProfileOpen] = useState(false);
   const [tenantsMenuOpen, setTenantsMenuOpen] = useState(true);
   const [agentsMenuOpen, setAgentsMenuOpen] = useState(true);
+  const [subscriptionsMenuOpen, setSubscriptionsMenuOpen] = useState(true);
   const { user, logout } = useAuthStore();
   const { theme } = useTheme();
   const location = useLocation();
@@ -33,16 +34,6 @@ const AdminLayout = ({ children }) => {
     }
   };
 
-  // We are likely on the console subdomain, so paths are root relative.
-  // Or we might be handling legacy/dev envs.
-  // Let's standardise on root-relative paths which AdminRouter handles.
-
-  const navigation = [
-    { name: 'Console Dashboard', href: '/', icon: LayoutDashboard },
-    { name: 'Manage Subscriptions', href: '/subscriptions', icon: CreditCard },
-    { name: 'Integrations', href: '/integrations', icon: Plug },
-  ];
-
   const tenantsSubMenu = [
     { name: 'Dashboard', href: '/tenants/dashboard', icon: BarChart3 },
     { name: 'Tenants List', href: '/tenants', icon: List },
@@ -56,12 +47,15 @@ const AdminLayout = ({ children }) => {
     { name: 'Active Agents', href: '/active-agents', icon: Activity },
   ];
 
-  const tenantsParentName = 'Manage Tenants';
-  const agentsParentName = 'Agents Management';
+  const subscriptionsSubMenu = [
+    { name: 'Active Subscriptions', href: '/active-subscriptions', icon: DollarSign },
+    { name: 'Subscription Plans', href: '/subscription-plans', icon: Package },
+  ];
 
   const isActive = (href) => location.pathname === href;
   const isTenantsMenuActive = tenantsSubMenu.some(item => isActive(item.href));
   const isAgentsMenuActive = agentsSubMenu.some(item => isActive(item.href));
+  const isSubscriptionsMenuActive = subscriptionsSubMenu.some(item => isActive(item.href));
 
   return (
     <div className={`min-h-screen transition-colors duration-300 ${theme === 'dark'
@@ -159,21 +153,69 @@ const AdminLayout = ({ children }) => {
               : 'bg-white/95 border-slate-200'
             }`}
         >
-          <nav className="p-4 space-y-2">
+          <nav className="p-4 space-y-2 overflow-y-auto h-full">
             {/* Console Dashboard */}
             <Link
               to="/"
               className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-all ${
                 isActive('/')
                   ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg'
-                  : theme === 'dark'
-                    ? 'text-gray-400 hover:bg-gray-800 hover:text-white'
-                    : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900'
+                  : 'text-white hover:bg-gray-800'
               }`}
             >
               <LayoutDashboard className="w-5 h-5 flex-shrink-0" />
-              <span className="font-medium whitespace-nowrap">Console Dashboard</span>
+              <span className="font-medium whitespace-nowrap">Dashboard</span>
             </Link>
+
+            {/* Section: User & Access Management */}
+            <div className="pt-4 pb-2">
+              <p className="px-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                User & Access
+              </p>
+            </div>
+
+            <Link
+              to="/console-users"
+              className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-all ${
+                isActive('/console-users')
+                  ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg'
+                  : 'text-white hover:bg-gray-800'
+              }`}
+            >
+              <UserCog className="w-5 h-5 flex-shrink-0" />
+              <span className="font-medium whitespace-nowrap">Console Users</span>
+            </Link>
+
+            <Link
+              to="/rbac"
+              className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-all ${
+                isActive('/rbac')
+                  ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg'
+                  : 'text-white hover:bg-gray-800'
+              }`}
+            >
+              <Users className="w-5 h-5 flex-shrink-0" />
+              <span className="font-medium whitespace-nowrap">RBAC</span>
+            </Link>
+
+            <Link
+              to="/impersonation"
+              className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-all ${
+                isActive('/impersonation')
+                  ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg'
+                  : 'text-white hover:bg-gray-800'
+              }`}
+            >
+              <UserCheck className="w-5 h-5 flex-shrink-0" />
+              <span className="font-medium whitespace-nowrap">Impersonation</span>
+            </Link>
+
+            {/* Section: Tenant Management */}
+            <div className="pt-4 pb-2">
+              <p className="px-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                Tenant Management
+              </p>
+            </div>
 
             {/* Manage Tenants - Hierarchical Menu */}
             <div className="space-y-1">
@@ -182,14 +224,12 @@ const AdminLayout = ({ children }) => {
                 className={`w-full flex items-center justify-between px-4 py-3 rounded-lg transition-all ${
                   isTenantsMenuActive
                     ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg'
-                    : theme === 'dark'
-                      ? 'text-gray-400 hover:bg-gray-800 hover:text-white'
-                      : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900'
+                    : 'text-white hover:bg-gray-800'
                 }`}
               >
                 <div className="flex items-center space-x-3">
                   <Building2 className="w-5 h-5 flex-shrink-0" />
-                  <span className="font-medium whitespace-nowrap">{tenantsParentName}</span>
+                  <span className="font-medium whitespace-nowrap">Tenants</span>
                 </div>
                 <ChevronRight
                   className={`w-4 h-4 transition-transform ${
@@ -209,12 +249,8 @@ const AdminLayout = ({ children }) => {
                         to={item.href}
                         className={`flex items-center space-x-3 px-4 py-2.5 rounded-lg transition-all text-sm ${
                           active
-                            ? theme === 'dark'
-                              ? 'bg-gray-800 text-purple-400 font-medium'
-                              : 'bg-slate-100 text-purple-600 font-medium'
-                            : theme === 'dark'
-                              ? 'text-gray-400 hover:bg-gray-800/50 hover:text-white'
-                              : 'text-slate-500 hover:bg-slate-50 hover:text-slate-900'
+                            ? 'bg-gray-800 text-purple-400 font-medium'
+                            : 'text-gray-300 hover:bg-gray-800/50 hover:text-white'
                         }`}
                       >
                         <Icon className="w-4 h-4 flex-shrink-0" />
@@ -226,20 +262,76 @@ const AdminLayout = ({ children }) => {
               )}
             </div>
 
-            {/* Manage Subscriptions */}
             <Link
-              to="/subscriptions"
+              to="/organizations"
               className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-all ${
-                isActive('/subscriptions')
+                isActive('/organizations')
                   ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg'
-                  : theme === 'dark'
-                    ? 'text-gray-400 hover:bg-gray-800 hover:text-white'
-                    : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900'
+                  : 'text-white hover:bg-gray-800'
               }`}
             >
-              <CreditCard className="w-5 h-5 flex-shrink-0" />
-              <span className="font-medium whitespace-nowrap">Manage Subscriptions</span>
+              <Building className="w-5 h-5 flex-shrink-0" />
+              <span className="font-medium whitespace-nowrap">Organizations</span>
             </Link>
+
+            {/* Section: Subscription Management */}
+            <div className="pt-4 pb-2">
+              <p className="px-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                Subscriptions
+              </p>
+            </div>
+
+            {/* Subscriptions - Hierarchical Menu */}
+            <div className="space-y-1">
+              <button
+                onClick={() => setSubscriptionsMenuOpen(!subscriptionsMenuOpen)}
+                className={`w-full flex items-center justify-between px-4 py-3 rounded-lg transition-all ${
+                  isSubscriptionsMenuActive
+                    ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg'
+                    : 'text-white hover:bg-gray-800'
+                }`}
+              >
+                <div className="flex items-center space-x-3">
+                  <CreditCard className="w-5 h-5 flex-shrink-0" />
+                  <span className="font-medium whitespace-nowrap">Subscriptions</span>
+                </div>
+                <ChevronRight
+                  className={`w-4 h-4 transition-transform ${
+                    subscriptionsMenuOpen ? 'rotate-90' : ''
+                  }`}
+                />
+              </button>
+
+              {subscriptionsMenuOpen && (
+                <div className="ml-4 space-y-1 border-l-2 border-gray-700 pl-2">
+                  {subscriptionsSubMenu.map((item) => {
+                    const Icon = item.icon;
+                    const active = isActive(item.href);
+                    return (
+                      <Link
+                        key={item.name}
+                        to={item.href}
+                        className={`flex items-center space-x-3 px-4 py-2.5 rounded-lg transition-all text-sm ${
+                          active
+                            ? 'bg-gray-800 text-purple-400 font-medium'
+                            : 'text-gray-300 hover:bg-gray-800/50 hover:text-white'
+                        }`}
+                      >
+                        <Icon className="w-4 h-4 flex-shrink-0" />
+                        <span className="whitespace-nowrap">{item.name}</span>
+                      </Link>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+
+            {/* Section: Agent Management */}
+            <div className="pt-4 pb-2">
+              <p className="px-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                Agent Management
+              </p>
+            </div>
 
             {/* Agents Management - Hierarchical Menu */}
             <div className="space-y-1">
@@ -248,14 +340,12 @@ const AdminLayout = ({ children }) => {
                 className={`w-full flex items-center justify-between px-4 py-3 rounded-lg transition-all ${
                   isAgentsMenuActive
                     ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg'
-                    : theme === 'dark'
-                      ? 'text-gray-400 hover:bg-gray-800 hover:text-white'
-                      : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900'
+                    : 'text-white hover:bg-gray-800'
                 }`}
               >
                 <div className="flex items-center space-x-3">
                   <Bot className="w-5 h-5 flex-shrink-0" />
-                  <span className="font-medium whitespace-nowrap">{agentsParentName}</span>
+                  <span className="font-medium whitespace-nowrap">Agents</span>
                 </div>
                 <ChevronRight
                   className={`w-4 h-4 transition-transform ${
@@ -275,12 +365,8 @@ const AdminLayout = ({ children }) => {
                         to={item.href}
                         className={`flex items-center space-x-3 px-4 py-2.5 rounded-lg transition-all text-sm ${
                           active
-                            ? theme === 'dark'
-                              ? 'bg-gray-800 text-purple-400 font-medium'
-                              : 'bg-slate-100 text-purple-600 font-medium'
-                            : theme === 'dark'
-                              ? 'text-gray-400 hover:bg-gray-800/50 hover:text-white'
-                              : 'text-slate-500 hover:bg-slate-50 hover:text-slate-900'
+                            ? 'bg-gray-800 text-purple-400 font-medium'
+                            : 'text-gray-300 hover:bg-gray-800/50 hover:text-white'
                         }`}
                       >
                         <Icon className="w-4 h-4 flex-shrink-0" />
@@ -292,142 +378,47 @@ const AdminLayout = ({ children }) => {
               )}
             </div>
 
-            {/* Integrations */}
+            {/* Section: System */}
+            <div className="pt-4 pb-2">
+              <p className="px-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                System
+              </p>
+            </div>
+
             <Link
               to="/integrations"
               className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-all ${
                 isActive('/integrations')
                   ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg'
-                  : theme === 'dark'
-                    ? 'text-gray-400 hover:bg-gray-800 hover:text-white'
-                    : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900'
+                  : 'text-white hover:bg-gray-800'
               }`}
             >
               <Plug className="w-5 h-5 flex-shrink-0" />
               <span className="font-medium whitespace-nowrap">Integrations</span>
             </Link>
 
-            {/* Analytics */}
             <Link
               to="/analytics"
               className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-all ${
                 isActive('/analytics')
                   ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg'
-                  : theme === 'dark'
-                    ? 'text-gray-400 hover:bg-gray-800 hover:text-white'
-                    : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900'
+                  : 'text-white hover:bg-gray-800'
               }`}
             >
               <BarChart3 className="w-5 h-5 flex-shrink-0" />
               <span className="font-medium whitespace-nowrap">Analytics</span>
             </Link>
 
-            {/* Impersonation */}
-            <Link
-              to="/impersonation"
-              className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-all ${
-                isActive('/impersonation')
-                  ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg'
-                  : theme === 'dark'
-                    ? 'text-gray-400 hover:bg-gray-800 hover:text-white'
-                    : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900'
-              }`}
-            >
-              <UserCheck className="w-5 h-5 flex-shrink-0" />
-              <span className="font-medium whitespace-nowrap">Impersonation</span>
-            </Link>
-
-            {/* Audit Logs */}
             <Link
               to="/audit-logs"
               className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-all ${
                 isActive('/audit-logs')
                   ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg'
-                  : theme === 'dark'
-                    ? 'text-gray-400 hover:bg-gray-800 hover:text-white'
-                    : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900'
+                  : 'text-white hover:bg-gray-800'
               }`}
             >
               <Shield className="w-5 h-5 flex-shrink-0" />
               <span className="font-medium whitespace-nowrap">Audit Logs</span>
-            </Link>
-
-            {/* RBAC */}
-            <Link
-              to="/rbac"
-              className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-all ${
-                isActive('/rbac')
-                  ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg'
-                  : theme === 'dark'
-                    ? 'text-gray-400 hover:bg-gray-800 hover:text-white'
-                    : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900'
-              }`}
-            >
-              <Users className="w-5 h-5 flex-shrink-0" />
-              <span className="font-medium whitespace-nowrap">RBAC</span>
-            </Link>
-
-            {/* Divider */}
-            <div className={`my-4 border-t ${theme === 'dark' ? 'border-gray-700' : 'border-slate-200'}`}></div>
-
-            {/* Console Users */}
-            <Link
-              to="/console-users"
-              className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-all ${
-                isActive('/console-users')
-                  ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg'
-                  : theme === 'dark'
-                    ? 'text-gray-400 hover:bg-gray-800 hover:text-white'
-                    : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900'
-              }`}
-            >
-              <UserCog className="w-5 h-5 flex-shrink-0" />
-              <span className="font-medium whitespace-nowrap">Console Users</span>
-            </Link>
-
-            {/* Organizations */}
-            <Link
-              to="/organizations"
-              className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-all ${
-                isActive('/organizations')
-                  ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg'
-                  : theme === 'dark'
-                    ? 'text-gray-400 hover:bg-gray-800 hover:text-white'
-                    : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900'
-              }`}
-            >
-              <Building className="w-5 h-5 flex-shrink-0" />
-              <span className="font-medium whitespace-nowrap">Organizations</span>
-            </Link>
-
-            {/* Active Subscriptions */}
-            <Link
-              to="/active-subscriptions"
-              className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-all ${
-                isActive('/active-subscriptions')
-                  ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg'
-                  : theme === 'dark'
-                    ? 'text-gray-400 hover:bg-gray-800 hover:text-white'
-                    : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900'
-              }`}
-            >
-              <DollarSign className="w-5 h-5 flex-shrink-0" />
-              <span className="font-medium whitespace-nowrap">Active Subscriptions</span>
-            </Link>
-
-            {/* Subscription Plans */}
-            <Link
-              to="/subscription-plans"
-              className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-all ${
-                isActive('/subscription-plans')
-                  ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg'
-                  : theme === 'dark'
-                    ? 'text-gray-400 hover:bg-gray-800 hover:text-white'
-                    : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900'
-              }`}
-            >
-              <Package className="w-5 h-5 flex-shrink-0" />
-              <span className="font-medium whitespace-nowrap">Subscription Plans</span>
             </Link>
           </nav>
         </aside>
