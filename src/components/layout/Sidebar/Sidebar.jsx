@@ -7,7 +7,7 @@ import { useTheme } from '../../../contexts/ThemeContext';
 import { PLATFORM, ENGINES } from '../../../utils/constants';
 
 import logo from '../../../assets/imgs/OBSOLIO-logo-light.png';
-import logoDark from '../../../assets/imgs/OBSOLIO-logo-new.png';
+import logoDark from '../../../assets/imgs/OBSOLIO-logo-dark.png';
 
 const Sidebar = () => {
   const location = useLocation();

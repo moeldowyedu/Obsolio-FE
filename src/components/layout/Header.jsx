@@ -7,7 +7,7 @@ import { useTheme } from '../../contexts/ThemeContext'
 import { translations } from '../../translations'
 import NotificationBell from '../common/NotificationBell/NotificationBell'
 import logo from '../../assets/imgs/OBSOLIO-logo-light.png'
-import logoDark from '../../assets/imgs/OBSOLIO-logo-new.png'
+import logoDark from '../../assets/imgs/OBSOLIO-logo-dark.png'
 import { Menu, X, LogIn, Sun, Moon } from 'lucide-react'
 import { getCookie } from '../../utils/cookieUtils'
 

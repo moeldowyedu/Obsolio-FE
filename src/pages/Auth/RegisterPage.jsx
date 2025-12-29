@@ -7,7 +7,7 @@ import Button from '../../components/common/Button/Button';
 import RegistrationSteps from '../../components/registration/RegistrationSteps';
 import toast from 'react-hot-toast';
 import logo from '../../assets/imgs/OBSOLIO-logo-light.png';
-import logoDark from '../../assets/imgs/OBSOLIO-logo-new.png';
+import logoDark from '../../assets/imgs/OBSOLIO-logo-dark.png';
 import { countries } from '../../constants/countries';
 import { useTheme } from '../../contexts/ThemeContext';
 

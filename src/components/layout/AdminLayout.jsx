@@ -10,7 +10,7 @@ import { useAuthStore } from '../../store/authStore';
 import { useTheme } from '../../contexts/ThemeContext';
 import ThemeToggle from '../common/ThemeToggle';
 import logo from '../../assets/imgs/OBSOLIO-logo-light.png';
-import logoDark from '../../assets/imgs/OBSOLIO-logo-new.png';
+import logoDark from '../../assets/imgs/OBSOLIO-logo-dark.png';
 
 const AdminLayout = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(true); // true = Expanded (w-64), false = Minimized (w-20)

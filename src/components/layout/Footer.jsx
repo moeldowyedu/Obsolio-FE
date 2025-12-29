@@ -4,7 +4,7 @@ import {
   ExternalLink, Shield, FileText, Activity
 } from 'lucide-react'
 import ObsolioLogo from '../../assets/imgs/OBSOLIO-logo-light.png'
-import ObsolioLogoDark from '../../assets/imgs/OBSOLIO-logo-new.png'
+import ObsolioLogoDark from '../../assets/imgs/OBSOLIO-logo-dark.png'
 import { useLanguage } from '../../contexts/LanguageContext'
 import { useTheme } from '../../contexts/ThemeContext'
 import { translations } from '../../translations'
