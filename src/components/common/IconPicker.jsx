@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef, useEffect } from 'react';
 import * as LucideIcons from 'lucide-react';
 import { Search, X, Check } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
@@ -130,8 +130,8 @@ const IconPicker = ({ onSelect, selectedIcon, onClose }) => {
                                     key={iconName}
                                     onClick={() => handleSelectIcon(iconName)}
                                     className={`flex flex-col items-center justify-center p-3 rounded-xl transition-all duration-200 group ${theme === 'dark'
-                                            ? 'bg-gray-800/50 hover:bg-purple-600/20 hover:text-purple-400 text-gray-400'
-                                            : 'bg-slate-50 hover:bg-purple-50 hover:text-purple-600 text-slate-600'
+                                        ? 'bg-gray-800/50 hover:bg-purple-600/20 hover:text-purple-400 text-gray-400'
+                                        : 'bg-slate-50 hover:bg-purple-50 hover:text-purple-600 text-slate-600'
                                         }`}
                                     title={iconName}
                                 >
