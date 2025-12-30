@@ -12,7 +12,7 @@ import { useTheme } from '../../contexts/ThemeContext';
 const WorkspaceSelectionPage = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    const { login } = useAuthStore();
+    const { login, isAuthenticated, user } = useAuthStore();
     const [tenants, setTenants] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);

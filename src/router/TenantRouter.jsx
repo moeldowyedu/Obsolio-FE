@@ -178,7 +178,7 @@ const TenantRouter = () => {
 
                 <Route path="/contact" element={<ContactPage />} />
 
-                <Route path="*" element={<NotFoundPage />} />
+                <Route path="*" element={<NotFoundPage showSidebar={true} />} />
             </Routes>
         </TenantGuard>
     );

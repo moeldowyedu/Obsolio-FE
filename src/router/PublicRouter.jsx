@@ -73,8 +73,8 @@ const PublicRouter = () => {
 
 
 
-            {/* 404 */}
-            <Route path="*" element={<NotFoundPage />} />
+            {/* 404 - No Sidebar on Public Domain */}
+            <Route path="*" element={<NotFoundPage showSidebar={false} />} />
         </Routes>
     );
 };

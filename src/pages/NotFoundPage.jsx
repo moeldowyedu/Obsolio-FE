@@ -3,11 +3,11 @@ import { AlertCircle, Home, LayoutDashboard, HelpCircle, ArrowRight } from 'luci
 import MainLayout from '../components/layout/MainLayout';
 import { useTheme } from '../contexts/ThemeContext';
 
-const NotFoundPage = () => {
+const NotFoundPage = ({ showSidebar = true }) => {
   const { theme } = useTheme();
 
   return (
-    <MainLayout showFooter={false}>
+    <MainLayout showFooter={false} showSidebar={showSidebar}>
       <div className={`min-h-screen flex items-center justify-center px-6 relative overflow-hidden ${theme === 'dark' ? 'bg-[#0B0E14] text-white' : 'bg-slate-50 text-slate-900'
         }`}>
 
