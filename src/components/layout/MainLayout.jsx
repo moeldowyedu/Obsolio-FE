@@ -31,7 +31,7 @@ const MainLayout = ({ children, showFooter = true, showSidebar = true }) => {
         {shouldShowSidebar && <Sidebar />}
         <main className={`flex-grow overflow-x-auto transition-colors duration-300 ${shouldShowSidebar
           ? `${theme === 'dark' ? 'bg-[#0B0E14] text-white' : 'bg-slate-50 text-slate-900'} px-8 lg:px-10 xl:px-12`
-          : 'container mx-auto px-6'
+          : 'container mx-auto px-6 pt-28'
           }`}>
           {children}
         </main>

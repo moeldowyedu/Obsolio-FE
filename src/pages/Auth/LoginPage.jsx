@@ -5,7 +5,8 @@ import { Button, Input } from '../../components/common';
 import toast from 'react-hot-toast';
 import { getSubdomain, isSystemAdminDomain } from '../../utils/subdomain';
 import { isMarketingSite } from '../../utils/tenantDetection';
-import logo from '../../assets/imgs/OBSOLIO-logo-cyan.png';
+import logo from '../../assets/imgs/OBSOLIO-logo-light.png';
+import logoDark from '../../assets/imgs/OBSOLIO-logo-dark.png';
 import { useTheme } from '../../contexts/ThemeContext';
 import { Sun, Moon } from 'lucide-react';
 
@@ -144,7 +145,7 @@ const LoginPage = () => {
       <div className="w-full max-w-md relative z-10 animate-fade-in">
         <div className="text-center mb-6">
           <Link to="/" className="inline-block mb-4">
-            <img src={logo} alt="OBSOLIO" className="h-16 mx-auto object-contain" />
+            <img src={theme === 'dark' ? logoDark : logo} alt="OBSOLIO" className="h-16 mx-auto object-contain" />
           </Link>
           <h2 className={`text-3xl font-bold mb-2 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
             {isSystemAdmin ? 'System Admin Access' : subdomain ? `Welcome back, ${subdomain}` : 'Welcome Back'}
