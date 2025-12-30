@@ -8,6 +8,8 @@ import {
 } from 'lucide-react';
 import MainLayout from '../../components/layout/MainLayout';
 import ObsolioLogo from '../../assets/imgs/OBSOLIO-logo-cyan.png';
+import ObsolioIcon from '../../assets/imgs/OBSOLIO-ICON.png';
+import HeroBrandText from '../../components/common/HeroBrandText';
 import DrHebaImage from '../../assets/imgs/heba-saleh.png';
 import AhmedSalahImage from '../../assets/imgs/ahmed-salah.jpg';
 import TypingEffect from '../../components/common/TypingEffect';
@@ -24,7 +26,7 @@ const HomePage = () => {
       <div className={`min-h-screen ${theme === 'dark' ? 'bg-[#0B0E14] text-white' : 'bg-slate-50 text-slate-900'} selection:bg-primary-500/30 font-body`}>
 
         {/* Hero Section */}
-        <section className="relative pt-32 pb-20 px-6 overflow-hidden">
+        <section className="relative pt-40 pb-24 px-6 overflow-hidden">
 
           {/* Light Mode Subtle Gradient - Optional Depth */}
           {theme !== 'dark' && (
@@ -36,7 +38,7 @@ const HomePage = () => {
             <div className="flex flex-col lg:flex-row items-center gap-16 max-w-7xl mx-auto">
 
               {/* Text Content */}
-              <div className={`lg:w-1/2 text-center ${language === 'ar' ? 'lg:text-right' : 'lg:text-left'}`}>
+              <div className={`lg:w-1/2 flex flex-col items-start text-left`}>
                 <div className={`inline-flex items-center gap-2 ${theme === 'dark' ? 'bg-white/5 border-white/10' : 'bg-primary-50 border-primary-200'} border px-4 py-2 rounded-full text-sm font-medium mb-8 backdrop-blur-md`}>
                   <Sparkles className={`w-4 h-4 ${theme === 'dark' ? 'text-primary-400' : 'text-primary-600'}`} />
                   <span className="bg-gradient-to-r from-primary-400 to-purple-400 bg-clip-text text-transparent">
@@ -44,20 +46,20 @@ const HomePage = () => {
                   </span>
                 </div>
 
-                <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold mb-8 leading-tight tracking-tight font-heading">
-                  <span className="bg-gradient-to-r from-primary-400 via-cyan-400 to-purple-500 bg-clip-text text-transparent font-thin">
-                    OBSOLIO
-                  </span>
-                  <span className={`block text-xl sm:text-2xl md:text-3xl mt-4 ${theme === 'dark' ? 'text-white' : 'text-slate-800'} font-light tracking-wide`}>
+                <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold mb-8 leading-tight tracking-tight font-heading flex flex-col items-start w-full">
+                  <div className="w-full max-w-[180px] sm:max-w-[220px] md:max-w-[280px] lg:max-w-[320px] mb-6">
+                    <HeroBrandText className="w-full h-auto drop-shadow-lg" />
+                  </div>
+                  <span className={`block text-xl sm:text-2xl md:text-3xl mt-2 ${theme === 'dark' ? 'text-white' : 'text-slate-800'} font-light tracking-wide`}>
                     <TypingEffect text={t.landingHeroTagline} speed={40} delay={500} />
                   </span>
                 </h1>
 
-                <p className={`text-xl ${theme === 'dark' ? 'text-gray-300' : 'text-slate-600'} mb-10 leading-relaxed max-w-2xl mx-auto lg:mx-0 font-light tracking-wide`}>
+                <p className={`text-base font-extralight ${theme === 'dark' ? 'text-gray-400' : 'text-slate-600'} mb-10 leading-relaxed max-w-2xl mx-auto lg:mx-0 tracking-wide`}>
                   {t.landingHeroDescription}
                 </p>
 
-                <div className={`flex flex-col sm:flex-row gap-4 justify-center ${language === 'ar' ? 'lg:justify-start' : 'lg:justify-start'}`}>
+                <div className={`flex flex-col sm:flex-row gap-4 justify-start`}>
                   <Link to="/agentx/hub" className="glass-btn-primary group flex items-center justify-center gap-3">
                     {t.exploreAgentxHub}
                     <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -67,7 +69,7 @@ const HomePage = () => {
                   </a>
                 </div>
 
-                <div className={`mt-8 flex items-center justify-center ${language === 'ar' ? 'lg:justify-start' : 'lg:justify-start'} gap-6 text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-slate-500'}`}>
+                <div className={`mt-8 flex items-center justify-start gap-6 text-sm ${theme === 'dark' ? 'text-gray-500' : 'text-slate-500'}`}>
                   <div className="flex items-center gap-2">
                     <CheckCircle className="w-4 h-4 text-primary-500" />
                     <span>{t.domainExpertAi}</span>
@@ -90,7 +92,7 @@ const HomePage = () => {
 
                   {/* Central Logo */}
                   <div className={`relative z-20 ${theme === 'dark' ? 'bg-[#0B0E14] border-white/10' : 'bg-white border-slate-100'} p-8 rounded-full border shadow-[0_0_50px_rgba(14,165,233,0.3)]`}>
-                    <img src={ObsolioLogo} alt="Obsolio Logo" className="w-32 h-32 object-contain" />
+                    <img src={ObsolioIcon} alt="Obsolio Logo" className="w-32 h-32 object-contain" />
                   </div>
 
                   {/* Floating Agents */}
