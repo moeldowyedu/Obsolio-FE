@@ -188,24 +188,24 @@ const Header = () => {
 
           {/* Desktop Navigation */}
           <div className="flex items-center gap-6">
-            <Link to="/" className={`${theme === 'dark' ? 'text-gray-300 hover:text-white' : 'text-slate-600 hover:text-slate-900'} font-medium transition-colors hidden sm:inline`}>{t.home || 'Home'}</Link>
+            <Link to="/" className={`${theme === 'dark' ? 'text-gray-300 hover:text-white' : 'text-slate-600 hover:text-slate-900'} font-medium transition-colors hidden lg:inline`}>{t.home || 'Home'}</Link>
 
             {!isAuthenticated && (
               <>
-                <Link to="/pricing" className={`${theme === 'dark' ? 'text-gray-300 hover:text-white' : 'text-slate-600 hover:text-slate-900'} font-medium transition-colors hidden sm:inline`}>Pricing</Link>
-                <Link to="/docs/getting-started/introduction" className={`${theme === 'dark' ? 'text-gray-300 hover:text-white' : 'text-slate-600 hover:text-slate-900'} font-medium transition-colors hidden sm:inline`}>{t.docs || 'Docs'}</Link>
+                <Link to="/pricing" className={`${theme === 'dark' ? 'text-gray-300 hover:text-white' : 'text-slate-600 hover:text-slate-900'} font-medium transition-colors hidden lg:inline`}>Pricing</Link>
+                <Link to="/docs/getting-started/introduction" className={`${theme === 'dark' ? 'text-gray-300 hover:text-white' : 'text-slate-600 hover:text-slate-900'} font-medium transition-colors hidden lg:inline`}>{t.docs || 'Docs'}</Link>
               </>
             )}
 
             {/* AgentX HUB - Public for everyone */}
-            <Link to="/agentx/hub" className={`${theme === 'dark' ? 'text-gray-300 hover:text-white' : 'text-slate-600 hover:text-slate-900'} font-medium transition-colors hidden sm:inline`}>{t.agentxHub || 'AgentX HUB'}</Link>
+            <Link to="/agentx/hub" className={`${theme === 'dark' ? 'text-gray-300 hover:text-white' : 'text-slate-600 hover:text-slate-900'} font-medium transition-colors hidden lg:inline pt-1`}>{t.agentxHub || 'AgentX HUB'}</Link>
 
 
             {!isAuthenticated ? (
               <>
                 <Link
                   to="/signin"
-                  className={`hidden sm:flex items-center gap-2 px-4 py-2 border-2 border-brand-blue ${theme === 'dark' ? 'text-primary-400' : 'text-brand-blue'} hover:bg-brand-blue hover:text-white font-semibold rounded-lg transition-all`}
+                  className={`hidden lg:flex items-center gap-2 px-4 py-2 border-2 border-brand-blue ${theme === 'dark' ? 'text-primary-400' : 'text-brand-blue'} hover:bg-brand-blue hover:text-white font-semibold rounded-lg transition-all whitespace-nowrap`}
                 >
                   <LogIn className="w-4 h-4" />
                   {t.signIn || 'Sign In'}
@@ -213,7 +213,7 @@ const Header = () => {
 
                 <Link
                   to="/register"
-                  className="bg-brand-blue text-white px-6 py-2.5 rounded-lg font-semibold hover:bg-sky-600 transition-colors hidden sm:inline"
+                  className="bg-brand-blue text-white px-6 py-2.5 rounded-lg font-semibold hover:bg-sky-600 transition-colors hidden lg:inline whitespace-nowrap"
                 >
                   {t.startFreeTrial || 'Start Free Trial'}
                 </Link>
@@ -265,9 +265,9 @@ const Header = () => {
                   )}
                 </div>
 
-                {/* Mobile Menu Button */}
+                {/* Mobile Menu Button - Visible on Mobile AND Tablet (lg:hidden) */}
                 <button
-                  className="sm:hidden text-gray-300 hover:text-white"
+                  className="lg:hidden text-gray-300 hover:text-white"
                   onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                 >
                   {mobileMenuOpen ? <X /> : <Menu />}
@@ -441,15 +441,16 @@ const Header = () => {
           </div>
         </div>
 
-        {/* Mobile Menu Overlay */}
+        {/* Mobile Menu Overlay - Visible on Mobile AND Tablet (lg:hidden corresponds to button) */}
         {mobileMenuOpen && !isAuthenticated && (
-          <div className="sm:hidden absolute top-full left-0 w-full bg-[#0B0E14]/95 backdrop-blur-xl border-t border-white/10 p-6 flex flex-col gap-4 shadow-2xl h-screen">
+          <div className="lg:hidden absolute top-full left-0 w-full bg-[#0B0E14]/95 backdrop-blur-xl border-t border-white/10 p-6 flex flex-col gap-4 shadow-2xl h-screen">
+            <Link to="/" onClick={() => setMobileMenuOpen(false)} className="text-lg text-gray-300 hover:text-white font-medium">{t.home || 'Home'}</Link>
             <Link to="/pricing" onClick={() => setMobileMenuOpen(false)} className="text-lg text-gray-300 hover:text-white font-medium">Pricing</Link>
-            <Link to="/agentx/hub" onClick={() => setMobileMenuOpen(false)} className="text-lg text-gray-300 hover:text-white font-medium">AgentX HUB</Link>
-            <Link to="/docs/getting-started/introduction" onClick={() => setMobileMenuOpen(false)} className="text-lg text-gray-300 hover:text-white font-medium">Docs</Link>
+            <Link to="/agentx/hub" onClick={() => setMobileMenuOpen(false)} className="text-lg text-gray-300 hover:text-white font-medium">{t.agentxHub || 'AgentX HUB'}</Link>
+            <Link to="/docs/getting-started/introduction" onClick={() => setMobileMenuOpen(false)} className="text-lg text-gray-300 hover:text-white font-medium">{t.docs || 'Docs'}</Link>
             <hr className="border-white/10" />
-            <Link to="/signin" className="text-lg text-gray-200 hover:text-white font-semibold">Sign In</Link>
-            <Link to="/register" className="glass-btn-primary text-center justify-center">Start Free Trial</Link>
+            <Link to="/signin" className="text-lg text-gray-200 hover:text-white font-semibold flex items-center gap-2"><LogIn className="w-5 h-5" /> {t.signIn || 'Sign In'}</Link>
+            <Link to="/register" className="glass-btn-primary text-center justify-center">{t.startFreeTrial || 'Start Free Trial'}</Link>
           </div>
         )}
       </nav>
