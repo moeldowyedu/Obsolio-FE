@@ -29,7 +29,7 @@ const ChatLauncher = () => {
 
                 <div className={`relative flex items-start p-2 rounded-3xl border shadow-2xl transition-all duration-300 ${theme === 'dark'
                     ? 'bg-[#1e293b] border-white/10 group-hover:border-white/20 shadow-brand-blue/5'
-                    : 'bg-white border-slate-200 group-hover:border-brand-blue/30 shadow-slate-200/50'
+                    : 'bg-white border-gray-300 group-hover:border-brand-blue/30 shadow-slate-200/50'
                     }`}>
                     <div className={`p-4 mt-1 ${theme === 'dark' ? 'text-brand-blue' : 'text-brand-blue'}`}>
                         <Sparkles size={24} />
@@ -49,7 +49,7 @@ const ChatLauncher = () => {
                             }
                         }}
                         placeholder="Describe a workflow, ask a question, or launch an agent..."
-                        className={`w-full bg-transparent border-none focus:ring-0 text-lg md:text-xl placeholder-opacity-50 resize-none min-h-[80px] py-4 leading-relaxed ${theme === 'dark'
+                        className={`w-full bg-transparent border-none focus:ring-0 text-lg md:text-xl placeholder-opacity-50 resize-none min-h-[80px] py-4 leading-relaxed caret-brand-blue ${theme === 'dark'
                             ? 'text-white placeholder-gray-500'
                             : 'text-slate-900 placeholder-slate-400'
                             }`}
