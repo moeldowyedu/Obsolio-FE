@@ -311,7 +311,7 @@ const RegisterPage = () => {
         )}
       </div>
 
-      <div className="w-full max-w-4xl relative z-10 animate-fade-in my-4">
+      <div className="w-full max-w-xl relative z-10 animate-fade-in my-4">
         {/* Logo/Brand */}
         <div className="text-center mb-6">
           <Link to="/" className="inline-block mb-4">
@@ -323,7 +323,7 @@ const RegisterPage = () => {
         </div>
 
         {/* Registration Form Card */}
-        <div className={`rounded-3xl p-6 sm:p-8 relative overflow-hidden transition-all duration-300 ${theme === 'dark'
+        <div className={`rounded-3xl p-5 sm:p-6 relative overflow-hidden transition-all duration-300 ${theme === 'dark'
           ? 'glass-card shadow-2xl border border-white/10 backdrop-blur-xl bg-[#1e293b]/40'
           : 'bg-white border border-slate-200 shadow-[0_8px_30px_rgb(0,0,0,0.12)]'}`}>
 
@@ -351,7 +351,7 @@ const RegisterPage = () => {
             </div>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-6 mt-8">
+          <form onSubmit={handleSubmit} className="space-y-4 mt-6">
 
             {/* STEP 1: Account Details */}
             {currentStep === 1 && (
@@ -430,7 +430,7 @@ const RegisterPage = () => {
                         onChange={handleChange}
                         placeholder="(555) 123-4567"
                         className={`
-                          w-full border rounded-lg py-3 pl-10 pr-4 focus:outline-none focus:ring-2 transition-all
+                          w-full border rounded-lg py-2 pl-10 pr-4 focus:outline-none focus:ring-2 transition-all
                           ${theme === 'dark' ? 'bg-white/5 text-white placeholder-gray-500' : 'bg-slate-50 text-slate-900 placeholder-slate-400'}
                           ${errors.phone
                             ? 'border-red-500 focus:ring-red-500/20'
@@ -577,7 +577,7 @@ const RegisterPage = () => {
                         name="tenantUrl"
                         value={formData.tenantUrl}
                         onChange={handleTenantUrlChange}
-                        className={`w-full bg-transparent border-none px-4 py-3 focus:ring-0 focus:outline-none ${theme === 'dark' ? 'text-white placeholder-gray-500' : 'text-slate-900 placeholder-slate-400'}`}
+                        className={`w-full bg-transparent border-none px-4 py-2 focus:ring-0 focus:outline-none ${theme === 'dark' ? 'text-white placeholder-gray-500' : 'text-slate-900 placeholder-slate-400'}`}
                         placeholder="your-workspace"
                         disabled={isLoading}
                       />
@@ -605,7 +605,7 @@ const RegisterPage = () => {
                       </div>
                     </div>
 
-                    <div className={`font-medium select-none whitespace-nowrap px-4 py-3 border rounded-lg ${theme === 'dark' ? 'text-gray-400 bg-white/5 border-white/10' : 'text-slate-500 bg-slate-50 border-slate-200'}`}>
+                    <div className={`font-medium select-none whitespace-nowrap px-4 py-2 border rounded-lg ${theme === 'dark' ? 'text-gray-400 bg-white/5 border-white/10' : 'text-slate-500 bg-slate-50 border-slate-200'}`}>
                       .obsolio.com
                     </div>
                   </div>
