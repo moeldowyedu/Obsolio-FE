@@ -19,7 +19,7 @@ const ChatLauncher = () => {
 
     return (
         <div className="w-full max-w-3xl mx-auto text-center transform transition-all duration-500 hover:scale-[1.01]">
-            <h1 className={`text-4xl md:text-5xl font-bold mb-8 tracking-tight ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
+            <h1 className={`text-3xl md:text-4xl font-bold mb-8 mt-8 tracking-tight ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
                 What would you like to <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-blue to-purple-600">build</span> today?
             </h1>
 
