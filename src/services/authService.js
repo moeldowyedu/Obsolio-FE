@@ -33,6 +33,7 @@ const authService = {
     // Extended Fields
     if (userData.country) formData.append('country', userData.country);
     if (userData.phone) formData.append('phone', userData.phone);
+    if (userData.plan) formData.append('plan', userData.plan);
 
     // Organization Specific Fields
     if (userData.type === 'organization') {
