@@ -27,9 +27,9 @@ const ChatLauncher = () => {
                 <div className={`absolute inset-0 rounded-2xl blur-xl opacity-30 group-hover:opacity-50 transition-opacity duration-500 ${theme === 'dark' ? 'bg-gradient-to-r from-brand-blue to-purple-600' : 'bg-gradient-to-r from-blue-200 to-purple-200'
                     }`}></div>
 
-                <div className={`relative flex items-start p-2 rounded-3xl border shadow-2xl transition-all duration-300 ${theme === 'dark'
-                    ? 'bg-[#1e293b] border-white/10 group-hover:border-white/20 shadow-brand-blue/5'
-                    : 'bg-white border-gray-300 group-hover:border-brand-blue/30 shadow-slate-200/50'
+                <div className={`relative flex items-start p-2 rounded-3xl border transition-all duration-300 ${theme === 'dark'
+                    ? 'bg-[#1e293b] border-white/10 group-hover:border-white/20 shadow-lg shadow-brand-blue/5'
+                    : 'bg-white border-gray-200 group-hover:border-brand-blue/30 shadow-lg shadow-slate-200/50'
                     }`}>
                     <div className={`p-4 mt-1 ${theme === 'dark' ? 'text-brand-blue' : 'text-brand-blue'}`}>
                         <Sparkles size={24} />

@@ -362,102 +362,11 @@ const Sidebar = () => {
 
       {/* Bottom Section - Help */}
       {/* Bottom Section - User Profile & Logout */}
-      <div className="border-t border-white/10 bg-[#0B0E14] flex-shrink-0">
-        {!isCollapsed ? (
-          <div className="p-4 space-y-4">
-            {/* Help Box */}
-            {/* Help Box */}
-            <div className="bg-gradient-to-r from-primary-900/10 to-blue-900/10 rounded-lg p-3 border border-white/5">
-              <div className="flex items-center justify-between mb-1">
-                <h3 className="text-xs font-semibold text-gray-200">Need Help?</h3>
-                <Link to="/docs" className="text-[10px] text-primary-400 hover:text-primary-300">Docs →</Link>
-              </div>
-              <Link to="/contact" className="text-[10px] text-gray-400 hover:text-white transition-colors">
-                Contact Support
-              </Link>
-            </div>
-
-            {/* Theme Toggle */}
-            <button
-              onClick={toggleTheme}
-              className="w-full flex items-center gap-3 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-white/5 border border-transparent hover:border-white/5 transition-all mb-2"
-              title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-            >
-              <div className="flex items-center justify-center w-5 h-5">
-                {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-              </div>
-              <span className="text-sm font-medium">
-                {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
-              </span>
-            </button>
-
-            {/* Logo Area */}
-            <div className={`p-6 flex items-center justify-between ${!isCollapsed ? 'px-6' : 'px-4 justify-center'}`}>
-              {!isCollapsed && (
-                <Link to="/" className="flex items-center gap-2">
-                  <img src={theme === 'dark' ? logoDark : logo} alt="Obsolio" className="h-8 object-contain" />
-                </Link>
-              )}
-            </div>
-
-            {/* User Profile */}
-            <div className="flex items-center justify-between p-2 rounded-lg bg-white/5 border border-white/5">
-              <div className="flex items-center gap-3 overflow-hidden">
-                <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-purple-500 to-primary-500 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
-                  {(user?.name || user?.fullName || user?.full_name || 'U').charAt(0).toUpperCase()}
-                </div>
-                <div className="min-w-0">
-                  <p className="text-sm font-medium text-white truncate">
-                    {user?.name || user?.fullName || user?.full_name || 'User'}
-                  </p>
-                  <p className="text-xs text-gray-500 truncate">{user?.email}</p>
-                </div>
-              </div>
-              <button
-                onClick={async () => {
-                  try {
-                    await logout();
-                  } catch (error) {
-                    console.error('Logout failed:', error);
-                  }
-                }}
-                className="p-1.5 text-gray-400 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
-                title="Logout"
-              >
-                <LogOut className="w-4 h-4" />
-              </button>
-            </div>
-          </div>
-        ) : (
-          <div className="p-2 space-y-2">
-            {/* Collapsed Theme Toggle */}
-            <button
-              onClick={toggleTheme}
-              className="w-10 h-10 mx-auto flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
-              title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-            >
-              {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-            </button>
-
-            <div className="w-10 h-10 mx-auto rounded-full bg-gradient-to-tr from-purple-500 to-primary-500 flex items-center justify-center text-white text-xs font-bold" title={user?.name || user?.fullName || user?.full_name}>
-              {(user?.name || user?.fullName || user?.full_name || 'U').charAt(0).toUpperCase()}
-            </div>
-            <button
-              onClick={async () => {
-                try {
-                  await logout();
-                } catch (error) {
-                  console.error('Logout failed:', error);
-                }
-              }}
-              className="w-10 h-10 mx-auto flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
-              title="Logout"
-            >
-              <LogOut className="w-5 h-5" />
-            </button>
-          </div>
-        )}
-      </div>
+      {/* Bottom Section - REMOVED as per request */}
+      {/* 
+          Previous content: Help Box, Theme Toggle, Logo Area, User Profile 
+          removed to clean up sidebar. 
+      */}
     </aside >
   );
 };

@@ -1,18 +1,27 @@
 import { useState, useRef, useEffect } from 'react';
 import { useAuthStore } from '../../store/authStore';
 import { useTenantStore } from '../../store/tenantStore';
+import { useBillingStore } from '../../store/billingStore';
 import { useTheme } from '../../contexts/ThemeContext';
-import { LogOut, ChevronDown, Check, Building2, User } from 'lucide-react';
+import { LogOut, ChevronDown, Check, Building2, User, Wallet } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const DashboardHeader = () => {
     const { user, logout } = useAuthStore();
     const { tenants, currentTenant, setCurrentTenant } = useTenantStore();
+    const { currentSubscription, fetchSubscription } = useBillingStore();
     const { theme } = useTheme();
     const navigate = useNavigate();
 
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef(null);
+
+    useEffect(() => {
+        // Ensure subscription/balance is loaded
+        if (!currentSubscription) {
+            fetchSubscription().catch(err => console.warn("Balance fetch limited", err));
+        }
+    }, [currentSubscription, fetchSubscription]);
 
     // Close dropdown when clicking outside
     useEffect(() => {
@@ -52,14 +61,27 @@ const DashboardHeader = () => {
     const displayName = user?.name || user?.fullName || user?.full_name || 'User';
     const initial = displayName.charAt(0).toUpperCase();
 
+    // Mock balance deduction/display logic if backend field differs
+    const credits = currentSubscription?.credits || currentSubscription?.balance || 0;
+
     return (
-        <div className="flex justify-end mb-8 relative z-50">
+        <div className="flex items-center justify-end mb-8 relative z-50 gap-4">
+
+            {/* Balance Display */}
+            <div className={`hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full border ${theme === 'dark'
+                ? 'bg-[#1e293b]/50 border-white/10 text-gray-300'
+                : 'bg-white border-slate-200 text-slate-600 shadow-sm'
+                }`}>
+                <Wallet size={16} className={theme === 'dark' ? 'text-brand-orange' : 'text-brand-orange'} />
+                <span className="text-sm font-medium">{credits} Credits</span>
+            </div>
+
             <div className="relative" ref={dropdownRef}>
                 <button
                     onClick={() => setIsOpen(!isOpen)}
                     className={`flex items-center gap-3 p-2 pr-4 rounded-full transition-all border ${theme === 'dark'
-                            ? 'bg-[#1e293b]/50 border-white/10 hover:bg-[#1e293b]'
-                            : 'bg-white border-slate-200 hover:bg-slate-50 shadow-sm'
+                        ? 'bg-[#1e293b]/50 border-white/10 hover:bg-[#1e293b]'
+                        : 'bg-white border-slate-200 hover:bg-slate-50 shadow-sm'
                         }`}
                 >
                     <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-brand-blue to-purple-600 flex items-center justify-center text-white font-bold shadow-lg shadow-brand-blue/20">
@@ -79,8 +101,8 @@ const DashboardHeader = () => {
                 {/* Dropdown Menu */}
                 {isOpen && (
                     <div className={`absolute right-0 mt-2 w-72 rounded-xl shadow-2xl border p-2 animate-in fade-in zoom-in-95 duration-200 origin-top-right ${theme === 'dark'
-                            ? 'bg-[#1e293b] border-white/10 text-white'
-                            : 'bg-white border-slate-100 text-slate-800'
+                        ? 'bg-[#1e293b] border-white/10 text-white'
+                        : 'bg-white border-slate-100 text-slate-800'
                         }`}>
                         <div className="px-3 py-2 border-b border-white/5 mb-2">
                             <p className={`text-xs font-semibold uppercase tracking-wider mb-2 ${theme === 'dark' ? 'text-gray-500' : 'text-slate-400'}`}>
@@ -92,8 +114,8 @@ const DashboardHeader = () => {
                                         key={tenant.id}
                                         onClick={() => handleSwitchTenant(tenant.id)}
                                         className={`w-full flex items-center justify-between p-2 rounded-lg transition-colors ${currentTenant?.id === tenant.id
-                                                ? (theme === 'dark' ? 'bg-brand-blue/10 text-brand-blue' : 'bg-brand-blue/10 text-brand-blue')
-                                                : (theme === 'dark' ? 'hover:bg-white/5' : 'hover:bg-slate-50')
+                                            ? (theme === 'dark' ? 'bg-brand-blue/10 text-brand-blue' : 'bg-brand-blue/10 text-brand-blue')
+                                            : (theme === 'dark' ? 'hover:bg-white/5' : 'hover:bg-slate-50')
                                             }`}
                                     >
                                         <div className="flex items-center gap-3 overflow-hidden">
@@ -111,8 +133,8 @@ const DashboardHeader = () => {
                         <button
                             onClick={handleLogout}
                             className={`w-full flex items-center gap-2 p-2 rounded-lg text-sm font-medium transition-colors ${theme === 'dark'
-                                    ? 'text-red-400 hover:bg-red-400/10'
-                                    : 'text-red-600 hover:bg-red-50'
+                                ? 'text-red-400 hover:bg-red-400/10'
+                                : 'text-red-600 hover:bg-red-50'
                                 }`}
                         >
                             <LogOut size={16} />
