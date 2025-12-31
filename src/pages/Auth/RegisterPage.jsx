@@ -355,7 +355,7 @@ const RegisterPage = () => {
 
             {/* STEP 1: Account Details */}
             {currentStep === 1 && (
-              <div className="space-y-4 animate-fade-in">
+              <div className="space-y-3 animate-fade-in">
                 <Input
                   theme={theme}
                   label="Full Name"
@@ -382,7 +382,7 @@ const RegisterPage = () => {
                   disabled={isLoading}
                 />
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   <div>
                     <label className={`block text-sm font-medium mb-1 ml-1 ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>
                       Country
@@ -447,76 +447,78 @@ const RegisterPage = () => {
                   </div>
                 </div>
 
-                <div>
-                  <div className="relative">
-                    <Input
-                      theme={theme}
-                      label="Password"
-                      type={showPassword ? 'text' : 'password'}
-                      name="password"
-                      value={formData.password}
-                      onChange={handleChange}
-                      placeholder="Create a strong password"
-                      icon={Lock}
-                      error={errors.password}
-                      disabled={isLoading}
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowPassword(!showPassword)}
-                      className={`absolute right-3 top-[38px] transition-colors ${theme === 'dark' ? 'text-gray-400 hover:text-gray-300' : 'text-slate-400 hover:text-slate-600'}`}
-                      tabIndex={-1}
-                    >
-                      {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
-                    </button>
-                  </div>
-
-                  {formData.password && (
-                    <div className="mt-2 pl-1">
-                      <div className="flex items-center justify-between mb-1">
-                        <span className={`text-xs ${theme === 'dark' ? 'text-gray-400' : 'text-slate-500'}`}>Password Strength</span>
-                        <span className={`text-xs font-medium ${passwordStrength < 40 ? 'text-red-400' :
-                          passwordStrength < 70 ? 'text-yellow-400' :
-                            passwordStrength < 90 ? 'text-blue-400' :
-                              'text-green-400'
-                          }`}>
-                          {strengthInfo.label}
-                        </span>
-                      </div>
-                      <div className={`w-full rounded-full h-1.5 overflow-hidden ${theme === 'dark' ? 'bg-gray-700' : 'bg-slate-200'}`}>
-                        <div
-                          className={`h-full transition-all duration-300 ${strengthInfo.color}`}
-                          style={{ width: `${passwordStrength}%` }}
-                        />
-                      </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <div>
+                    <div className="relative">
+                      <Input
+                        theme={theme}
+                        label="Password"
+                        type={showPassword ? 'text' : 'password'}
+                        name="password"
+                        value={formData.password}
+                        onChange={handleChange}
+                        placeholder="Create password"
+                        icon={Lock}
+                        error={errors.password}
+                        disabled={isLoading}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className={`absolute right-3 top-[38px] transition-colors ${theme === 'dark' ? 'text-gray-400 hover:text-gray-300' : 'text-slate-400 hover:text-slate-600'}`}
+                        tabIndex={-1}
+                      >
+                        {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                      </button>
                     </div>
-                  )}
-                </div>
+                  </div>
 
-                <div>
-                  <div className="relative">
-                    <Input
-                      theme={theme}
-                      label="Confirm Password"
-                      type={showConfirmPassword ? 'text' : 'password'}
-                      name="confirmPassword"
-                      value={formData.confirmPassword}
-                      onChange={handleChange}
-                      placeholder="Re-enter your password"
-                      icon={Lock}
-                      error={errors.confirmPassword}
-                      disabled={isLoading}
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                      className={`absolute right-3 top-[38px] transition-colors ${theme === 'dark' ? 'text-gray-400 hover:text-gray-300' : 'text-slate-400 hover:text-slate-600'}`}
-                      tabIndex={-1}
-                    >
-                      {showConfirmPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
-                    </button>
+                  <div>
+                    <div className="relative">
+                      <Input
+                        theme={theme}
+                        label="Confirm Password"
+                        type={showConfirmPassword ? 'text' : 'password'}
+                        name="confirmPassword"
+                        value={formData.confirmPassword}
+                        onChange={handleChange}
+                        placeholder="Confirm password"
+                        icon={Lock}
+                        error={errors.confirmPassword}
+                        disabled={isLoading}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                        className={`absolute right-3 top-[38px] transition-colors ${theme === 'dark' ? 'text-gray-400 hover:text-gray-300' : 'text-slate-400 hover:text-slate-600'}`}
+                        tabIndex={-1}
+                      >
+                        {showConfirmPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                      </button>
+                    </div>
                   </div>
                 </div>
+
+                {formData.password && (
+                  <div className="mt-1 pl-1">
+                    <div className="flex items-center justify-between mb-1">
+                      <span className={`text-xs ${theme === 'dark' ? 'text-gray-400' : 'text-slate-500'}`}>Strength</span>
+                      <span className={`text-xs font-medium ${passwordStrength < 40 ? 'text-red-400' :
+                        passwordStrength < 70 ? 'text-yellow-400' :
+                          passwordStrength < 90 ? 'text-blue-400' :
+                            'text-green-400'
+                        }`}>
+                        {strengthInfo.label}
+                      </span>
+                    </div>
+                    <div className={`w-full rounded-full h-1 overflow-hidden ${theme === 'dark' ? 'bg-gray-700' : 'bg-slate-200'}`}>
+                      <div
+                        className={`h-full transition-all duration-300 ${strengthInfo.color}`}
+                        style={{ width: `${passwordStrength}%` }}
+                      />
+                    </div>
+                  </div>
+                )}
 
                 <div className="flex gap-3 mt-8">
                   <Button
@@ -536,10 +538,10 @@ const RegisterPage = () => {
 
             {/* STEP 2: Workspace Setup */}
             {currentStep === 2 && (
-              <div className="space-y-4 animate-fade-in">
+              <div className="space-y-3 animate-fade-in">
 
                 {/* Organization Details (Now Required) */}
-                <div className="space-y-4 pt-2">
+                <div className="space-y-3 pt-1">
                   <Input
                     theme={theme}
                     label="Company / Organization Name"
@@ -623,8 +625,8 @@ const RegisterPage = () => {
                   )}
                 </div>
 
-                <div className={`space-y-4 pt-4 border-t animate-fade-in ${theme === 'dark' ? 'border-white/5' : 'border-slate-100'}`}>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className={`space-y-3 pt-3 border-t animate-fade-in ${theme === 'dark' ? 'border-white/5' : 'border-slate-100'}`}>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
 
                     <Input
                       theme={theme}
@@ -654,15 +656,15 @@ const RegisterPage = () => {
                       />
                       <label
                         htmlFor="org-logo"
-                        className={`flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-xl transition-all cursor-pointer ${theme === 'dark' ? 'border-white/10 bg-white/5 hover:bg-white/10 hover:border-primary-500/50' : 'border-slate-200 bg-slate-50 hover:bg-white hover:border-primary-500/50'}`}
+                        className={`flex flex-col items-center justify-center w-full h-24 border-2 border-dashed rounded-xl transition-all cursor-pointer ${theme === 'dark' ? 'border-white/10 bg-white/5 hover:bg-white/10 hover:border-primary-500/50' : 'border-slate-200 bg-slate-50 hover:bg-white hover:border-primary-500/50'}`}
                       >
-                        <div className="w-12 h-12 rounded-full bg-primary-500/20 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
-                          <Upload className="w-6 h-6 text-primary-400" />
+                        <div className="w-10 h-10 rounded-full bg-primary-500/20 flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
+                          <Upload className="w-5 h-5 text-primary-400" />
                         </div>
-                        <span className={`text-sm font-medium ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
+                        <span className={`text-xs font-medium ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
                           {formData.organizationLogo ? formData.organizationLogo.name : 'Click to upload logo'}
                         </span>
-                        <span className={`text-xs mt-1 ${theme === 'dark' ? 'text-gray-500' : 'text-slate-500'}`}>SVG, PNG, JPG (max 2MB)</span>
+                        <span className={`text-[10px] mt-0.5 ${theme === 'dark' ? 'text-gray-500' : 'text-slate-500'}`}>SVG, PNG, JPG (max 2MB)</span>
                       </label>
                     </div>
                   </div>
