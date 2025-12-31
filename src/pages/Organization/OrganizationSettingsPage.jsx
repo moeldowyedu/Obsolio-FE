@@ -157,90 +157,37 @@ const OrganizationSettingsPage = () => {
         const fetchOrganizationData = async () => {
             setFetching(true);
             try {
-                let success = false;
-                let data = null;
-                let tenantId = user.tenant?.id;
+                // Optimized Fetch: Prioritize direct Organization API calls
+                // The user requested explicit GET and PUT methods for the organizations endpoint.
 
-                // Priority 1
-                if (tenantId) {
-                    try {
-                        const tenant = await tenantService.getTenant(tenantId);
+                // 1. Try to get the organization list for the current user/tenant
+                let orgData = null;
+                const orgResponse = await organizationService.organizations.list();
+                const orgs = Array.isArray(orgResponse) ? orgResponse : (orgResponse.data || []);
+
+                if (orgs.length > 0) {
+                    // Start with the first organization found (common case for single-tenant users)
+                    // You might want to match against user.tenant_id if multiple exist
+                    const match = orgs.find(o => o.id === user.tenant?.id) || orgs[0];
+                    setOrgId(match.id);
+
+                    // 2. Explicitly GET the full details for this organization
+                    // This satisfies the "get method" requirement
+                    const fullOrgDetails = await organizationService.organizations.get(match.id);
+                    orgData = fullOrgDetails.data || fullOrgDetails; // Handle wrapped vs unwrapped
+                } else {
+                    // Fallback to tenant service if organization list is empty (legacy support)
+                    if (user.tenant?.id) {
+                        const tenant = await tenantService.getTenant(user.tenant.id);
                         if (tenant) {
-                            success = true;
-                            data = tenant;
-                            // Default to using tenant service, but we will check for a better org record below
-                            setOrgId(tenant.id);
-                            setUseTenantServiceForUpdate(true);
+                            orgData = tenant.organization || tenant;
+                            setOrgId(tenant.organization?.id || tenant.id);
+                            setUseTenantServiceForUpdate(true); // Flag to use tenant service fallback
                         }
-                    } catch (e) { }
-                }
-
-                // Priority 2
-                if (!success) {
-                    try {
-                        const response = await tenantService.getTenants();
-                        const tenants = Array.isArray(response) ? response : (response.data || []);
-                        const match = tenants.find(t =>
-                            t.id === user.tenant_id ||
-                            t.subdomain === user.tenant_id ||
-                            t.id?.toString() === user.tenant_id?.toString() ||
-                            (t.subdomain && user.tenant?.name && t.name === user.tenant.name)
-                        );
-
-                        if (match) {
-                            success = true;
-                            data = match;
-                            setOrgId(match.id);
-                            setUseTenantServiceForUpdate(true);
-                        }
-                    } catch (e) { }
-                }
-
-                // CRITICAL RESTORATION: Try fetching the specific Organization record.
-                // The backend dev indicated the "missing record" bug is fixed. 
-                // We MUST get the true Organization ID to avoid "No Query Results" errors on update.
-                try {
-                    const orgResponse = await organizationService.organizations.list();
-                    const orgs = Array.isArray(orgResponse) ? orgResponse : (orgResponse.data || []);
-                    if (orgs.length > 0) {
-                        // Found a specific organization!
-                        // console.log("✅ Found valid Organization record:", orgs[0]);
-                        success = true;
-                        data = orgs[0];
-                        setOrgId(data.id);
-                        setUseTenantServiceForUpdate(false); // Explicitly use Org service
                     }
-                } catch (e) {
-                    // console.warn("Could not fetch explicit organization list (using tenant fallback if avail)");
                 }
 
-                // Priority 3 Fallback to user session...
-                if (!success && user.tenant) {
-                    success = true;
-                    data = user.tenant;
-                    // If we are falling back to session, we might not have the org ID.
-                    // But if the list() call above failed, we have no choice.
-                    setOrgId(user.tenant.id);
-                    setUseTenantServiceForUpdate(true);
-                }
-
-                if (success && data) {
-                    // Smart Resolution: Check if we have a nested organization object
-                    // This is critical to avoid "No query results for model [App\Models\Organization]"
-                    // caused by trying to update an Organization using a Tenant ID.
-                    const orgData = data.organization || data;
-
-                    // If we found a specific organization record, use its ID and the Org Service
-                    if (data.organization?.id) {
-                        setOrgId(data.organization.id);
-                        setUseTenantServiceForUpdate(false);
-                    }
-                    // Fallback: If we assume the Tenant IS the entity to update (or backend handles it)
-                    else {
-                        setOrgId(data.id);
-                        setUseTenantServiceForUpdate(true);
-                    }
-
+                if (orgData) {
                     setFormData({
                         organization_full_name: orgData.organization_full_name || orgData.name || '',
                         organization_short_name: orgData.organization_short_name || orgData.short_name || '',
@@ -254,10 +201,11 @@ const OrganizationSettingsPage = () => {
                         logo_preview: getNormalizedLogoUrl(orgData.organizationLogo || orgData.logo_url || orgData.logo)
                     });
                 } else {
-                    throw new Error("Could not load organization details.");
+                    throw new Error("No organization profile found.");
                 }
 
             } catch (err) {
+                console.error("Fetch Organization Error:", err);
                 const errorMessage = err.response?.data?.message || err.message || 'Failed to load organization details.';
                 setError(errorMessage);
             } finally {
@@ -266,7 +214,7 @@ const OrganizationSettingsPage = () => {
         };
 
         fetchOrganizationData();
-    }, []);
+    }, [user.tenant?.id]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
