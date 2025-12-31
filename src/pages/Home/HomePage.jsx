@@ -13,6 +13,7 @@ import HeroBrandText from '../../components/common/HeroBrandText';
 import DrHebaImage from '../../assets/imgs/heba-saleh.png';
 import AhmedSalahImage from '../../assets/imgs/ahmed-salah.jpg';
 import TypingEffect from '../../components/common/TypingEffect';
+import UseCasesSection from '../../components/home/UseCasesSection';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { useTheme } from '../../contexts/ThemeContext';
 import { translations } from '../../translations';
@@ -581,6 +582,9 @@ const HomePage = () => {
             </div>
           </div>
         </section>
+
+        {/* Use Cases Section - New! */}
+        <UseCasesSection />
 
         {/* Final CTA */}
         <section className="py-24 px-6 relative">

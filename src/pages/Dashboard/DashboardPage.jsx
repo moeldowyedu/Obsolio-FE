@@ -25,10 +25,10 @@ const DashboardPage = () => {
         </div>
 
         {/* Main Content Area - Centered */}
-        <div className="flex-1 flex flex-col items-center justify-center -mt-20">
+        <div className="flex-1 flex flex-col items-center justify-center -mt-10">
 
           {/* Chat Launcher Section */}
-          <div className="w-full mb-16 animate-slide-up">
+          <div className="w-full mb-24 animate-slide-up">
             <ChatLauncher />
           </div>
 
