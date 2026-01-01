@@ -41,8 +41,8 @@ const authService = {
       // Organization Specific Fields
       if (userData.type === 'organization') {
         const orgFullName = userData.organizationFullName || userData.organizationName;
-        if (orgFullName) formData.append('organizationFullName', orgFullName);
-        if (userData.organizationShortName) formData.append('organizationShortName', userData.organizationShortName);
+        if (orgFullName) formData.append('organization_full_name', orgFullName);
+        if (userData.organizationShortName) formData.append('organization_short_name', userData.organizationShortName);
         if (userData.organizationLogo) formData.append('organizationLogo', userData.organizationLogo);
       }
 
@@ -73,8 +73,9 @@ const authService = {
 
       if (userData.type === 'organization') {
         const orgFullName = userData.organizationFullName || userData.organizationName;
-        if (orgFullName) payload.organizationFullName = orgFullName;
-        if (userData.organizationShortName) payload.organizationShortName = userData.organizationShortName;
+        // Map to snake_case for backend compatibility
+        if (orgFullName) payload.organization_full_name = orgFullName;
+        if (userData.organizationShortName) payload.organization_short_name = userData.organizationShortName;
         // Skip logo if not a file
       }
 
