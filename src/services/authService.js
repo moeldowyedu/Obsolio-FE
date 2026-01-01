@@ -18,64 +18,75 @@ const authService = {
 
   // Register
   register: async (userData) => {
-    // Create FormData for file upload support
-    const formData = new FormData();
+    // Check if we need to send as FormData (only if there's a file)
+    const hasFile = userData.organizationLogo instanceof File;
 
-    // Core Fields
-    formData.append('type', userData.type || 'personal');
-    formData.append('fullName', userData.fullName || userData.firstName + ' ' + userData.lastName);
-    formData.append('email', userData.email);
-    formData.append('password', userData.password);
-    formData.append('password_confirmation', userData.password); // Laravel confirmation
-    // Subdomain is now required for ALL types
-    formData.append('subdomain', userData.tenantUrl || userData.slug || userData.subdomain);
+    if (hasFile) {
+      console.log('📤 Sending registration as FormData (Multipart)');
+      const formData = new FormData();
 
-    // Extended Fields
-    if (userData.country) formData.append('country', userData.country);
-    if (userData.phone) formData.append('phone', userData.phone);
-    if (userData.plan) formData.append('plan', userData.plan);
+      // Core Fields
+      formData.append('type', userData.type || 'personal');
+      formData.append('fullName', userData.fullName || userData.firstName + ' ' + userData.lastName);
+      formData.append('email', userData.email);
+      formData.append('password', userData.password);
+      formData.append('password_confirmation', userData.password);
+      formData.append('subdomain', userData.tenantUrl || userData.slug || userData.subdomain);
 
-    // Organization Specific Fields
-    if (userData.type === 'organization') {
-      // Support both organizationFullName (new) and organizationName (legacy)
-      const orgFullName = userData.organizationFullName || userData.organizationName;
-      if (orgFullName) {
-        formData.append('organizationFullName', orgFullName);
+      // Extended Fields
+      if (userData.country) formData.append('country', userData.country);
+      if (userData.phone) formData.append('phone', userData.phone);
+      if (userData.plan) formData.append('plan', userData.plan);
+
+      // Organization Specific Fields
+      if (userData.type === 'organization') {
+        const orgFullName = userData.organizationFullName || userData.organizationName;
+        if (orgFullName) formData.append('organizationFullName', orgFullName);
+        if (userData.organizationShortName) formData.append('organizationShortName', userData.organizationShortName);
+        if (userData.organizationLogo) formData.append('organizationLogo', userData.organizationLogo);
       }
-      if (userData.organizationShortName) {
-        formData.append('organizationShortName', userData.organizationShortName);
+
+      const response = await api.post('/auth/register', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+
+      if (response.data.success && response.data.data.token) {
+        localStorage.setItem('auth_token', response.data.data.token);
+        localStorage.setItem('user', JSON.stringify(response.data.data.user));
+        return response.data;
       }
-      // Handle file upload
-      if (userData.organizationLogo instanceof File) {
-        formData.append('organizationLogo', userData.organizationLogo);
-      }
-    }
+      return response.data;
 
-    console.log('📤 Sending registration FormData');
-
-    // Send as multipart/form-data (axios handles this automatically with FormData)
-    const response = await api.post('/auth/register', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-
-    // Check if email verification is required
-    if (response.data.emailVerificationRequired) {
-      return {
-        emailVerificationRequired: true,
-        ...response.data
+    } else {
+      console.log('📤 Sending registration as JSON');
+      const payload = {
+        type: userData.type || 'personal',
+        fullName: userData.fullName || (userData.firstName + ' ' + userData.lastName),
+        email: userData.email,
+        password: userData.password,
+        password_confirmation: userData.password,
+        subdomain: userData.tenantUrl || userData.slug || userData.subdomain,
+        country: userData.country,
+        phone: userData.phone,
+        plan: userData.plan,
       };
-    }
 
-    // Auto-login after registration by saving token and user
-    if (response.data?.success && response.data?.data?.token) {
-      localStorage.setItem('auth_token', response.data.data.token);
-      localStorage.setItem('user', JSON.stringify(response.data.data.user));
+      if (userData.type === 'organization') {
+        const orgFullName = userData.organizationFullName || userData.organizationName;
+        if (orgFullName) payload.organizationFullName = orgFullName;
+        if (userData.organizationShortName) payload.organizationShortName = userData.organizationShortName;
+        // Skip logo if not a file
+      }
+
+      const response = await api.post('/auth/register', payload);
+
+      if (response.data.success && response.data.data.token) {
+        localStorage.setItem('auth_token', response.data.data.token);
+        localStorage.setItem('user', JSON.stringify(response.data.data.user));
+        return response.data;
+      }
       return response.data;
     }
-
-    return response.data;
   },
 
   // Logout

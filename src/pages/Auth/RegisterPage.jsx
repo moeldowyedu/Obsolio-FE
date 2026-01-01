@@ -243,6 +243,12 @@ const RegisterPage = () => {
       }
     } catch (error) {
       console.error('Registration failed:', error);
+      console.error('Error Details:', {
+        message: error.message,
+        status: error.response?.status,
+        data: error.response?.data
+      });
+
       if (error.response?.data?.errors) {
         const backendErrors = {};
         Object.keys(error.response.data.errors).forEach(key => {
