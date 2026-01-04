@@ -27,7 +27,7 @@ const HomePage = () => {
       <div className={`min-h-screen ${theme === 'dark' ? 'bg-[#0B0E14] text-white' : 'bg-slate-50 text-slate-900'} selection:bg-primary-500/30 font-body`}>
 
         {/* Hero Section */}
-        <section className="relative pt-40 pb-24 px-6 overflow-hidden">
+        <section className="relative pt-12 pb-24 px-6 overflow-hidden">
 
           {/* Light Mode Subtle Gradient - Optional Depth */}
           {theme !== 'dark' && (

@@ -194,8 +194,7 @@ const RegisterPage = () => {
         password: formData.password,
         subdomain: formData.tenantUrl,
         country: formData.country,
-        phone: formattedPhone,
-        plan: 'free-trial-7-days', // Enforce Free Trial
+        phone: formattedPhone
       };
 
       const orgFullName = formData.organizationName?.trim();
