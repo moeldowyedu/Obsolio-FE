@@ -49,12 +49,6 @@ const MyAgents = ({ agents = [] }) => {
         <h3 className={`text-lg font-heading font-semibold ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
           My Agents
         </h3>
-        <button
-          onClick={() => navigate('/agentx/builder')}
-          className="text-sm text-primary-600 hover:text-primary-600 font-medium"
-        >
-          + New Agent
-        </button>
       </div>
 
       <div className="space-y-2">
@@ -63,8 +57,8 @@ const MyAgents = ({ agents = [] }) => {
             key={agent.id}
             onClick={() => navigate('/agentx/my-agents')}
             className={`p-4 rounded-lg border transition-all cursor-pointer ${theme === 'dark'
-                ? 'border-white/10 hover:border-primary-500/30 hover:bg-white/5'
-                : 'border-slate-200 hover:border-primary-300 hover:bg-primary-50'
+              ? 'border-white/10 hover:border-primary-500/30 hover:bg-white/5'
+              : 'border-slate-200 hover:border-primary-300 hover:bg-primary-50'
               }`}
           >
             <div className="flex items-center justify-between mb-2">
@@ -83,8 +77,8 @@ const MyAgents = ({ agents = [] }) => {
                 <span
                   key={idx}
                   className={`text-xs px-2 py-1 rounded ${theme === 'dark'
-                      ? 'bg-white/10 text-gray-300'
-                      : 'bg-slate-100 text-slate-700'
+                    ? 'bg-white/10 text-gray-300'
+                    : 'bg-slate-100 text-slate-700'
                     }`}
                 >
                   {engine}
@@ -98,15 +92,11 @@ const MyAgents = ({ agents = [] }) => {
       {mockAgents.length === 0 && (
         <div className="text-center py-8">
           <p className="text-gray-500">No agents yet</p>
-          <button
-            onClick={() => navigate('/agentx/builder')}
-            className="mt-2 text-sm text-primary-600 hover:text-primary-600 font-medium"
-          >
-            Create your first agent →
-          </button>
+        </button>
         </div>
-      )}
-    </Card>
+  )
+}
+    </Card >
   );
 };
 

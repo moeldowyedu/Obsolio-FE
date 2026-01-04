@@ -49,7 +49,7 @@ const ChatLauncher = () => {
                             }
                         }}
                         placeholder="Describe a workflow, ask a question, or launch an agent..."
-                        className={`w-full bg-transparent border-none focus:ring-0 text-lg md:text-xl placeholder-opacity-50 resize-none min-h-[80px] py-4 leading-relaxed caret-brand-blue ${theme === 'dark'
+                        className={`w-full bg-transparent border-none focus:ring-0 outline-none text-lg md:text-xl placeholder-opacity-50 resize-none min-h-[80px] py-4 leading-relaxed caret-brand-blue ${theme === 'dark'
                             ? 'text-white placeholder-gray-500'
                             : 'text-slate-900 placeholder-slate-400'
                             }`}

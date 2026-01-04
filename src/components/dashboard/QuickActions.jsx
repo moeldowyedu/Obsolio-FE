@@ -7,14 +7,7 @@ const QuickActions = () => {
   const { theme } = useTheme();
 
   const actions = [
-    {
-      id: 'create-agent',
-      title: 'Create Agent',
-      description: 'Build a new Precision AI Agent',
-      icon: '🤖',
-      color: 'bg-gradient-to-br from-primary-500 to-primary-600',
-      path: '/agentx/builder',
-    },
+
     {
       id: 'browse-engines',
       title: 'Browse Engines',

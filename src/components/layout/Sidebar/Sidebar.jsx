@@ -78,7 +78,6 @@ const Sidebar = () => {
       children: [
         { name: 'HUB', href: '/agentx/hub', icon: 'store' },
         { name: 'My Agents', href: '/agentx/my-agents', icon: 'person' },
-        { name: 'Agent Builder', href: '/agentx/builder', icon: 'construction' },
         { name: 'Deploy Agent', href: '/agents/deploy', icon: 'add_circle' },
         { name: 'Developer Portal', href: '/agentx/developer', icon: 'code' },
       ]
@@ -105,7 +104,6 @@ const Sidebar = () => {
         { name: 'Execution History', href: '/orchestration/history', icon: 'history' },
         { name: 'Scheduled Jobs', href: '/scheduling/jobs', icon: 'alarm' },
         { name: 'Calendar View', href: '/scheduling/calendar', icon: 'calendar_today' },
-        { name: 'Upcoming Runs', href: '/scheduling/upcoming', icon: 'hourglass_empty' },
       ]
     },
     {

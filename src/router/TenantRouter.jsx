@@ -127,7 +127,7 @@ const TenantRouter = () => {
                 <Route path="/agentx/hub/agent/:id" element={<ProtectedRoute><AgentDetailPage /></ProtectedRoute>} />
                 <Route path="/agentx/hub/checkout/:id" element={<ProtectedRoute><CheckoutPage /></ProtectedRoute>} />
                 <Route path="/agentx/my-agents" element={<ProtectedRoute><MyAgentsPage /></ProtectedRoute>} />
-                <Route path="/agentx/builder" element={<ProtectedRoute><AgentXBuilderPage /></ProtectedRoute>} />
+
                 <Route path="/agentx/private" element={<ProtectedRoute><PrivateAgentsPage /></ProtectedRoute>} />
                 <Route path="/agentx/developer" element={<ProtectedRoute><DeveloperPortalPage /></ProtectedRoute>} />
                 <Route path="/agents/deploy" element={<ProtectedRoute><AgentDeploymentWizard /></ProtectedRoute>} />
@@ -142,7 +142,7 @@ const TenantRouter = () => {
 
                 <Route path="/scheduling/jobs" element={<ProtectedRoute><ScheduledJobsPage /></ProtectedRoute>} />
                 <Route path="/scheduling/calendar" element={<ProtectedRoute><CalendarViewPage /></ProtectedRoute>} />
-                <Route path="/scheduling/upcoming" element={<ProtectedRoute><UpcomingRunsPage /></ProtectedRoute>} />
+
 
                 <Route path="/hitl" element={<ProtectedRoute><OversightModesPage /></ProtectedRoute>} />
                 <Route path="/hitl/modes" element={<ProtectedRoute><OversightModesPage /></ProtectedRoute>} />
