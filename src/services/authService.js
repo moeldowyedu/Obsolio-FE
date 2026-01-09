@@ -26,65 +26,52 @@ const authService = {
       const formData = new FormData();
 
       // Core Fields
-      formData.append('type', userData.type || 'personal');
       formData.append('fullName', userData.fullName || userData.firstName + ' ' + userData.lastName);
       formData.append('email', userData.email);
       formData.append('password', userData.password);
-      formData.append('password_confirmation', userData.password);
+      formData.append('password_confirmation', userData.password_confirmation || userData.password); // Ensure confirmation is sent
       formData.append('subdomain', userData.tenantUrl || userData.slug || userData.subdomain);
 
       // Extended Fields
       if (userData.country) formData.append('country', userData.country);
       if (userData.phone) formData.append('phone', userData.phone);
-      if (userData.plan) formData.append('plan', userData.plan);
+      // Removed 'plan' and 'type' - handled by backend
 
       // Organization Specific Fields
-      if (userData.type === 'organization') {
-        const orgFullName = userData.organizationFullName || userData.organizationName;
-        if (orgFullName) formData.append('organizationFullName', orgFullName);
-        if (userData.organizationShortName) formData.append('organizationShortName', userData.organizationShortName);
-        if (userData.organizationLogo) formData.append('organizationLogo', userData.organizationLogo);
-      }
+      const orgFullName = userData.organizationFullName || userData.organizationName;
+      if (orgFullName) formData.append('organizationFullName', orgFullName);
+      if (userData.organizationShortName) formData.append('organizationShortName', userData.organizationShortName);
+      if (userData.organizationLogo) formData.append('organizationLogo', userData.organizationLogo);
 
       const response = await api.post('/auth/register', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
 
-      if (response.data.success && response.data.data.token) {
-        localStorage.setItem('auth_token', response.data.data.token);
-        localStorage.setItem('user', JSON.stringify(response.data.data.user));
-        return response.data;
-      }
+      // Backend does NOT return token on registration anymore (requires verification)
+      // Return response data directly
       return response.data;
 
     } else {
       console.log('📤 Sending registration as JSON');
       const payload = {
-        type: userData.type || 'personal',
         fullName: userData.fullName || (userData.firstName + ' ' + userData.lastName),
         email: userData.email,
         password: userData.password,
-        password_confirmation: userData.password,
+        password_confirmation: userData.password_confirmation || userData.password,
         subdomain: userData.tenantUrl || userData.slug || userData.subdomain,
         country: userData.country,
         phone: userData.phone,
-        plan: userData.plan,
+        // Removed 'plan' and 'type'
       };
 
-      if (userData.type === 'organization') {
-        const orgFullName = userData.organizationFullName || userData.organizationName;
-        if (orgFullName) payload.organizationFullName = orgFullName;
-        if (userData.organizationShortName) payload.organizationShortName = userData.organizationShortName;
-        // Skip logo if not a file
-      }
+      const orgFullName = userData.organizationFullName || userData.organizationName;
+      if (orgFullName) payload.organizationFullName = orgFullName;
+      if (userData.organizationShortName) payload.organizationShortName = userData.organizationShortName;
 
       const response = await api.post('/auth/register', payload);
 
-      if (response.data.success && response.data.data.token) {
-        localStorage.setItem('auth_token', response.data.data.token);
-        localStorage.setItem('user', JSON.stringify(response.data.data.user));
-        return response.data;
-      }
+      // Backend does NOT return token on registration anymore (requires verification)
+      // Return response data directly
       return response.data;
     }
   },

@@ -188,10 +188,11 @@ const RegisterPage = () => {
       }
 
       const payload = {
-        type: 'organization', // Hardcoded
+        // type: 'organization', // REMOVED: Managed by backend
         fullName: formData.fullName.trim(),
         email: formData.email.trim(),
         password: formData.password,
+        password_confirmation: formData.confirmPassword, // Added confirmation
         subdomain: formData.tenantUrl,
         country: formData.country,
         phone: formattedPhone
@@ -219,26 +220,17 @@ const RegisterPage = () => {
 
       if (result) {
         const data = result.data || result;
-        const isVerificationRequired = data.verification_required || result.emailVerificationRequired;
 
-        if (isVerificationRequired) {
-          toast.success('Registration successful! Please check your email.');
-          navigate('/verify-email-sent', {
-            state: {
-              email: formData.email,
-              workspacePreview: data.workspace_preview || data.workspace_url
-            },
-            replace: true
-          });
-        } else {
-          toast.success('Account created successfully!');
-          const workspaceUrl = data.workspace_url || `https://${formData.tenantUrl}.obsolio.com/login`;
-          if (workspaceUrl) {
-            window.location.href = workspaceUrl;
-          } else {
-            navigate('/login', { replace: true });
-          }
-        }
+        // ALWAYS Redirect to verification page
+        // Backend no longer returns token immediately
+        toast.success('Registration successful! Please check your email.');
+        navigate('/verify-email-sent', {
+          state: {
+            email: formData.email,
+            workspacePreview: data.workspace_preview || data.workspace_url || `https://${formData.tenantUrl}.obsolio.com`
+          },
+          replace: true
+        });
       }
     } catch (error) {
       console.error('Registration failed:', error);
