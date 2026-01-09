@@ -54,6 +54,7 @@ const authService = {
     } else {
       console.log('📤 Sending registration as JSON');
       const payload = {
+        type: 'organization', // Restored as safety fallback
         fullName: userData.fullName || (userData.firstName + ' ' + userData.lastName),
         email: userData.email,
         password: userData.password,
@@ -61,7 +62,7 @@ const authService = {
         subdomain: userData.tenantUrl || userData.slug || userData.subdomain,
         country: userData.country,
         phone: userData.phone,
-        // Removed 'plan' and 'type'
+        plan: userData.plan || 'free-trial-7-days', // Restored as safety fallback
       };
 
       const orgFullName = userData.organizationFullName || userData.organizationName;
