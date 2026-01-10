@@ -34,7 +34,7 @@ const EmailVerificationHandlerPage = () => {
 
         // Construct the backend verification URL
         // The backend will handle verification and redirect back to the frontend
-        const backendUrl = `https://api.obsolio.com/api/v1/verify-email/${id}/${hash}?expires=${expires}&signature=${signature}`;
+        const backendUrl = `https://api.obsolio.com/api/v1/auth/verify-email/${id}/${hash}?expires=${expires}&signature=${signature}`;
 
         console.log('Redirecting to backend for verification:', backendUrl);
 
