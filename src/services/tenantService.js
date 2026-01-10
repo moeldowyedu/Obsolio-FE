@@ -33,10 +33,15 @@ export const tenantService = {
 
   /**
    * Get all tenants for current user
+   * @deprecated GET /tenants is failing (500) and likely incorrect for tenant context. 
+   * Use /admin/tenants for admin or /users/me/tenants if available.
+   * returning empty array to prevent crash.
    */
   getTenants: async () => {
-    const response = await apiClient.get('/tenants');
-    return response.data?.data || response.data;
+    // const response = await apiClient.get('/tenants');
+    // return response.data?.data || response.data;
+    console.warn('tenantService.getTenants() called but disabled due to backend 500 error.');
+    return [];
   },
 
   /**
