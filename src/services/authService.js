@@ -125,9 +125,9 @@ const authService = {
 
   // Verify Email
   verifyEmail: async (id, hash, query) => {
-    // Backend uses /auth/email/verify/{id}/{hash} for signed URLs
+    // Backend uses /auth/verify-email/{id}/{hash} for signed URLs
     // We also add X-Forwarded-Host to ensure the signature validates against the frontend domain
-    const response = await api.get(`/verify-email/${id}/${hash}${query || ''}`, {
+    const response = await api.get(`/auth/verify-email/${id}/${hash}${query || ''}`, {
       headers: {
         'X-Forwarded-Host': window.location.host
       }
@@ -138,7 +138,8 @@ const authService = {
   // Resend Verification Email
   resendVerificationEmail: async (email) => {
     try {
-      const response = await api.post('/auth/email/resend', { email });
+      // Endpoint updated per backend requirement: POST /api/v1/auth/resend-verification
+      const response = await api.post('/auth/resend-verification', { email });
       return response.data;
     } catch (error) {
       console.error('Resend verification error:', error);
