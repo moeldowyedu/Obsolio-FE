@@ -59,7 +59,10 @@ api.interceptors.request.use(
       config.url?.includes('/auth/reset-password') ||
       config.url?.includes('/auth/resend-verification');
 
-    if (tenantId && !isConsole && !isAuthRoute) {
+    // Exclude /tenants endpoint (unless it's check-availability) from X-Tenant-ID header
+    const isTenantsListEndpoint = config.url?.includes('/tenants') && !config.url?.includes('/check-availability'); // exclude generic lists
+
+    if (tenantId && !isConsole && !isAuthRoute && !isTenantsListEndpoint) {
       config.headers['X-Tenant-ID'] = tenantId;
     }
 
