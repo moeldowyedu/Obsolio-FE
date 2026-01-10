@@ -73,7 +73,6 @@ const EditableField = ({ label, name, value, onSave, type = 'text', options = nu
             setIsEditing(false);
             toast.success(`${label} updated`);
         } catch (error) {
-        } catch (error) {
             let msg = error.response?.data?.message || error.message || 'Unknown error';
 
             // Check for Laravel validation errors
