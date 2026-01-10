@@ -14,24 +14,37 @@ const VerifyEmailPage = () => {
     useEffect(() => {
         const verifyEmail = async () => {
             const token = searchParams.get('token');
-            if (!token) {
+            const id = searchParams.get('id');
+            const hash = searchParams.get('hash');
+
+            let apiUrl;
+
+            if (id && hash) {
+                // New logic: Construct URL from individual parameters
+                const expires = searchParams.get('expires');
+                const signature = searchParams.get('signature');
+                // Explicitly using the full domain as requested for signature validation
+                apiUrl = `https://api.obsolio.com/api/v1/auth/verify-email/${id}/${hash}?expires=${expires}&signature=${signature}`;
+            } else if (token) {
+                // Fallback/Legacy logic: Base64 decoded token
+                try {
+                    apiUrl = atob(token);
+                } catch (e) {
+                    setError('Invalid verification token format');
+                    setStatus('error');
+                    return;
+                }
+            } else {
                 setError('Invalid verification link');
                 setStatus('error');
                 return;
             }
 
             try {
-                const apiUrl = atob(token);
                 console.log('Verifying email via:', apiUrl);
 
-                // Using fetch directly as requested by the user logic
-                // We use 'manual' redirect to inspect response if possible, OR just let browser handle it.
-                // User guide says: "The API will return a redirect response with `workspace` parameter... Parse the redirect location"
-                // Standard JS fetch follows redirects transparently. 
-                // If the backend returns a 302 to a new URL, `response.url` will be that new URL.
                 const response = await fetch(apiUrl, {
                     method: 'GET',
-                    // credentials: 'include', // Ensure cookies are sent if needed
                     headers: {
                         'Accept': 'application/json'
                     }
