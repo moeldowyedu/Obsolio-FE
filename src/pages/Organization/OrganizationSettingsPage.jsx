@@ -325,25 +325,7 @@ const OrganizationSettingsPage = () => {
                 }
             });
 
-            // Handle settings specially - MUST be sent as array/object keys for PHP validation 'array'
-            if (orgData.settings) {
-                let settingsObj = orgData.settings;
-                // Parse if valid JSON string
-                if (typeof settingsObj === 'string') {
-                    try { settingsObj = JSON.parse(settingsObj); } catch (e) {
-                        console.warn('Could not parse settings', e);
-                        settingsObj = {}; // Fallback
-                    }
-                }
 
-                if (typeof settingsObj === 'object' && settingsObj !== null) {
-                    Object.keys(settingsObj).forEach(sKey => {
-                        // Append as settings[key]
-                        const val = typeof settingsObj[sKey] === 'object' ? JSON.stringify(settingsObj[sKey]) : settingsObj[sKey];
-                        payload.append(`settings[${sKey}]`, val);
-                    });
-                }
-            }
 
             payload.append('logo', file);
             // Changed from organizationLogo to logo for standard update
@@ -365,7 +347,16 @@ const OrganizationSettingsPage = () => {
             toast.success('Logo updated successfully', { id: toastId });
         } catch (err) {
             console.error("Logo upload failed:", err);
-            toast.error('Failed to upload logo', { id: toastId });
+            let msg = err.response?.data?.message || err.message || 'Unknown error';
+
+            // Check for Laravel validation errors
+            if (err.response?.status === 422 && err.response?.data?.errors) {
+                const firstErrorKey = Object.keys(err.response.data.errors)[0];
+                if (firstErrorKey) {
+                    msg = err.response.data.errors[firstErrorKey][0];
+                }
+            }
+            toast.error(`Failed to upload logo: ${msg}`, { id: toastId });
         } finally {
             setUploadingLogo(false);
             if (fileInputRef.current) fileInputRef.current.value = '';
