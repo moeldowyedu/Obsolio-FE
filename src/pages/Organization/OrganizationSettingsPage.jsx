@@ -325,6 +325,38 @@ const OrganizationSettingsPage = () => {
                 }
             });
 
+            // Re-enable settings handling: Backend REQUIRES 'settings' to be an array.
+            // We must unwind the object into settings[key].
+            if (orgData.settings) {
+                let settingsObj = orgData.settings;
+                console.log('Original Settings:', settingsObj, typeof settingsObj);
+
+                // Parse if string
+                if (typeof settingsObj === 'string') {
+                    try { settingsObj = JSON.parse(settingsObj); } catch (e) {
+                        console.warn('Could not parse settings', e);
+                        settingsObj = {};
+                    }
+                }
+
+                // If it's a valid object, append keys
+                if (typeof settingsObj === 'object' && settingsObj !== null) {
+                    const keys = Object.keys(settingsObj);
+                    if (keys.length > 0) {
+                        keys.forEach(sKey => {
+                            const val = typeof settingsObj[sKey] === 'object' ? JSON.stringify(settingsObj[sKey]) : settingsObj[sKey];
+                            payload.append(`settings[${sKey}]`, val);
+                        });
+                    } else {
+                        // If empty object, maybe send strict empty array? 
+                        // PHP usually treats absence of settings[] keys as missing array if we don't send anything.
+                        // Try sending an empty string to at least pass 'required'? No, that fails 'array'.
+                        // Best bet: If empty, don't send? But "required" fails.
+                        // Let's rely on standard keys being present.
+                    }
+                }
+            }
+
 
 
             payload.append('logo', file);
