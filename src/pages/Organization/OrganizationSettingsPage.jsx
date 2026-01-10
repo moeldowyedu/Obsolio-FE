@@ -348,13 +348,14 @@ const OrganizationSettingsPage = () => {
                             payload.append(`settings[${sKey}]`, val);
                         });
                     } else {
-                        // If empty object, maybe send strict empty array? 
-                        // PHP usually treats absence of settings[] keys as missing array if we don't send anything.
-                        // Try sending an empty string to at least pass 'required'? No, that fails 'array'.
-                        // Best bet: If empty, don't send? But "required" fails.
-                        // Let's rely on standard keys being present.
+                        // FORCE sending an empty array key if object is empty
+                        // This ensures $_POST['settings'] exists and is an array (containing one empty string or similar, which usually passes 'array' validation)
+                        payload.append('settings[]', '');
                     }
                 }
+            } else {
+                // Even if orgData.settings is null/undefined, we might need to send it to pass 'required|array'
+                payload.append('settings[]', '');
             }
 
 
