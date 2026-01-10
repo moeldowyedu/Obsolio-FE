@@ -157,10 +157,50 @@ const OrganizationSettingsPage = () => {
         const fetchOrganizationData = async () => {
             setFetching(true);
             try {
-                // 1. Get current organization directly
-                const response = await organizationService.organizations.getCurrent();
-                const orgData = response.data || response;
+                try {
+                    // 1. Try to get current organization directly (New Endpoint)
+                    try {
+                        const response = await organizationService.organizations.getCurrent();
+                        const orgData = response.data || response;
 
+                        if (orgData) {
+                            setOrganizationData(orgData);
+                            return; // Successfully loaded
+                        }
+                    } catch (newEndpointError) {
+                        console.warn('⚠️ Failed to fetch via /tenant/organization (New Endpoint), falling back to list:', newEndpointError);
+                        // If 500 or 404, fall through to legacy method
+                    }
+
+                    // 2. Fallback: Get organization list (Legacy)
+                    const orgResponse = await organizationService.organizations.list();
+                    const orgs = Array.isArray(orgResponse) ? orgResponse : (orgResponse.data || []);
+
+                    if (orgs.length > 0) {
+                        const match = orgs.find(o => o.id === user.tenant?.id) || orgs[0];
+                        setOrgId(match.id);
+                        // Fetch full details
+                        const fullOrgDetails = await organizationService.organizations.get(match.id);
+                        setOrganizationData(fullOrgDetails.data || fullOrgDetails);
+                    } else {
+                        // 3. Last Resort: Tenant Service
+                        if (user.tenant?.id) {
+                            const tenant = await tenantService.getTenant(user.tenant.id);
+                            if (tenant) {
+                                setOrgId(tenant.organization?.id || tenant.id);
+                                setUseTenantServiceForUpdate(true);
+                                setOrganizationData(tenant.organization || tenant);
+                            }
+                        }
+                    }
+                } catch (err) {
+                    // ... error handling
+                } finally {
+                    setFetching(false);
+                }
+            };
+
+            const setOrganizationData = (orgData) => {
                 if (orgData) {
                     setOrgId(orgData.id);
                     setFormData({
@@ -175,21 +215,11 @@ const OrganizationSettingsPage = () => {
                         logo: null,
                         logo_preview: getNormalizedLogoUrl(orgData.organizationLogo || orgData.logo_url || orgData.logo)
                     });
-                } else {
-                    throw new Error("No organization profile found.");
                 }
+            };
 
-            } catch (err) {
-                console.error("Fetch Organization Error:", err);
-                const errorMessage = err.response?.data?.message || err.message || 'Failed to load organization details.';
-                setError(errorMessage);
-            } finally {
-                setFetching(false);
-            }
-        };
-
-        fetchOrganizationData();
-    }, [user.tenant?.id]);
+            fetchOrganizationData();
+        }, [user.tenant?.id]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;

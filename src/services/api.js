@@ -63,6 +63,15 @@ api.interceptors.request.use(
       config.headers['X-Tenant-ID'] = tenantId;
     }
 
+    // Debug logging for specific problematic endpoints
+    if (config.url?.includes('/tenant/organization')) {
+      console.log('🚀 API Request: /tenant/organization', {
+        headers: config.headers,
+        tenantId,
+        isAuthRoute
+      });
+    }
+
     // Add current subdomain to headers
     const subdomain = window.location.hostname.split('.')[0];
     const isLocalhost = window.location.hostname.includes('localhost');
