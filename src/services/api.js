@@ -79,26 +79,35 @@ api.interceptors.request.use(
     // Dynamic Base URL Routing for Tenant Context
     // Backend Requirement: /tenant endpoints MUST be called from tenant.obsolio.com context, not api.obsolio.com
     const isTenantContextEndpoint = config.url?.includes('/tenant'); // /tenant typically implies context-aware
-    const currentTenantSubdomain = localStorage.getItem('current_tenant_subdomain');
+
+    // 1. Try to get from storage (login Response)
+    let targetSubdomain = localStorage.getItem('current_tenant_subdomain');
+
+    // 2. If missing, try to get from current URL (Safety fallback if user didn't re-login but is on correct domain)
     const appDomain = import.meta.env.VITE_APP_DOMAIN || 'localhost';
+    if (!targetSubdomain && window.location.hostname !== appDomain && !window.location.hostname.startsWith('console')) {
+      const parts = window.location.hostname.split('.');
+      if (parts.length > 2) { // e.g. tenant.obsolio.com
+        targetSubdomain = parts[0];
+      }
+    }
 
-    if (isTenantContextEndpoint && currentTenantSubdomain && !isConsole) {
+    if (isTenantContextEndpoint && targetSubdomain && !isConsole) {
       // Construct tenant-specific Base URL
-      // If appDomain is 'localhost', we might be in dev mode. 
-      // For production (obsolio.com), we want: https://{subdomain}.obsolio.com/api/v1
-
       let protocol = window.location.protocol; // http: or https:
       let newBaseURL;
 
       if (appDomain === 'localhost') {
-        // Dev mode fallback - likely backend is finding tenant by header anyway on localhost
-        // But we can try to follow the rule if using a proxy or hosts file
-        // newBaseURL = `${protocol}//${currentTenantSubdomain}.${appDomain}:${window.location.port}/api/v1`;
-        // Actually, usually localhost stays localhost. We rely on headers there.
-        // Do nothing for localhost unless specifically configured.
+        // Dev mode / Localhost
+        // If they are strictly on localhost:3000, we can't really switch domains easily without /etc/hosts
+        // So we skip this for strict 'localhost' string, unless we are on a custom local domain.
       } else {
         // Production / Staging
-        newBaseURL = `${protocol}//${currentTenantSubdomain}.${appDomain}/api/v1`;
+        newBaseURL = `${protocol}//${targetSubdomain}.${appDomain}/api/v1`;
+
+        // LOGGING: Explicitly log the switch for debugging
+        console.log(`🔀 Switching API Context: ${API_BASE_URL} -> ${newBaseURL} for endpoint ${config.url}`);
+
         config.baseURL = newBaseURL;
       }
     }
