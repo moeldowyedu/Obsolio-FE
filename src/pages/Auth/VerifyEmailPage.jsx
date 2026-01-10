@@ -24,6 +24,7 @@ const VerifyEmailPage = () => {
                 const expires = searchParams.get('expires');
                 const signature = searchParams.get('signature');
                 // Explicitly using the full domain as requested for signature validation
+                // ENSURING /auth/ IS PRESENT IN THE PATH
                 apiUrl = `https://api.obsolio.com/api/v1/auth/verify-email/${id}/${hash}?expires=${expires}&signature=${signature}`;
             } else if (token) {
                 // Fallback/Legacy logic: Base64 decoded token
