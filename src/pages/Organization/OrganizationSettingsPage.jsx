@@ -92,8 +92,8 @@ const EditableField = ({ label, name, value, onSave, type = 'text', options = nu
     );
 
     const inputClasses = `w-full px-3 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-primary-500 transition-colors ${theme === 'dark'
-            ? 'bg-gray-800 border-gray-700 text-white placeholder-gray-500'
-            : 'bg-white border-gray-300 text-gray-900 placeholder-gray-400'
+        ? 'bg-gray-800 border-gray-700 text-white placeholder-gray-500'
+        : 'bg-white border-gray-300 text-gray-900 placeholder-gray-400'
         }`;
 
     return (
@@ -307,15 +307,22 @@ const OrganizationSettingsPage = () => {
             // We must preserve other fields if it's a PUT
             const allowList = [
                 'name', 'short_name', 'industry', 'company_size',
-                'country', 'phone', 'timezone', 'description'
+                'country', 'phone', 'timezone', 'description', 'settings'
             ];
+
             allowList.forEach(key => {
-                if (orgData[key]) payload.append(key, orgData[key]);
+                const value = orgData[key];
+                if (value !== undefined && value !== null) {
+                    if (typeof value === 'object') {
+                        payload.append(key, JSON.stringify(value));
+                    } else {
+                        payload.append(key, value);
+                    }
+                }
             });
 
-            payload.append('organizationLogo', file);
-            // Note: Schema says 'logo_url' but upload usually requires file field name like 'logo' or 'organizationLogo'
-            // Based on previous file, it was 'organizationLogo'.
+            payload.append('logo', file);
+            // Changed from organizationLogo to logo for standard update
 
             payload.append('_method', 'PUT');
 
@@ -376,8 +383,8 @@ const OrganizationSettingsPage = () => {
                 <div className="flex flex-col md:flex-row items-start md:items-center gap-6 mb-10 animate-fade-in-up">
                     <div className="relative group">
                         <div className={`w-32 h-32 rounded-2xl flex items-center justify-center overflow-hidden border-2 transition-all duration-300 ${theme === 'dark'
-                                ? 'bg-gray-800 border-gray-700 group-hover:border-primary-500/50'
-                                : 'bg-white border-gray-200 group-hover:border-primary-400'
+                            ? 'bg-gray-800 border-gray-700 group-hover:border-primary-500/50'
+                            : 'bg-white border-gray-200 group-hover:border-primary-400'
                             } shadow-lg`}>
                             {orgData?.logo_url ? (
                                 <img src={getLogoUrl(orgData.logo_url)} alt="Org Logo" className="w-full h-full object-contain p-2" />
