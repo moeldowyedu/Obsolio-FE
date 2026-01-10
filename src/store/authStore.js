@@ -29,6 +29,13 @@ export const useAuthStore = create(
           setCookie('obsolio_auth_token', data.token, 7);
           setCookie('obsolio_user', JSON.stringify(data.user), 7);
 
+          // CRITICAL: Set current_tenant_id for API headers
+          if (data.user?.tenant_id) {
+            localStorage.setItem('current_tenant_id', data.user.tenant_id);
+          } else if (data.user?.tenant?.id) {
+            localStorage.setItem('current_tenant_id', data.user.tenant.id);
+          }
+
           return data;
         } catch (error) {
           set({
@@ -56,6 +63,13 @@ export const useAuthStore = create(
           // Store token in cookie for cross-domain access
           setCookie('obsolio_auth_token', data.token, 7);
           setCookie('obsolio_user', JSON.stringify(data.user), 7);
+
+          // CRITICAL: Set current_tenant_id for API headers
+          if (data.user?.tenant_id) {
+            localStorage.setItem('current_tenant_id', data.user.tenant_id);
+          } else if (data.user?.tenant?.id) {
+            localStorage.setItem('current_tenant_id', data.user.tenant.id);
+          }
 
           return data;
         } catch (error) {
