@@ -1,10 +1,11 @@
 import { useState, useEffect, useRef } from 'react';
 import { useAuthStore } from '../../store/authStore';
-import { organizationService, tenantService } from '../../services';
+import { organizationService } from '../../services';
 import MainLayout from '../../components/layout/MainLayout';
 import { Card, Button } from '../../components/common';
-import { Building2, Upload, AlertCircle, CheckCircle } from 'lucide-react';
+import { Building2, Pencil, Check, X, Camera, AlertCircle, Loader2 } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
+import toast from 'react-hot-toast';
 
 // --- Data Constants ---
 const INDUSTRIES = [
@@ -50,419 +51,506 @@ const TIMEZONES = [
     "UTC+11:00", "UTC+12:00"
 ];
 
-// --- Local Components ---
+// --- Helpers ---
+const EditableField = ({ label, name, value, onSave, type = 'text', options = null, readOnly = false }) => {
+    const { theme } = useTheme();
+    const [isEditing, setIsEditing] = useState(false);
+    const [tempValue, setTempValue] = useState(value || '');
+    const [saving, setSaving] = useState(false);
+
+    useEffect(() => {
+        setTempValue(value || '');
+    }, [value]);
+
+    const handleSave = async () => {
+        if (tempValue === value) {
+            setIsEditing(false);
+            return;
+        }
+        setSaving(true);
+        try {
+            await onSave(name, tempValue);
+            setIsEditing(false);
+            toast.success(`${label} updated`);
+        } catch (error) {
+            toast.error(`Failed to update ${label}`);
+            console.error(error);
+        } finally {
+            setSaving(false);
+        }
+    };
+
+    const handleCancel = () => {
+        setTempValue(value || '');
+        setIsEditing(false);
+    };
+
+    const displayValue = value === null || value === undefined || value === '' ? (
+        <span className="italic text-gray-400">undefined</span>
+    ) : (
+        <span>{value}</span>
+    );
+
+    const inputClasses = `w-full px-3 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-primary-500 transition-colors ${theme === 'dark'
+            ? 'bg-gray-800 border-gray-700 text-white placeholder-gray-500'
+            : 'bg-white border-gray-300 text-gray-900 placeholder-gray-400'
+        }`;
+
+    return (
+        <div className={`flex items-center justify-between py-4 border-b last:border-0 ${theme === 'dark' ? 'border-gray-800' : 'border-gray-100'}`}>
+            <div className="w-1/3">
+                <span className={`text-sm font-medium ${theme === 'dark' ? 'text-gray-400' : 'text-slate-500'}`}>
+                    {label}
+                </span>
+            </div>
+
+            <div className="w-2/3 flex items-center gap-3">
+                {isEditing ? (
+                    <div className="flex-1 flex items-center gap-2 animate-fade-in">
+                        {type === 'select' && options ? (
+                            <select
+                                value={tempValue}
+                                onChange={(e) => setTempValue(e.target.value)}
+                                className={inputClasses}
+                                autoFocus
+                            >
+                                <option value="" disabled>Select {label}...</option>
+                                {options.map(opt => (
+                                    <option key={opt} value={opt} className={theme === 'dark' ? 'bg-gray-800' : 'bg-white'}>{opt}</option>
+                                ))}
+                            </select>
+                        ) : type === 'textarea' ? (
+                            <textarea
+                                value={tempValue}
+                                onChange={(e) => setTempValue(e.target.value)}
+                                className={inputClasses}
+                                rows={3}
+                                autoFocus
+                            />
+                        ) : (
+                            <input
+                                type={type}
+                                value={tempValue}
+                                onChange={(e) => setTempValue(e.target.value)}
+                                className={inputClasses}
+                                autoFocus
+                            />
+                        )}
+
+                        <div className="flex items-center gap-1">
+                            <button
+                                onClick={handleSave}
+                                disabled={saving}
+                                className={`p-2 rounded-full hover:bg-green-500/10 text-green-500 transition-colors ${saving ? 'opacity-50' : ''}`}
+                                title="Save"
+                            >
+                                {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />}
+                            </button>
+                            <button
+                                onClick={handleCancel}
+                                disabled={saving}
+                                className="p-2 rounded-full hover:bg-red-500/10 text-red-500 transition-colors"
+                                title="Cancel"
+                            >
+                                <X className="w-4 h-4" />
+                            </button>
+                        </div>
+                    </div>
+                ) : (
+                    <div className="flex-1 flex items-center justify-between group">
+                        <div className={`bg-transparent text-base ${theme === 'dark' ? 'text-gray-200' : 'text-slate-700'}`}>
+                            {displayValue}
+                        </div>
+
+                        {!readOnly && (
+                            <button
+                                onClick={() => setIsEditing(true)}
+                                className={`p-2 rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-200 ${theme === 'dark' ? 'text-primary-400 hover:bg-primary-500/10' : 'text-primary-600 hover:bg-primary-50'
+                                    }`}
+                                title="Edit"
+                            >
+                                <Pencil className="w-4 h-4" />
+                            </button>
+                        )}
+                        {readOnly && (
+                            <span className={`text-xs px-2 py-1 rounded border ${theme === 'dark' ? 'border-gray-800 text-gray-500' : 'border-gray-200 text-gray-400'}`}>
+                                Read-only
+                            </span>
+                        )}
+                    </div>
+                )}
+            </div>
+        </div>
+    );
+};
 
 const OrganizationSettingsPage = () => {
     const { user, updateUser } = useAuthStore();
     const { theme } = useTheme();
     const fileInputRef = useRef(null);
-    const [orgId, setOrgId] = useState(null);
-    const [useTenantServiceForUpdate, setUseTenantServiceForUpdate] = useState(false);
-    const [imageError, setImageError] = useState(false);
 
-    // Styles
-    const textPrimary = theme === 'dark' ? 'text-white' : 'text-slate-900';
-    const textSecondary = theme === 'dark' ? 'text-gray-400' : 'text-slate-500';
-    const inputClass = `w-full px-4 py-3 rounded-xl border focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all duration-200 appearance-none ${theme === 'dark'
-        ? 'bg-gray-800 border-gray-700 text-white placeholder-gray-500'
-        : 'bg-white border-gray-300 text-gray-900 placeholder-gray-400'
-        }`;
-    const labelClass = `text-sm font-medium ml-1 ${textSecondary}`;
-
-    // Select Component (Local to use theme)
-    const Select = ({ label, name, value, onChange, options, fullWidth, className, required, placeholder = "Select..." }) => (
-        <div className={`flex flex-col gap-1.5 ${fullWidth ? 'w-full' : ''}`}>
-            {label && (
-                <label className={labelClass}>
-                    {label} {required && <span className="text-red-500">*</span>}
-                </label>
-            )}
-            <div className="relative">
-                <select
-                    name={name}
-                    value={value}
-                    onChange={onChange}
-                    className={`${inputClass} ${className}`}
-                >
-                    <option value="" disabled>{placeholder}</option>
-                    {options.map((opt) => (
-                        <option key={opt} value={opt} className={theme === 'dark' ? 'bg-gray-800' : 'bg-white'}>{opt}</option>
-                    ))}
-                </select>
-                <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none">
-                    <svg className={`w-4 h-4 ${textSecondary}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-                    </svg>
-                </div>
-            </div>
-        </div>
-    );
-
-    // Input Component (Local to use theme)
-    const Input = ({ label, name, value, onChange, fullWidth, className, required, type = "text" }) => (
-        <div className={`flex flex-col gap-1.5 ${fullWidth ? 'w-full' : ''}`}>
-            {label && (
-                <label className={labelClass}>
-                    {label} {required && <span className="text-red-500">*</span>}
-                </label>
-            )}
-            <input
-                type={type}
-                name={name}
-                value={value}
-                onChange={onChange}
-                className={`${inputClass} ${className}`}
-            />
-        </div>
-    );
-
-
-    // Base URL for resolving relative image paths (common in Laravel)
-    const STORAGE_BASE_URL = 'https://api.obsolio.com';
-
-    const [formData, setFormData] = useState({
-        organization_full_name: '',
-        organization_short_name: '',
-        phone: '',
-        industry: '',
-        company_size: '',
-        country: '',
-        timezone: '',
-        description: '',
-        logo: null,
-        logo_preview: null
-    });
-
-    const [loading, setLoading] = useState(false);
     const [fetching, setFetching] = useState(true);
+    const [orgData, setOrgData] = useState(null);
     const [error, setError] = useState(null);
-    const [success, setSuccess] = useState(null);
+    const [uploadingLogo, setUploadingLogo] = useState(false);
 
-    // Normalize Image URL helper
-    const getNormalizedLogoUrl = (url) => {
-        if (!url) return null;
-        if (url.startsWith('blob:') || url.startsWith('data:')) return url;
-        if (url.startsWith('http')) return url;
-        // Handle relative paths
-        if (url.startsWith('/')) return `${STORAGE_BASE_URL}${url}`;
-        return `${STORAGE_BASE_URL}/${url}`;
-    };
-
-    // Reset error when preview changes
-    useEffect(() => {
-        setImageError(false);
-    }, [formData.logo_preview]);
-
-    useEffect(() => {
-        const fetchOrganizationData = async () => {
-            setFetching(true);
-            try {
-                try {
-                    // 1. Try to get current organization directly (New Endpoint)
-                    try {
-                        const response = await organizationService.organizations.getCurrent();
-                        const orgData = response.data || response;
-
-                        if (orgData) {
-                            setOrganizationData(orgData);
-                            return; // Successfully loaded
-                        }
-                    } catch (newEndpointError) {
-                        console.warn('⚠️ Failed to fetch via /tenant/organization (New Endpoint), falling back to list:', newEndpointError);
-                        // If 500 or 404, fall through to legacy method
-                    }
-
-                    // 2. Fallback: Get organization list (Legacy)
-                    const orgResponse = await organizationService.organizations.list();
-                    const orgs = Array.isArray(orgResponse) ? orgResponse : (orgResponse.data || []);
-
-                    if (orgs.length > 0) {
-                        const match = orgs.find(o => o.id === user.tenant?.id) || orgs[0];
-                        setOrgId(match.id);
-                        // Fetch full details
-                        const fullOrgDetails = await organizationService.organizations.get(match.id);
-                        setOrganizationData(fullOrgDetails.data || fullOrgDetails);
-                    } else {
-                        // 3. Last Resort: Tenant Service
-                        if (user.tenant?.id) {
-                            const tenant = await tenantService.getTenant(user.tenant.id);
-                            if (tenant) {
-                                setOrgId(tenant.organization?.id || tenant.id);
-                                setUseTenantServiceForUpdate(true);
-                                setOrganizationData(tenant.organization || tenant);
-                            }
-                        }
-                    }
-                } catch (err) {
-                    // ... error handling
-                } finally {
-                    setFetching(false);
-                }
-            };
-
-            const setOrganizationData = (orgData) => {
-                if (orgData) {
-                    setOrgId(orgData.id);
-                    setFormData({
-                        organization_full_name: orgData.organization_full_name || orgData.name || '',
-                        organization_short_name: orgData.organization_short_name || orgData.short_name || '',
-                        phone: orgData.phone || '',
-                        industry: orgData.industry || '',
-                        company_size: orgData.company_size || '',
-                        country: orgData.country || '',
-                        timezone: orgData.timezone || '',
-                        description: orgData.description || '',
-                        logo: null,
-                        logo_preview: getNormalizedLogoUrl(orgData.organizationLogo || orgData.logo_url || orgData.logo)
-                    });
-                }
-            };
-
-            fetchOrganizationData();
-        }, [user.tenant?.id]);
-
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData(prev => ({ ...prev, [name]: value }));
-        if (error) setError(null);
-        if (success) setSuccess(null);
-    };
-
-    const handleFileChange = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            setImageError(false);
-            const objectUrl = URL.createObjectURL(file);
-            setFormData(prev => ({
-                ...prev,
-                logo: file,
-                logo_preview: objectUrl
-            }));
+    // Fetch Data
+    const fetchOrganization = async () => {
+        setFetching(true);
+        try {
+            const response = await organizationService.organizations.getCurrent();
+            const data = response.data || response;
+            setOrgData(data);
+            setError(null);
+        } catch (err) {
+            console.error("Failed to fetch organization:", err);
+            // Fallback logic could go here if needed, but per request we focus on /tenant/organization
+            if (err.response?.status === 500) {
+                setError("Server error (500). Please check backend logs.");
+            } else {
+                setError(err.message || "Failed to load organization profile.");
+            }
+        } finally {
+            setFetching(false);
         }
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setLoading(true);
-        setError(null);
-        setSuccess(null);
+    useEffect(() => {
+        fetchOrganization();
+    }, []);
+
+    // Helper: Construct full URL
+    const getLogoUrl = (partialUrl) => {
+        if (!partialUrl) return null;
+        if (partialUrl.startsWith('http') || partialUrl.startsWith('data:')) return partialUrl;
+        return `https://api.obsolio.com${partialUrl.startsWith('/') ? '' : '/'}${partialUrl}`;
+    };
+
+    const handleUpdateField = async (fieldName, newValue) => {
+        if (!orgData) return;
+
+        // Optimistic update for UI speed
+        const originalData = { ...orgData };
+
+        // Prepare payload - User requested specific fields support
+        // We will send FormData to support the _method: PUT trick if needed, 
+        // or just to keep it consistent with the service method.
+        const payload = new FormData();
+
+        // Append all existing data to ensure we don't accidentally wipe fields if the backend expects full object
+        // However, usually partial updates work best with JSON. 
+        // Given the requirement "All Organization Fields Supported", let's send what we have + change.
+
+        // Strategy: Send 'mostly' full payload or just the changed field if backend supports PATCH.
+        // The endpoint is PUT, so we should imply FULL replacement or at least extensive partial.
+
+        // Let's populate FormData with current state + new value
+        const dataToSubmit = { ...orgData, [fieldName]: newValue };
+
+        // List of fields allowed to be updated
+        const allowList = [
+            'name', 'short_name', 'industry', 'company_size',
+            'country', 'phone', 'timezone', 'description', 'settings'
+        ];
+
+        allowList.forEach(key => {
+            if (dataToSubmit[key] !== undefined && dataToSubmit[key] !== null) {
+                // Determine value to send
+                if (typeof dataToSubmit[key] === 'object') {
+                    payload.append(key, JSON.stringify(dataToSubmit[key]));
+                } else {
+                    payload.append(key, dataToSubmit[key]);
+                }
+            }
+        });
+
+        payload.append('_method', 'PUT');
+
+        try {
+            // Update local state immediately
+            setOrgData(prev => ({ ...prev, [fieldName]: newValue }));
+
+            const response = await organizationService.organizations.updateCurrent(payload);
+            const updated = response.data || response;
+
+            // Re-sync with server response
+            setOrgData(updated);
+
+            // If name/logo changed, update AuthStore/User Context
+            if (fieldName === 'name' || fieldName === 'short_name') {
+                const updatedUserTenant = {
+                    ...user.tenant,
+                    name: updated.name,
+                    short_name: updated.short_name
+                };
+                updateUser({ tenant: updatedUserTenant });
+            }
+
+        } catch (err) {
+            console.error("Update failed:", err);
+            // Revert
+            setOrgData(originalData);
+            throw err; // Propagate to EditableField to show error toast
+        }
+    };
+
+    const handleLogoUpload = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        setUploadingLogo(true);
+        const toastId = toast.loading('Uploading logo...');
 
         try {
             const payload = new FormData();
-            payload.append('organizationName', formData.organization_full_name);
-            payload.append('organizationShortName', formData.organization_short_name);
-            // payload.append('name', formData.organization_full_name); // Redundant if backend uses specific keys
-            // payload.append('organization_full_name', formData.organization_full_name); 
-            // payload.append('short_name', formData.organization_short_name);
-            // payload.append('organization_short_name', formData.organization_short_name);
 
-            if (formData.phone) payload.append('phone', formData.phone);
-            if (formData.industry) payload.append('industry', formData.industry);
-            if (formData.company_size) payload.append('company_size', formData.company_size);
-            if (formData.country) payload.append('country', formData.country);
-            if (formData.timezone) payload.append('timezone', formData.timezone);
-            if (formData.description) payload.append('description', formData.description);
+            // We must preserve other fields if it's a PUT
+            const allowList = [
+                'name', 'short_name', 'industry', 'company_size',
+                'country', 'phone', 'timezone', 'description'
+            ];
+            allowList.forEach(key => {
+                if (orgData[key]) payload.append(key, orgData[key]);
+            });
+
+            payload.append('organizationLogo', file);
+            // Note: Schema says 'logo_url' but upload usually requires file field name like 'logo' or 'organizationLogo'
+            // Based on previous file, it was 'organizationLogo'.
 
             payload.append('_method', 'PUT');
 
-            if (formData.logo) {
-                payload.append('organizationLogo', formData.logo);
-            }
-
             const response = await organizationService.organizations.updateCurrent(payload);
-            const updatedData = response.data || response;
+            const updated = response.data || response;
 
+            setOrgData(updated);
+
+            // Update AuthStore
             const updatedUserTenant = {
                 ...user.tenant,
-                name: updatedData.name || updatedData.organization_full_name || formData.organization_full_name,
-                short_name: updatedData.short_name || updatedData.organization_short_name || formData.organization_short_name,
-                logo_url: updatedData.logo_url || updatedData.organizationLogo || updatedData.logo || user.tenant?.logo_url
+                logo_url: updated.logo_url
             };
-
             updateUser({ tenant: updatedUserTenant });
-            setSuccess('Settings updated successfully');
 
+            toast.success('Logo updated successfully', { id: toastId });
         } catch (err) {
-            console.error("Update Error:", err);
-            setError(err.response?.data?.message || 'Failed to update settings');
+            console.error("Logo upload failed:", err);
+            toast.error('Failed to upload logo', { id: toastId });
         } finally {
-            setLoading(false);
+            setUploadingLogo(false);
+            if (fileInputRef.current) fileInputRef.current.value = '';
         }
     };
-
-    const triggerFileInput = () => fileInputRef.current?.click();
 
     if (fetching) {
         return (
             <MainLayout>
-                <div className="flex items-center justify-center h-[calc(100vh-100px)]">
-                    <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-primary-600 border-b-transparent"></div>
+                <div className="flex flex-col items-center justify-center h-[60vh]">
+                    <Loader2 className="w-10 h-10 text-primary-500 animate-spin mb-4" />
+                    <p className={theme === 'dark' ? 'text-gray-400' : 'text-slate-500'}>Loading organization profile...</p>
                 </div>
             </MainLayout>
         );
     }
 
-    const currentLogoUrl = getNormalizedLogoUrl(formData.logo_preview);
+    if (error && !orgData) {
+        return (
+            <MainLayout>
+                <div className="flex items-center justify-center h-[60vh]">
+                    <div className="text-center max-w-md mx-auto p-8 rounded-2xl bg-red-50 dark:bg-red-900/10 border border-red-200 dark:border-red-800">
+                        <AlertCircle className="w-12 h-12 text-red-500 mx-auto mb-4" />
+                        <h3 className="text-xl font-bold text-red-700 dark:text-red-400 mb-2">Failed to load profile</h3>
+                        <p className="text-red-600 dark:text-red-300 mb-6">{error}</p>
+                        <Button onClick={fetchOrganization} variant="outline" className="border-red-300 text-red-700 hover:bg-red-100">
+                            Try Again
+                        </Button>
+                    </div>
+                </div>
+            </MainLayout>
+        );
+    }
 
     return (
         <MainLayout>
-            <div className="py-8 space-y-8">
-                <div className="max-w-4xl mx-auto">
+            <div className="py-8 max-w-5xl mx-auto px-4">
+                {/* Header & Logo */}
+                <div className="flex flex-col md:flex-row items-start md:items-center gap-6 mb-10 animate-fade-in-up">
+                    <div className="relative group">
+                        <div className={`w-32 h-32 rounded-2xl flex items-center justify-center overflow-hidden border-2 transition-all duration-300 ${theme === 'dark'
+                                ? 'bg-gray-800 border-gray-700 group-hover:border-primary-500/50'
+                                : 'bg-white border-gray-200 group-hover:border-primary-400'
+                            } shadow-lg`}>
+                            {orgData?.logo_url ? (
+                                <img src={getLogoUrl(orgData.logo_url)} alt="Org Logo" className="w-full h-full object-contain p-2" />
+                            ) : (
+                                <Building2 className={`w-12 h-12 ${theme === 'dark' ? 'text-gray-600' : 'text-gray-300'}`} />
+                            )}
 
-                    <div className="mb-6">
-                        <h1 className={`text-4xl font-bold font-heading mb-2 ${textPrimary}`}>Organization Settings</h1>
-                        <p className={textSecondary}>Manage your organization's public profile and details.</p>
+                            {uploadingLogo && (
+                                <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
+                                    <Loader2 className="w-8 h-8 text-white animate-spin" />
+                                </div>
+                            )}
+                        </div>
+
+                        <button
+                            onClick={() => fileInputRef.current?.click()}
+                            className="absolute -bottom-3 -right-3 p-3 rounded-full bg-primary-600 text-white shadow-lg hover:bg-primary-700 transition-transform hover:scale-105 active:scale-95"
+                            title="Change Logo"
+                        >
+                            <Camera className="w-5 h-5" />
+                        </button>
+                        <input type="file" ref={fileInputRef} className="hidden" accept="image/*" onChange={handleLogoUpload} />
                     </div>
 
-                    {/* Notifications */}
-                    {error && (
-                        <div className="mb-4 bg-red-50 border border-red-200 rounded p-3 flex items-center gap-2 text-red-700 text-sm">
-                            <AlertCircle className="w-4 h-4" />
-                            <p>{error}</p>
+                    <div>
+                        <h1 className={`text-3xl font-bold font-heading mb-2 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
+                            {orgData?.name || 'Unnamed Organization'}
+                        </h1>
+                        <div className="flex flex-wrap gap-2 text-sm">
+                            <span className={`px-2.5 py-0.5 rounded-full border ${theme === 'dark' ? 'bg-blue-500/10 border-blue-500/20 text-blue-400' : 'bg-blue-50 border-blue-200 text-blue-700'}`}>
+                                {orgData?.industry || 'Unknown Industry'}
+                            </span>
+                            <span className={`px-2.5 py-0.5 rounded-full border ${theme === 'dark' ? 'bg-gray-700 border-gray-600 text-gray-300' : 'bg-gray-100 border-gray-200 text-gray-600'}`}>
+                                {orgData?.company_size || 'Unknown Size'}
+                            </span>
+                            <span className={`px-2.5 py-0.5 rounded-full border ${theme === 'dark' ? 'bg-purple-500/10 border-purple-500/20 text-purple-400' : 'bg-purple-50 border-purple-200 text-purple-700'}`}>
+                                Tenant: {user?.tenant?.subdomain || 'N/A'}
+                            </span>
                         </div>
-                    )}
-                    {success && (
-                        <div className="mb-4 bg-green-50 border border-green-200 rounded p-3 flex items-center gap-2 text-green-700 text-sm">
-                            <CheckCircle className="w-4 h-4" />
-                            <p>{success}</p>
-                        </div>
-                    )}
+                    </div>
+                </div>
 
-                    <Card className="p-8">
-
-                        {/* Logo Upload - Compact */}
-                        <div className={`flex items-center gap-4 mb-8 pb-8 border-b ${theme === 'dark' ? 'border-gray-800' : 'border-gray-100'}`}>
-                            <div
-                                onClick={triggerFileInput}
-                                className={`w-20 h-20 rounded-xl border-2 border-dashed flex items-center justify-center cursor-pointer transition-colors overflow-hidden ${theme === 'dark'
-                                    ? 'bg-gray-800 border-gray-700 hover:border-gray-500'
-                                    : 'bg-gray-50 border-gray-200 hover:border-gray-400'
-                                    }`}
-                            >
-                                {currentLogoUrl && !imageError ? (
-                                    <img
-                                        key={currentLogoUrl}
-                                        src={currentLogoUrl}
-                                        alt="Logo"
-                                        onError={(e) => {
-                                            console.warn('Image failed to load:', currentLogoUrl);
-                                            setImageError(true);
-                                        }}
-                                        className="w-full h-full object-contain p-1"
-                                    />
-                                ) : (
-                                    <Building2 className={`w-8 h-8 ${textSecondary}`} />
-                                )}
+                {/* Information Grid */}
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    {/* Main Info */}
+                    <div className="lg:col-span-2 space-y-8 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
+                        <Card className="p-6 overflow-hidden">
+                            <h2 className={`text-lg font-semibold mb-4 flex items-center gap-2 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
+                                General Information
+                            </h2>
+                            <div className="space-y-1">
+                                <EditableField
+                                    label="Organization Name"
+                                    name="name"
+                                    value={orgData?.name}
+                                    onSave={handleUpdateField}
+                                />
+                                <EditableField
+                                    label="Short Name"
+                                    name="short_name"
+                                    value={orgData?.short_name}
+                                    onSave={handleUpdateField}
+                                />
+                                <EditableField
+                                    label="Industry"
+                                    name="industry"
+                                    value={orgData?.industry}
+                                    onSave={handleUpdateField}
+                                    type="select"
+                                    options={INDUSTRIES}
+                                />
+                                <EditableField
+                                    label="Company Size"
+                                    name="company_size"
+                                    value={orgData?.company_size}
+                                    onSave={handleUpdateField}
+                                    type="select"
+                                    options={COMPANY_SIZES}
+                                />
+                                <EditableField
+                                    label="Description"
+                                    name="description"
+                                    value={orgData?.description}
+                                    onSave={handleUpdateField}
+                                    type="textarea"
+                                />
                             </div>
-                            <div>
-                                <h3 className={`font-semibold ${textPrimary}`}>Organization Logo</h3>
-                                <p className={`text-sm mb-2 ${textSecondary}`}>Recommended size: 512x512px</p>
-                                <button
-                                    type="button"
-                                    onClick={triggerFileInput}
-                                    className="text-sm text-primary-600 hover:text-primary-700 font-semibold"
-                                >
-                                    Change Logo
-                                </button>
-                                <input type="file" ref={fileInputRef} className="hidden" accept="image/*" onChange={handleFileChange} />
+                        </Card>
+
+                        <Card className="p-6 overflow-hidden">
+                            <h2 className={`text-lg font-semibold mb-4 flex items-center gap-2 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
+                                Contact & Location
+                            </h2>
+                            <div className="space-y-1">
+                                <EditableField
+                                    label="Country"
+                                    name="country"
+                                    value={orgData?.country}
+                                    onSave={handleUpdateField}
+                                    type="select"
+                                    options={COUNTRIES}
+                                />
+                                <EditableField
+                                    label="Timezone"
+                                    name="timezone"
+                                    value={orgData?.timezone}
+                                    onSave={handleUpdateField}
+                                    type="select"
+                                    options={TIMEZONES}
+                                />
+                                <EditableField
+                                    label="Phone Number"
+                                    name="phone"
+                                    value={orgData?.phone}
+                                    onSave={handleUpdateField}
+                                />
                             </div>
-                        </div>
+                        </Card>
+                    </div>
 
-                        {/* Form Inputs - Compact Grid */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                            <Input
-                                label="Organization Name"
-                                name="organization_full_name"
-                                value={formData.organization_full_name}
-                                onChange={handleChange}
-                                required
-                                fullWidth
-                            />
-                            <Input
-                                label="Short Name (Slug)"
-                                name="organization_short_name"
-                                value={formData.organization_short_name}
-                                onChange={handleChange}
-                                fullWidth
-                            />
+                    {/* System Info Sidebar */}
+                    <div className="space-y-8 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+                        <Card className="p-6">
+                            <h2 className={`text-lg font-semibold mb-4 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
+                                System Metadata
+                            </h2>
+                            <div className="space-y-4">
+                                <EditableField
+                                    label="Organization ID"
+                                    name="id"
+                                    value={orgData?.id}
+                                    onSave={() => { }}
+                                    readOnly
+                                />
+                                <EditableField
+                                    label="Tenant ID"
+                                    name="tenant_id"
+                                    value={orgData?.tenant_id}
+                                    onSave={() => { }}
+                                    readOnly
+                                />
+                                <EditableField
+                                    label="Created At"
+                                    name="created_at"
+                                    value={orgData?.created_at ? new Date(orgData.created_at).toLocaleDateString() : undefined}
+                                    onSave={() => { }}
+                                    readOnly
+                                />
+                                <EditableField
+                                    label="Last Updated"
+                                    name="updated_at"
+                                    value={orgData?.updated_at ? new Date(orgData.updated_at).toLocaleDateString() : undefined}
+                                    onSave={() => { }}
+                                    readOnly
+                                />
+                            </div>
+                        </Card>
 
-                            <Select
-                                label="Country"
-                                name="country"
-                                value={formData.country}
-                                onChange={handleChange}
-                                options={COUNTRIES}
-                                placeholder="Select Country"
-                                fullWidth
-                            />
-
-                            <Input
-                                label="Phone Number"
-                                name="phone"
-                                value={formData.phone}
-                                onChange={handleChange}
-                                fullWidth
-                            />
-
-                            <Select
-                                label="Industry"
-                                name="industry"
-                                value={formData.industry}
-                                onChange={handleChange}
-                                options={INDUSTRIES}
-                                placeholder="Select Industry"
-                                fullWidth
-                            />
-
-                            <Select
-                                label="Company Size"
-                                name="company_size"
-                                value={formData.company_size}
-                                onChange={handleChange}
-                                options={COMPANY_SIZES}
-                                placeholder="Select Size"
-                                fullWidth
-                            />
-                        </div>
-
-                        <div className="mb-6">
-                            <Select
-                                label="Timezone"
-                                name="timezone"
-                                value={formData.timezone}
-                                onChange={handleChange}
-                                options={TIMEZONES}
-                                placeholder="Select Timezone"
-                                fullWidth
-                            />
-                        </div>
-
-                        <div className="mb-8">
-                            <label className={labelClass}>Description</label>
-                            <textarea
-                                name="description"
-                                value={formData.description}
-                                onChange={handleChange}
-                                rows={4}
-                                className={`mt-1.5 w-full rounded-xl border px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all ${theme === 'dark'
-                                    ? 'bg-gray-800 border-gray-700 text-white'
-                                    : 'bg-white border-gray-300 text-gray-900'
-                                    }`}
-                            />
-                        </div>
-
-                        <div className="flex justify-end pt-4 border-t border-gray-100 dark:border-gray-800">
-                            <Button
-                                onClick={handleSubmit}
-                                loading={loading}
-                                size="lg"
-                                className="bg-primary-600 text-white hover:bg-primary-700 shadow-lg"
-                            >
-                                Save Changes
-                            </Button>
-                        </div>
-
-                    </Card>
+                        {/* Settings JSON Debug/Viewer */}
+                        <Card className="p-6">
+                            <h2 className={`text-lg font-semibold mb-4 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
+                                Advanced Settings
+                            </h2>
+                            <div className={`p-4 rounded-lg text-xs font-mono overflow-auto max-h-60 ${theme === 'dark' ? 'bg-black/30 text-green-400' : 'bg-slate-100 text-slate-700'}`}>
+                                <pre>
+                                    {orgData?.settings
+                                        ? JSON.stringify(typeof orgData.settings === 'string' ? JSON.parse(orgData.settings) : orgData.settings, null, 2)
+                                        : 'undefined'
+                                    }
+                                </pre>
+                            </div>
+                        </Card>
+                    </div>
                 </div>
             </div>
         </MainLayout>
