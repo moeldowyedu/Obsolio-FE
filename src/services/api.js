@@ -52,7 +52,14 @@ api.interceptors.request.use(
     const tenantId = localStorage.getItem('current_tenant_id');
     const isConsole = window.location.hostname.startsWith('console.');
 
-    if (tenantId && !isConsole) {
+    // Exclude tenant headers for auth endpoints to prevent context confusion
+    const isAuthRoute = config.url?.includes('/auth/register') ||
+      config.url?.includes('/auth/login') ||
+      config.url?.includes('/auth/forgot-password') ||
+      config.url?.includes('/auth/reset-password') ||
+      config.url?.includes('/auth/resend-verification');
+
+    if (tenantId && !isConsole && !isAuthRoute) {
       config.headers['X-Tenant-ID'] = tenantId;
     }
 
@@ -79,7 +86,7 @@ api.interceptors.request.use(
         currentSubdomain = parts[0];
       }
 
-      if (currentSubdomain && currentSubdomain !== 'www' && currentSubdomain !== 'console') {
+      if (currentSubdomain && currentSubdomain !== 'www' && currentSubdomain !== 'console' && !isAuthRoute) {
         config.headers['X-Tenant-Subdomain'] = currentSubdomain;
       }
     }
