@@ -74,7 +74,16 @@ const EditableField = ({ label, name, value, onSave, type = 'text', options = nu
             toast.success(`${label} updated`);
         } catch (error) {
         } catch (error) {
-            const msg = error.response?.data?.message || error.message || 'Unknown error';
+            let msg = error.response?.data?.message || error.message || 'Unknown error';
+
+            // Check for Laravel validation errors
+            if (error.response?.status === 422 && error.response?.data?.errors) {
+                const firstErrorKey = Object.keys(error.response.data.errors)[0];
+                if (firstErrorKey) {
+                    msg = error.response.data.errors[firstErrorKey][0];
+                }
+            }
+
             toast.error(`Failed to update ${label}: ${msg}`);
             console.error(error);
         } finally {
