@@ -64,10 +64,11 @@ api.interceptors.request.use(
     }
 
     // Debug logging for specific problematic endpoints
-    if (config.url?.includes('/tenant/organization')) {
-      console.log('🚀 API Request: /tenant/organization', {
-        headers: config.headers,
-        tenantId,
+    if (config.url?.includes('/tenant/organization') || config.url?.includes('/tenants')) {
+      console.log(`🚀 API Request: ${config.url}`, {
+        'X-Tenant-ID': config.headers['X-Tenant-ID'],
+        'X-Tenant-Subdomain': config.headers['X-Tenant-Subdomain'],
+        tenantIdFromStorage: tenantId,
         isAuthRoute
       });
     }
