@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { Mail, ArrowRight, Loader, AlertCircle } from 'lucide-react';
 import toast from 'react-hot-toast';
@@ -18,6 +18,8 @@ const ResendVerificationPage = () => {
     const [email, setEmail] = useState('');
     const [validationError, setValidationError] = useState('');
 
+    const navigate = useNavigate();
+
     const onSubmit = async (e) => {
         e.preventDefault();
         setValidationError('');
@@ -34,6 +36,12 @@ const ResendVerificationPage = () => {
             toast.success('Verification email sent!');
         } catch (error) {
             console.error(error);
+            // Handle "Email already verified" specifically
+            if (error.response?.status === 400 && error.response?.data?.message?.includes('already verified')) {
+                toast.success('Email already verified. Please sign in.', { duration: 4000 });
+                navigate('/login');
+                return;
+            }
             toast.error(error.response?.data?.message || 'Failed to resend email. Please try again.');
         } finally {
             setLoading(false);
@@ -103,7 +111,7 @@ const ResendVerificationPage = () => {
                             </form>
 
                             <div className="mt-6 text-center">
-                                <Link to="/signin" className={`text-sm hover:text-gray-300 transition-colors ${theme === 'dark' ? 'text-gray-500' : 'text-slate-400 hover:text-slate-600'}`}>
+                                <Link to="/login" className={`text-sm hover:text-gray-300 transition-colors ${theme === 'dark' ? 'text-gray-500' : 'text-slate-400 hover:text-slate-600'}`}>
                                     Back to Sign In
                                 </Link>
                             </div>
@@ -118,7 +126,7 @@ const ResendVerificationPage = () => {
                                 Please check your inbox for the verification link.
                             </p>
                             <Link
-                                to="/signin"
+                                to="/login"
                                 className="block w-full py-3 px-4 bg-primary-600 hover:bg-primary-500 text-white font-semibold rounded-xl transition-all"
                             >
                                 Back to Sign In
