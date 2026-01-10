@@ -13,6 +13,25 @@ const organizationService = {
     },
 
     /**
+     * Get current organization
+     * GET /api/v1/tenant/organization
+     */
+    getCurrent: async () => {
+      const response = await api.get('/tenant/organization');
+      return response.data;
+    },
+
+    /**
+     * Update current organization
+     * POST /api/v1/tenant/organization (using POST for FormData/PUT simulation)
+     */
+    updateCurrent: async (data) => {
+      const config = data instanceof FormData ? { headers: { 'Content-Type': 'multipart/form-data' } } : {};
+      const response = await api.post('/tenant/organization', data, config);
+      return response.data;
+    },
+
+    /**
      * Get organization by ID
      * GET /api/v1/organizations/{organization}
      */

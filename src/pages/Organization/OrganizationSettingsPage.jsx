@@ -157,37 +157,12 @@ const OrganizationSettingsPage = () => {
         const fetchOrganizationData = async () => {
             setFetching(true);
             try {
-                // Optimized Fetch: Prioritize direct Organization API calls
-                // The user requested explicit GET and PUT methods for the organizations endpoint.
-
-                // 1. Try to get the organization list for the current user/tenant
-                let orgData = null;
-                const orgResponse = await organizationService.organizations.list();
-                const orgs = Array.isArray(orgResponse) ? orgResponse : (orgResponse.data || []);
-
-                if (orgs.length > 0) {
-                    // Start with the first organization found (common case for single-tenant users)
-                    // You might want to match against user.tenant_id if multiple exist
-                    const match = orgs.find(o => o.id === user.tenant?.id) || orgs[0];
-                    setOrgId(match.id);
-
-                    // 2. Explicitly GET the full details for this organization
-                    // This satisfies the "get method" requirement
-                    const fullOrgDetails = await organizationService.organizations.get(match.id);
-                    orgData = fullOrgDetails.data || fullOrgDetails; // Handle wrapped vs unwrapped
-                } else {
-                    // Fallback to tenant service if organization list is empty (legacy support)
-                    if (user.tenant?.id) {
-                        const tenant = await tenantService.getTenant(user.tenant.id);
-                        if (tenant) {
-                            orgData = tenant.organization || tenant;
-                            setOrgId(tenant.organization?.id || tenant.id);
-                            setUseTenantServiceForUpdate(true); // Flag to use tenant service fallback
-                        }
-                    }
-                }
+                // 1. Get current organization directly
+                const response = await organizationService.organizations.getCurrent();
+                const orgData = response.data || response;
 
                 if (orgData) {
+                    setOrgId(orgData.id);
                     setFormData({
                         organization_full_name: orgData.organization_full_name || orgData.name || '',
                         organization_short_name: orgData.organization_short_name || orgData.short_name || '',
@@ -242,20 +217,14 @@ const OrganizationSettingsPage = () => {
         setError(null);
         setSuccess(null);
 
-        if (!orgId) {
-            setError('Organization ID is missing. Cannot update.');
-            setLoading(false);
-            return;
-        }
-
         try {
             const payload = new FormData();
             payload.append('organizationName', formData.organization_full_name);
             payload.append('organizationShortName', formData.organization_short_name);
-            payload.append('name', formData.organization_full_name);
-            payload.append('organization_full_name', formData.organization_full_name);
-            payload.append('short_name', formData.organization_short_name);
-            payload.append('organization_short_name', formData.organization_short_name);
+            // payload.append('name', formData.organization_full_name); // Redundant if backend uses specific keys
+            // payload.append('organization_full_name', formData.organization_full_name); 
+            // payload.append('short_name', formData.organization_short_name);
+            // payload.append('organization_short_name', formData.organization_short_name);
 
             if (formData.phone) payload.append('phone', formData.phone);
             if (formData.industry) payload.append('industry', formData.industry);
@@ -270,21 +239,7 @@ const OrganizationSettingsPage = () => {
                 payload.append('organizationLogo', formData.logo);
             }
 
-            let response;
-            try {
-                if (useTenantServiceForUpdate) {
-                    response = await tenantService.updateTenant(orgId, payload);
-                } else {
-                    response = await organizationService.organizations.update(orgId, payload);
-                }
-            } catch (initialErr) {
-                if (useTenantServiceForUpdate) {
-                    response = await organizationService.organizations.update(orgId, payload);
-                } else {
-                    throw initialErr;
-                }
-            }
-
+            const response = await organizationService.organizations.updateCurrent(payload);
             const updatedData = response.data || response;
 
             const updatedUserTenant = {
@@ -298,6 +253,7 @@ const OrganizationSettingsPage = () => {
             setSuccess('Settings updated successfully');
 
         } catch (err) {
+            console.error("Update Error:", err);
             setError(err.response?.data?.message || 'Failed to update settings');
         } finally {
             setLoading(false);
