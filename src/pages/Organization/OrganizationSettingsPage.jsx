@@ -73,7 +73,9 @@ const EditableField = ({ label, name, value, onSave, type = 'text', options = nu
             setIsEditing(false);
             toast.success(`${label} updated`);
         } catch (error) {
-            toast.error(`Failed to update ${label}`);
+        } catch (error) {
+            const msg = error.response?.data?.message || error.message || 'Unknown error';
+            toast.error(`Failed to update ${label}: ${msg}`);
             console.error(error);
         } finally {
             setSaving(false);
@@ -250,19 +252,34 @@ const OrganizationSettingsPage = () => {
         // List of fields allowed to be updated
         const allowList = [
             'name', 'short_name', 'industry', 'company_size',
-            'country', 'phone', 'timezone', 'description', 'settings'
+            'country', 'phone', 'timezone', 'description'
         ];
 
         allowList.forEach(key => {
             if (dataToSubmit[key] !== undefined && dataToSubmit[key] !== null) {
-                // Determine value to send
-                if (typeof dataToSubmit[key] === 'object') {
-                    payload.append(key, JSON.stringify(dataToSubmit[key]));
-                } else {
-                    payload.append(key, dataToSubmit[key]);
-                }
+                payload.append(key, dataToSubmit[key]);
             }
         });
+
+        // Handle settings specially - MUST be sent as array/object keys for PHP validation 'array'
+        if (dataToSubmit.settings) {
+            let settingsObj = dataToSubmit.settings;
+            // Parse if valid JSON string
+            if (typeof settingsObj === 'string') {
+                try { settingsObj = JSON.parse(settingsObj); } catch (e) {
+                    console.warn('Could not parse settings', e);
+                    settingsObj = {}; // Fallback
+                }
+            }
+
+            if (typeof settingsObj === 'object' && settingsObj !== null) {
+                Object.keys(settingsObj).forEach(sKey => {
+                    // Append as settings[key]
+                    const val = typeof settingsObj[sKey] === 'object' ? JSON.stringify(settingsObj[sKey]) : settingsObj[sKey];
+                    payload.append(`settings[${sKey}]`, val);
+                });
+            }
+        }
 
         payload.append('_method', 'PUT');
 
@@ -307,19 +324,35 @@ const OrganizationSettingsPage = () => {
             // We must preserve other fields if it's a PUT
             const allowList = [
                 'name', 'short_name', 'industry', 'company_size',
-                'country', 'phone', 'timezone', 'description', 'settings'
+                'country', 'phone', 'timezone', 'description'
             ];
 
             allowList.forEach(key => {
                 const value = orgData[key];
                 if (value !== undefined && value !== null) {
-                    if (typeof value === 'object') {
-                        payload.append(key, JSON.stringify(value));
-                    } else {
-                        payload.append(key, value);
-                    }
+                    payload.append(key, value);
                 }
             });
+
+            // Handle settings specially - MUST be sent as array/object keys for PHP validation 'array'
+            if (orgData.settings) {
+                let settingsObj = orgData.settings;
+                // Parse if valid JSON string
+                if (typeof settingsObj === 'string') {
+                    try { settingsObj = JSON.parse(settingsObj); } catch (e) {
+                        console.warn('Could not parse settings', e);
+                        settingsObj = {}; // Fallback
+                    }
+                }
+
+                if (typeof settingsObj === 'object' && settingsObj !== null) {
+                    Object.keys(settingsObj).forEach(sKey => {
+                        // Append as settings[key]
+                        const val = typeof settingsObj[sKey] === 'object' ? JSON.stringify(settingsObj[sKey]) : settingsObj[sKey];
+                        payload.append(`settings[${sKey}]`, val);
+                    });
+                }
+            }
 
             payload.append('logo', file);
             // Changed from organizationLogo to logo for standard update
