@@ -270,25 +270,7 @@ const OrganizationSettingsPage = () => {
             }
         });
 
-        // Handle settings specially - MUST be sent as array/object keys for PHP validation 'array'
-        if (dataToSubmit.settings) {
-            let settingsObj = dataToSubmit.settings;
-            // Parse if valid JSON string
-            if (typeof settingsObj === 'string') {
-                try { settingsObj = JSON.parse(settingsObj); } catch (e) {
-                    console.warn('Could not parse settings', e);
-                    settingsObj = {}; // Fallback
-                }
-            }
 
-            if (typeof settingsObj === 'object' && settingsObj !== null) {
-                Object.keys(settingsObj).forEach(sKey => {
-                    // Append as settings[key]
-                    const val = typeof settingsObj[sKey] === 'object' ? JSON.stringify(settingsObj[sKey]) : settingsObj[sKey];
-                    payload.append(`settings[${sKey}]`, val);
-                });
-            }
-        }
 
         payload.append('_method', 'PUT');
 
