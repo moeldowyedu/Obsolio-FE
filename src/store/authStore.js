@@ -29,11 +29,15 @@ export const useAuthStore = create(
           setCookie('obsolio_auth_token', data.token, 7);
           setCookie('obsolio_user', JSON.stringify(data.user), 7);
 
-          // CRITICAL: Set current_tenant_id for API headers
+          // CRITICAL: Set current_tenant_id and subdomain for API headers & routing
           if (data.user?.tenant_id) {
             localStorage.setItem('current_tenant_id', data.user.tenant_id);
           } else if (data.user?.tenant?.id) {
             localStorage.setItem('current_tenant_id', data.user.tenant.id);
+          }
+
+          if (data.user?.tenant?.subdomain) {
+            localStorage.setItem('current_tenant_subdomain', data.user.tenant.subdomain);
           }
 
           return data;
@@ -64,11 +68,15 @@ export const useAuthStore = create(
           setCookie('obsolio_auth_token', data.token, 7);
           setCookie('obsolio_user', JSON.stringify(data.user), 7);
 
-          // CRITICAL: Set current_tenant_id for API headers
+          // CRITICAL: Set current_tenant_id and subdomain for API headers & routing
           if (data.user?.tenant_id) {
             localStorage.setItem('current_tenant_id', data.user.tenant_id);
           } else if (data.user?.tenant?.id) {
             localStorage.setItem('current_tenant_id', data.user.tenant.id);
+          }
+
+          if (data.user?.tenant?.subdomain) {
+            localStorage.setItem('current_tenant_subdomain', data.user.tenant.subdomain);
           }
 
           return data;

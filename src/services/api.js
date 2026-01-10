@@ -76,10 +76,36 @@ api.interceptors.request.use(
       });
     }
 
-    // Add current subdomain to headers
+    // Dynamic Base URL Routing for Tenant Context
+    // Backend Requirement: /tenant endpoints MUST be called from tenant.obsolio.com context, not api.obsolio.com
+    const isTenantContextEndpoint = config.url?.includes('/tenant'); // /tenant typically implies context-aware
+    const currentTenantSubdomain = localStorage.getItem('current_tenant_subdomain');
+    const appDomain = import.meta.env.VITE_APP_DOMAIN || 'localhost';
+
+    if (isTenantContextEndpoint && currentTenantSubdomain && !isConsole) {
+      // Construct tenant-specific Base URL
+      // If appDomain is 'localhost', we might be in dev mode. 
+      // For production (obsolio.com), we want: https://{subdomain}.obsolio.com/api/v1
+
+      let protocol = window.location.protocol; // http: or https:
+      let newBaseURL;
+
+      if (appDomain === 'localhost') {
+        // Dev mode fallback - likely backend is finding tenant by header anyway on localhost
+        // But we can try to follow the rule if using a proxy or hosts file
+        // newBaseURL = `${protocol}//${currentTenantSubdomain}.${appDomain}:${window.location.port}/api/v1`;
+        // Actually, usually localhost stays localhost. We rely on headers there.
+        // Do nothing for localhost unless specifically configured.
+      } else {
+        // Production / Staging
+        newBaseURL = `${protocol}//${currentTenantSubdomain}.${appDomain}/api/v1`;
+        config.baseURL = newBaseURL;
+      }
+    }
+
+    // Add current subdomain to headers (Legacy/Support)
     const subdomain = window.location.hostname.split('.')[0];
     const isLocalhost = window.location.hostname.includes('localhost');
-    const appDomain = import.meta.env.VITE_APP_DOMAIN || 'localhost';
 
     // Simple extraction logic inline to avoid circular dependencies
     // If not on main domain (and not www), send subdomain
