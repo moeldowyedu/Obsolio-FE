@@ -270,7 +270,28 @@ const OrganizationSettingsPage = () => {
             }
         });
 
-
+        // Handle settings specially - MUST be sent as array/object keys for PHP validation 'array'
+        if (dataToSubmit.settings) {
+            let settingsObj = dataToSubmit.settings;
+            if (typeof settingsObj === 'string') {
+                try { settingsObj = JSON.parse(settingsObj); } catch (e) { settingsObj = {}; }
+            }
+            if (typeof settingsObj === 'object' && settingsObj !== null) {
+                const keys = Object.keys(settingsObj);
+                if (keys.length > 0) {
+                    keys.forEach(sKey => {
+                        const val = typeof settingsObj[sKey] === 'object' ? JSON.stringify(settingsObj[sKey]) : settingsObj[sKey];
+                        payload.append(`settings[${sKey}]`, val);
+                    });
+                } else {
+                    payload.append('settings[]', '');
+                }
+            } else {
+                payload.append('settings[]', '');
+            }
+        } else {
+            payload.append('settings[]', '');
+        }
 
         payload.append('_method', 'PUT');
 
