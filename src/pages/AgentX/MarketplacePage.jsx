@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Search, Filter, TrendingUp, Grid3x3, List, ChevronDown, CheckCircle, AlertCircle, X } from 'lucide-react'; // Added icons
 import MainLayout from '../../components/layout/MainLayout';
 import AgentCard from '../../components/marketplace/AgentCard';
-import marketplaceService from '../../services/marketplaceService';
+import { tenantService } from '../../services/tenantService';
 import { useTheme } from '../../contexts/ThemeContext';
 // import { toast } from 'react-hot-toast'; // Assuming you have toast
 import Button from '../../components/common/Button/Button';
@@ -31,33 +31,10 @@ const MarketplacePage = () => {
   const [viewMode, setViewMode] = useState('grid');
   const [sortBy, setSortBy] = useState('popular'); // 'popular', 'newest', 'price_asc', 'price_desc'
 
-  // Fetch Initial Data (Featured & Categories)
-  useEffect(() => {
-    const fetchInitialData = async () => {
-      try {
-        const [featuredRes, categoriesRes] = await Promise.all([
-          marketplaceService.getFeaturedAgents(),
-          marketplaceService.getCategories()
-        ]);
+  // Note: Featured and Category endpoints not available in new tenant agents API
+  // Categories will be extracted from loaded agents if needed
 
-        if (featuredRes.success) {
-          setFeaturedAgents(featuredRes.data || []);
-        }
-
-        // Handle Categories Response structure
-        // Assuming response: { success: true, data: [ { name: 'Legal', count: 5 }, ... ] }
-        if (categoriesRes.success) {
-          setCategories(categoriesRes.data || []);
-        }
-      } catch (err) {
-        console.error("Failed to load initial marketplace data:", err);
-        // toast.error("Failed to load some marketplace data.");
-      }
-    };
-    fetchInitialData();
-  }, []);
-
-  // Fetch Agents (Search, Filter, Pagination)
+  // Fetch Agents from Tenant Agents API
   const fetchAgents = useCallback(async () => {
     setLoading(true);
     setError(null);
@@ -65,25 +42,57 @@ const MarketplacePage = () => {
       const params = {
         page: currentPage,
         per_page: itemsPerPage,
-        q: searchQuery,
-        sort: sortBy,
+        search: searchQuery || undefined,
       };
 
-      // If category selected, use getAgentsByCategory or filter params
-      let response;
-      if (selectedCategory !== 'all') {
-        response = await marketplaceService.getAgentsByCategory(selectedCategory, params);
-      } else {
-        response = await marketplaceService.browseAgents(params);
-      }
+      const response = await tenantService.getAgents(params);
 
       if (response.success) {
-        // Handle pagination structure
-        // API Example: { data: { data: [...], current_page: 1, last_page: 5, total: 50 ... } }
-        const result = response.data;
-        setAgents(result.data || []);
-        setTotalPages(result.last_page || Math.ceil((result.total || 0) / itemsPerPage) || 1);
-        setTotalItems(result.total || 0);
+        // The new API returns data directly as an array or paginated
+        const agentData = Array.isArray(response.data) ? response.data : (response.data?.data || []);
+
+        // Filter by active status and optionally by search query (client-side if needed)
+        let filteredAgents = agentData.filter(agent => agent.is_active !== false);
+
+        // Client-side search filter if API doesn't support it
+        if (searchQuery && filteredAgents.length > 0) {
+          const query = searchQuery.toLowerCase();
+          filteredAgents = filteredAgents.filter(agent =>
+            agent.name?.toLowerCase().includes(query) ||
+            agent.description?.toLowerCase().includes(query)
+          );
+        }
+
+        // Extract unique categories from agents for the filter dropdown
+        const uniqueCategories = [...new Set(
+          agentData.flatMap(agent =>
+            agent.categories?.map(cat => cat.name || cat) || []
+          ).filter(Boolean)
+        )];
+        setCategories(uniqueCategories.map(name => ({ name })));
+
+        // Extract featured agents
+        const featured = agentData.filter(agent => agent.is_featured);
+        setFeaturedAgents(featured);
+
+        // Apply category filter if selected
+        if (selectedCategory !== 'all') {
+          filteredAgents = filteredAgents.filter(agent =>
+            agent.categories?.some(cat => (cat.name || cat) === selectedCategory)
+          );
+        }
+
+        setAgents(filteredAgents);
+
+        // Handle pagination if API provides it
+        if (response.data?.last_page) {
+          setTotalPages(response.data.last_page);
+          setTotalItems(response.data.total || filteredAgents.length);
+        } else {
+          // No pagination from API, calculate based on filtered results
+          setTotalPages(1);
+          setTotalItems(filteredAgents.length);
+        }
       } else {
         setError("Failed to fetch agents.");
       }
@@ -94,7 +103,7 @@ const MarketplacePage = () => {
     } finally {
       setLoading(false);
     }
-  }, [currentPage, itemsPerPage, searchQuery, selectedCategory, sortBy]);
+  }, [currentPage, itemsPerPage, searchQuery, selectedCategory]);
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
@@ -141,7 +150,7 @@ const MarketplacePage = () => {
           {/* Header & Controls */}
           <div className="flex flex-col xl:flex-row gap-6 justify-between items-start xl:items-center mb-8">
             <div>
-              <h1 className={`text-3xl font-bold ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>Agent Marketplace</h1>
+              <h1 className={`text-3xl font-bold ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>AgentX Hub</h1>
               <p className={`${theme === 'dark' ? 'text-gray-400' : 'text-slate-500'} mt-2`}>
                 Discover, test, and deploy AI agents for your specific needs.
               </p>

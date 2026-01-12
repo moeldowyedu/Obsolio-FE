@@ -197,9 +197,6 @@ const Header = () => {
               </>
             )}
 
-            {/* AgentX HUB - Public for everyone */}
-            <Link to="/agentx/hub" className={`${theme === 'dark' ? 'text-gray-300 hover:text-white' : 'text-slate-600 hover:text-slate-900'} font-medium transition-colors hidden lg:inline pt-1`}>{t.agentxHub || 'AgentX HUB'}</Link>
-
 
             {!isAuthenticated ? (
               <>
@@ -446,7 +443,6 @@ const Header = () => {
           <div className="lg:hidden absolute top-full left-0 w-full bg-[#0B0E14]/95 backdrop-blur-xl border-t border-white/10 p-6 flex flex-col gap-4 shadow-2xl h-screen">
             <Link to="/" onClick={() => setMobileMenuOpen(false)} className="text-lg text-gray-300 hover:text-white font-medium">{t.home || 'Home'}</Link>
             <Link to="/pricing" onClick={() => setMobileMenuOpen(false)} className="text-lg text-gray-300 hover:text-white font-medium">Pricing</Link>
-            <Link to="/agentx/hub" onClick={() => setMobileMenuOpen(false)} className="text-lg text-gray-300 hover:text-white font-medium">{t.agentxHub || 'AgentX HUB'}</Link>
             <Link to="/docs/getting-started/introduction" onClick={() => setMobileMenuOpen(false)} className="text-lg text-gray-300 hover:text-white font-medium">{t.docs || 'Docs'}</Link>
             <hr className="border-white/10" />
             <Link to="/signin" className="text-lg text-gray-200 hover:text-white font-semibold flex items-center gap-2"><LogIn className="w-5 h-5" /> {t.signIn || 'Sign In'}</Link>

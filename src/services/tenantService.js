@@ -124,5 +124,39 @@ export const tenantService = {
   updateUserRole: async (tenantId, userId, role) => {
     const response = await apiClient.put(`/tenants/${tenantId}/users/${userId}/role`, { role });
     return response.data?.data || response.data;
+  },
+
+  // ============================================
+  // Agent Hub Methods (Tenant Agents)
+  // ============================================
+
+  /**
+   * Get list of available agents for the tenant
+   * @param {Object} params - Query parameters (page, per_page, search, etc.)
+   * @returns {Promise} List of agents
+   */
+  getAgents: async (params = {}) => {
+    try {
+      const response = await apiClient.get('/tenant/agents', { params });
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching tenant agents:', error);
+      throw error;
+    }
+  },
+
+  /**
+   * Get detailed information about a specific agent
+   * @param {string} agentId - Agent UUID
+   * @returns {Promise} Agent details
+   */
+  getAgent: async (agentId) => {
+    try {
+      const response = await apiClient.get(`/tenant/agents/${agentId}`);
+      return response.data;
+    } catch (error) {
+      console.error(`Error fetching agent ${agentId}:`, error);
+      throw error;
+    }
   }
 };

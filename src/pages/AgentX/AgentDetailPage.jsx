@@ -9,7 +9,7 @@ import {
 
 import MainLayout from '../../components/layout/MainLayout';
 import { useTheme } from '../../contexts/ThemeContext';
-import marketplaceService from '../../services/marketplaceService';
+import { tenantService } from '../../services/tenantService';
 import Button from '../../components/common/Button/Button';
 import Badge from '../../components/common/Badge/Badge';
 import Tabs from '../../components/common/Tabs/Tabs';
@@ -32,9 +32,22 @@ const AgentDetailPage = () => {
     const fetchAgent = async () => {
       setLoading(true);
       try {
-        const response = await marketplaceService.getMarketplaceAgent(agentId);
+        const response = await tenantService.getAgent(agentId);
         if (response.success) {
-          setAgent(response.data);
+          // Map new API fields to expected fields
+          const agentData = response.data;
+          setAgent({
+            ...agentData,
+            // Map base_price to monthly_price for pricing display
+            monthly_price: agentData.base_price || 0,
+            annual_price: agentData.base_price ? Math.round(agentData.base_price * 10) : 0,
+            // Ensure category is available from categories array
+            category: agentData.categories?.[0]?.name || agentData.categories?.[0] || 'General',
+            // Default review_count if not provided
+            review_count: agentData.review_count || 0,
+            // Default version if not provided
+            version: agentData.version || '1.0.0',
+          });
         } else {
           setError("Failed to load agent details.");
         }

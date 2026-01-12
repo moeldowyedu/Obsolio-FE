@@ -12,8 +12,6 @@ import ContactPage from '../pages/Public/ContactPage';
 import PricingPage from '../pages/Public/PricingPage';
 import DocsPage from '../pages/Docs/DocsPage';
 import NotFoundPage from '../pages/NotFoundPage';
-import AgentXMarketplacePage from '../pages/AgentX/MarketplacePage';
-import AgentDetailPage from '../pages/AgentX/AgentDetailPage';
 import VerifyEmailSentPage from '../pages/Auth/VerifyEmailSentPage';
 import EmailVerificationPage from '../pages/Auth/EmailVerificationPage';
 import EmailVerificationHandlerPage from '../pages/Auth/EmailVerificationHandlerPage';
@@ -65,13 +63,6 @@ const PublicRouter = () => {
             {/* Documentation */}
             <Route path="/docs" element={<DocsPage />} />
             <Route path="/docs/:section/:page" element={<DocsPage />} />
-
-            {/* Public AgentX Preview */}
-            <Route path="/agentx/hub" element={<AgentXMarketplacePage />} />
-            <Route path="/agentx/hub/agent/:id" element={<AgentDetailPage />} />
-            <Route path="/marketplace/*" element={<Navigate to="/agentx/hub" replace />} />
-
-
 
             {/* 404 - No Sidebar on Public Domain */}
             <Route path="*" element={<NotFoundPage showSidebar={false} />} />

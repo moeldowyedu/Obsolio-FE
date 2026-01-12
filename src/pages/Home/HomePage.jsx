@@ -61,8 +61,8 @@ const HomePage = () => {
                 </p>
 
                 <div className={`flex flex-col sm:flex-row gap-4 justify-start`}>
-                  <Link to="/agentx/hub" className="glass-btn-primary group flex items-center justify-center gap-3">
-                    {t.exploreAgentxHub}
+                  <Link to="/register" className="glass-btn-primary group flex items-center justify-center gap-3">
+                    {t.getStartedFree || 'Get Started Free'}
                     <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                   </Link>
                   <a href="#industries" className={`glass-btn ${theme === 'dark' ? 'hover:bg-white/10 text-white' : 'bg-white text-slate-700 border border-slate-200 shadow-sm hover:border-primary-300 hover:shadow-md'} flex items-center justify-center gap-2 transition-all`}>
@@ -271,8 +271,8 @@ const HomePage = () => {
             </div>
 
             <div className="text-center">
-              <Link to="/agentx/hub" className="glass-btn-primary inline-flex items-center gap-2">
-                {t.exploreAllAgentsButton}
+              <Link to="/register" className="glass-btn-primary inline-flex items-center gap-2">
+                {t.getStartedFree || 'Get Started Free'}
                 <ArrowRight className="w-4 h-4" />
               </Link>
             </div>

@@ -24,8 +24,8 @@ const AgentCard = ({ agent }) => {
     <div
       onClick={() => navigate(`/agentx/hub/agent/${agent.id}`)}
       className={`group relative flex flex-col p-6 rounded-2xl border transition-all duration-300 cursor-pointer overflow-hidden ${theme === 'dark'
-          ? 'bg-[#1e293b]/50 border-white/5 hover:border-primary-500/50 hover:bg-[#1e293b]'
-          : 'bg-white border-slate-200 hover:border-primary-500/50 hover:shadow-xl hover:shadow-primary-500/10'
+        ? 'bg-[#1e293b]/50 border-white/5 hover:border-primary-500/50 hover:bg-[#1e293b]'
+        : 'bg-white border-slate-200 hover:border-primary-500/50 hover:shadow-xl hover:shadow-primary-500/10'
         }`}
     >
       {/* Header */}
@@ -58,10 +58,10 @@ const AgentCard = ({ agent }) => {
         {/* Price */}
         <div className="text-right">
           <div className={`font-bold text-lg ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
-            ${agent.monthly_price || 0}
+            ${agent.monthly_price || agent.base_price || 0}
           </div>
           <div className={`text-xs ${theme === 'dark' ? 'text-gray-500' : 'text-slate-400'}`}>
-            /mo
+            {agent.price_model || '/mo'}
           </div>
         </div>
       </div>
@@ -73,14 +73,16 @@ const AgentCard = ({ agent }) => {
 
       {/* Stats */}
       <div className={`flex items-center gap-4 mb-6 pb-4 border-b ${theme === 'dark' ? 'border-white/10' : 'border-slate-100'}`}>
-        <div className="flex items-center gap-1.5">
-          <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
-          <span className={`text-sm font-semibold ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>{agent.rating}</span>
-          <span className={`text-xs ${theme === 'dark' ? 'text-gray-500' : 'text-slate-400'}`}>({agent.review_count})</span>
-        </div>
+        {(agent.rating > 0 || agent.review_count > 0) && (
+          <div className="flex items-center gap-1.5">
+            <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
+            <span className={`text-sm font-semibold ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>{agent.rating || 0}</span>
+            <span className={`text-xs ${theme === 'dark' ? 'text-gray-500' : 'text-slate-400'}`}>({agent.review_count || 0})</span>
+          </div>
+        )}
         <div className="flex items-center gap-1.5">
           <Download className={`w-4 h-4 ${theme === 'dark' ? 'text-gray-500' : 'text-slate-400'}`} />
-          <span className={`text-sm ${theme === 'dark' ? 'text-gray-300' : 'text-slate-600'}`}>{agent.total_installs > 1000 ? (agent.total_installs / 1000).toFixed(1) + 'k' : agent.total_installs}</span>
+          <span className={`text-sm ${theme === 'dark' ? 'text-gray-300' : 'text-slate-600'}`}>{agent.total_installs > 1000 ? (agent.total_installs / 1000).toFixed(1) + 'k' : (agent.total_installs || 0)}</span>
         </div>
       </div>
 
