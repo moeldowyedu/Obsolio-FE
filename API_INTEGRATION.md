@@ -30,7 +30,7 @@ The frontend uses environment variables to configure the API connection. Create 
 
 ```env
 # API Configuration
-VITE_API_BASE_URL=http://localhost:8000/api/v1
+VITE_API_BASE_URL=https://api.obsolio.com//api/v1
 VITE_WEBHOOK_BASE_URL=https://webhooks.aasim.ai
 
 # Feature Flags
@@ -44,7 +44,7 @@ VITE_ENABLE_MULTI_TENANT=true
 
 **Development:**
 ```env
-VITE_API_BASE_URL=http://localhost:8000/api/v1
+VITE_API_BASE_URL=https://api.obsolio.com//api/v1
 ```
 
 **Production:**
@@ -65,7 +65,7 @@ For local development, the frontend includes a proxy configuration in `vite.conf
 server: {
   proxy: {
     '/api': {
-      target: 'http://localhost:8000',
+      target: 'https://api.obsolio.com/',
       changeOrigin: true,
       secure: false
     }
@@ -121,7 +121,7 @@ console.log(diagnostics);
 Open browser console and check for:
 ```
 🌐 API Configuration: {
-  baseURL: "http://localhost:8000/api/v1",
+  baseURL: "https://api.obsolio.com//api/v1",
   environment: "development"
 }
 ```
@@ -319,7 +319,7 @@ try {
 Network errors include helpful messages:
 
 ```javascript
-error.userMessage = "Cannot connect to backend server at http://localhost:8000/api/v1. Please ensure the backend is running."
+error.userMessage = "Cannot connect to backend server at https://api.obsolio.com//api/v1. Please ensure the backend is running."
 ```
 
 ---
@@ -331,7 +331,7 @@ error.userMessage = "Cannot connect to backend server at http://localhost:8000/a
 **Error:**
 ```
 🌐 Network error - Cannot reach backend API: Network Error
-💡 Make sure the backend server is running at: http://localhost:8000/api/v1
+💡 Make sure the backend server is running at: https://api.obsolio.com//api/v1
 ```
 
 **Solutions:**
@@ -339,7 +339,7 @@ error.userMessage = "Cannot connect to backend server at http://localhost:8000/a
 1. **Verify backend is running**
    ```bash
    # Check if backend is running
-   curl http://localhost:8000/api/v1/health
+   curl https://api.obsolio.com//api/v1/health
    ```
 
 2. **Check .env file**

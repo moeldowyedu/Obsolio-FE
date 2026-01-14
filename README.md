@@ -277,7 +277,7 @@ Create a `.env` file in the root directory:
 
 ```env
 # API Configuration
-VITE_API_BASE_URL=http://localhost:8000/api/v1
+VITE_API_BASE_URL=https://api.obsolio.com//api/v1
 
 # App Configuration
 VITE_APP_NAME=Aasim

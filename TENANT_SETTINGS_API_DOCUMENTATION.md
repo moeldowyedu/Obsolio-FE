@@ -7,7 +7,7 @@ This document provides comprehensive information about the Tenant Settings form 
 
 ### Base URL
 ```
-http://localhost:8000/api/v1
+https://api.obsolio.com//api/v1
 ```
 
 ### Endpoints
@@ -314,7 +314,7 @@ PUT /tenants/{tenantId}/settings
 ### Get Tenant Settings
 ```bash
 curl -X GET \
-  http://localhost:8000/api/v1/tenants/{tenantId}/settings \
+  https://api.obsolio.com//api/v1/tenants/{tenantId}/settings \
   -H "Authorization: Bearer YOUR_TOKEN" \
   -H "X-Tenant-ID: YOUR_TENANT_ID"
 ```
@@ -322,7 +322,7 @@ curl -X GET \
 ### Update Tenant Settings
 ```bash
 curl -X PUT \
-  http://localhost:8000/api/v1/tenants/{tenantId}/settings \
+  https://api.obsolio.com//api/v1/tenants/{tenantId}/settings \
   -H "Authorization: Bearer YOUR_TOKEN" \
   -H "X-Tenant-ID: YOUR_TENANT_ID" \
   -H "Content-Type: application/json" \

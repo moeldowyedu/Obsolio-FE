@@ -80,7 +80,7 @@ export const checkAPIHealth = async () => {
  * @returns {string}
  */
 export const getAPIBaseURL = () => {
-  return import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api/v1';
+  return import.meta.env.VITE_API_BASE_URL || 'https://api.obsolio.com//api/v1';
 };
 
 /**

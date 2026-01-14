@@ -777,7 +777,7 @@ class AIService
 APP_NAME=Aasim
 APP_ENV=development
 APP_DEBUG=true
-APP_URL=http://localhost:8000
+APP_URL=https://api.obsolio.com/
 
 # Database
 DB_HOST=localhost

@@ -6,7 +6,7 @@ This guide explains how to connect the Aasim-FE frontend to the Aasim-BE Laravel
 
 ## Prerequisites
 
-1. ✅ Laravel backend running at `http://localhost:8000`
+1. ✅ Laravel backend running at `https://api.obsolio.com/`
 2. ✅ Backend database seeded with test data
 3. ✅ Frontend development server running at `http://localhost:5173`
 4. ✅ CORS configured on backend to allow frontend origin
@@ -16,7 +16,7 @@ This guide explains how to connect the Aasim-FE frontend to the Aasim-BE Laravel
 The `.env` file has been created with:
 
 ```env
-VITE_API_URL=http://localhost:8000/api
+VITE_API_URL=https://api.obsolio.com//api
 VITE_APP_NAME="Aasim AI"
 VITE_APP_ENV=development
 ```

@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Create axios instance with default config
 const apiClient = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000',
+  baseURL: import.meta.env.VITE_API_BASE_URL || 'https://api.obsolio.com/',
   headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json'
@@ -53,7 +53,7 @@ apiClient.interceptors.response.use(
         const refreshToken = localStorage.getItem('refresh_token');
         if (refreshToken) {
           const response = await axios.post(
-            `${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000'}/auth/refresh`,
+            `${import.meta.env.VITE_API_BASE_URL || 'https://api.obsolio.com/'}/auth/refresh`,
             {},
             {
               headers: {

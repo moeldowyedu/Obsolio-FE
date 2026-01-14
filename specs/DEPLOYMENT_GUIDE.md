@@ -50,7 +50,7 @@ Edit `.env` file:
 APP_NAME=Aasim
 APP_ENV=development
 APP_DEBUG=true
-APP_URL=http://localhost:8000
+APP_URL=https://api.obsolio.com/
 
 DB_HOST=localhost
 DB_PORT=3306
@@ -126,7 +126,7 @@ cp .env.example .env
 Edit `.env` file:
 
 ```env
-VITE_API_BASE_URL=http://localhost:8000/api/v1
+VITE_API_BASE_URL=https://api.obsolio.com//api/v1
 VITE_APP_NAME=Aasim
 VITE_MAX_FILE_SIZE=524288000
 ```
@@ -207,7 +207,7 @@ services:
     ports:
       - "5173:5173"
     environment:
-      - VITE_API_BASE_URL=http://localhost:8000/api/v1
+      - VITE_API_BASE_URL=https://api.obsolio.com//api/v1
     depends_on:
       - backend
     networks:
@@ -460,7 +460,7 @@ server {
     }
 
     location /api {
-        proxy_pass http://localhost:8000;
+        proxy_pass https://api.obsolio.com/;
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection 'upgrade';

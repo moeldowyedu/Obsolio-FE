@@ -10,15 +10,15 @@ The frontend uses environment variables to configure the backend API connection:
 
 ```bash
 # .env file
-VITE_API_URL=http://localhost:8000/api
-VITE_API_BASE_URL=http://localhost:8000/api/v1
+VITE_API_URL=https://api.obsolio.com//api
+VITE_API_BASE_URL=https://api.obsolio.com//api/v1
 ```
 
 ### API Client Configuration
 
 The main API client is configured in `/src/services/api.js`:
 
-- **Base URL**: `http://localhost:8000/api/v1` (from `VITE_API_BASE_URL`)
+- **Base URL**: `https://api.obsolio.com//api/v1` (from `VITE_API_BASE_URL`)
 - **Timeout**: 30 seconds
 - **Retry Logic**: Exponential backoff with max 3 retries for network/5xx errors
 - **Authentication**: Automatic JWT Bearer token injection via request interceptors
@@ -321,7 +321,7 @@ php artisan serve
 npm run dev
 ```
 
-The Vite dev server includes a proxy that routes `/api/*` requests to `http://localhost:8000`.
+The Vite dev server includes a proxy that routes `/api/*` requests to `https://api.obsolio.com/`.
 
 ### Testing API Endpoints
 

@@ -11,7 +11,7 @@ BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 # Configuration
-API_BASE_URL="${API_BASE_URL:-http://localhost:8000/api/v1}"
+API_BASE_URL="${API_BASE_URL:-https://api.obsolio.com//api/v1}"
 AUTH_TOKEN="${AUTH_TOKEN:-your-auth-token-here}"
 TENANT_ID="${TENANT_ID:-your-tenant-id-here}"
 

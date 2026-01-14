@@ -8,7 +8,7 @@ This guide explains how to test the Tenant Settings page with full CRUD operatio
 1. **Backend Server Running**
    ```bash
    # Make sure the backend API is running at:
-   http://localhost:8000/api/v1
+   https://api.obsolio.com//api/v1
    ```
 
 2. **Authentication Token**
@@ -69,7 +69,7 @@ export AUTH_TOKEN="your-actual-auth-token-here"
 export TENANT_ID="your-actual-tenant-id-here"
 
 # (Optional) Set custom API URL
-export API_BASE_URL="http://localhost:8000/api/v1"
+export API_BASE_URL="https://api.obsolio.com//api/v1"
 ```
 
 ### Step 2: Run the Test Script
@@ -93,7 +93,7 @@ Tenant Settings API Test Suite
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 TEST: 1. GET Tenant Settings (READ Operation)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Endpoint: GET http://localhost:8000/api/v1/tenants/123/settings
+Endpoint: GET https://api.obsolio.com//api/v1/tenants/123/settings
 
 ✅ GET Request Successful (HTTP 200)
 
@@ -117,7 +117,7 @@ TEST: 2. PUT Tenant Settings (UPDATE Operation)
 ### GET Tenant Settings
 ```bash
 curl -X GET \
-  http://localhost:8000/api/v1/tenants/YOUR_TENANT_ID/settings \
+  https://api.obsolio.com//api/v1/tenants/YOUR_TENANT_ID/settings \
   -H "Authorization: Bearer YOUR_TOKEN" \
   -H "X-Tenant-ID: YOUR_TENANT_ID" \
   -H "Content-Type: application/json"
@@ -126,7 +126,7 @@ curl -X GET \
 ### PUT Tenant Settings
 ```bash
 curl -X PUT \
-  http://localhost:8000/api/v1/tenants/YOUR_TENANT_ID/settings \
+  https://api.obsolio.com//api/v1/tenants/YOUR_TENANT_ID/settings \
   -H "Authorization: Bearer YOUR_TOKEN" \
   -H "X-Tenant-ID: YOUR_TENANT_ID" \
   -H "Content-Type: application/json" \
@@ -162,11 +162,11 @@ curl -X PUT \
 
 ### Import Collection
 1. Create a new request collection
-2. Set base URL: `http://localhost:8000/api/v1`
+2. Set base URL: `https://api.obsolio.com//api/v1`
 
 ### Setup Environment Variables
 ```
-baseUrl: http://localhost:8000/api/v1
+baseUrl: https://api.obsolio.com//api/v1
 authToken: your-token-here
 tenantId: your-tenant-id-here
 ```
@@ -233,7 +233,7 @@ console.log('Current token:', token);
 
 **Solution:**
 - Start the backend server
-- Check if it's running at `http://localhost:8000`
+- Check if it's running at `https://api.obsolio.com/`
 - Verify the correct port
 
 #### 4. 404 Not Found

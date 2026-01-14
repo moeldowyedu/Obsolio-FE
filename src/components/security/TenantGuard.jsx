@@ -18,6 +18,8 @@ const TenantGuard = ({ children, subdomain }) => {
     const [error, setError] = useState(null);
     const navigate = useNavigate();
 
+    const verifiedSubdomainRef = useRef(null);
+
     useEffect(() => {
         const verifyTenantAccess = async () => {
             try {
@@ -175,6 +177,11 @@ const TenantGuard = ({ children, subdomain }) => {
         };
 
         if (subdomain) {
+            // Prevent duplicate verification for the same subdomain (handling StrictMode)
+            if (verifiedSubdomainRef.current === subdomain) {
+                return;
+            }
+            verifiedSubdomainRef.current = subdomain;
             verifyTenantAccess();
         } else {
             setError({
