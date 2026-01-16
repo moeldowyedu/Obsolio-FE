@@ -1,8 +1,9 @@
 import api from './api';
 
 /**
- * Subscriptions Service
+ * Tenant Subscription Service
  * Handles subscription and billing management with OBSOLIO Backend
+ * Base Path: /api/v1/tenant/subscription
  */
 const subscriptionsService = {
   /**
@@ -12,7 +13,7 @@ const subscriptionsService = {
    */
   getPlans: async (params = {}) => {
     try {
-      const response = await api.get('/subscription-plans', { params });
+      const response = await api.get('/pricing/plans', { params });
       return response.data;
     } catch (error) {
       console.error('Error getting subscription plans:', error);
@@ -27,7 +28,7 @@ const subscriptionsService = {
    */
   getPlanById: async (planId) => {
     try {
-      const response = await api.get(`/subscription-plans/${planId}`);
+      const response = await api.get(`/pricing/plans/${planId}`);
       return response.data;
     } catch (error) {
       console.error(`Error getting plan ${planId}:`, error);
@@ -36,26 +37,13 @@ const subscriptionsService = {
   },
 
   /**
-   * Get plan recommendations based on tenant usage
-   * @returns {Promise} Recommended plans
-   */
-  getRecommendations: async () => {
-    try {
-      const response = await api.get('/subscription-plans/recommendations');
-      return response.data;
-    } catch (error) {
-      console.error('Error getting plan recommendations:', error);
-      throw error;
-    }
-  },
-
-  /**
    * Get current tenant subscription
-   * @returns {Promise} Current subscription details
+   * Endpoint: GET /tenant/subscription/current
+   * @returns {Promise} Current subscription details with plan, trial status
    */
   getCurrentSubscription: async () => {
     try {
-      const response = await api.get('/subscriptions/current');
+      const response = await api.get('/tenant/subscription/current');
       return response.data;
     } catch (error) {
       console.error('Error getting current subscription:', error);
@@ -64,28 +52,30 @@ const subscriptionsService = {
   },
 
   /**
-   * Get all subscriptions (history)
-   * @param {Object} params - Query parameters
-   * @returns {Promise} Subscriptions list
+   * Get subscription history (paginated)
+   * Endpoint: GET /tenant/subscription/history
+   * @param {Object} params - Query parameters (page, per_page)
+   * @returns {Promise} Paginated subscription history
    */
-  getSubscriptions: async (params = {}) => {
+  getHistory: async (params = {}) => {
     try {
-      const response = await api.get('/subscriptions/history', { params });
+      const response = await api.get('/tenant/subscription/history', { params });
       return response.data;
     } catch (error) {
-      console.error('Error getting subscriptions:', error);
+      console.error('Error getting subscription history:', error);
       throw error;
     }
   },
 
   /**
-   * Subscribe to a plan
-   * @param {Object} subscriptionData - Subscription details
-   * @returns {Promise} Subscription result
+   * Create a new subscription
+   * Endpoint: POST /tenant/subscription/subscribe
+   * @param {Object} subscriptionData - { plan_id, billing_cycle }
+   * @returns {Promise} New subscription result
    */
   subscribe: async (subscriptionData) => {
     try {
-      const response = await api.post('/subscriptions', subscriptionData);
+      const response = await api.post('/tenant/subscription/subscribe', subscriptionData);
       return response.data;
     } catch (error) {
       console.error('Error subscribing to plan:', error);
@@ -95,15 +85,47 @@ const subscriptionsService = {
 
   /**
    * Change subscription plan
-   * @param {Object} planData - New plan details (planId, billingCycle)
+   * Endpoint: PUT /tenant/subscription/change-plan
+   * @param {Object} planData - { plan_id, billing_cycle }
    * @returns {Promise} Updated subscription
    */
   changePlan: async (planData) => {
     try {
-      const response = await api.put('/subscriptions/change-plan', planData);
+      const response = await api.put('/tenant/subscription/change-plan', planData);
       return response.data;
     } catch (error) {
       console.error('Error changing subscription plan:', error);
+      throw error;
+    }
+  },
+
+  /**
+   * Cancel current subscription
+   * Endpoint: POST /tenant/subscription/cancel
+   * @param {Object} cancelData - Optional cancellation reason/feedback
+   * @returns {Promise} Cancellation confirmation
+   */
+  cancelSubscription: async (cancelData = {}) => {
+    try {
+      const response = await api.post('/tenant/subscription/cancel', cancelData);
+      return response.data;
+    } catch (error) {
+      console.error('Error canceling subscription:', error);
+      throw error;
+    }
+  },
+
+  /**
+   * Resume cancelled subscription
+   * Endpoint: POST /tenant/subscription/resume
+   * @returns {Promise} Resumed subscription
+   */
+  resumeSubscription: async () => {
+    try {
+      const response = await api.post('/tenant/subscription/resume');
+      return response.data;
+    } catch (error) {
+      console.error('Error resuming subscription:', error);
       throw error;
     }
   },
@@ -123,35 +145,6 @@ const subscriptionsService = {
   },
 
   /**
-   * Cancel current subscription
-   * @param {Object} cancelData - Cancellation reason/feedback
-   * @returns {Promise} Cancellation confirmation
-   */
-  cancelSubscription: async (cancelData = {}) => {
-    try {
-      const response = await api.post('/subscriptions/cancel', cancelData);
-      return response.data;
-    } catch (error) {
-      console.error('Error canceling subscription:', error);
-      throw error;
-    }
-  },
-
-  /**
-   * Resume canceled subscription
-   * @returns {Promise} Resumed subscription
-   */
-  resumeSubscription: async () => {
-    try {
-      const response = await api.post('/subscriptions/resume');
-      return response.data;
-    } catch (error) {
-      console.error('Error resuming subscription:', error);
-      throw error;
-    }
-  },
-
-  /**
    * Get usage statistics for current period
    * @param {Object} params - Query parameters
    * @returns {Promise} Usage data
@@ -166,36 +159,6 @@ const subscriptionsService = {
     }
   },
 
-  /**
-   * Get usage by specific date
-   * @param {string} date - Date in YYYY-MM-DD format
-   * @returns {Promise} Daily usage
-   */
-  getUsageByDate: async (date) => {
-    try {
-      const response = await api.get('/usage/date', {
-        params: { date }
-      });
-      return response.data;
-    } catch (error) {
-      console.error(`Error getting usage for ${date}:`, error);
-      throw error;
-    }
-  },
-
-  /**
-   * Get subscription history
-   * @returns {Promise} Subscription history
-   */
-  getHistory: async () => {
-    try {
-      const response = await api.get('/subscriptions/history');
-      return response.data;
-    } catch (error) {
-      console.error('Error getting subscription history:', error);
-      throw error;
-    }
-  },
   /**
    * Initiate Paymob Payment
    * @param {Object} data - { plan_id, billing_cycle }

@@ -1,266 +1,286 @@
 import { useState, useEffect } from 'react';
-import {
-  CreditCard, Calendar, Activity, AlertCircle, CheckCircle, Clock,
-  Download, FileText, TrendingUp, Shield, Zap
-} from 'lucide-react';
+import { Activity, Shield, Zap, RefreshCw, AlertCircle, ChevronRight } from 'lucide-react';
 import MainLayout from '../../components/layout/MainLayout';
 import { useTheme } from '../../contexts/ThemeContext';
 import subscriptionsService from '../../services/subscriptionsService';
 import Button from '../../components/common/Button/Button';
-import ChangePlanModal from '../../components/billing/ChangePlanModal';
 import toast from 'react-hot-toast';
-import { formatNumber, formatCurrency } from '../../utils/formatters'; // Ensure exist
+
+// Billing Components
+import CurrentSubscriptionCard from '../../components/billing/CurrentSubscriptionCard';
+import TrialBanner from '../../components/billing/TrialBanner';
+import UsageProgressBar from '../../components/billing/UsageProgressBar';
+import SubscriptionHistoryTable from '../../components/billing/SubscriptionHistoryTable';
+import ChangePlanModal from '../../components/billing/ChangePlanModal';
+import CancelSubscriptionModal from '../../components/billing/CancelSubscriptionModal';
+import PlanDetailsModal from '../../components/billing/PlanDetailsModal';
 
 const SubscriptionPage = () => {
   const { theme } = useTheme();
+
+  // State
   const [subscription, setSubscription] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [isChangePlanModalOpen, setIsChangePlanModalOpen] = useState(false);
-  const [billingHistory, setBillingHistory] = useState([]);
+  const [actionLoading, setActionLoading] = useState(null);
 
-  // Fetch Data
+  // History state with pagination
+  const [subscriptionHistory, setSubscriptionHistory] = useState([]);
+  const [historyPagination, setHistoryPagination] = useState({
+    currentPage: 1,
+    lastPage: 1,
+    total: 0,
+  });
+  const [historyLoading, setHistoryLoading] = useState(false);
+
+  // Trial info
+  const [trialDaysRemaining, setTrialDaysRemaining] = useState(null);
+  const [isOnTrial, setIsOnTrial] = useState(false);
+
+  // Modals
+  const [isChangePlanModalOpen, setIsChangePlanModalOpen] = useState(false);
+  const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
+  const [isPlanDetailsOpen, setIsPlanDetailsOpen] = useState(false);
+
+  // Fetch current subscription
+  const fetchCurrentSubscription = async () => {
+    try {
+      const response = await subscriptionsService.getCurrentSubscription();
+
+      if (response.success && response.data) {
+        // Handle nested structure: data.subscription
+        const subData = response.data.subscription || response.data;
+        setSubscription(subData);
+
+        // Set trial info from response
+        setTrialDaysRemaining(response.data.trial_days_remaining ?? null);
+        setIsOnTrial(response.data.is_on_trial ?? subData.status === 'trialing');
+      } else if (response.data) {
+        // Direct data structure
+        setSubscription(response.data);
+      }
+    } catch (error) {
+      console.error('Failed to load subscription:', error);
+      // Don't toast on initial load failure
+    }
+  };
+
+  // Fetch subscription history with pagination
+  const fetchSubscriptionHistory = async (page = 1) => {
+    setHistoryLoading(true);
+    try {
+      const response = await subscriptionsService.getHistory({ page, per_page: 10 });
+
+      if (response.success && response.data) {
+        // Handle paginated response
+        const historyData = response.data.data || response.data;
+        setSubscriptionHistory(Array.isArray(historyData) ? historyData : []);
+        setHistoryPagination({
+          currentPage: response.data.current_page || page,
+          lastPage: response.data.last_page || 1,
+          total: response.data.total || historyData.length || 0,
+        });
+      } else if (Array.isArray(response)) {
+        setSubscriptionHistory(response);
+      }
+    } catch (error) {
+      console.error('Failed to load history:', error);
+      setSubscriptionHistory([]);
+    } finally {
+      setHistoryLoading(false);
+    }
+  };
+
+  // Initial data fetch
   const fetchData = async () => {
     setLoading(true);
-    try {
-      // Parallel fetch: Current Subscription and History
-      const [subRes, historyRes] = await Promise.all([
-        subscriptionsService.getCurrentSubscription(),
-        subscriptionsService.getBillingHistory().catch(() => ({ data: [] })) // Swallow error if mocks not ready
-      ]);
-
-      if (subRes.success) {
-        setSubscription(subRes.data);
-      }
-      if (historyRes && Array.isArray(historyRes.data)) {
-        setBillingHistory(historyRes.data);
-      } else if (Array.isArray(historyRes)) {
-        setBillingHistory(historyRes);
-      }
-
-    } catch (error) {
-      console.error("Failed to load subscription data", error);
-      // toast.error("Failed to load subscription details");
-    } finally {
-      setLoading(false);
-    }
+    await Promise.all([
+      fetchCurrentSubscription(),
+      fetchSubscriptionHistory(1),
+    ]);
+    setLoading(false);
   };
 
   useEffect(() => {
     fetchData();
   }, []);
 
-  // Handlers
-  const handleCancel = async () => {
-    if (confirm("Are you sure you want to cancel your subscription? You will lose access to premium features at the end of the billing period.")) {
-      try {
-        await subscriptionsService.cancelSubscription();
-        toast.success("Subscription canceled successfully");
-        fetchData();
-      } catch (error) {
-        toast.error("Failed to cancel subscription");
-      }
+  // Handle cancel subscription
+  const handleCancel = async (cancelData) => {
+    setActionLoading('cancel');
+    try {
+      await subscriptionsService.cancelSubscription(cancelData);
+      toast.success('Subscription canceled successfully');
+      setIsCancelModalOpen(false);
+      fetchData();
+    } catch (error) {
+      toast.error(error.response?.data?.message || 'Failed to cancel subscription');
+    } finally {
+      setActionLoading(null);
     }
   };
 
+  // Handle resume subscription
   const handleResume = async () => {
+    setActionLoading('resume');
     try {
       await subscriptionsService.resumeSubscription();
-      toast.success("Subscription resumed successfully");
+      toast.success('Subscription resumed successfully');
       fetchData();
     } catch (error) {
-      toast.error("Failed to resume subscription");
+      toast.error(error.response?.data?.message || 'Failed to resume subscription');
+    } finally {
+      setActionLoading(null);
     }
+  };
+
+  // Handle page change for history
+  const handleHistoryPageChange = (page) => {
+    fetchSubscriptionHistory(page);
   };
 
   return (
     <MainLayout>
-      <div className={`min-h-screen p-6 md:p-8 ${theme === 'dark' ? 'bg-[#0B0E14]' : 'bg-slate-50'}`}>
-
-        <div className="max-w-6xl mx-auto space-y-8">
+      <div className={`min-h-screen p-4 md:p-6 ${theme === 'dark' ? 'bg-[#0B0E14]' : 'bg-slate-50'}`}>
+        <div className="max-w-7xl mx-auto space-y-4">
 
           {/* Header */}
-          <div>
-            <h1 className={`text-3xl font-bold mb-2 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>Subscription & Billing</h1>
-            <p className={`${theme === 'dark' ? 'text-gray-400' : 'text-slate-500'}`}>Manage your plan, billing details, and invoices.</p>
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div>
+              <h1 className={`text-3xl font-bold mb-2 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
+                Subscription & Billing
+              </h1>
+              <p className={theme === 'dark' ? 'text-gray-400' : 'text-slate-500'}>
+                Manage your plan, billing details, and subscription history.
+              </p>
+            </div>
+            <Button
+              onClick={fetchData}
+              variant="outline"
+              className="flex items-center gap-2"
+              disabled={loading}
+            >
+              <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
+              Refresh
+            </Button>
           </div>
 
           {loading ? (
-            <div className="h-64 rounded-3xl bg-gray-200 dark:bg-white/5 animate-pulse" />
+            // Loading skeleton
+            <div className="space-y-6">
+              <div className="h-64 rounded-3xl bg-gray-200 dark:bg-white/5 animate-pulse" />
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {[1, 2, 3].map(i => (
+                  <div key={i} className="h-32 rounded-2xl bg-gray-200 dark:bg-white/5 animate-pulse" />
+                ))}
+              </div>
+            </div>
           ) : subscription ? (
             <>
-              {/* Current Plan Card */}
-              <div className={`relative overflow-hidden rounded-3xl border p-8 ${theme === 'dark' ? 'bg-[#1e293b]/50 border-white/5' : 'bg-white border-slate-200 shadow-sm'}`}>
-                <div className="absolute top-0 right-0 p-32 bg-primary-500/10 blur-[100px] rounded-full pointer-events-none" />
+              {/* Trial Banner */}
+              {isOnTrial && (
+                <TrialBanner
+                  trialDaysRemaining={trialDaysRemaining}
+                  trialEndsAt={subscription.trial_ends_at}
+                  onUpgrade={() => setIsChangePlanModalOpen(true)}
+                />
+              )}
 
-                <div className="relative z-10 flex flex-col md:flex-row justify-between gap-8">
-                  {/* Left: Plan Details */}
-                  <div className="space-y-6">
-                    <div className="flex items-center gap-4">
-                      <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary-500 to-indigo-600 flex items-center justify-center text-white shadow-xl shadow-primary-500/20">
-                        <Zap className="w-8 h-8" />
-                      </div>
-                      <div>
-                        <div className="flex items-center gap-3">
-                          <h2 className={`text-2xl font-bold ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>{subscription.plan?.name}</h2>
-                          <span className={`px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-wide ${subscription.status === 'active'
-                              ? 'bg-green-500/10 text-green-500 border border-green-500/20'
-                              : 'bg-yellow-500/10 text-yellow-500 border border-yellow-500/20'
-                            }`}>
-                            {subscription.status}
-                          </span>
-                        </div>
-                        <p className="text-gray-500">{subscription.plan?.description || 'Premium Plan Tier'}</p>
-                      </div>
-                    </div>
+              {/* Current Subscription Card */}
+              <CurrentSubscriptionCard
+                subscription={subscription}
+                onChangePlan={() => setIsChangePlanModalOpen(true)}
+                onCancel={() => setIsCancelModalOpen(true)}
+                onResume={handleResume}
+                onViewDetails={() => setIsPlanDetailsOpen(true)}
+                actionLoading={actionLoading}
+              />
 
-                    <div className="flex items-end gap-1">
-                      <span className={`text-4xl font-bold ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
-                        {formatCurrency(subscription.plan?.price_monthly || subscription.plan?.price || 0)}
-                      </span>
-                      <span className="text-gray-500 mb-1.5">/{subscription.billing_cycle || 'mo'}</span>
-                    </div>
-
-                    <div className="flex flex-wrap gap-6 text-sm">
-                      <div className="flex items-center gap-2 text-gray-500">
-                        <Calendar className="w-4 h-4" />
-                        <span>Renews on <span className={`font-semibold ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>{subscription.current_period_end ? new Date(subscription.current_period_end).toLocaleDateString() : 'N/A'}</span></span>
-                      </div>
-                      {subscription.canceled_at && (
-                        <div className="flex items-center gap-2 text-red-400">
-                          <AlertCircle className="w-4 h-4" />
-                          <span>Cancels on {new Date(subscription.current_period_end).toLocaleDateString()}</span>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Right: Actions */}
-                  <div className="flex flex-col gap-3 justify-center min-w-[200px]">
-                    <Button
-                      onClick={() => setIsChangePlanModalOpen(true)}
-                      variant="primary"
-                      className="w-full justify-center shadow-lg shadow-primary-500/20"
-                    >
-                      Change Plan
-                    </Button>
-
-                    {subscription.status === 'active' && !subscription.canceled_at ? (
-                      <Button
-                        onClick={handleCancel}
-                        variant="outline"
-                        className="w-full justify-center border-red-200 text-red-500 hover:bg-red-50 dark:border-red-900/30 dark:hover:bg-red-900/10"
-                      >
-                        Cancel Subscription
-                      </Button>
-                    ) : subscription.canceled_at ? (
-                      <Button
-                        onClick={handleResume}
-                        variant="outline"
-                        className="w-full justify-center border-green-200 text-green-600 hover:bg-green-50 dark:border-green-900/30 dark:hover:bg-green-900/10"
-                      >
-                        Resume Subscription
-                      </Button>
-                    ) : null}
-                  </div>
-                </div>
+              {/* Usage Stats */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <UsageProgressBar
+                  label="Executions"
+                  used={subscription.executions_used || 0}
+                  total={subscription.execution_quota || 0}
+                  icon={Activity}
+                  colorScheme="blue"
+                />
+                <UsageProgressBar
+                  label="Storage"
+                  used={subscription.usage?.storage_gb || 0}
+                  total={subscription.plan?.max_storage_gb || 0}
+                  icon={Shield}
+                  colorScheme="purple"
+                />
+                <UsageProgressBar
+                  label="Active Agents"
+                  used={subscription.usage?.active_agents || 0}
+                  total={subscription.plan?.max_agents || 0}
+                  icon={Zap}
+                  colorScheme="emerald"
+                />
               </div>
 
-              {/* Usage Stats (Mock/Placeholder if not in API) */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className={`p-6 rounded-2xl border ${theme === 'dark' ? 'bg-[#1e293b]/30 border-white/5' : 'bg-white border-slate-200'}`}>
-                  <div className="flex items-center gap-3 mb-2">
-                    <div className="p-2 rounded-lg bg-blue-500/10 text-blue-500"><Activity className="w-5 h-5" /></div>
-                    <div className={`font-semibold ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>Agent Executions</div>
-                  </div>
-                  <div className={`text-2xl font-bold ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>12,450 <span className="text-xs font-normal text-gray-500">/ 20,000</span></div>
-                  <div className="w-full bg-gray-200 dark:bg-gray-700 h-2 rounded-full mt-3 overflow-hidden">
-                    <div className="bg-blue-500 h-full rounded-full" style={{ width: '62%' }} />
-                  </div>
-                </div>
-                <div className={`p-6 rounded-2xl border ${theme === 'dark' ? 'bg-[#1e293b]/30 border-white/5' : 'bg-white border-slate-200'}`}>
-                  <div className="flex items-center gap-3 mb-2">
-                    <div className="p-2 rounded-lg bg-purple-500/10 text-purple-500"><Shield className="w-5 h-5" /></div>
-                    <div className={`font-semibold ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>Storage Used</div>
-                  </div>
-                  <div className={`text-2xl font-bold ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>4.2 GB <span className="text-xs font-normal text-gray-500">/ 10 GB</span></div>
-                  <div className="w-full bg-gray-200 dark:bg-gray-700 h-2 rounded-full mt-3 overflow-hidden">
-                    <div className="bg-purple-500 h-full rounded-full" style={{ width: '42%' }} />
-                  </div>
-                </div>
-                <div className={`p-6 rounded-2xl border ${theme === 'dark' ? 'bg-[#1e293b]/30 border-white/5' : 'bg-white border-slate-200'}`}>
-                  <div className="flex items-center gap-3 mb-2">
-                    <div className="p-2 rounded-lg bg-green-500/10 text-green-500"><CheckCircle className="w-5 h-5" /></div>
-                    <div className={`font-semibold ${theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}`}>Active Agents</div>
-                  </div>
-                  <div className={`text-2xl font-bold ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>8 <span className="text-xs font-normal text-gray-500">/ Unlimited</span></div>
-                </div>
-              </div>
-
-              {/* Billing History */}
-              <div className={`rounded-3xl border overflow-hidden ${theme === 'dark' ? 'bg-[#1e293b]/30 border-white/5' : 'bg-white border-slate-200'}`}>
-                <div className="p-6 border-b border-gray-200 dark:border-gray-800">
-                  <h3 className={`text-lg font-bold ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>Billing History</h3>
-                </div>
-                <div className="overflow-x-auto">
-                  <table className="w-full">
-                    <thead className={`text-left text-xs font-semibold uppercase tracking-wider ${theme === 'dark' ? 'bg-white/5 text-gray-400' : 'bg-gray-50 text-gray-500'}`}>
-                      <tr>
-                        <th className="px-6 py-4">Date</th>
-                        <th className="px-6 py-4">Amount</th>
-                        <th className="px-6 py-4">Status</th>
-                        <th className="px-6 py-4">Invoice</th>
-                      </tr>
-                    </thead>
-                    <tbody className={`divide-y ${theme === 'dark' ? 'divide-white/5 text-gray-300' : 'divide-gray-100 text-slate-600'}`}>
-                      {billingHistory.length > 0 ? (
-                        billingHistory.map((invoice) => (
-                          <tr key={invoice.id} className={`${theme === 'dark' ? 'hover:bg-white/5' : 'hover:bg-slate-50'} transition-colors`}>
-                            <td className="px-6 py-4 whitespace-nowrap">{new Date(invoice.date || invoice.created_at).toLocaleDateString()}</td>
-                            <td className="px-6 py-4 whitespace-nowrap font-medium">{formatCurrency(invoice.amount || 0)}</td>
-                            <td className="px-6 py-4 whitespace-nowrap">
-                              <span className={`px-2 py-1 rounded text-xs font-medium ${invoice.status === 'paid' ? 'bg-green-500/10 text-green-500' : 'bg-yellow-500/10 text-yellow-500'
-                                }`}>
-                                {invoice.status}
-                              </span>
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap">
-                              <button className="flex items-center gap-1 text-primary-500 hover:text-primary-600">
-                                <FileText className="w-4 h-4" /> PDF
-                              </button>
-                            </td>
-                          </tr>
-                        ))
-                      ) : (
-                        <tr>
-                          <td colSpan={4} className="px-6 py-8 text-center text-gray-500">
-                            No billing history available.
-                          </td>
-                        </tr>
-                      )}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-
+              {/* Subscription History */}
+              <SubscriptionHistoryTable
+                history={subscriptionHistory}
+                currentPage={historyPagination.currentPage}
+                lastPage={historyPagination.lastPage}
+                total={historyPagination.total}
+                onPageChange={handleHistoryPageChange}
+                loading={historyLoading}
+              />
             </>
           ) : (
-            <div className="text-center py-20">
-              <AlertCircle className="w-12 h-12 text-red-500 mx-auto mb-4" />
-              <h3 className="text-xl font-bold text-red-500">Failed to load subscription</h3>
-              <p className="text-gray-500">Something went wrong. Please try again later.</p>
-              <Button onClick={fetchData} className="mt-4">Retry</Button>
+            // No subscription state
+            <div className={`text-center py-20 rounded-3xl border ${theme === 'dark' ? 'bg-[#1e293b]/30 border-white/5' : 'bg-white border-slate-200'
+              }`}>
+              <AlertCircle className="w-16 h-16 text-red-500 mx-auto mb-4" />
+              <h3 className={`text-xl font-bold mb-2 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
+                No Active Subscription
+              </h3>
+              <p className={`mb-6 ${theme === 'dark' ? 'text-gray-400' : 'text-slate-500'}`}>
+                You don't have an active subscription. Choose a plan to get started.
+              </p>
+              <Button
+                onClick={() => setIsChangePlanModalOpen(true)}
+                variant="primary"
+                className="shadow-lg"
+              >
+                Choose a Plan <ChevronRight className="w-4 h-4 ml-1" />
+              </Button>
             </div>
           )}
         </div>
       </div>
 
+      {/* Modals */}
       <ChangePlanModal
         isOpen={isChangePlanModalOpen}
         onClose={() => setIsChangePlanModalOpen(false)}
-        currentPlanId={subscription?.plan?.id}
+        currentPlanId={subscription?.plan?.id || subscription?.plan_id}
         onPlanChanged={fetchData}
       />
 
+      <CancelSubscriptionModal
+        isOpen={isCancelModalOpen}
+        onClose={() => setIsCancelModalOpen(false)}
+        onConfirm={handleCancel}
+        subscriptionEndDate={subscription?.current_period_end}
+        loading={actionLoading === 'cancel'}
+      />
+
+      {/* Plan Details Modal */}
+      {isPlanDetailsOpen && subscription && (
+        <PlanDetailsModal
+          isOpen={isPlanDetailsOpen}
+          onClose={() => setIsPlanDetailsOpen(false)}
+          subscription={subscription}
+          onChangePlan={() => {
+            setIsPlanDetailsOpen(false);
+            setIsChangePlanModalOpen(true);
+          }}
+        />
+      )}
     </MainLayout>
   );
 };
