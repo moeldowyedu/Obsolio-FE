@@ -33,9 +33,13 @@ const authService = {
       formData.append('subdomain', userData.tenantUrl || userData.slug || userData.subdomain);
 
       // Extended Fields
+      // Extended Fields
       if (userData.country) formData.append('country', userData.country);
       if (userData.phone) formData.append('phone', userData.phone);
-      // Removed 'plan' and 'type' - handled by backend
+
+      // New Plan Selection Fields
+      if (userData.plan_id) formData.append('plan_id', userData.plan_id);
+      if (userData.billing_cycle) formData.append('billing_cycle', userData.billing_cycle);
 
       // Organization Specific Fields
       const orgFullName = userData.organizationFullName || userData.organizationName;
@@ -62,7 +66,8 @@ const authService = {
         subdomain: userData.tenantUrl || userData.slug || userData.subdomain,
         country: userData.country,
         phone: userData.phone,
-        plan: userData.plan || 'free-trial-7-days', // Restored as safety fallback
+        plan_id: userData.plan_id,        // New Field
+        billing_cycle: userData.billing_cycle // New Field
       };
 
       const orgFullName = userData.organizationFullName || userData.organizationName;

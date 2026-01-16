@@ -1,10 +1,10 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { Mail, Lock, User, Eye, EyeOff, ArrowRight, ArrowLeft, Building2, Users, Globe, Phone, Upload, Sun, Moon } from 'lucide-react';
 import { useAuthStore } from '../../store/authStore';
 import Input from '../../components/common/Input/Input';
 import Button from '../../components/common/Button/Button';
-import RegistrationSteps from '../../components/registration/RegistrationSteps';
+import PlanSelector from '../../components/registration/PlanSelector'; // NEW
 import toast from 'react-hot-toast';
 import logo from '../../assets/imgs/OBSOLIO-logo-light.png';
 import logoDark from '../../assets/imgs/OBSOLIO-logo-dark.png';
@@ -13,13 +13,18 @@ import { useTheme } from '../../contexts/ThemeContext';
 
 const RegisterPage = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { register, isLoading } = useAuthStore();
   const { theme, toggleTheme } = useTheme();
 
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState({
+    // NEW: Plan Selections
+    plan_id: '',
+    billing_cycle: 'monthly',
+
     confirmPassword: '',
-    tenantType: 'organization', // FORCED: Always organization
+    tenantType: 'organization',
     tenantUrl: '',
     // Personal & Shared Fields
     fullName: '',
@@ -39,6 +44,22 @@ const RegisterPage = () => {
   const [domainStatus, setDomainStatus] = useState(null);
   const [domainMessage, setDomainMessage] = useState('');
   const [errors, setErrors] = useState({});
+
+  // Effect: Pre-fill from URL and potentially skip step 1
+  useEffect(() => {
+    const plan = searchParams.get('plan');
+    const billing = searchParams.get('billing');
+
+    if (plan) {
+      setFormData(prev => ({
+        ...prev,
+        plan_id: plan,
+        billing_cycle: billing || 'monthly'
+      }));
+      // Auto-advance if plan is present in URL
+      setCurrentStep(2);
+    }
+  }, [searchParams]);
 
   // Password strength calculation
   const calculatePasswordStrength = (password) => {
@@ -68,7 +89,12 @@ const RegisterPage = () => {
     const newErrors = {};
 
     if (step === 1) {
-      // Step 1: Account Details (Formerly Step 2)
+      if (!formData.plan_id) {
+        toast.error("Please select a plan to continue.");
+        return false;
+      }
+    } else if (step === 2) {
+      // Step 2: Account Details
       if (!formData.fullName.trim()) {
         newErrors.fullName = 'Full name is required';
       } else if (formData.fullName.trim().length < 2) {
@@ -87,7 +113,7 @@ const RegisterPage = () => {
       } else if (formData.password.length < 8) {
         newErrors.password = 'Password must be at least 8 characters';
       } else if (passwordStrength < 40) {
-        newErrors.password = 'Password is too weak. Use a mix of letters, numbers, and symbols';
+        newErrors.password = 'Password is too weak.';
       }
 
       if (!formData.confirmPassword) {
@@ -102,12 +128,12 @@ const RegisterPage = () => {
       if (!formData.phone) {
         newErrors.phone = 'Phone number is required';
       }
-    } else if (step === 2) {
-      // Step 2: Workspace Setup (Formerly Step 3)
+    } else if (step === 3) {
+      // Step 3: Workspace Setup
       if (!formData.tenantUrl) {
         newErrors.tenantUrl = 'Workspace URL is required';
       } else if (!/^[a-z0-9](?:[a-z0-9\-]{0,61}[a-z0-9])?$/.test(formData.tenantUrl)) {
-        newErrors.tenantUrl = 'Invalid format. Use lowercase letters, numbers, and hyphens (hyphens not at start/end).';
+        newErrors.tenantUrl = 'Invalid format. Use lowercase letters, numbers, and hyphens.';
       }
 
       // Organization Name Required
@@ -136,6 +162,15 @@ const RegisterPage = () => {
     setCurrentStep(currentStep - 1);
   };
 
+  const handlePlanSelect = (planId, billingCycle) => {
+    setFormData(prev => ({
+      ...prev,
+      plan_id: planId,
+      billing_cycle: billingCycle
+    }));
+    // Auto advance slightly for better UX, or user clicks Next
+  };
+
   const handleTenantUrlChange = (e) => {
     const value = e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, '');
     setFormData(prev => ({ ...prev, tenantUrl: value }));
@@ -153,13 +188,13 @@ const RegisterPage = () => {
     setDomainStatus(null);
     setErrors(prev => ({ ...prev, tenantUrl: '' }));
 
-    // Client-side validation only
+    // Client-side validation only (Real check happens on submit or via separate API call if implemented)
     const isValid = /^[a-z0-9](?:[a-z0-9\-]{0,61}[a-z0-9])?$/.test(formData.tenantUrl);
 
     setTimeout(() => {
       if (isValid) {
         setDomainStatus('available');
-        setDomainMessage('Format is valid - availability will be checked during registration');
+        setDomainMessage('Format is valid');
       } else {
         setDomainStatus('unavailable');
         setDomainMessage('Invalid format. Use lowercase letters, numbers, and hyphens.');
@@ -171,7 +206,7 @@ const RegisterPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!validateStep(2)) {
+    if (!validateStep(3)) {
       return;
     }
 
@@ -188,14 +223,15 @@ const RegisterPage = () => {
       }
 
       const payload = {
-        // type: 'organization', // REMOVED: Managed by backend
         fullName: formData.fullName.trim(),
         email: formData.email.trim(),
         password: formData.password,
-        password_confirmation: formData.confirmPassword, // Added confirmation
+        password_confirmation: formData.confirmPassword,
         subdomain: formData.tenantUrl,
         country: formData.country,
-        phone: formattedPhone
+        phone: formattedPhone,
+        plan_id: formData.plan_id,        // Sending Plan ID
+        billing_cycle: formData.billing_cycle // Sending Billing Cycle
       };
 
       const orgFullName = formData.organizationName?.trim();
@@ -220,10 +256,8 @@ const RegisterPage = () => {
 
       if (result) {
         const data = result.data || result;
-
-        // ALWAYS Redirect to verification page
-        // Backend no longer returns token immediately
         toast.success('Registration successful! Please check your email.');
+        // Navigate to verification page with email in state
         navigate('/verify-email-sent', {
           state: {
             email: formData.email,
@@ -234,11 +268,6 @@ const RegisterPage = () => {
       }
     } catch (error) {
       console.error('Registration failed:', error);
-      console.error('Error Details:', {
-        message: error.message,
-        status: error.response?.status,
-        data: error.response?.data
-      });
 
       if (error.response?.data?.errors) {
         const backendErrors = {};
@@ -251,12 +280,17 @@ const RegisterPage = () => {
         });
         setErrors(backendErrors);
         toast.error('Please check the form for errors.');
-      } else {
-        if (!useAuthStore.getState().isAuthenticated) {
-          toast.error(error.response?.data?.message || 'Registration failed. Please try again.');
-        } else {
-          navigate('/login', { replace: true });
+
+        // If error is in previous steps, navigate back?
+        // Basic heuristic: check keys
+        if (backendErrors.email || backendErrors.password || backendErrors.phone) {
+          setCurrentStep(2);
+        } else if (backendErrors.plan_id) {
+          setCurrentStep(1);
         }
+
+      } else {
+        toast.error(error.response?.data?.message || 'Registration failed. Please try again.');
       }
     }
   };
@@ -280,8 +314,11 @@ const RegisterPage = () => {
     }
   };
 
+  // Determine max width class based on step - Step 1 needs more width for plans
+  const containerMaxWidth = currentStep === 1 ? 'max-w-5xl' : 'max-w-xl';
+
   return (
-    <div className={`min-h-screen relative flex items-center justify-center p-4 overflow-hidden transition-colors duration-300 ${theme === 'dark' ? 'bg-[#0B0E14]' : 'bg-slate-50'}`}>
+    <div className={`min-h-screen relative flex items-center justify-center p-4 overflow-y-auto overflow-x-hidden transition-colors duration-300 ${theme === 'dark' ? 'bg-[#0B0E14]' : 'bg-slate-50'}`}>
 
       {/* Theme Toggle */}
       <div className="absolute top-6 right-6 z-50">
@@ -297,30 +334,30 @@ const RegisterPage = () => {
       </div>
 
       {/* Background Ambience */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-full pointer-events-none">
+      <div className="fixed inset-0 pointer-events-none z-0">
         {theme === 'dark' ? (
           <>
-            <div className="absolute top-[-20%] left-[20%] w-[600px] h-[600px] bg-primary-900/40 rounded-full blur-[120px] mix-blend-screen animate-pulse-slow opacity-30"></div>
-            <div className="absolute bottom-[-10%] right-[10%] w-[500px] h-[500px] bg-purple-900/30 rounded-full blur-[100px] mix-blend-screen animate-pulse-slow opacity-30" style={{ animationDelay: '1s' }}></div>
+            <div className="absolute top-[-10%] left-[20%] w-[500px] h-[500px] bg-primary-900/30 rounded-full blur-[100px] mix-blend-screen opacity-20"></div>
+            <div className="absolute bottom-[-10%] right-[10%] w-[400px] h-[400px] bg-purple-900/20 rounded-full blur-[80px] mix-blend-screen opacity-20"></div>
           </>
         ) : (
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-slate-200/40 via-transparent to-transparent opacity-80" />
         )}
       </div>
 
-      <div className="w-full max-w-xl relative z-10 animate-fade-in my-4">
+      <div className={`w-full ${containerMaxWidth} relative z-10 animate-fade-in my-8 transition-all duration-500`}>
         {/* Logo/Brand */}
         <div className="text-center mb-6">
           <Link to="/" className="inline-block mb-4">
-            <img src={theme === 'dark' ? logoDark : logo} alt="OBSOLIO" className="h-16 mx-auto object-contain" />
+            <img src={theme === 'dark' ? logoDark : logo} alt="OBSOLIO" className="h-12 mx-auto object-contain" />
           </Link>
           <p className={`mt-2 ${theme === 'dark' ? 'text-gray-400' : 'text-slate-500'}`}>
-            Start your 7-day free trial. No credit card required.
+            {currentStep === 1 ? 'Choose the right plan for your team' : 'Start your free trial. No credit card required.'}
           </p>
         </div>
 
         {/* Registration Form Card */}
-        <div className={`rounded-3xl p-5 sm:p-6 relative overflow-hidden transition-all duration-300 ${theme === 'dark'
+        <div className={`rounded-3xl p-5 sm:p-8 relative transition-all duration-300 ${theme === 'dark'
           ? 'glass-card shadow-2xl border border-white/10 backdrop-blur-xl bg-[#1e293b]/40'
           : 'bg-white border border-slate-200 shadow-[0_8px_30px_rgb(0,0,0,0.12)]'}`}>
 
@@ -329,30 +366,67 @@ const RegisterPage = () => {
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary-500 to-transparent opacity-50"></div>
           )}
 
-          <h2 className={`text-2xl font-bold mb-6 text-center ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>Sign Up</h2>
+          <h2 className={`text-2xl font-bold mb-6 text-center ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
+            {currentStep === 1 ? 'Select a Plan' : currentStep === 2 ? 'Create Account' : 'Setup Workspace'}
+          </h2>
 
-          {/* Progress Steps - Modified to 2 steps */}
-          <div className="flex justify-center mb-8">
+          {/* Progress Steps - 3 steps now */}
+          <div className="flex justify-center mb-10">
             <div className="flex items-center gap-2">
               {/* Step 1 Visual */}
               <div className={`flex items-center gap-2 ${currentStep >= 1 ? 'text-primary-500' : 'text-gray-400'}`}>
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${currentStep >= 1 ? 'bg-primary-500 text-white' : 'bg-gray-200 text-gray-500'}`}>1</div>
-                <span className="text-sm font-medium hidden sm:inline">Account</span>
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all ${currentStep >= 1 ? 'bg-primary-500 text-white shadow-lg shadow-primary-500/30' : 'bg-gray-200 text-gray-500'}`}>1</div>
+                <span className={`text-sm font-medium hidden sm:inline ${currentStep >= 1 && theme === 'dark' ? 'text-white' : ''}`}>Plan</span>
               </div>
-              <div className="w-10 h-0.5 bg-gray-200 dark:bg-gray-700"></div>
+              <div className={`w-10 h-0.5 transition-colors ${currentStep >= 2 ? 'bg-primary-500' : (theme === 'dark' ? 'bg-gray-700' : 'bg-gray-200')}`}></div>
+
               {/* Step 2 Visual */}
               <div className={`flex items-center gap-2 ${currentStep >= 2 ? 'text-primary-500' : 'text-gray-400'}`}>
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${currentStep >= 2 ? 'bg-primary-500 text-white' : 'bg-gray-200 text-gray-500'}`}>2</div>
-                <span className="text-sm font-medium hidden sm:inline">Workspace</span>
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all ${currentStep >= 2 ? 'bg-primary-500 text-white shadow-lg shadow-primary-500/30' : 'bg-gray-200 text-gray-500'}`}>2</div>
+                <span className={`text-sm font-medium hidden sm:inline ${currentStep >= 2 && theme === 'dark' ? 'text-white' : ''}`}>Account</span>
+              </div>
+              <div className={`w-10 h-0.5 transition-colors ${currentStep >= 3 ? 'bg-primary-500' : (theme === 'dark' ? 'bg-gray-700' : 'bg-gray-200')}`}></div>
+
+              {/* Step 3 Visual */}
+              <div className={`flex items-center gap-2 ${currentStep >= 3 ? 'text-primary-500' : 'text-gray-400'}`}>
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all ${currentStep >= 3 ? 'bg-primary-500 text-white shadow-lg shadow-primary-500/30' : 'bg-gray-200 text-gray-500'}`}>3</div>
+                <span className={`text-sm font-medium hidden sm:inline ${currentStep >= 3 && theme === 'dark' ? 'text-white' : ''}`}>Workspace</span>
               </div>
             </div>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4 mt-6">
+          <form onSubmit={handleSubmit} className="space-y-6">
 
-            {/* STEP 1: Account Details */}
+            {/* STEP 1: Plan Selection */}
             {currentStep === 1 && (
-              <div className="space-y-3 animate-fade-in">
+              <div className="animate-fade-in">
+                <PlanSelector
+                  selectedPlanId={formData.plan_id}
+                  selectedBillingCycle={formData.billing_cycle}
+                  onSelectPlan={handlePlanSelect}
+                />
+
+                <div className="mt-8 flex justify-end">
+                  <Button
+                    type="button"
+                    onClick={handleNext}
+                    disabled={!formData.plan_id}
+                    variant="primary"
+                    className="px-8 py-3 text-base font-semibold shadow-lg shadow-primary-500/25"
+                  >
+                    <span className="flex items-center justify-center gap-2">
+                      Next: Account Details
+                      <ArrowRight className="w-5 h-5" />
+                    </span>
+                  </Button>
+                </div>
+              </div>
+            )}
+
+
+            {/* STEP 2: Account Details */}
+            {currentStep === 2 && (
+              <div className="space-y-4 animate-fade-in">
                 <Input
                   theme={theme}
                   label="Full Name"
@@ -520,12 +594,23 @@ const RegisterPage = () => {
                 <div className="flex gap-3 mt-8">
                   <Button
                     type="button"
-                    onClick={handleNext}
-                    variant="primary"
-                    className="w-full py-4 text-base font-semibold shadow-lg shadow-primary-500/25"
+                    onClick={handleBack}
+                    variant="outline"
+                    className="flex-1 py-3"
                   >
                     <span className="flex items-center justify-center gap-2">
-                      Continue
+                      <ArrowLeft className="w-5 h-5" />
+                      Back
+                    </span>
+                  </Button>
+                  <Button
+                    type="button"
+                    onClick={handleNext}
+                    variant="primary"
+                    className="flex-1 py-3 text-base font-semibold shadow-lg shadow-primary-500/25"
+                  >
+                    <span className="flex items-center justify-center gap-2">
+                      Next: Workspace
                       <ArrowRight className="w-5 h-5" />
                     </span>
                   </Button>
@@ -533,9 +618,9 @@ const RegisterPage = () => {
               </div>
             )}
 
-            {/* STEP 2: Workspace Setup */}
-            {currentStep === 2 && (
-              <div className="space-y-3 animate-fade-in">
+            {/* STEP 3: Workspace Setup */}
+            {currentStep === 3 && (
+              <div className="space-y-4 animate-fade-in">
 
                 {/* Organization Details (Now Required) */}
                 <div className="space-y-3 pt-1">
@@ -686,7 +771,7 @@ const RegisterPage = () => {
                     disabled={isLoading}
                   >
                     <span className="flex items-center justify-center gap-2">
-                      Start 7-Day Free Trial
+                      Create Account
                       <ArrowRight className="w-5 h-5" />
                     </span>
                   </Button>
