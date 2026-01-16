@@ -67,7 +67,8 @@ const authService = {
         country: userData.country,
         phone: userData.phone,
         plan_id: userData.plan_id,        // New Field
-        billing_cycle: userData.billing_cycle // New Field
+        billing_cycle: userData.billing_cycle, // New Field
+        plan: 'selected_by_id', // Fallback for legacy backend logic
       };
 
       const orgFullName = userData.organizationFullName || userData.organizationName;
