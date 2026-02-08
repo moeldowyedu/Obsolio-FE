@@ -183,7 +183,7 @@ export const en = {
     easyIntegrationTitle: 'Easy Integration',
     easyIntegrationDesc: 'Integrate your agent into your website, app, or workflow with simple APIs',
     learnMoreButton: 'Learn More',
-    exploreMarketplaceButton: 'Explore Agent Marketplace',
+    exploreMarketplaceButton: 'Explore AgentX Hub',
 
     // HomePage - Multi-Agent Orchestration
     orchestrateAgentsTitle: 'Orchestrate Multiple AI Agents',
@@ -242,7 +242,7 @@ export const en = {
     viewIntegrationDocsButton: 'View Integration Docs',
 
     // Agent Marketplace
-    agentMarketplaceTitle: 'AI Agent Marketplace',
+    agentMarketplaceTitle: 'AgentX Hub',
     agentMarketplaceDesc: 'Browse and hire specialized Precision AI Agents trained for specific industries and tasks',
     searchAgentPlaceholder: 'Search agents by name or capability...',
     allCategoriesOption: 'All Categories',
@@ -262,7 +262,8 @@ export const en = {
     hireAgentWithPrice: 'Hire Agent - $',
 
     // Agent Configuration
-    backToMarketplaceLink: 'Back to Marketplace',
+    requestAgentDesc: 'Request a custom agent tailored to your needs',
+    backToMarketplaceLink: 'Back to AgentX Hub',
     saveConfigButton: 'Save Config',
     activateAgentButton: 'Activate Agent',
     chooseDeploymentModeTitle: 'Choose Deployment Mode',

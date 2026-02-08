@@ -204,7 +204,7 @@ export const PLANS = [
       'Priority support',
       'API + SDK access',
       'Multi-agent orchestration',
-      'Publish to marketplace',
+      'Publish to AgentX Hub',
       '70% revenue share',
     ],
     limits: {

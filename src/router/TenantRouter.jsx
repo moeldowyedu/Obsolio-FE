@@ -82,7 +82,10 @@ import NotFoundPage from '../pages/NotFoundPage';
 // Onboarding
 import TenantSetupPage from '../pages/Onboarding/TenantSetupPage';
 import OrganizationSetupPage from '../pages/Onboarding/OrganizationSetupPage';
+
 import ContactPage from '../pages/Public/ContactPage';
+import PublicAgentCatalog from '../pages/Public/PublicAgentCatalog';
+import AgentXSwitcher from '../components/routing/AgentXSwitcher';
 
 // Security
 import SecurityMiddleware from '../components/security/SecurityMiddleware';
@@ -122,8 +125,8 @@ const TenantRouter = () => {
                 <Route path="/organization/projects" element={<ProtectedRoute><ProjectsPage /></ProtectedRoute>} />
                 <Route path="/organization/teams" element={<ProtectedRoute><TeamsPage /></ProtectedRoute>} />
 
-                <Route path="/agentx" element={<ProtectedRoute><AgentXMarketplacePage /></ProtectedRoute>} />
-                <Route path="/agentx/hub" element={<ProtectedRoute><AgentXMarketplacePage /></ProtectedRoute>} />
+                <Route path="/agentx" element={<AgentXSwitcher />} />
+                <Route path="/agentx/hub" element={<AgentXSwitcher />} />
                 <Route path="/agentx/hub/agent/:id" element={<ProtectedRoute><AgentDetailPage /></ProtectedRoute>} />
                 <Route path="/agentx/hub/checkout/:id" element={<ProtectedRoute><CheckoutPage /></ProtectedRoute>} />
                 <Route path="/agentx/my-agents" element={<ProtectedRoute><MyAgentsPage /></ProtectedRoute>} />
@@ -177,6 +180,7 @@ const TenantRouter = () => {
                 <Route path="/engines/code" element={<ProtectedRoute><CodeEnginePage /></ProtectedRoute>} />
 
                 <Route path="/contact" element={<ContactPage />} />
+
 
                 <Route path="*" element={<NotFoundPage showSidebar={true} />} />
             </Routes>

@@ -184,7 +184,7 @@ export const ar = {
     easyIntegrationTitle: 'تكامل سهل',
     easyIntegrationDesc: 'ربط الوكيل بموقعك أو تطبيقك عبر واجهات برمجة بسيطة',
     learnMoreButton: 'اعرف المزيد',
-    exploreMarketplaceButton: 'استكشف سوق الوكلاء',
+    exploreMarketplaceButton: 'استكشف AgentX Hub',
 
     // HomePage - Multi-Agent Orchestration
     orchestrateAgentsTitle: 'تنسيق الوكلاء المتعددين',
@@ -243,7 +243,7 @@ export const ar = {
     viewIntegrationDocsButton: 'وثائق التكامل',
 
     // Agent Marketplace
-    agentMarketplaceTitle: 'سوق وكلاء الذكاء الاصطناعي',
+    agentMarketplaceTitle: 'AgentX Hub',
     agentMarketplaceDesc: 'استعن بوكلاء متخصصين لقطاعات ومهام محددة',
     searchAgentPlaceholder: 'ابحث عن وكيل بالاسم أو الوظيفة...',
     allCategoriesOption: 'كل التصنيفات',
@@ -263,7 +263,7 @@ export const ar = {
     hireAgentWithPrice: 'توظيف الوكيل - $',
 
     // Agent Configuration
-    backToMarketplaceLink: 'عودة للسوق',
+    backToMarketplaceLink: 'عودة إلى AgentX Hub',
     saveConfigButton: 'حفظ الإعدادات',
     activateAgentButton: 'تفعيل الوكيل',
     chooseDeploymentModeTitle: 'اختر وضع التشغيل',

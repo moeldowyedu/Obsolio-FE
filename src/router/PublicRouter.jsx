@@ -18,7 +18,9 @@ import EmailVerificationHandlerPage from '../pages/Auth/EmailVerificationHandler
 import ResendVerificationPage from '../pages/Auth/ResendVerificationPage';
 import VerifyEmailPendingPage from '../pages/Auth/VerifyEmailPendingPage';
 import VerificationSuccessPage from '../pages/Auth/VerificationSuccessPage';
+
 import VerificationFailedPage from '../pages/Auth/VerificationFailedPage';
+import AgentXSwitcher from '../components/routing/AgentXSwitcher';
 
 const PublicRouter = () => {
     return (
@@ -63,6 +65,9 @@ const PublicRouter = () => {
             {/* Documentation */}
             <Route path="/docs" element={<DocsPage />} />
             <Route path="/docs/:section/:page" element={<DocsPage />} />
+
+            {/* AgentX Hub */}
+            <Route path="/agentx" element={<AgentXSwitcher />} />
 
             {/* 404 - No Sidebar on Public Domain */}
             <Route path="*" element={<NotFoundPage showSidebar={false} />} />

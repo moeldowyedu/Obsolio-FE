@@ -3,6 +3,7 @@ import marketplaceService from '../services/marketplaceService';
 
 export const useMarketplaceStore = create((set, get) => ({
   agents: [],
+  tieredAgents: {}, // Stores agents grouped by tier (Standard, Premium, etc.)
   featuredAgents: [],
   popularAgents: [],
   currentAgent: null,
@@ -18,16 +19,60 @@ export const useMarketplaceStore = create((set, get) => ({
   isLoading: false,
   error: null,
 
-  // Browse agents
+  // Helper to flatten tiered agents for list views
+  _flattenAgents: (tieredData) => {
+    let allAgents = [];
+    if (tieredData) {
+      Object.values(tieredData).forEach(tierGroup => {
+        if (Array.isArray(tierGroup)) {
+          allAgents = [...allAgents, ...tierGroup];
+        }
+      });
+    }
+    return allAgents;
+  },
+
+  // Browse agents (Tenant Context)
   browseAgents: async (params = {}) => {
     set({ isLoading: true, error: null });
     try {
-      const agents = await marketplaceService.browseAgents(params);
-      set({ agents, isLoading: false });
-      return agents;
+      const response = await marketplaceService.browseAgents(params);
+      // Response structure: { success: true, data: { "Standard": [...], "Premium": [...] } }
+      const tieredData = response.data || {};
+      const flatAgents = get()._flattenAgents(tieredData);
+
+      set({
+        tieredAgents: tieredData,
+        agents: flatAgents,
+        isLoading: false
+      });
+      return tieredData;
     } catch (error) {
       set({
         error: error.response?.data?.message || 'Failed to browse agents',
+        isLoading: false,
+      });
+      throw error;
+    }
+  },
+
+  // Get Public Catalog (No Auth)
+  getPublicCatalog: async () => {
+    set({ isLoading: true, error: null });
+    try {
+      const response = await marketplaceService.getPublicCatalog();
+      const tieredData = response.data || {};
+      const flatAgents = get()._flattenAgents(tieredData);
+
+      set({
+        tieredAgents: tieredData,
+        agents: flatAgents,
+        isLoading: false
+      });
+      return tieredData;
+    } catch (error) {
+      set({
+        error: error.response?.data?.message || 'Failed to fetch public catalog',
         isLoading: false,
       });
       throw error;
@@ -38,9 +83,14 @@ export const useMarketplaceStore = create((set, get) => ({
   getMarketplaceAgent: async (agentId) => {
     set({ isLoading: true, error: null });
     try {
-      const agent = await marketplaceService.getMarketplaceAgent(agentId);
-      set({ currentAgent: agent, isLoading: false });
-      return agent;
+      const response = await marketplaceService.getMarketplaceAgent(agentId);
+      // Response structure: { success: true, data: { agent: {...}, is_subscribed: ... } }
+      // We want to store the agent details. 
+      // API docs say: data: { agent: {...}, ... }
+      const agentData = response.data?.agent || response.data;
+
+      set({ currentAgent: agentData, isLoading: false });
+      return agentData;
     } catch (error) {
       set({
         error: error.response?.data?.message || 'Failed to fetch agent',
@@ -54,9 +104,19 @@ export const useMarketplaceStore = create((set, get) => ({
   searchAgents: async (query, filters = {}) => {
     set({ isLoading: true, error: null });
     try {
-      const agents = await marketplaceService.searchAgents(query, filters);
-      set({ agents, isLoading: false });
-      return agents;
+      const response = await marketplaceService.searchAgents(query, filters);
+      // Search might return flat list or tiered. Assuming same structure as browse for now.
+      // If search returns flat list in future, we can adjust. 
+      // Current doc says "Response Structure: Same grouping as public catalog"
+      const tieredData = response.data || {};
+      const flatAgents = get()._flattenAgents(tieredData);
+
+      set({
+        tieredAgents: tieredData,
+        agents: flatAgents,
+        isLoading: false
+      });
+      return flatAgents;
     } catch (error) {
       set({
         error: error.response?.data?.message || 'Search failed',
@@ -70,7 +130,20 @@ export const useMarketplaceStore = create((set, get) => ({
   fetchFeaturedAgents: async () => {
     set({ isLoading: true, error: null });
     try {
-      const agents = await marketplaceService.getFeaturedAgents();
+      const response = await marketplaceService.getFeaturedAgents();
+      // Assuming featured returns similar structure or just list?
+      // Service calls /pricing/agents/marketplace with param. Likely returns tiered.
+      // We might want to extract just the agents marked 'is_featured' from the tiered response?
+      // Or maybe the backend filters it. 
+      // For safety, let's flatten whatever we get.
+      const data = response.data || {};
+      let agents = [];
+      if (Array.isArray(data)) {
+        agents = data;
+      } else {
+        agents = get()._flattenAgents(data);
+      }
+
       set({ featuredAgents: agents, isLoading: false });
       return agents;
     } catch (error) {
@@ -86,7 +159,15 @@ export const useMarketplaceStore = create((set, get) => ({
   fetchPopularAgents: async (limit = 10) => {
     set({ isLoading: true, error: null });
     try {
-      const agents = await marketplaceService.getPopularAgents(limit);
+      const response = await marketplaceService.getPopularAgents(limit);
+      const data = response.data || {};
+      let agents = [];
+      if (Array.isArray(data)) {
+        agents = data;
+      } else {
+        agents = get()._flattenAgents(data);
+      }
+
       set({ popularAgents: agents, isLoading: false });
       return agents;
     } catch (error) {

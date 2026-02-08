@@ -11,6 +11,7 @@ import VerifyEmailPage from '../pages/Auth/VerifyEmailPage';
 // Public Pages
 import PrivacyPolicyPage from '../pages/Public/PrivacyPolicyPage';
 import TermsOfServicePage from '../pages/Public/TermsOfServicePage';
+import PublicAgentCatalog from '../pages/Public/PublicAgentCatalog';
 
 // Main Pages
 import HomePage from '../pages/Home/HomePage';
@@ -113,11 +114,14 @@ import IntegrationManagementPage from '../pages/Admin/IntegrationManagementPage'
 import NotFoundPage from '../pages/NotFoundPage';
 import APITestPage from '../pages/APITestPage';
 
+import AgentXSwitcher from '../components/routing/AgentXSwitcher';
+
 const AppRoutes = () => {
   return (
     <Routes>
       {/* Public Routes */}
       <Route path="/" element={<HomePage />} />
+      <Route path="/agentx" element={<AgentXSwitcher />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/forgot-password" element={<ForgotPasswordPage />} />
@@ -272,14 +276,7 @@ const AppRoutes = () => {
       />
 
       {/* AgentX Hub Routes */}
-      <Route
-        path="/agentx"
-        element={
-          <ProtectedRoute>
-            <MarketplacePage />
-          </ProtectedRoute>
-        }
-      />
+
       <Route
         path="/agentx/marketplace"
         element={

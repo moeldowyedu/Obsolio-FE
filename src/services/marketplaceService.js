@@ -4,16 +4,33 @@ import notify from '../utils/toast';
 /**
  * Marketplace Service
  * Connects to OBSOLIO Backend API for Agent Marketplace
+ * Base URL: https://api.obsolio.com/api/v1
  */
 const marketplaceService = {
   /**
-   * Browse all marketplace agents
-   * @param {Object} params - Query parameters for filtering
-   * @returns {Promise} Agent list
+   * Public Agent Catalog (No Auth required)
+   * Endpoint: GET /pricing/agents/catalog
+   * @returns {Promise} Agents grouped by Tier
+   */
+  getPublicCatalog: async () => {
+    try {
+      const response = await api.get('/pricing/agents/catalog');
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching public catalog:', error);
+      throw error;
+    }
+  },
+
+  /**
+   * Browse Agents (Tenant Context)
+   * Endpoint: GET /pricing/agents/marketplace
+   * @param {Object} params - Query parameters
+   * @returns {Promise} Agents grouped by Tier with subscription status
    */
   browseAgents: async (params = {}) => {
     try {
-      const response = await api.get('/marketplace', { params });
+      const response = await api.get('/pricing/agents/marketplace', { params });
       return response.data;
     } catch (error) {
       console.error('Error browsing agents:', error);
@@ -22,13 +39,14 @@ const marketplaceService = {
   },
 
   /**
-   * Get marketplace agent details
+   * Get Agent Details
+   * Endpoint: GET /pricing/agents/marketplace/{agent_id}
    * @param {string} agentId - Agent UUID
-   * @returns {Promise} Agent details
+   * @returns {Promise} Detailed agent information
    */
   getMarketplaceAgent: async (agentId) => {
     try {
-      const response = await api.get(`/marketplace/${agentId}`);
+      const response = await api.get(`/pricing/agents/marketplace/${agentId}`);
       return response.data;
     } catch (error) {
       console.error(`Error getting agent ${agentId}:`, error);
@@ -37,7 +55,7 @@ const marketplaceService = {
   },
 
   /**
-   * Search marketplace agents
+   * Search marketplace agents (Client-side filtering recommended for now due to grouped response)
    * @param {string} query - Search query
    * @param {Object} filters - Additional filters
    * @returns {Promise} Search results
@@ -45,7 +63,7 @@ const marketplaceService = {
   searchAgents: async (query, filters = {}) => {
     try {
       const params = { q: query, ...filters };
-      const response = await api.get('/marketplace', { params });
+      const response = await api.get('/pricing/agents/marketplace', { params });
       return response.data;
     } catch (error) {
       console.error('Error searching agents:', error);
@@ -59,7 +77,7 @@ const marketplaceService = {
    */
   getFeaturedAgents: async () => {
     try {
-      const response = await api.get('/marketplace/featured');
+      const response = await api.get('/pricing/agents/marketplace', { params: { featured: true } });
       return response.data;
     } catch (error) {
       console.error('Error getting featured agents:', error);
@@ -74,7 +92,7 @@ const marketplaceService = {
    */
   getPopularAgents: async (limit = 10) => {
     try {
-      const response = await api.get('/marketplace', {
+      const response = await api.get('/pricing/agents/marketplace', {
         params: { limit, sort: 'popular' }
       });
       return response.data;
@@ -92,7 +110,7 @@ const marketplaceService = {
    */
   getAgentsByCategory: async (category, params = {}) => {
     try {
-      const response = await api.get(`/marketplace/category/${category}`, { params });
+      const response = await api.get(`/pricing/agents/marketplace`, { params: { ...params, category } });
       return response.data;
     } catch (error) {
       console.error(`Error getting agents in category ${category}:`, error);
@@ -121,6 +139,8 @@ const marketplaceService = {
    */
   getCategories: async () => {
     try {
+      // If there isn't a dedicated categories endpoint, we might need to derive this from the catalog
+      // or check if there is a specific endpoint. Assuming /pricing/agents/categories for now or leaving as is if existing
       const response = await api.get('/marketplace/categories');
       return response.data;
     } catch (error) {
@@ -203,7 +223,7 @@ const marketplaceService = {
   },
 
   /**
-   * Submit agent review (placeholder - will be implemented)
+   * Submit review (placeholder - will be implemented)
    * @param {string} agentId - Agent UUID
    * @param {Object} reviewData - Review content
    * @returns {Promise} Created review
